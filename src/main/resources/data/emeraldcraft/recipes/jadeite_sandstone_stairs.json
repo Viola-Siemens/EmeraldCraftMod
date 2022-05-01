@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": [
+      {
+        "item": "emeraldcraft:jadeite_sandstone"
+      },
+      {
+        "item": "emeraldcraft:cut_jadeite_sandstone"
+      }
+    ]
+  },
+  "result": {
+    "item": "emeraldcraft:jadeite_sandstone_stairs",
+    "count": 4
+  }
+}

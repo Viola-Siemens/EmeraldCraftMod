@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:diamond_slab",
+    "emeraldcraft:diamond_stairs",
+    "emeraldcraft:diamond_wall",
+    "emeraldcraft:emerald_slab",
+    "emeraldcraft:emerald_stairs",
+    "emeraldcraft:emerald_wall",
+    "emeraldcraft:gold_slab",
+    "emeraldcraft:gold_stairs",
+    "emeraldcraft:gold_wall"
+  ]
+}

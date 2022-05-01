@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "com.hexagram2021.emeraldcraft.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "refmap": "emeraldcraft.refmap.json",
+  "mixins": [
+    "HeroGiftsTaskAccess",
+    "StructureFeatureAccess",
+    "StructureSettingsConfigAccess",
+    "StructureSettingsAccess"
+  ],
+  "minVersion": "0.8"
+}

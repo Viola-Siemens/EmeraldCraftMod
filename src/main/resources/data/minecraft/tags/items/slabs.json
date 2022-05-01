@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:diamond_slab",
+    "emeraldcraft:emerald_slab",
+    "emeraldcraft:gold_slab",
+    "emeraldcraft:iron_slab",
+    "emeraldcraft:lapis_slab",
+    "emeraldcraft:netherite_slab",
+    "emeraldcraft:azure_sandstone_slab",
+    "emeraldcraft:smooth_azure_sandstone_slab",
+    "emeraldcraft:cut_azure_sandstone_slab",
+    "emeraldcraft:emery_sandstone_slab",
+    "emeraldcraft:smooth_emery_sandstone_slab",
+    "emeraldcraft:cut_emery_sandstone_slab",
+    "emeraldcraft:jadeite_sandstone_slab",
+    "emeraldcraft:smooth_jadeite_sandstone_slab",
+    "emeraldcraft:cut_jadeite_sandstone_slab",
+    "emeraldcraft:quartz_sandstone_slab",
+    "emeraldcraft:smooth_quartz_sandstone_slab",
+    "emeraldcraft:cut_quartz_sandstone_slab"
+  ]
+}

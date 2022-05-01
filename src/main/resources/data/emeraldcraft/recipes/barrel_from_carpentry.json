@@ -1,0 +1,10 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "ingredients": [
+    {
+      "tag": "minecraft:logs"
+    }
+  ],
+  "result": "minecraft:barrel",
+  "count": 1
+}
