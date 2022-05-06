@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_door",
+  "ingredients": [
+    {
+      "tag": "minecraft:oak_logs"
+    }
+  ],
+  "result": "minecraft:oak_door",
+  "count": 2
+}

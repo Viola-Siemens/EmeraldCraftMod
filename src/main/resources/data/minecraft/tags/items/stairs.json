@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:diamond_stairs",
+    "emeraldcraft:emerald_stairs",
+    "emeraldcraft:gold_stairs",
+    "emeraldcraft:iron_stairs",
+    "emeraldcraft:lapis_stairs",
+    "emeraldcraft:netherite_stairs",
+    "emeraldcraft:azure_sandstone_stairs",
+    "emeraldcraft:smooth_azure_sandstone_stairs",
+    "emeraldcraft:emery_sandstone_stairs",
+    "emeraldcraft:smooth_emery_sandstone_stairs",
+    "emeraldcraft:jadeite_sandstone_stairs",
+    "emeraldcraft:smooth_jadeite_sandstone_stairs",
+    "emeraldcraft:quartz_sandstone_stairs",
+    "emeraldcraft:smooth_quartz_sandstone_stairs",
+    "emeraldcraft:blue_nether_brick_stairs"
+  ]
+}

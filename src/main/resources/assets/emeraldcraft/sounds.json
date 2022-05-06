@@ -1,0 +1,191 @@
+{
+  "piglin_cutey.ambient": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:piglin_cutey/ambient1",
+      "emeraldcraft:piglin_cutey/ambient2"
+    ],
+    "subtitle": "subtitles.entity.piglin_cutey.ambient"
+  },
+  "piglin_cutey.celebrate": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:piglin_cutey/celebrate"
+    ],
+    "subtitle": "subtitles.entity.piglin_cutey.celebrate"
+  },
+  "piglin_cutey.death": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:piglin_cutey/death"
+    ],
+    "subtitle": "subtitles.entity.piglin_cutey.death"
+  },
+  "piglin_cutey.hurt": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:piglin_cutey/hurt1",
+      "emeraldcraft:piglin_cutey/hurt2"
+    ],
+    "subtitle": "subtitles.entity.piglin_cutey.hurt"
+  },
+  "piglin_cutey.no": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:piglin_cutey/no"
+    ],
+    "subtitle": "subtitles.entity.piglin_cutey.no"
+  },
+  "piglin_cutey.trade": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:piglin_cutey/trade"
+    ],
+    "subtitle": "subtitles.entity.piglin_cutey.trade"
+  },
+  "piglin_cutey.yes": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:piglin_cutey/yes"
+    ],
+    "subtitle": "subtitles.entity.piglin_cutey.yes"
+  },
+  "nether_pigman.ambient": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:nether_pigman/pigman1",
+      "emeraldcraft:nether_pigman/pigman2"
+    ],
+    "subtitle": "subtitles.entity.nether_pigman.ambient"
+  },
+  "nether_pigman.death": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:nether_pigman/pigman1",
+      "emeraldcraft:nether_pigman/pigman2"
+    ],
+    "subtitle": "subtitles.entity.nether_pigman.death"
+  },
+  "nether_pigman.hurt": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:nether_pigman/pigman1",
+      "emeraldcraft:nether_pigman/pigman2"
+    ],
+    "subtitle": "subtitles.entity.nether_pigman.hurt"
+  },
+  "nether_pigman.no": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:nether_pigman/pigman1",
+      "emeraldcraft:nether_pigman/pigman2"
+    ],
+    "subtitle": "subtitles.entity.nether_pigman.no"
+  },
+  "nether_pigman.trade": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:nether_pigman/pigman1",
+      "emeraldcraft:nether_pigman/pigman2"
+    ],
+    "subtitle": "subtitles.entity.nether_pigman.trade"
+  },
+  "nether_pigman.yes": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:nether_pigman/pigman1",
+      "emeraldcraft:nether_pigman/pigman2"
+    ],
+    "subtitle": "subtitles.entity.nether_pigman.yes"
+  },
+  "nether_lambman.ambient": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:nether_lambman/lambman1",
+      "emeraldcraft:nether_lambman/lambman2"
+    ],
+    "subtitle": "subtitles.entity.nether_lambman.ambient"
+  },
+  "nether_lambman.death": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:nether_lambman/lambman1",
+      "emeraldcraft:nether_lambman/lambman2"
+    ],
+    "subtitle": "subtitles.entity.nether_lambman.death"
+  },
+  "nether_lambman.hurt": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:nether_lambman/lambman1",
+      "emeraldcraft:nether_lambman/lambman2"
+    ],
+    "subtitle": "subtitles.entity.nether_lambman.hurt"
+  },
+  "nether_lambman.no": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:nether_lambman/lambman1",
+      "emeraldcraft:nether_lambman/lambman2"
+    ],
+    "subtitle": "subtitles.entity.nether_lambman.no"
+  },
+  "nether_lambman.trade": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:nether_lambman/lambman1",
+      "emeraldcraft:nether_lambman/lambman2"
+    ],
+    "subtitle": "subtitles.entity.nether_lambman.trade"
+  },
+  "nether_lambman.yes": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:nether_lambman/lambman1",
+      "emeraldcraft:nether_lambman/lambman2"
+    ],
+    "subtitle": "subtitles.entity.nether_lambman.yes"
+  },
+  "villager.work_astrologist": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:villager/work_astrologist"
+    ],
+    "subtitle": "subtitles.entity.villager.work_astrologist"
+  },
+  "villager.work_beekeeper": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:villager/work_beekeeper"
+    ],
+    "subtitle": "subtitles.entity.villager.work_beekeeper"
+  },
+  "villager.work_carpenter": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:villager/work_carpenter"
+    ],
+    "subtitle": "subtitles.entity.villager.work_carpenter"
+  },
+  "villager.work_glazier": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:villager/work_glazier"
+    ],
+    "subtitle": "subtitles.entity.villager.work_glazier"
+  },
+  "villager.work_grower": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:villager/work_grower"
+    ],
+    "subtitle": "subtitles.entity.villager.work_grower"
+  },
+  "villager.work_miner": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:villager/work_miner"
+    ],
+    "subtitle": "subtitles.entity.villager.work_miner"
+  }
+}

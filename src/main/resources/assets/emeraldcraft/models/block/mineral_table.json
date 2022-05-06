@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "emeraldcraft:block/mineral_table_front",
+    "north": "emeraldcraft:block/mineral_table_front",
+    "south": "emeraldcraft:block/mineral_table_side",
+    "east": "emeraldcraft:block/mineral_table_side",
+    "west": "emeraldcraft:block/mineral_table_side",
+    "up": "emeraldcraft:block/mineral_table_top",
+    "down": "emeraldcraft:block/mineral_table_bottom"
+  }
+}
