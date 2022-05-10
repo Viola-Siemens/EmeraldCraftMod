@@ -170,7 +170,7 @@ public class Villages {
 				trades.get(1).add(new ECTrades.ItemsForEmeralds(new ItemStack(Items.GLASS), 1, 4, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
 				trades.get(2).add(new ECTrades.ItemsForEmeralds(new ItemStack(Items.GLASS_BOTTLE), 1, 6, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
 				trades.get(2).add(new ECTrades.ItemsForEmeralds(new ItemStack(Items.TINTED_GLASS), 1, 2, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
-				trades.get(2).add(new ECTrades.EmeraldForItems(Items.GLASS_PANE, 11, 16, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
+				trades.get(2).add(new ECTrades.EmeraldForItems(Items.GLASS_PANE, 11, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
 				trades.get(3).add(new ECTrades.ItemsForEmeralds(new ItemStack(Items.WHITE_STAINED_GLASS), 1, 4, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
 				trades.get(3).add(new ECTrades.ItemsForEmeralds(new ItemStack(Items.ORANGE_STAINED_GLASS), 1, 4, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
 				trades.get(3).add(new ECTrades.ItemsForEmeralds(new ItemStack(Items.MAGENTA_STAINED_GLASS), 1, 4, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
@@ -226,7 +226,7 @@ public class Villages {
 			} else if(GROWER.equals(event.getType().getRegistryName())) {
 				trades.get(1).add(new ECTrades.ItemsForEmeralds(new ItemStack(Items.FLOWER_POT), 1, 2, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
 				trades.get(1).add(new ECTrades.EmeraldForItems(Items.BONE, 10, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
-				trades.get(2).add(new ECTrades.EmeraldForItems(Items.GLASS_PANE, 11, 16, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
+				trades.get(2).add(new ECTrades.EmeraldForItems(Items.GLASS_PANE, 11, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
 				trades.get(2).add(new ECTrades.EmeraldForItems(Items.POPPY, 8, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
 				trades.get(3).add(new ECTrades.ItemsForEmeralds(new ItemStack(Items.ORANGE_TULIP), 1, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
 				trades.get(3).add(new ECTrades.ItemsForEmeralds(new ItemStack(Items.PINK_TULIP), 1, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
