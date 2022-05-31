@@ -1,0 +1,56 @@
+{
+  "parent": "emeraldcraft:emeraldcraft/hard_currency",
+  "display": {
+    "icon": {
+      "item": "emeraldcraft:emerald_head",
+      "nbt": "{Damage:0}"
+    },
+    "title": {
+      "translate": "advancements.emeraldcraft.green_light.title"
+    },
+    "description": {
+      "translate": "advancements.emeraldcraft.green_light.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 100
+  },
+  "criteria": {
+    "emerald_armor": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "emeraldcraft:emerald_head"
+            ]
+          },
+          {
+            "items": [
+              "emeraldcraft:emerald_chest"
+            ]
+          },
+          {
+            "items": [
+              "emeraldcraft:emerald_legs"
+            ]
+          },
+          {
+            "items": [
+              "emeraldcraft:emerald_feet"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "emerald_armor"
+    ]
+  ]
+}

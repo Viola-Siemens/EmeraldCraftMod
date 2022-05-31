@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:melter",
+  "ingredient": {
+    "item": "minecraft:waxed_cut_copper"
+  },
+  "result": {
+    "fluid": "melted_copper",
+    "amount": 100
+  },
+  "meltingtime": 200
+}

@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:diamond_wall",
+    "emeraldcraft:emerald_wall",
+    "emeraldcraft:gold_wall",
+    "emeraldcraft:iron_wall",
+    "emeraldcraft:lapis_wall",
+    "emeraldcraft:netherite_wall",
+    "emeraldcraft:azure_sandstone_wall",
+    "emeraldcraft:emery_sandstone_wall",
+    "emeraldcraft:jadeite_sandstone_wall",
+    "emeraldcraft:quartz_sandstone_wall",
+    "emeraldcraft:blue_nether_brick_wall",
+	"emeraldcraft:crimson_stone_wall",
+	"emeraldcraft:crimson_cobblestone_wall",
+	"emeraldcraft:warped_stone_wall",
+	"emeraldcraft:warped_cobblestone_wall"
+  ]
+}

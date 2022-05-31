@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "honey_count=0": {
+      "model": "emeraldcraft:block/squeezer_0"
+    },
+    "honey_count=1": {
+      "model": "emeraldcraft:block/squeezer_1"
+    },
+    "honey_count=2": {
+      "model": "emeraldcraft:block/squeezer_1"
+    },
+    "honey_count=3": {
+      "model": "emeraldcraft:block/squeezer_2"
+    },
+    "honey_count=4": {
+      "model": "emeraldcraft:block/squeezer_2"
+    },
+    "honey_count=5": {
+      "model": "emeraldcraft:block/squeezer_3"
+    },
+    "honey_count=6": {
+      "model": "emeraldcraft:block/squeezer_3"
+    },
+    "honey_count=7": {
+      "model": "emeraldcraft:block/squeezer_4"
+    }
+  }
+}

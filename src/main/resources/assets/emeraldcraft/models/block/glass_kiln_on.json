@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "emeraldcraft:block/glass_kiln_top",
+    "front": "emeraldcraft:block/glass_kiln_front_on",
+    "side": "emeraldcraft:block/glass_kiln_side"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "IEI",
+    "P#P"
+  ],
+  "key": {
+    "R": {
+      "item": "emeraldcraft:rock_breaker"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "E": {
+      "item": "minecraft:emerald_block"
+    },
+    "#": {
+      "item": "minecraft:redstone"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:continuous_miner"
+  }
+}

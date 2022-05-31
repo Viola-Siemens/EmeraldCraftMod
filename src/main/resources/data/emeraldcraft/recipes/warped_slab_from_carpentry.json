@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_slab",
+  "ingredients": [
+    {
+      "item": "minecraft:warped_planks"
+    }
+  ],
+  "result": "minecraft:warped_slab",
+  "count": 2
+}

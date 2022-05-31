@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_stairs",
+  "ingredients": [
+    {
+      "item": "minecraft:crimson_planks"
+    }
+  ],
+  "result": "minecraft:crimson_stairs",
+  "count": 1
+}

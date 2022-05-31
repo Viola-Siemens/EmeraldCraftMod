@@ -1,0 +1,9 @@
+{
+  "type": "emeraldcraft:ice_maker",
+  "ingredient": {
+    "fluid": "melted_iron",
+    "amount": 100
+  },
+  "result": "minecraft:iron_block",
+  "freezingtime": 50
+}
