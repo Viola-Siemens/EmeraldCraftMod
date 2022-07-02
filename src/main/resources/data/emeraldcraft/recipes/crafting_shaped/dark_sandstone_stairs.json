@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": [
+      {
+        "item": "emeraldcraft:dark_sandstone"
+      },
+      {
+        "item": "emeraldcraft:cut_dark_sandstone"
+      }
+    ]
+  },
+  "result": {
+    "item": "emeraldcraft:dark_sandstone_stairs",
+    "count": 4
+  }
+}

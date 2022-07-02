@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "emeraldcraft:warped_cobblestone"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:warped_cobblestone_wall",
+    "count": 6
+  }
+}

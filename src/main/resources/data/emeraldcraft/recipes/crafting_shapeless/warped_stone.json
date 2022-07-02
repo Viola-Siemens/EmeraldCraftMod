@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:stone"
+    },
+    {
+      "item": "minecraft:warped_wart_block"
+    }
+  ],
+  "result": {
+    "item": "emeraldcraft:warped_stone"
+  }
+}

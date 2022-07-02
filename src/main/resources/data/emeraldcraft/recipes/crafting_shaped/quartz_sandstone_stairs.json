@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": [
+      {
+        "item": "emeraldcraft:quartz_sandstone"
+      },
+      {
+        "item": "emeraldcraft:cut_quartz_sandstone"
+      }
+    ]
+  },
+  "result": {
+    "item": "emeraldcraft:quartz_sandstone_stairs",
+    "count": 4
+  }
+}

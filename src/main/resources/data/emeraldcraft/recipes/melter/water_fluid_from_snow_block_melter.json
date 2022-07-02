@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:melter",
+  "ingredient": {
+    "item": "minecraft:snow_block"
+  },
+  "result": {
+    "fluid": "water",
+    "amount": 100
+  },
+  "meltingtime": 20
+}

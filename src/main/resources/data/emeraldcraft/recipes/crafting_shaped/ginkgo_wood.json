@@ -1,0 +1,17 @@
+{
+  "type": "crafting_shaped",
+  "group": "bark",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "emeraldcraft:ginkgo_log"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:ginkgo_wood",
+    "count": 3
+  }
+}

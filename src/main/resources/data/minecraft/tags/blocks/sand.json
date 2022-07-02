@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:azure_sand",
+    "emeraldcraft:dark_sand",
+    "emeraldcraft:emery_sand",
+    "emeraldcraft:jadeite_sand",
+    "emeraldcraft:quartz_sand"
+  ]
+}

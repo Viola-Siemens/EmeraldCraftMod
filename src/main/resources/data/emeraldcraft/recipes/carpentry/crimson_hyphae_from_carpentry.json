@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "bark",
+  "ingredients": [
+    {
+      "item": "minecraft:crimson_stem"
+    }
+  ],
+  "result": "minecraft:crimson_hyphae",
+  "count": 1
+}

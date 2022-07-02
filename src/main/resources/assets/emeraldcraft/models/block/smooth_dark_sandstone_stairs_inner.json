@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "emeraldcraft:block/dark_sandstone_top",
+    "top": "emeraldcraft:block/dark_sandstone_top",
+    "side": "emeraldcraft:block/dark_sandstone_top"
+  }
+}

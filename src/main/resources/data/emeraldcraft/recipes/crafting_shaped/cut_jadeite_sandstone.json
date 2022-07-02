@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "emeraldcraft:jadeite_sandstone"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:cut_jadeite_sandstone",
+    "count": 4
+  }
+}

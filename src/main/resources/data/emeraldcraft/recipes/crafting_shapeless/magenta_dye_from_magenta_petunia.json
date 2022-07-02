@@ -1,0 +1,13 @@
+{
+  "type": "crafting_shapeless",
+  "group": "magenta_dye",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:magenta_petunia"
+    }
+  ],
+  "result": {
+    "item": "minecraft:magenta_dye",
+    "count": 1
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "emeraldcraft:block/emery_sandstone_top",
+    "side": "emeraldcraft:block/cut_emery_sandstone"
+  }
+}

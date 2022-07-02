@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": [
+      {
+        "item": "minecraft:netherite_block"
+      }
+    ]
+  },
+  "result": {
+    "item": "emeraldcraft:netherite_slab",
+    "count": 6
+  }
+}
