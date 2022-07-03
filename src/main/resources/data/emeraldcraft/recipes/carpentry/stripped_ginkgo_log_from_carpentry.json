@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "bark",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:ginkgo_log"
+    }
+  ],
+  "result": "emeraldcraft:stripped_ginkgo_log",
+  "count": 1
+}

@@ -1,0 +1,9 @@
+{
+  "type": "emeraldcraft:ice_maker",
+  "ingredient": {
+    "fluid": "water",
+    "amount": 100
+  },
+  "result": "minecraft:ice",
+  "freezingtime": 100
+}

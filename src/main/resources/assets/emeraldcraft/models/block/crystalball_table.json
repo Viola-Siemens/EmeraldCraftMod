@@ -1,0 +1,37 @@
+{
+    "parent": "minecraft:block/block",
+    "textures": {
+        "particle": "emeraldcraft:block/crystalball_top",
+        "texture_ctop": "emeraldcraft:block/crystalball_top",
+        "texture_cside": "emeraldcraft:block/crystalball_side",
+        "texture_cbottom": "emeraldcraft:block/crystalball_bottom",
+        "texture_wside": "emeraldcraft:block/crystalball_table_side",
+        "texture_wbottom": "emeraldcraft:block/crystalball_table_bottom"
+    },
+    "elements": [
+        {
+            "from": [ 2, 2, 2 ],
+            "to": [ 14, 14, 14 ],
+            "faces": {
+                "down":  { "uv": [ 2, 2, 14, 14 ], "texture": "#texture_cbottom" },
+                "up":    { "uv": [ 2, 2, 14, 14 ], "texture": "#texture_ctop" },
+                "north": { "uv": [ 2, 2, 14, 14 ], "texture": "#texture_cside" },
+                "south": { "uv": [ 2, 2, 14, 14 ], "texture": "#texture_cside" },
+                "west":  { "uv": [ 2, 2, 14, 14 ], "texture": "#texture_cside" },
+                "east":  { "uv": [ 2, 2, 14, 14 ], "texture": "#texture_cside" }
+            }
+        },
+        {
+            "from": [ 2, 0, 2 ],
+            "to": [ 14, 2, 14 ],
+            "faces": {
+                "down":  { "uv": [ 2, 2, 14, 14 ], "texture": "#texture_wbottom", "cullface": "down" },
+                "up":    { "uv": [ 2, 2, 14, 14 ], "texture": "#texture_wbottom", "cullface": "up" },
+                "north": { "uv": [ 2, 14, 14, 16 ], "texture": "#texture_wside", "cullface": "north" },
+                "south": { "uv": [ 2, 14, 14, 16 ], "texture": "#texture_wside", "cullface": "south" },
+                "west":  { "uv": [ 2, 14, 14, 16 ], "texture": "#texture_wside", "cullface": "west" },
+                "east":  { "uv": [ 2, 14, 14, 16 ], "texture": "#texture_wside", "cullface": "east" }
+            }
+        }
+    ]
+}

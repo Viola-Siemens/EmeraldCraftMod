@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "emeraldcraft:block/crimson_stone"
+      },
+      {
+        "model": "emeraldcraft:block/crimson_stone_mirrored"
+      },
+      {
+        "model": "emeraldcraft:block/crimson_stone",
+        "y": 180
+      },
+      {
+        "model": "emeraldcraft:block/crimson_stone_mirrored",
+        "y": 180
+      }
+    ]
+  }
+}

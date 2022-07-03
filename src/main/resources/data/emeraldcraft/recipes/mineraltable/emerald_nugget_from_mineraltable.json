@@ -1,0 +1,9 @@
+{
+  "type": "emeraldcraft:mineral_table",
+  "ingredient": {
+    "item": "emeraldcraft:jadeite_sand"
+  },
+  "result": "emeraldcraft:emerald_nugget",
+  "experience": 0.1,
+  "cookingtime": 500
+}

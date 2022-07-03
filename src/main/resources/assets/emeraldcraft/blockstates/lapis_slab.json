@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "emeraldcraft:block/lapis_slab"
+    },
+    "type=double": {
+      "model": "minecraft:block/lapis_block"
+    },
+    "type=top": {
+      "model": "emeraldcraft:block/lapis_slab_top"
+    }
+  }
+}

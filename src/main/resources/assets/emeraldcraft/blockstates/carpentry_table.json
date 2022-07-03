@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "emeraldcraft:block/carpentry_table",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "emeraldcraft:block/carpentry_table"
+    },
+    "facing=south": {
+      "model": "emeraldcraft:block/carpentry_table",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "emeraldcraft:block/carpentry_table",
+      "y": 270
+    }
+  }
+}

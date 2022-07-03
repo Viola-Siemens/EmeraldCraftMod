@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "emeraldcraft:block/warped_wart_stage0"
+    },
+    "age=1": {
+      "model": "emeraldcraft:block/warped_wart_stage1"
+    },
+    "age=2": {
+      "model": "emeraldcraft:block/warped_wart_stage1"
+    },
+    "age=3": {
+      "model": "emeraldcraft:block/warped_wart_stage2"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#O#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:sand"
+    },
+    "O": {
+      "item": "minecraft:quartz"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:quartz_sand",
+    "count": 8
+  }
+}
