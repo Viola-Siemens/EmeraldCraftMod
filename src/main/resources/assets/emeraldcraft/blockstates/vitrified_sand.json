@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "emeraldcraft:block/vitrified_sand"
+      },
+      {
+        "model": "emeraldcraft:block/vitrified_sand",
+        "y": 90
+      },
+      {
+        "model": "emeraldcraft:block/vitrified_sand",
+        "y": 180
+      },
+      {
+        "model": "emeraldcraft:block/vitrified_sand",
+        "y": 270
+      }
+    ]
+  }
+}

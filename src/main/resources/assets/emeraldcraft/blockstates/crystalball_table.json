@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "exp_count=0": {
+      "model": "emeraldcraft:block/crystalball_table"
+    },
+    "exp_count=1": {
+      "model": "emeraldcraft:block/crystalball_table"
+    },
+    "exp_count=2": {
+      "model": "emeraldcraft:block/crystalball_table"
+    },
+    "exp_count=3": {
+      "model": "emeraldcraft:block/crystalball_table"
+    },
+    "exp_count=4": {
+      "model": "emeraldcraft:block/crystalball_table"
+    },
+    "exp_count=5": {
+      "model": "emeraldcraft:block/crystalball_table"
+    },
+    "exp_count=6": {
+      "model": "emeraldcraft:block/crystalball_table"
+    },
+    "exp_count=7": {
+      "model": "emeraldcraft:block/crystalball_table"
+    },
+    "exp_count=8": {
+      "model": "emeraldcraft:block/crystalball_table"
+    },
+    "exp_count=9": {
+      "model": "emeraldcraft:block/crystalball_table"
+    },
+    "exp_count=10": {
+      "model": "emeraldcraft:block/crystalball_table"
+    },
+    "exp_count=11": {
+      "model": "emeraldcraft:block/crystalball_table"
+    },
+    "exp_count=12": {
+      "model": "emeraldcraft:block/crystalball_table"
+    },
+    "exp_count=13": {
+      "model": "emeraldcraft:block/crystalball_table"
+    },
+    "exp_count=14": {
+      "model": "emeraldcraft:block/crystalball_table"
+    },
+    "exp_count=15": {
+      "model": "emeraldcraft:block/crystalball_table"
+    }
+  }
+}

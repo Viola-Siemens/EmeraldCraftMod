@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "emeraldcraft:block/jadeite_sandstone_top",
+    "top": "emeraldcraft:block/jadeite_sandstone_top",
+    "side": "emeraldcraft:block/jadeite_sandstone_top"
+  }
+}

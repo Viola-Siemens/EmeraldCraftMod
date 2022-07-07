@@ -1,0 +1,13 @@
+{
+  "type": "crafting_shapeless",
+  "group": "cyan_dye",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:cyan_petunia"
+    }
+  ],
+  "result": {
+    "item": "minecraft:cyan_dye",
+    "count": 1
+  }
+}

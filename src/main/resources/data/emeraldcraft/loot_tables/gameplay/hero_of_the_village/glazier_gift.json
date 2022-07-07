@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:gift",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:glass_bottle"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:terracotta"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:tinted_glass"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:glass"
+        }
+      ]
+    }
+  ]
+}
