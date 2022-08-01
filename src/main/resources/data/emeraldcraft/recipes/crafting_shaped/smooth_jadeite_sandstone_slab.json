@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "emeraldcraft:smooth_jadeite_sandstone"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:smooth_jadeite_sandstone_slab",
+    "count": 6
+  }
+}

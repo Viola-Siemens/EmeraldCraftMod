@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:melter",
+  "ingredient": {
+    "item": "emeraldcraft:zinc_concentrate"
+  },
+  "result": {
+    "fluid": "melted_zinc",
+    "amount": 100
+  },
+  "meltingtime": 200
+}

@@ -1,0 +1,19 @@
+{
+  "type": "create:splashing",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:vitrified_sand"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:glass",
+      "count": 3,
+      "chance": 0.125
+    },
+    {
+      "item": "minecraft:blaze_powder",
+      "chance": 0.05
+    }
+  ]
+}

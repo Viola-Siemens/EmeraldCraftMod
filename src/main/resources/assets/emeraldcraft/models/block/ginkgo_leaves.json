@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "emeraldcraft:block/ginkgo_leaves"
+  }
+}

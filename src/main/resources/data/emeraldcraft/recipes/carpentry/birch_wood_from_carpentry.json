@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "bark",
+  "ingredients": [
+    {
+      "item": "minecraft:birch_log"
+    }
+  ],
+  "result": "minecraft:birch_wood",
+  "count": 1
+}

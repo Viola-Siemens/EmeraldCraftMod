@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "minecraft:spruce_logs"
+    }
+  ],
+  "result": "minecraft:spruce_planks",
+  "count": 4
+}

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:iron_slab",
+    "emeraldcraft:iron_stairs",
+    "emeraldcraft:iron_wall",
+    "emeraldcraft:lapis_slab",
+    "emeraldcraft:lapis_stairs",
+    "emeraldcraft:lapis_wall",
+    "emeraldcraft:continuous_miner",
+    "emeraldcraft:ice_maker"
+  ]
+}

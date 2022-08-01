@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emeraldcraft:warped_cobblestone"
+  },
+  "result": "emeraldcraft:warped_cobblestone_slab",
+  "count": 2
+}

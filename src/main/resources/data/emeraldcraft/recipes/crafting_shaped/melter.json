@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    "#E#",
+    "#M#"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:cobblestone"
+    },
+    "M": {
+      "item": "minecraft:magma_block"
+    },
+    "E": {
+      "item": "minecraft:emerald_block"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:melter",
+    "count": 1
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "type": "emeraldcraft:ice_maker",
+  "ingredient": {
+    "fluid": "melted_zinc",
+    "amount": 100
+  },
+  "result": "create:zinc_block",
+  "freezingtime": 50
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "create:block/zinc_block",
+    "top": "create:block/zinc_block",
+    "side": "create:block/zinc_block"
+  }
+}

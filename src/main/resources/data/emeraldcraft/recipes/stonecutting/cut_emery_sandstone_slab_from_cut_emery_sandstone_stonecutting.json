@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emeraldcraft:cut_emery_sandstone"
+  },
+  "result": "emeraldcraft:cut_emery_sandstone_slab",
+  "count": 2
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "emeraldcraft:cut_dark_sandstone"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:cut_dark_sandstone_slab",
+    "count": 6
+  }
+}

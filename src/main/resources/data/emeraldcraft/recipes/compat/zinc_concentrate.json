@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "create:raw_zinc"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:zinc_concentrate",
+    "count": 1
+  }
+}

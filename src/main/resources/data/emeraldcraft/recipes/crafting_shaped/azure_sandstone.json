@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "emeraldcraft:azure_sand"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:azure_sandstone"
+  }
+}

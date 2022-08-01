@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "emeraldcraft:block/dark_sandstone_top",
+    "side": "emeraldcraft:block/cut_dark_sandstone"
+  }
+}
