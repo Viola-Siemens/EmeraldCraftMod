@@ -1,0 +1,86 @@
+{
+  "type": "minecraft:empty",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 17,
+          "name": "minecraft:emerald"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 13,
+          "name": "emeraldcraft:amethyst_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 76,
+          "name": "minecraft:diamond"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 189,
+          "name": "minecraft:coal"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 210,
+          "name": "minecraft:redstone"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 106,
+          "name": "minecraft:gold_ore"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 163,
+          "name": "minecraft:lapis_lazuli"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 168,
+          "name": "minecraft:iron_ore"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 399,
+          "name": "minecraft:cobblestone"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 100,
+          "name": "minecraft:granite"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 99,
+          "name": "minecraft:diorite"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 101,
+          "name": "minecraft:andesite"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 80,
+          "name": "minecraft:dirt"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 92,
+          "name": "emeraldcraft:cobbled_deepslate"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 235,
+          "name": "minecraft:structure_void"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "bark",
+  "ingredients": [
+    {
+      "item": "byg:cherry_log"
+    }
+  ],
+  "result": "byg:cherry_wood",
+  "count": 1
+}

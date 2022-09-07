@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "bark",
+  "ingredients": [
+    {
+      "item": "byg:stripped_sythian_stem"
+    }
+  ],
+  "result": "byg:stripped_sythian_hyphae",
+  "count": 1
+}

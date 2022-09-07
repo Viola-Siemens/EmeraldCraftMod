@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_door",
+  "ingredients": [
+    {
+      "tag": "minecraft:warped_stems"
+    }
+  ],
+  "result": "minecraft:warped_door",
+  "count": 2
+}

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:palm_log",
+    "emeraldcraft:palm_wood",
+    "emeraldcraft:stripped_palm_log",
+    "emeraldcraft:stripped_palm_wood"
+  ]
+}

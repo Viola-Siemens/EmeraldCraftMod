@@ -1,0 +1,19 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:cyan_petunia"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:cyan_dye",
+      "count": 2
+    },
+    {
+      "item": "minecraft:green_dye",
+      "chance": 0.05
+    }
+  ],
+  "processingTime": 50
+}

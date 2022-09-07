@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_stairs",
+  "ingredients": [
+    {
+      "item": "byg:imparius_planks"
+    }
+  ],
+  "result": "byg:imparius_stairs",
+  "count": 1
+}

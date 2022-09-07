@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "byg:sythian_stems"
+    }
+  ],
+  "result": "byg:sythian_planks",
+  "count": 4
+}

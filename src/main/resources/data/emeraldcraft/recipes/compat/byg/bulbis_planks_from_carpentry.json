@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "byg:bulbis_stems"
+    }
+  ],
+  "result": "byg:bulbis_planks",
+  "count": 4
+}

@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_fence",
+  "ingredients": [
+    {
+      "item": "byg:mahogany_planks"
+    }
+  ],
+  "result": "byg:mahogany_fence",
+  "count": 1
+}

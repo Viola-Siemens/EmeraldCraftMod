@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:gift",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:blaze_powder"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:soul_sand"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:carved_pumpkin"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "emeraldcraft:amethyst_shard"
+        }
+      ]
+    }
+  ]
+}

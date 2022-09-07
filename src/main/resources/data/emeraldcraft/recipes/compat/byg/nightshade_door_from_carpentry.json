@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_door",
+  "ingredients": [
+    {
+      "tag": "byg:nightshade_logs"
+    }
+  ],
+  "result": "byg:nightshade_door",
+  "count": 2
+}

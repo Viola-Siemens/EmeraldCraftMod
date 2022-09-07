@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:gold_ore"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:gold_concentrate",
+    "count": 1
+  }
+}

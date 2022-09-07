@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_door",
+  "ingredients": [
+    {
+      "tag": "byg:sythian_stems"
+    }
+  ],
+  "result": "byg:sythian_door",
+  "count": 2
+}

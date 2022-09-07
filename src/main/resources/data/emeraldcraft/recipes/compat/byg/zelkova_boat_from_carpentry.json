@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "boat",
+  "ingredients": [
+    {
+      "tag": "byg:zelkova_logs"
+    }
+  ],
+  "result": "byg:zelkova_boat",
+  "count": 1
+}

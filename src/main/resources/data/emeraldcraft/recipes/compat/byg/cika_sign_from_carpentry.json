@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_sign",
+  "ingredients": [
+    {
+      "item": "byg:cika_planks"
+    }
+  ],
+  "result": "byg:cika_sign",
+  "count": 1
+}

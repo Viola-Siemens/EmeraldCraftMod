@@ -1,0 +1,69 @@
+{
+  "parent": "emeraldcraft:emeraldcraft/root",
+  "display": {
+    "icon": {
+      "item": "emeraldcraft:emerald_chest",
+      "nbt": "{Damage:0}"
+    },
+    "title": {
+      "translate": "advancements.emeraldcraft.hard_currency.title"
+    },
+    "description": {
+      "translate": "advancements.emeraldcraft.hard_currency.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "emerald_helmet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "emeraldcraft:emerald_head"
+          }
+        ]
+      }
+    },
+    "emerald_chestplate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "emeraldcraft:emerald_chest"
+          }
+        ]
+      }
+    },
+    "emerald_leggings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "emeraldcraft:emerald_legs"
+          }
+        ]
+      }
+    },
+    "emerald_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "emeraldcraft:emerald_feet"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "emerald_helmet",
+      "emerald_chestplate",
+      "emerald_leggings",
+      "emerald_boots"
+    ]
+  ]
+}

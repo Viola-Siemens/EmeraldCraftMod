@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "emeraldcraft:block/polished_deepslate_slab"
+    },
+    "type=double": {
+      "model": "emeraldcraft:block/polished_deepslate"
+    },
+    "type=top": {
+      "model": "emeraldcraft:block/polished_deepslate_slab_top"
+    }
+  }
+}

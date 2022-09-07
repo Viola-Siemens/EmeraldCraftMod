@@ -1,0 +1,62 @@
+{
+  "variants": {
+    "axis=x": [
+      {
+        "model": "emeraldcraft:block/deepslate",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "emeraldcraft:block/deepslate_mirrored",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "emeraldcraft:block/deepslate",
+        "y": 90,
+        "x": 90
+      },
+      {
+        "model": "emeraldcraft:block/deepslate_mirrored",
+        "y": 90,
+        "x": 90
+      }
+    ],
+    "axis=y": [
+      {
+        "model": "emeraldcraft:block/deepslate"
+      },
+      {
+        "model": "emeraldcraft:block/deepslate_mirrored"
+      },
+      {
+        "model": "emeraldcraft:block/deepslate",
+        "y": 180
+      },
+      {
+        "model": "emeraldcraft:block/deepslate_mirrored",
+        "y": 180
+      }
+    ],
+    "axis=z": [
+      {
+        "model": "emeraldcraft:block/deepslate",
+        "x": 90
+      },
+      {
+        "model": "emeraldcraft:block/deepslate_mirrored",
+        "x": 90
+      },
+      {
+        "model": "emeraldcraft:block/deepslate",
+        "y": 180,
+        "x": 90
+      },
+      {
+        "model": "emeraldcraft:block/deepslate_mirrored",
+        "y": 180,
+        "x": 90
+      }
+    ]
+  }
+}

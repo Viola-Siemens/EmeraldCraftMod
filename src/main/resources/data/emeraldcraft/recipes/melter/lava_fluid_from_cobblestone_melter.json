@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:melter",
+  "ingredient": {
+    "item": "minecraft:cobblestone"
+  },
+  "result": {
+    "fluid": "lava",
+    "amount": 50
+  },
+  "meltingtime": 200
+}

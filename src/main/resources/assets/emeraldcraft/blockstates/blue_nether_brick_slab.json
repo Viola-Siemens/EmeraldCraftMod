@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "emeraldcraft:block/blue_nether_brick_slab"
+    },
+    "type=double": {
+      "model": "emeraldcraft:block/blue_nether_bricks"
+    },
+    "type=top": {
+      "model": "emeraldcraft:block/blue_nether_brick_slab_top"
+    }
+  }
+}

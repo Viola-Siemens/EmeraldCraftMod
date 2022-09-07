@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:netherite_slab",
+    "emeraldcraft:netherite_stairs",
+    "emeraldcraft:netherite_wall"
+  ]
+}

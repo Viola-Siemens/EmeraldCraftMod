@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "bark",
+  "ingredients": [
+    {
+      "item": "byg:stripped_holly_log"
+    }
+  ],
+  "result": "byg:stripped_holly_wood",
+  "count": 1
+}

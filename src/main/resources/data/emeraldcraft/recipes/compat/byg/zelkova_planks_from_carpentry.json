@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "byg:zelkova_logs"
+    }
+  ],
+  "result": "byg:zelkova_planks",
+  "count": 4
+}

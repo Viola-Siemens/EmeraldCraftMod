@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_stairs",
+  "ingredients": [
+    {
+      "item": "byg:holly_planks"
+    }
+  ],
+  "result": "byg:holly_stairs",
+  "count": 1
+}

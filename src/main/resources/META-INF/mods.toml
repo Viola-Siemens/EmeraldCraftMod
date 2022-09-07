@@ -1,0 +1,39 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="MIT"
+
+[[mods]]
+modId="emeraldcraft"
+version="${file.jarVersion}"
+displayName="Emerald Craft Mod"
+logoFile="logo.png"
+credits="Liu Dongyu"
+authors="Hexagram"
+description='''
+More crafts, biomes, piglin girls, and cute villagers!
+
+I love villagers in minecraft. I hope so do you. And I also love piglins -- just because they look like girls with head covers!
+
+With this mod, you can trade many other things with villagers, and with piglin-cutey, a new mob in the nether.
+
+You can also do the emerald craft, the gold craft, and even craft some "trash" into building material to decorate your house with this mod!
+'''
+# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
+[[dependencies.emeraldcraft]] #optional
+    # the modid of the dependency
+    modId="forge" #mandatory
+    # Does this dependency have to exist - if not, ordering below must be specified
+    mandatory=true #mandatory
+    # The version range of the dependency
+    versionRange="[36,)" #mandatory
+    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+    ordering="NONE"
+    # Side this dependency is applied on - BOTH, CLIENT or SERVER
+    side="BOTH"
+# Here's another dependency
+[[dependencies.emeraldcraft]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="BOTH"

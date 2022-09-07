@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emeraldcraft:polished_deepslate"
+  },
+  "result": "emeraldcraft:polished_deepslate_slab",
+  "count": 2
+}

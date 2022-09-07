@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "DXD",
+    "DDD"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:iron_ingot"
+    },
+    "X": {
+      "item": "minecraft:furnace"
+    },
+    "D": {
+      "item": "emeraldcraft:polished_deepslate"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:mineral_table"
+  }
+}

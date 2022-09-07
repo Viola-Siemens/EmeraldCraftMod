@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_sign",
+  "ingredients": [
+    {
+      "item": "byg:mangrove_planks"
+    }
+  ],
+  "result": "byg:mangrove_sign",
+  "count": 1
+}

@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_button",
+  "ingredients": [
+    {
+      "item": "byg:lament_planks"
+    }
+  ],
+  "result": "byg:lament_button",
+  "count": 2
+}

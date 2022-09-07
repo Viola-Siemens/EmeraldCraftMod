@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emeraldcraft:deepslate_tiles"
+  },
+  "result": "emeraldcraft:deepslate_tile_stairs",
+  "count": 1
+}

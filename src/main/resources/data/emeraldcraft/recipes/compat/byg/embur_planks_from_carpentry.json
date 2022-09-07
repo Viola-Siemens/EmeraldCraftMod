@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "byg:embur_pedus"
+    }
+  ],
+  "result": "byg:embur_planks",
+  "count": 4
+}

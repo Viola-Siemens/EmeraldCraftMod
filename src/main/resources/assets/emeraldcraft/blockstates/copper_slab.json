@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "emeraldcraft:block/copper_slab"
+    },
+    "type=double": {
+      "model": "create:block/copper_block"
+    },
+    "type=top": {
+      "model": "emeraldcraft:block/copper_slab_top"
+    }
+  }
+}

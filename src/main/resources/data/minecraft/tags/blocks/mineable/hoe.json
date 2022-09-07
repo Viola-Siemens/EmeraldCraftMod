@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:ginkgo_leaves",
+    "emeraldcraft:palm_leaves",
+    "emeraldcraft:peach_leaves",
+    "emeraldcraft:moss_block",
+    "emeraldcraft:moss_carpet"
+  ]
+}

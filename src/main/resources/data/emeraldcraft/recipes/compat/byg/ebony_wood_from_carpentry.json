@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "bark",
+  "ingredients": [
+    {
+      "item": "byg:ebony_log"
+    }
+  ],
+  "result": "byg:ebony_wood",
+  "count": 1
+}

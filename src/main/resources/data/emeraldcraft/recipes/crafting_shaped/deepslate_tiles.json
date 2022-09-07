@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SS",
+    "SS"
+  ],
+  "key": {
+    "S": {
+      "item": "emeraldcraft:deepslate_bricks"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:deepslate_tiles",
+    "count": 4
+  }
+}

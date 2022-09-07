@@ -1,0 +1,13 @@
+{
+  "type": "crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "emeraldcraft:ginkgo_logs"
+    }
+  ],
+  "result": {
+    "item": "emeraldcraft:ginkgo_planks",
+    "count": 4
+  }
+}

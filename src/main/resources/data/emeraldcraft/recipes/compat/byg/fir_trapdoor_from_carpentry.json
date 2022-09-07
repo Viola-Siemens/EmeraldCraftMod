@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_trapdoor",
+  "ingredients": [
+    {
+      "tag": "byg:fir_logs"
+    }
+  ],
+  "result": "byg:fir_trapdoor",
+  "count": 2
+}

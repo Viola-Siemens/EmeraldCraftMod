@@ -1,0 +1,6 @@
+{
+  "parent":"item/generated",
+  "textures": {
+    "layer0":"emeraldcraft:item/melted_gold_bucket"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_slab",
+  "ingredients": [
+    {
+      "item": "byg:cherry_planks"
+    }
+  ],
+  "result": "byg:cherry_slab",
+  "count": 2
+}

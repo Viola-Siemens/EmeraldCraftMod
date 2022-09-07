@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_door",
+  "ingredients": [
+    {
+      "tag": "byg:holly_logs"
+    }
+  ],
+  "result": "byg:holly_door",
+  "count": 2
+}

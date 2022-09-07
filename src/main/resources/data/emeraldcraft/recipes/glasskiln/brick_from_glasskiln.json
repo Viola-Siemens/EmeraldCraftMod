@@ -1,0 +1,9 @@
+{
+  "type": "emeraldcraft:glass_kiln",
+  "ingredient": {
+    "item": "minecraft:clay_ball"
+  },
+  "result": "minecraft:brick",
+  "experience": 0.3,
+  "cookingtime": 100
+}

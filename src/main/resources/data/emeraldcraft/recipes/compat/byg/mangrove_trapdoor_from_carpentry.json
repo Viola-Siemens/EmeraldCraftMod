@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_trapdoor",
+  "ingredients": [
+    {
+      "tag": "byg:mangrove_logs"
+    }
+  ],
+  "result": "byg:mangrove_trapdoor",
+  "count": 2
+}

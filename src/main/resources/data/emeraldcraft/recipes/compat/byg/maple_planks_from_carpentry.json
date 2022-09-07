@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "byg:maple_logs"
+    }
+  ],
+  "result": "byg:maple_planks",
+  "count": 4
+}

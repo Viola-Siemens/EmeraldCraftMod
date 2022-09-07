@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_door",
+  "ingredients": [
+    {
+      "tag": "byg:green_enchanted_logs"
+    }
+  ],
+  "result": "byg:green_enchanted_door",
+  "count": 2
+}

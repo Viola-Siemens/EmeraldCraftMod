@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "AGA",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "minecraft:planks"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "A": {
+      "item": "emeraldcraft:amethyst_shard"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:crystalball_table"
+  }
+}

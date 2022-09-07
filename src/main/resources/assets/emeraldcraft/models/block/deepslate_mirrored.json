@@ -1,0 +1,7 @@
+{
+  "parent": "emeraldcraft:block/cube_column_mirrored",
+  "textures": {
+    "end": "emeraldcraft:block/deepslate_top",
+    "side": "emeraldcraft:block/deepslate"
+  }
+}

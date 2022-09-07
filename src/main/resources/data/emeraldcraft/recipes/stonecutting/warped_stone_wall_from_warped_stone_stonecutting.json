@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emeraldcraft:warped_stone"
+  },
+  "result": "emeraldcraft:warped_stone_wall",
+  "count": 1
+}

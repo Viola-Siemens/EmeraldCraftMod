@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "boat",
+  "ingredients": [
+    {
+      "tag": "byg:withering_oak_logs"
+    }
+  ],
+  "result": "minecraft:oak_boat",
+  "count": 1
+}

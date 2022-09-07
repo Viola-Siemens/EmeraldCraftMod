@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_door",
+  "ingredients": [
+    {
+      "tag": "byg:cypress_logs"
+    }
+  ],
+  "result": "byg:cypress_door",
+  "count": 2
+}

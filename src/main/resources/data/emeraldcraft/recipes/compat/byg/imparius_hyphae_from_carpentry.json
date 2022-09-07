@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "bark",
+  "ingredients": [
+    {
+      "item": "byg:imparius_stem"
+    }
+  ],
+  "result": "byg:imparius_hyphae",
+  "count": 1
+}

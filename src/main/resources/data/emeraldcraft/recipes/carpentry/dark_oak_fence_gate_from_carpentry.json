@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_fence_gate",
+  "ingredients": [
+    {
+      "item": "minecraft:dark_oak_planks"
+    }
+  ],
+  "result": "minecraft:dark_oak_fence_gate",
+  "count": 1
+}

@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_button",
+  "ingredients": [
+    {
+      "item": "byg:imparius_planks"
+    }
+  ],
+  "result": "byg:imparius_button",
+  "count": 2
+}

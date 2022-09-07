@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": [
+      {
+        "item": "create:zinc_block"
+      }
+    ]
+  },
+  "result": {
+    "item": "emeraldcraft:zinc_slab",
+    "count": 6
+  }
+}

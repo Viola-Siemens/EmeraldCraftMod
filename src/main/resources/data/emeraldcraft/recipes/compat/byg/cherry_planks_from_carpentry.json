@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "byg:cherry_logs"
+    }
+  ],
+  "result": "byg:cherry_planks",
+  "count": 4
+}

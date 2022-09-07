@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_trapdoor",
+  "ingredients": [
+    {
+      "tag": "byg:bulbis_stems"
+    }
+  ],
+  "result": "byg:bulbis_trapdoor",
+  "count": 2
+}

@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_stairs",
+  "ingredients": [
+    {
+      "item": "byg:zelkova_planks"
+    }
+  ],
+  "result": "byg:zelkova_stairs",
+  "count": 1
+}

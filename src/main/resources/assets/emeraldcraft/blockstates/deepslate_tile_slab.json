@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "emeraldcraft:block/deepslate_tile_slab"
+    },
+    "type=double": {
+      "model": "emeraldcraft:block/deepslate_tiles"
+    },
+    "type=top": {
+      "model": "emeraldcraft:block/deepslate_tile_slab_top"
+    }
+  }
+}

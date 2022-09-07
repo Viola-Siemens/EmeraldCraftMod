@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "byg:imparius_stems"
+    }
+  ],
+  "result": "byg:imparius_planks",
+  "count": 4
+}

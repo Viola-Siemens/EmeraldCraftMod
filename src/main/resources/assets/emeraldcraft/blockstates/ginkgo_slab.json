@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "emeraldcraft:block/ginkgo_slab"
+    },
+    "type=double": {
+      "model": "emeraldcraft:block/ginkgo_planks"
+    },
+    "type=top": {
+      "model": "emeraldcraft:block/ginkgo_slab_top"
+    }
+  }
+}

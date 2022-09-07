@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "emeraldcraft:block/polished_deepslate",
+    "top": "emeraldcraft:block/polished_deepslate",
+    "side": "emeraldcraft:block/polished_deepslate"
+  }
+}

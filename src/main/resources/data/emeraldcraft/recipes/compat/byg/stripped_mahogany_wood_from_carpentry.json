@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "bark",
+  "ingredients": [
+    {
+      "item": "byg:stripped_mahogany_log"
+    }
+  ],
+  "result": "byg:stripped_mahogany_wood",
+  "count": 1
+}

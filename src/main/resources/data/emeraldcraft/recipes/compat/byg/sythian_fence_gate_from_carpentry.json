@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_fence_gate",
+  "ingredients": [
+    {
+      "item": "byg:sythian_planks"
+    }
+  ],
+  "result": "byg:sythian_fence_gate",
+  "count": 1
+}

@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_fence",
+  "ingredients": [
+    {
+      "item": "byg:imparius_planks"
+    }
+  ],
+  "result": "byg:imparius_fence",
+  "count": 1
+}

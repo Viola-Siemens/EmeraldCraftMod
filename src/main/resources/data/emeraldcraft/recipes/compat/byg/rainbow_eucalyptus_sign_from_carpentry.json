@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_sign",
+  "ingredients": [
+    {
+      "item": "byg:rainbow_eucalyptus_planks"
+    }
+  ],
+  "result": "byg:rainbow_eucalyptus_sign",
+  "count": 1
+}

@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:gift",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:bone_block"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:terracotta"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:granite"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diorite"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:andesite"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "sticks",
+  "ingredients": [
+    {
+      "tag": "minecraft:planks"
+    }
+  ],
+  "result": "minecraft:stick",
+  "count": 2
+}

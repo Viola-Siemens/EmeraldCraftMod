@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "package": "com.hexagram2021.emeraldcraft.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "emeraldcraft.refmap.json",
+  "mixins": [
+    "AbstractSkeletonMixin",
+    "BlockEntityTypeAccess",
+    "HeroGiftsTaskAccess",
+    "MultiNoiseBiomeSourceAccess",
+    "NetherBiomesAccess",
+    "RecipeBookCategoryMixin",
+    "RecipeBookStatusMixin",
+    "SingleJigsawAccess",
+    "VillagePoolsMixin"
+  ],
+  "minVersion": "0.8",
+  "client": [
+    "ClientRecipeBookMixin",
+    "RecipeBookCategoriesMixin"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "boat",
+  "ingredients": [
+    {
+      "tag": "byg:skyris_logs"
+    }
+  ],
+  "result": "byg:skyris_boat",
+  "count": 1
+}

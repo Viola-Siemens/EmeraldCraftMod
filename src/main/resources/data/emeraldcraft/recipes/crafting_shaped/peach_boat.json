@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "boat",
+  "pattern": [
+    "# #",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "emeraldcraft:peach_planks"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:peach_boat"
+  }
+}

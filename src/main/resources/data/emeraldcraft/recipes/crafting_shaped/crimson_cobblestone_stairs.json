@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": [
+      {
+        "item": "emeraldcraft:crimson_cobblestone"
+      }
+    ]
+  },
+  "result": {
+    "item": "emeraldcraft:crimson_cobblestone_stairs",
+    "count": 4
+  }
+}
