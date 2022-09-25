@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "emeraldcraft:peach_logs"
+    }
+  ],
+  "result": "emeraldcraft:peach_planks",
+  "count": 4
+}

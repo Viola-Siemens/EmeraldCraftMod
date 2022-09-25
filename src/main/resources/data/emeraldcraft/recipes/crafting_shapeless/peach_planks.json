@@ -1,0 +1,13 @@
+{
+  "type": "crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "emeraldcraft:peach_logs"
+    }
+  ],
+  "result": {
+    "item": "emeraldcraft:peach_planks",
+    "count": 4
+  }
+}

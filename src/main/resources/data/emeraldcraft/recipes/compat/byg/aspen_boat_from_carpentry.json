@@ -1,0 +1,17 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "byg"
+    }
+  ],
+  "type": "emeraldcraft:carpentry",
+  "group": "boat",
+  "ingredients": [
+    {
+      "tag": "byg:aspen_logs"
+    }
+  ],
+  "result": "byg:aspen_boat",
+  "count": 1
+}

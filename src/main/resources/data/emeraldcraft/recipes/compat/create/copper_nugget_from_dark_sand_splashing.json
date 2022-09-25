@@ -1,0 +1,25 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "create:splashing",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:dark_sand"
+    }
+  ],
+  "results": [
+    {
+      "item": "create:copper_nugget",
+      "count": 3,
+      "chance": 0.125
+    },
+    {
+      "item": "minecraft:dead_bush",
+      "chance": 0.05
+    }
+  ]
+}

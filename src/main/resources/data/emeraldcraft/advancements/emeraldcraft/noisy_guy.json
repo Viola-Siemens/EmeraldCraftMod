@@ -1,0 +1,37 @@
+{
+  "parent": "emeraldcraft:emeraldcraft/root",
+  "display": {
+    "icon": {
+      "item": "emeraldcraft:continuous_miner"
+    },
+    "title": {
+      "translate": "advancements.emeraldcraft.noisy_guy.title"
+    },
+    "description": {
+      "translate": "advancements.emeraldcraft.noisy_guy.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "continuous_miner": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "emeraldcraft:continuous_miner"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "continuous_miner"
+    ]
+  ]
+}

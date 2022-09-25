@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:melter",
+  "ingredient": {
+    "item": "minecraft:oxidized_cut_copper"
+  },
+  "result": {
+    "fluid": "melted_copper",
+    "amount": 25
+  },
+  "meltingtime": 100
+}

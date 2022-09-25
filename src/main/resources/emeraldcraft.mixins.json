@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.hexagram2021.emeraldcraft.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "emeraldcraft.refmap.json",
+  "mixins": [
+    "AbstractSkeletonMixin",
+    "VillagePoolsMixin",
+    "BlockEntityTypeAccess",
+    "HeroGiftsTaskAccess",
+    "SingleJigsawAccess"
+  ],
+  "minVersion": "0.8"
+}

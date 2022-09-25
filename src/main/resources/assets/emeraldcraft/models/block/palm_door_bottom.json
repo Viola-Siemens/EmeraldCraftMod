@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom",
+  "textures": {
+    "top": "emeraldcraft:block/palm_door_top",
+    "bottom": "emeraldcraft:block/palm_door_bottom"
+  }
+}

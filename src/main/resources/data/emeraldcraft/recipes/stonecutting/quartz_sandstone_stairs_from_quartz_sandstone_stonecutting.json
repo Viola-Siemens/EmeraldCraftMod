@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emeraldcraft:quartz_sandstone"
+  },
+  "result": "emeraldcraft:quartz_sandstone_stairs",
+  "count": 1
+}

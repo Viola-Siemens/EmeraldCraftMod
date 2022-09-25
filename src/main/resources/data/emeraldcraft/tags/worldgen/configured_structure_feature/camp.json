@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:badlands_camp",
+    "emeraldcraft:birch_camp",
+    "emeraldcraft:desert_camp",
+    "emeraldcraft:jungle_camp",
+    "emeraldcraft:plains_camp",
+    "emeraldcraft:savanna_camp",
+    "emeraldcraft:snow_camp",
+    "emeraldcraft:stony_camp",
+    "emeraldcraft:swamp_camp",
+    "emeraldcraft:taiga_camp"
+  ]
+}

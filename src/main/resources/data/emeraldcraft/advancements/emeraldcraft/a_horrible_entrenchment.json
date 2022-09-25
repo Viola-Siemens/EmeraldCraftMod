@@ -1,0 +1,36 @@
+{
+  "parent": "emeraldcraft:emeraldcraft/root",
+  "display": {
+    "icon": {
+      "item": "emeraldcraft:purple_nether_bricks"
+    },
+    "title": {
+      "translate": "advancements.emeraldcraft.a_horrible_entrenchment.title"
+    },
+    "description": {
+      "translate": "advancements.emeraldcraft.a_horrible_entrenchment.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 100
+  },
+  "criteria": {
+    "entrenchment": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "location": {
+          "feature": "emeraldcraft:entrenchment"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "entrenchment"
+    ]
+  ]
+}

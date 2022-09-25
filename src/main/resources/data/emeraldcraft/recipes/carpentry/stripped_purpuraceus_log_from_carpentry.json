@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "bark",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:purpuraceus_stem"
+    }
+  ],
+  "result": "emeraldcraft:stripped_purpuraceus_stem",
+  "count": 1
+}

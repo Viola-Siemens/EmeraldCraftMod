@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:peach_log",
+    "emeraldcraft:peach_wood",
+    "emeraldcraft:stripped_peach_log",
+    "emeraldcraft:stripped_peach_wood"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "emeraldcraft:block/higan_bana"
+  }
+}

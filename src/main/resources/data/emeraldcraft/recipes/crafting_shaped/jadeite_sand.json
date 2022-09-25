@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#O#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:sand"
+    },
+    "O": {
+      "item": "minecraft:emerald"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:jadeite_sand",
+    "count": 8
+  }
+}

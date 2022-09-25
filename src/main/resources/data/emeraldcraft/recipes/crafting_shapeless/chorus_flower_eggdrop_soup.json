@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:chorus_flower"
+    },
+    {
+      "item": "minecraft:egg"
+    },
+    {
+      "item": "minecraft:bowl"
+    }
+  ],
+  "result": {
+    "item": "emeraldcraft:chorus_flower_eggdrop_soup"
+  }
+}

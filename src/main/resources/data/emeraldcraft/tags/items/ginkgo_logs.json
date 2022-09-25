@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:ginkgo_log",
+    "emeraldcraft:ginkgo_wood",
+    "emeraldcraft:stripped_ginkgo_log",
+    "emeraldcraft:stripped_ginkgo_wood"
+  ]
+}

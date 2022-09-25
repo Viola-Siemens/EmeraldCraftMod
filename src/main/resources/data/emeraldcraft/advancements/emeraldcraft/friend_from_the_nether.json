@@ -1,0 +1,33 @@
+{
+  "parent": "emeraldcraft:emeraldcraft/root",
+  "display": {
+    "icon": {
+      "item": "minecraft:smooth_basalt"
+    },
+    "title": {
+      "translate": "advancements.emeraldcraft.friend_from_the_nether.title"
+    },
+    "description": {
+      "translate": "advancements.emeraldcraft.friend_from_the_nether.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "shelter": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "location": {
+          "feature": "emeraldcraft:shelter"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "shelter"
+    ]
+  ]
+}

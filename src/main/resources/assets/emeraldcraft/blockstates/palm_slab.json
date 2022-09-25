@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "emeraldcraft:block/palm_slab"
+    },
+    "type=double": {
+      "model": "emeraldcraft:block/palm_planks"
+    },
+    "type=top": {
+      "model": "emeraldcraft:block/palm_slab_top"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:raw_gold"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:gold_concentrate",
+    "count": 1
+  }
+}

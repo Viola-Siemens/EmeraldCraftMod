@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "emeraldcraft:block/melter_top",
+    "bottom": "emeraldcraft:block/melter_top",
+    "side": "emeraldcraft:block/melter_side"
+  }
+}

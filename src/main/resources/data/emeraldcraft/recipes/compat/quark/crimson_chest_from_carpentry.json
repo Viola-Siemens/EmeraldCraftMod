@@ -1,0 +1,17 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "quark"
+    }
+  ],
+  "type": "emeraldcraft:carpentry",
+  "group": "chest",
+  "ingredients": [
+    {
+      "tag": "minecraft:crimson_stems"
+    }
+  ],
+  "result": "quark:crimson_chest",
+  "count": 1
+}
