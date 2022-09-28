@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "emeraldcraft:block/purpuraceus_planks",
+    "top": "emeraldcraft:block/purpuraceus_planks",
+    "side": "emeraldcraft:block/purpuraceus_planks"
+  }
+}

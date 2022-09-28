@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:empty",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 40,
+          "name": "emeraldcraft:purpuraceus_roots"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 15,
+          "name": "minecraft:nether_sprouts"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 58,
+          "name": "emeraldcraft:purpuraceus_fungus"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 15,
+          "name": "minecraft:structure_void"
+        }
+      ]
+    }
+  ]
+}

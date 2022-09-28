@@ -1,0 +1,17 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ],
+  "type": "emeraldcraft:melter",
+  "ingredient": {
+    "item": "immersiveengineering:storage_lead"
+  },
+  "result": {
+    "fluid": "melted_lead",
+    "amount": 100
+  },
+  "meltingtime": 200
+}

@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "bark",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:peach_log"
+    }
+  ],
+  "result": "emeraldcraft:peach_wood",
+  "count": 1
+}

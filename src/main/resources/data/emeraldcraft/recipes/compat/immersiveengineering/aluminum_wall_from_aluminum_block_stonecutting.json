@@ -1,0 +1,14 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ],
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "immersiveengineering:storage_aluminum"
+  },
+  "result": "emeraldcraft:aluminum_wall",
+  "count": 1
+}

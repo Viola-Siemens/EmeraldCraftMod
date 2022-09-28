@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "emeraldcraft:block/peach_slab"
+    },
+    "type=double": {
+      "model": "emeraldcraft:block/peach_planks"
+    },
+    "type=top": {
+      "model": "emeraldcraft:block/peach_slab_top"
+    }
+  }
+}

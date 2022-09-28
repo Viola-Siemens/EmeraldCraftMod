@@ -1,0 +1,41 @@
+{
+  "type": "minecraft:empty",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 7,
+          "name": "emeraldcraft:purpuraceus_stem"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 9,
+          "name": "emeraldcraft:purpuraceus_planks"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "minecraft:shroomlight"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 8,
+          "name": "emeraldcraft:purpuraceus_wart_block"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "name": "emeraldcraft:purpuraceus_fungus"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 4,
+          "name": "minecraft:structure_void"
+        }
+      ]
+    }
+  ]
+}

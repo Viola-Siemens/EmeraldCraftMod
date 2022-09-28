@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:ginkgo_fence_gate",
+    "emeraldcraft:palm_fence_gate",
+    "emeraldcraft:peach_fence_gate",
+    "emeraldcraft:purpuraceus_fence_gate"
+  ]
+}

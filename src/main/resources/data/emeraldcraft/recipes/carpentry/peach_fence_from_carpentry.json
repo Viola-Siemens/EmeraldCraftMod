@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_fence",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:peach_planks"
+    }
+  ],
+  "result": "emeraldcraft:peach_fence",
+  "count": 1
+}

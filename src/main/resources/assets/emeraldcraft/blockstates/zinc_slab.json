@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "emeraldcraft:block/zinc_slab"
+    },
+    "type=double": {
+      "model": "create:block/zinc_block"
+    },
+    "type=top": {
+      "model": "emeraldcraft:block/zinc_slab_top"
+    }
+  }
+}

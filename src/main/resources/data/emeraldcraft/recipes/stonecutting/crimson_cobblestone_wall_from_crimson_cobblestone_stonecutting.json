@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emeraldcraft:crimson_cobblestone"
+  },
+  "result": "emeraldcraft:crimson_cobblestone_wall",
+  "count": 1
+}

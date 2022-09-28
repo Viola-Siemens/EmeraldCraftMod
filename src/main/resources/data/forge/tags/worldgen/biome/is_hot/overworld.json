@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:azure_desert",
+    "emeraldcraft:golden_beach",
+    "emeraldcraft:jadeite_desert",
+    "emeraldcraft:volcanic_caves",
+    "#emeraldcraft:dead_crimson_ocean"
+  ]
+}

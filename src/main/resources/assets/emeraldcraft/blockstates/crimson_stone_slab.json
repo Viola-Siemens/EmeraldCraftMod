@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "emeraldcraft:block/crimson_stone_slab"
+    },
+    "type=double": {
+      "model": "emeraldcraft:block/crimson_stone"
+    },
+    "type=top": {
+      "model": "emeraldcraft:block/crimson_stone_slab_top"
+    }
+  }
+}

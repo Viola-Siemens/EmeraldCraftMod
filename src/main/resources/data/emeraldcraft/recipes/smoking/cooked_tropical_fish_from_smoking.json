@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "minecraft:tropical_fish"
+  },
+  "result": "emeraldcraft:cooked_tropical_fish",
+  "experience": 0.35,
+  "cookingtime": 100
+}

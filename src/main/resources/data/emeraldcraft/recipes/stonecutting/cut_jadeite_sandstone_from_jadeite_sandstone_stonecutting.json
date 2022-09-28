@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emeraldcraft:jadeite_sandstone"
+  },
+  "result": "emeraldcraft:cut_jadeite_sandstone",
+  "count": 1
+}

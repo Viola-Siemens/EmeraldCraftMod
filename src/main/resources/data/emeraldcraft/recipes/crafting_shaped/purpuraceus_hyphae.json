@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bark",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "emeraldcraft:purpuraceus_stem"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:purpuraceus_hyphae",
+    "count": 3
+  }
+}

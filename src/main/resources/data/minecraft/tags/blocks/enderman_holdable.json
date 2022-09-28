@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+	"emeraldcraft:azure_sand",
+	"emeraldcraft:emery_sand",
+	"emeraldcraft:jadeite_sand",
+	"emeraldcraft:quartz_sand",
+	"emeraldcraft:purpuraceus_fungus",
+	"emeraldcraft:purpuraceus_roots",
+	"emeraldcraft:purpuraceus_nylium"
+  ]
+}
