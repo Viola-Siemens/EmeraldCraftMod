@@ -22,8 +22,8 @@ public class ECBiomeModifiers {
 	);
 
 	public static final RegistryObject<Codec<ECHiganBanaBiomeModifier>> EC_HIGAN_BANA_MODIFIER = REGISTER.register(
-			"ec_higan_bana_biome_modifier", () -> RecordCodecBuilder.create(builder -> builder.group(
-					Biome.LIST_CODEC.fieldOf("biomes").forGetter(ECBiomeModifiers.ECHiganBanaBiomeModifier::biomes)
+			"ec_higan_bana", () -> RecordCodecBuilder.create(builder -> builder.group(
+					Biome.LIST_CODEC.fieldOf("biomes").forGetter(ECHiganBanaBiomeModifier::biomes)
 			).apply(builder, ECHiganBanaBiomeModifier::new))
 	);
 

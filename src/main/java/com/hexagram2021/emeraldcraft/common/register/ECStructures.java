@@ -1,5 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
+import com.google.common.collect.Lists;
 import com.hexagram2021.emeraldcraft.api.camp.CampTypes;
 import com.hexagram2021.emeraldcraft.common.world.structures.camp.CampFeature;
 import com.hexagram2021.emeraldcraft.common.world.structures.shelter.ShelterFeature;
@@ -49,6 +50,7 @@ public class ECStructures {
 					ConstantHeight.of(VerticalAnchor.absolute(0)), true, Heightmap.Types.WORLD_SURFACE_WG
 			)
 	);
+
 	public static final Holder<Structure> BADLANDS_CAMP = register(
 			ECStructureKeys.BADLANDS_CAMP,
 			new CampFeature(structure(ECBiomeTags.HAS_CAMP_BADLANDS, TerrainAdjustment.BEARD_THIN), CampTypes.BADLANDS)
@@ -90,7 +92,7 @@ public class ECStructures {
 			new CampFeature(structure(ECBiomeTags.HAS_CAMP_TAIGA, TerrainAdjustment.BEARD_THIN), CampTypes.TAIGA)
 	);
 
-	public static List<StructureSet.StructureSelectionEntry> ALL_CAMPS = List.of(
+	public static final List<StructureSet.StructureSelectionEntry> ALL_CAMPS = Lists.newArrayList(
 			StructureSet.entry(BADLANDS_CAMP), StructureSet.entry(BIRCH_CAMP),
 			StructureSet.entry(DESERT_CAMP), StructureSet.entry(JUNGLE_CAMP),
 			StructureSet.entry(PLAINS_CAMP), StructureSet.entry(SAVANNA_CAMP),
@@ -98,7 +100,7 @@ public class ECStructures {
 			StructureSet.entry(SWAMP_CAMP), StructureSet.entry(TAIGA_CAMP)
 	);
 
-	public static List<StructureSet.StructureSelectionEntry> ALL_VILLAGES = List.of(
+	public static final List<StructureSet.StructureSelectionEntry> ALL_VILLAGES = Lists.newArrayList(
 			StructureSet.entry(ECStructures.VILLAGE_SWAMP)
 	);
 

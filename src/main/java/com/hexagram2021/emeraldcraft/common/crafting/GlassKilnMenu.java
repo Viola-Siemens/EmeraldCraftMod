@@ -2,7 +2,6 @@ package com.hexagram2021.emeraldcraft.common.crafting;
 
 import com.hexagram2021.emeraldcraft.common.blocks.entity.GlassKilnBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
-import com.hexagram2021.emeraldcraft.common.register.ECRecipeBookTypes;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -110,11 +109,11 @@ public class GlassKilnMenu extends RecipeBookMenu<Container> {
 	}
 
 	protected boolean canSmelt(ItemStack itemStack) {
-		return this.level.getRecipeManager().getRecipeFor(ECRecipes.GLASS_KILN_TYPE, new SimpleContainer(itemStack), this.level).isPresent();
+		return this.level.getRecipeManager().getRecipeFor(ECRecipes.GLASS_KILN_TYPE.get(), new SimpleContainer(itemStack), this.level).isPresent();
 	}
 
 	public boolean isFuel(ItemStack itemStack) {
-		return ForgeHooks.getBurnTime(itemStack, ECRecipes.GLASS_KILN_TYPE) > 0;
+		return ForgeHooks.getBurnTime(itemStack, ECRecipes.GLASS_KILN_TYPE.get()) > 0;
 	}
 
 	@Override
@@ -181,7 +180,7 @@ public class GlassKilnMenu extends RecipeBookMenu<Container> {
 
 	@Override @NotNull
 	public RecipeBookType getRecipeBookType() {
-		return ECRecipeBookTypes.GLASS_KILN;
+		return ECRecipes.GLASS_KILN;
 	}
 
 	@Override

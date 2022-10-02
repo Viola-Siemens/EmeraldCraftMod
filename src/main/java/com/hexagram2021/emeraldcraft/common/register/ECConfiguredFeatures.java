@@ -56,7 +56,7 @@ public final class ECConfiguredFeatures {
 	}
 
 	public static final class StructureConfiguredFeatures {
-		public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> ZOMBIE_VILLAGER_ROOM = register(
+		public static final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> ZOMBIE_VILLAGER_ROOM = register(
 				"zombie_villager_room", ECFeatures.ZOMBIE_VILLAGER_ROOM, FeatureConfiguration.NONE
 		);
 

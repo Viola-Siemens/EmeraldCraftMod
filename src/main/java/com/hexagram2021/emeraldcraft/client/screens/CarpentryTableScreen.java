@@ -60,7 +60,7 @@ public class CarpentryTableScreen extends AbstractContainerScreen<CarpentryTable
 	}
 
 	@Override
-	protected void renderTooltip(PoseStack transform, int x, int y) {
+	protected void renderTooltip(@NotNull PoseStack transform, int x, int y) {
 		super.renderTooltip(transform, x, y);
 		if (this.displayRecipes) {
 			int i = this.leftPos + 52;

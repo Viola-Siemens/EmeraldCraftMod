@@ -2,15 +2,10 @@ package com.hexagram2021.emeraldcraft.client;
 
 import com.hexagram2021.emeraldcraft.client.screens.*;
 import com.hexagram2021.emeraldcraft.common.CommonProxy;
-import com.hexagram2021.emeraldcraft.common.register.ECBannerPatterns;
-import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
-import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
-import com.hexagram2021.emeraldcraft.common.register.ECWoodType;
+import com.hexagram2021.emeraldcraft.common.register.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BiomeColors;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceKey;
@@ -21,6 +16,7 @@ import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.RegisterRecipeBookCategoriesEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -136,5 +132,10 @@ public class ClientProxy extends CommonProxy {
 				event.addSprite(BannerPattern.location(pattern, sheet.equals(Sheets.BANNER_SHEET)));
 			});
 		}
+	}
+
+	@SubscribeEvent
+	public static void onRegisterRecipeBookTypes(RegisterRecipeBookCategoriesEvent event) {
+		ECRecipeBookTypes.init(event);
 	}
 }

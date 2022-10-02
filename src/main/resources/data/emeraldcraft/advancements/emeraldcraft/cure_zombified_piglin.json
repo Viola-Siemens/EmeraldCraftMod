@@ -1,0 +1,33 @@
+{
+  "parent": "emeraldcraft:emeraldcraft/root",
+  "display": {
+    "icon": {
+      "item": "minecraft:golden_carrot"
+    },
+    "title": {
+      "translate": "advancements.emeraldcraft.cure_zombified_piglin.title"
+    },
+    "description": {
+      "translate": "advancements.emeraldcraft.cure_zombified_piglin.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 20
+  },
+  "criteria": {
+    "cured": {
+      "conditions": {},
+      "trigger": "emeraldcraft:cured_zombified_piglin"
+    }
+  },
+  "requirements": [
+    [
+      "cured"
+    ]
+  ]
+
+}

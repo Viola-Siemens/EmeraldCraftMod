@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.stream.Stream;
 
 public class AboveHeightmapFilter extends PlacementModifier {
-	public static Codec<AboveHeightmapFilter> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+	public static final Codec<AboveHeightmapFilter> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 			Heightmap.Types.CODEC.fieldOf("above_type").forGetter(nearWaterPlacementFilter -> nearWaterPlacementFilter.heightmap)
 	).apply(builder, AboveHeightmapFilter::new));
 

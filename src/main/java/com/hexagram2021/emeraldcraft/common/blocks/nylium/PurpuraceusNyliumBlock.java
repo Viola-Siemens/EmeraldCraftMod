@@ -12,8 +12,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Random;
-
 public class PurpuraceusNyliumBlock extends NyliumBlock {
 	public PurpuraceusNyliumBlock(Properties props) {
 		super(props);

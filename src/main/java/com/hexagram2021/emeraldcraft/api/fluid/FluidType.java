@@ -6,4 +6,8 @@ public interface FluidType {
 	String toString();
 	boolean equals(Object obj);
 	int hashCode();
+
+	default String getTranslationTag() {
+		return "fluids.name." + this;
+	}
 }

@@ -1,5 +1,7 @@
 package com.hexagram2021.emeraldcraft.client.screens;
 
+import com.google.common.collect.Lists;
+import com.hexagram2021.emeraldcraft.api.fluid.FluidType;
 import com.hexagram2021.emeraldcraft.common.blocks.entity.IceMakerBlockEntity;
 import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
 import com.hexagram2021.emeraldcraft.common.crafting.IceMakerMenu;
@@ -14,6 +16,9 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.Optional;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -56,5 +61,21 @@ public class IceMakerScreen extends AbstractContainerScreen<IceMakerMenu> {
 			int k = Mth.clamp((IceMakerBlockEntity.MAX_CONDENSATE_FLUID_LEVEL - condensateLevel) / 25, 0, 32);
 			this.blit(transform, i + 8 + k, j + 64, 176 + k, 0, 32 - k, 8);
 		}
+	}
+
+	@Override
+	protected void renderTooltip(@NotNull PoseStack transform, int x, int y) {
+		super.renderTooltip(transform, x, y);
+		if(this.menu.getCarried().isEmpty() && this.hoveredSlot == null && this.isHovering(79, 18, 12, 49, x, y) && this.menu.getIngredientFluidLevel() > 0) {
+			this.renderTooltip(transform, this.getFluidTypeToolTips(this.menu.getIngredientFluidLevel(), this.menu.getFluidType()), Optional.empty(), x, y);
+		}
+	}
+
+	private List<Component> getFluidTypeToolTips(int fluidLevel, FluidType fluidType) {
+		List<Component> ret = Lists.newArrayList(Component.translatable(fluidType.getTranslationTag()));
+		if(this.minecraft != null && this.minecraft.options.advancedItemTooltips) {
+			ret.add(Component.translatable("fluids.save.bucket", String.format("%.2f", fluidLevel / 100.0F), Component.translatable(FluidTypes.getFluidBucketItem(fluidType).getDescriptionId())));
+		}
+		return ret;
 	}
 }

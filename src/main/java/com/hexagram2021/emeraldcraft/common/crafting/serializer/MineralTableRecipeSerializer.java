@@ -53,12 +53,12 @@ public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implemen
 	@Nullable
 	@Override
 	public T fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
-		String s = buf.readUtf();
+		String group = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);
 		ItemStack itemstack = buf.readItem();
-		float f = buf.readFloat();
-		int i = buf.readVarInt();
-		return this.factory.create(id, s, ingredient, itemstack, f, i);
+		float xp = buf.readFloat();
+		int time = buf.readVarInt();
+		return this.factory.create(id, group, ingredient, itemstack, xp, time);
 	}
 
 	@Override

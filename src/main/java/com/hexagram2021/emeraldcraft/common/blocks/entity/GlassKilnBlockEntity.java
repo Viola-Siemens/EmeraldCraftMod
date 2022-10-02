@@ -97,7 +97,7 @@ public class GlassKilnBlockEntity extends BaseContainerBlockEntity implements Wo
 
 	public GlassKilnBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntity.GLASS_KILN.get(), pos, state);
-		this.recipeType = ECRecipes.GLASS_KILN_TYPE;
+		this.recipeType = ECRecipes.GLASS_KILN_TYPE.get();
 	}
 
 	@Override @NotNull

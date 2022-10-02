@@ -198,7 +198,7 @@ public class MelterMenu extends AbstractContainerMenu {
 
 		@Override
 		public boolean mayPlace(@NotNull ItemStack itemStack) {
-			return menu.level.getRecipeManager().getRecipeFor(ECRecipes.MELTER_TYPE, new SimpleContainer(itemStack), menu.level).isPresent();
+			return menu.level.getRecipeManager().getRecipeFor(ECRecipes.MELTER_TYPE.get(), new SimpleContainer(itemStack), menu.level).isPresent();
 		}
 
 		@Override

@@ -5,6 +5,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 
 public class ECFoods {
+	public static final FoodProperties CHILI =
+			new FoodProperties.Builder().nutrition(1).saturationMod(0.3F).build();
 	public static final FoodProperties AGATE_APPLE =
 			new FoodProperties.Builder().nutrition(2).saturationMod(1.2F)
 					.effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 1200, 0), 1.0F)
@@ -63,6 +65,15 @@ public class ECFoods {
 			new FoodProperties.Builder().nutrition(8).saturationMod(1.2F).build();
 	public static final FoodProperties GLUTEN =
 			new FoodProperties.Builder().nutrition(4).saturationMod(0.8F).build();
+	public static final FoodProperties WARDEN_HEART =
+			new FoodProperties.Builder().nutrition(8).saturationMod(0.8F)
+					.effect(() -> new MobEffectInstance(MobEffects.DARKNESS, 800, 0), 1.0F)
+					.build();
+	public static final FoodProperties STIR_FRIED_WARDEN_HEART =
+			new FoodProperties.Builder().nutrition(12).saturationMod(1.2F)
+					.effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 6000, 3), 1.0F)
+					.effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 6000, 1), 1.0F)
+					.build();
 	public static final FoodProperties APPLE_JUICE =
 			new FoodProperties.Builder().nutrition(3).saturationMod(0.6F).build();
 	public static final FoodProperties BEETROOT_JUICE =

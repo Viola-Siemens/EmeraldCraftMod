@@ -57,20 +57,16 @@ import java.util.Map;
 import java.util.Set;
 
 public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDataHolder {
-	public static final EntityDataSerializer<PiglinCuteyData> PIGLIN_CUTEY_DATA = new EntityDataSerializer<>() {
+	public static final EntityDataSerializer<PiglinCuteyData> PIGLIN_CUTEY_DATA = new EntityDataSerializer.ForValueType<>() {
 		@Override
 		public void write(FriendlyByteBuf buf, PiglinCuteyData data) {
 			buf.writeVarInt(data.level());
 		}
 
-		@Override @NotNull
+		@Override
+		@NotNull
 		public PiglinCuteyData read(FriendlyByteBuf buf) {
 			return new PiglinCuteyData(buf.readVarInt());
-		}
-
-		@Override @NotNull
-		public PiglinCuteyData copy(@NotNull PiglinCuteyData data) {
-			return data;
 		}
 	};
 

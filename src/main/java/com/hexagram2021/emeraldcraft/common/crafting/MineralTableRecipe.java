@@ -13,15 +13,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class MineralTableRecipe extends AbstractCookingRecipe {
 
-	public static CachedRecipeList<MineralTableRecipe> recipeList = new CachedRecipeList<>(
-			() -> ECRecipes.MINERAL_TABLE_TYPE,
+	public static final CachedRecipeList<MineralTableRecipe> recipeList = new CachedRecipeList<>(
+			ECRecipes.MINERAL_TABLE_TYPE,
 			MineralTableRecipe.class
 	);
 
-	public static int BURN_TIME = 500;
+	public static final int BURN_TIME = 500;
 
 	public MineralTableRecipe(ResourceLocation id, String group, Ingredient ingredient, ItemStack result, float experience, int cookingTime) {
-		super(ECRecipes.MINERAL_TABLE_TYPE, id, group, ingredient, result, experience, cookingTime);
+		super(ECRecipes.MINERAL_TABLE_TYPE.get(), id, group, ingredient, result, experience, cookingTime);
 	}
 
 	@Override @NotNull

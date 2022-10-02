@@ -8,6 +8,7 @@ import com.hexagram2021.emeraldcraft.common.ECSaveData;
 import com.hexagram2021.emeraldcraft.common.ModVanillaCompat;
 import com.hexagram2021.emeraldcraft.common.register.ECBiomeKeys;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
+import com.hexagram2021.emeraldcraft.common.register.ECBrewingRecipes;
 import com.hexagram2021.emeraldcraft.common.register.ECTriggers;
 import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.world.village.Villages;
@@ -87,6 +88,7 @@ public class EmeraldCraft {
 
 	public void setup(FMLCommonSetupEvent event) {
 		ECTriggers.init();
+		ECBrewingRecipes.init();
 
 		event.enqueueWork(() -> {
 			VillagerType.BY_BIOME.putAll(ImmutableMap.of(

@@ -14,7 +14,7 @@ import java.util.Map;
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public class ECSounds {
-	static Map<ResourceLocation, SoundEvent> registeredEvents = new HashMap<>();
+	static final Map<ResourceLocation, SoundEvent> registeredEvents = new HashMap<>();
 	//public static final SoundEvent PIGLIN_CUTEY_ADMIRING_ITEM = registerSound("piglin_cutey.admiring_item");
 	public static final SoundEvent PIGLIN_CUTEY_AMBIENT = registerSound("piglin_cutey.ambient");
 	public static final SoundEvent PIGLIN_CUTEY_CELEBRATE = registerSound("piglin_cutey.celebrate");

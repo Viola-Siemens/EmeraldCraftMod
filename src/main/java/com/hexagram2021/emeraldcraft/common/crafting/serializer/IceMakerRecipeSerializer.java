@@ -63,8 +63,8 @@ public class IceMakerRecipeSerializer<T extends IceMakerRecipe> implements Recip
 		FluidType fluidType = FluidTypes.getFluidTypeFromName(buf.readUtf());
 		int fluidAmount = buf.readVarInt();
 		ItemStack result = buf.readItem();
-		int i = buf.readVarInt();
-		return this.factory.create(id, group, fluidType, fluidAmount, result, i);
+		int time = buf.readVarInt();
+		return this.factory.create(id, group, fluidType, fluidAmount, result, time);
 	}
 
 	@Override

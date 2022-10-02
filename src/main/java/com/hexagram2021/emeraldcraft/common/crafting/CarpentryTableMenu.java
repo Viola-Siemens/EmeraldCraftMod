@@ -144,7 +144,7 @@ public class CarpentryTableMenu extends AbstractContainerMenu {
 		this.selectedRecipeIndex.set(-1);
 		this.resultSlot.set(ItemStack.EMPTY);
 		if (!itemStack.isEmpty()) {
-			this.recipes = this.level.getRecipeManager().getRecipesFor(ECRecipes.CARPENTRY_TABLE_TYPE, container, this.level);
+			this.recipes = this.level.getRecipeManager().getRecipesFor(ECRecipes.CARPENTRY_TABLE_TYPE.get(), container, this.level);
 		}
 
 	}
@@ -195,7 +195,7 @@ public class CarpentryTableMenu extends AbstractContainerMenu {
 					return ItemStack.EMPTY;
 				}
 			} else if (this.level.getRecipeManager()
-					.getRecipeFor(ECRecipes.CARPENTRY_TABLE_TYPE, new SimpleContainer(itemstack1), this.level)
+					.getRecipeFor(ECRecipes.CARPENTRY_TABLE_TYPE.get(), new SimpleContainer(itemstack1), this.level)
 					.isPresent()) {
 				if (!this.moveItemStackTo(itemstack1, 0, 1, false)) {
 					return ItemStack.EMPTY;

@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -20,6 +21,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.EnumMap;
@@ -40,6 +42,20 @@ public class ECItems {
 
 	public static final ItemRegObject<ItemNameBlockItem> WARPED_WART = ItemRegObject.register(
 			"warped_wart", () -> new ItemNameBlockItem(ECBlocks.Plant.WARPED_WART.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+	);
+	public static final ItemRegObject<Item> CHILI = ItemRegObject.register(
+			"chili", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.CHILI)) {
+				@Override @NotNull
+				public ItemStack finishUsingItem(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull LivingEntity entity) {
+					if(entity instanceof Player player) {
+						player.getCooldowns().addCooldown(this, 120);
+					}
+					return super.finishUsingItem(itemStack, level, entity);
+				}
+			}
+	);
+	public static final ItemRegObject<ItemNameBlockItem> CHILI_SEED = ItemRegObject.register(
+			"chili_seed", () -> new ItemNameBlockItem(ECBlocks.Plant.CHILI.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<SpawnEggItem> PIGLIN_CUTEY_SPAWN_EGG = ItemRegObject.register(
 			"piglin_cutey_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.PIGLIN_CUTEY, 0xF1E2B1, 0xE6BE02, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
@@ -103,6 +119,12 @@ public class ECItems {
 	public static final ItemRegObject<StickFoodItem> GLUTEN = ItemRegObject.register(
 			"gluten", () -> new StickFoodItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(16).food(ECFoods.GLUTEN))
 	);
+	public static final ItemRegObject<Item> WARDEN_HEART = ItemRegObject.register(
+			"warden_heart", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).rarity(Rarity.EPIC).food(ECFoods.WARDEN_HEART))
+	);
+	public static final ItemRegObject<BowlFoodItem> STIR_FRIED_WARDEN_HEART = ItemRegObject.register(
+			"stir_fried_warden_heart", () -> new BowlFoodItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(1).rarity(Rarity.EPIC).food(ECFoods.STIR_FRIED_WARDEN_HEART))
+	);
 	public static final ItemRegObject<Item> HERRING = ItemRegObject.register(
 			"herring", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.HERRING))
 	);
@@ -127,6 +149,7 @@ public class ECItems {
 				protected void additionalEffects(Level level, LivingEntity entity) {
 					if(!level.isClientSide) {
 						entity.removeEffect(MobEffects.BLINDNESS);
+						entity.removeEffect(MobEffects.DARKNESS);
 					}
 				}
 			}

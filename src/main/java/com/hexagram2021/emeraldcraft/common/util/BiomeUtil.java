@@ -19,9 +19,10 @@ import net.minecraftforge.registries.ForgeRegistry;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid = MODID)
 public class BiomeUtil {
 	private static final List<Level> worldList = Lists.newArrayList();
 

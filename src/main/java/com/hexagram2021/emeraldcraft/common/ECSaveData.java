@@ -3,6 +3,7 @@ package com.hexagram2021.emeraldcraft.common;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.level.saveddata.SavedData;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
@@ -19,16 +20,11 @@ public class ECSaveData extends SavedData {
 		this();
 	}
 
-	@Nonnull
-	@Override
+	@Override @NotNull
 	public CompoundTag save(@Nonnull CompoundTag nbt) {
 		ListTag dimensionList = new ListTag();
 
 		//nbt.put("", dimensionList);
-
-
-		ListTag receivedShaderList = new ListTag();
-		//nbt.put("", receivedShaderList);
 
 		return nbt;
 	}

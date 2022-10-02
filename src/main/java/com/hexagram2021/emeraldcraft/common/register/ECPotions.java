@@ -13,8 +13,8 @@ public class ECPotions {
 	public static final Potion HUNGER = new Potion("hunger", new MobEffectInstance(MobEffects.HUNGER, 1800));
 	public static final Potion LONG_HUNGER = new Potion("hunger", new MobEffectInstance(MobEffects.HUNGER, 4800));
 	public static final Potion STRONG_HUNGER = new Potion("hunger", new MobEffectInstance(MobEffects.HUNGER, 400, 3));
-	public static final Potion SATURATION = new Potion("saturation", new MobEffectInstance(MobEffects.SATURATION, 10));
-	public static final Potion STRONG_SATURATION = new Potion("saturation", new MobEffectInstance(MobEffects.SATURATION, 10, 2));
+	public static final Potion SATURATION = new Potion("saturation", new MobEffectInstance(MobEffects.SATURATION, 10, 2));
+	public static final Potion STRONG_SATURATION = new Potion("saturation", new MobEffectInstance(MobEffects.SATURATION, 10, 7));
 	public static final Potion WITHER = new Potion("wither", new MobEffectInstance(MobEffects.WITHER, 900));
 	public static final Potion LONG_WITHER = new Potion("wither", new MobEffectInstance(MobEffects.WITHER, 1800));
 	public static final Potion STRONG_WITHER = new Potion("wither", new MobEffectInstance(MobEffects.WITHER, 432, 1));

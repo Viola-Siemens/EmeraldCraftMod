@@ -16,7 +16,7 @@ import java.util.Optional;
 
 public class CampFeature extends Structure {
 	public static final Codec<CampFeature> CODEC = RecordCodecBuilder.create(
-			(builder) -> builder.group(
+			builder -> builder.group(
 				settingsCodec(builder), CampType.CODEC.fieldOf("camp_type").forGetter(structure -> structure.type)
 			).apply(builder, CampFeature::new));
 

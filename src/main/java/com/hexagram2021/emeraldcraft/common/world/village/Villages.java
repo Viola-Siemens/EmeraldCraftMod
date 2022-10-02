@@ -37,6 +37,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
@@ -46,6 +47,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.Collection;
 import java.util.List;
 import java.util.OptionalInt;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
@@ -141,31 +143,31 @@ public class Villages {
 		);
 
 		public static final RegistryObject<VillagerProfession> PROF_CARPENTER = PROFESSIONS.register(
-				CARPENTER.getPath(), () -> createProf(CARPENTER, POI_CARPENTRY_TABLE.getKey(), ECSounds.VILLAGER_WORK_CARPENTER)
+				CARPENTER.getPath(), () -> createProf(CARPENTER, POI_CARPENTRY_TABLE::getKey, ECSounds.VILLAGER_WORK_CARPENTER)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_GLAZIER = PROFESSIONS.register(
-				GLAZIER.getPath(), () -> createProf(GLAZIER, POI_GLASS_KILN.getKey(), ECSounds.VILLAGER_WORK_GLAZIER)
+				GLAZIER.getPath(), () -> createProf(GLAZIER, POI_GLASS_KILN::getKey, ECSounds.VILLAGER_WORK_GLAZIER)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_MINER = PROFESSIONS.register(
-				MINER.getPath(), () -> createProf(MINER, POI_MINERAL_TABLE.getKey(), ECSounds.VILLAGER_WORK_MINER)
+				MINER.getPath(), () -> createProf(MINER, POI_MINERAL_TABLE::getKey, ECSounds.VILLAGER_WORK_MINER)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_ASTROLOGIST = PROFESSIONS.register(
-				ASTROLOGIST.getPath(), () -> createProf(ASTROLOGIST, POI_CRYSTALBALL_TABLE.getKey(), ECSounds.VILLAGER_WORK_ASTROLOGIST)
+				ASTROLOGIST.getPath(), () -> createProf(ASTROLOGIST, POI_CRYSTALBALL_TABLE::getKey, ECSounds.VILLAGER_WORK_ASTROLOGIST)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_GROWER = PROFESSIONS.register(
-				GROWER.getPath(), () -> createProf(GROWER, POI_FLOWER_POT.getKey(), ECSounds.VILLAGER_WORK_GROWER)
+				GROWER.getPath(), () -> createProf(GROWER, POI_FLOWER_POT::getKey, ECSounds.VILLAGER_WORK_GROWER)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_BEEKEEPER = PROFESSIONS.register(
-				BEEKEEPER.getPath(), () -> createProf(GROWER, POI_SQUEEZER.getKey(), ECSounds.VILLAGER_WORK_BEEKEEPER)
+				BEEKEEPER.getPath(), () -> createProf(GROWER, POI_SQUEEZER::getKey, ECSounds.VILLAGER_WORK_BEEKEEPER)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_GEOLOGIST = PROFESSIONS.register(
-				GEOLOGIST.getPath(), () -> createProf(GEOLOGIST, POI_CONTINUOUS_MINER.getKey(), ECSounds.VILLAGER_WORK_GEOLOGIST)
+				GEOLOGIST.getPath(), () -> createProf(GEOLOGIST, POI_CONTINUOUS_MINER::getKey, ECSounds.VILLAGER_WORK_GEOLOGIST)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_ICER = PROFESSIONS.register(
-				ICER.getPath(), () -> createProf(ICER, POI_ICE_MAKER.getKey(), ECSounds.VILLAGER_WORK_ICER)
+				ICER.getPath(), () -> createProf(ICER, POI_ICE_MAKER::getKey, ECSounds.VILLAGER_WORK_ICER)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_CHEMICAL_ENGINEER = PROFESSIONS.register(
-				CHEMICAL_ENGINEER.getPath(), () -> createProf(CHEMICAL_ENGINEER, POI_MELTER.getKey(), ECSounds.VILLAGER_WORK_CHEMICAL_ENGINEER)
+				CHEMICAL_ENGINEER.getPath(), () -> createProf(CHEMICAL_ENGINEER, POI_MELTER::getKey, ECSounds.VILLAGER_WORK_CHEMICAL_ENGINEER)
 		);
 
 		private static Collection<BlockState> assembleStates(Block block) {
@@ -176,13 +178,14 @@ public class Villages {
 			return new PoiType(ImmutableSet.copyOf(block), 1, 1);
 		}
 
-		private static VillagerProfession createProf(ResourceLocation name, ResourceKey<PoiType> poi, SoundEvent sound) {
+		private static VillagerProfession createProf(ResourceLocation name, Supplier<ResourceKey<PoiType>> poi, SoundEvent sound) {
+			ResourceKey<PoiType> poiName = poi.get();
 			return new VillagerProfession(
 					name.toString(),
-					(p) -> p.is(poi),
-					(p) -> p.is(poi),
-					ImmutableSet.<Item>builder().build(),
-					ImmutableSet.<Block>builder().build(),
+					(p) -> p.is(poiName),
+					(p) -> p.is(poiName),
+					ImmutableSet.of(),
+					ImmutableSet.of(),
 					sound
 			);
 		}
@@ -371,7 +374,20 @@ public class Villages {
 				trades.get(4).add(new ECTrades.ItemsForEmeralds(new ItemStack(ECItems.MELTED_GOLD_BUCKET), 4, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(new ItemStack(ECBannerPatterns.BOTTLE.item()), 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(new ItemStack(ECBannerPatterns.POTION.item()), 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+			} else if(new ResourceLocation(VillagerProfession.FARMER.name()).equals(currentVillagerProfession)) {
+				trades.get(1).add(new ECTrades.ItemsForEmeralds(new ItemStack(ECItems.CHILI_SEED), 1, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
 			}
+		}
+
+
+		@SubscribeEvent
+		public static void registerWandererTrades(WandererTradesEvent event) {
+			List<VillagerTrades.ItemListing> genericTrades = event.getGenericTrades();
+			List<VillagerTrades.ItemListing> rareTrades = event.getRareTrades();
+			genericTrades.add(new ECTrades.ItemsForEmeralds(new ItemStack(ECItems.CHILI), 3, 1, 5, ECTrades.XP_LEVEL_1_SELL));
+			genericTrades.add(new ECTrades.ItemsForEmeralds(new ItemStack(ECItems.PEACH), 3, 1, 5, ECTrades.XP_LEVEL_1_SELL));
+			genericTrades.add(new ECTrades.ItemsForEmeralds(new ItemStack(ECItems.GINKGO_NUT), 2, 1, 4, ECTrades.XP_LEVEL_1_SELL));
+			rareTrades.add(new ECTrades.ItemsForEmeralds(new ItemStack(ECItems.GLUTEN), 3, 1, 4, ECTrades.XP_LEVEL_1_SELL));
 		}
 	}
 }

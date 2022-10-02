@@ -39,10 +39,10 @@ public class CarpentryTableRecipeSerializer<T extends CarpentryTableRecipe> impl
 	@Nullable
 	@Override
 	public T fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
-		String s = buf.readUtf();
+		String group = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);
 		ItemStack itemstack = buf.readItem();
-		return this.factory.create(id, s, ingredient, itemstack);
+		return this.factory.create(id, group, ingredient, itemstack);
 	}
 
 	@Override

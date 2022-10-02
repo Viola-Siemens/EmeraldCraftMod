@@ -21,27 +21,27 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 @SuppressWarnings("deprecation")
 public class ECPlacedFeatures {
-	public static Holder<PlacedFeature> ORE_LAPIS_EXTRA = register(
+	public static final Holder<PlacedFeature> ORE_LAPIS_EXTRA = register(
 			"ore_lapis_extra", OreFeatures.ORE_LAPIS,
 			commonOrePlacement(50, HeightRangePlacement.uniform(VerticalAnchor.absolute(32), VerticalAnchor.absolute(256)))
 	);
-	public static Holder<PlacedFeature> ORE_EMERALD_EXTRA = register(
+	public static final Holder<PlacedFeature> ORE_EMERALD_EXTRA = register(
 			"ore_emerald_extra", OreFeatures.ORE_EMERALD,
 			commonOrePlacement(80, HeightRangePlacement.uniform(VerticalAnchor.absolute(32), VerticalAnchor.absolute(256)))
 	);
-	public static Holder<PlacedFeature> ORE_DEBRIS_EXTRA = register(
+	public static final Holder<PlacedFeature> ORE_DEBRIS_EXTRA = register(
 			"ore_debris_extra", ECConfiguredFeatures.OreConfiguredFeatures.ORE_DEBRIS_EXTRA, List.of(
 					InSquarePlacement.spread(),
 					HeightRangePlacement.triangle(VerticalAnchor.absolute(16), VerticalAnchor.absolute(79)),
 					BiomeFilter.biome()
 			)
 	);
-	public static Holder<PlacedFeature> ORE_QUARTZ_EXTRA = register(
+	public static final Holder<PlacedFeature> ORE_QUARTZ_EXTRA = register(
 			"ore_quartz_extra", ECConfiguredFeatures.OreConfiguredFeatures.ORE_QUARTZ_EXTRA,
 			commonOrePlacement(20, PlacementUtils.RANGE_10_10)
 	);
 
-	public static Holder<PlacedFeature> ZOMBIE_VILLAGER_ROOM = register(
+	public static final Holder<PlacedFeature> ZOMBIE_VILLAGER_ROOM = register(
 			"zombie_villager_room", ECConfiguredFeatures.StructureConfiguredFeatures.ZOMBIE_VILLAGER_ROOM, List.of(
 					CountPlacement.of(8), InSquarePlacement.spread(),
 					HeightRangePlacement.uniform(VerticalAnchor.absolute(0), VerticalAnchor.top()),

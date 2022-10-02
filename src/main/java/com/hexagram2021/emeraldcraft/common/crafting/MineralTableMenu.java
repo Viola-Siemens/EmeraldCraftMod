@@ -155,7 +155,7 @@ public class MineralTableMenu extends AbstractContainerMenu {
 
 		@Override
 		public boolean mayPlace(@NotNull ItemStack itemStack) {
-			return menu.level.getRecipeManager().getRecipeFor(ECRecipes.MINERAL_TABLE_TYPE, new SimpleContainer(itemStack), menu.level).isPresent();
+			return menu.level.getRecipeManager().getRecipeFor(ECRecipes.MINERAL_TABLE_TYPE.get(), new SimpleContainer(itemStack), menu.level).isPresent();
 		}
 
 		@Override

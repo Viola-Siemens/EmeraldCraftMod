@@ -875,6 +875,10 @@ public final class ECBlocks {
 				"warped_wart", WarpedWartBlock.PROPERTIES, WarpedWartBlock::new
 		);
 
+		public static final BlockEntry<ChiliBlock> CHILI = new BlockEntry<>(
+				"chili", ChiliBlock.PROPERTIES, ChiliBlock::new
+		);
+
 		public static final BlockEntry<FlowerBlock> CYAN_PETUNIA = new BlockEntry<>(
 				"cyan_petunia", FLOWER_PROPERTIES, (props) -> new FlowerBlock(MobEffects.WATER_BREATHING, 8, props)
 		);

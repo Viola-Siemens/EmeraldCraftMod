@@ -33,6 +33,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.common.capabilities.Capability;
@@ -173,6 +174,9 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 			rl = new ResourceLocation(MODID, "continuous_miner/ores/obsidian");
 		} else if (blockState.is(BlockTags.DIRT)) {
 			rl = new ResourceLocation(MODID, "continuous_miner/ores/dirt");
+		} else if (blockState.is(Blocks.WATER) || blockState.is(Blocks.WATER_CAULDRON) || (blockState.hasProperty(BlockStateProperties.WATERLOGGED) && blockState.getValue(BlockStateProperties.WATERLOGGED))) {
+			//TODO: Different biomes product different fishes.
+			rl = new ResourceLocation(MODID, "continuous_miner/fishing");
 		} else {
 			rl = ContinuousMinerCustomLoot.getBlockLoot(blockState);
 			if(rl == null) {

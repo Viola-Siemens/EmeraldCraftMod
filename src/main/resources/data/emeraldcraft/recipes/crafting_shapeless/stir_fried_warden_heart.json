@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:warden_heart"
+    },
+    {
+      "item": "emeraldcraft:chili"
+    },
+    {
+      "item": "emeraldcraft:chili"
+    },
+    {
+      "item": "minecraft:bowl"
+    }
+  ],
+  "result": {
+    "item": "emeraldcraft:stir_fried_warden_heart"
+  }
+}

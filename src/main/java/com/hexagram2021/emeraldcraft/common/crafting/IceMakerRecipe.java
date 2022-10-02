@@ -24,13 +24,13 @@ public class IceMakerRecipe implements Recipe<Container> {
 	protected final ItemStack result;
 	protected final int freezingTime;
 
-	public static CachedRecipeList<IceMakerRecipe> recipeList = new CachedRecipeList<>(
-			() -> ECRecipes.ICE_MAKER_TYPE,
+	public static final CachedRecipeList<IceMakerRecipe> recipeList = new CachedRecipeList<>(
+			ECRecipes.ICE_MAKER_TYPE,
 			IceMakerRecipe.class
 	);
 
-	public static int FREEZING_TIME = 50;
-	public static int DEFAULT_INPUT_AMOUNT = 100;
+	public static final int FREEZING_TIME = 50;
+	public static final int DEFAULT_INPUT_AMOUNT = 100;
 
 	public IceMakerRecipe(ResourceLocation id, String group, FluidType inputFluid, int inputAmount, ItemStack result, int freezingTime) {
 		this.id = id;
@@ -95,6 +95,6 @@ public class IceMakerRecipe implements Recipe<Container> {
 
 	@Override @NotNull
 	public RecipeType<?> getType() {
-		return ECRecipes.ICE_MAKER_TYPE;
+		return ECRecipes.ICE_MAKER_TYPE.get();
 	}
 }

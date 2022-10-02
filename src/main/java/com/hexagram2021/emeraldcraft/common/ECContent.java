@@ -4,10 +4,10 @@ import com.hexagram2021.emeraldcraft.common.crafting.compat.ModsLoadedEventSubsc
 import com.hexagram2021.emeraldcraft.common.register.*;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import com.hexagram2021.emeraldcraft.common.world.ECBiomeModifiers;
-import com.hexagram2021.emeraldcraft.common.world.village.Villages;
-import com.hexagram2021.emeraldcraft.common.world.compat.*;
+import com.hexagram2021.emeraldcraft.common.world.compat.ECNetherBiomeRegion;
+import com.hexagram2021.emeraldcraft.common.world.compat.ECOverworldBiomeRegion;
 import com.hexagram2021.emeraldcraft.common.world.surface.ECSurfaceRules;
-import net.minecraftforge.client.event.RegisterRecipeBookCategoriesEvent;
+import com.hexagram2021.emeraldcraft.common.world.village.Villages;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -30,14 +30,15 @@ public class ECContent {
 		ECBannerPatterns.init(bus);
 		Villages.Registers.POINTS_OF_INTEREST.register(bus);
 		Villages.Registers.PROFESSIONS.register(bus);
-		ECContainerTypes.init(bus);
+		ECLootModifiers.init(bus);
+		ECRecipes.init(bus);
 		ECRecipeSerializer.init(bus);
+		ECContainerTypes.init(bus);
 		ECBlockEntity.init(bus);
 		ECPlacementModifierType.init(bus);
 		ECBiomes.init(bus);
 		ECBiomeModifiers.init(bus);
 
-		runLater.accept(ECBrewingRecipes::init);
 		runLater.accept(ModsLoadedEventSubscriber::SolveCompat);
 	}
 
@@ -55,7 +56,6 @@ public class ECContent {
 		ECEntities.init(event);
 
 		ECFeatures.init(event);
-		ECRecipes.init(event);
 
 		ECPotions.init(event);
 
@@ -63,10 +63,5 @@ public class ECContent {
 		ECStructurePieceTypes.init();
 		ECStructures.init();
 		ECStructureSets.init();
-	}
-
-	@SubscribeEvent
-	public static void onRegisterRecipeBookTypes(RegisterRecipeBookCategoriesEvent event) {
-		ECRecipeBookTypes.init(event);
 	}
 }

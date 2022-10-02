@@ -95,7 +95,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 	
 	public MineralTableBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntity.MINERAL_TABLE.get(), pos, state);
-		this.recipeType = ECRecipes.MINERAL_TABLE_TYPE;
+		this.recipeType = ECRecipes.MINERAL_TABLE_TYPE.get();
 	}
 
 	@Override @NotNull

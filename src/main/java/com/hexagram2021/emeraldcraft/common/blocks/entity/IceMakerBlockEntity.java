@@ -110,7 +110,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		}
 
 		if (blockEntity.isLit() && blockEntity.inputFluidAmount > 0) {
-			IceMakerRecipe recipe = level.getRecipeManager().getRecipeFor(ECRecipes.ICE_MAKER_TYPE, blockEntity, level).orElse(null);
+			IceMakerRecipe recipe = level.getRecipeManager().getRecipeFor(ECRecipes.ICE_MAKER_TYPE.get(), blockEntity, level).orElse(null);
 
 			if (blockEntity.canFreeze(recipe, blockEntity.items, blockEntity.getMaxStackSize())) {
 				++blockEntity.freezingProgress;
@@ -304,7 +304,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	}
 
 	private static int getTotalFreezeTime(Level level, Container container) {
-		return level.getRecipeManager().getRecipeFor(ECRecipes.ICE_MAKER_TYPE, container, level).map(IceMakerRecipe::getFreezingTime).orElse(IceMakerRecipe.FREEZING_TIME);
+		return level.getRecipeManager().getRecipeFor(ECRecipes.ICE_MAKER_TYPE.get(), container, level).map(IceMakerRecipe::getFreezingTime).orElse(IceMakerRecipe.FREEZING_TIME);
 	}
 
 	@Override

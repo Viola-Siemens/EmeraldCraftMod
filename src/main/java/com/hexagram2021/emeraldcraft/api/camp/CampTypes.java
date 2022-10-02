@@ -1,11 +1,12 @@
 package com.hexagram2021.emeraldcraft.api.camp;
 
+import com.google.common.collect.Lists;
 import com.hexagram2021.emeraldcraft.common.register.ECStructures;
+import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
-import org.apache.commons.compress.utils.Lists;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,7 +26,11 @@ public enum CampTypes implements CampType {
 	TAIGA;
 
 	static final List<CampType> ALL_CAMPS = Lists.newArrayList(Arrays.stream(CampTypes.values()).iterator());
-	static final Map<String, Integer> ALL_CAMP_IDS = new HashMap<>();
+	static final Map<String, Integer> ALL_CAMP_IDS = Util.make(new HashMap<>(), map -> {
+		for(int i = 0; i < ALL_CAMPS.size(); ++i) {
+			map.put(ALL_CAMPS.get(i).toString(), i);
+		}
+	});
 
 	private static final Map<String, ResourceLocation> CUSTOM_CAMP = new HashMap<>();
 

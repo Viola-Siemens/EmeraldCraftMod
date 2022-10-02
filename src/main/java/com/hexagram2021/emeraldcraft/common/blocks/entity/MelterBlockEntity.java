@@ -107,7 +107,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 
 		ItemStack fuelItemStack = blockEntity.items.get(MelterMenu.FUEL_SLOT);
 		if (blockEntity.isLit() || !fuelItemStack.isEmpty() && !blockEntity.items.get(MelterMenu.INGREDIENT_SLOT).isEmpty()) {
-			MelterRecipe recipe = level.getRecipeManager().getRecipeFor(ECRecipes.MELTER_TYPE, blockEntity, level).orElse(null);
+			MelterRecipe recipe = level.getRecipeManager().getRecipeFor(ECRecipes.MELTER_TYPE.get(), blockEntity, level).orElse(null);
 			if (!blockEntity.isLit() && blockEntity.canBurn(recipe, blockEntity.items)) {
 				blockEntity.litTime = blockEntity.getBurnDuration(fuelItemStack);
 				blockEntity.litDuration = blockEntity.litTime;
@@ -329,7 +329,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	}
 
 	private static int getTotalMeltTime(Level level, Container container) {
-		return level.getRecipeManager().getRecipeFor(ECRecipes.MELTER_TYPE, container, level).map(MelterRecipe::getMeltingTime).orElse(MelterRecipe.MELTING_TIME);
+		return level.getRecipeManager().getRecipeFor(ECRecipes.MELTER_TYPE.get(), container, level).map(MelterRecipe::getMeltingTime).orElse(MelterRecipe.MELTING_TIME);
 	}
 
 	@Override

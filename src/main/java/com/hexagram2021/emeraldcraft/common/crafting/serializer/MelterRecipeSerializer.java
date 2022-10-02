@@ -46,15 +46,14 @@ public class MelterRecipeSerializer<T extends MelterRecipe> implements RecipeSer
 		return this.factory.create(id, s, ingredient, fluidType, fluidAmount, i);
 	}
 
-	@Nullable
-	@Override
+	@Override @Nullable
 	public T fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);
 		FluidType fluidType = FluidTypes.getFluidTypeFromName(buf.readUtf());
 		int fluidAmount = buf.readVarInt();
-		int i = buf.readVarInt();
-		return this.factory.create(id, group, ingredient, fluidType, fluidAmount, i);
+		int time = buf.readVarInt();
+		return this.factory.create(id, group, ingredient, fluidType, fluidAmount, time);
 	}
 
 	@Override

@@ -14,12 +14,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class CarpentryTableRecipe extends SingleItemRecipe {
 	public static final CachedRecipeList<CarpentryTableRecipe> recipeList = new CachedRecipeList<>(
-			() -> ECRecipes.CARPENTRY_TABLE_TYPE,
+			ECRecipes.CARPENTRY_TABLE_TYPE,
 			CarpentryTableRecipe.class
 	);
 
 	public CarpentryTableRecipe(ResourceLocation id, String group, Ingredient ingredient, ItemStack result) {
-		super(ECRecipes.CARPENTRY_TABLE_TYPE, ECRecipeSerializer.CARPENTRY_SERIALIZER.get(), id, group, ingredient, result);
+		super(ECRecipes.CARPENTRY_TABLE_TYPE.get(), ECRecipeSerializer.CARPENTRY_SERIALIZER.get(), id, group, ingredient, result);
 	}
 
 	/**

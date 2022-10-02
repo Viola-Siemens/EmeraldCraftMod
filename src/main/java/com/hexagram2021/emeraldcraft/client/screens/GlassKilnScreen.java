@@ -90,7 +90,7 @@ public class GlassKilnScreen extends AbstractContainerScreen<GlassKilnMenu> impl
 		if (recipeBookComponent.mouseClicked(p_97834_, p_97835_, p_97836_)) {
 			return true;
 		}
-		return widthTooNarrow && recipeBookComponent.isVisible() ? true : super.mouseClicked(p_97834_, p_97835_, p_97836_);
+		return widthTooNarrow && recipeBookComponent.isVisible() || super.mouseClicked(p_97834_, p_97835_, p_97836_);
 	}
 
 	@Override

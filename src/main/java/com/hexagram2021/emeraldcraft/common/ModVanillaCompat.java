@@ -29,6 +29,9 @@ public class ModVanillaCompat {
 		);
 		AxeItem.STRIPPABLES = strippables;
 
+		ComposterBlock.COMPOSTABLES.put(ECItems.CHILI.asItem(), 0.65F);
+		ComposterBlock.COMPOSTABLES.put(ECItems.CHILI_SEED.asItem(), 0.3F);
+		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.GINKGO_LEAVES.asItem(), 0.3F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.GINKGO_LEAVES.asItem(), 0.3F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.GINKGO_SAPLING.asItem(), 0.3F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.PALM_LEAVES.asItem(), 0.3F);

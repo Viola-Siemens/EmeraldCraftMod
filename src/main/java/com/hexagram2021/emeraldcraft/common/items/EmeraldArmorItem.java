@@ -29,7 +29,7 @@ public class EmeraldArmorItem extends ArmorItem  {
 	@SuppressWarnings("deprecation")
 	private static final LazyLoadedValue<Ingredient> repairIngredient = new LazyLoadedValue<>(() -> Ingredient.of(Items.EMERALD));
 
-	public static ArmorMaterial mat = new EmeraldArmorMaterial();
+	public static final ArmorMaterial mat = new EmeraldArmorMaterial();
 
 	public EmeraldArmorItem(EquipmentSlot type) {
 		super(mat, type, new Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP));

@@ -23,12 +23,12 @@ public class MelterRecipe implements Recipe<Container> {
 	protected final int resultAmount;
 	protected final int meltingTime;
 
-	public static CachedRecipeList<MelterRecipe> recipeList = new CachedRecipeList<>(
-			() -> ECRecipes.MELTER_TYPE,
+	public static final CachedRecipeList<MelterRecipe> recipeList = new CachedRecipeList<>(
+			ECRecipes.MELTER_TYPE,
 			MelterRecipe.class
 	);
 
-	public static int MELTING_TIME = 200;
+	public static final int MELTING_TIME = 200;
 
 	public MelterRecipe(ResourceLocation id, String group, Ingredient ingredient, FluidType resultFluid, int resultAmount, int meltingTime) {
 		this.id = id;
@@ -102,6 +102,6 @@ public class MelterRecipe implements Recipe<Container> {
 
 	@Override @NotNull
 	public RecipeType<?> getType() {
-		return ECRecipes.MELTER_TYPE;
+		return ECRecipes.MELTER_TYPE.get();
 	}
 }

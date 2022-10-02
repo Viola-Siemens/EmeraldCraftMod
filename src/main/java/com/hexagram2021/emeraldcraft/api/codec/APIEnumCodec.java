@@ -22,10 +22,12 @@ public record APIEnumCodec<E extends StringRepresentable>(Codec<E> codec, Functi
 		), resolver);
 	}
 
+	@Override
 	public <T> DataResult<Pair<E, T>> decode(DynamicOps<T> ops, T input) {
 		return this.codec.decode(ops, input);
 	}
 
+	@Override
 	public <T> DataResult<T> encode(E entry, DynamicOps<T> ops, T prefix) {
 		return this.codec.encode(entry, ops, prefix);
 	}

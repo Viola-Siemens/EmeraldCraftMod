@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(LegacySinglePoolElement.class)
 public interface SingleJigsawAccess {
-	@SuppressWarnings("unused")
 	@Invoker("<init>")
 	static LegacySinglePoolElement construct(Either<ResourceLocation, StructureTemplate> pool,
 											 Holder<StructureProcessorList> structure,

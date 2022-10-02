@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:chili"
+    }
+  ],
+  "result": {
+    "item": "emeraldcraft:chili_seed",
+    "count": 2
+  }
+}

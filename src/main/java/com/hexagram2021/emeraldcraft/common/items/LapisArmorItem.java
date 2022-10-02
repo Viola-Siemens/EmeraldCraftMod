@@ -29,7 +29,7 @@ public class LapisArmorItem extends ArmorItem {
 	@SuppressWarnings("deprecation")
 	private static final LazyLoadedValue<Ingredient> repairIngredient = new LazyLoadedValue<>(() -> Ingredient.of(Items.LAPIS_LAZULI));
 
-	public static ArmorMaterial mat = new LapisArmorMaterial();
+	public static final ArmorMaterial mat = new LapisArmorMaterial();
 
 	public LapisArmorItem(EquipmentSlot type) {
 		super(mat, type, new Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP));
