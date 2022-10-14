@@ -31,7 +31,7 @@ public class ZombieEntityMixin {
 				int i = convertible.getConversionProgress();
 				convertible.decreaseConversionRemainTime(i);
 				if (convertible.getConversionRemainTime() <= 0 &&
-						ForgeEventFactory.canLivingConvert(zombifiedPiglin, EntityType.VILLAGER, convertible::setConversionRemainTime)) {
+						ForgeEventFactory.canLivingConvert(zombifiedPiglin, EntityType.PIGLIN, convertible::setConversionRemainTime)) {
 					convertible.finishConversion((ServerLevel) zombifiedPiglin.level);
 				}
 			}

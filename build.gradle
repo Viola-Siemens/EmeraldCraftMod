@@ -19,7 +19,7 @@ plugins {
 
 apply plugin: 'org.spongepowered.mixin'
 
-version = '4.1'
+version = '4.2'
 group = 'com.hexagram2021.emeraldcraft'
 archivesBaseName = 'emeraldcraft'
 

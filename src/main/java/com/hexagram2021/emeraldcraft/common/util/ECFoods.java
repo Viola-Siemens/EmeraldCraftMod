@@ -25,6 +25,12 @@ public class ECFoods {
 	public static final FoodProperties PEACH =
 			new FoodProperties.Builder().nutrition(2).saturationMod(0.3F).build();
 
+	public static final FoodProperties GOLDEN_PEACH =
+			new FoodProperties.Builder().nutrition(6).saturationMod(0.6F)
+					.effect(() -> new MobEffectInstance(MobEffects.HEALTH_BOOST, 800, 1), 1.0F)
+					.effect(() -> new MobEffectInstance(MobEffects.SATURATION, 12, 0), 1.0F)
+					.alwaysEat().build();
+
 	public static final FoodProperties COOKED_TROPICAL_FISH =
 			new FoodProperties.Builder().nutrition(5).saturationMod(0.6F).build();
 
@@ -47,7 +53,11 @@ public class ECFoods {
 			new FoodProperties.Builder().nutrition(3).saturationMod(1.2F).build();
 	public static final FoodProperties CARAMELIZED_POTATO =
 			new FoodProperties.Builder().nutrition(5).saturationMod(0.6F).build();
+	public static final FoodProperties ROUGAMO =
+			new FoodProperties.Builder().nutrition(12).saturationMod(1.2F).build();
 	public static final FoodProperties BEEF_AND_POTATO_STEW =
+			new FoodProperties.Builder().nutrition(10).saturationMod(0.8F).build();
+	public static final FoodProperties BRAISED_CHICKEN =
 			new FoodProperties.Builder().nutrition(10).saturationMod(0.8F).build();
 
 	public static final FoodProperties HERRING =

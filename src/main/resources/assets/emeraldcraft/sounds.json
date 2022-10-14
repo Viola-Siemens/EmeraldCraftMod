@@ -308,5 +308,29 @@
       "emeraldcraft:wraith/hurt"
     ],
     "subtitle": "subtitles.entity.wraith.death"
+  },
+  "manta.ambient": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:manta/ambient1",
+      "emeraldcraft:manta/ambient2"
+    ],
+    "subtitle": "subtitles.entity.manta.ambient"
+  },
+  "manta.hurt": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:manta/hurt1",
+      "emeraldcraft:manta/hurt2"
+    ],
+    "subtitle": "subtitles.entity.manta.hurt"
+  },
+  "manta.death": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:manta/hurt1",
+      "emeraldcraft:manta/hurt2"
+    ],
+    "subtitle": "subtitles.entity.manta.death"
   }
 }

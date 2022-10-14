@@ -18,6 +18,7 @@ public class ECBrewingRecipes {
 		addFullRecipe(Potions.REGENERATION, Potions.LONG_REGENERATION, Potions.STRONG_REGENERATION, ECItems.WARPED_WART, ECPotions.ABSORPTION, ECPotions.LONG_ABSORPTION, ECPotions.STRONG_ABSORPTION);
 		addFullRecipeWithoutStronger(Potions.NIGHT_VISION, Potions.LONG_NIGHT_VISION, ECItems.WARPED_WART, ECPotions.BLINDNESS, ECPotions.LONG_BLINDNESS);
 		addFullRecipeWithoutLonger(Potions.HEALING, Potions.STRONG_HEALING, ECItems.WARPED_WART, ECPotions.SATURATION, ECPotions.STRONG_SATURATION);
+		addFullRecipeWithoutStronger(Potions.AWKWARD, null, Items.GLOW_BERRIES, ECPotions.GLOWING, ECPotions.LONG_GLOWING);
 	}
 
 	@SuppressWarnings("SameParameterValue")

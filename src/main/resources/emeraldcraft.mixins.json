@@ -9,6 +9,7 @@
     "BlockEntityTypeAccess",
     "HeroGiftsTaskAccess",
     "MobEntityMixin",
+    "PhantomEntityMixin",
     "PiglinAiMixin",
     "PiglinBruteAiMixin",
     "SingleJigsawAccess",
@@ -17,5 +18,8 @@
     "ZombieEntityMixin",
     "ZombifiedPiglinEntityMixin"
   ],
-  "minVersion": "0.8"
+  "minVersion": "0.8",
+  "client": [
+    "LocalPlayerMixin"
+  ]
 }

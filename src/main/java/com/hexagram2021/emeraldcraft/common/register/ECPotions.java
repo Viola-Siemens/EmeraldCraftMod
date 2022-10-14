@@ -23,6 +23,8 @@ public class ECPotions {
 	public static final Potion ABSORPTION = new Potion("absorption", new MobEffectInstance(MobEffects.ABSORPTION, 3600));
 	public static final Potion LONG_ABSORPTION = new Potion("absorption", new MobEffectInstance(MobEffects.ABSORPTION, 9600));
 	public static final Potion STRONG_ABSORPTION = new Potion("absorption", new MobEffectInstance(MobEffects.ABSORPTION, 800, 3));
+	public static final Potion GLOWING = new Potion("glowing", new MobEffectInstance(MobEffects.GLOWING, 1800));
+	public static final Potion LONG_GLOWING = new Potion("glowing", new MobEffectInstance(MobEffects.GLOWING, 4800));
 
 
 	private ECPotions() {}
@@ -42,6 +44,8 @@ public class ECPotions {
 			helper.register(new ResourceLocation(MODID, "absorption"), ABSORPTION);
 			helper.register(new ResourceLocation(MODID, "long_absorption"), LONG_ABSORPTION);
 			helper.register(new ResourceLocation(MODID, "strong_absorption"), STRONG_ABSORPTION);
+			helper.register(new ResourceLocation(MODID, "glowing"), GLOWING);
+			helper.register(new ResourceLocation(MODID, "long_glowing"), LONG_GLOWING);
 		});
 	}
 }

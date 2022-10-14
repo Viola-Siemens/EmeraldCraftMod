@@ -143,7 +143,7 @@ public class ECTrades {
 			compoundtag.putString(WrittenBookItem.TAG_TITLE, title.getString());
 			compoundtag.putString(WrittenBookItem.TAG_AUTHOR, author.getString());
 			ListTag pages = new ListTag();
-			pages.add(StringTag.valueOf(content.getString()));
+			pages.add(StringTag.valueOf("{\"text\":\"" + content.getString() + "\"}"));
 			compoundtag.put(WrittenBookItem.TAG_PAGES, pages);
 			itemstack.setTag(compoundtag);
 			return new MerchantOffer(new ItemStack(Items.EMERALD), itemstack, this.maxUses, this.Xp, this.priceMultiplier);

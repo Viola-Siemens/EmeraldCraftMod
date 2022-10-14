@@ -63,6 +63,10 @@ public class ECSounds {
 	public static final SoundEvent WRAITH_HURT = registerSound("wraith.hurt");
 	public static final SoundEvent WRAITH_DEATH = registerSound("wraith.death");
 
+	public static final SoundEvent MANTA_AMBIENT = registerSound("manta.ambient");
+	public static final SoundEvent MANTA_HURT = registerSound("manta.hurt");
+	public static final SoundEvent MANTA_DEATH = registerSound("manta.death");
+
 	private static SoundEvent registerSound(String name) {
 		ResourceLocation location = new ResourceLocation(MODID, name);
 		SoundEvent event = new SoundEvent(location);

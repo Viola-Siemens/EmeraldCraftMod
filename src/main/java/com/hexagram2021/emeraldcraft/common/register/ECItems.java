@@ -75,6 +75,9 @@ public class ECItems {
 	public static final ItemRegObject<SpawnEggItem> WRAITH_SPAWN_EGG = ItemRegObject.register(
 			"wraith_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.WRAITH, 0x400040, 0xC8C8C8, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
+	public static final ItemRegObject<SpawnEggItem> MANTA_SPAWN_EGG = ItemRegObject.register(
+			"manta_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.MANTA, 0xFFFFC8, 0xF8F8E0, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+	);
 
 	public static final ItemRegObject<Item> AGATE_APPLE = ItemRegObject.register(
 			"agate_apple", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).rarity(Rarity.RARE).food(ECFoods.AGATE_APPLE))
@@ -87,6 +90,9 @@ public class ECItems {
 	);
 	public static final ItemRegObject<Item> PEACH = ItemRegObject.register(
 			"peach", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.PEACH))
+	);
+	public static final ItemRegObject<Item> GOLDEN_PEACH = ItemRegObject.register(
+			"golden_peach", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.GOLDEN_PEACH))
 	);
 
 	public static final ItemRegObject<Item> POTION_COOKIE = ItemRegObject.register(
@@ -107,8 +113,14 @@ public class ECItems {
 	public static final ItemRegObject<Item> CARAMELIZED_POTATO = ItemRegObject.register(
 			"caramelized_potato", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.CARAMELIZED_POTATO))
 	);
+	public static final ItemRegObject<Item> ROUGAMO = ItemRegObject.register(
+			"rougamo", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.ROUGAMO))
+	);
 	public static final ItemRegObject<BowlFoodItem> BEEF_AND_POTATO_STEW = ItemRegObject.register(
 			"beef_and_potato_stew", () -> new BowlFoodItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(1).food(ECFoods.BEEF_AND_POTATO_STEW))
+	);
+	public static final ItemRegObject<BowlFoodItem> BRAISED_CHICKEN = ItemRegObject.register(
+			"braised_chicken", () -> new BowlFoodItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(1).food(ECFoods.BRAISED_CHICKEN))
 	);
 	public static final ItemRegObject<StickFoodItem> SAUSAGE = ItemRegObject.register(
 			"sausage", () -> new StickFoodItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(16).food(ECFoods.SAUSAGE))

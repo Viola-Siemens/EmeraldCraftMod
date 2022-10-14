@@ -27,7 +27,7 @@
         {
           "type": "minecraft:item",
           "weight": 2,
-          "name": "minecraft:golden_apple"
+          "name": "emeraldcraft:golden_peach"
         },
         {
           "type": "minecraft:item",
