@@ -1,9 +1,7 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
 import com.hexagram2021.emeraldcraft.common.entities.ECBoat;
-import com.hexagram2021.emeraldcraft.common.entities.mobs.NetherLambmanEntity;
-import com.hexagram2021.emeraldcraft.common.entities.mobs.NetherPigmanEntity;
-import com.hexagram2021.emeraldcraft.common.entities.mobs.PiglinCuteyEntity;
+import com.hexagram2021.emeraldcraft.common.entities.mobs.*;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
@@ -34,6 +32,26 @@ public class ECEntities {
 					.sized(0.6F, 1.95F)
 					.clientTrackingRange(10)
 					.build(new ResourceLocation(MODID, "nether_lambman").toString())
+	);
+	
+	public static final RegistryObject<EntityType<HerringEntity>> HERRING = REGISTER.register(
+			"herring", () -> EntityType.Builder.of(HerringEntity::new, EntityClassification.WATER_AMBIENT)
+			.sized(0.5F, 0.4F)
+			.clientTrackingRange(4)
+			.build(new ResourceLocation(MODID, "herring").toString())
+	);
+	public static final RegistryObject<EntityType<PurpleSpottedBigeyeEntity>> PURPLE_SPOTTED_BIGEYE = REGISTER.register(
+			"purple_spotted_bigeye", () -> EntityType.Builder.of(PurpleSpottedBigeyeEntity::new, EntityClassification.WATER_AMBIENT)
+			.sized(0.5F, 0.4F)
+			.clientTrackingRange(4)
+			.build(new ResourceLocation(MODID, "purple_spotted_bigeye").toString())
+	);
+	
+	public static final RegistryObject<EntityType<MantaEntity>> MANTA = REGISTER.register(
+			"manta", () -> EntityType.Builder.of(MantaEntity::new, EntityClassification.CREATURE)
+			.sized(1.0F, 0.5F)
+			.clientTrackingRange(8)
+			.build(new ResourceLocation(MODID, "manta").toString())
 	);
 
 	public static final RegistryObject<EntityType<ECBoat>> BOAT = REGISTER.register(

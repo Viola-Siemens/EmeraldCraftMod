@@ -1,4 +1,10 @@
 {
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "byg"
+    }
+  ],
   "type": "emeraldcraft:glass_kiln",
   "ingredient": {
     "item": "byg:blue_netherrack"

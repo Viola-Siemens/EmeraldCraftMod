@@ -38,9 +38,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static com.simibubi.create.AllBlocks.COPPER_BLOCK;
-import static com.simibubi.create.AllBlocks.ZINC_BLOCK;
-
 public final class ECBlocks {
 	public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
 
@@ -77,13 +74,19 @@ public final class ECBlocks {
 				p -> new StairsBlock(fullBlock::defaultBlockState, p)
 		));
 	}
-	private static void registerStairs(ResourceLocation fullBlockRegistryName, String fullBlockName, AbstractBlock.Properties props, Supplier<BlockState> defaultBlockState) {
+	private static void registerStairs(ResourceLocation fullBlockRegistryName, String fullBlockName, AbstractBlock.Properties props,
+									   Supplier<BlockState> defaultBlockState, Supplier<Boolean> addToTab) {
 		String name = changeNameTo(fullBlockName, "_stairs");
-		TO_STAIRS.put(fullBlockRegistryName, new BlockEntry<>(
+		BlockEntry<StairsBlock> blockEntry = new BlockEntry<>(
 				name,
 				() -> props,
 				p -> new StairsBlock(defaultBlockState, p)
-		));
+		);
+		if(addToTab.get()) {
+			TO_STAIRS.put(fullBlockRegistryName, blockEntry);
+		} else {
+			ECItems.REGISTER.register(blockEntry.getId().getPath(), () -> new BlockItem(blockEntry.get(), new Item.Properties()));
+		}
 	}
 
 	private static void registerSlab(Block fullBlock) {
@@ -112,18 +115,24 @@ public final class ECBlocks {
 				)
 		));
 	}
-	private static void registerSlab(ResourceLocation fullBlockRegistryName, String fullBlockName, AbstractBlock.Properties props, Supplier<BlockState> defaultBlockState) {
+	private static void registerSlab(ResourceLocation fullBlockRegistryName, String fullBlockName, AbstractBlock.Properties props,
+									 Supplier<BlockState> defaultBlockState, Supplier<Boolean> addToTab) {
 		String name = changeNameTo(fullBlockName, "_slab");
-		TO_SLAB.put(fullBlockRegistryName, new BlockEntry<>(
+		BlockEntry<SlabBlock> blockEntry = new BlockEntry<>(
 				name,
 				() -> props,
 				p -> new SlabBlock(p.isSuffocating((state, world, pos) ->
-						defaultBlockState.get().isSuffocating(world, pos) && state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE
+							defaultBlockState.get().isSuffocating(world, pos) && state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE
 					).isRedstoneConductor((state, world, pos) ->
-						defaultBlockState.get().isRedstoneConductor(world, pos) && state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE
+							defaultBlockState.get().isRedstoneConductor(world, pos) && state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE
 					)
 				)
-		));
+		);
+		if(addToTab.get()) {
+			TO_SLAB.put(fullBlockRegistryName, blockEntry);
+		} else {
+			ECItems.REGISTER.register(blockEntry.getId().getPath(), () -> new BlockItem(blockEntry.get(), new Item.Properties()));
+		}
 	}
 
 	private static void registerWall(Block fullBlock) {
@@ -142,13 +151,18 @@ public final class ECBlocks {
 				WallBlock::new
 		));
 	}
-	private static void registerWall(ResourceLocation fullBlockRegistryName, String fullBlockName, AbstractBlock.Properties props) {
+	private static void registerWall(ResourceLocation fullBlockRegistryName, String fullBlockName, AbstractBlock.Properties props, Supplier<Boolean> addToTab) {
 		String name = changeNameTo(fullBlockName, "_wall");
-		TO_WALL.put(fullBlockRegistryName, new BlockEntry<>(
+		BlockEntry<WallBlock> blockEntry = new BlockEntry<>(
 				name,
 				() -> props,
 				WallBlock::new
-		));
+		);
+		if(addToTab.get()) {
+			TO_WALL.put(fullBlockRegistryName, blockEntry);
+		} else {
+			ECItems.REGISTER.register(blockEntry.getId().getPath(), () -> new BlockItem(blockEntry.get(), new Item.Properties()));
+		}
 	}
 
 	private static <T extends Block> void registerWoodenFence(BlockEntry<T> fullBlock) {
@@ -296,56 +310,166 @@ public final class ECBlocks {
 			registerWall(Blocks.LAPIS_BLOCK);
 			registerWall(Blocks.DIAMOND_BLOCK);
 			registerWall(Blocks.NETHERITE_BLOCK);
-
-			if(ModsLoadedEventSubscriber.CREATE) {
-				registerStairs(
-						ZINC_BLOCK.getId(),
-						ZINC_BLOCK.getId().getPath(),
-						AbstractBlock.Properties.copy(Blocks.IRON_BLOCK),
-						ZINC_BLOCK::getDefaultState
-				);
-				registerSlab(
-						ZINC_BLOCK.getId(),
-						ZINC_BLOCK.getId().getPath(),
-						AbstractBlock.Properties.copy(Blocks.IRON_BLOCK),
-						ZINC_BLOCK::getDefaultState
-				);
-				registerWall(
-						ZINC_BLOCK.getId(),
-						ZINC_BLOCK.getId().getPath(),
-						AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)
-				);
-				registerStairs(
-						COPPER_BLOCK.getId(),
-						COPPER_BLOCK.getId().getPath(),
-						AbstractBlock.Properties.copy(Blocks.IRON_BLOCK),
-						COPPER_BLOCK::getDefaultState
-				);
-				registerSlab(
-						COPPER_BLOCK.getId(),
-						COPPER_BLOCK.getId().getPath(),
-						AbstractBlock.Properties.copy(Blocks.IRON_BLOCK),
-						COPPER_BLOCK::getDefaultState
-				);
-				registerWall(
-						COPPER_BLOCK.getId(),
-						COPPER_BLOCK.getId().getPath(),
-						AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)
-				);
-			} else {
-				fakeCompatBlock("zinc_stairs", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
-				fakeCompatBlock("zinc_slab", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
-				fakeCompatBlock("zinc_wall", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
-				fakeCompatBlock("copper_stairs", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
-				fakeCompatBlock("copper_slab", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
-				fakeCompatBlock("copper_wall", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
-			}
-		}
-
-		private static void fakeCompatBlock(String name, Supplier<Block> make) {
-			RegistryObject<Block> tempBlock = REGISTER.register(name, make);
-			ECItems.REGISTER.register(name, () ->
-					new BlockItem(tempBlock.get(), new Item.Properties()));
+			
+			//Create
+			Supplier<Boolean> createCompatPredicate = () -> ModsLoadedEventSubscriber.CREATE;
+			
+			registerStairs(
+					new ResourceLocation("create", "zinc_block"),
+					"zinc_block",
+					AbstractBlock.Properties.copy(Blocks.IRON_BLOCK),
+					Blocks.AIR::defaultBlockState,
+					createCompatPredicate
+			);
+			registerSlab(
+					new ResourceLocation("create", "zinc_block"),
+					"zinc_block",
+					AbstractBlock.Properties.copy(Blocks.IRON_BLOCK),
+					Blocks.AIR::defaultBlockState,
+					createCompatPredicate
+			);
+			registerWall(
+					new ResourceLocation("create", "zinc_block"),
+					"zinc_block",
+					AbstractBlock.Properties.copy(Blocks.IRON_BLOCK),
+					createCompatPredicate
+			);
+			
+			registerStairs(
+					new ResourceLocation("create", "copper_block"),
+					"copper_block",
+					AbstractBlock.Properties.copy(Blocks.IRON_BLOCK),
+					Blocks.AIR::defaultBlockState,
+					createCompatPredicate
+			);
+			registerSlab(
+					new ResourceLocation("create", "copper_block"),
+					"copper_block",
+					AbstractBlock.Properties.copy(Blocks.IRON_BLOCK),
+					Blocks.AIR::defaultBlockState,
+					createCompatPredicate
+			);
+			registerWall(
+					new ResourceLocation("create", "copper_block"),
+					"copper_block",
+					AbstractBlock.Properties.copy(Blocks.IRON_BLOCK),
+					createCompatPredicate
+			);
+			
+			//ImmersiveEngineering
+			Supplier<Boolean> ieCompatPredicate = () -> ModsLoadedEventSubscriber.IE;
+			
+			registerStairs(
+					new ResourceLocation("immersiveengineering", "storage_aluminum"),
+					"aluminum_block",
+					AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					Blocks.AIR::defaultBlockState,
+					ieCompatPredicate
+			);
+			registerWall(
+					new ResourceLocation("immersiveengineering", "storage_aluminum"),
+					"aluminum_block",
+					AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					ieCompatPredicate
+			);
+			
+			registerStairs(
+					new ResourceLocation("immersiveengineering", "storage_lead"),
+					"lead_block",
+					AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					Blocks.AIR::defaultBlockState,
+					ieCompatPredicate
+			);
+			registerWall(
+					new ResourceLocation("immersiveengineering", "storage_lead"),
+					"lead_block",
+					AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					ieCompatPredicate
+			);
+			
+			registerStairs(
+					new ResourceLocation("immersiveengineering", "storage_silver"),
+					"silver_block",
+					AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					Blocks.AIR::defaultBlockState,
+					ieCompatPredicate
+			);
+			registerWall(
+					new ResourceLocation("immersiveengineering", "storage_silver"),
+					"silver_block",
+					AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					ieCompatPredicate
+			);
+			
+			registerStairs(
+					new ResourceLocation("immersiveengineering", "storage_nickel"),
+					"nickel_block",
+					AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					Blocks.AIR::defaultBlockState,
+					ieCompatPredicate
+			);
+			registerWall(
+					new ResourceLocation("immersiveengineering", "storage_nickel"),
+					"nickel_block",
+					AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					ieCompatPredicate
+			);
+			
+			registerStairs(
+					new ResourceLocation("immersiveengineering", "storage_uranium"),
+					"uranium_block",
+					AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					Blocks.AIR::defaultBlockState,
+					ieCompatPredicate
+			);
+			registerWall(
+					new ResourceLocation("immersiveengineering", "storage_uranium"),
+					"uranium_block",
+					AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					ieCompatPredicate
+			);
+			
+			registerStairs(
+					new ResourceLocation("immersiveengineering", "storage_constantan"),
+					"constantan_block",
+					AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					Blocks.AIR::defaultBlockState,
+					ieCompatPredicate
+			);
+			registerWall(
+					new ResourceLocation("immersiveengineering", "storage_constantan"),
+					"constantan_block",
+					AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					ieCompatPredicate
+			);
+			
+			registerStairs(
+					new ResourceLocation("immersiveengineering", "storage_electrum"),
+					"electrum_block",
+					AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					Blocks.AIR::defaultBlockState,
+					ieCompatPredicate
+			);
+			registerWall(
+					new ResourceLocation("immersiveengineering", "storage_electrum"),
+					"electrum_block",
+					AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					ieCompatPredicate
+			);
+			
+			registerStairs(
+					new ResourceLocation("immersiveengineering", "storage_steel"),
+					"steel_block",
+					AbstractBlock.Properties.of(Material.METAL).sound(SoundType.NETHERITE_BLOCK).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					Blocks.AIR::defaultBlockState,
+					ieCompatPredicate
+			);
+			registerWall(
+					new ResourceLocation("immersiveengineering", "storage_steel"),
+					"steel_block",
+					AbstractBlock.Properties.of(Material.METAL).sound(SoundType.NETHERITE_BLOCK).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					ieCompatPredicate
+			);
 		}
 	}
 
@@ -739,6 +863,8 @@ public final class ECBlocks {
 	public static final class Plant {
 		public static final Supplier<AbstractBlock.Properties> FLOWER_PROPERTIES = () ->
 				AbstractBlock.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS);
+		public static final Supplier<AbstractBlock.Properties> HIGAN_BANA_PROPERTIES = () ->
+				AbstractBlock.Properties.of(Material.PLANT).noCollission().instabreak().randomTicks().sound(SoundType.GRASS);
 		public static final Supplier<AbstractBlock.Properties> SAPLING_PROPERTIES = () ->
 				AbstractBlock.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS);
 		public static final Supplier<AbstractBlock.Properties> POTTED_FLOWER_PROPERTIES = () ->
@@ -806,6 +932,9 @@ public final class ECBlocks {
 		public static final BlockEntry<FlowerBlock> MAGENTA_PETUNIA = new BlockEntry<>(
 				"magenta_petunia", FLOWER_PROPERTIES, (props) -> new FlowerBlock(Effects.WATER_BREATHING, 8, props)
 		);
+		public static final BlockEntry<HiganBanaFlowerBlock> HIGAN_BANA = new BlockEntry<>(
+				"higan_bana", HIGAN_BANA_PROPERTIES, (props) -> new HiganBanaFlowerBlock(Effects.LEVITATION, 12, props)
+		);
 		public static final BlockEntry<FlowerPotBlock> POTTED_CYAN_PETUNIA = new BlockEntry<>(
 				"potted_cyan_petunia", POTTED_FLOWER_PROPERTIES, (props) -> new FlowerPotBlock(
 						null, CYAN_PETUNIA, props
@@ -816,7 +945,12 @@ public final class ECBlocks {
 						null, MAGENTA_PETUNIA, props
 				)
 		);
-
+		public static final BlockEntry<FlowerPotBlock> POTTED_HIGAN_BANA = new BlockEntry<>(
+				"potted_higan_bana", POTTED_FLOWER_PROPERTIES, (props) -> new FlowerPotBlock(
+						null, HIGAN_BANA, props
+				)
+		);
+		
 		//GINKGO
 		public static final BlockEntry<SaplingBlock> GINKGO_SAPLING = new BlockEntry<>(
 				"ginkgo_sapling", SAPLING_PROPERTIES, (props) -> new SaplingBlock(new GinkgoTreeGrower(), props)
@@ -918,6 +1052,7 @@ public final class ECBlocks {
 		private static void init() {
 			ECItems.REGISTER.register(CYAN_PETUNIA.getId().getPath(), () -> new BlockItem(CYAN_PETUNIA.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
 			ECItems.REGISTER.register(MAGENTA_PETUNIA.getId().getPath(), () -> new BlockItem(MAGENTA_PETUNIA.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.REGISTER.register(HIGAN_BANA.getId().getPath(), () -> new BlockItem(HIGAN_BANA.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
 			ECItems.REGISTER.register(GINKGO_SAPLING.getId().getPath(), () -> new BlockItem(GINKGO_SAPLING.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
 			ECItems.REGISTER.register(GINKGO_LOG.getId().getPath(), () -> new BlockItem(GINKGO_LOG.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
 			ECItems.REGISTER.register(STRIPPED_GINKGO_LOG.getId().getPath(), () -> new BlockItem(STRIPPED_GINKGO_LOG.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));

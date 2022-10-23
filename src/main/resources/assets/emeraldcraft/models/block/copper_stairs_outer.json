@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/outer_stairs",
   "textures": {
-    "bottom": "create:block/copper_block",
-    "top": "create:block/copper_block",
-    "side": "create:block/copper_block"
+    "bottom": "create:block/oxidized/copper_block_0",
+    "top": "create:block/oxidized/copper_block_0",
+    "side": "create:block/oxidized/copper_block_0"
   }
 }

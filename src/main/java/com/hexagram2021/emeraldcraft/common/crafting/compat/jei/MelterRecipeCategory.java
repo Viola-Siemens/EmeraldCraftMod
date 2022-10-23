@@ -59,7 +59,17 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 				guiHelper.createDrawable(TEXTURE, 24, 54, 12, 49),
 				guiHelper.createDrawable(TEXTURE, 36, 54, 12, 49),
 				guiHelper.createDrawable(TEXTURE, 48, 54, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 60, 54, 12, 49)
+				guiHelper.createDrawable(TEXTURE, 60, 54, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 72, 54, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 84, 54, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 96, 54, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 108, 54, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 120, 54, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 132, 54, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 144, 54, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 156, 54, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 168, 54, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 180, 54, 12, 49)
 		};
 	}
 

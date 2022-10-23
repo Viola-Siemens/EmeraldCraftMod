@@ -37,6 +37,7 @@ public class ModVanillaCompat {
 		ComposterBlock.COMPOSTABLES.put(ECItems.PEACH.asItem(), 0.65F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.CYAN_PETUNIA.asItem(), 0.65F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.MAGENTA_PETUNIA.asItem(), 0.65F);
+		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.HIGAN_BANA.asItem(), 0.65F);
 		ComposterBlock.COMPOSTABLES.put(ECItems.WARPED_WART.asItem(), 0.65F);
 
 		registerFlammable(ECBlocks.Plant.GINKGO_LEAVES.get(), 30, 60);

@@ -1,0 +1,32 @@
+{
+  "parent": "emeraldcraft:emeraldcraft/root",
+  "display": {
+    "icon": {
+      "item": "emeraldcraft:golden_peach"
+    },
+    "title": {
+      "translate": "advancements.emeraldcraft.cure_phantom.title"
+    },
+    "description": {
+      "translate": "advancements.emeraldcraft.cure_phantom.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 20
+  },
+  "criteria": {
+    "cured": {
+      "conditions": {},
+      "trigger": "emeraldcraft:cured_phantom"
+    }
+  },
+  "requirements": [
+    [
+      "cured"
+    ]
+  ]
+}

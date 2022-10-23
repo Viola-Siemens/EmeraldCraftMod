@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/wall_inventory",
   "textures": {
-    "wall": "create:block/copper_block"
+    "wall": "create:block/oxidized/copper_block_0"
   }
 }

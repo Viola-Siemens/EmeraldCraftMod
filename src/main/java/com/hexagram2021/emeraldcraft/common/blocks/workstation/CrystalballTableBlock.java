@@ -1,6 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.blocks.workstation;
 
-import com.hexagram2021.emeraldcraft.common.register.ECProperty;
+import com.hexagram2021.emeraldcraft.common.register.ECProperties;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -26,7 +26,7 @@ import java.util.Random;
 import java.util.function.Supplier;
 
 public class CrystalballTableBlock extends Block {
-	public static final IntegerProperty EXP_COUNT = ECProperty.EXP_COUNT;
+	public static final IntegerProperty EXP_COUNT = ECProperties.EXP_COUNT;
 
 	private static final Material AMETHYST = (new Material.Builder(MaterialColor.COLOR_PURPLE)).build();
 

@@ -1,0 +1,15 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ],
+  "type": "emeraldcraft:ice_maker",
+  "ingredient": {
+    "fluid": "melted_lead",
+    "amount": 100
+  },
+  "result": "immersiveengineering:storage_lead",
+  "freezingtime": 50
+}

@@ -1,4 +1,10 @@
 {
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
   "type": "emeraldcraft:melter",
   "ingredient": {
     "item": "create:zinc_block"

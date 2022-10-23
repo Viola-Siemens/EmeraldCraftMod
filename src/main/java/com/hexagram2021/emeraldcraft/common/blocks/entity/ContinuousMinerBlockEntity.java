@@ -9,6 +9,7 @@ import com.hexagram2021.emeraldcraft.common.register.ECItems;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.CauldronBlock;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -24,6 +25,7 @@ import net.minecraft.item.crafting.RecipeItemHelper;
 import net.minecraft.loot.LootContext;
 import net.minecraft.loot.LootParameterSets;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tileentity.HopperTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -174,6 +176,10 @@ public class ContinuousMinerBlockEntity extends LockableTileEntity implements IS
 			rl = new ResourceLocation(MODID, "continuous_miner/ores/flint");
 		} else if(blockState.is(Blocks.OBSIDIAN) || blockState.is(Blocks.CRYING_OBSIDIAN) || blockState.is(Blocks.BEDROCK)) {
 			rl = new ResourceLocation(MODID, "continuous_miner/ores/obsidian");
+		} else if (blockState.is(Blocks.WATER) ||
+				(blockState.is(Blocks.CAULDRON) && blockState.getValue(CauldronBlock.LEVEL) > 0) ||
+				(blockState.hasProperty(BlockStateProperties.WATERLOGGED) && blockState.getValue(BlockStateProperties.WATERLOGGED))) {
+			rl = new ResourceLocation(MODID, "continuous_miner/fishing");
 		} else {
 			rl = ContinuousMinerCustomLoot.getBlockLoot(blockState);
 			if(rl == null) {

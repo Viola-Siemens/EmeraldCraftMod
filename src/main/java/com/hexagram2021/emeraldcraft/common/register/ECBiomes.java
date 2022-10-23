@@ -125,14 +125,15 @@ public class ECBiomes {
 	}
 
 	public static Biome DeadCrimsonOcean(boolean isDeep) {
-		MobSpawnInfo.Builder mobspawnsettings$builder = new MobSpawnInfo.Builder();
+		MobSpawnInfo.Builder mobSpawnSettingsBuilder = new MobSpawnInfo.Builder();
 		if (isDeep) {
-			oceanSpawns(mobspawnsettings$builder, 8, 4, 8);
+			oceanSpawns(mobSpawnSettingsBuilder, 8, 4, 8);
 		} else {
-			oceanSpawns(mobspawnsettings$builder, 10, 2, 15);
+			oceanSpawns(mobSpawnSettingsBuilder, 10, 2, 15);
 		}
-
-		mobspawnsettings$builder.addSpawn(EntityClassification.WATER_AMBIENT, new MobSpawnInfo.Spawners(EntityType.PUFFERFISH, 5, 1, 3)).addSpawn(EntityClassification.WATER_AMBIENT, new MobSpawnInfo.Spawners(EntityType.TROPICAL_FISH, 25, 8, 8)).addSpawn(EntityClassification.WATER_CREATURE, new MobSpawnInfo.Spawners(EntityType.DOLPHIN, 2, 1, 2));
+		
+		mobSpawnSettingsBuilder.addSpawn(EntityClassification.WATER_AMBIENT, new MobSpawnInfo.Spawners(ECEntities.PURPLE_SPOTTED_BIGEYE.get(), 25, 8, 8));
+		mobSpawnSettingsBuilder.addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(EntityType.DROWNED, 1, 1, 2));
 		BiomeGenerationSettings.Builder biomegenerationsettings$builder = baseOceanGeneration().surfaceBuilder(ECConfiguredSurfaceBuilders.DEAD_CRIMSON_OCEAN_BUILDER);
 		biomegenerationsettings$builder.addFeature(
 				GenerationStage.Decoration.VEGETAL_DECORATION,
@@ -143,13 +144,14 @@ public class ECBiomes {
 		}
 
 		DefaultBiomeFeatures.addLukeWarmKelp(biomegenerationsettings$builder);
-		return baseOcean(mobspawnsettings$builder, 0x804cd6, 0x370537, 0xd86064, biomegenerationsettings$builder, isDeep);
+		return baseOcean(mobSpawnSettingsBuilder, 0x804cd6, 0x370537, 0xd86064, biomegenerationsettings$builder, isDeep);
 	}
 
 	public static Biome DeadWarpedOcean(boolean isDeep) {
-		MobSpawnInfo.Builder mobspawnsettings$builder = new MobSpawnInfo.Builder();
-		oceanSpawns(mobspawnsettings$builder, 3, 4, 15);
-		mobspawnsettings$builder.addSpawn(EntityClassification.WATER_AMBIENT, new MobSpawnInfo.Spawners(EntityType.SALMON, 15, 1, 5));
+		MobSpawnInfo.Builder mobSpawnSettingsBuilder = new MobSpawnInfo.Builder();
+		oceanSpawns(mobSpawnSettingsBuilder, 3, 4, 15);
+		mobSpawnSettingsBuilder.addSpawn(EntityClassification.WATER_AMBIENT, new MobSpawnInfo.Spawners(ECEntities.HERRING.get(), 15, 1, 5));
+		mobSpawnSettingsBuilder.addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(EntityType.ENDERMAN, 1, 1, 2));
 		BiomeGenerationSettings.Builder biomegenerationsettings$builder = baseOceanGeneration().surfaceBuilder(ECConfiguredSurfaceBuilders.DEAD_WARPED_OCEAN_BUILDER);
 		biomegenerationsettings$builder.addFeature(
 				GenerationStage.Decoration.VEGETAL_DECORATION,
@@ -157,7 +159,7 @@ public class ECBiomes {
 		);
 		DefaultBiomeFeatures.addDefaultSeagrass(biomegenerationsettings$builder);
 		DefaultBiomeFeatures.addColdOceanExtraVegetation(biomegenerationsettings$builder);
-		return baseOcean(mobspawnsettings$builder, 0x1a9ed6, 0x052d41, 0x60d2d8, biomegenerationsettings$builder, isDeep);
+		return baseOcean(mobSpawnSettingsBuilder, 0x1a9ed6, 0x052d41, 0x60d2d8, biomegenerationsettings$builder, isDeep);
 	}
 
 	private static Biome Xanadu() {

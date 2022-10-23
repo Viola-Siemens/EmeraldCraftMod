@@ -1,0 +1,35 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:higan_bana"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:purple_dye",
+      "count": 1
+    },
+    {
+      "item": "minecraft:purple_dye",
+      "count": 1,
+      "chance": 0.5
+    },
+    {
+      "item": "minecraft:red_dye",
+      "count": 1,
+      "chance": 0.5
+    },
+    {
+      "item": "minecraft:green_dye",
+      "chance": 0.05
+    }
+  ],
+  "processingTime": 50
+}

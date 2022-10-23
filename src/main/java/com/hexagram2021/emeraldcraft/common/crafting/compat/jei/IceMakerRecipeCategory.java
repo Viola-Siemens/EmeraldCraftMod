@@ -59,7 +59,17 @@ public class IceMakerRecipeCategory implements IRecipeCategory<IceMakerRecipe> {
 				guiHelper.createDrawable(TEXTURE, 24, 56, 12, 49),
 				guiHelper.createDrawable(TEXTURE, 36, 56, 12, 49),
 				guiHelper.createDrawable(TEXTURE, 48, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 60, 56, 12, 49)
+				guiHelper.createDrawable(TEXTURE, 60, 56, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 72, 56, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 84, 56, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 96, 56, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 108, 56, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 120, 56, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 132, 56, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 144, 56, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 156, 56, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 168, 56, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 180, 56, 12, 49)
 		};
 	}
 

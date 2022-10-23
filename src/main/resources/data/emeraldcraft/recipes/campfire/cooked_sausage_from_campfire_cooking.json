@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "ingredient": {
+    "item": "emeraldcraft:sausage"
+  },
+  "result": "emeraldcraft:cooked_sausage",
+  "experience": 0.35,
+  "cookingtime": 600
+}

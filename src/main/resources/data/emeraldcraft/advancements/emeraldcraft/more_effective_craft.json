@@ -1,0 +1,49 @@
+{
+  "parent": "emeraldcraft:emeraldcraft/hotter_topic",
+  "display": {
+    "icon": {
+      "item": "emeraldcraft:melted_gold_bucket"
+    },
+    "title": {
+      "translate": "advancements.emeraldcraft.more_effective_craft.title"
+    },
+    "description": {
+      "translate": "advancements.emeraldcraft.more_effective_craft.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 10
+  },
+  "criteria": {
+    "iron_concentrate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "emeraldcraft:iron_concentrate"
+          }
+        ]
+      }
+    },
+    "gold_concentrate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "emeraldcraft:gold_concentrate"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "iron_concentrate",
+      "gold_concentrate"
+    ]
+  ]
+}

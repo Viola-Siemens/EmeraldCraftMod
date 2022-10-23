@@ -4,19 +4,29 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "emeraldcraft.refmap.json",
   "mixins": [
-    "AbstractSkeletonMixin",
-    "BlockEntityTypeAccess",
-    "HeroGiftsTaskAccess",
-    "MultiNoiseBiomeSourceAccess",
-    "NetherBiomesAccess",
-    "RecipeBookCategoryMixin",
-    "RecipeBookStatusMixin",
-    "SingleJigsawAccess",
-    "VillagePoolsMixin"
+	"AbstractPiglinEntityMixin",
+	"AbstractSkeletonMixin",
+	"BlockEntityTypeAccess",
+	"EntityActionPacketActionMixin",
+	"HeroGiftsTaskAccess",
+	"MobEntityMixin",
+	"MultiNoiseBiomeSourceAccess",
+	"NetherBiomesAccess",
+	"PhantomEntityMixin",
+	"PiglinAiMixin",
+	"PiglinBruteAiMixin",
+	"RecipeBookCategoryMixin",
+	"RecipeBookStatusMixin",
+	"ServerPlayNetHandlerMixin",
+	"SingleJigsawAccess",
+	"VillagePoolsMixin",
+	"ZombieEntityMixin",
+	"ZombifiedPiglinEntityMixin"
   ],
   "minVersion": "0.8",
   "client": [
-    "ClientRecipeBookMixin",
-    "RecipeBookCategoriesMixin"
+	"ClientRecipeBookMixin",
+	"LocalPlayerMixin",
+	"RecipeBookCategoriesMixin"
   ]
 }

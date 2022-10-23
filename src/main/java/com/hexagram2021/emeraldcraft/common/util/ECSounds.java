@@ -50,6 +50,21 @@ public class ECSounds {
 	public static final SoundEvent VILLAGER_WORK_ICER = registerSound("villager.work_icer");
 	public static final SoundEvent VILLAGER_WORK_MINER = registerSound("villager.work_miner");
 
+	public static final SoundEvent HIGAN_BANA_DROP_LEAVES = registerSound("flower.drop_leaves");
+
+	public static final SoundEvent HERRING_AMBIENT = registerSound("herring.ambient");
+	public static final SoundEvent HERRING_FLOP = registerSound("herring.flop");
+	public static final SoundEvent HERRING_HURT = registerSound("herring.hurt");
+	public static final SoundEvent HERRING_DEATH = registerSound("herring.death");
+	public static final SoundEvent BIGEYE_AMBIENT = registerSound("purple_spotted_bigeye.ambient");
+	public static final SoundEvent BIGEYE_FLOP = registerSound("purple_spotted_bigeye.flop");
+	public static final SoundEvent BIGEYE_HURT = registerSound("purple_spotted_bigeye.hurt");
+	public static final SoundEvent BIGEYE_DEATH = registerSound("purple_spotted_bigeye.death");
+
+	public static final SoundEvent MANTA_AMBIENT = registerSound("manta.ambient");
+	public static final SoundEvent MANTA_HURT = registerSound("manta.hurt");
+	public static final SoundEvent MANTA_DEATH = registerSound("manta.death");
+
 	private static SoundEvent registerSound(String name) {
 		ResourceLocation location = new ResourceLocation(MODID, name);
 		SoundEvent event = new SoundEvent(location);

@@ -22,7 +22,7 @@ public enum FluidTypes implements FluidType {
 
 	final int guiid;
 
-	private static List<FluidType> FLUID_TYPES = Lists.newArrayList(water, lava, melted_emerald, melted_iron, melted_gold);
+	private static final List<FluidType> FLUID_TYPES = Lists.newArrayList(water, lava, melted_emerald, melted_iron, melted_gold);
 
 	FluidTypes(int guiid) {
 		this.guiid = guiid;

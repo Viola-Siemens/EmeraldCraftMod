@@ -1,4 +1,10 @@
 {
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
   "type": "emeraldcraft:ice_maker",
   "ingredient": {
     "fluid": "melted_zinc",

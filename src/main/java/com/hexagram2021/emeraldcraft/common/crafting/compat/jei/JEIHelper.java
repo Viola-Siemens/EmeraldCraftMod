@@ -2,10 +2,10 @@ package com.hexagram2021.emeraldcraft.common.crafting.compat.jei;
 
 import com.hexagram2021.emeraldcraft.common.crafting.*;
 import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
-import com.hexagram2021.emeraldcraft.common.crafting.recipebook.GlassKilnScreen;
-import com.hexagram2021.emeraldcraft.common.crafting.recipebook.IceMakerScreen;
-import com.hexagram2021.emeraldcraft.common.crafting.recipebook.MelterScreen;
-import com.hexagram2021.emeraldcraft.common.crafting.recipebook.MineralTableScreen;
+import com.hexagram2021.emeraldcraft.client.screens.GlassKilnScreen;
+import com.hexagram2021.emeraldcraft.client.screens.IceMakerScreen;
+import com.hexagram2021.emeraldcraft.client.screens.MelterScreen;
+import com.hexagram2021.emeraldcraft.client.screens.MineralTableScreen;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
 import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import mezz.jei.api.IModPlugin;

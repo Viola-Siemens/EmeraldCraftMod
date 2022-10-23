@@ -72,6 +72,7 @@ public class Villages {
 		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_CHEMICAL_ENGINEER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/chemical_engineer_gift"));
 	}
 
+	@SuppressWarnings("SameParameterValue")
 	private static void addToPool(ResourceLocation pool, ResourceLocation toAdd, int weight) {
 		JigsawPattern old = WorldGenRegistries.TEMPLATE_POOL.get(pool);
 		int id = WorldGenRegistries.TEMPLATE_POOL.getId(old);
@@ -192,7 +193,8 @@ public class Villages {
 								.put(VillagerType.JUNGLE, Items.JUNGLE_SAPLING)
 								.put(VillagerType.SAVANNA, Items.ACACIA_SAPLING)
 								.put(VillagerType.SWAMP, Items.DARK_OAK_SAPLING)
-								.build()
+								.build(),
+						Items.OAK_SAPLING
 				));
 				trades.get(1).add(new ECTrades.VillagerTypeItemForEmeralds(2, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_BUY,
 						ImmutableMap.<VillagerType, Item>builder()
@@ -203,7 +205,8 @@ public class Villages {
 								.put(VillagerType.JUNGLE, Items.JUNGLE_LOG)
 								.put(VillagerType.SAVANNA, Items.ACACIA_LOG)
 								.put(VillagerType.SWAMP, Items.DARK_OAK_LOG)
-								.build()
+								.build(),
+						Items.OAK_LOG
 				));
 				trades.get(2).add(new ECTrades.ItemsAndEmeraldsToItems(Items.NETHER_WART_BLOCK, 1, 4, Items.NETHER_WART, 8, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
 				trades.get(2).add(new ECTrades.ItemsForEmeralds(new ItemStack(Items.IRON_AXE), 3, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
@@ -223,7 +226,8 @@ public class Villages {
 								.put(VillagerType.JUNGLE, Items.JUNGLE_SIGN)
 								.put(VillagerType.SAVANNA, Items.ACACIA_SIGN)
 								.put(VillagerType.SWAMP, Items.DARK_OAK_SIGN)
-								.build()
+								.build(),
+						Items.OAK_SIGN
 				));
 				trades.get(5).add(new ECTrades.EnchantedItemForEmeralds(Items.DIAMOND_AXE, 12, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(new ItemStack(Items.NOTE_BLOCK), 4, 4, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));

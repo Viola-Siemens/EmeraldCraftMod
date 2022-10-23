@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "immersiveengineering:block/metal/storage_nickel"
+  }
+}

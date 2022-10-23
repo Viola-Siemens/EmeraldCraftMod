@@ -1,0 +1,35 @@
+{
+  "parent": "emeraldcraft:emeraldcraft/root",
+  "display": {
+    "icon": {
+      "item": "emeraldcraft:melter"
+    },
+    "title": {
+      "translate": "advancements.emeraldcraft.hotter_topic.title"
+    },
+    "description": {
+      "translate": "advancements.emeraldcraft.hotter_topic.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "melter": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "emeraldcraft:melter"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "melter"
+    ]
+  ]
+}

@@ -2,6 +2,7 @@ package com.hexagram2021.emeraldcraft.common.world;
 
 import com.google.common.collect.ImmutableMap;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
+import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -139,10 +140,10 @@ public class ECTrades {
 		public MerchantOffer getOffer(@Nonnull Entity trader, @Nonnull Random rand) {
 			ItemStack itemstack = new ItemStack(Items.WRITTEN_BOOK);
 			CompoundNBT nbt = new CompoundNBT();
-			nbt.putString("title", title.getString());
-			nbt.putString("author", author.getString());
+			nbt.putString("title", this.title.getString());
+			nbt.putString("author", this.author.getString());
 			ListNBT pages = new ListNBT();
-			pages.add(StringNBT.valueOf(content.getString()));
+			pages.add(StringNBT.valueOf("{\"text\":\"" + this.content.getString() + "\"}"));
 			nbt.put("pages", pages);
 			itemstack.setTag(nbt);
 			return new MerchantOffer(new ItemStack(Items.EMERALD), itemstack, this.maxUses, this.Xp, this.priceMultiplier);
@@ -302,17 +303,18 @@ public class ECTrades {
 
 	static class EmeraldsForVillagerTypeItem implements VillagerTrades.ITrade {
 		private final Map<VillagerType, Item> trades;
+		private final Item defaultTradeItem;
 		private final int cost;
 		private final int emeraldCost;
 		private final int maxUses;
 		private final int Xp;
 		private final float priceMultiplier;
 
-		public EmeraldsForVillagerTypeItem(int cost, int emeraldCost, int maxUses, int Xp, Map<VillagerType, Item> trades) {
-			Registry.VILLAGER_TYPE.stream().filter((villagerType) -> !trades.containsKey(villagerType)).findAny().ifPresent((villagerType) -> {
-				throw new IllegalStateException("Missing trade for villager type: " + Registry.VILLAGER_TYPE.getKey(villagerType));
-			});
+		public EmeraldsForVillagerTypeItem(int cost, int emeraldCost, int maxUses, int Xp, Map<VillagerType, Item> trades, Item defaultTradeItem) {
+			Registry.VILLAGER_TYPE.stream().filter((villagerType) -> !trades.containsKey(villagerType)).findAny().ifPresent((villagerType) ->
+					ECLogger.debug("Missing trade for villager type: " + Registry.VILLAGER_TYPE.getKey(villagerType)));
 			this.trades = trades;
+			this.defaultTradeItem = defaultTradeItem;
 			this.cost = cost;
 			this.emeraldCost = emeraldCost;
 			this.maxUses = maxUses;
@@ -325,7 +327,7 @@ public class ECTrades {
 			if (trader instanceof IVillagerDataHolder) {
 				Item item = this.trades.get(((IVillagerDataHolder) trader).getVillagerData().getType());
 				if(item == null) {
-					return null;
+					item = this.defaultTradeItem;
 				}
 				ItemStack itemstack = new ItemStack(item, this.cost);
 				return new MerchantOffer(itemstack, new ItemStack(Items.EMERALD, emeraldCost), this.maxUses, this.Xp, priceMultiplier);
@@ -337,17 +339,18 @@ public class ECTrades {
 
 	static class VillagerTypeItemForEmeralds implements VillagerTrades.ITrade {
 		private final Map<VillagerType, Item> trades;
+		private final Item defaultTradeItem;
 		private final int numberOfItems;
 		private final int emeraldCost;
 		private final int maxUses;
 		private final int Xp;
 		private final float priceMultiplier;
 
-		public VillagerTypeItemForEmeralds(int numberOfItems, int emeraldCost, int maxUses, int Xp, Map<VillagerType, Item> trades) {
-			Registry.VILLAGER_TYPE.stream().filter((villagerType) -> !trades.containsKey(villagerType)).findAny().ifPresent((villagerType) -> {
-				throw new IllegalStateException("Missing trade for villager type: " + Registry.VILLAGER_TYPE.getKey(villagerType));
-			});
+		public VillagerTypeItemForEmeralds(int numberOfItems, int emeraldCost, int maxUses, int Xp, Map<VillagerType, Item> trades, Item defaultTradeItem) {
+			Registry.VILLAGER_TYPE.stream().filter((villagerType) -> !trades.containsKey(villagerType)).findAny().ifPresent((villagerType) ->
+					ECLogger.debug("Missing trade for villager type: " + Registry.VILLAGER_TYPE.getKey(villagerType)));
 			this.trades = trades;
+			this.defaultTradeItem = defaultTradeItem;
 			this.numberOfItems = numberOfItems;
 			this.emeraldCost = emeraldCost;
 			this.maxUses = maxUses;
@@ -358,7 +361,11 @@ public class ECTrades {
 		@Nullable
 		public MerchantOffer getOffer(@Nonnull Entity trader, @Nonnull Random rand) {
 			if (trader instanceof IVillagerDataHolder) {
-				ItemStack itemstack = new ItemStack(this.trades.get(((IVillagerDataHolder)trader).getVillagerData().getType()), this.numberOfItems);
+				Item item = this.trades.get(((IVillagerDataHolder) trader).getVillagerData().getType());
+				if(item == null) {
+					item = this.defaultTradeItem;
+				}
+				ItemStack itemstack = new ItemStack(item, this.numberOfItems);
 				return new MerchantOffer(new ItemStack(Items.EMERALD, emeraldCost), itemstack, this.maxUses, this.Xp, priceMultiplier);
 			} else {
 				return null;

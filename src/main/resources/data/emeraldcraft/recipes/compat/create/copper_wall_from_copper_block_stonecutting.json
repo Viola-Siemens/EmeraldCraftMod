@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "create:copper_block"
-  },
-  "result": "emeraldcraft:copper_wall",
-  "count": 1
-}

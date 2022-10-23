@@ -1,7 +1,7 @@
 package com.hexagram2021.emeraldcraft.client;
 
+import com.hexagram2021.emeraldcraft.client.screens.*;
 import com.hexagram2021.emeraldcraft.common.CommonProxy;
-import com.hexagram2021.emeraldcraft.common.crafting.recipebook.*;
 import com.hexagram2021.emeraldcraft.common.register.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;

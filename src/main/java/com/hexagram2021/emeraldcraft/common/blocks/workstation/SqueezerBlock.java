@@ -1,6 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.blocks.workstation;
 
-import com.hexagram2021.emeraldcraft.common.register.ECProperty;
+import com.hexagram2021.emeraldcraft.common.register.ECProperties;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -26,7 +26,7 @@ import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public class SqueezerBlock extends Block {
-	public static final IntegerProperty HONEY_COUNT = ECProperty.HONEY_COUNT;
+	public static final IntegerProperty HONEY_COUNT = ECProperties.HONEY_COUNT;
 
 	public static final Supplier<Properties> PROPERTIES = () -> Block.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(0.6F);
 

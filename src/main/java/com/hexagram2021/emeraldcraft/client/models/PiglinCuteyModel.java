@@ -1,6 +1,3 @@
-// Made with Blockbench 4.1.4
-// Exported for Minecraft version 1.17 with Mojang mappings
-// Paste this class into your mod and generate all required imports
 package com.hexagram2021.emeraldcraft.client.models;
 
 import com.google.common.collect.ImmutableList;
@@ -76,7 +73,7 @@ public class PiglinCuteyModel<T extends PiglinCuteyEntity> extends SegmentedMode
 		this.rightLeg.texOffs(2, 16).addBox(-1.6F, 1.0F, -2.0F, 3.0F, 11.0F, 3.0F, root + 0.0F, false);
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+	public static void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.xRot = x;
 		modelRenderer.yRot = y;
 		modelRenderer.zRot = z;
@@ -249,6 +246,6 @@ public class PiglinCuteyModel<T extends PiglinCuteyEntity> extends SegmentedMode
 
 	@Override @Nonnull
 	public Iterable<ModelRenderer> parts() {
-		return ImmutableList.of(this.head, this.body, this.leftEar, this.rightEar, this.leftArm, this.rightArm, this.leftLeg, this.rightLeg);
+		return ImmutableList.of(this.head, this.body, this.leftArm, this.rightArm, this.leftLeg, this.rightLeg);
 	}
 }

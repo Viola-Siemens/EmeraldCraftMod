@@ -222,7 +222,7 @@ public final class ECConfiguredFeatures {
 		public static final BlockState MAGENTA_PETUNIA = ECBlocks.Plant.MAGENTA_PETUNIA.defaultBlockState();
 
 		public static final ConfiguredFeature<?, ?> FLOWER_PETUNIA_PLAINS = register(
-				"flower_petunia_plains", Feature.FLOWER, (new BlockClusterFeatureConfig.Builder(
+				"flower_petunia_plains", Feature.FLOWER, new BlockClusterFeatureConfig.Builder(
 						(new WeightedBlockStateProvider())
 								.add(Blocks.ALLIUM.defaultBlockState(), 2)
 								.add(CYAN_PETUNIA, 4)
@@ -230,8 +230,16 @@ public final class ECConfiguredFeatures {
 								.add(Blocks.POPPY.defaultBlockState(), 1)
 								.add(Blocks.DANDELION.defaultBlockState(), 1),
 						SimpleBlockPlacer.INSTANCE
-				).tries(64).build()),
+				).tries(64).build(),
 				Features.Placements.ADD_32, Features.Placements.HEIGHTMAP_SQUARE, 4
+		);
+		
+		public static final ConfiguredFeature<?, ?> FLOWER_HIGAN_BANA = register(
+				"flower_higan_bana", Feature.FLOWER, new BlockClusterFeatureConfig.Builder(
+						new SimpleBlockStateProvider(ECBlocks.Plant.HIGAN_BANA.defaultBlockState()),
+						SimpleBlockPlacer.INSTANCE
+				).tries(96).build(),
+				Features.Placements.ADD_32, Features.Placements.HEIGHTMAP_SQUARE, 6
 		);
 
 		private VegetationFeatures() {}

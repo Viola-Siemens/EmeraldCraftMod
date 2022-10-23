@@ -9,6 +9,7 @@ import com.hexagram2021.emeraldcraft.common.crafting.compat.ModsLoadedEventSubsc
 import com.hexagram2021.emeraldcraft.common.register.ECBiomeKeys;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
+import com.hexagram2021.emeraldcraft.common.register.ECTriggers;
 import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.world.ECWorldGen;
 import com.hexagram2021.emeraldcraft.common.world.Villages;
@@ -88,6 +89,7 @@ public class EmeraldCraft {
 	}
 
 	public void setup(FMLCommonSetupEvent event) {
+		ECTriggers.init();
 		event.enqueueWork(() -> {
 			VillagerType.BY_BIOME.putAll(ImmutableMap.of(
 					ECBiomeKeys.AZURE_DESERT, VillagerType.DESERT,

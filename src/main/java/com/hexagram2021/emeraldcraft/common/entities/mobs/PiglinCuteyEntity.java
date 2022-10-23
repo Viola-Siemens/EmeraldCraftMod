@@ -3,6 +3,7 @@ package com.hexagram2021.emeraldcraft.common.entities.mobs;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.hexagram2021.emeraldcraft.common.register.ECTriggers;
 import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import com.hexagram2021.emeraldcraft.common.world.ECTrades;
@@ -22,6 +23,7 @@ import net.minecraft.entity.monster.HoglinEntity;
 import net.minecraft.entity.monster.ZoglinEntity;
 import net.minecraft.entity.monster.ZombifiedPiglinEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
@@ -441,6 +443,9 @@ public class PiglinCuteyEntity extends AbstractVillagerEntity implements PiglinC
 						this.cutey.lastTradedPlayer.getZ(),
 						new ItemStack(Items.GOLD_BLOCK, 16)
 				));
+				if(!this.cutey.level.isClientSide) {
+					ECTriggers.PIGLIN_CUTEY.trigger((ServerPlayerEntity)this.cutey.lastTradedPlayer);
+				}
 			}
 
 			this.cutey.remove();

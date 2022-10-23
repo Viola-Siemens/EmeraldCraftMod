@@ -100,8 +100,8 @@
     "emeraldcraft:warped_cobblestone_slab",
     "emeraldcraft:warped_cobblestone_stairs",
     "emeraldcraft:warped_cobblestone_wall",
-	
-	"emeraldcraft:deepslate",
+
+    "emeraldcraft:deepslate",
     "emeraldcraft:cobbled_deepslate",
     "emeraldcraft:cobbled_deepslate_stairs",
     "emeraldcraft:cobbled_deepslate_slab",
@@ -121,9 +121,28 @@
     "emeraldcraft:chiseled_deepslate",
     "emeraldcraft:cracked_deepslate_bricks",
     "emeraldcraft:cracked_deepslate_tiles",
-	
-	"emeraldcraft:zinc_slab",
+
+    "emeraldcraft:zinc_slab",
     "emeraldcraft:zinc_stairs",
-	"emeraldcraft:zinc_wall"
+    "emeraldcraft:zinc_wall",
+    "emeraldcraft:copper_slab",
+    "emeraldcraft:copper_stairs",
+    "emeraldcraft:copper_wall",
+    "emeraldcraft:aluminum_stairs",
+    "emeraldcraft:aluminum_wall",
+    "emeraldcraft:lead_stairs",
+    "emeraldcraft:lead_wall",
+    "emeraldcraft:silver_stairs",
+    "emeraldcraft:silver_wall",
+    "emeraldcraft:nickel_stairs",
+    "emeraldcraft:nickel_wall",
+    "emeraldcraft:uranium_stairs",
+    "emeraldcraft:uranium_wall",
+    "emeraldcraft:constantan_stairs",
+    "emeraldcraft:constantan_wall",
+    "emeraldcraft:electrum_stairs",
+    "emeraldcraft:electrum_wall",
+    "emeraldcraft:steel_stairs",
+    "emeraldcraft:steel_wall"
   ]
 }

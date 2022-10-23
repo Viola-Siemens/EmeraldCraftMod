@@ -3,6 +3,7 @@ package com.hexagram2021.emeraldcraft.common;
 import com.hexagram2021.emeraldcraft.common.crafting.compat.ModsLoadedEventSubscriber;
 import com.hexagram2021.emeraldcraft.common.register.*;
 import com.hexagram2021.emeraldcraft.common.world.Villages;
+import net.minecraft.potion.Potion;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.structure.Structure;
@@ -22,6 +23,7 @@ public class ECContent {
 		ECWoodType.init();
 		ECBlocks.init(bus);
 		ECItems.init(bus);
+		ECMemoryModuleTypes.init(bus);
 		Villages.Registers.POINTS_OF_INTEREST.register(bus);
 		Villages.Registers.PROFESSIONS.register(bus);
 		ECContainerTypes.init(bus);
@@ -53,5 +55,11 @@ public class ECContent {
 	public static void registerStructures(RegistryEvent.Register<Structure<?>> event) {
 		ECStructures.init(event);
 		ECConfiguredStructures.init();
+	}
+	
+	@SubscribeEvent
+	public static void registerPotions(RegistryEvent.Register<Potion> event) {
+		ECPotions.init(event);
+		ECBrewingRecipes.init();
 	}
 }

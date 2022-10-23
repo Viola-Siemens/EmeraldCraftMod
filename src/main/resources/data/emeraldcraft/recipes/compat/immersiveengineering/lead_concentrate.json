@@ -1,0 +1,22 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "immersiveengineering:ore_lead"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:lead_concentrate",
+    "count": 1
+  }
+}
