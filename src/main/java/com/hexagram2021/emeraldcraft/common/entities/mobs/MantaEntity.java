@@ -110,9 +110,9 @@ public class MantaEntity extends CreatureEntity implements PlayerRideableFlying 
 	@Override
 	// called each tick when player sits on a flyable mob.
 	public void fly(int velocity) {
-		if(!this.onGround || velocity > 10) {
+		if(!this.onGround || velocity > 15) {
 			Vector3d move = this.getDeltaMovement();
-			this.setDeltaMovement(move.x, (velocity - 5) / 32.0D, move.z);
+			this.setDeltaMovement(move.x, (velocity - 15) / 45.0D, move.z);
 		}
 	}
 	

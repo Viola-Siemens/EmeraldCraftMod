@@ -43,11 +43,13 @@ public class ClientProxy extends CommonProxy {
 		RenderTypeLookup.setRenderLayer(ECBlocks.Plant.WARPED_WART.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.Plant.CYAN_PETUNIA.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.Plant.MAGENTA_PETUNIA.get(), RenderType.cutout());
+		RenderTypeLookup.setRenderLayer(ECBlocks.Plant.HIGAN_BANA.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.Plant.GINKGO_SAPLING.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.Plant.PALM_SAPLING.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.Plant.PEACH_SAPLING.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.Plant.POTTED_CYAN_PETUNIA.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.Plant.POTTED_MAGENTA_PETUNIA.get(), RenderType.cutout());
+		RenderTypeLookup.setRenderLayer(ECBlocks.Plant.POTTED_HIGAN_BANA.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.Plant.POTTED_GINKGO_SAPLING.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.Plant.POTTED_PALM_SAPLING.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.Plant.POTTED_PEACH_SAPLING.get(), RenderType.cutout());

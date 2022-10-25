@@ -25,6 +25,7 @@ public class ServerPlayNetHandlerMixin {
 				PlayerRideableFlying flyable = (PlayerRideableFlying)this.player.getVehicle();
 				flyable.fly(packet.getData());
 			}
+			ci.cancel();
 		}
 	}
 }
