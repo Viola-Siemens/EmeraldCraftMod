@@ -22,6 +22,8 @@ public class ECPotions {
 	public static final Potion ABSORPTION = new Potion("absorption", new MobEffectInstance(MobEffects.ABSORPTION, 3600));
 	public static final Potion LONG_ABSORPTION = new Potion("absorption", new MobEffectInstance(MobEffects.ABSORPTION, 9600));
 	public static final Potion STRONG_ABSORPTION = new Potion("absorption", new MobEffectInstance(MobEffects.ABSORPTION, 800, 3));
+	public static final Potion GLOWING = new Potion("glowing", new MobEffectInstance(MobEffects.GLOWING, 1800));
+	public static final Potion LONG_GLOWING = new Potion("glowing", new MobEffectInstance(MobEffects.GLOWING, 4800));
 
 
 	private ECPotions() {}
@@ -40,6 +42,8 @@ public class ECPotions {
 		ABSORPTION.setRegistryName(new ResourceLocation(MODID, "absorption"));
 		LONG_ABSORPTION.setRegistryName(new ResourceLocation(MODID, "long_absorption"));
 		STRONG_ABSORPTION.setRegistryName(new ResourceLocation(MODID, "strong_absorption"));
+		GLOWING.setRegistryName(new ResourceLocation(MODID, "glowing"));
+		LONG_GLOWING.setRegistryName(new ResourceLocation(MODID, "long_glowing"));
 
 		event.getRegistry().register(HUNGER);
 		event.getRegistry().register(LONG_HUNGER);
@@ -54,5 +58,7 @@ public class ECPotions {
 		event.getRegistry().register(ABSORPTION);
 		event.getRegistry().register(LONG_ABSORPTION);
 		event.getRegistry().register(STRONG_ABSORPTION);
+		event.getRegistry().register(GLOWING);
+		event.getRegistry().register(LONG_GLOWING);
 	}
 }

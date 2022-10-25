@@ -28,6 +28,7 @@ public class ECContent {
 		ECWoodType.init();
 		ECBlocks.init(bus);
 		ECItems.init(bus);
+		ECMemoryModuleTypes.init(bus);
 		Villages.Registers.POINTS_OF_INTEREST.register(bus);
 		Villages.Registers.PROFESSIONS.register(bus);
 		ECContainerTypes.init(bus);

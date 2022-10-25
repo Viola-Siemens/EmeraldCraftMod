@@ -40,8 +40,9 @@ public class EmeraldCraftContinuousMinerBlocks {
 				ECBlocks.Plant.STRIPPED_PURPURACEUS_HYPHAE.getId()
 		), new ResourceLocation(MODID, "continuous_miner/wood/purpuraceus_stems"));
 
-		ContinuousMinerCustomLoot.addBlockLoot(List.of(
-				ECBlocks.Plant.PURPURACEUS_NYLIUM.getId()
-		), new ResourceLocation(MODID, "continuous_miner/nylium/purpuraceus_nylium"));
+		ContinuousMinerCustomLoot.addBlockLoot(
+				List.of(ECBlocks.Plant.PURPURACEUS_NYLIUM.getId()),
+				new ResourceLocation(MODID, "continuous_miner/nylium/purpuraceus_nylium")
+		);
 	}
 }

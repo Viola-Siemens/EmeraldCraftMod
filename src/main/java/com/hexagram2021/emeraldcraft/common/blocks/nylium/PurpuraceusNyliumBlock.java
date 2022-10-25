@@ -19,6 +19,7 @@ public class PurpuraceusNyliumBlock extends NyliumBlock {
 		super(props);
 	}
 
+	@Override
 	public void performBonemeal(ServerLevel level, @NotNull Random random, @NotNull BlockPos blockPos, @NotNull BlockState blockState) {
 		BlockState current = level.getBlockState(blockPos);
 		BlockPos above = blockPos.above();

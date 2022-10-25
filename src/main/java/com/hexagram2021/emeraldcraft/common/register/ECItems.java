@@ -59,6 +59,9 @@ public class ECItems {
 	public static final ItemRegObject<SpawnEggItem> WRAITH_SPAWN_EGG = ItemRegObject.register(
 			"wraith_spawn_egg", () -> new ForgeSpawnEggItem(ECEntities.WRAITH, 0x400040, 0xC8C8C8, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
+	public static final ItemRegObject<SpawnEggItem> MANTA_SPAWN_EGG = ItemRegObject.register(
+			"manta_spawn_egg", () -> new ForgeSpawnEggItem(ECEntities.MANTA, 0xFFFFC8, 0xF8F8E0, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+	);
 
 	public static final ItemRegObject<Item> AGATE_APPLE = ItemRegObject.register(
 			"agate_apple", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).rarity(Rarity.RARE).food(ECFoods.AGATE_APPLE))
@@ -71,6 +74,9 @@ public class ECItems {
 	);
 	public static final ItemRegObject<Item> PEACH = ItemRegObject.register(
 			"peach", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.PEACH))
+	);
+	public static final ItemRegObject<Item> GOLDEN_PEACH = ItemRegObject.register(
+			"golden_peach", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.GOLDEN_PEACH))
 	);
 
 	public static final ItemRegObject<Item> POTION_COOKIE = ItemRegObject.register(
@@ -195,13 +201,13 @@ public class ECItems {
 	);
 
 	public static final ItemRegObject<ECBoatItem> GINKGO_BOAT = ItemRegObject.register(
-			"ginkgo_boat", () -> new ECBoatItem(ECBoat.ECBoatType.GINKGO, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+			"ginkgo_boat", () -> new ECBoatItem(ECBoat.ECBoatType.GINKGO, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<ECBoatItem> PALM_BOAT = ItemRegObject.register(
-			"palm_boat", () -> new ECBoatItem(ECBoat.ECBoatType.PALM, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+			"palm_boat", () -> new ECBoatItem(ECBoat.ECBoatType.PALM, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<ECBoatItem> PEACH_BOAT = ItemRegObject.register(
-			"peach_boat", () -> new ECBoatItem(ECBoat.ECBoatType.PEACH, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+			"peach_boat", () -> new ECBoatItem(ECBoat.ECBoatType.PEACH, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
 	);
 
 	public static final ItemRegObject<MobBucketItem> HERRING_BUCKET = ItemRegObject.register(

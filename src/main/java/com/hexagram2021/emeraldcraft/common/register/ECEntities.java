@@ -45,6 +45,14 @@ public class ECEntities {
 					.clientTrackingRange(4)
 					.build(new ResourceLocation(MODID, "purple_spotted_bigeye").toString())
 	);
+
+	public static final RegistryObject<EntityType<MantaEntity>> MANTA = REGISTER.register(
+			"manta", () -> EntityType.Builder.of(MantaEntity::new, MobCategory.CREATURE)
+					.sized(1.0F, 0.5F)
+					.clientTrackingRange(8)
+					.build(new ResourceLocation(MODID, "manta").toString())
+	);
+
 	public static final RegistryObject<EntityType<WraithEntity>> WRAITH = REGISTER.register(
 			"wraith", () -> EntityType.Builder.of(WraithEntity::new, MobCategory.MONSTER)
 					.sized(0.75F, 2.5F)

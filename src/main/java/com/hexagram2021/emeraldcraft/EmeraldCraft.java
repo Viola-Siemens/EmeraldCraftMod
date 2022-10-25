@@ -43,6 +43,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+@SuppressWarnings("unused")
 @Mod(EmeraldCraft.MODID)
 public class EmeraldCraft {
 	public static final String MODID = "emeraldcraft";

@@ -59,6 +59,7 @@ public class ClientProxy extends CommonProxy {
 		ItemBlockRenderTypes.setRenderLayer(ECBlocks.Plant.POTTED_PALM_SAPLING.get(), RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(ECBlocks.Plant.POTTED_PEACH_SAPLING.get(), RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(ECBlocks.Plant.POTTED_PURPURACEUS_FUNGUS.get(), RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.Plant.POTTED_PURPURACEUS_ROOTS.get(), RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(ECBlocks.Plant.GINKGO_LEAVES.get(), RenderType.cutoutMipped());
 		ItemBlockRenderTypes.setRenderLayer(ECBlocks.Plant.PALM_LEAVES.get(), RenderType.cutoutMipped());
 		ItemBlockRenderTypes.setRenderLayer(ECBlocks.Plant.PEACH_LEAVES.get(), RenderType.cutoutMipped());

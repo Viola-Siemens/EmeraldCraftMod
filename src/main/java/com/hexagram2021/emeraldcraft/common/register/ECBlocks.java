@@ -88,6 +88,8 @@ public final class ECBlocks {
 		);
 		if(addToTab.get()) {
 			TO_STAIRS.put(fullBlockRegistryName, blockEntry);
+		} else {
+			ECItems.REGISTER.register(blockEntry.getId().getPath(), () -> new BlockItem(blockEntry.get(), new Item.Properties()));
 		}
 	}
 
@@ -133,6 +135,8 @@ public final class ECBlocks {
 		);
 		if(addToTab.get()) {
 			TO_SLAB.put(fullBlockRegistryName, blockEntry);
+		} else {
+			ECItems.REGISTER.register(blockEntry.getId().getPath(), () -> new BlockItem(blockEntry.get(), new Item.Properties()));
 		}
 	}
 
@@ -161,6 +165,8 @@ public final class ECBlocks {
 		);
 		if(addToTab.get()) {
 			TO_WALL.put(fullBlockRegistryName, blockEntry);
+		} else {
+			ECItems.REGISTER.register(blockEntry.getId().getPath(), () -> new BlockItem(blockEntry.get(), new Item.Properties()));
 		}
 	}
 
@@ -1030,6 +1036,11 @@ public final class ECBlocks {
 				() -> BlockBehaviour.Properties.of(Material.REPLACEABLE_FIREPROOF_PLANT, MaterialColor.COLOR_PURPLE)
 						.noCollission().instabreak().sound(SoundType.ROOTS),
 				RootsBlock::new
+		);
+		public static final BlockEntry<FlowerPotBlock> POTTED_PURPURACEUS_ROOTS = new BlockEntry<>(
+				"potted_purpuraceus_roots", POTTED_FLOWER_PROPERTIES, (props) -> new FlowerPotBlock(
+						null, PURPURACEUS_ROOTS, props
+				)
 		);
 
 

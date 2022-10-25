@@ -58,8 +58,8 @@ public class ECBoat extends Boat {
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag nbt) {
-		if (nbt.contains("model", 8)) {
-			this.entityData.set(DATA_ID_ECTYPE, ECBoat.ECBoatType.byName(nbt.getString("model")).ordinal());
+		if (nbt.contains("Type", 8)) {
+			this.entityData.set(DATA_ID_ECTYPE, ECBoat.ECBoatType.byName(nbt.getString("Type")).ordinal());
 		}
 
 	}

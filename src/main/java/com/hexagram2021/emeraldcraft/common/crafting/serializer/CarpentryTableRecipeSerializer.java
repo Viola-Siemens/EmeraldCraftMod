@@ -22,7 +22,7 @@ public class CarpentryTableRecipeSerializer<T extends CarpentryTableRecipe> exte
 	}
 
 	@Override @NotNull
-	public T fromJson(ResourceLocation id, JsonObject json) {
+	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
 		String s = GsonHelper.getAsString(json, "group", "");
 		Ingredient ingredient;
 		if (GsonHelper.isArrayNode(json, "ingredients")) {
@@ -39,7 +39,7 @@ public class CarpentryTableRecipeSerializer<T extends CarpentryTableRecipe> exte
 
 	@Nullable
 	@Override
-	public T fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+	public T fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
 		String s = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);
 		ItemStack itemstack = buf.readItem();
