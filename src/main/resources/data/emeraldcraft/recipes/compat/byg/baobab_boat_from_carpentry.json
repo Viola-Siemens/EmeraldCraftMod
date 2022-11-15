@@ -1,0 +1,17 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "byg"
+    }
+  ],
+  "type": "emeraldcraft:carpentry",
+  "group": "boat",
+  "ingredients": [
+    {
+      "tag": "byg:baobab_logs"
+    }
+  ],
+  "result": "byg:baobab_boat",
+  "count": 1
+}

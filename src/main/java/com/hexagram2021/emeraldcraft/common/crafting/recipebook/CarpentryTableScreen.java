@@ -15,6 +15,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -35,13 +36,13 @@ public class CarpentryTableScreen extends AbstractContainerScreen<CarpentryTable
 	}
 
 	@Override
-	public void render(PoseStack transform, int x, int y, float partialTicks) {
+	public void render(@NotNull PoseStack transform, int x, int y, float partialTicks) {
 		super.render(transform, x, y, partialTicks);
 		this.renderTooltip(transform, x, y);
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int x, int y) {
+	protected void renderBg(@NotNull PoseStack transform, float partialTicks, int x, int y) {
 		this.renderBackground(transform);
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);

@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "emeraldcraft:ginkgo_button"
+    "emeraldcraft:ginkgo_button",
+    "emeraldcraft:palm_button",
+    "emeraldcraft:peach_button",
+    "emeraldcraft:purpuraceus_button"
   ]
 }

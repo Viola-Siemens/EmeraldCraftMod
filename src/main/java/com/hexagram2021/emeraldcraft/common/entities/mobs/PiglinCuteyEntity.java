@@ -4,8 +4,10 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
+import com.hexagram2021.emeraldcraft.common.register.ECTriggers;
+import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
-import com.hexagram2021.emeraldcraft.common.world.ECTrades;
+import com.hexagram2021.emeraldcraft.common.world.village.ECTrades;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -18,6 +20,7 @@ import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -46,6 +49,7 @@ import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -55,16 +59,16 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 	public static final EntityDataSerializer<PiglinCuteyData> PIGLIN_CUTEY_DATA = new EntityDataSerializer<>() {
 		@Override
 		public void write(FriendlyByteBuf buf, PiglinCuteyData data) {
-			buf.writeVarInt(data.getLevel());
+			buf.writeVarInt(data.level());
 		}
 
-		@Override
+		@Override @NotNull
 		public PiglinCuteyData read(FriendlyByteBuf buf) {
 			return new PiglinCuteyData(buf.readVarInt());
 		}
 
-		@Override
-		public PiglinCuteyData copy(PiglinCuteyData data) {
+		@Override @NotNull
+		public PiglinCuteyData copy(@NotNull PiglinCuteyData data) {
 			return data;
 		}
 	};
@@ -138,7 +142,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 
 	@Nullable
 	@Override
-	public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob mob) { return null; }
+	public AgeableMob getBreedOffspring(@NotNull ServerLevel level, @NotNull AgeableMob mob) { return null; }
 
 	@Override
 	protected void defineSynchedData() {
@@ -147,8 +151,8 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		this.entityData.define(DATA_IMMUNE_TO_DESPAWN, false);
 	}
 
-	@Override
-	public InteractionResult mobInteract(Player player, InteractionHand hand) {
+	@Override @NotNull
+	public InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (!itemstack.is(ECItems.PIGLIN_CUTEY_SPAWN_EGG.asItem()) && this.isAlive() && !this.isTrading() && !this.isBaby()) {
 			//TODO: player.awardStat
@@ -164,12 +168,12 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 	}
 
 	private boolean shouldIncreaseLevel() {
-		int i = this.getPiglinCuteyData().getLevel();
+		int i = this.getPiglinCuteyData().level();
 		return PiglinCuteyData.canLevelUp(i) && this.cuteyXp >= PiglinCuteyData.getMaxXpPerLevel(i);
 	}
 
 	private void increaseMerchantCareer() {
-		this.setPiglinCuteyData(this.getPiglinCuteyData().setLevel(this.getPiglinCuteyData().getLevel() + 1));
+		this.setPiglinCuteyData(this.getPiglinCuteyData().setLevel(this.getPiglinCuteyData().level() + 1));
 		this.updateTrades();
 	}
 
@@ -199,7 +203,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		PiglinCuteyData cuteyData = this.getPiglinCuteyData();
 		Int2ObjectMap<VillagerTrades.ItemListing[]> allTrades = ECTrades.PIGLIN_CUTEY_TRADES;
 		if (!allTrades.isEmpty()) {
-			VillagerTrades.ItemListing[] trades = allTrades.get(cuteyData.getLevel());
+			VillagerTrades.ItemListing[] trades = allTrades.get(cuteyData.level());
 			if (trades != null) {
 				MerchantOffers merchantoffers = this.getOffers();
 				this.addOffersFromItemListings(merchantoffers, trades, TRADES_PER_LEVEL);
@@ -252,7 +256,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		this.eatUntilFull();
 		this.updateSpecialPrices(player);
 		this.setTradingPlayer(player);
-		this.openTradingScreen(player, this.getDisplayName(), this.getPiglinCuteyData().getLevel());
+		this.openTradingScreen(player, this.getDisplayName(), this.getPiglinCuteyData().level());
 	}
 
 	@Override
@@ -287,7 +291,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(DamageSource damageSource) {
+	protected SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
 		return ECSounds.PIGLIN_CUTEY_HURT;
 	}
 
@@ -296,12 +300,12 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		return ECSounds.PIGLIN_CUTEY_DEATH;
 	}
 
-	@Override
+	@Override @NotNull
 	protected SoundEvent getTradeUpdatedSound(boolean correct) {
 		return correct ? ECSounds.PIGLIN_CUTEY_YES : ECSounds.PIGLIN_CUTEY_NO;
 	}
 
-	@Override
+	@Override @NotNull
 	public SoundEvent getNotifyTradeSound() {
 		return ECSounds.PIGLIN_CUTEY_YES;
 	}
@@ -354,7 +358,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 
 	private static final int SearchRange = 30;
 	private static final int VerticalSearchRange = 10;
-	protected boolean findNearestPortal() {
+	protected void findNearestPortal() {
 		BlockPos blockpos = this.blockPosition();
 		BlockPos.MutableBlockPos mutableblockpos = new BlockPos.MutableBlockPos();
 
@@ -365,7 +369,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 						mutableblockpos.setWithOffset(blockpos, i1, k, j1);
 						if (this.isWithinRestriction(mutableblockpos) && level.getBlockState(mutableblockpos).is(Blocks.NETHER_PORTAL)) {
 							this.portalTarget = mutableblockpos;
-							return true;
+							return;
 						}
 					}
 				}
@@ -373,17 +377,17 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		}
 
 		this.portalTarget = null;
-		return false;
 	}
 
+	@Nullable
 	private BlockPos getPortalTarget() {
 		return portalTarget;
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag pCompound) {
+	public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
 		super.addAdditionalSaveData(pCompound);
-		PiglinCuteyData.CODEC.encodeStart(NbtOps.INSTANCE, this.getPiglinCuteyData()).resultOrPartial(LOGGER::error).ifPresent(
+		PiglinCuteyData.CODEC.encodeStart(NbtOps.INSTANCE, this.getPiglinCuteyData()).resultOrPartial(ECLogger::error).ifPresent(
 				(p_35454_) -> pCompound.put("PiglinCuteyData", p_35454_)
 		);
 		pCompound.putInt("FoodLevel", this.foodLevel);
@@ -391,11 +395,11 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag pCompound) {
+	public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
 		super.readAdditionalSaveData(pCompound);
 		if (pCompound.contains("PiglinCuteyData", 10)) {
 			DataResult<PiglinCuteyData> dataResult = PiglinCuteyData.CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, pCompound.get("PiglinCuteyData")));
-			dataResult.resultOrPartial(LOGGER::error).ifPresent(this::setPiglinCuteyData);
+			dataResult.resultOrPartial(ECLogger::error).ifPresent(this::setPiglinCuteyData);
 		}
 
 		if (pCompound.contains("FoodLevel", 1)) {
@@ -444,6 +448,9 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 						this.cutey.lastTradedPlayer.getZ(),
 						new ItemStack(Items.GOLD_BLOCK, 16)
 				));
+				if(!this.cutey.level.isClientSide) {
+					ECTriggers.PIGLIN_CUTEY.trigger((ServerPlayer) this.cutey.lastTradedPlayer);
+				}
 			}
 
 			this.cutey.discard();

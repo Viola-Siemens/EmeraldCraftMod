@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-	"emeraldcraft:ginkgo_wall_sign"
+    "emeraldcraft:ginkgo_wall_sign",
+    "emeraldcraft:palm_wall_sign",
+    "emeraldcraft:peach_wall_sign",
+    "emeraldcraft:purpuraceus_wall_sign"
   ]
 }

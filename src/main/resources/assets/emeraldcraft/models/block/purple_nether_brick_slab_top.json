@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "emeraldcraft:block/purple_nether_bricks",
+    "top": "emeraldcraft:block/purple_nether_bricks",
+    "side": "emeraldcraft:block/purple_nether_bricks"
+  }
+}

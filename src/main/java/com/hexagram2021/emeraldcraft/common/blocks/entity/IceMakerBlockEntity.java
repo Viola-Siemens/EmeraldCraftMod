@@ -1,10 +1,10 @@
 package com.hexagram2021.emeraldcraft.common.blocks.entity;
 
+import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
 import com.hexagram2021.emeraldcraft.common.blocks.workstation.IceMakerBlock;
 import com.hexagram2021.emeraldcraft.common.crafting.*;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
-import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -27,6 +27,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -39,10 +45,10 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 
 	private static final int[] SLOTS_FOR_UP = new int[]{0};
 	private static final int[] SLOTS_FOR_DOWN = new int[]{3, 1};
-	private static final int[] SLOTS_FOR_SIDES = new int[]{2};
+	private static final int[] SLOTS_FOR_SIDES = new int[]{2, 0};
 
 	protected NonNullList<ItemStack> items = NonNullList.withSize(IceMakerMenu.SLOT_COUNT, ItemStack.EMPTY);
-	int inputFluidType;
+	int inputFluidID;
 	int inputFluidAmount;
 	int freezingProgress;
 	int freezingTotalTime;
@@ -51,7 +57,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	protected final ContainerData dataAccess = new ContainerData() {
 		public int get(int index) {
 			return switch (index) {
-				case 0 -> IceMakerBlockEntity.this.inputFluidType;
+				case 0 -> IceMakerBlockEntity.this.inputFluidID;
 				case 1 -> IceMakerBlockEntity.this.inputFluidAmount;
 				case 2 -> IceMakerBlockEntity.this.freezingProgress;
 				case 3 -> IceMakerBlockEntity.this.freezingTotalTime;
@@ -62,7 +68,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 
 		public void set(int index, int value) {
 			switch (index) {
-				case 0 -> IceMakerBlockEntity.this.inputFluidType = value;
+				case 0 -> IceMakerBlockEntity.this.inputFluidID = value;
 				case 1 -> IceMakerBlockEntity.this.inputFluidAmount = value;
 				case 2 -> IceMakerBlockEntity.this.freezingProgress = value;
 				case 3 -> IceMakerBlockEntity.this.freezingTotalTime = value;
@@ -80,13 +86,13 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		super(ECBlockEntity.ICE_MAKER.get(), pos, state);
 	}
 
-	@Override
+	@Override @NotNull
 	protected Component getDefaultName() {
 		return new TranslatableComponent("container.ice_maker");
 	}
 
 	public int getInputFluidTypeIndex() {
-		return this.inputFluidType;
+		return this.inputFluidID;
 	}
 
 	private boolean isLit() {
@@ -110,7 +116,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 			if (blockEntity.canFreeze(recipe, blockEntity.items, blockEntity.getMaxStackSize())) {
 				++blockEntity.freezingProgress;
 				--blockEntity.condensateFluidAmount;
-				if (blockEntity.freezingProgress == blockEntity.freezingTotalTime) {
+				if (blockEntity.freezingProgress >= blockEntity.freezingTotalTime) {
 					blockEntity.freezingProgress = 0;
 					blockEntity.freezingTotalTime = getTotalFreezeTime(level, blockEntity);
 					blockEntity.freeze(recipe, blockEntity.items, blockEntity.getMaxStackSize());
@@ -138,7 +144,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		ItemStack ingredientInput = blockEntity.items.get(IceMakerMenu.INGREDIENT_INPUT_SLOT);
 		ItemStack ingredientOutput = blockEntity.items.get(IceMakerMenu.INGREDIENT_OUTPUT_SLOT);
 		if(!ingredientInput.isEmpty()) {
-			if(ingredientInput.is(FluidType.getFluidBucketItem(FluidType.FLUID_TYPES[blockEntity.inputFluidType]))) {
+			if(ingredientInput.is(FluidTypes.getFluidBucketItemWithID(blockEntity.inputFluidID))) {
 				if(blockEntity.inputFluidAmount <= MAX_INGREDIENT_FLUID_LEVEL - FLUID_LEVEL_BUCKET) {
 					if(ingredientOutput.isEmpty()) {
 						ingredientInput.shrink(1);
@@ -155,8 +161,8 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 				if(blockEntity.inputFluidAmount >= FLUID_LEVEL_BUCKET) {
 					if(ingredientOutput.isEmpty()) {
 						ingredientInput.shrink(1);
-						blockEntity.items.set(IceMakerMenu.INGREDIENT_OUTPUT_SLOT, new ItemStack(FluidType.getFluidBucketItem(FluidType.FLUID_TYPES[blockEntity.inputFluidType])));
-					} else if(ingredientOutput.is(FluidType.getFluidBucketItem(FluidType.FLUID_TYPES[blockEntity.inputFluidType])) && ingredientOutput.getCount() < ingredientOutput.getMaxStackSize()) {
+						blockEntity.items.set(IceMakerMenu.INGREDIENT_OUTPUT_SLOT, new ItemStack(FluidTypes.getFluidBucketItemWithID(blockEntity.inputFluidID)));
+					} else if(ingredientOutput.is(FluidTypes.getFluidBucketItemWithID(blockEntity.inputFluidID)) && ingredientOutput.getCount() < ingredientOutput.getMaxStackSize()) {
 						ingredientInput.shrink(1);
 						ingredientOutput.grow(1);
 					} else {
@@ -165,7 +171,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 					blockEntity.inputFluidAmount -= FLUID_LEVEL_BUCKET;
 				}
 			} else if(blockEntity.inputFluidAmount <= 0 && IceMakerMenu.isFluidBucket(ingredientInput)) {
-				blockEntity.inputFluidType = FluidType.getFluidFromBucketItem(ingredientInput.getItem()).getID();
+				blockEntity.inputFluidID = FluidTypes.getIDFromBucketItem(ingredientInput.getItem());
 				blockEntity.freezingTotalTime = getTotalFreezeTime(level, blockEntity);
 				if(ingredientOutput.isEmpty()) {
 					ingredientInput.shrink(1);
@@ -219,7 +225,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	}
 
 	@Override
-	public boolean stillValid(Player player) {
+	public boolean stillValid(@NotNull Player player) {
 		if (this.level.getBlockEntity(this.worldPosition) != this) {
 			return false;
 		}
@@ -227,11 +233,11 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	}
 
 	@Override
-	public void load(CompoundTag nbt) {
+	public void load(@NotNull CompoundTag nbt) {
 		super.load(nbt);
 		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
 		ContainerHelper.loadAllItems(nbt, this.items);
-		this.inputFluidType = nbt.getInt("InputFluidType");
+		this.inputFluidID = nbt.getInt("InputFluidType");
 		this.inputFluidAmount = nbt.getInt("InputFluidAmount");
 		this.freezingProgress = nbt.getInt("FreezingProgress");
 		this.freezingTotalTime = nbt.getInt("FreezingTimeTotal");
@@ -239,9 +245,9 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag nbt) {
+	public void saveAdditional(@NotNull CompoundTag nbt) {
 		super.saveAdditional(nbt);
-		nbt.putInt("InputFluidType", this.inputFluidType);
+		nbt.putInt("InputFluidType", this.inputFluidID);
 		nbt.putInt("InputFluidAmount", this.inputFluidAmount);
 		nbt.putInt("FreezingProgress", this.freezingProgress);
 		nbt.putInt("FreezingTimeTotal", this.freezingTotalTime);
@@ -264,23 +270,23 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		return true;
 	}
 
-	@Override
+	@Override @NotNull
 	public ItemStack getItem(int index) {
 		return this.items.get(index);
 	}
 
-	@Override
+	@Override @NotNull
 	public ItemStack removeItem(int index, int count) {
 		return ContainerHelper.removeItem(this.items, index, count);
 	}
 
-	@Override
+	@Override @NotNull
 	public ItemStack removeItemNoUpdate(int index) {
 		return ContainerHelper.takeItem(this.items, index);
 	}
 
 	@Override
-	public void setItem(int index, ItemStack itemStack) {
+	public void setItem(int index, @NotNull ItemStack itemStack) {
 		this.items.set(index, itemStack);
 		if (itemStack.getCount() > this.getMaxStackSize()) {
 			itemStack.setCount(this.getMaxStackSize());
@@ -288,7 +294,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	}
 
 	@Override
-	public boolean canPlaceItem(int index, ItemStack itemStack) {
+	public boolean canPlaceItem(int index, @NotNull ItemStack itemStack) {
 		if (index == IceMakerMenu.RESULT_SLOT) {
 			return false;
 		}
@@ -308,14 +314,14 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	}
 
 	@Override
-	public void fillStackedContents(StackedContents contents) {
+	public void fillStackedContents(@NotNull StackedContents contents) {
 		for(ItemStack itemstack : this.items) {
 			contents.accountStack(itemstack);
 		}
 	}
 
 	@Override
-	public int[] getSlotsForFace(Direction direction) {
+	public int[] getSlotsForFace(@NotNull Direction direction) {
 		if (direction == Direction.DOWN) {
 			return SLOTS_FOR_DOWN;
 		}
@@ -326,24 +332,24 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	}
 
 	@Override
-	public boolean canPlaceItemThroughFace(int index, ItemStack itemStack, @Nullable Direction direction) {
+	public boolean canPlaceItemThroughFace(int index, @NotNull ItemStack itemStack, @Nullable Direction direction) {
 		return this.canPlaceItem(index, itemStack);
 	}
 
 	@Override
-	public boolean canTakeItemThroughFace(int index, ItemStack itemStack, Direction direction) {
+	public boolean canTakeItemThroughFace(int index, @NotNull ItemStack itemStack, @NotNull Direction direction) {
 		if (direction == Direction.DOWN && index == IceMakerMenu.CONDENSATE_SLOT) {
 			return itemStack.is(Items.BUCKET);
 		}
 		return true;
 	}
 
-	net.minecraftforge.common.util.LazyOptional<? extends net.minecraftforge.items.IItemHandler>[] handlers =
-			net.minecraftforge.items.wrapper.SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
+	LazyOptional<? extends IItemHandler>[] handlers =
+			SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 
-	@Override
-	public <T> net.minecraftforge.common.util.LazyOptional<T> getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @Nullable Direction facing) {
-		if (!this.remove && facing != null && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+	@Override @NotNull
+	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
+		if (!this.remove && facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (facing == Direction.UP) {
 				return handlers[0].cast();
 			} else if (facing == Direction.DOWN) {
@@ -358,7 +364,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	@Override
 	public void invalidateCaps() {
 		super.invalidateCaps();
-		for (net.minecraftforge.common.util.LazyOptional<? extends net.minecraftforge.items.IItemHandler> handler : handlers) {
+		for (LazyOptional<? extends IItemHandler> handler : handlers) {
 			handler.invalidate();
 		}
 	}
@@ -366,11 +372,11 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	@Override
 	public void reviveCaps() {
 		super.reviveCaps();
-		this.handlers = net.minecraftforge.items.wrapper.SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
+		this.handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 	}
 
-	@Override
-	protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
+	@Override @NotNull
+	protected AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory) {
 		return new IceMakerMenu(id, inventory, this, this.dataAccess);
 	}
 }

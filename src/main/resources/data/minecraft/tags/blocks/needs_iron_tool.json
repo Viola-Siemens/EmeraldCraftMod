@@ -9,6 +9,12 @@
     "emeraldcraft:emerald_wall",
     "emeraldcraft:gold_slab",
     "emeraldcraft:gold_stairs",
-    "emeraldcraft:gold_wall"
+    "emeraldcraft:gold_wall",
+	
+	"emeraldcraft:zinc_slab",
+    "emeraldcraft:zinc_stairs",
+	"emeraldcraft:zinc_wall",
+    "emeraldcraft:aluminum_stairs",
+	"emeraldcraft:aluminum_wall"
   ]
 }

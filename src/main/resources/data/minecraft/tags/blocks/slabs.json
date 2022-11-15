@@ -23,10 +23,15 @@
     "emeraldcraft:smooth_quartz_sandstone_slab",
     "emeraldcraft:cut_quartz_sandstone_slab",
     "emeraldcraft:blue_nether_brick_slab",
-	"emeraldcraft:crimson_stone_slab",
-	"emeraldcraft:crimson_cobblestone_slab",
-	"emeraldcraft:warped_stone_slab",
-	"emeraldcraft:warped_cobblestone_slab",
-    "emeraldcraft:ginkgo_slab"
+    "emeraldcraft:crimson_stone_slab",
+    "emeraldcraft:crimson_cobblestone_slab",
+    "emeraldcraft:warped_stone_slab",
+    "emeraldcraft:warped_cobblestone_slab",
+    "emeraldcraft:ginkgo_slab",
+    "emeraldcraft:palm_slab",
+    "emeraldcraft:peach_slab",
+    "emeraldcraft:purpuraceus_slab",
+	
+	"emeraldcraft:zinc_slab"
   ]
 }

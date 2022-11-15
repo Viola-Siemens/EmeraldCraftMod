@@ -15,6 +15,7 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -51,7 +52,7 @@ public class GlassKilnScreen extends AbstractContainerScreen<GlassKilnMenu> impl
 	}
 
 	@Override
-	public void render(PoseStack transform, int x, int y, float partialTicks) {
+	public void render(@NotNull PoseStack transform, int x, int y, float partialTicks) {
 		this.renderBackground(transform);
 		if (recipeBookComponent.isVisible() && this.widthTooNarrow) {
 			this.renderBg(transform, partialTicks, x, y);
@@ -67,7 +68,7 @@ public class GlassKilnScreen extends AbstractContainerScreen<GlassKilnMenu> impl
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int x, int y) {
+	protected void renderBg(@NotNull PoseStack transform, float partialTicks, int x, int y) {
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.setShaderTexture(0, texture);
@@ -88,11 +89,11 @@ public class GlassKilnScreen extends AbstractContainerScreen<GlassKilnMenu> impl
 		if (recipeBookComponent.mouseClicked(p_97834_, p_97835_, p_97836_)) {
 			return true;
 		}
-		return widthTooNarrow && recipeBookComponent.isVisible() ? true : super.mouseClicked(p_97834_, p_97835_, p_97836_);
+		return this.widthTooNarrow && recipeBookComponent.isVisible() ? true : super.mouseClicked(p_97834_, p_97835_, p_97836_);
 	}
 
 	@Override
-	protected void slotClicked(Slot p_97848_, int p_97849_, int p_97850_, ClickType p_97851_) {
+	protected void slotClicked(@NotNull Slot p_97848_, int p_97849_, int p_97850_, @NotNull ClickType p_97851_) {
 		super.slotClicked(p_97848_, p_97849_, p_97850_, p_97851_);
 		recipeBookComponent.slotClicked(p_97848_);
 	}
@@ -118,7 +119,7 @@ public class GlassKilnScreen extends AbstractContainerScreen<GlassKilnMenu> impl
 		recipeBookComponent.recipesUpdated();
 	}
 
-	@Override
+	@Override @NotNull
 	public RecipeBookComponent getRecipeBookComponent() {
 		return recipeBookComponent;
 	}

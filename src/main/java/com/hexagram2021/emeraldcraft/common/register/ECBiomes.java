@@ -27,11 +27,13 @@ public class ECBiomes {
 	public static final Biome KARST_HILLS = KarstHills();
 	public static final Biome PETUNIA_PLAINS = PetuniaPlains();
 	public static final Biome GOLDEN_BEACH = GoldenBeach();
+	public static final Biome PALM_BEACH = PalmBeach();
 	public static final Biome AZURE_DESERT = AzureDesertBiome();
 	public static final Biome JADEITE_DESERT = JadeiteDesertBiome();
 	public static final Biome VOLCANIC_CAVES = VolcanicCaves();
 	public static final Biome EMERY_DESERT = EmeryDesertBiome();
 	public static final Biome QUARTZ_DESERT = QuartzDesertBiome();
+	public static final Biome PURPURACEUS_SWAMP = PurpuraceusSwamp();
 
 	public static void init(RegistryEvent.Register<Biome> event) {
 		DEAD_CRIMSON_OCEAN.setRegistryName(MODID, "dead_crimson_ocean");
@@ -43,11 +45,13 @@ public class ECBiomes {
 		KARST_HILLS.setRegistryName(MODID, "karst_hills");
 		PETUNIA_PLAINS.setRegistryName(MODID, "petunia_plains");
 		GOLDEN_BEACH.setRegistryName(MODID, "golden_beach");
+		PALM_BEACH.setRegistryName(MODID, "palm_beach");
 		AZURE_DESERT.setRegistryName(MODID, "azure_desert");
 		JADEITE_DESERT.setRegistryName(MODID, "jadeite_desert");
 		VOLCANIC_CAVES.setRegistryName(MODID, "volcanic_caves");
 		EMERY_DESERT.setRegistryName(MODID, "emery_desert");
 		QUARTZ_DESERT.setRegistryName(MODID, "quartz_desert");
+		PURPURACEUS_SWAMP.setRegistryName(MODID, "purpuraceus_swamp");
 
 		event.getRegistry().register(DEAD_CRIMSON_OCEAN);
 		event.getRegistry().register(DEAD_WARPED_OCEAN);
@@ -58,11 +62,13 @@ public class ECBiomes {
 		event.getRegistry().register(KARST_HILLS);
 		event.getRegistry().register(PETUNIA_PLAINS);
 		event.getRegistry().register(GOLDEN_BEACH);
+		event.getRegistry().register(PALM_BEACH);
 		event.getRegistry().register(AZURE_DESERT);
 		event.getRegistry().register(JADEITE_DESERT);
 		event.getRegistry().register(VOLCANIC_CAVES);
 		event.getRegistry().register(EMERY_DESERT);
 		event.getRegistry().register(QUARTZ_DESERT);
+		event.getRegistry().register(PURPURACEUS_SWAMP);
 
 		registerBiomesToDictionary();
 	}
@@ -74,6 +80,12 @@ public class ECBiomes {
 		BiomeDefaultFeatures.addDefaultUndergroundVariety(builder);
 		BiomeDefaultFeatures.addDefaultSprings(builder);
 		BiomeDefaultFeatures.addSurfaceFreezing(builder);
+	}
+
+	public static void oceanSpawns(MobSpawnSettings.Builder builder, int squidWeight, int minCount, int maxCount) {
+		builder.addSpawn(MobCategory.WATER_CREATURE, new MobSpawnSettings.SpawnerData(EntityType.SQUID, squidWeight, 1, minCount));
+		builder.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(EntityType.COD, maxCount, 3, 6));
+		BiomeDefaultFeatures.caveSpawns(builder);
 	}
 
 	private static Biome baseOcean(MobSpawnSettings.Builder mobSpawnSetting, int waterColor, int waterFogColor, int fogColor, BiomeGenerationSettings.Builder biomeGenerationSetting) {
@@ -104,12 +116,13 @@ public class ECBiomes {
 	public static Biome DeadCrimsonOcean(boolean isDeep) {
 		MobSpawnSettings.Builder mobspawnsettings$builder = new MobSpawnSettings.Builder();
 		if (isDeep) {
-			BiomeDefaultFeatures.oceanSpawns(mobspawnsettings$builder, 8, 4, 8);
+			oceanSpawns(mobspawnsettings$builder, 8, 4, 8);
 		} else {
-			BiomeDefaultFeatures.oceanSpawns(mobspawnsettings$builder, 10, 2, 15);
+			oceanSpawns(mobspawnsettings$builder, 10, 2, 15);
 		}
 
-		mobspawnsettings$builder.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(EntityType.PUFFERFISH, 5, 1, 3)).addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(EntityType.TROPICAL_FISH, 25, 8, 8)).addSpawn(MobCategory.WATER_CREATURE, new MobSpawnSettings.SpawnerData(EntityType.DOLPHIN, 2, 1, 2));
+		mobspawnsettings$builder.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(ECEntities.PURPLE_SPOTTED_BIGEYE.get(), 25, 8, 8));
+		mobspawnsettings$builder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.DROWNED, 1, 1, 2));
 		BiomeGenerationSettings.Builder biomegenerationsettings$builder = baseOceanGeneration();
 		biomegenerationsettings$builder.addFeature(
 				GenerationStep.Decoration.VEGETAL_DECORATION,
@@ -125,8 +138,9 @@ public class ECBiomes {
 
 	public static Biome DeadWarpedOcean(boolean isDeep) {
 		MobSpawnSettings.Builder mobspawnsettings$builder = new MobSpawnSettings.Builder();
-		BiomeDefaultFeatures.oceanSpawns(mobspawnsettings$builder, 3, 4, 15);
-		mobspawnsettings$builder.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(EntityType.SALMON, 15, 1, 5));
+		oceanSpawns(mobspawnsettings$builder, 3, 4, 15);
+		mobspawnsettings$builder.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(ECEntities.HERRING.get(), 15, 1, 5));
+		mobspawnsettings$builder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.ENDERMAN, 1, 1, 2));
 		BiomeGenerationSettings.Builder biomegenerationsettings$builder = baseOceanGeneration();
 		biomegenerationsettings$builder.addFeature(
 				GenerationStep.Decoration.VEGETAL_DECORATION,
@@ -148,6 +162,7 @@ public class ECBiomes {
 				.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.MOOSHROOM, 1, 1, 2));
 		BiomeDefaultFeatures.caveSpawns(mobspawnsettings$builder);
 		globalOverworldGeneration(biomegenerationsettings$builder);
+		addXanaduDeltas(biomegenerationsettings$builder);
 		BiomeDefaultFeatures.addPlainGrass(biomegenerationsettings$builder);
 		BiomeDefaultFeatures.addDefaultOres(biomegenerationsettings$builder);
 		BiomeDefaultFeatures.addDefaultSoftDisks(biomegenerationsettings$builder);
@@ -196,6 +211,7 @@ public class ECBiomes {
 		BiomeDefaultFeatures.oceanSpawns(mobspawnsettings$builder, 8, 4, 8);
 		BiomeGenerationSettings.Builder biomegenerationsettings$builder = new BiomeGenerationSettings.Builder();
 		globalOverworldGeneration(biomegenerationsettings$builder);
+		addKarstDeltas(biomegenerationsettings$builder);
 		BiomeDefaultFeatures.addDefaultOres(biomegenerationsettings$builder);
 		BiomeDefaultFeatures.addDefaultSoftDisks(biomegenerationsettings$builder);
 		BiomeDefaultFeatures.addExtraEmeralds(biomegenerationsettings$builder);
@@ -255,6 +271,31 @@ public class ECBiomes {
 		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.NONE)
 				.biomeCategory(Biome.BiomeCategory.BEACH)
 				.temperature(0.8F).downfall(0.4F)
+				.specialEffects((new BiomeSpecialEffects.Builder())
+						.waterColor(4159204).waterFogColor(329011)
+						.fogColor(0xc0d8ff).skyColor(calculateSkyColor(0.8F))
+						.ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS).backgroundMusic(null).build())
+				.mobSpawnSettings(mobspawnsettings$builder.build())
+				.generationSettings(biomegenerationsettings$builder.build()).build();
+	}
+
+	public static Biome PalmBeach() {
+		MobSpawnSettings.Builder mobspawnsettings$builder = new MobSpawnSettings.Builder();
+
+		BiomeDefaultFeatures.commonSpawns(mobspawnsettings$builder);
+		BiomeGenerationSettings.Builder biomegenerationsettings$builder = new BiomeGenerationSettings.Builder();
+		globalOverworldGeneration(biomegenerationsettings$builder);
+		addPalmTrees(biomegenerationsettings$builder);
+		BiomeDefaultFeatures.addDefaultOres(biomegenerationsettings$builder);
+		BiomeDefaultFeatures.addDefaultSoftDisks(biomegenerationsettings$builder);
+		BiomeDefaultFeatures.addDefaultFlowers(biomegenerationsettings$builder);
+		BiomeDefaultFeatures.addDefaultGrass(biomegenerationsettings$builder);
+		BiomeDefaultFeatures.addDefaultMushrooms(biomegenerationsettings$builder);
+		BiomeDefaultFeatures.addDefaultExtraVegetation(biomegenerationsettings$builder);
+
+		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.NONE)
+				.biomeCategory(Biome.BiomeCategory.BEACH)
+				.temperature(0.8F).downfall(0.6F)
 				.specialEffects((new BiomeSpecialEffects.Builder())
 						.waterColor(4159204).waterFogColor(329011)
 						.fogColor(0xc0d8ff).skyColor(calculateSkyColor(0.8F))
@@ -421,6 +462,43 @@ public class ECBiomes {
 				.generationSettings(biomegenerationsettings$builder.build()).build();
 	}
 
+	private static Biome PurpuraceusSwamp() {
+		MobSpawnSettings mobspawnsettings = (new MobSpawnSettings.Builder())
+				.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.ZOMBIFIED_PIGLIN, 100, 4, 4))
+				.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.ENDERMAN, 5, 4, 4))
+				.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.PIGLIN, 15, 4, 4))
+				.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.STRIDER, 60, 1, 2))
+				.build();
+		BiomeGenerationSettings.Builder biomegenerationsettings$builder = (new BiomeGenerationSettings.Builder())
+				.addCarver(GenerationStep.Carving.AIR, Carvers.NETHER_CAVE)
+				.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MiscOverworldPlacements.SPRING_LAVA)
+				.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ECPlacedFeatures.PURPURACEUS_FUNGI)
+				.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ECPlacedFeatures.PURPURACEUS_SWAMP_VEGETATION)
+				.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, NetherPlacements.SPRING_OPEN)
+				.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, NetherPlacements.PATCH_FIRE)
+				.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, NetherPlacements.GLOWSTONE_EXTRA)
+				.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, NetherPlacements.GLOWSTONE)
+				.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, NetherPlacements.PATCH_CRIMSON_ROOTS)
+				.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, OrePlacements.ORE_MAGMA)
+				.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, NetherPlacements.SPRING_CLOSED)
+				.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, OrePlacements.ORE_SOUL_SAND);
+
+		BiomeDefaultFeatures.addDefaultMushrooms(biomegenerationsettings$builder);
+		BiomeDefaultFeatures.addNetherDefaultOres(biomegenerationsettings$builder);
+		addPurpuraceusDeltas(biomegenerationsettings$builder);
+		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.NONE)
+				.biomeCategory(Biome.BiomeCategory.NETHER)
+				.temperature(2.0F).downfall(0.0F)
+				.specialEffects((new BiomeSpecialEffects.Builder())
+						.waterColor(4159204).waterFogColor(329011).fogColor(0x973e97).skyColor(calculateSkyColor(2.0F))
+						.ambientLoopSound(SoundEvents.AMBIENT_NETHER_WASTES_LOOP)
+						.ambientMoodSound(new AmbientMoodSettings(SoundEvents.AMBIENT_NETHER_WASTES_MOOD, 6000, 8, 2.0D))
+						.ambientAdditionsSound(new AmbientAdditionsSettings(SoundEvents.AMBIENT_NETHER_WASTES_ADDITIONS, 0.0111D))
+						.backgroundMusic(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_NETHER_WASTES)).build())
+				.mobSpawnSettings(mobspawnsettings)
+				.generationSettings(biomegenerationsettings$builder.build()).build();
+	}
+
 
 	private static int calculateSkyColor(float temp) {
 		float f = temp / 3.0F;
@@ -429,7 +507,7 @@ public class ECBiomes {
 	}
 
 	public static void addXanaduVegetation(BiomeGenerationSettings.Builder builder) {
-		builder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ECPlacedFeatures.XANADU_TREES);
+		builder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ECPlacedFeatures.TREES_PEACH);
 		builder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ECPlacedFeatures.FLOWER_PETUNIA_PLAINS);
 	}
 
@@ -467,8 +545,25 @@ public class ECBiomes {
 		builder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, OrePlacements.ORE_BLACKSTONE);
 	}
 
+	private static void addXanaduDeltas(BiomeGenerationSettings.Builder builder) {
+		builder.addFeature(GenerationStep.Decoration.RAW_GENERATION, ECPlacedFeatures.XANADU_DELTA);
+	}
+
+	private static void addKarstDeltas(BiomeGenerationSettings.Builder builder) {
+		builder.addFeature(GenerationStep.Decoration.RAW_GENERATION, ECPlacedFeatures.KARST_DELTA);
+	}
+
 	private static void addGinkgoTrees(BiomeGenerationSettings.Builder builder) {
 		builder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ECPlacedFeatures.TREES_GINKGO);
+	}
+
+	private static void addPalmTrees(BiomeGenerationSettings.Builder builder) {
+		builder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ECPlacedFeatures.TREES_PALM);
+	}
+
+	private static void addPurpuraceusDeltas(BiomeGenerationSettings.Builder builder) {
+		builder.addFeature(GenerationStep.Decoration.RAW_GENERATION, ECPlacedFeatures.PURPURACEUS_SWAMP_DELTA);
+		builder.addFeature(GenerationStep.Decoration.RAW_GENERATION, ECPlacedFeatures.PURPURACEUS_SWAMP_LAVA_DELTA);
 	}
 
 	public static void registerBiomesToDictionary() {
@@ -495,6 +590,8 @@ public class ECBiomes {
 
 		addBiome(ECBiomeKeys.GOLDEN_BEACH,
 				BiomeDictionary.Type.BEACH, BiomeDictionary.Type.HOT, BiomeDictionary.Type.WET, BiomeDictionary.Type.OVERWORLD);
+		addBiome(ECBiomeKeys.PALM_BEACH,
+				BiomeDictionary.Type.BEACH, BiomeDictionary.Type.HOT, BiomeDictionary.Type.WET, BiomeDictionary.Type.OVERWORLD);
 
 		addBiome(ECBiomeKeys.VOLCANIC_CAVES,
 				BiomeDictionary.Type.UNDERGROUND, BiomeDictionary.Type.HOT, BiomeDictionary.Type.OVERWORLD);
@@ -508,6 +605,8 @@ public class ECBiomes {
 				BiomeDictionary.Type.HOT, BiomeDictionary.Type.DRY, BiomeDictionary.Type.RARE, BiomeDictionary.Type.NETHER);
 		addBiome(ECBiomeKeys.QUARTZ_DESERT,
 				BiomeDictionary.Type.HOT, BiomeDictionary.Type.DRY, BiomeDictionary.Type.NETHER);
+		addBiome(ECBiomeKeys.PURPURACEUS_SWAMP,
+				BiomeDictionary.Type.HOT, BiomeDictionary.Type.SWAMP, BiomeDictionary.Type.RARE, BiomeDictionary.Type.NETHER);
 	}
 
 	private static void addBiome(ResourceKey<Biome> biomeKey, BiomeDictionary.Type... types) {

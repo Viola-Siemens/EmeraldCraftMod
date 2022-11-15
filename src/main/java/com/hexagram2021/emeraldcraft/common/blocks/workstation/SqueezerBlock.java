@@ -1,6 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.blocks.workstation;
 
-import com.hexagram2021.emeraldcraft.common.register.ECProperty;
+import com.hexagram2021.emeraldcraft.common.register.ECProperties;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -22,13 +22,15 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
 import static net.minecraftforge.common.ToolActions.SHEARS_HARVEST;
 
+@SuppressWarnings("deprecation")
 public class SqueezerBlock extends Block {
-	public static final IntegerProperty HONEY_COUNT = ECProperty.HONEY_COUNT;
+	public static final IntegerProperty HONEY_COUNT = ECProperties.HONEY_COUNT;
 
 	public static final Supplier<Properties> PROPERTIES = () -> Block.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(0.6F);
 
@@ -37,8 +39,9 @@ public class SqueezerBlock extends Block {
 		this.registerDefaultState(this.stateDefinition.any().setValue(HONEY_COUNT, 0));
 	}
 
-	@Override
-	public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+	@Override @NotNull
+	public InteractionResult use(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, Player player,
+								 @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
 		ItemStack itemstack = player.getItemInHand(interactionHand);
 		ItemStack itemstack2 = player.getItemInHand(InteractionHand.OFF_HAND);
 		if (interactionHand == InteractionHand.MAIN_HAND &&
@@ -88,9 +91,7 @@ public class SqueezerBlock extends Block {
 						1.0F, 1.0F
 				);
 				dropHoneycomb(level, blockPos);
-				itemstack.hurtAndBreak(1, player, (player2) -> {
-					player2.broadcastBreakEvent(interactionHand);
-				});
+				itemstack.hurtAndBreak(1, player, (player2) -> player2.broadcastBreakEvent(interactionHand));
 				level.gameEvent(player, GameEvent.SHEAR, blockPos);
 				resetHoneyCount(level, blockState, blockPos);
 
@@ -104,11 +105,11 @@ public class SqueezerBlock extends Block {
 		popResource(level, blockPos, new ItemStack(Items.HONEYCOMB));
 	}
 
-	public boolean hasAnalogOutputSignal(BlockState blockState) {
+	public boolean hasAnalogOutputSignal(@NotNull BlockState blockState) {
 		return true;
 	}
 
-	public int getAnalogOutputSignal(BlockState blockState, Level level, BlockPos blockPos) {
+	public int getAnalogOutputSignal(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos) {
 		return blockState.getValue(HONEY_COUNT);
 	}
 
@@ -141,7 +142,7 @@ public class SqueezerBlock extends Block {
 	}
 
 	@Override
-	public boolean isPathfindable(BlockState state, BlockGetter getter, BlockPos blockPos, PathComputationType type) {
+	public boolean isPathfindable(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos blockPos, @NotNull PathComputationType type) {
 		return false;
 	}
 

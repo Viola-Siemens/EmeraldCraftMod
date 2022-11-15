@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "emeraldcraft:ginkgo_planks"
+    "emeraldcraft:ginkgo_planks",
+    "emeraldcraft:palm_planks",
+    "emeraldcraft:peach_planks",
+    "emeraldcraft:purpuraceus_planks"
   ]
 }

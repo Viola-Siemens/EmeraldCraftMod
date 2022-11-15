@@ -4,12 +4,9 @@ import com.hexagram2021.emeraldcraft.common.register.ECStructures;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.levelgen.feature.StructurePieceType;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructurePieceAccessor;
 import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
@@ -17,6 +14,7 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSeriali
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
@@ -48,12 +46,12 @@ public class ShelterPieces {
 
 
 		@Override
-		protected void addAdditionalSaveData(StructurePieceSerializationContext context, CompoundTag tag) {
+		protected void addAdditionalSaveData(@NotNull StructurePieceSerializationContext context, @NotNull CompoundTag tag) {
 			super.addAdditionalSaveData(context, tag);
 			tag.putString("Rot", this.placeSettings.getRotation().name());
 		}
 
 		@Override
-		protected void handleDataMarker(String function, BlockPos pos, ServerLevelAccessor level, Random random, BoundingBox sbb) { }
+		protected void handleDataMarker(@NotNull String function, @NotNull BlockPos pos, @NotNull ServerLevelAccessor level, @NotNull Random random, @NotNull BoundingBox sbb) { }
 	}
 }

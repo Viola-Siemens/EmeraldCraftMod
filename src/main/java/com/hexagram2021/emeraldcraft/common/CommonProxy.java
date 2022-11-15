@@ -1,7 +1,3 @@
-/*
- * Copyright by BluSunrize
- */
-
 package com.hexagram2021.emeraldcraft.common;
 
 import net.minecraft.sounds.SoundEvent;
@@ -18,13 +14,11 @@ public class CommonProxy {
 
 	public void stopTileSound(String soundName, BlockEntity tile) { }
 
-	public Level getClientWorld()
-	{
+	public Level getClientWorld() {
 		return null;
 	}
 
-	public Player getClientPlayer()
-	{
+	public Player getClientPlayer() {
 		return null;
 	}
 

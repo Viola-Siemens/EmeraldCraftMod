@@ -1,7 +1,8 @@
 package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 
 import com.google.gson.JsonObject;
-import com.hexagram2021.emeraldcraft.common.crafting.FluidType;
+import com.hexagram2021.emeraldcraft.api.fluid.FluidType;
+import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
 import com.hexagram2021.emeraldcraft.common.crafting.IceMakerRecipe;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
@@ -13,9 +14,11 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
+@SuppressWarnings("deprecation")
 public class IceMakerRecipeSerializer<T extends IceMakerRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T> {
 	private final int defaultFreezingTime;
 	private final IceMakerRecipeSerializer.Creator<T> factory;
@@ -25,8 +28,8 @@ public class IceMakerRecipeSerializer<T extends IceMakerRecipe> extends ForgeReg
 		this.factory = creator;
 	}
 
-	@Override
-	public T fromJson(ResourceLocation id, JsonObject json) {
+	@Override @NotNull
+	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
 		String group = GsonHelper.getAsString(json, "group", "");
 
 		if (!json.has("ingredient")) throw new com.google.gson.JsonSyntaxException("Missing ingredient, expected to find an object");
@@ -34,7 +37,7 @@ public class IceMakerRecipeSerializer<T extends IceMakerRecipe> extends ForgeReg
 		int fluidAmount;
 		if (json.get("ingredient").isJsonObject()) {
 			JsonObject ingredient = GsonHelper.getAsJsonObject(json, "ingredient");
-			fluidType = FluidType.valueOf(GsonHelper.getAsString(ingredient, "fluid"));
+			fluidType = FluidTypes.getFluidTypeFromName(GsonHelper.getAsString(ingredient, "fluid"));
 			fluidAmount = GsonHelper.getAsInt(ingredient, "amount", IceMakerRecipe.DEFAULT_INPUT_AMOUNT);
 		} else {
 			throw new IllegalStateException("ingredient is not a Json object");
@@ -57,9 +60,9 @@ public class IceMakerRecipeSerializer<T extends IceMakerRecipe> extends ForgeReg
 
 	@Nullable
 	@Override
-	public T fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+	public T fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
 		String group = buf.readUtf();
-		FluidType fluidType = FluidType.valueOf(buf.readUtf());
+		FluidType fluidType = FluidTypes.getFluidTypeFromName(buf.readUtf());
 		int fluidAmount = buf.readVarInt();
 		ItemStack result = buf.readItem();
 		int i = buf.readVarInt();

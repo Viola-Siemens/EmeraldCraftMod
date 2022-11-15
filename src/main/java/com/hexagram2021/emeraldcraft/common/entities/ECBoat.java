@@ -46,7 +46,7 @@ public class ECBoat extends Boat {
 		this.entityData.define(DATA_ID_ECTYPE, ECBoatType.GINKGO.ordinal());
 	}
 
-	@Override
+	@Override @NotNull
 	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
@@ -58,14 +58,14 @@ public class ECBoat extends Boat {
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag nbt) {
-		if (nbt.contains("model", 8)) {
-			this.entityData.set(DATA_ID_ECTYPE, ECBoat.ECBoatType.byName(nbt.getString("model")).ordinal());
+		if (nbt.contains("Type", 8)) {
+			this.entityData.set(DATA_ID_ECTYPE, ECBoat.ECBoatType.byName(nbt.getString("Type")).ordinal());
 		}
 
 	}
 
 	@Override
-	protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos) {
+	protected void checkFallDamage(double y, boolean onGround, @NotNull BlockState state, @NotNull BlockPos pos) {
 		this.lastYd = this.getDeltaMovement().y;
 		if (!this.isPassenger()) {
 			if (onGround) {
@@ -103,6 +103,8 @@ public class ECBoat extends Boat {
 	public Item getDropItem() {
 		return switch (ECBoatType.byId(this.entityData.get(DATA_ID_ECTYPE))) {
 			case GINKGO -> ECItems.GINKGO_BOAT.get();
+			case PALM -> ECItems.PALM_BOAT.get();
+			case PEACH -> ECItems.PEACH_BOAT.get();
 			default -> Items.OAK_BOAT;
 		};
 	}
@@ -130,7 +132,9 @@ public class ECBoat extends Boat {
 	}
 
 	public enum ECBoatType {
-		GINKGO("ginkgo", ECBlocks.Plant.GINKGO_PLANKS.get());
+		GINKGO("ginkgo", ECBlocks.Plant.GINKGO_PLANKS.get()),
+		PALM("palm", ECBlocks.Plant.PALM_PLANKS.get()),
+		PEACH("peach", ECBlocks.Plant.PEACH_PLANKS.get());
 
 		private final String name;
 		private final Block planks;

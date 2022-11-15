@@ -1,5 +1,7 @@
 package com.hexagram2021.emeraldcraft.common.crafting;
 
+import com.hexagram2021.emeraldcraft.api.fluid.FluidType;
+import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipeSerializer;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
@@ -9,9 +11,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-
-import java.util.Collections;
-import java.util.Map;
+import org.jetbrains.annotations.NotNull;
 
 public class MelterRecipe implements Recipe<Container> {
 	protected final ResourceLocation id;
@@ -21,9 +21,12 @@ public class MelterRecipe implements Recipe<Container> {
 	protected final int resultAmount;
 	protected final int meltingTime;
 
-	public static Map<ResourceLocation, MelterRecipe> recipeList = Collections.emptyMap();
+	public static CachedRecipeList<MelterRecipe> recipeList = new CachedRecipeList<>(
+			() -> ECRecipes.MELTER_TYPE,
+			MelterRecipe.class
+	);
 
-	public static int MELTING_TIME = 200;
+	public static final int MELTING_TIME = 200;
 
 	public MelterRecipe(ResourceLocation id, String group, Ingredient ingredient, FluidType resultFluid, int resultAmount, int meltingTime) {
 		this.id = id;
@@ -39,12 +42,12 @@ public class MelterRecipe implements Recipe<Container> {
 		return true;
 	}
 
-	@Override
+	@Override @NotNull
 	public RecipeSerializer<?> getSerializer() {
 		return ECRecipeSerializer.MELTER_SERIALIZER.get();
 	}
 
-	@Override
+	@Override @NotNull
 	public ItemStack getToastSymbol() {
 		return new ItemStack(ECBlocks.WorkStation.MELTER);
 	}
@@ -53,12 +56,12 @@ public class MelterRecipe implements Recipe<Container> {
 		return this.ingredient;
 	}
 
-	@Override
+	@Override @NotNull
 	public NonNullList<Ingredient> getIngredients() {
 		return NonNullList.of(this.ingredient);
 	}
 
-	@Override
+	@Override @NotNull
 	public String getGroup() {
 		return this.group;
 	}
@@ -75,27 +78,27 @@ public class MelterRecipe implements Recipe<Container> {
 		return this.meltingTime;
 	}
 
-	@Override
-	public ItemStack assemble(Container container) {
+	@Override @NotNull
+	public ItemStack assemble(@NotNull Container container) {
 		return null;
 	}
 
-	@Override
+	@Override @NotNull
 	public ItemStack getResultItem() {
 		return null;
 	}
 
 	@Override
-	public boolean matches(Container container, Level level) {
+	public boolean matches(Container container, @NotNull Level level) {
 		return this.ingredient.test(container.getItem(MelterMenu.INGREDIENT_SLOT));
 	}
 
-	@Override
+	@Override @NotNull
 	public ResourceLocation getId() {
 		return this.id;
 	}
 
-	@Override
+	@Override @NotNull
 	public RecipeType<?> getType() {
 		return ECRecipes.MELTER_TYPE;
 	}

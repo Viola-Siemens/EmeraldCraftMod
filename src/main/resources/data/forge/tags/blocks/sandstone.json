@@ -1,0 +1,20 @@
+{
+	"replace": false,
+	"values": [
+		"emeraldcraft:azure_sandstone",
+		"emeraldcraft:dark_sandstone",
+		"emeraldcraft:emery_sandstone",
+		"emeraldcraft:jadeite_sandstone",
+		"emeraldcraft:quartz_sandstone",
+		"emeraldcraft:smooth_azure_sandstone",
+		"emeraldcraft:smooth_dark_sandstone",
+		"emeraldcraft:smooth_emery_sandstone",
+		"emeraldcraft:smooth_jadeite_sandstone",
+		"emeraldcraft:smooth_quartz_sandstone",
+		"emeraldcraft:cut_azure_sandstone",
+		"emeraldcraft:cut_dark_sandstone",
+		"emeraldcraft:cut_emery_sandstone",
+		"emeraldcraft:cut_jadeite_sandstone",
+		"emeraldcraft:cut_quartz_sandstone"
+	]
+}

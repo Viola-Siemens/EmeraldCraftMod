@@ -208,5 +208,129 @@
       "emeraldcraft:villager/work_miner"
     ],
     "subtitle": "subtitles.entity.villager.work_miner"
+  },
+  "flower.drop_leaves": {
+    "category": "block",
+    "sounds": [
+      "emeraldcraft:flower/drop_leaves1",
+      "emeraldcraft:flower/drop_leaves2",
+      "emeraldcraft:flower/drop_leaves3"
+    ],
+    "subtitle": "subtitles.block.flower.drop_leaves"
+  },
+  "herring.ambient": {
+    "category": "entity",
+    "sounds": [
+    ]
+  },
+  "purple_spotted_bigeye.ambient": {
+    "category": "entity",
+    "sounds": [
+    ]
+  },
+  "herring.flop": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:fish/flop1",
+      "emeraldcraft:fish/flop2",
+      "emeraldcraft:fish/flop3",
+      "emeraldcraft:fish/flop4"
+    ],
+    "subtitle": "subtitles.entity.herring.flop"
+  },
+  "purple_spotted_bigeye.flop": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:fish/flop1",
+      "emeraldcraft:fish/flop2",
+      "emeraldcraft:fish/flop3",
+      "emeraldcraft:fish/flop4"
+    ],
+    "subtitle": "subtitles.entity.purple_spotted_bigeye.flop"
+  },
+  "herring.hurt": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:fish/hurt1",
+      "emeraldcraft:fish/hurt2",
+      "emeraldcraft:fish/hurt3",
+      "emeraldcraft:fish/hurt4"
+    ],
+    "subtitle": "subtitles.entity.herring.hurt"
+  },
+  "purple_spotted_bigeye.hurt": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:fish/hurt1",
+      "emeraldcraft:fish/hurt2",
+      "emeraldcraft:fish/hurt3",
+      "emeraldcraft:fish/hurt4"
+    ],
+    "subtitle": "subtitles.entity.purple_spotted_bigeye.hurt"
+  },
+  "herring.death": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:fish/hurt1",
+      "emeraldcraft:fish/hurt2",
+      "emeraldcraft:fish/hurt3",
+      "emeraldcraft:fish/hurt4"
+    ],
+    "subtitle": "subtitles.entity.herring.death"
+  },
+  "purple_spotted_bigeye.death": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:fish/hurt1",
+      "emeraldcraft:fish/hurt2",
+      "emeraldcraft:fish/hurt3",
+      "emeraldcraft:fish/hurt4"
+    ],
+    "subtitle": "subtitles.entity.purple_spotted_bigeye.death"
+  },
+  "wraith.ambient": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:wraith/ambient"
+    ],
+    "subtitle": "subtitles.entity.wraith.ambient"
+  },
+  "wraith.hurt": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:wraith/hurt"
+    ],
+    "subtitle": "subtitles.entity.wraith.hurt"
+  },
+  "wraith.death": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:wraith/hurt"
+    ],
+    "subtitle": "subtitles.entity.wraith.death"
+  },
+  "manta.ambient": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:manta/ambient1",
+      "emeraldcraft:manta/ambient2"
+    ],
+    "subtitle": "subtitles.entity.manta.ambient"
+  },
+  "manta.hurt": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:manta/hurt1",
+      "emeraldcraft:manta/hurt2"
+    ],
+    "subtitle": "subtitles.entity.manta.hurt"
+  },
+  "manta.death": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:manta/hurt1",
+      "emeraldcraft:manta/hurt2"
+    ],
+    "subtitle": "subtitles.entity.manta.death"
   }
 }

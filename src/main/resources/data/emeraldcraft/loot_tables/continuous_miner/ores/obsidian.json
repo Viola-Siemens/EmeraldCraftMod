@@ -7,12 +7,12 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 16,
+          "weight": 14,
           "name": "minecraft:obsidian"
         },
         {
           "type": "minecraft:item",
-          "weight": 17,
+          "weight": 15,
           "name": "minecraft:crying_obsidian"
         },
         {
@@ -27,12 +27,12 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
+          "weight": 4,
           "name": "emeraldcraft:vitrified_sand"
         },
         {
           "type": "minecraft:item",
-          "weight": 22,
+          "weight": 24,
           "name": "minecraft:structure_void"
         }
       ]

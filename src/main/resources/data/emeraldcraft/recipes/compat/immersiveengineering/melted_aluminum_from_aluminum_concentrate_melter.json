@@ -1,0 +1,17 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ],
+  "type": "emeraldcraft:melter",
+  "ingredient": {
+    "item": "emeraldcraft:aluminum_concentrate"
+  },
+  "result": {
+    "fluid": "melted_aluminum",
+    "amount": 100
+  },
+  "meltingtime": 200
+}

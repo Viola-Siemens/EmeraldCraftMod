@@ -23,12 +23,12 @@ public class ECBiomeProvider extends BiomeProvider {
 	public ECBiomeProvider(int weight) {
 		super(LOCATION, weight, weight);
 	}
-
+	
 	@Override
 	public void addOverworldBiomes(Registry<Biome> registry, Consumer<Pair<TBClimate.ParameterPoint, ResourceKey<Biome>>> mapper) {
 		(new ECOverworldBiomeBuilder(getUniquenessParameter())).addBiomes(registry, mapper);
 	}
-
+	
 	@Override
 	public void addNetherBiomes(Registry<Biome> registry, Consumer<Pair<TBClimate.ParameterPoint, ResourceKey<Biome>>> mapper) {
 		this.addBiome(mapper, Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), 0.0F, Biomes.NETHER_WASTES);
@@ -41,6 +41,9 @@ public class ECBiomeProvider extends BiomeProvider {
 		}
 		if (BiomeUtil.isKeyRegistered(registry, ECBiomeKeys.QUARTZ_DESERT)) {
 			this.addBiome(mapper, Climate.Parameter.point(0.75F), Climate.Parameter.point(0.7F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), 0.125F, ECBiomeKeys.QUARTZ_DESERT);
+		}
+		if (BiomeUtil.isKeyRegistered(registry, ECBiomeKeys.PURPURACEUS_SWAMP)) {
+			this.addBiome(mapper, Climate.Parameter.point(0.7F), Climate.Parameter.point(-0.7F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), 0.375F, ECBiomeKeys.PURPURACEUS_SWAMP);
 		}
 	}
 }

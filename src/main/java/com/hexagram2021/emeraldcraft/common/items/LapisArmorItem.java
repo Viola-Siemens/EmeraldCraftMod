@@ -11,6 +11,7 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -24,9 +25,10 @@ public class LapisArmorItem extends ArmorItem {
 	private static final SoundEvent sound = SoundEvents.ARMOR_EQUIP_GOLD;
 	private static final float toughness = 0.0F;
 	private static final float knockbackResistance = 0.0F;
+	@SuppressWarnings("deprecation")
 	private static final LazyLoadedValue<Ingredient> repairIngredient = new LazyLoadedValue<>(() -> Ingredient.of(Items.LAPIS_LAZULI));
 
-	public static ArmorMaterial mat = new LapisArmorMaterial();
+	public static final ArmorMaterial mat = new LapisArmorMaterial();
 
 	public LapisArmorItem(EquipmentSlot type) {
 		super(mat, type, new Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP));
@@ -38,34 +40,42 @@ public class LapisArmorItem extends ArmorItem {
 	}
 
 	private static class LapisArmorMaterial implements ArmorMaterial {
+		@Override
 		public int getDurabilityForSlot(EquipmentSlot pSlot) {
 			return HEALTH_PER_SLOT[pSlot.getIndex()] * durabilityMultiplier;
 		}
-
+		
+		@Override
 		public int getDefenseForSlot(EquipmentSlot pSlot) {
 			return slotProtections[pSlot.getIndex()];
 		}
-
+		
+		@Override
 		public int getEnchantmentValue() {
 			return enchantmentValue;
 		}
-
+		
+		@Override @NotNull
 		public SoundEvent getEquipSound() {
 			return sound;
 		}
-
+		
+		@Override @NotNull
 		public Ingredient getRepairIngredient() {
 			return repairIngredient.get();
 		}
-
+		
+		@Override @NotNull
 		public String getName() {
 			return name;
 		}
-
+		
+		@Override
 		public float getToughness() {
 			return toughness;
 		}
-
+		
+		@Override
 		public float getKnockbackResistance() {
 			return knockbackResistance;
 		}

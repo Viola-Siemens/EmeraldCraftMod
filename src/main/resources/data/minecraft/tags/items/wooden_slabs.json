@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "emeraldcraft:ginkgo_slab"
+    "emeraldcraft:ginkgo_slab",
+    "emeraldcraft:palm_slab",
+    "emeraldcraft:peach_slab",
+    "emeraldcraft:purpuraceus_slab"
   ]
 }

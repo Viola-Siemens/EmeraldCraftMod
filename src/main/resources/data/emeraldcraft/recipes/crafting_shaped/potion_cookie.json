@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#X#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:wheat"
+    },
+    "X": {
+      "item": "emeraldcraft:warped_wart"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:potion_cookie",
+    "count": 8
+  }
+}

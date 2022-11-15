@@ -1,0 +1,17 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "byg"
+    }
+  ],
+  "type": "emeraldcraft:carpentry",
+  "group": "bark",
+  "ingredients": [
+    {
+      "item": "byg:witch_hazel_log"
+    }
+  ],
+  "result": "byg:stripped_witch_hazel_log",
+  "count": 1
+}

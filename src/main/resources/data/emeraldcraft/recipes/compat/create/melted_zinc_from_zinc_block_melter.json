@@ -1,0 +1,17 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "emeraldcraft:melter",
+  "ingredient": {
+    "item": "create:zinc_block"
+  },
+  "result": {
+    "fluid": "melted_zinc",
+    "amount": 100
+  },
+  "meltingtime": 200
+}

@@ -19,7 +19,6 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 
 import java.util.Random;
 import java.util.function.Predicate;

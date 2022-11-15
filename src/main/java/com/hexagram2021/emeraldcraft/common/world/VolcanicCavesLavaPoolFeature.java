@@ -1,31 +1,19 @@
 package com.hexagram2021.emeraldcraft.common.world;
 
-import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
-import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.structure.StructurePiece;
-import net.minecraft.world.level.material.Material;
 
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
-
-import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public class VolcanicCavesLavaPoolFeature extends Feature<NoneFeatureConfiguration> {
 	private static final BlockState BLACKSTONE = Blocks.BLACKSTONE.defaultBlockState();

@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -20,8 +21,9 @@ public class CarpentryTableRecipeSerializer<T extends CarpentryTableRecipe> exte
 		this.factory = creator;
 	}
 
-	@Override
-	public T fromJson(ResourceLocation id, JsonObject json) {
+	@SuppressWarnings("deprecation")
+	@Override @NotNull
+	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
 		String s = GsonHelper.getAsString(json, "group", "");
 		Ingredient ingredient;
 		if (GsonHelper.isArrayNode(json, "ingredients")) {
@@ -38,7 +40,7 @@ public class CarpentryTableRecipeSerializer<T extends CarpentryTableRecipe> exte
 
 	@Nullable
 	@Override
-	public T fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+	public T fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
 		String s = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);
 		ItemStack itemstack = buf.readItem();

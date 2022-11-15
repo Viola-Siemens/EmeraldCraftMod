@@ -1,6 +1,13 @@
 {
   "replace": false,
   "values": [
-	"emeraldcraft:potted_ginkgo_sapling"
+	"emeraldcraft:potted_ginkgo_sapling",
+	"emeraldcraft:potted_palm_sapling",
+	"emeraldcraft:potted_peach_sapling",
+	"emeraldcraft:potted_purpuraceus_fungus",
+	"emeraldcraft:potted_purpuraceus_roots",
+	"emeraldcraft:potted_cyan_petunia",
+	"emeraldcraft:potted_magenta_petunia",
+	"emeraldcraft:potted_higan_bana"
   ]
 }

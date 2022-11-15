@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+	"#G#",
+	"GXG",
+	"#G#"
+  ],
+  "key": {
+	"#": {
+	  "item": "minecraft:gold_nugget"
+	},
+	"G": {
+	  "item": "minecraft:gold_ingot"
+	},
+	"X": {
+	  "item": "emeraldcraft:peach"
+	}
+  },
+  "result": {
+	"item": "emeraldcraft:golden_peach"
+  }
+}

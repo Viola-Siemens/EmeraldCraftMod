@@ -8,10 +8,10 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class ContinuousMinerMenu extends AbstractContainerMenu {
 	public static final int INPUT_SLOT = 0;
@@ -42,7 +42,7 @@ public class ContinuousMinerMenu extends AbstractContainerMenu {
 
 		this.inputSlot = this.addSlot(new Slot(container, INPUT_SLOT, 43, 19) {
 			@Override
-			public boolean mayPlace(ItemStack itemStack) {
+			public boolean mayPlace(@NotNull ItemStack itemStack) {
 				return itemStack.is(Items.BUCKET) || itemStack.is(ECItems.MELTED_EMERALD_BUCKET.get());
 			}
 
@@ -53,7 +53,7 @@ public class ContinuousMinerMenu extends AbstractContainerMenu {
 		});
 		this.addSlot(new Slot(container, RESULT_SLOT, 43, 53) {
 			@Override
-			public boolean mayPlace(ItemStack itemStack) {
+			public boolean mayPlace(@NotNull ItemStack itemStack) {
 				return itemStack.is(Items.BUCKET) || itemStack.is(ECItems.MELTED_EMERALD_BUCKET.get());
 			}
 
@@ -76,17 +76,17 @@ public class ContinuousMinerMenu extends AbstractContainerMenu {
 	}
 
 	@Override
-	public boolean stillValid(Player player) {
+	public boolean stillValid(@NotNull Player player) {
 		return this.continuousMiner.stillValid(player);
 	}
 
-	@Override
+	@Override @NotNull
 	public MenuType<?> getType() {
 		return ECContainerTypes.CONTINUOUS_MINER_MENU.get();
 	}
 
-	@Override
-	public ItemStack quickMoveStack(Player player, int index) {
+	@Override @NotNull
+	public ItemStack quickMoveStack(@NotNull Player player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
 		if (slot.hasItem()) {

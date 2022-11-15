@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.stream.Stream;
@@ -32,11 +33,12 @@ public class ECBoatRenderer extends BoatRenderer {
 		);
 	}
 
-	@Override
-	public Pair<ResourceLocation, BoatModel> getModelWithLocation(Boat boat) {
+	@Override @NotNull
+	public Pair<ResourceLocation, BoatModel> getModelWithLocation(@NotNull Boat boat) {
 		return this.boatResources.get(((ECBoat)boat).getECBoatType());
 	}
 
+	@SuppressWarnings("SameParameterValue")
 	private static ModelLayerLocation createLocation(String name, String layer) {
 		return new ModelLayerLocation(new ResourceLocation(MODID, name), layer);
 	}

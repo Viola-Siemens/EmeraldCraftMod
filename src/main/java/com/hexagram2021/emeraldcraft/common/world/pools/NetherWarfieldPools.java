@@ -23,6 +23,7 @@ public class NetherWarfieldPools {
 			StructureTemplatePool.Projection.RIGID)
 	);
 
+	@SuppressWarnings("unused")
 	public static void bootstrap() {
 	}
 

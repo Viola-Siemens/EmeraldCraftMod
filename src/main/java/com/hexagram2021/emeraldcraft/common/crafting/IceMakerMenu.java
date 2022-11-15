@@ -1,5 +1,7 @@
 package com.hexagram2021.emeraldcraft.common.crafting;
 
+import com.hexagram2021.emeraldcraft.api.fluid.FluidType;
+import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
 import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
 import net.minecraft.world.Container;
@@ -13,6 +15,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class IceMakerMenu extends AbstractContainerMenu {
 	public static final int INGREDIENT_INPUT_SLOT = 0;
@@ -45,7 +48,7 @@ public class IceMakerMenu extends AbstractContainerMenu {
 		this.addSlot(new IceMakerMenu.IceMakerResultSlot(inventory.player, container, RESULT_SLOT, 134, 35));
 		this.ingredientInputSlot = this.addSlot(new Slot(container, INGREDIENT_INPUT_SLOT, 50, 18) {
 			@Override
-			public boolean mayPlace(ItemStack itemStack) {
+			public boolean mayPlace(@NotNull ItemStack itemStack) {
 				return itemStack.is(Items.BUCKET) || isFluidBucket(itemStack);
 			}
 
@@ -56,7 +59,7 @@ public class IceMakerMenu extends AbstractContainerMenu {
 		});
 		this.addSlot(new Slot(container, INGREDIENT_OUTPUT_SLOT, 50, 52) {
 			@Override
-			public boolean mayPlace(ItemStack itemStack) {
+			public boolean mayPlace(@NotNull ItemStack itemStack) {
 				return itemStack.is(Items.BUCKET) || isFluidBucket(itemStack);
 			}
 
@@ -67,7 +70,7 @@ public class IceMakerMenu extends AbstractContainerMenu {
 		});
 		this.condensateSlot = this.addSlot(new Slot(container, CONDENSATE_SLOT, 16, 26) {
 			@Override
-			public boolean mayPlace(ItemStack itemStack) {
+			public boolean mayPlace(@NotNull ItemStack itemStack) {
 				return itemStack.is(Items.WATER_BUCKET);
 			}
 
@@ -95,16 +98,17 @@ public class IceMakerMenu extends AbstractContainerMenu {
 				itemStack.is(ECItems.MELTED_EMERALD_BUCKET.get()) ||
 				itemStack.is(ECItems.MELTED_IRON_BUCKET.get()) ||
 				itemStack.is(ECItems.MELTED_GOLD_BUCKET.get()) ||
-				itemStack.is(ECItems.MELTED_COPPER_BUCKET.get());
+				itemStack.is(ECItems.MELTED_COPPER_BUCKET.get()) ||
+				FluidTypes.isExtraFluidBucket(itemStack);
 	}
 
 	@Override
-	public boolean stillValid(Player player) {
+	public boolean stillValid(@NotNull Player player) {
 		return this.iceMaker.stillValid(player);
 	}
 
-	@Override
-	public ItemStack quickMoveStack(Player player, int index) {
+	@Override @NotNull
+	public ItemStack quickMoveStack(@NotNull Player player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
 		if (slot.hasItem()) {
@@ -117,12 +121,12 @@ public class IceMakerMenu extends AbstractContainerMenu {
 
 				slot.onQuickCraft(itemstack1, itemstack);
 			} else if (index != INGREDIENT_INPUT_SLOT) {
-				if (ingredientInputSlot.mayPlace(itemstack1)) {
-					if (!this.moveItemStackTo(itemstack1, INGREDIENT_INPUT_SLOT, INGREDIENT_OUTPUT_SLOT, false)) {
+				if (condensateSlot.mayPlace(itemstack1)) {
+					if (!this.moveItemStackTo(itemstack1, CONDENSATE_SLOT, RESULT_SLOT, false)) {
 						return ItemStack.EMPTY;
 					}
-				} else if (condensateSlot.mayPlace(itemstack1)) {
-					if (!this.moveItemStackTo(itemstack1, CONDENSATE_SLOT, RESULT_SLOT, false)) {
+				} else if (ingredientInputSlot.mayPlace(itemstack1)) {
+					if (!this.moveItemStackTo(itemstack1, INGREDIENT_INPUT_SLOT, INGREDIENT_OUTPUT_SLOT, false)) {
 						return ItemStack.EMPTY;
 					}
 				} else if (index >= INV_SLOT_START && index < INV_SLOT_END) {
@@ -158,7 +162,7 @@ public class IceMakerMenu extends AbstractContainerMenu {
 	}
 
 	public FluidType getFluidType() {
-		return FluidType.FLUID_TYPES[this.iceMakerData.get(0)];
+		return FluidTypes.getFluidTypeWithID(this.iceMakerData.get(0));
 	}
 
 	public int getIngredientFluidLevel() {
@@ -185,11 +189,11 @@ public class IceMakerMenu extends AbstractContainerMenu {
 		}
 
 		@Override
-		public boolean mayPlace(ItemStack itemStack) {
+		public boolean mayPlace(@NotNull ItemStack itemStack) {
 			return false;
 		}
 
-		@Override
+		@Override @NotNull
 		public ItemStack remove(int count) {
 			if (this.hasItem()) {
 				this.removeCount += Math.min(count, this.getItem().getCount());
@@ -199,13 +203,13 @@ public class IceMakerMenu extends AbstractContainerMenu {
 		}
 
 		@Override
-		public void onTake(Player player, ItemStack itemStack) {
+		public void onTake(@NotNull Player player, @NotNull ItemStack itemStack) {
 			this.checkTakeAchievements(itemStack);
 			super.onTake(player, itemStack);
 		}
 
 		@Override
-		protected void onQuickCraft(ItemStack itemStack, int count) {
+		protected void onQuickCraft(@NotNull ItemStack itemStack, int count) {
 			this.removeCount += count;
 			this.checkTakeAchievements(itemStack);
 		}

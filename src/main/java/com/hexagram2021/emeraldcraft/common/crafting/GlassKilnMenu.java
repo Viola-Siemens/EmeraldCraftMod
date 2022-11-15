@@ -1,7 +1,10 @@
 package com.hexagram2021.emeraldcraft.common.crafting;
 
+import com.hexagram2021.emeraldcraft.common.blocks.entity.GlassKilnBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
+import com.hexagram2021.emeraldcraft.common.register.ECRecipeBookTypes;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -12,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeHooks;
+import org.jetbrains.annotations.NotNull;
 
 public class GlassKilnMenu extends RecipeBookMenu<Container> {
 	private final Container container;
@@ -40,7 +44,7 @@ public class GlassKilnMenu extends RecipeBookMenu<Container> {
 
 		this.addSlot(new Slot(this.container, INGREDIENT_SLOT, 56, 17));
 		this.addSlot(new GlassKilnMenu.GlassKilnFuelSlot(this, this.container, FUEL_SLOT, 56, 53));
-		this.addSlot(new FurnaceResultSlot(inventory.player, this.container, RESULT_SLOT, 116, 35));
+		this.addSlot(new GlassKilnMenu.GlassKilnResultSlot(inventory.player, this.container, RESULT_SLOT, 116, 35));
 
 		for(int i = 0; i < 3; ++i) {
 			for(int j = 0; j < 9; ++j) {
@@ -55,8 +59,8 @@ public class GlassKilnMenu extends RecipeBookMenu<Container> {
 		this.addDataSlots(this.data);
 	}
 
-	@Override
-	public ItemStack quickMoveStack(Player player, int index) {
+	@Override @NotNull
+	public ItemStack quickMoveStack(@NotNull Player player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
 		if (slot.hasItem()) {
@@ -114,12 +118,12 @@ public class GlassKilnMenu extends RecipeBookMenu<Container> {
 	}
 
 	@Override
-	public boolean stillValid(Player player) {
+	public boolean stillValid(@NotNull Player player) {
 		return this.container.stillValid(player);
 	}
 
 	@Override
-	public void fillCraftSlotsStackedContents(StackedContents contents) {
+	public void fillCraftSlotsStackedContents(@NotNull StackedContents contents) {
 		if (this.container instanceof StackedContentsCompatible) {
 			((StackedContentsCompatible)this.container).fillStackedContents(contents);
 		}
@@ -175,9 +179,9 @@ public class GlassKilnMenu extends RecipeBookMenu<Container> {
 		return SLOT_COUNT;
 	}
 
-	@Override
+	@Override @NotNull
 	public RecipeBookType getRecipeBookType() {
-		return RecipeBookType.FURNACE;
+		return ECRecipeBookTypes.GLASS_KILN;
 	}
 
 	@Override
@@ -193,12 +197,55 @@ public class GlassKilnMenu extends RecipeBookMenu<Container> {
 			this.menu = menu;
 		}
 
-		public boolean mayPlace(ItemStack itemStack) {
+		public boolean mayPlace(@NotNull ItemStack itemStack) {
 			return this.menu.isFuel(itemStack);
 		}
 
-		public int getMaxStackSize(ItemStack itemStack) {
+		public int getMaxStackSize(@NotNull ItemStack itemStack) {
 			return super.getMaxStackSize(itemStack);
+		}
+	}
+
+	static class GlassKilnResultSlot extends Slot {
+		private final Player player;
+		private int removeCount;
+
+		public GlassKilnResultSlot(Player player, Container container, int slot, int x, int y) {
+			super(container, slot, x, y);
+			this.player = player;
+		}
+
+		public boolean mayPlace(@NotNull ItemStack itemStack) {
+			return false;
+		}
+
+		@NotNull
+		public ItemStack remove(int count) {
+			if (this.hasItem()) {
+				this.removeCount += Math.min(count, this.getItem().getCount());
+			}
+
+			return super.remove(count);
+		}
+
+		public void onTake(@NotNull Player player, @NotNull ItemStack itemStack) {
+			this.checkTakeAchievements(itemStack);
+			super.onTake(player, itemStack);
+		}
+
+		protected void onQuickCraft(@NotNull ItemStack itemStack, int count) {
+			this.removeCount += count;
+			this.checkTakeAchievements(itemStack);
+		}
+
+		protected void checkTakeAchievements(ItemStack itemStack) {
+			itemStack.onCraftedBy(this.player.level, this.player, this.removeCount);
+			if (this.player instanceof ServerPlayer && this.container instanceof GlassKilnBlockEntity) {
+				((GlassKilnBlockEntity)this.container).awardUsedRecipesAndPopExperience((ServerPlayer)this.player);
+			}
+
+			this.removeCount = 0;
+			net.minecraftforge.event.ForgeEventFactory.firePlayerSmeltedEvent(this.player, itemStack);
 		}
 	}
 }

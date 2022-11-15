@@ -2,12 +2,9 @@ package com.hexagram2021.emeraldcraft.common.blocks.plant;
 
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -22,11 +19,12 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.PlantType;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.EnumMap;
 import java.util.Random;
 import java.util.function.Supplier;
 
+@SuppressWarnings("deprecation")
 public class WarpedWartBlock extends BushBlock {
 	public static final int MAX_AGE = 3;
 	public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
@@ -48,18 +46,18 @@ public class WarpedWartBlock extends BushBlock {
 		this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
 	}
 
-	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	@Override @NotNull
+	public VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
 		return SHAPE_BY_AGE[state.getValue(AGE)];
 	}
 
 	@Override
-	public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+	public boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader world, @NotNull BlockPos pos) {
 		return super.canSurvive(state, world, pos);
 	}
 
 	@Override
-	protected boolean mayPlaceOn(BlockState state, BlockGetter world, BlockPos pos) {
+	protected boolean mayPlaceOn(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
 		return state.is(Blocks.SOUL_SAND);
 	}
 
@@ -69,7 +67,7 @@ public class WarpedWartBlock extends BushBlock {
 	}
 
 	@Override
-	public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+	public void randomTick(BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull Random random) {
 		int i = state.getValue(AGE);
 		if (i < MAX_AGE && net.minecraftforge.common.ForgeHooks.onCropsGrowPre(level, pos, state, random.nextInt(10) == 0)) {
 			state = state.setValue(AGE, i + 1);
@@ -88,12 +86,12 @@ public class WarpedWartBlock extends BushBlock {
 		return PlantType.NETHER;
 	}
 
-	@Override
-	public ItemStack getCloneItemStack(BlockGetter p_54973_, BlockPos p_54974_, BlockState p_54975_) {
+	@Override @NotNull
+	public ItemStack getCloneItemStack(@NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull BlockState blockState) {
 		return new ItemStack(ECItems.WARPED_WART.asItem());
 	}
 
-	@Override
+	@Override @NotNull
 	public Item asItem() {
 		return ECItems.WARPED_WART.asItem();
 	}

@@ -1,10 +1,10 @@
 package com.hexagram2021.emeraldcraft.common.blocks.entity;
 
+import com.hexagram2021.emeraldcraft.api.continuous_miner.ContinuousMinerCustomLoot;
 import com.hexagram2021.emeraldcraft.common.blocks.workstation.ContinuousMinerBlock;
 import com.hexagram2021.emeraldcraft.common.crafting.ContinuousMinerMenu;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
-import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -29,13 +29,18 @@ import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -81,7 +86,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 		}
 	};
 
-	@Override
+	@Override @NotNull
 	protected Component getDefaultName() {
 		return new TranslatableComponent("container.continuous_miner");
 	}
@@ -119,7 +124,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 	}
 
 	@Override
-	public void load(CompoundTag nbt) {
+	public void load(@NotNull CompoundTag nbt) {
 		super.load(nbt);
 		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
 		ContainerHelper.loadAllItems(nbt, this.items);
@@ -128,14 +133,14 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag nbt) {
+	public void saveAdditional(@NotNull CompoundTag nbt) {
 		super.saveAdditional(nbt);
 		nbt.putInt("Fluid", this.fluid);
 		nbt.putInt("MineTime", this.mineTime);
 		ContainerHelper.saveAllItems(nbt, this.items);
 	}
 
-	public static ItemStack byState(BlockState blockState, ServerLevel level, BlockPos pos, Random random) {
+	public static ItemStack byState(BlockState blockState, ServerLevel level, Random random) {
 		ResourceLocation rl;
 		if (blockState.is(BlockTags.OAK_LOGS)) {
 			rl = new ResourceLocation(MODID, "continuous_miner/wood/oak_logs");
@@ -165,8 +170,14 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 			rl = new ResourceLocation(MODID, "continuous_miner/ores/flint");
 		} else if(blockState.is(Blocks.OBSIDIAN) || blockState.is(Blocks.CRYING_OBSIDIAN) || blockState.is(Blocks.BEDROCK)) {
 			rl = new ResourceLocation(MODID, "continuous_miner/ores/obsidian");
+		} else if (blockState.is(Blocks.WATER) || blockState.is(Blocks.WATER_CAULDRON) || (blockState.hasProperty(BlockStateProperties.WATERLOGGED) && blockState.getValue(BlockStateProperties.WATERLOGGED))) {
+			//TODO: Different biomes product different fishes.
+			rl = new ResourceLocation(MODID, "continuous_miner/fishing");
 		} else {
-			return new ItemStack(Items.AIR);
+			rl = ContinuousMinerCustomLoot.getBlockLoot(blockState);
+			if(rl == null) {
+				return new ItemStack(Items.AIR);
+			}
 		}
 		List<ItemStack> list = level.getServer().getLootTables().get(rl).getRandomItems(
 				new LootContext.Builder(level).withRandom(random).create(LootContextParamSets.EMPTY)
@@ -179,7 +190,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 
 		Direction facing = blockState.getValue(ContinuousMinerBlock.FACING);
 		BlockState front = level.getBlockState(pos.relative(facing));
-		ItemStack itemstack = byState(front, level, pos, random);
+		ItemStack itemstack = byState(front, level, random);
 		if(!itemstack.is(Items.AIR)) {
 			this.fluid -= 1;
 			this.mineTime = TOTAL_MINE_TIME;
@@ -249,7 +260,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 	}
 
 	@Override
-	public int[] getSlotsForFace(Direction direction) {
+	public int[] getSlotsForFace(@NotNull Direction direction) {
 		if(direction == Direction.DOWN) {
 			return SLOTS_FOR_DOWN;
 		}
@@ -265,37 +276,37 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 	}
 
 	@Override
-	public void fillStackedContents(StackedContents contents) {
+	public void fillStackedContents(@NotNull StackedContents contents) {
 		for(ItemStack itemstack : this.items) {
 			contents.accountStack(itemstack);
 		}
 	}
 
 	@Override
-	public boolean stillValid(Player player) {
+	public boolean stillValid(@NotNull Player player) {
 		if (this.level.getBlockEntity(this.worldPosition) != this) {
 			return false;
 		}
 		return player.distanceToSqr((double)this.worldPosition.getX() + 0.5D, (double)this.worldPosition.getY() + 0.5D, (double)this.worldPosition.getZ() + 0.5D) <= 64.0D;
 	}
 
-	@Override
+	@Override @NotNull
 	public ItemStack getItem(int index) {
 		return this.items.get(index);
 	}
 
-	@Override
+	@Override @NotNull
 	public ItemStack removeItem(int index, int count) {
 		return ContainerHelper.removeItem(this.items, index, count);
 	}
 
-	@Override
+	@Override @NotNull
 	public ItemStack removeItemNoUpdate(int index) {
 		return ContainerHelper.takeItem(this.items, index);
 	}
 
 	@Override
-	public void setItem(int index, ItemStack itemStack) {
+	public void setItem(int index, @NotNull ItemStack itemStack) {
 		this.items.set(index, itemStack);
 		if (itemStack.getCount() > this.getMaxStackSize()) {
 			itemStack.setCount(this.getMaxStackSize());
@@ -308,20 +319,20 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 	}
 
 	@Override
-	public boolean canPlaceItemThroughFace(int index, ItemStack itemStack, Direction direction) {
+	public boolean canPlaceItemThroughFace(int index, @NotNull ItemStack itemStack, Direction direction) {
 		return this.canPlaceItem(index, itemStack);
 	}
 
 	@Override
-	public boolean canTakeItemThroughFace(int index, ItemStack itemStack, Direction direction) {
+	public boolean canTakeItemThroughFace(int index, @NotNull ItemStack itemStack, @NotNull Direction direction) {
 		return true;
 	}
 
-	net.minecraftforge.common.util.LazyOptional<? extends net.minecraftforge.items.IItemHandler>[] handlers =
-			net.minecraftforge.items.wrapper.SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
+	LazyOptional<? extends IItemHandler>[] handlers =
+			SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 
-	@Override
-	public <T> net.minecraftforge.common.util.LazyOptional<T> getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @Nullable Direction facing) {
+	@Override @NotNull
+	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
 		if (!this.remove && facing != null && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (facing == Direction.UP) {
 				return handlers[0].cast();
@@ -337,7 +348,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 	@Override
 	public void invalidateCaps() {
 		super.invalidateCaps();
-		for (net.minecraftforge.common.util.LazyOptional<? extends net.minecraftforge.items.IItemHandler> handler : handlers) {
+		for (LazyOptional<? extends IItemHandler> handler : handlers) {
 			handler.invalidate();
 		}
 	}
@@ -345,11 +356,11 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 	@Override
 	public void reviveCaps() {
 		super.reviveCaps();
-		this.handlers = net.minecraftforge.items.wrapper.SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
+		this.handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 	}
 
-	@Override
-	protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
+	@Override @NotNull
+	protected AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory) {
 		return new ContinuousMinerMenu(id, inventory, this, this.dataAccess);
 	}
 }

@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -27,14 +28,14 @@ public class MineralTableScreen extends AbstractContainerScreen<MineralTableMenu
 	}
 
 	@Override
-	public void render(PoseStack transform, int x, int y, float partialTicks) {
+	public void render(@NotNull PoseStack transform, int x, int y, float partialTicks) {
 		this.renderBackground(transform);
 		super.render(transform, x, y, partialTicks);
 		this.renderTooltip(transform, x, y);
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int x, int y) {
+	protected void renderBg(@NotNull PoseStack transform, float partialTicks, int x, int y) {
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.setShaderTexture(0, MINERAL_TABLE_LOCATION);

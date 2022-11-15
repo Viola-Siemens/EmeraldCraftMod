@@ -1,0 +1,32 @@
+{
+  "parent": "emeraldcraft:emeraldcraft/friend_from_the_nether",
+  "display": {
+    "icon": {
+      "item": "minecraft:gold_block"
+    },
+    "title": {
+      "translate": "advancements.emeraldcraft.surely_see_each_other_again.title"
+    },
+    "description": {
+      "translate": "advancements.emeraldcraft.surely_see_each_other_again.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 100
+  },
+  "criteria": {
+    "piglin_cutey": {
+      "trigger": "emeraldcraft:saved_piglin_cutey",
+      "conditions": { }
+    }
+  },
+  "requirements": [
+    [
+      "piglin_cutey"
+    ]
+  ]
+}

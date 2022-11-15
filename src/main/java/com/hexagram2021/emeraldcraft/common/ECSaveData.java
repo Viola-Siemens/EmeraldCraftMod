@@ -34,8 +34,7 @@ public class ECSaveData extends SavedData {
 	}
 
 
-	public static void markInstanceDirty()
-	{
+	public static void markInstanceDirty() {
 		if(INSTANCE!=null)
 			INSTANCE.setDirty();
 	}

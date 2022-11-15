@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "emeraldcraft:ginkgo_door"
+    "emeraldcraft:ginkgo_door",
+    "emeraldcraft:palm_door",
+    "emeraldcraft:peach_door",
+    "emeraldcraft:purpuraceus_door"
   ]
 }

@@ -1,6 +1,5 @@
 package com.hexagram2021.emeraldcraft.common.util;
 
-import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,7 +16,7 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECSounds {
-	static Set<SoundEvent> registeredEvents = new HashSet<>();
+	static final Set<SoundEvent> registeredEvents = new HashSet<>();
 	//public static final SoundEvent PIGLIN_CUTEY_ADMIRING_ITEM = registerSound("piglin_cutey.admiring_item");
 	public static final SoundEvent PIGLIN_CUTEY_AMBIENT = registerSound("piglin_cutey.ambient");
 	public static final SoundEvent PIGLIN_CUTEY_CELEBRATE = registerSound("piglin_cutey.celebrate");
@@ -51,6 +50,25 @@ public class ECSounds {
 	public static final SoundEvent VILLAGER_WORK_ICER = registerSound("villager.work_icer");
 	public static final SoundEvent VILLAGER_WORK_MINER = registerSound("villager.work_miner");
 
+	public static final SoundEvent HIGAN_BANA_DROP_LEAVES = registerSound("flower.drop_leaves");
+
+	public static final SoundEvent HERRING_AMBIENT = registerSound("herring.ambient");
+	public static final SoundEvent HERRING_FLOP = registerSound("herring.flop");
+	public static final SoundEvent HERRING_HURT = registerSound("herring.hurt");
+	public static final SoundEvent HERRING_DEATH = registerSound("herring.death");
+	public static final SoundEvent BIGEYE_AMBIENT = registerSound("purple_spotted_bigeye.ambient");
+	public static final SoundEvent BIGEYE_FLOP = registerSound("purple_spotted_bigeye.flop");
+	public static final SoundEvent BIGEYE_HURT = registerSound("purple_spotted_bigeye.hurt");
+	public static final SoundEvent BIGEYE_DEATH = registerSound("purple_spotted_bigeye.death");
+
+	public static final SoundEvent WRAITH_AMBIENT = registerSound("wraith.ambient");
+	public static final SoundEvent WRAITH_HURT = registerSound("wraith.hurt");
+	public static final SoundEvent WRAITH_DEATH = registerSound("wraith.death");
+
+	public static final SoundEvent MANTA_AMBIENT = registerSound("manta.ambient");
+	public static final SoundEvent MANTA_HURT = registerSound("manta.hurt");
+	public static final SoundEvent MANTA_DEATH = registerSound("manta.death");
+
 	private static SoundEvent registerSound(String name) {
 		ResourceLocation location = new ResourceLocation(MODID, name);
 		SoundEvent event = new SoundEvent(location);
@@ -64,6 +82,7 @@ public class ECSounds {
 			evt.getRegistry().register(event);
 	}
 
+	@SuppressWarnings("unused")
 	public static void PlaySoundForPlayer(Entity player, SoundEvent sound, float volume, float pitch) {
 		if(player instanceof ServerPlayer)
 			((ServerPlayer)player).connection.send(new ClientboundSoundPacket(sound, player.getSoundSource(),

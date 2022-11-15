@@ -1,5 +1,7 @@
 package com.hexagram2021.emeraldcraft.common.crafting;
 
+import com.hexagram2021.emeraldcraft.api.fluid.FluidType;
+import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
 import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
@@ -14,6 +16,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import static net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity.isFuel;
 
@@ -50,7 +53,7 @@ public class MelterMenu extends AbstractContainerMenu {
 
 		this.resultInputSlot = this.addSlot(new Slot(container, RESULT_INPUT_SLOT, 132, 18) {
 			@Override
-			public boolean mayPlace(ItemStack itemStack) {
+			public boolean mayPlace(@NotNull ItemStack itemStack) {
 				return itemStack.is(Items.BUCKET) || isFluidBucket(itemStack);
 			}
 
@@ -61,7 +64,7 @@ public class MelterMenu extends AbstractContainerMenu {
 		});
 		this.addSlot(new Slot(container, RESULT_OUTPUT_SLOT, 132, 52) {
 			@Override
-			public boolean mayPlace(ItemStack itemStack) {
+			public boolean mayPlace(@NotNull ItemStack itemStack) {
 				return itemStack.is(Items.BUCKET) || isFluidBucket(itemStack);
 			}
 
@@ -88,7 +91,8 @@ public class MelterMenu extends AbstractContainerMenu {
 				itemStack.is(ECItems.MELTED_EMERALD_BUCKET.get()) ||
 				itemStack.is(ECItems.MELTED_IRON_BUCKET.get()) ||
 				itemStack.is(ECItems.MELTED_GOLD_BUCKET.get()) ||
-				itemStack.is(ECItems.MELTED_COPPER_BUCKET.get());
+				itemStack.is(ECItems.MELTED_COPPER_BUCKET.get()) ||
+				FluidTypes.isExtraFluidBucket(itemStack);
 	}
 
 	public boolean isLit() {
@@ -96,12 +100,12 @@ public class MelterMenu extends AbstractContainerMenu {
 	}
 
 	@Override
-	public boolean stillValid(Player player) {
+	public boolean stillValid(@NotNull Player player) {
 		return this.melter.stillValid(player);
 	}
 
-	@Override
-	public ItemStack quickMoveStack(Player player, int index) {
+	@Override @NotNull
+	public ItemStack quickMoveStack(@NotNull Player player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
 		if (slot.hasItem()) {
@@ -178,7 +182,7 @@ public class MelterMenu extends AbstractContainerMenu {
 	}
 
 	public FluidType getFluidType() {
-		return FluidType.FLUID_TYPES[this.melterData.get(4)];
+		return FluidTypes.getFluidTypeWithID(this.melterData.get(4));
 	}
 
 	public int getFluidLevel() {
@@ -193,7 +197,7 @@ public class MelterMenu extends AbstractContainerMenu {
 		}
 
 		@Override
-		public boolean mayPlace(ItemStack itemStack) {
+		public boolean mayPlace(@NotNull ItemStack itemStack) {
 			return menu.level.getRecipeManager().getRecipeFor(ECRecipes.MELTER_TYPE, new SimpleContainer(itemStack), menu.level).isPresent();
 		}
 
@@ -209,11 +213,11 @@ public class MelterMenu extends AbstractContainerMenu {
 			super(container, slot, x, y);
 		}
 
-		public boolean mayPlace(ItemStack itemStack) {
+		public boolean mayPlace(@NotNull ItemStack itemStack) {
 			return isFuel(itemStack);
 		}
 
-		public int getMaxStackSize(ItemStack itemStack) {
+		public int getMaxStackSize(@NotNull ItemStack itemStack) {
 			return super.getMaxStackSize(itemStack);
 		}
 	}

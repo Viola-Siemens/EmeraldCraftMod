@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "emeraldcraft:purpuraceus_stems"
+    }
+  ],
+  "result": {
+    "item": "emeraldcraft:purpuraceus_planks",
+    "count": 4
+  }
+}

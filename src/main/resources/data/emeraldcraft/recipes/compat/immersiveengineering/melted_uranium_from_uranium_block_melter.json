@@ -1,0 +1,17 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ],
+  "type": "emeraldcraft:melter",
+  "ingredient": {
+    "item": "immersiveengineering:storage_uranium"
+  },
+  "result": {
+    "fluid": "melted_uranium",
+    "amount": 100
+  },
+  "meltingtime": 200
+}

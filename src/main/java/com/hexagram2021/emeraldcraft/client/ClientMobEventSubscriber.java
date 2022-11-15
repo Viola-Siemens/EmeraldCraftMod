@@ -1,6 +1,5 @@
 package com.hexagram2021.emeraldcraft.client;
 
-
 import com.hexagram2021.emeraldcraft.client.models.*;
 import com.hexagram2021.emeraldcraft.common.entities.ECBoat;
 import com.hexagram2021.emeraldcraft.common.register.ECEntities;
@@ -20,6 +19,10 @@ public class ClientMobEventSubscriber {
 		event.registerLayerDefinition(PiglinCuteyModel.LAYER_LOCATION, PiglinCuteyModel::createBodyLayer);
 		event.registerLayerDefinition(NetherPigmanModel.LAYER_LOCATION, NetherPigmanModel::createBodyLayer);
 		event.registerLayerDefinition(NetherLambmanModel.LAYER_LOCATION, NetherLambmanModel::createBodyLayer);
+		event.registerLayerDefinition(HerringModel.LAYER_LOCATION, HerringModel::createBodyLayer);
+		event.registerLayerDefinition(PurpleSpottedBigeyeModel.LAYER_LOCATION, PurpleSpottedBigeyeModel::createBodyLayer);
+		event.registerLayerDefinition(MantaModel.LAYER_LOCATION, MantaModel::createBodyLayer);
+		event.registerLayerDefinition(WraithModel.LAYER_LOCATION, WraithModel::createBodyLayer);
 
 		for(ECBoat.ECBoatType type: ECBoat.ECBoatType.values()) {
 			ForgeHooksClient.registerLayerDefinition(ECBoatRenderer.createBoatModelName(type), BoatModel::createBodyModel);
@@ -31,6 +34,10 @@ public class ClientMobEventSubscriber {
 		event.registerEntityRenderer(ECEntities.PIGLIN_CUTEY.get(), PiglinCuteyRenderer::new);
 		event.registerEntityRenderer(ECEntities.NETHER_PIGMAN.get(), NetherPigmanRenderer::new);
 		event.registerEntityRenderer(ECEntities.NETHER_LAMBMAN.get(), NetherLambmanRenderer::new);
+		event.registerEntityRenderer(ECEntities.HERRING.get(), HerringRenderer::new);
+		event.registerEntityRenderer(ECEntities.PURPLE_SPOTTED_BIGEYE.get(), PurpleSpottedBigeyeRenderer::new);
+		event.registerEntityRenderer(ECEntities.MANTA.get(), MantaRenderer::new);
+		event.registerEntityRenderer(ECEntities.WRAITH.get(), WraithRenderer::new);
 		event.registerEntityRenderer(ECEntities.BOAT.get(), ECBoatRenderer::new);
 	}
 }

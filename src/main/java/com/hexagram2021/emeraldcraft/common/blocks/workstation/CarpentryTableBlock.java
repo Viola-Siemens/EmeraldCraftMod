@@ -22,10 +22,12 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
+@SuppressWarnings("deprecation")
 public class CarpentryTableBlock extends Block {
 	private static final Component CONTAINER_TITLE = new TranslatableComponent("container.carpentry");
 	protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 9.0D, 16.0D);
@@ -39,8 +41,9 @@ public class CarpentryTableBlock extends Block {
 		super(properties);
 	}
 
-	@Override
-	public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+	@Override @NotNull
+	public InteractionResult use(@NotNull BlockState blockState, Level level, @NotNull BlockPos blockPos, @NotNull Player player,
+								 @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
 		if (level.isClientSide) {
 			return InteractionResult.SUCCESS;
 		}
@@ -50,32 +53,32 @@ public class CarpentryTableBlock extends Block {
 
 	@Override
 	@Nullable
-	public MenuProvider getMenuProvider(BlockState blockState, Level level, BlockPos blockPos) {
+	public MenuProvider getMenuProvider(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos) {
 		return new SimpleMenuProvider((id, inventory, levelAccess) ->
 				new CarpentryTableMenu(id, inventory, ContainerLevelAccess.create(level, blockPos)), CONTAINER_TITLE);
 	}
 
-	@Override
-	public VoxelShape getShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext context) {
+	@Override @NotNull
+	public VoxelShape getShape(@NotNull BlockState blockState, @NotNull BlockGetter blockGetter, @NotNull BlockPos blockPos, @NotNull CollisionContext context) {
 		return SHAPE;
 	}
 
 	@Override
-	public boolean useShapeForLightOcclusion(BlockState blockState) {
+	public boolean useShapeForLightOcclusion(@NotNull BlockState blockState) {
 		return true;
 	}
 
-	@Override
-	public RenderShape getRenderShape(BlockState blockState) {
+	@Override @NotNull
+	public RenderShape getRenderShape(@NotNull BlockState blockState) {
 		return RenderShape.MODEL;
 	}
 
-	@Override
+	@Override @NotNull
 	public BlockState rotate(BlockState blockState, Rotation rotation) {
 		return blockState.setValue(FACING, rotation.rotate(blockState.getValue(FACING)));
 	}
 
-	@Override
+	@Override @NotNull
 	public BlockState mirror(BlockState blockState, Mirror rotation) {
 		return blockState.rotate(rotation.getRotation(blockState.getValue(FACING)));
 	}
@@ -86,7 +89,7 @@ public class CarpentryTableBlock extends Block {
 	}
 
 	@Override
-	public boolean isPathfindable(BlockState state, BlockGetter getter, BlockPos blockPos, PathComputationType type) {
+	public boolean isPathfindable(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos blockPos, @NotNull PathComputationType type) {
 		return false;
 	}
 }

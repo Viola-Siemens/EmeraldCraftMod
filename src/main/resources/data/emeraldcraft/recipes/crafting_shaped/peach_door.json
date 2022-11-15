@@ -1,0 +1,18 @@
+{
+  "type": "crafting_shaped",
+  "group": "wooden_door",
+  "pattern": [
+    "##",
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "emeraldcraft:peach_planks"
+    }
+  },
+  "result": {
+    "item": "emeraldcraft:peach_door",
+    "count": 3
+  }
+}

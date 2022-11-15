@@ -9,7 +9,6 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
@@ -25,7 +24,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class ECBoatItem extends Item {
-	private static final Predicate<Entity> ENTITY_PREDICATE = EntitySelector.NO_SPECTATORS.and(Entity::isPickable);;
+	private static final Predicate<Entity> ENTITY_PREDICATE = EntitySelector.NO_SPECTATORS.and(Entity::isPickable);
 	private final ECBoat.ECBoatType type;
 
 	public ECBoatItem(ECBoat.ECBoatType type, Item.Properties properties) {
@@ -34,9 +33,8 @@ public class ECBoatItem extends Item {
 		DispenserBlock.registerBehavior(this, new ECBoatDispenseItemBehaviour(type));
 	}
 
-	@Override
-	@NotNull
-	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+	@Override @NotNull
+	public InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
 		HitResult hitresult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.ANY);
 		if (hitresult.getType() == HitResult.Type.MISS) {

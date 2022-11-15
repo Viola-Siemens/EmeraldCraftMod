@@ -2,7 +2,8 @@ package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.hexagram2021.emeraldcraft.common.crafting.FluidType;
+import com.hexagram2021.emeraldcraft.api.fluid.FluidType;
+import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
 import com.hexagram2021.emeraldcraft.common.crafting.MelterRecipe;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -10,6 +11,7 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.*;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -22,8 +24,8 @@ public class MelterRecipeSerializer<T extends MelterRecipe> extends ForgeRegistr
 		this.factory = creator;
 	}
 
-	@Override
-	public T fromJson(ResourceLocation id, JsonObject json) {
+	@Override @NotNull
+	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
 		String s = GsonHelper.getAsString(json, "group", "");
 		JsonElement jsonelement =
 				GsonHelper.isArrayNode(json, "ingredient") ?
@@ -36,7 +38,7 @@ public class MelterRecipeSerializer<T extends MelterRecipe> extends ForgeRegistr
 		int fluidAmount;
 		if (json.get("result").isJsonObject()) {
 			JsonObject result = GsonHelper.getAsJsonObject(json, "result");
-			fluidType = FluidType.valueOf(GsonHelper.getAsString(result, "fluid"));
+			fluidType = FluidTypes.getFluidTypeFromName(GsonHelper.getAsString(result, "fluid"));
 			fluidAmount = GsonHelper.getAsInt(result, "amount");
 		} else {
 			throw new IllegalStateException("result is not a Json object");
@@ -47,10 +49,10 @@ public class MelterRecipeSerializer<T extends MelterRecipe> extends ForgeRegistr
 
 	@Nullable
 	@Override
-	public T fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+	public T fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);
-		FluidType fluidType = FluidType.valueOf(buf.readUtf());
+		FluidType fluidType = FluidTypes.getFluidTypeFromName(buf.readUtf());
 		int fluidAmount = buf.readVarInt();
 		int i = buf.readVarInt();
 		return this.factory.create(id, group, ingredient, fluidType, fluidAmount, i);

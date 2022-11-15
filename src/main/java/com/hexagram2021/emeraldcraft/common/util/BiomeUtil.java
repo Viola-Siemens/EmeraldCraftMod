@@ -18,15 +18,13 @@ import net.minecraftforge.registries.ForgeRegistry;
 import java.util.Iterator;
 import java.util.List;
 
-@Mod.EventBusSubscriber(
-		bus = Mod.EventBusSubscriber.Bus.FORGE
-)
+@SuppressWarnings("unused")
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class BiomeUtil {
 	private static final List<Level> worldList = Lists.newArrayList();
 
+	@SafeVarargs
 	public static ResourceKey<Biome> biomeOrFallback(Registry<Biome> biomeRegistry, ResourceKey<Biome>... biomes) {
-		int var3 = biomes.length;
-
 		for (ResourceKey<Biome> key : biomes) {
 			if (isKeyRegistered(biomeRegistry, key)) {
 				return key;

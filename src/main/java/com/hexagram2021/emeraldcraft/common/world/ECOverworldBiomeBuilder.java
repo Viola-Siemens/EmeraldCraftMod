@@ -2,7 +2,6 @@ package com.hexagram2021.emeraldcraft.common.world;
 
 import com.hexagram2021.emeraldcraft.common.register.ECBiomeKeys;
 import com.hexagram2021.emeraldcraft.common.util.BiomeUtil;
-import com.hexagram2021.emeraldcraft.common.world.compat.ECBiomeProvider;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -15,6 +14,7 @@ import terrablender.worldgen.TBClimate;
 
 import java.util.function.Consumer;
 
+@SuppressWarnings("unchecked")
 public class ECOverworldBiomeBuilder {
 	private final Climate.Parameter uniqueness;
 
@@ -657,17 +657,17 @@ public class ECOverworldBiomeBuilder {
 				ParameterUtils.Humidity.FULL_RANGE.parameter(),
 				ParameterUtils.Continentalness.FULL_RANGE.parameter(),
 				Climate.Parameter.span(ParameterUtils.Erosion.EROSION_4.parameter(), ParameterUtils.Erosion.EROSION_6.parameter()),
-				Climate.Parameter.span(ParameterUtils.Weirdness.MID_SLICE_VARIANT_ASCENDING.parameter(), ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING.parameter()),
-				ParameterUtils.Depth.UNDERGROUND.parameter(),
-				0.125F, ECBiomeKeys.VOLCANIC_CAVES);
+				Climate.Parameter.span(ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_ASCENDING.parameter(), ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_DESCENDING.parameter()),
+				Climate.Parameter.span(0.2F, 0.4F),
+				0.75F, ECBiomeKeys.VOLCANIC_CAVES);
 		this.addUndergroundBiome(biomeRegistry, mapper,
 				ParameterUtils.Temperature.FROZEN.parameter(),
 				ParameterUtils.Humidity.FULL_RANGE.parameter(),
 				ParameterUtils.Continentalness.FULL_RANGE.parameter(),
 				Climate.Parameter.span(ParameterUtils.Erosion.EROSION_4.parameter(), ParameterUtils.Erosion.EROSION_6.parameter()),
-				Climate.Parameter.span(ParameterUtils.Weirdness.MID_SLICE_VARIANT_ASCENDING.parameter(), ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING.parameter()),
-				ParameterUtils.Depth.UNDERGROUND.parameter(),
-				0.05F, ECBiomeKeys.VOLCANIC_CAVES);
+				Climate.Parameter.span(ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_ASCENDING.parameter(), ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_DESCENDING.parameter()),
+				Climate.Parameter.span(0.2F, 0.4F),
+				0.25F, ECBiomeKeys.VOLCANIC_CAVES);
 
 		this.addUndergroundBiome(biomeRegistry, mapper,
 				ParameterUtils.Temperature.FULL_RANGE.parameter(),
@@ -698,15 +698,16 @@ public class ECOverworldBiomeBuilder {
 	protected ResourceKey<Biome> pickVanillaMiddleBiome(int temperatureIndex, int humidityIndex, Climate.Parameter weirdness) {
 		if (weirdness.max() < 0L) {
 			return this.MIDDLE_BIOMES[temperatureIndex][humidityIndex];
-		} else {
-			ResourceKey<Biome> variantBiome = this.MIDDLE_BIOMES_VARIANT[temperatureIndex][humidityIndex];
-			return variantBiome == null ? this.MIDDLE_BIOMES[temperatureIndex][humidityIndex] : variantBiome;
 		}
+		ResourceKey<Biome> variantBiome = this.MIDDLE_BIOMES_VARIANT[temperatureIndex][humidityIndex];
+		return variantBiome == null ? this.MIDDLE_BIOMES[temperatureIndex][humidityIndex] : variantBiome;
 	}
 
 	protected ResourceKey<Biome> pickECMiddleBiome(Registry<Biome> biomeRegistry, int temperatureIndex, int humidityIndex, Climate.Parameter weirdness) {
 		ResourceKey<Biome> middleBiome = BiomeUtil.biomeOrFallback(biomeRegistry, this.MIDDLE_BIOMES_EC[temperatureIndex][humidityIndex], this.MIDDLE_BIOMES[temperatureIndex][humidityIndex]);
-		return weirdness.max() < 0L ? middleBiome : BiomeUtil.biomeOrFallback(biomeRegistry, this.MIDDLE_BIOMES_VARIANT_EC[temperatureIndex][humidityIndex], middleBiome);
+		return weirdness.max() < 0L ? middleBiome : BiomeUtil.biomeOrFallback(biomeRegistry,
+						this.MIDDLE_BIOMES_VARIANT_EC[temperatureIndex][humidityIndex],
+						this.MIDDLE_BIOMES_VARIANT[temperatureIndex][humidityIndex], middleBiome);
 	}
 
 	protected ResourceKey<Biome> pickECMiddleBiomeOrBadlandsIfHotOrSlopeIfCold(Registry<Biome> biomeRegistry, int temperatureIndex, int humidityIndex, Climate.Parameter weirdness) {
@@ -726,10 +727,16 @@ public class ECOverworldBiomeBuilder {
 		if (temperatureIndex == 0) {
 			return Biomes.SNOWY_BEACH;
 		}
-		if (temperatureIndex >= 4 && humidityIndex >= 2) {
-			return BiomeUtil.biomeOrFallback(biomeRegistry, ECBiomeKeys.GOLDEN_BEACH, Biomes.DESERT);
+		if (temperatureIndex >= 4) {
+			if(humidityIndex >= 3) {
+				return BiomeUtil.biomeOrFallback(biomeRegistry, ECBiomeKeys.GOLDEN_BEACH, Biomes.DESERT);
+			}
+			if(humidityIndex >= 1) {
+				return BiomeUtil.biomeOrFallback(biomeRegistry, ECBiomeKeys.PALM_BEACH, Biomes.DESERT);
+			}
+			return Biomes.DESERT;
 		}
-		return temperatureIndex >= 4 ? Biomes.DESERT : Biomes.BEACH;
+		return Biomes.BEACH;
 	}
 
 	protected ResourceKey<Biome> pickBadlandsBiome(int humidityIndex, Climate.Parameter weirdness) {
@@ -769,14 +776,15 @@ public class ECOverworldBiomeBuilder {
 		return biome == null ? this.pickVanillaMiddleBiome(temperatureIndex, humidityIndex, weirdness) : biome;
 	}
 
+	@SuppressWarnings("SameParameterValue")
 	protected void addSurfaceBiome(Consumer<Pair<TBClimate.ParameterPoint, ResourceKey<Biome>>> mapper, Climate.Parameter temperature, Climate.Parameter humidity, Climate.Parameter continentalness, Climate.Parameter erosion, Climate.Parameter weirdness, float offset, ResourceKey<Biome> biome) {
-		mapper.accept(Pair.of(TBClimate.parameters(temperature, humidity, continentalness, erosion, ParameterUtils.Depth.SURFACE.parameter(), weirdness, uniqueness, offset), biome));
-		mapper.accept(Pair.of(TBClimate.parameters(temperature, humidity, continentalness, erosion, ParameterUtils.Depth.FLOOR.parameter(), weirdness, uniqueness, offset), biome));
+		mapper.accept(Pair.of(TBClimate.parameters(temperature, humidity, continentalness, erosion, ParameterUtils.Depth.SURFACE.parameter(), weirdness, this.uniqueness, offset), biome));
+		mapper.accept(Pair.of(TBClimate.parameters(temperature, humidity, continentalness, erosion, ParameterUtils.Depth.FLOOR.parameter(), weirdness, this.uniqueness, offset), biome));
 	}
 
 	protected void addUndergroundBiome(Registry<Biome> biomeRegistry, Consumer<Pair<TBClimate.ParameterPoint, ResourceKey<Biome>>> mapper, Climate.Parameter temperature, Climate.Parameter humidity, Climate.Parameter continentalness, Climate.Parameter erosion, Climate.Parameter weirdness, Climate.Parameter depth, float offset, ResourceKey<Biome> biome) {
 		if (BiomeUtil.isKeyRegistered(biomeRegistry, biome)) {
-			mapper.accept(Pair.of(TBClimate.parameters(temperature, humidity, continentalness, erosion, depth, weirdness, uniqueness, offset), biome));
+			mapper.accept(Pair.of(TBClimate.parameters(temperature, humidity, continentalness, erosion, depth, weirdness, this.uniqueness, offset), biome));
 		}
 	}
 }

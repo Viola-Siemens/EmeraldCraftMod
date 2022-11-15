@@ -13,9 +13,11 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
+@SuppressWarnings("deprecation")
 public class GlassKilnRecipeSerializer<T extends GlassKilnRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T> {
 	private final int defaultCookingTime;
 	private final GlassKilnRecipeSerializer.Creator<T> factory;
@@ -25,8 +27,8 @@ public class GlassKilnRecipeSerializer<T extends GlassKilnRecipe> extends ForgeR
 		this.factory = creator;
 	}
 
-	@Override
-	public T fromJson(ResourceLocation id, JsonObject json) {
+	@Override @NotNull
+	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
 		String s = GsonHelper.getAsString(json, "group", "");
 		JsonElement jsonelement =
 				GsonHelper.isArrayNode(json, "ingredient") ?
@@ -52,7 +54,7 @@ public class GlassKilnRecipeSerializer<T extends GlassKilnRecipe> extends ForgeR
 
 	@Nullable
 	@Override
-	public T fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+	public T fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
 		String s = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);
 		ItemStack itemstack = buf.readItem();

@@ -30,6 +30,7 @@ public class ECBiomeKeys {
 
 	//Beach
 	public static final ResourceKey<Biome> GOLDEN_BEACH = ResourceKey.create(ForgeRegistries.Keys.BIOMES, new ResourceLocation(MODID, "golden_beach"));
+	public static final ResourceKey<Biome> PALM_BEACH = ResourceKey.create(ForgeRegistries.Keys.BIOMES, new ResourceLocation(MODID, "palm_beach"));
 
 	//Desert
 	public static final ResourceKey<Biome> AZURE_DESERT = ResourceKey.create(ForgeRegistries.Keys.BIOMES, new ResourceLocation(MODID, "azure_desert"));
@@ -41,4 +42,5 @@ public class ECBiomeKeys {
 //Nether
 	public static final ResourceKey<Biome> EMERY_DESERT = ResourceKey.create(ForgeRegistries.Keys.BIOMES, new ResourceLocation(MODID, "emery_desert"));
 	public static final ResourceKey<Biome> QUARTZ_DESERT = ResourceKey.create(ForgeRegistries.Keys.BIOMES, new ResourceLocation(MODID, "quartz_desert"));
+	public static final ResourceKey<Biome> PURPURACEUS_SWAMP = ResourceKey.create(ForgeRegistries.Keys.BIOMES, new ResourceLocation(MODID, "purpuraceus_swamp"));
 }

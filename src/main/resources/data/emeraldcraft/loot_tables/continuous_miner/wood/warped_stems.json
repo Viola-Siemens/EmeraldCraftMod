@@ -8,12 +8,12 @@
         {
           "type": "minecraft:item",
           "weight": 7,
-          "name": "minecraft:crimson_stem"
+          "name": "minecraft:warped_stem"
         },
         {
           "type": "minecraft:item",
           "weight": 9,
-          "name": "minecraft:crimson_planks"
+          "name": "minecraft:warped_planks"
         },
         {
           "type": "minecraft:item",
@@ -23,17 +23,17 @@
         {
           "type": "minecraft:item",
           "weight": 8,
-          "name": "minecraft:nether_wart_block"
+          "name": "minecraft:warped_wart_block"
         },
         {
           "type": "minecraft:item",
           "weight": 2,
-          "name": "minecraft:nether_wart"
+          "name": "emeraldcraft:warped_wart"
         },
         {
           "type": "minecraft:item",
           "weight": 3,
-          "name": "minecraft:weeping_vines"
+          "name": "minecraft:twisting_vines"
         },
         {
           "type": "minecraft:item",

@@ -10,7 +10,7 @@
       "translate": "advancements.emeraldcraft.root.description"
     },
     "frame": "task",
-    "show_toast": false,
+    "show_toast": true,
     "announce_to_chat": false,
     "hidden": false,
     "background": "minecraft:textures/block/emerald_block.png"

@@ -3,7 +3,7 @@ package com.hexagram2021.emeraldcraft.common.entities.mobs;
 import com.google.common.collect.ImmutableSet;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
-import com.hexagram2021.emeraldcraft.common.world.ECTrades;
+import com.hexagram2021.emeraldcraft.common.world.village.ECTrades;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -26,6 +26,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Set;
@@ -51,14 +52,14 @@ public class NetherPigmanEntity extends AbstractVillager {
 		this.goalSelector.addGoal(0, new FloatGoal(this));
 		this.goalSelector.addGoal(1, new TradeWithPlayerGoal(this));
 		this.goalSelector.addGoal(1, new OpenDoorGoal(this, false));
-		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Zombie.class, 8.0F, 0.5D, 0.5D));
-		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, AbstractSkeleton.class, 8.0F, 0.5D, 0.5D));
-		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Evoker.class, 12.0F, 0.5D, 0.5D));
-		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Vindicator.class, 8.0F, 0.5D, 0.5D));
-		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Vex.class, 8.0F, 0.5D, 0.5D));
-		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Pillager.class, 15.0F, 0.5D, 0.5D));
-		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Illusioner.class, 12.0F, 0.5D, 0.5D));
-		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Zoglin.class, 10.0F, 0.5D, 0.5D));
+		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Zombie.class, 8.0F, 1.0D, 1.0D));
+		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, AbstractSkeleton.class, 8.0F, 1.0D, 1.0D));
+		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Evoker.class, 12.0F, 1.0D, 1.0D));
+		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Vindicator.class, 8.0F, 1.0D, 1.0D));
+		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Vex.class, 8.0F, 1.0D, 1.0D));
+		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Pillager.class, 15.0F, 1.0D, 1.0D));
+		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Illusioner.class, 12.0F, 1.0D, 1.0D));
+		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Zoglin.class, 10.0F, 1.0D, 1.0D));
 		this.goalSelector.addGoal(1, new LookAtTradingPlayerGoal(this));
 		this.goalSelector.addGoal(4, new MoveTowardsRestrictionGoal(this, 0.35D));
 		this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 0.35D));
@@ -68,7 +69,7 @@ public class NetherPigmanEntity extends AbstractVillager {
 
 	@Override
 	@Nullable
-	public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob mob) {
+	public AgeableMob getBreedOffspring(@NotNull ServerLevel level, @NotNull AgeableMob mob) {
 		return null;
 	}
 
@@ -83,8 +84,8 @@ public class NetherPigmanEntity extends AbstractVillager {
 		return WANTED_ITEMS.contains(item) && this.getInventory().canAddItem(itemStack);
 	}
 
-	@Override
-	public InteractionResult mobInteract(Player player, InteractionHand hand) {
+	@Override @NotNull
+	public InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (!itemstack.is(ECItems.NETHER_PIGMAN_SPAWN_EGG.get()) && this.isAlive() && !this.isTrading() && !this.isBaby()) {
 			//if (hand == InteractionHand.MAIN_HAND) {
@@ -105,8 +106,8 @@ public class NetherPigmanEntity extends AbstractVillager {
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag pCompound) {
-		super.readAdditionalSaveData(pCompound);
+	public void readAdditionalSaveData(@NotNull CompoundTag nbt) {
+		super.readAdditionalSaveData(nbt);
 		this.setCanPickUpLoot(true);
 	}
 
@@ -166,18 +167,22 @@ public class NetherPigmanEntity extends AbstractVillager {
 		super.setLastHurtByMob(entity);
 	}
 
+	@Override
 	protected SoundEvent getAmbientSound() {
 		return this.isTrading() ? ECSounds.NETHER_PIGMAN_TRADE : ECSounds.NETHER_PIGMAN_AMBIENT;
 	}
 
-	protected SoundEvent getHurtSound(DamageSource damageSource) {
+	@Override
+	protected SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
 		return ECSounds.NETHER_PIGMAN_HURT;
 	}
 
+	@Override
 	protected SoundEvent getDeathSound() {
 		return ECSounds.NETHER_PIGMAN_DEATH;
 	}
 
+	@Override @NotNull
 	protected SoundEvent getTradeUpdatedSound(boolean correct) {
 		return correct ? ECSounds.NETHER_PIGMAN_YES : ECSounds.NETHER_PIGMAN_NO;
 	}

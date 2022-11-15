@@ -1,0 +1,12 @@
+{
+  "type": "crafting_shapeless",
+  "group": "wooden_button",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:palm_planks"
+    }
+  ],
+  "result": {
+    "item": "emeraldcraft:palm_button"
+  }
+}
