@@ -380,6 +380,13 @@
   "item.minecraft.splash_potion.effect.glowing": "飛濺型發光藥水",
   "item.minecraft.lingering_potion.effect.glowing": "滯留型發光藥水",
 
+  "item.minecraft.tipped_arrow.effect.absorption": "吸收之箭",
+  "item.minecraft.tipped_arrow.effect.blindness": "失明之箭",
+  "item.minecraft.tipped_arrow.effect.hunger": "飢餓之箭",
+  "item.minecraft.tipped_arrow.effect.saturation": "飽食之箭",
+  "item.minecraft.tipped_arrow.effect.wither": "凋零之箭",
+  "item.minecraft.tipped_arrow.effect.glowing": "發光之箭",
+
   "entity.emeraldcraft.piglin_cutey": "豬布林妹妹",
   "entity.emeraldcraft.nether_pigman": "下界豬豬人",
   "entity.emeraldcraft.nether_lambman": "下界小羊人",
@@ -510,6 +517,9 @@
   "advancements.emeraldcraft.ice_cream_please.title": "請爲我做一個冰淇淋",
   "advancements.emeraldcraft.ice_cream_please.description": "獲得一臺製冰機",
 
+  "filled_map.shelter": "救援探險家地圖",
+  "filled_map.entrenchment": "地心探險家地圖",
+
   "fluids.save.bucket": "可裝滿 %s %s",
   "fluids.name.water": "水",
   "fluids.name.lava": "熔岩",
@@ -522,5 +532,7 @@
   "fluids.name.melted_lead": "熔融鉛水",
   "fluids.name.melted_silver": "熔融銀水",
   "fluids.name.melted_nickel": "熔融鎳水",
-  "fluids.name.melted_uranium": "熔融鈾水"
+  "fluids.name.melted_uranium": "熔融鈾水",
+
+  "jei.emeraldcraft.villager_trade": "和村民交易"
 }

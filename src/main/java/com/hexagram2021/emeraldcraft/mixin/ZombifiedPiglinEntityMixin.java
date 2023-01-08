@@ -1,5 +1,6 @@
 package com.hexagram2021.emeraldcraft.mixin;
 
+import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
 import com.hexagram2021.emeraldcraft.common.register.ECTriggers;
 import com.hexagram2021.emeraldcraft.common.util.Convertible;
 import com.hexagram2021.emeraldcraft.common.util.PlayerHealable;
@@ -93,7 +94,7 @@ public class ZombifiedPiglinEntityMixin implements Convertible {
 	public void finishConversion(ServerLevel level) {
 		ZombifiedPiglin current = (ZombifiedPiglin)(Object)this;
 		AbstractPiglin piglin;
-		if(current.getRandom().nextInt(16) == 0) {
+		if(current.getRandom().nextInt(ECCommonConfig.ZOMBIFIED_PIGLIN_CONVERT_TO_PIGLIN_BRUTE_POSSIBILITY_INV.get()) == 0) {
 			piglin = current.convertTo(EntityType.PIGLIN_BRUTE, true);
 		} else {
 			piglin = current.convertTo(EntityType.PIGLIN, true);
@@ -103,8 +104,11 @@ public class ZombifiedPiglinEntityMixin implements Convertible {
 		}
 
 		piglin.setImmuneToZombification(true);
+		piglin.setCanPickUpLoot(true);
 		piglin.setPersistenceRequired();
-		((PlayerHealable)piglin).setPlayerHealed(true);
+		PlayerHealable playerHealable = (PlayerHealable)piglin;
+		playerHealable.setPlayerHealed(true);
+		playerHealable.setHealedPlayer(this.conversionStarter);
 
 		if (this.conversionStarter != null) {
 			Player player = level.getPlayerByUUID(this.conversionStarter);

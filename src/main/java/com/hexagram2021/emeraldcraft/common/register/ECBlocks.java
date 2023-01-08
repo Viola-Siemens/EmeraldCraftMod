@@ -39,7 +39,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
@@ -603,7 +602,7 @@ public final class ECBlocks {
 				BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SAND)
 						.requiresCorrectToolForDrops().strength(0.8F);
 		public static final Supplier<BlockBehaviour.Properties> BLUE_NETHER_BRICKS_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER)
+				BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_CYAN)
 						.requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS);
 		public static final Supplier<BlockBehaviour.Properties> PURPLE_NETHER_BRICKS_PROPERTIES = () ->
 				BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_PURPLE)
@@ -1160,8 +1159,7 @@ public final class ECBlocks {
 			return properties.get();
 		}
 
-		@Nonnull
-		@Override
+		@Override @NotNull
 		public Item asItem()
 		{
 			return get().asItem();

@@ -380,6 +380,13 @@
   "item.minecraft.splash_potion.effect.glowing": "Splash Glowing Potion",
   "item.minecraft.lingering_potion.effect.glowing": "Lingering Glowing Potion",
 
+  "item.minecraft.tipped_arrow.effect.absorption": "Arrow of Absorption",
+  "item.minecraft.tipped_arrow.effect.blindness": "Arrow of Blindness",
+  "item.minecraft.tipped_arrow.effect.hunger": "Arrow of Hunger",
+  "item.minecraft.tipped_arrow.effect.saturation": "Arrow of Saturation",
+  "item.minecraft.tipped_arrow.effect.wither": "Arrow of Wither",
+  "item.minecraft.tipped_arrow.effect.glowing": "Arrow of Glowing",
+
   "entity.emeraldcraft.piglin_cutey": "Piglin Cutey",
   "entity.emeraldcraft.nether_pigman": "Nether Pigman",
   "entity.emeraldcraft.nether_lambman": "Nether Lambman",
@@ -510,6 +517,9 @@
   "advancements.emeraldcraft.ice_cream_please.title": "Ice Cream Please",
   "advancements.emeraldcraft.ice_cream_please.description": "Obtain a ice maker.",
 
+  "filled_map.shelter": "Search & Rescue Explorer Map",
+  "filled_map.entrenchment": "Geocenter Explorer Map",
+
   "fluids.save.bucket": "Able to fill %s %s",
   "fluids.name.water": "Water",
   "fluids.name.lava": "Lava",
@@ -522,5 +532,7 @@
   "fluids.name.melted_lead": "Melted Lead",
   "fluids.name.melted_silver": "Melted Silver",
   "fluids.name.melted_nickel": "Melted Nickel",
-  "fluids.name.melted_uranium": "Melted Uranium"
+  "fluids.name.melted_uranium": "Melted Uranium",
+
+  "jei.emeraldcraft.villager_trade": "Trade with Villagers"
 }

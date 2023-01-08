@@ -1,6 +1,7 @@
 package com.hexagram2021.emeraldcraft.common.util;
 
 import com.google.common.collect.Lists;
+import com.hexagram2021.emeraldcraft.common.register.ECBiomeKeys;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -22,23 +23,26 @@ import java.util.List;
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
+@SuppressWarnings("unused")
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid = MODID)
 public class BiomeUtil {
 	private static final List<Level> worldList = Lists.newArrayList();
 
 	@SafeVarargs
-	public static ResourceKey<Biome> biomeOrFallback(Registry<Biome> biomeRegistry, ResourceKey<Biome>... biomes) {
-		for (ResourceKey<Biome> key : biomes) {
-			if (isKeyRegistered(biomeRegistry, key)) {
-				return key;
+	public static ResourceKey<Biome> biomeOrFallback(Registry<Biome> biomeRegistry, ECBiomeKeys.BiomeKey key, ResourceKey<Biome>... biomes) {
+		if (isKeyRegistered(biomeRegistry, key)) {
+			return key.key();
+		}
+		for(ResourceKey<Biome> biome: biomes)  {
+			if(biome != null) {
+				return biome;
 			}
 		}
-
 		throw new RuntimeException("Failed to find fallback for biome!");
 	}
 
-	public static boolean isKeyRegistered(Registry<Biome> registry, ResourceKey<Biome> key) {
-		return key != null && registry.get(key) != null;
+	public static boolean isKeyRegistered(Registry<Biome> registry, ECBiomeKeys.BiomeKey key) {
+		return key != null && key.generate() && registry.get(key.key()) != null;
 	}
 
 	public static ResourceKey<Biome> getBiomeKey(Biome biome) {

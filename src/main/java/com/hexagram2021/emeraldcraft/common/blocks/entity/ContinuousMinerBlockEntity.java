@@ -189,7 +189,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 		return list.isEmpty() ? new ItemStack(Items.AIR) : list.get(0);
 	}
 
-	protected void dispenseFrom(BlockState blockState, ServerLevel level, BlockPos pos, RandomSource random) {
+	public void dispenseFrom(BlockState blockState, ServerLevel level, BlockPos pos, RandomSource random) {
 		final double velo = 0.1D;
 
 		Direction facing = blockState.getValue(ContinuousMinerBlock.FACING);

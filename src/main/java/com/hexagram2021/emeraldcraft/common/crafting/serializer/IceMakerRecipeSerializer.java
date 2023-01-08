@@ -26,6 +26,7 @@ public class IceMakerRecipeSerializer<T extends IceMakerRecipe> implements Recip
 		this.factory = creator;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override @NotNull
 	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
 		String group = GsonHelper.getAsString(json, "group", "");
@@ -56,8 +57,7 @@ public class IceMakerRecipeSerializer<T extends IceMakerRecipe> implements Recip
 		return this.factory.create(id, group, fluidType, fluidAmount, result, i);
 	}
 
-	@Nullable
-	@Override
+	@Override @Nullable
 	public T fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		FluidType fluidType = FluidTypes.getFluidTypeFromName(buf.readUtf());

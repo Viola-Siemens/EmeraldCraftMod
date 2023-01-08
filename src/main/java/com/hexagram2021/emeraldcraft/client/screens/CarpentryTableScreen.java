@@ -80,20 +80,20 @@ public class CarpentryTableScreen extends AbstractContainerScreen<CarpentryTable
 
 	}
 
-	private void renderButtons(PoseStack p_99342_, int p_99343_, int p_99344_, int p_99345_, int p_99346_, int p_99347_) {
-		for(int i = this.startIndex; i < p_99347_ && i < this.menu.getNumRecipes(); ++i) {
+	private void renderButtons(PoseStack transform, int x, int y, int recipeX, int recipeY, int endIndex) {
+		for(int i = this.startIndex; i < endIndex && i < this.menu.getNumRecipes(); ++i) {
 			int j = i - this.startIndex;
-			int k = p_99345_ + j % 4 * 16;
+			int k = recipeX + j % 4 * 16;
 			int l = j / 4;
-			int i1 = p_99346_ + l * 18 + 2;
+			int i1 = recipeY + l * 18 + 2;
 			int j1 = this.imageHeight;
 			if (i == this.menu.getSelectedRecipeIndex()) {
 				j1 += 18;
-			} else if (p_99343_ >= k && p_99344_ >= i1 && p_99343_ < k + 16 && p_99344_ < i1 + 18) {
+			} else if (x >= k && y >= i1 && x < k + 16 && y < i1 + 18) {
 				j1 += 36;
 			}
 
-			this.blit(p_99342_, k, i1 - 1, 0, j1, 16, 18);
+			this.blit(transform, k, i1 - 1, 0, j1, 16, 18);
 		}
 
 	}

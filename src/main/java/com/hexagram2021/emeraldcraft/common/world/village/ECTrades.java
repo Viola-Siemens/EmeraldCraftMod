@@ -2,13 +2,17 @@ package com.hexagram2021.emeraldcraft.common.world.village;
 
 import com.google.common.collect.ImmutableMap;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
+import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
@@ -21,6 +25,10 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.saveddata.maps.MapDecoration;
+import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -303,17 +311,18 @@ public class ECTrades {
 
 	static class EmeraldsForVillagerTypeItem implements VillagerTrades.ItemListing {
 		private final Map<VillagerType, Item> trades;
+		private final Item defaultTradeItem;
 		private final int cost;
 		private final int emeraldCost;
 		private final int maxUses;
 		private final int Xp;
 		private final float priceMultiplier;
 
-		public EmeraldsForVillagerTypeItem(int cost, int emeraldCost, int maxUses, int Xp, Map<VillagerType, Item> trades) {
-			Registry.VILLAGER_TYPE.stream().filter((villagerType) -> !trades.containsKey(villagerType)).findAny().ifPresent((villagerType) -> {
-				throw new IllegalStateException("Missing trade for villager type: " + Registry.VILLAGER_TYPE.getKey(villagerType));
-			});
+		public EmeraldsForVillagerTypeItem(int cost, int emeraldCost, int maxUses, int Xp, Map<VillagerType, Item> trades, Item defaultTradeItem) {
+			Registry.VILLAGER_TYPE.stream().filter((villagerType) -> !trades.containsKey(villagerType)).findAny().ifPresent((villagerType) ->
+					ECLogger.debug("Missing trade for villager type: " + Registry.VILLAGER_TYPE.getKey(villagerType)));
 			this.trades = trades;
+			this.defaultTradeItem = defaultTradeItem;
 			this.cost = cost;
 			this.emeraldCost = emeraldCost;
 			this.maxUses = maxUses;
@@ -323,10 +332,10 @@ public class ECTrades {
 
 		@Nullable
 		public MerchantOffer getOffer(@NotNull Entity trader, @NotNull RandomSource rand) {
-			if (trader instanceof VillagerDataHolder holder) {
-				Item item = this.trades.get(holder.getVillagerData().getType());
+			if (trader instanceof VillagerDataHolder villagerDataHolder) {
+				Item item = this.trades.get(villagerDataHolder.getVillagerData().getType());
 				if(item == null) {
-					return null;
+					item = this.defaultTradeItem;
 				}
 				ItemStack itemstack = new ItemStack(item, this.cost);
 				return new MerchantOffer(itemstack, new ItemStack(Items.EMERALD, emeraldCost), this.maxUses, this.Xp, priceMultiplier);
@@ -338,17 +347,18 @@ public class ECTrades {
 
 	static class VillagerTypeItemForEmeralds implements VillagerTrades.ItemListing {
 		private final Map<VillagerType, Item> trades;
+		private final Item defaultTradeItem;
 		private final int numberOfItems;
 		private final int emeraldCost;
 		private final int maxUses;
 		private final int Xp;
 		private final float priceMultiplier;
 
-		public VillagerTypeItemForEmeralds(int numberOfItems, int emeraldCost, int maxUses, int Xp, Map<VillagerType, Item> trades) {
-			Registry.VILLAGER_TYPE.stream().filter((villagerType) -> !trades.containsKey(villagerType)).findAny().ifPresent((villagerType) -> {
-				throw new IllegalStateException("Missing trade for villager type: " + Registry.VILLAGER_TYPE.getKey(villagerType));
-			});
+		public VillagerTypeItemForEmeralds(int numberOfItems, int emeraldCost, int maxUses, int Xp, Map<VillagerType, Item> trades, Item defaultTradeItem) {
+			Registry.VILLAGER_TYPE.stream().filter((villagerType) -> !trades.containsKey(villagerType)).findAny().ifPresent((villagerType) ->
+					ECLogger.debug("Missing trade for villager type: " + Registry.VILLAGER_TYPE.getKey(villagerType)));
 			this.trades = trades;
+			this.defaultTradeItem = defaultTradeItem;
 			this.numberOfItems = numberOfItems;
 			this.emeraldCost = emeraldCost;
 			this.maxUses = maxUses;
@@ -358,8 +368,12 @@ public class ECTrades {
 
 		@Nullable
 		public MerchantOffer getOffer(@NotNull Entity trader, @NotNull RandomSource rand) {
-			if (trader instanceof VillagerDataHolder) {
-				ItemStack itemstack = new ItemStack(this.trades.get(((VillagerDataHolder)trader).getVillagerData().getType()), this.numberOfItems);
+			if (trader instanceof VillagerDataHolder villagerDataHolder) {
+				Item item = this.trades.get(villagerDataHolder.getVillagerData().getType());
+				if(item == null) {
+					item = this.defaultTradeItem;
+				}
+				ItemStack itemstack = new ItemStack(item, this.numberOfItems);
 				return new MerchantOffer(new ItemStack(Items.EMERALD, emeraldCost), itemstack, this.maxUses, this.Xp, priceMultiplier);
 			} else {
 				return null;
@@ -449,14 +463,14 @@ public class ECTrades {
 		}
 	}
 
-	static class NetheriteForItems implements VillagerTrades.ItemListing {
+	static class NetheriteScrapForItems implements VillagerTrades.ItemListing {
 		private final Item item;
 		private final int cost;
 		private final int maxUses;
 		private final int Xp;
 		private final float priceMultiplier;
 
-		public NetheriteForItems(ItemLike item, int cost, int maxUses, int Xp) {
+		public NetheriteScrapForItems(ItemLike item, int cost, int maxUses, int Xp) {
 			this.item = item.asItem();
 			this.cost = cost;
 			this.maxUses = maxUses;
@@ -469,7 +483,7 @@ public class ECTrades {
 		@Override
 		public MerchantOffer getOffer(@NotNull Entity trader, @NotNull RandomSource rand) {
 			ItemStack itemstack = new ItemStack(this.item, this.cost);
-			return new MerchantOffer(itemstack, new ItemStack(Items.NETHERITE_INGOT), this.maxUses, this.Xp, this.priceMultiplier);
+			return new MerchantOffer(itemstack, new ItemStack(Items.NETHERITE_SCRAP), this.maxUses, this.Xp, this.priceMultiplier);
 		}
 	}
 
@@ -549,6 +563,49 @@ public class ECTrades {
 			ItemStack itemstack1 = new ItemStack(this.item1);
 			ItemStack itemstack2 = new ItemStack(this.item2);
 			return new MerchantOffer(itemstack1, itemstack2, new ItemStack(Items.ANCIENT_DEBRIS), this.maxUses, this.Xp, this.priceMultiplier);
+		}
+	}
+
+	public static class NetherStructureMapForEmeralds implements VillagerTrades.ItemListing {
+		private final int emeraldCost;
+		private final int scale;
+		private final TagKey<Structure> destination;
+		private final String displayName;
+		private final MapDecoration.Type destinationType;
+		private final int maxUses;
+		private final int villagerXp;
+
+		public NetherStructureMapForEmeralds(int emeraldCost, int scale, TagKey<Structure> destination, String displayName, MapDecoration.Type destinationType, int maxUses, int xp) {
+			this.emeraldCost = emeraldCost;
+			this.scale = scale;
+			this.destination = destination;
+			this.displayName = displayName;
+			this.destinationType = destinationType;
+			this.maxUses = maxUses;
+			this.villagerXp = xp;
+		}
+
+		@Nullable
+		public MerchantOffer getOffer(Entity trader, @NotNull RandomSource rand) {
+			if (trader.level instanceof ServerLevel serverlevel) {
+				ServerLevel dimensionLevel = serverlevel.getServer().getLevel(Level.NETHER);
+				if(dimensionLevel == null) {
+					return null;
+				}
+				BlockPos traderBlockPosition = trader.blockPosition();
+				if(trader.level.dimension() != Level.NETHER) {
+					traderBlockPosition = new BlockPos(traderBlockPosition.getX() >> 3, traderBlockPosition.getY(), traderBlockPosition.getZ() >> 3);
+				}
+				BlockPos blockpos = dimensionLevel.findNearestMapStructure(this.destination, traderBlockPosition, 100, true);
+				if (blockpos != null) {
+					ItemStack itemstack = MapItem.create(dimensionLevel, blockpos.getX(), blockpos.getZ(), (byte)this.scale, true, true);
+					MapItem.renderBiomePreviewMap(dimensionLevel, itemstack);
+					MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", this.destinationType);
+					itemstack.setHoverName(Component.translatable(this.displayName));
+					return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldCost), new ItemStack(Items.COMPASS), itemstack, this.maxUses, this.villagerXp, HIGH_TIER_PRICE_MULTIPLIER);
+				}
+			}
+			return null;
 		}
 	}
 }

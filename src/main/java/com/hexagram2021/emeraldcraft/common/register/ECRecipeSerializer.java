@@ -28,6 +28,9 @@ public class ECRecipeSerializer {
 	public static final RegistryObject<MelterRecipeSerializer<MelterRecipe>> MELTER_SERIALIZER = REGISTER.register(
 			"melter", () -> new MelterRecipeSerializer<>(MelterRecipe::new, MelterRecipe.MELTING_TIME)
 	);
+	public static final RegistryObject<TradeShadowRecipeSerializer<TradeShadowRecipe>> TRADE_SHADOW_SERIALIZER = REGISTER.register(
+			"trade_shadow", () -> new TradeShadowRecipeSerializer<>(TradeShadowRecipe::new)
+	);
 
 	public static void init(IEventBus bus) {
 		REGISTER.register(bus);

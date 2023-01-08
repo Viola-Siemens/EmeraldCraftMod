@@ -380,6 +380,13 @@
   "item.minecraft.splash_potion.effect.glowing": "スプラッシュ 発光のポーション",
   "item.minecraft.lingering_potion.effect.glowing": "発光の残留ポーション",
 
+  "item.minecraft.tipped_arrow.effect.absorption": "衝撃吸収の矢",
+  "item.minecraft.tipped_arrow.effect.blindness": "盲目の矢",
+  "item.minecraft.tipped_arrow.effect.hunger": "空腹の矢",
+  "item.minecraft.tipped_arrow.effect.saturation": "満腹度回復の矢",
+  "item.minecraft.tipped_arrow.effect.wither": "衰弱の矢",
+  "item.minecraft.tipped_arrow.effect.glowing": "発光の矢",
+
   "entity.emeraldcraft.piglin_cutey": "ピグリンガール",
   "entity.emeraldcraft.nether_pigman": "ネザーピッグマン",
   "entity.emeraldcraft.nether_lambman": "ネザーラムマン",
@@ -510,6 +517,9 @@
   "advancements.emeraldcraft.ice_cream_please.title": "アイスクリームください",
   "advancements.emeraldcraft.ice_cream_please.description": "製氷機を手に入れる",
 
+  "filled_map.shelter": "救助探検家の地図",
+  "filled_map.entrenchment": "地心探検家の地図",
+
   "fluids.save.bucket": "%s %s入られる",
   "fluids.name.water": "水",
   "fluids.name.lava": "溶岩",
@@ -522,5 +532,7 @@
   "fluids.name.melted_lead": "溶けた鉛",
   "fluids.name.melted_silver": "溶けた銀",
   "fluids.name.melted_nickel": "溶けたニッケル",
-  "fluids.name.melted_uranium": "溶けたウラン"
+  "fluids.name.melted_uranium": "溶けたウラン",
+
+  "jei.emeraldcraft.villager_trade": "村人と取引する"
 }

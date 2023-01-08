@@ -22,9 +22,6 @@ public class CarpentryTableRecipe extends SingleItemRecipe {
 		super(ECRecipes.CARPENTRY_TABLE_TYPE.get(), ECRecipeSerializer.CARPENTRY_SERIALIZER.get(), id, group, ingredient, result);
 	}
 
-	/**
-	 * Used to check if a recipe matches current crafting inventory
-	 */
 	@Override
 	public boolean matches(Container inv, @NotNull Level level) {
 		return this.ingredient.test(inv.getItem(0));

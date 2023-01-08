@@ -39,7 +39,7 @@ public class ECOverworldBiomeBuilder {
 			{Biomes.DEEP_FROZEN_OCEAN, Biomes.DEEP_COLD_OCEAN, Biomes.DEEP_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN, Biomes.WARM_OCEAN},
 			{Biomes.FROZEN_OCEAN, Biomes.COLD_OCEAN, Biomes.OCEAN, Biomes.LUKEWARM_OCEAN, Biomes.WARM_OCEAN}
 	};
-	private final ResourceKey<Biome>[][] ISLAND_BIOMES_EC = new ResourceKey[][] {
+	private final ECBiomeKeys.BiomeKey[][] ISLAND_BIOMES_EC = new ECBiomeKeys.BiomeKey[][] {
 			{null, null, null, null, ECBiomeKeys.XANADU},
 			{null, null, null, null, ECBiomeKeys.XANADU},
 			{null, null, null, null, ECBiomeKeys.XANADU},
@@ -60,14 +60,14 @@ public class ECOverworldBiomeBuilder {
 			{null, null, Biomes.PLAINS, Biomes.SPARSE_JUNGLE, Biomes.BAMBOO_JUNGLE},
 			{null, null, null, null, null}
 	};
-	private final ResourceKey<Biome>[][] MIDDLE_BIOMES_EC = new ResourceKey[][] {
+	private final ECBiomeKeys.BiomeKey[][] MIDDLE_BIOMES_EC = new ECBiomeKeys.BiomeKey[][] {
 			{null, null, null, null, null},
 			{null, null, null, null, null},
 			{null, null, null, ECBiomeKeys.GINKGO_FOREST, ECBiomeKeys.GINKGO_FOREST},
 			{ECBiomeKeys.JADEITE_DESERT, null, null, null, null},
 			{ECBiomeKeys.JADEITE_DESERT, ECBiomeKeys.JADEITE_DESERT, ECBiomeKeys.AZURE_DESERT, ECBiomeKeys.AZURE_DESERT, ECBiomeKeys.AZURE_DESERT}
 	};
-	private final ResourceKey<Biome>[][] MIDDLE_BIOMES_VARIANT_EC = new ResourceKey[][] {
+	private final ECBiomeKeys.BiomeKey[][] MIDDLE_BIOMES_VARIANT_EC = new ECBiomeKeys.BiomeKey[][] {
 			{null, null, null, null, null},
 			{null, ECBiomeKeys.PETUNIA_PLAINS, null, null, null},
 			{null, ECBiomeKeys.PETUNIA_PLAINS, null, null, null},
@@ -104,38 +104,47 @@ public class ECOverworldBiomeBuilder {
 	}
 
 	private void addOffCoastBiomes(Registry<Biome> biomeRegistry, Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper) {
-		this.addSurfaceBiome(mapper,
-				Climate.Parameter.span(ParameterUtils.Temperature.WARM.parameter(), ParameterUtils.Temperature.HOT.parameter()),
-				ParameterUtils.Humidity.FULL_RANGE.parameter(),
-				ParameterUtils.Continentalness.DEEP_OCEAN.parameter(),
-				ParameterUtils.Erosion.FULL_RANGE.parameter(),
-				Climate.Parameter.span(ParameterUtils.Weirdness.PEAK_VARIANT.parameter(), ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING.parameter()),
-				0.0F,
-				ECBiomeKeys.DEEP_DEAD_CRIMSON_OCEAN);
-		this.addSurfaceBiome(mapper,
-				Climate.Parameter.span(ParameterUtils.Temperature.COOL.parameter(), ParameterUtils.Temperature.NEUTRAL.parameter()),
-				ParameterUtils.Humidity.FULL_RANGE.parameter(),
-				ParameterUtils.Continentalness.DEEP_OCEAN.parameter(),
-				ParameterUtils.Erosion.FULL_RANGE.parameter(),
-				Climate.Parameter.span(ParameterUtils.Weirdness.PEAK_VARIANT.parameter(), ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING.parameter()),
-				0.0F,
-				ECBiomeKeys.DEEP_DEAD_WARPED_OCEAN);
-		this.addSurfaceBiome(mapper,
-				Climate.Parameter.span(ParameterUtils.Temperature.WARM.parameter(), ParameterUtils.Temperature.HOT.parameter()),
-				ParameterUtils.Humidity.FULL_RANGE.parameter(),
-				ParameterUtils.Continentalness.OCEAN.parameter(),
-				ParameterUtils.Erosion.FULL_RANGE.parameter(),
-				Climate.Parameter.span(ParameterUtils.Weirdness.PEAK_VARIANT.parameter(), ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING.parameter()),
-				0.0F,
-				ECBiomeKeys.DEAD_CRIMSON_OCEAN);
-		this.addSurfaceBiome(mapper,
-				Climate.Parameter.span(ParameterUtils.Temperature.COOL.parameter(), ParameterUtils.Temperature.NEUTRAL.parameter()),
-				ParameterUtils.Humidity.FULL_RANGE.parameter(),
-				ParameterUtils.Continentalness.OCEAN.parameter(),
-				ParameterUtils.Erosion.FULL_RANGE.parameter(),
-				Climate.Parameter.span(ParameterUtils.Weirdness.PEAK_VARIANT.parameter(), ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING.parameter()),
-				0.0F,
-				ECBiomeKeys.DEAD_WARPED_OCEAN);
+		if(BiomeUtil.isKeyRegistered(biomeRegistry, ECBiomeKeys.DEEP_DEAD_CRIMSON_OCEAN)) {
+			this.addSurfaceBiome(mapper,
+					Climate.Parameter.span(ParameterUtils.Temperature.WARM.parameter(), ParameterUtils.Temperature.HOT.parameter()),
+					ParameterUtils.Humidity.FULL_RANGE.parameter(),
+					ParameterUtils.Continentalness.DEEP_OCEAN.parameter(),
+					ParameterUtils.Erosion.FULL_RANGE.parameter(),
+					Climate.Parameter.span(ParameterUtils.Weirdness.PEAK_VARIANT.parameter(), ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING.parameter()),
+					0.0F,
+					ECBiomeKeys.DEEP_DEAD_CRIMSON_OCEAN.key());
+		}
+
+		if(BiomeUtil.isKeyRegistered(biomeRegistry, ECBiomeKeys.DEEP_DEAD_WARPED_OCEAN)) {
+			this.addSurfaceBiome(mapper,
+					Climate.Parameter.span(ParameterUtils.Temperature.COOL.parameter(), ParameterUtils.Temperature.NEUTRAL.parameter()),
+					ParameterUtils.Humidity.FULL_RANGE.parameter(),
+					ParameterUtils.Continentalness.DEEP_OCEAN.parameter(),
+					ParameterUtils.Erosion.FULL_RANGE.parameter(),
+					Climate.Parameter.span(ParameterUtils.Weirdness.PEAK_VARIANT.parameter(), ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING.parameter()),
+					0.0F,
+					ECBiomeKeys.DEEP_DEAD_WARPED_OCEAN.key());
+		}
+		if(BiomeUtil.isKeyRegistered(biomeRegistry, ECBiomeKeys.DEAD_CRIMSON_OCEAN)) {
+			this.addSurfaceBiome(mapper,
+					Climate.Parameter.span(ParameterUtils.Temperature.WARM.parameter(), ParameterUtils.Temperature.HOT.parameter()),
+					ParameterUtils.Humidity.FULL_RANGE.parameter(),
+					ParameterUtils.Continentalness.OCEAN.parameter(),
+					ParameterUtils.Erosion.FULL_RANGE.parameter(),
+					Climate.Parameter.span(ParameterUtils.Weirdness.PEAK_VARIANT.parameter(), ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING.parameter()),
+					0.0F,
+					ECBiomeKeys.DEAD_CRIMSON_OCEAN.key());
+		}
+		if(BiomeUtil.isKeyRegistered(biomeRegistry, ECBiomeKeys.DEAD_WARPED_OCEAN)) {
+			this.addSurfaceBiome(mapper,
+					Climate.Parameter.span(ParameterUtils.Temperature.COOL.parameter(), ParameterUtils.Temperature.NEUTRAL.parameter()),
+					ParameterUtils.Humidity.FULL_RANGE.parameter(),
+					ParameterUtils.Continentalness.OCEAN.parameter(),
+					ParameterUtils.Erosion.FULL_RANGE.parameter(),
+					Climate.Parameter.span(ParameterUtils.Weirdness.PEAK_VARIANT.parameter(), ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING.parameter()),
+					0.0F,
+					ECBiomeKeys.DEAD_WARPED_OCEAN.key());
+		}
 		this.addSurfaceBiome(mapper,
 				ParameterUtils.Temperature.ICY.parameter(),
 				ParameterUtils.Humidity.FULL_RANGE.parameter(),
@@ -655,24 +664,26 @@ public class ECOverworldBiomeBuilder {
 	}
 
 	protected void addUndergroundBiomes(Registry<Biome> biomeRegistry, Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper) {
-		this.addUndergroundBiome(biomeRegistry, mapper,
-				ParameterUtils.Temperature.UNFROZEN.parameter(),
-				ParameterUtils.Humidity.FULL_RANGE.parameter(),
-				ParameterUtils.Continentalness.FULL_RANGE.parameter(),
-				Climate.Parameter.span(ParameterUtils.Erosion.EROSION_4.parameter(), ParameterUtils.Erosion.EROSION_6.parameter()),
-				Climate.Parameter.span(ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_ASCENDING.parameter(), ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_DESCENDING.parameter()),
-				Climate.Parameter.span(0.2F, 0.4F),
-				0.75F, ECBiomeKeys.VOLCANIC_CAVES);
-		this.addUndergroundBiome(biomeRegistry, mapper,
-				ParameterUtils.Temperature.FROZEN.parameter(),
-				ParameterUtils.Humidity.FULL_RANGE.parameter(),
-				ParameterUtils.Continentalness.FULL_RANGE.parameter(),
-				Climate.Parameter.span(ParameterUtils.Erosion.EROSION_4.parameter(), ParameterUtils.Erosion.EROSION_6.parameter()),
-				Climate.Parameter.span(ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_ASCENDING.parameter(), ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_DESCENDING.parameter()),
-				Climate.Parameter.span(0.2F, 0.4F),
-				0.25F, ECBiomeKeys.VOLCANIC_CAVES);
+		if(BiomeUtil.isKeyRegistered(biomeRegistry, ECBiomeKeys.VOLCANIC_CAVES)) {
+			this.addUndergroundBiome(mapper,
+					ParameterUtils.Temperature.UNFROZEN.parameter(),
+					ParameterUtils.Humidity.FULL_RANGE.parameter(),
+					ParameterUtils.Continentalness.FULL_RANGE.parameter(),
+					Climate.Parameter.span(ParameterUtils.Erosion.EROSION_4.parameter(), ParameterUtils.Erosion.EROSION_6.parameter()),
+					Climate.Parameter.span(ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_ASCENDING.parameter(), ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_DESCENDING.parameter()),
+					Climate.Parameter.span(0.2F, 0.4F),
+					0.75F, ECBiomeKeys.VOLCANIC_CAVES.key());
+			this.addUndergroundBiome(mapper,
+					ParameterUtils.Temperature.FROZEN.parameter(),
+					ParameterUtils.Humidity.FULL_RANGE.parameter(),
+					ParameterUtils.Continentalness.FULL_RANGE.parameter(),
+					Climate.Parameter.span(ParameterUtils.Erosion.EROSION_4.parameter(), ParameterUtils.Erosion.EROSION_6.parameter()),
+					Climate.Parameter.span(ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_ASCENDING.parameter(), ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_DESCENDING.parameter()),
+					Climate.Parameter.span(0.2F, 0.4F),
+					0.25F, ECBiomeKeys.VOLCANIC_CAVES.key());
+		}
 
-		this.addUndergroundBiome(biomeRegistry, mapper,
+		this.addUndergroundBiome(mapper,
 				ParameterUtils.Temperature.FULL_RANGE.parameter(),
 				ParameterUtils.Humidity.FULL_RANGE.parameter(),
 				Climate.Parameter.span(0.8F, 1.0F),
@@ -682,7 +693,7 @@ public class ECOverworldBiomeBuilder {
 				0.0F,
 				Biomes.DRIPSTONE_CAVES
 		);
-		this.addUndergroundBiome(biomeRegistry, mapper,
+		this.addUndergroundBiome(mapper,
 				ParameterUtils.Temperature.FULL_RANGE.parameter(),
 				Climate.Parameter.span(0.7F, 1.0F),
 				ParameterUtils.Continentalness.FULL_RANGE.parameter(),
@@ -692,7 +703,7 @@ public class ECOverworldBiomeBuilder {
 				0.0F,
 				Biomes.LUSH_CAVES
 		);
-		this.addBottomBiome(biomeRegistry, mapper,
+		this.addBottomBiome(mapper,
 				ParameterUtils.Temperature.FULL_RANGE.parameter(),
 				ParameterUtils.Humidity.FULL_RANGE.parameter(),
 				ParameterUtils.Continentalness.FULL_RANGE.parameter(),
@@ -794,16 +805,12 @@ public class ECOverworldBiomeBuilder {
 		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, ParameterUtils.Depth.FLOOR.parameter(), weirdness, offset), biome));
 	}
 
-	protected void addUndergroundBiome(Registry<Biome> biomeRegistry, Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper, Climate.Parameter temperature, Climate.Parameter humidity, Climate.Parameter continentalness, Climate.Parameter erosion, Climate.Parameter weirdness, Climate.Parameter depth, float offset, ResourceKey<Biome> biome) {
-		if (BiomeUtil.isKeyRegistered(biomeRegistry, biome)) {
-			mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, depth, weirdness, offset), biome));
-		}
+	protected void addUndergroundBiome(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper, Climate.Parameter temperature, Climate.Parameter humidity, Climate.Parameter continentalness, Climate.Parameter erosion, Climate.Parameter weirdness, Climate.Parameter depth, float offset, ResourceKey<Biome> biome) {
+		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, depth, weirdness, offset), biome));
 	}
 
 	@SuppressWarnings("SameParameterValue")
-	protected void addBottomBiome(Registry<Biome> biomeRegistry, Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper, Climate.Parameter temperature, Climate.Parameter humidity, Climate.Parameter continentalness, Climate.Parameter erosion, Climate.Parameter weirdness, float offset, ResourceKey<Biome> biome) {
-		if (BiomeUtil.isKeyRegistered(biomeRegistry, biome)) {
-			mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, Climate.Parameter.point(1.1F), weirdness, offset), biome));
-		}
+	protected void addBottomBiome(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper, Climate.Parameter temperature, Climate.Parameter humidity, Climate.Parameter continentalness, Climate.Parameter erosion, Climate.Parameter weirdness, float offset, ResourceKey<Biome> biome) {
+		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, Climate.Parameter.point(1.1F), weirdness, offset), biome));
 	}
 }

@@ -25,6 +25,7 @@ public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implemen
 		this.factory = creator;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override @NotNull
 	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
 		String s = GsonHelper.getAsString(json, "group", "");

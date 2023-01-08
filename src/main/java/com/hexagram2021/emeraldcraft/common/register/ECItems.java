@@ -23,7 +23,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
@@ -406,22 +405,17 @@ public class ECItems {
 			this.regObject = regObject;
 		}
 
-		@Override
-		@Nonnull
-		public T get()
-		{
+		@Override @NotNull
+		public T get() {
 			return regObject.get();
 		}
 
-		@Nonnull
-		@Override
-		public Item asItem()
-		{
+		@Override @NotNull
+		public Item asItem() {
 			return regObject.get();
 		}
 
-		public ResourceLocation getId()
-		{
+		public ResourceLocation getId() {
 			return regObject.getId();
 		}
 	}

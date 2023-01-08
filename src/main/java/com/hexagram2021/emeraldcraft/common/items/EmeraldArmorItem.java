@@ -25,7 +25,7 @@ public class EmeraldArmorItem extends ArmorItem  {
 	private static final SoundEvent sound = SoundEvents.ARMOR_EQUIP_GOLD;
 	private static final float toughness = 0.0F;
 	private static final float knockbackResistance = 0.0F;
-
+	
 	@SuppressWarnings("deprecation")
 	private static final LazyLoadedValue<Ingredient> repairIngredient = new LazyLoadedValue<>(() -> Ingredient.of(Items.EMERALD));
 
@@ -45,11 +45,13 @@ public class EmeraldArmorItem extends ArmorItem  {
 		public int getDurabilityForSlot(EquipmentSlot pSlot) {
 			return HEALTH_PER_SLOT[pSlot.getIndex()] * durabilityMultiplier;
 		}
-
+		
+		@Override
 		public int getDefenseForSlot(EquipmentSlot pSlot) {
 			return slotProtections[pSlot.getIndex()];
 		}
-
+		
+		@Override
 		public int getEnchantmentValue() {
 			return enchantmentValue;
 		}
@@ -58,21 +60,23 @@ public class EmeraldArmorItem extends ArmorItem  {
 		public SoundEvent getEquipSound() {
 			return sound;
 		}
-
+		
 		@Override @NotNull
 		public Ingredient getRepairIngredient() {
 			return repairIngredient.get();
 		}
-
+		
 		@Override @NotNull
 		public String getName() {
 			return name;
 		}
-
+		
+		@Override
 		public float getToughness() {
 			return toughness;
 		}
-
+		
+		@Override
 		public float getKnockbackResistance() {
 			return knockbackResistance;
 		}

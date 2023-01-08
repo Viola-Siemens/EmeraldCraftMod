@@ -75,7 +75,7 @@ public class MineralTableMenu extends AbstractContainerMenu {
 
 				slot.onQuickCraft(itemstack1, itemstack);
 			} else if (index != FUEL_SLOT && index != INGREDIENT_SLOT) {
-				if (ingredientSlot.mayPlace(itemstack1)) {
+				if (this.ingredientSlot.mayPlace(itemstack1)) {
 					if (!this.moveItemStackTo(itemstack1, INGREDIENT_SLOT, FUEL_SLOT, false)) {
 						return ItemStack.EMPTY;
 					}
@@ -155,7 +155,7 @@ public class MineralTableMenu extends AbstractContainerMenu {
 
 		@Override
 		public boolean mayPlace(@NotNull ItemStack itemStack) {
-			return menu.level.getRecipeManager().getRecipeFor(ECRecipes.MINERAL_TABLE_TYPE.get(), new SimpleContainer(itemStack), menu.level).isPresent();
+			return this.menu.level.getRecipeManager().getRecipeFor(ECRecipes.MINERAL_TABLE_TYPE.get(), new SimpleContainer(itemStack), menu.level).isPresent();
 		}
 
 		@Override

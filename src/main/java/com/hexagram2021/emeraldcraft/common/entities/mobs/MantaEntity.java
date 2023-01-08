@@ -4,7 +4,10 @@ import com.google.common.collect.ImmutableList;
 import com.hexagram2021.emeraldcraft.common.entities.ai.MantaAi;
 import com.hexagram2021.emeraldcraft.common.register.ECTriggers;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
+import com.hexagram2021.emeraldcraft.common.util.PlayerHealable;
+import com.hexagram2021.emeraldcraft.common.util.Vec3Util;
 import com.mojang.serialization.Dynamic;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.DebugPackets;
@@ -36,7 +39,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 
-public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, OwnableEntity {
+public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, OwnableEntity, PlayerHealable {
 	protected static final ImmutableList<SensorType<? extends Sensor<? super MantaEntity>>> SENSOR_TYPES = ImmutableList.of(
 			SensorType.NEAREST_LIVING_ENTITIES,
 			SensorType.NEAREST_PLAYERS,
@@ -84,11 +87,7 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 		return player.orElse(null);
 	}
 
-	public void setOwnerUUID(@Nullable UUID uuid) {
-		this.getBrain().setMemory(MemoryModuleType.LIKED_PLAYER, uuid);
-	}
-
-	@Nullable
+	@Override @Nullable
 	public LivingEntity getOwner() {
 		try {
 			UUID uuid = this.getOwnerUUID();
@@ -99,7 +98,7 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	}
 
 	public void cureFrom(Phantom phantom, Player player) {
-		this.setOwnerUUID(player.getUUID());
+		this.setHealedPlayer(player.getUUID());
 		if (player instanceof ServerPlayer serverPlayer) {
 			ECTriggers.CURED_PHANTOM.trigger(serverPlayer, phantom, this);
 		}
@@ -107,9 +106,9 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 
 	@Override
 	public void fly(int velocity) {
-		if(!this.onGround || velocity > 10) {
+		if(!this.isOnGround() || velocity > 12) {
 			Vec3 move = this.getDeltaMovement();
-			this.setDeltaMovement(move.x, (velocity - 5) / 32.0D, move.z);
+			this.setDeltaMovement(move.x, (velocity - 12) / 45.0D, move.z);
 		}
 	}
 
@@ -153,6 +152,9 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	public void travel(@NotNull Vec3 velo) {
 		if (this.isAlive() && (this.isEffectiveAi() || this.isControlledByLocalInstance())) {
 			LivingEntity passenger = this.getControllingPassenger();
+			if(this.isOnGround()) {
+				this.moveRelative(0.02F, Vec3Util.UP);
+			}
 			if (this.isInWater()) {
 				this.moveRelative(0.02F, velo);
 				this.move(MoverType.SELF, this.getDeltaMovement());
@@ -168,7 +170,7 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 				this.setRot(this.getYRot(), this.getXRot());
 				this.yBodyRot = this.getYRot();
 				this.yHeadRot = this.yBodyRot;
-				super.travel(new Vec3(passenger.xxa * 5.0D, velo.y, passenger.zza * 5.0D));
+				super.travel(new Vec3(passenger.xxa * 8.0D, velo.y, passenger.zza * 8.0D));
 			} else{
 				this.moveRelative(this.getSpeed(), velo);
 				this.move(MoverType.SELF, this.getDeltaMovement());
@@ -296,5 +298,25 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	@Override @NotNull
 	public Vec3 getLeashOffset() {
 		return new Vec3(0.0D, this.getEyeHeight() * 0.6D, this.getBbWidth() * 0.1D);
+	}
+
+	@Override
+	public boolean isPlayerHealed() {
+		return this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER).isPresent();
+	}
+
+	@Deprecated
+	@Override
+	public void setPlayerHealed(boolean healed) {}
+
+	@Override @NotNull
+	public UUID getHealedPlayer() {
+		Optional<UUID> player = this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
+		return player.orElse(Util.NIL_UUID);
+	}
+
+	@Override
+	public void setHealedPlayer(@Nullable UUID player) {
+		this.getBrain().setMemory(MemoryModuleType.LIKED_PLAYER, player);
 	}
 }

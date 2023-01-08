@@ -21,7 +21,7 @@ public class PiglinCuteyTrigger extends SimpleCriterionTrigger<PiglinCuteyTrigge
 
 	@Override @NotNull
 	public PiglinCuteyTrigger.TriggerInstance createInstance(@NotNull JsonObject json, @NotNull EntityPredicate.Composite entity, @NotNull DeserializationContext context) {
-		return new TriggerInstance(entity);
+		return new PiglinCuteyTrigger.TriggerInstance(entity);
 	}
 
 	public void trigger(ServerPlayer player) {

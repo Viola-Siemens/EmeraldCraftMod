@@ -121,11 +121,11 @@ public class IceMakerMenu extends AbstractContainerMenu {
 
 				slot.onQuickCraft(itemstack1, itemstack);
 			} else if (index != INGREDIENT_INPUT_SLOT) {
-				if (condensateSlot.mayPlace(itemstack1)) {
+				if (this.condensateSlot.mayPlace(itemstack1)) {
 					if (!this.moveItemStackTo(itemstack1, CONDENSATE_SLOT, RESULT_SLOT, false)) {
 						return ItemStack.EMPTY;
 					}
-				} else if (ingredientInputSlot.mayPlace(itemstack1)) {
+				} else if (this.ingredientInputSlot.mayPlace(itemstack1)) {
 					if (!this.moveItemStackTo(itemstack1, INGREDIENT_INPUT_SLOT, INGREDIENT_OUTPUT_SLOT, false)) {
 						return ItemStack.EMPTY;
 					}

@@ -374,8 +374,8 @@ public class ECSurfaceRules {
 		SurfaceRules.ConditionSource isSteep = SurfaceRules.steep();
 		SurfaceRules.ConditionSource isSandSurfaceBiomes = SurfaceRules.isBiome(Biomes.WARM_OCEAN, Biomes.BEACH, Biomes.SNOWY_BEACH);
 		SurfaceRules.ConditionSource isDesert = SurfaceRules.isBiome(Biomes.DESERT);
-		SurfaceRules.ConditionSource isAzureDesert = SurfaceRules.isBiome(ECBiomeKeys.AZURE_DESERT);
-		SurfaceRules.ConditionSource isJadeiteDesert = SurfaceRules.isBiome(ECBiomeKeys.JADEITE_DESERT);
+		SurfaceRules.ConditionSource isAzureDesert = SurfaceRules.isBiome(ECBiomeKeys.AZURE_DESERT.key());
+		SurfaceRules.ConditionSource isJadeiteDesert = SurfaceRules.isBiome(ECBiomeKeys.JADEITE_DESERT.key());
 
 		SurfaceRules.ConditionSource isBandNeg = SurfaceRules.noiseCondition(Noises.SURFACE, -0.909D, -0.5454D);
 		SurfaceRules.ConditionSource isBandZero = SurfaceRules.noiseCondition(Noises.SURFACE, -0.1818D, 0.1818D);
@@ -404,7 +404,7 @@ public class ECSurfaceRules {
 				),
 				SurfaceRules.ifTrue(SurfaceRules.isBiome(Biomes.WINDSWEPT_HILLS), SurfaceRules.ifTrue(surfaceNoiseAbove(1.0D), STONE)),
 				SurfaceRules.ifTrue(
-						SurfaceRules.isBiome(ECBiomeKeys.KARST_HILLS),
+						SurfaceRules.isBiome(ECBiomeKeys.KARST_HILLS.key()),
 						SurfaceRules.sequence(
 								SurfaceRules.ifTrue(SurfaceRules.noiseCondition(Noises.SURFACE, 0.8D), DRIPSTONE_BLOCK),
 								STONE
@@ -415,7 +415,7 @@ public class ECSurfaceRules {
 				SurfaceRules.ifTrue(isAzureDesert, azureSandstoneLinedSand),
 				SurfaceRules.ifTrue(isJadeiteDesert, jadeiteSandstoneLinedSand),
 				SurfaceRules.ifTrue(
-						SurfaceRules.isBiome(ECBiomeKeys.GOLDEN_BEACH),
+						SurfaceRules.isBiome(ECBiomeKeys.GOLDEN_BEACH.key()),
 						SurfaceRules.sequence(
 								SurfaceRules.ifTrue(SurfaceRules.noiseCondition(Noises.SURFACE, 0.8D), redSandstoneLinedSand),
 								SurfaceRules.ifTrue(SurfaceRules.noiseCondition(Noises.SURFACE, 0.4D, 0.8D), sandstoneLinedSand),
@@ -423,7 +423,7 @@ public class ECSurfaceRules {
 						)
 				),
 				SurfaceRules.ifTrue(
-						SurfaceRules.isBiome(ECBiomeKeys.PALM_BEACH),
+						SurfaceRules.isBiome(ECBiomeKeys.PALM_BEACH.key()),
 						SurfaceRules.sequence(
 								SurfaceRules.ifTrue(SurfaceRules.noiseCondition(Noises.SURFACE, -0.15D, 0.15D), COARSE_DIRT),
 								SurfaceRules.ifTrue(SurfaceRules.noiseCondition(Noises.SURFACE, -0.6D, -0.45D), COARSE_DIRT),
@@ -530,11 +530,11 @@ public class ECSurfaceRules {
 				SurfaceRules.ifTrue(SurfaceRules.isBiome(Biomes.ICE_SPIKES), SurfaceRules.ifTrue(isAboveWaterLevel, SNOW_BLOCK)),
 				SurfaceRules.ifTrue(SurfaceRules.isBiome(Biomes.MUSHROOM_FIELDS), MYCELIUM),
 				SurfaceRules.ifTrue(
-						SurfaceRules.isBiome(ECBiomeKeys.GINKGO_FOREST),
+						SurfaceRules.isBiome(ECBiomeKeys.GINKGO_FOREST.key()),
 						SurfaceRules.ifTrue(SurfaceRules.noiseCondition(Noises.SURFACE, 0.6D), PODZOL)
 				),
 				SurfaceRules.ifTrue(
-						SurfaceRules.isBiome(ECBiomeKeys.XANADU),
+						SurfaceRules.isBiome(ECBiomeKeys.XANADU.key()),
 						MOSS_BLOCK
 				),
 				grassSurface
@@ -567,7 +567,7 @@ public class ECSurfaceRules {
 										)
 								),
 								SurfaceRules.ifTrue(
-										SurfaceRules.isBiome(ECBiomeKeys.XANADU),
+										SurfaceRules.isBiome(ECBiomeKeys.XANADU.key()),
 										SurfaceRules.sequence(
 												SurfaceRules.ifTrue(
 														SurfaceRules.not(above50),
@@ -660,7 +660,7 @@ public class ECSurfaceRules {
 										sandstoneLinedSand
 								),
 								SurfaceRules.ifTrue(
-										SurfaceRules.isBiome(ECBiomeKeys.DEAD_CRIMSON_OCEAN, ECBiomeKeys.DEEP_DEAD_CRIMSON_OCEAN),
+										SurfaceRules.isBiome(ECBiomeKeys.DEAD_CRIMSON_OCEAN.key(), ECBiomeKeys.DEEP_DEAD_CRIMSON_OCEAN.key()),
 										SurfaceRules.sequence(
 												SurfaceRules.ifTrue(SurfaceRules.ON_CEILING, CRIMSON_STONE),
 												SurfaceRules.ifTrue(SurfaceRules.noiseCondition(Noises.SURFACE, -0.0125D, 0.0125D), MAGMA_BLOCK),
@@ -669,7 +669,7 @@ public class ECSurfaceRules {
 										)
 								),
 								SurfaceRules.ifTrue(
-										SurfaceRules.isBiome(ECBiomeKeys.DEAD_WARPED_OCEAN, ECBiomeKeys.DEEP_DEAD_WARPED_OCEAN),
+										SurfaceRules.isBiome(ECBiomeKeys.DEAD_WARPED_OCEAN.key(), ECBiomeKeys.DEEP_DEAD_WARPED_OCEAN.key()),
 										SurfaceRules.sequence(
 												SurfaceRules.ifTrue(SurfaceRules.ON_CEILING, WARPED_STONE),
 												SurfaceRules.ifTrue(SurfaceRules.noiseCondition(Noises.SURFACE, -0.025D, 0.025D), BASALT),
@@ -757,7 +757,7 @@ public class ECSurfaceRules {
 										SurfaceRules.ifTrue(isHole, LAVA)
 								),
 								SurfaceRules.ifTrue(
-										SurfaceRules.isBiome(ECBiomeKeys.PURPURACEUS_SWAMP),
+										SurfaceRules.isBiome(ECBiomeKeys.PURPURACEUS_SWAMP.key()),
 										SurfaceRules.ifTrue(
 												SurfaceRules.not(netherrackNoised),
 												SurfaceRules.ifTrue(
@@ -838,7 +838,7 @@ public class ECSurfaceRules {
 						)
 				),
 				SurfaceRules.ifTrue(
-						SurfaceRules.isBiome(ECBiomeKeys.EMERY_DESERT),
+						SurfaceRules.isBiome(ECBiomeKeys.EMERY_DESERT.key()),
 						SurfaceRules.sequence(
 								SurfaceRules.ifTrue(SurfaceRules.UNDER_CEILING, BLACKSTONE),
 								SurfaceRules.ifTrue(SurfaceRules.UNDER_FLOOR, SurfaceRules.sequence(
@@ -851,7 +851,7 @@ public class ECSurfaceRules {
 						)
 				),
 				SurfaceRules.ifTrue(
-						SurfaceRules.isBiome(ECBiomeKeys.QUARTZ_DESERT),
+						SurfaceRules.isBiome(ECBiomeKeys.QUARTZ_DESERT.key()),
 						SurfaceRules.sequence(
 								SurfaceRules.ifTrue(
 										SurfaceRules.UNDER_CEILING,

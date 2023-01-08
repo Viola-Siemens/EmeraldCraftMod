@@ -103,7 +103,7 @@ public class ContinuousMinerMenu extends AbstractContainerMenu {
 					return ItemStack.EMPTY;
 				}
 			} else if (index >= INV_SLOT_START && index < INV_SLOT_END) {
-				if(inputSlot.mayPlace(itemstack1)) {
+				if(this.inputSlot.mayPlace(itemstack1)) {
 					if (!this.moveItemStackTo(itemstack1, INPUT_SLOT, RESULT_SLOT, false)) {
 						return ItemStack.EMPTY;
 					}
@@ -111,7 +111,7 @@ public class ContinuousMinerMenu extends AbstractContainerMenu {
 					return ItemStack.EMPTY;
 				}
 			} else if (index >= USE_ROW_SLOT_START && index < USE_ROW_SLOT_END) {
-				if(inputSlot.mayPlace(itemstack1)) {
+				if(this.inputSlot.mayPlace(itemstack1)) {
 					if (!this.moveItemStackTo(itemstack1, INPUT_SLOT, RESULT_SLOT, false)) {
 						return ItemStack.EMPTY;
 					}

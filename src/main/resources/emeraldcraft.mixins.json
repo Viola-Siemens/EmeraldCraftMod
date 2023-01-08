@@ -8,18 +8,28 @@
     "AbstractSkeletonMixin",
     "BlockEntityTypeAccess",
     "HeroGiftsTaskAccess",
+    "IronGolemEntityMixin",
+    "MapDecorationTypeMixin",
+    "MapItemSavedDataMixin",
     "MobEntityMixin",
     "PhantomEntityMixin",
     "PiglinAiMixin",
     "PiglinBruteAiMixin",
+    "PiglinSpecificSensorMixin",
+    "RecipeManagerAccess",
+    "ServerboundPlayerCommandPacketActionMixin",
+    "ServerPlayerMixin",
+    "ServerPlayNetHandlerMixin",
     "SingleJigsawAccess",
     "StructureSetMixin",
     "VillagePoolsMixin",
+    "WorkAtPoiMixin",
     "ZombieEntityMixin",
     "ZombifiedPiglinEntityMixin"
   ],
   "minVersion": "0.8",
   "client": [
-    "LocalPlayerMixin"
+    "LocalPlayerMixin",
+    "MapInstanceMixin"
   ]
 }

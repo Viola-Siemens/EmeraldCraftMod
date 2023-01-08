@@ -44,6 +44,7 @@ public class ModVanillaCompat {
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.MAGENTA_PETUNIA.asItem(), 0.65F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.HIGAN_BANA.asItem(), 0.65F);
 		ComposterBlock.COMPOSTABLES.put(ECItems.WARPED_WART.asItem(), 0.65F);
+		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.PURPURACEUS_ROOTS.asItem(), 0.65F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.PURPURACEUS_FUNGUS.asItem(), 0.65F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.PURPURACEUS_WART_BLOCK.asItem(), 0.85F);
 

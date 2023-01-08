@@ -22,6 +22,7 @@ public class ECRecipes {
 	public static final RegistryObject<RecipeType<MineralTableRecipe>> MINERAL_TABLE_TYPE = register("mineral_table");
 	public static final RegistryObject<RecipeType<IceMakerRecipe>> ICE_MAKER_TYPE = register("ice_maker");
 	public static final RegistryObject<RecipeType<MelterRecipe>> MELTER_TYPE = register("melter");
+	public static RegistryObject<RecipeType<TradeShadowRecipe>> TRADE_SHADOW_TYPE = register("trade_shadow");
 
 	public static void init(IEventBus bus) {
 		REGISTER.register(bus);

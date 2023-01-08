@@ -11,8 +11,7 @@ public class ECSaveData extends SavedData {
 	private static ECSaveData INSTANCE;
 	public static final String dataName = "EmeraldCraft-SaveData";
 
-	public ECSaveData()
-	{
+	public ECSaveData() {
 		super();
 	}
 
@@ -35,8 +34,7 @@ public class ECSaveData extends SavedData {
 			INSTANCE.setDirty();
 	}
 
-	public static void setInstance(ECSaveData in)
-	{
+	public static void setInstance(ECSaveData in) {
 		INSTANCE = in;
 	}
 }

@@ -20,6 +20,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class JEIHelper implements IModPlugin {
 		RecipeType<MineralTableRecipe> MINERAL_TABLE = new RecipeType<>(MineralTableRecipeCategory.UID, MineralTableRecipe.class);
 		RecipeType<IceMakerRecipe> ICE_MAKER = new RecipeType<>(IceMakerRecipeCategory.UID, IceMakerRecipe.class);
 		RecipeType<MelterRecipe> MELTER = new RecipeType<>(MelterRecipeCategory.UID, MelterRecipe.class);
+		RecipeType<TradeShadowRecipe> TRADES = new RecipeType<>(VillagerTradeCategory.UID,  TradeShadowRecipe.class);
 	}
 
 	public interface ECJEIMenuTypes {
@@ -68,7 +70,8 @@ public class JEIHelper implements IModPlugin {
 				new GlassKilnRecipeCategory(guiHelper),
 				new MineralTableRecipeCategory(guiHelper),
 				new MelterRecipeCategory(guiHelper),
-				new IceMakerRecipeCategory(guiHelper)
+				new IceMakerRecipeCategory(guiHelper),
+				new VillagerTradeCategory(guiHelper)
 		);
 
 		slotDrawable = guiHelper.getSlotDrawable();
@@ -79,12 +82,13 @@ public class JEIHelper implements IModPlugin {
 
 	@Override
 	public void registerRecipes(IRecipeRegistration registration) {
-		ECLogger.info("Adding recipes to JEI!!");
+		ECLogger.info("Adding EC recipes to JEI!!");
 		registration.addRecipes(ECJEIRecipeTypes.CARPENTRY_TABLE, getRecipes(CarpentryTableRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.GLASS_KILN, getRecipes(GlassKilnRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.MINERAL_TABLE, getRecipes(MineralTableRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.MELTER, getRecipes(MelterRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.ICE_MAKER, getRecipes(IceMakerRecipe.recipeList));
+		registration.addRecipes(ECJEIRecipeTypes.TRADES, getRecipes(TradeShadowRecipe.recipeList));
 	}
 
 	private <T extends Recipe<?>> List<T> getRecipes(CachedRecipeList<T> cachedList) {
@@ -151,6 +155,7 @@ public class JEIHelper implements IModPlugin {
 		registration.addRecipeCatalyst(new ItemStack(ECBlocks.WorkStation.MINERAL_TABLE), ECJEIRecipeTypes.MINERAL_TABLE);
 		registration.addRecipeCatalyst(new ItemStack(ECBlocks.WorkStation.MELTER), ECJEIRecipeTypes.MELTER);
 		registration.addRecipeCatalyst(new ItemStack(ECBlocks.WorkStation.ICE_MAKER), ECJEIRecipeTypes.ICE_MAKER);
+		registration.addRecipeCatalyst(new ItemStack(Items.EMERALD), ECJEIRecipeTypes.TRADES);
 	}
 
 	@Override

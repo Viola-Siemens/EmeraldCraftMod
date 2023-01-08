@@ -179,19 +179,19 @@ public class CarpentryTableMenu extends AbstractContainerMenu {
 	public ItemStack quickMoveStack(@NotNull Player player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
-		if (slot != null && slot.hasItem()) {
+		if (slot.hasItem()) {
 			ItemStack itemstack1 = slot.getItem();
 			Item item = itemstack1.getItem();
 			itemstack = itemstack1.copy();
 			if (index == RESULT_SLOT) {
 				item.onCraftedBy(itemstack1, player.level, player);
-				if (!this.moveItemStackTo(itemstack1, 2, 38, true)) {
+				if (!this.moveItemStackTo(itemstack1, INV_SLOT_START, USE_ROW_SLOT_END, true)) {
 					return ItemStack.EMPTY;
 				}
 
 				slot.onQuickCraft(itemstack1, itemstack);
 			} else if (index == INPUT_SLOT) {
-				if (!this.moveItemStackTo(itemstack1, 2, 38, false)) {
+				if (!this.moveItemStackTo(itemstack1, INV_SLOT_START, USE_ROW_SLOT_END, false)) {
 					return ItemStack.EMPTY;
 				}
 			} else if (this.level.getRecipeManager()

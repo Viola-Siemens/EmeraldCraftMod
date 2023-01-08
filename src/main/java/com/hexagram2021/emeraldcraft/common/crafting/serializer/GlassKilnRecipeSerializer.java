@@ -25,6 +25,7 @@ public class GlassKilnRecipeSerializer<T extends GlassKilnRecipe> implements Rec
 		this.factory = creator;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override @NotNull
 	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
 		String s = GsonHelper.getAsString(json, "group", "");
@@ -50,8 +51,7 @@ public class GlassKilnRecipeSerializer<T extends GlassKilnRecipe> implements Rec
 		return this.factory.create(id, s, ingredient, itemstack, f, i);
 	}
 
-	@Nullable
-	@Override
+	@Override @Nullable
 	public T fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);

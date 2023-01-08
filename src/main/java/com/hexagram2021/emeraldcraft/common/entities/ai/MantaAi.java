@@ -33,9 +33,7 @@ public class MantaAi {
 				new Swim(0.8F),
 				new AnimalPanic(2.5F),
 				new LookAtTargetSink(45, 90),
-				new MoveToTargetSink(),
-				new CountDownCooldownTicks(MemoryModuleType.LIKED_NOTEBLOCK_COOLDOWN_TICKS),
-				new CountDownCooldownTicks(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS)
+				new MoveToTargetSink()
 		));
 	}
 

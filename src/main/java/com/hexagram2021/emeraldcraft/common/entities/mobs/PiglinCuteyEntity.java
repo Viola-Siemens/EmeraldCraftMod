@@ -14,6 +14,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
@@ -63,8 +64,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 			buf.writeVarInt(data.level());
 		}
 
-		@Override
-		@NotNull
+		@Override @NotNull
 		public PiglinCuteyData read(FriendlyByteBuf buf) {
 			return new PiglinCuteyData(buf.readVarInt());
 		}
@@ -98,7 +98,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 
 	@Override
 	protected void registerGoals() {
-		this.goalSelector.addGoal(0, new PiglinCuteyEntity.RushToPortalGoal(this, 1.0D, 50.0D, SPEED_MODIFIER));
+		this.goalSelector.addGoal(0, new PiglinCuteyEntity.RushToPortalGoal(this, 1.5D, 50.0D, SPEED_MODIFIER));
 		this.goalSelector.addGoal(1, new TradeWithPlayerGoal(this));
 		this.goalSelector.addGoal(1, new LookAtTradingPlayerGoal(this));
 		this.goalSelector.addGoal(1, new OpenDoorGoal(this, true));
@@ -343,16 +343,16 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		}
 	}
 
-	private void updateSpecialPrices(Player pPlayer) {
-		int i = this.getPlayerReputation(pPlayer);
+	private void updateSpecialPrices(Player player) {
+		int i = this.getPlayerReputation(player);
 		if (i != 0) {
 			for(MerchantOffer merchantoffer : this.getOffers()) {
 				merchantoffer.addToSpecialPriceDiff(-Mth.floor((float)i * merchantoffer.getPriceMultiplier()));
 			}
 		}
 
-		if (pPlayer.hasEffect(MobEffects.HERO_OF_THE_VILLAGE)) {
-			MobEffectInstance mobeffectinstance = pPlayer.getEffect(MobEffects.HERO_OF_THE_VILLAGE);
+		if (player.hasEffect(MobEffects.HERO_OF_THE_VILLAGE)) {
+			MobEffectInstance mobeffectinstance = player.getEffect(MobEffects.HERO_OF_THE_VILLAGE);
 			int k = mobeffectinstance.getAmplifier();
 
 			for(MerchantOffer merchantoffer : this.getOffers()) {
@@ -396,29 +396,36 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 	}
 
 	@Override
-	public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
-		super.addAdditionalSaveData(pCompound);
+	public void addAdditionalSaveData(@NotNull CompoundTag nbt) {
+		super.addAdditionalSaveData(nbt);
 		PiglinCuteyData.CODEC.encodeStart(NbtOps.INSTANCE, this.getPiglinCuteyData()).resultOrPartial(ECLogger::error).ifPresent(
-				(p_35454_) -> pCompound.put("PiglinCuteyData", p_35454_)
+				(p_35454_) -> nbt.put("PiglinCuteyData", p_35454_)
 		);
-		pCompound.putInt("FoodLevel", this.foodLevel);
-		pCompound.putInt("Xp", this.cuteyXp);
+		nbt.putInt("FoodLevel", this.foodLevel);
+		nbt.putInt("Xp", this.cuteyXp);
+		if(this.lastTradedPlayer != null) {
+			nbt.putUUID("lastTradedPlayer", this.lastTradedPlayer.getUUID());
+		}
 	}
 
 	@Override
-	public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
-		super.readAdditionalSaveData(pCompound);
-		if (pCompound.contains("PiglinCuteyData", 10)) {
-			DataResult<PiglinCuteyData> dataResult = PiglinCuteyData.CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, pCompound.get("PiglinCuteyData")));
+	public void readAdditionalSaveData(@NotNull CompoundTag nbt) {
+		super.readAdditionalSaveData(nbt);
+		if (nbt.contains("PiglinCuteyData", Tag.TAG_COMPOUND)) {
+			DataResult<PiglinCuteyData> dataResult = PiglinCuteyData.CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, nbt.get("PiglinCuteyData")));
 			dataResult.resultOrPartial(ECLogger::error).ifPresent(this::setPiglinCuteyData);
 		}
 
-		if (pCompound.contains("FoodLevel", 1)) {
-			this.foodLevel = pCompound.getInt("FoodLevel");
+		if (nbt.contains("FoodLevel", Tag.TAG_INT)) {
+			this.foodLevel = nbt.getInt("FoodLevel");
 		}
 
-		if (pCompound.contains("Xp", 3)) {
-			this.cuteyXp = pCompound.getInt("Xp");
+		if (nbt.contains("Xp", Tag.TAG_INT)) {
+			this.cuteyXp = nbt.getInt("Xp");
+		}
+
+		if(nbt.contains("lastTradedPlayer", Tag.TAG_INT_ARRAY)) {
+			this.lastTradedPlayer = this.level.getPlayerByUUID(nbt.getUUID("lastTradedPlayer"));
 		}
 
 		this.setCanPickUpLoot(true);

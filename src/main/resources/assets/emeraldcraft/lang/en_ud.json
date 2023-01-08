@@ -380,6 +380,13 @@
   "item.minecraft.splash_potion.effect.glowing": "uoᴉʇoԀ ƃuᴉʍolפ ɥsɐldS",
   "item.minecraft.lingering_potion.effect.glowing": "uoᴉʇoԀ ƃuᴉʍolפ ƃuᴉɹǝƃuᴉ˥",
 
+  "item.minecraft.tipped_arrow.effect.absorption": "uoᴉʇdɹosq∀ ɟo ʍoɹɹ∀",
+  "item.minecraft.tipped_arrow.effect.blindness": "ssǝupuᴉlq ɟo ʍoɹɹ∀",
+  "item.minecraft.tipped_arrow.effect.hunger": "ɹǝƃunH ɟo ʍoɹɹ∀",
+  "item.minecraft.tipped_arrow.effect.saturation": "uoᴉʇɐɹnʇɐS ɟo ʍoɹɹ∀",
+  "item.minecraft.tipped_arrow.effect.wither": "ɹǝɥʇᴉM ɟo ʍoɹɹ∀",
+  "item.minecraft.tipped_arrow.effect.glowing": "ƃuᴉʍolפ ɟo ʍoɹɹ∀",
+
   "entity.emeraldcraft.piglin_cutey": "ʎǝʇnƆ uᴉlƃᴉԀ",
   "entity.emeraldcraft.nether_pigman": "uɐɯƃᴉԀ ɹǝɥʇǝN",
   "entity.emeraldcraft.nether_lambman": "uɐɯqɯɐ˥ ɹǝɥʇǝN",
@@ -510,6 +517,9 @@
   "advancements.emeraldcraft.ice_cream_please.title": "ǝsɐǝlԀ ɯɐǝɹƆ ǝɔI",
   "advancements.emeraldcraft.ice_cream_please.description": "˙ɹǝʞɐɯ ǝɔᴉ ɐ uᴉɐʇqO",
 
+  "filled_map.shelter": "dɐW ɹǝɹoldxƎ ǝnɔsǝɹ ⅋ ɥɔɹɐǝS",
+  "filled_map.entrenchment": "dɐW ɹǝɹoldxƎ ɹǝʇuǝɔoǝפ",
+
   "fluids.save.bucket": "llᴉɟ oʇ ǝlq∀ %s %s",
   "fluids.name.water": "ɹǝʇɐM",
   "fluids.name.lava": "ɐʌɐ˥",
@@ -522,5 +532,7 @@
   "fluids.name.melted_lead": "pɐǝ˥ pǝʇlǝW",
   "fluids.name.melted_silver": "ɹǝʌlᴉS pǝʇlǝW",
   "fluids.name.melted_nickel": "lǝʞɔᴉN pǝʇlǝW",
-  "fluids.name.melted_uranium": "ɯnᴉuɐɹ∩ pǝʇlǝW"
+  "fluids.name.melted_uranium": "ɯnᴉuɐɹ∩ pǝʇlǝW",
+
+  "jei.emeraldcraft.villager_trade": "sɹǝƃɐllᴉΛ ɥʇᴉʍ ǝpɐɹ┴"
 }
