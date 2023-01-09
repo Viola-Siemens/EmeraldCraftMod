@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emeraldcraft:blue_nether_bricks"
+  },
+  "result": "emeraldcraft:blue_nether_brick_stairs",
+  "count": 1
+}

@@ -1,0 +1,13 @@
+{
+  "type": "crafting_shapeless",
+  "group": "purple_dye",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:higan_bana"
+    }
+  ],
+  "result": {
+    "item": "minecraft:purple_dye",
+    "count": 1
+  }
+}

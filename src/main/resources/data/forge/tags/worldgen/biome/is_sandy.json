@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:azure_desert",
+    "emeraldcraft:emery_desert",
+    "emeraldcraft:golden_beach",
+    "emeraldcraft:jadeite_desert",
+    "emeraldcraft:quartz_desert"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "required": true,
+  "package": "com.hexagram2021.emeraldcraft.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "emeraldcraft.refmap.json",
+  "mixins": [
+    "AbstractPiglinEntityMixin",
+    "AbstractSkeletonMixin",
+    "BlockEntityTypeAccess",
+    "HeroGiftsTaskAccess",
+    "IronGolemEntityMixin",
+    "MapDecorationTypeMixin",
+    "MapItemSavedDataMixin",
+    "MobEntityMixin",
+    "PhantomEntityMixin",
+    "PiglinAiMixin",
+    "PiglinBruteAiMixin",
+    "PiglinSpecificSensorMixin",
+    "RecipeManagerAccess",
+    "ServerboundPlayerCommandPacketActionMixin",
+    "ServerPlayerMixin",
+    "ServerPlayNetHandlerMixin",
+    "SingleJigsawAccess",
+    "StructureSetMixin",
+    "VillagePoolsMixin",
+    "WorkAtPoiMixin",
+    "ZombieEntityMixin",
+    "ZombifiedPiglinEntityMixin"
+  ],
+  "minVersion": "0.8",
+  "client": [
+    "ClientPacketListenerMixin",
+    "LocalPlayerMixin",
+    "MapInstanceMixin"
+  ]
+}

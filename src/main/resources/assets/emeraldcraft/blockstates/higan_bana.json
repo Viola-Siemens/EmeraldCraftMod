@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "leaf=true": {
+      "model": "emeraldcraft:block/higan_bana"
+    },
+    "leaf=false": {
+      "model": "emeraldcraft:block/higan_bana_no_leaf"
+    }
+  }
+}

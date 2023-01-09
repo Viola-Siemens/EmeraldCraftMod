@@ -1,0 +1,17 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "byg"
+    }
+  ],
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_pressure_plate",
+  "ingredients": [
+    {
+      "item": "byg:cika_planks"
+    }
+  ],
+  "result": "byg:cika_pressure_plate",
+  "count": 1
+}

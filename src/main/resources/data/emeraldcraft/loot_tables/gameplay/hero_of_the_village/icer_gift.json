@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:gift",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:snowball"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:snow_block"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:ice"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:packed_ice"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:blue_ice"
+        }
+      ]
+    }
+  ]
+}

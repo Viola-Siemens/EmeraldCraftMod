@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "emeraldcraft:sausage"
+  },
+  "result": "emeraldcraft:cooked_sausage",
+  "experience": 0.35,
+  "cookingtime": 100
+}

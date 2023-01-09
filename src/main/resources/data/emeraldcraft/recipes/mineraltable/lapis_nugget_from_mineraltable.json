@@ -1,0 +1,9 @@
+{
+  "type": "emeraldcraft:mineral_table",
+  "ingredient": {
+    "item": "emeraldcraft:azure_sand"
+  },
+  "result": "emeraldcraft:lapis_nugget",
+  "experience": 0.1,
+  "cookingtime": 500
+}

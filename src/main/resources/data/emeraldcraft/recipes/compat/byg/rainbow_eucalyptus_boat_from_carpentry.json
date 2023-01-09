@@ -1,0 +1,17 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "byg"
+    }
+  ],
+  "type": "emeraldcraft:carpentry",
+  "group": "boat",
+  "ingredients": [
+    {
+      "tag": "byg:rainbow_eucalyptus_logs"
+    }
+  ],
+  "result": "byg:rainbow_eucalyptus_boat",
+  "count": 1
+}

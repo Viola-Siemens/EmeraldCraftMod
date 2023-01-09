@@ -1,0 +1,22 @@
+{
+    "parent": "block/block",
+    "textures": {
+        "particle": "emeraldcraft:block/continuous_miner_wheel",
+        "texture_wheel": "emeraldcraft:block/continuous_miner_wheel",
+        "texture_wside": "emeraldcraft:block/continuous_miner_wheel_side"
+    },
+    "elements": [
+		{
+			"from": [ 6, 3, 3 ],
+			"to": [ 10, 12, 12 ],
+			"faces": {
+				"north": { "uv": [0, 0, 4, 9], "texture": "#texture_wside" },
+				"east":  { "uv": [0, 0, 9, 9], "texture": "#texture_wheel" },
+				"south": { "uv": [0, 0, 4, 9], "texture": "#texture_wside" },
+				"west":  { "uv": [0, 0, 9, 9], "texture": "#texture_wheel" },
+				"up":    {"uv": [0, 0, 4, 9],  "texture": "#texture_wside" },
+				"down":  {"uv": [0, 0, 4, 9],  "texture": "#texture_wside" }
+			}
+		}
+    ]
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "emeraldcraft:block/continuous_miner",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "emeraldcraft:block/continuous_miner"
+    },
+    "facing=south": {
+      "model": "emeraldcraft:block/continuous_miner",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "emeraldcraft:block/continuous_miner",
+      "y": 270
+    }
+  }
+}

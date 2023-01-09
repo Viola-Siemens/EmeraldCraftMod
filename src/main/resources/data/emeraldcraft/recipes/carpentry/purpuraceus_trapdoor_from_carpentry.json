@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_trapdoor",
+  "ingredients": [
+    {
+      "tag": "emeraldcraft:purpuraceus_stems"
+    }
+  ],
+  "result": "emeraldcraft:purpuraceus_trapdoor",
+  "count": 2
+}

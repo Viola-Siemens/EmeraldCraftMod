@@ -1,0 +1,11 @@
+{
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_trapdoor",
+  "ingredients": [
+    {
+      "tag": "emeraldcraft:peach_logs"
+    }
+  ],
+  "result": "emeraldcraft:peach_trapdoor",
+  "count": 2
+}

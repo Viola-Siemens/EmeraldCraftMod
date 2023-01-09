@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "emeraldcraft:purple_spotted_bigeye"
+  },
+  "result": "emeraldcraft:cooked_purple_spotted_bigeye",
+  "experience": 0.35,
+  "cookingtime": 100
+}

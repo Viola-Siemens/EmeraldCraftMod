@@ -1,0 +1,17 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ],
+  "type": "emeraldcraft:melter",
+  "ingredient": {
+    "item": "immersiveengineering:storage_nickel"
+  },
+  "result": {
+    "fluid": "melted_nickel",
+    "amount": 100
+  },
+  "meltingtime": 200
+}

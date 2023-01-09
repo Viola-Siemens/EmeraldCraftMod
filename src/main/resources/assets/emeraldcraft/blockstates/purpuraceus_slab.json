@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "emeraldcraft:block/purpuraceus_slab"
+    },
+    "type=double": {
+      "model": "emeraldcraft:block/purpuraceus_planks"
+    },
+    "type=top": {
+      "model": "emeraldcraft:block/purpuraceus_slab_top"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "parent": "emeraldcraft:emeraldcraft/root",
+  "display": {
+    "icon": {
+      "item": "emeraldcraft:ice_maker"
+    },
+    "title": {
+      "translate": "advancements.emeraldcraft.ice_cream_please.title"
+    },
+    "description": {
+      "translate": "advancements.emeraldcraft.ice_cream_please.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "ice_maker": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "emeraldcraft:ice_maker"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "ice_maker"
+    ]
+  ]
+}

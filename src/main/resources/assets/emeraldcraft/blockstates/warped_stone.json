@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "emeraldcraft:block/warped_stone"
+      },
+      {
+        "model": "emeraldcraft:block/warped_stone_mirrored"
+      },
+      {
+        "model": "emeraldcraft:block/warped_stone",
+        "y": 180
+      },
+      {
+        "model": "emeraldcraft:block/warped_stone_mirrored",
+        "y": 180
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "wooden_button",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:purpuraceus_planks"
+    }
+  ],
+  "result": {
+    "item": "emeraldcraft:purpuraceus_button"
+  }
+}

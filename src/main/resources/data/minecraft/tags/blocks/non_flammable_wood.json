@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:purpuraceus_stem",
+    "emeraldcraft:stripped_purpuraceus_stem",
+    "emeraldcraft:purpuraceus_hyphae",
+    "emeraldcraft:stripped_purpuraceus_hyphae",
+    "emeraldcraft:purpuraceus_planks",
+    "emeraldcraft:purpuraceus_slab",
+    "emeraldcraft:purpuraceus_pressure_plate",
+    "emeraldcraft:purpuraceus_fence",
+    "emeraldcraft:purpuraceus_trapdoor",
+    "emeraldcraft:purpuraceus_fence_gate",
+    "emeraldcraft:purpuraceus_stairs",
+    "emeraldcraft:purpuraceus_button",
+    "emeraldcraft:purpuraceus_door",
+    "emeraldcraft:purpuraceus_sign",
+    "emeraldcraft:purpuraceus_wall_sign"
+  ]
+}

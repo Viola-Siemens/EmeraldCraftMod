@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "emeraldcraft:purpuraceus_fungus"
+  },
+  "result": "emeraldcraft:cooked_purpuraceus_fungus",
+  "experience": 0.35,
+  "cookingtime": 200
+}

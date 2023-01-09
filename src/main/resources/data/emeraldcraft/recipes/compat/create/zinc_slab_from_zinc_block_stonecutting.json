@@ -1,0 +1,14 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "create:zinc_block"
+  },
+  "result": "emeraldcraft:zinc_slab",
+  "count": 2
+}
