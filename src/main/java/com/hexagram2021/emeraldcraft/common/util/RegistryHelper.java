@@ -1,6 +1,5 @@
 package com.hexagram2021.emeraldcraft.common.util;
 
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerProfession;

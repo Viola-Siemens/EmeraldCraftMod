@@ -1,7 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
 import net.minecraft.client.RecipeBookCategories;
-import net.minecraft.world.inventory.RecipeBookType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.client.event.RegisterRecipeBookCategoriesEvent;

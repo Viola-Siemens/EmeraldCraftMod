@@ -177,9 +177,7 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 			int index = 0;
 
 			for(MerchantOffer merchantoffer : merchantoffers) {
-				if (this.canScroll(merchantoffers.size()) && (index < this.scrollOff || index >= NUMBER_OF_OFFER_BUTTONS + this.scrollOff)) {
-					++index;
-				} else {
+				if (!this.canScroll(merchantoffers.size()) || (index >= this.scrollOff && index < NUMBER_OF_OFFER_BUTTONS + this.scrollOff)) {
 					ItemStack baseCostA = merchantoffer.getBaseCostA();
 					ItemStack costA = merchantoffer.getCostA();
 					ItemStack costB = merchantoffer.getCostB();
@@ -197,8 +195,8 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 					this.itemRenderer.renderGuiItemDecorations(this.font, result, left + SELL_ITEM_1_X + BUY_ITEM_X, itemY);
 					this.itemRenderer.blitOffset = 0.0F;
 					merchantY += TRADE_BUTTON_HEIGHT;
-					++index;
 				}
+				++index;
 			}
 
 			MerchantOffer currentOffer = merchantoffers.get(this.shopItem);

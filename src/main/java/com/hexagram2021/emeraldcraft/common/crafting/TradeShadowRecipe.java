@@ -59,7 +59,7 @@ public class TradeShadowRecipe implements Recipe<Container> {
 		return this.costA.sameItem(container.getItem(0)) && this.costB.sameItem(container.getItem(1));
 	}
 
-	@Override @NotNull
+	@Override @Nullable
 	public ItemStack assemble(@NotNull Container container) {
 		return null;
 	}

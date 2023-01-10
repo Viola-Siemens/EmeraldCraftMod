@@ -26,7 +26,6 @@ public enum FluidTypes implements FluidType {
 
 	final int guiid;
 
-	@SuppressWarnings({"FieldMayBeFinal"})
 	private static final List<FluidType> FLUID_TYPES = new ArrayList<>(List.of(water, lava, melted_emerald, melted_iron, melted_gold, melted_copper));
 
 	FluidTypes(int guiid) {

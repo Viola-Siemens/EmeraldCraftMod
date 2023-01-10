@@ -879,13 +879,13 @@ public final class ECBlocks {
 		);
 
 		public static final BlockEntry<FlowerBlock> CYAN_PETUNIA = new BlockEntry<>(
-				"cyan_petunia", FLOWER_PROPERTIES, (props) -> new FlowerBlock(MobEffects.WATER_BREATHING, 8, props)
+				"cyan_petunia", FLOWER_PROPERTIES, (props) -> new FlowerBlock(() -> MobEffects.WATER_BREATHING, 8, props)
 		);
 		public static final BlockEntry<FlowerBlock> MAGENTA_PETUNIA = new BlockEntry<>(
-				"magenta_petunia", FLOWER_PROPERTIES, (props) -> new FlowerBlock(MobEffects.WATER_BREATHING, 8, props)
+				"magenta_petunia", FLOWER_PROPERTIES, (props) -> new FlowerBlock(() -> MobEffects.WATER_BREATHING, 8, props)
 		);
 		public static final BlockEntry<HiganBanaFlowerBlock> HIGAN_BANA = new BlockEntry<>(
-				"higan_bana", HIGAN_BANA_PROPERTIES, (props) -> new HiganBanaFlowerBlock(MobEffects.LEVITATION, 12, props)
+				"higan_bana", HIGAN_BANA_PROPERTIES, (props) -> new HiganBanaFlowerBlock(() -> MobEffects.LEVITATION, 12, props)
 		);
 		public static final BlockEntry<FlowerPotBlock> POTTED_CYAN_PETUNIA = new BlockEntry<>(
 				"potted_cyan_petunia", POTTED_FLOWER_PROPERTIES, (props) -> new FlowerPotBlock(
