@@ -48,7 +48,7 @@ public class WorkAtPoiMixin {
 					BlockEntity blockEntity = level.getBlockEntity(blockPos);
 					if (blockState.is(ECBlocks.WorkStation.CONTINUOUS_MINER.get()) &&
 							blockEntity instanceof ContinuousMinerBlockEntity continuousMinerBlockEntity) {
-						continuousMinerBlockEntity.dispenseFrom(blockState, level, blockPos, level.getRandom());
+						continuousMinerBlockEntity.dispenseFrom(blockState, level, blockPos, level.getRandom(), false);
 					}
 				});
 			}

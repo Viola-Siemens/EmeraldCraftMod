@@ -3,6 +3,7 @@ package com.hexagram2021.emeraldcraft;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.hexagram2021.emeraldcraft.api.tradable.TradeListingUtils;
 import com.hexagram2021.emeraldcraft.client.ClientProxy;
 import com.hexagram2021.emeraldcraft.common.CommonProxy;
 import com.hexagram2021.emeraldcraft.common.ECContent;
@@ -113,6 +114,11 @@ public class EmeraldCraft {
 			ECContent.init();
 			ModVanillaCompat.setup();
 		});
+
+		TradeListingUtils.registerTradeListing(VillagerTrades.WANDERING_TRADER_TRADES, EntityType.WANDERING_TRADER, null);
+		TradeListingUtils.registerTradeListing(ECTrades.PIGLIN_CUTEY_TRADES, ECEntities.PIGLIN_CUTEY, null);
+		TradeListingUtils.registerTradeListing(ECTrades.NETHER_LAMBMAN_TRADES, ECEntities.NETHER_LAMBMAN, null);
+		TradeListingUtils.registerTradeListing(ECTrades.NETHER_PIGMAN_TRADES, ECEntities.NETHER_PIGMAN, null);
 	}
 
 	public void serverStarted(ServerStartedEvent event) {
@@ -136,10 +142,9 @@ public class EmeraldCraft {
 
 			VillagerTrades.TRADES.forEach((profession, trades) ->
 					TradeUtil.addTradeShadowRecipesFromListingMap(trades, EntityType.VILLAGER, profession, world, names, shadows));
-			TradeUtil.addTradeShadowRecipesFromListingMap(VillagerTrades.WANDERING_TRADER_TRADES, EntityType.WANDERING_TRADER, null, world, names, shadows);
-			TradeUtil.addTradeShadowRecipesFromListingMap(ECTrades.PIGLIN_CUTEY_TRADES, ECEntities.PIGLIN_CUTEY, null, world, names, shadows);
-			TradeUtil.addTradeShadowRecipesFromListingMap(ECTrades.NETHER_LAMBMAN_TRADES, ECEntities.NETHER_LAMBMAN, null, world, names, shadows);
-			TradeUtil.addTradeShadowRecipesFromListingMap(ECTrades.NETHER_PIGMAN_TRADES, ECEntities.NETHER_PIGMAN, null, world, names, shadows);
+			TradeListingUtils.ADDITIONAL_TRADE_LISTINGS.forEach(tradeListing ->
+					TradeUtil.addTradeShadowRecipesFromListingMap(tradeListing.listings(), tradeListing.entityType(), tradeListing.profession(), world, names, shadows));
+
 
 			return shadows;
 		});

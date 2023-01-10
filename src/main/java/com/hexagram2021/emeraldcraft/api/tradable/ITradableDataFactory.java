@@ -11,17 +11,17 @@ import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public interface ITradableDataFactory {
-	Map<EntityType<?>, ITradableDataFactory> customMobs = Maps.newHashMap();
+	Map<EntityType<?>, ITradableDataFactory> CUSTOM_MOBS = Maps.newHashMap();
 
 	static void setTradableMobData(Entity entity, VillagerProfession profession, int level) {
-		ITradableDataFactory factory = customMobs.get(entity.getType());
+		ITradableDataFactory factory = CUSTOM_MOBS.get(entity.getType());
 		if(factory != null) {
 			factory.setMobData(entity, profession, level);
 		}
 	}
 
 	static void registerDataFactory(EntityType<?> entityType, ITradableDataFactory factory) {
-		customMobs.put(entityType, factory);
+		CUSTOM_MOBS.put(entityType, factory);
 	}
 
 	void setMobData(Entity entity, VillagerProfession profession, int level);

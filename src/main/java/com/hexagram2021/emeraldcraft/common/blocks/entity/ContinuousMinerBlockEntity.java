@@ -37,6 +37,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
@@ -189,14 +190,16 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 		return list.isEmpty() ? new ItemStack(Items.AIR) : list.get(0);
 	}
 
-	public void dispenseFrom(BlockState blockState, ServerLevel level, BlockPos pos, RandomSource random) {
+	public void dispenseFrom(BlockState blockState, ServerLevel level, BlockPos pos, RandomSource random, boolean needFluid) {
 		final double velo = 0.1D;
 
 		Direction facing = blockState.getValue(ContinuousMinerBlock.FACING);
 		BlockState front = level.getBlockState(pos.relative(facing));
 		ItemStack itemstack = byState(front, level, random);
 		if(!itemstack.is(Items.AIR)) {
-			this.fluid -= 1;
+			if(needFluid) {
+				this.fluid -= 1;
+			}
 			this.mineTime = TOTAL_MINE_TIME;
 			level.playSound(null, pos, ECSounds.VILLAGER_WORK_GEOLOGIST, SoundSource.BLOCKS, 1.0F, 1.0F);
 			if(itemstack.is(Items.STRUCTURE_VOID)) {
@@ -227,7 +230,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 				blockEntity.mineTime -= 1;
 			}
 			if(!blockEntity.isMining() && blockEntity.getFluidLevel() > 0) {
-				blockEntity.dispenseFrom(blockState, (ServerLevel)level, blockPos, level.getRandom());
+				blockEntity.dispenseFrom(blockState, (ServerLevel)level, blockPos, level.getRandom(), true);
 			}
 		}
 		ItemStack ingredient = blockEntity.items.get(0);
@@ -337,7 +340,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 
 	@Override @NotNull
 	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
-		if (!this.remove && facing != null && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+		if (!this.remove && facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
 			if (facing == Direction.UP) {
 				return handlers[0].cast();
 			} else if (facing == Direction.DOWN) {

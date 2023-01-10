@@ -2,8 +2,8 @@ package com.hexagram2021.emeraldcraft.common.blocks.entity;
 
 import com.google.common.collect.Lists;
 import com.hexagram2021.emeraldcraft.common.blocks.workstation.GlassKilnBlock;
-import com.hexagram2021.emeraldcraft.common.crafting.menu.GlassKilnMenu;
 import com.hexagram2021.emeraldcraft.common.crafting.GlassKilnRecipe;
+import com.hexagram2021.emeraldcraft.common.crafting.menu.GlassKilnMenu;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -38,8 +38,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -406,7 +406,7 @@ public class GlassKilnBlockEntity extends BaseContainerBlockEntity implements Wo
 
 	@Override @NotNull
 	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
-		if (!this.remove && facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+		if (!this.remove && facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
 			if (facing == Direction.UP)
 				return handlers[0].cast();
 			else if (facing == Direction.DOWN)
