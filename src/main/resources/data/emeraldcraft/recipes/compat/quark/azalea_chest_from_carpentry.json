@@ -1,0 +1,17 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "quark"
+    }
+  ],
+  "type": "emeraldcraft:carpentry",
+  "group": "chest",
+  "ingredients": [
+    {
+      "tag": "quark:azalea_logs"
+    }
+  ],
+  "result": "quark:azalea_chest",
+  "count": 1
+}

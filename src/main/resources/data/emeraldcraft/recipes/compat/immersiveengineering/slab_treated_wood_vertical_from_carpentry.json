@@ -1,0 +1,17 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ],
+  "type": "emeraldcraft:carpentry",
+  "group": "wooden_slab",
+  "ingredients": [
+    {
+      "item": "immersiveengineering:treated_wood_vertical"
+    }
+  ],
+  "result": "immersiveengineering:slab_treated_wood_vertical",
+  "count": 2
+}

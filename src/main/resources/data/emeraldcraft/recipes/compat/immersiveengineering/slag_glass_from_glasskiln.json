@@ -1,0 +1,15 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ],
+  "type": "emeraldcraft:glass_kiln",
+  "ingredient": {
+    "item":"immersiveengineering:slag"
+  },
+  "result": "immersiveengineering:slag_glass",
+  "experience": 0.1,
+  "cookingtime": 100
+}

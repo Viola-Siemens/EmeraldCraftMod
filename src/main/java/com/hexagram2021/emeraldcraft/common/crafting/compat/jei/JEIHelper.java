@@ -8,6 +8,7 @@ import com.hexagram2021.emeraldcraft.common.crafting.*;
 import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.*;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
+import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
 import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -18,7 +19,6 @@ import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
@@ -37,14 +37,6 @@ public class JEIHelper implements IModPlugin {
 		RecipeType<IceMakerRecipe> ICE_MAKER = new RecipeType<>(IceMakerRecipeCategory.UID, IceMakerRecipe.class);
 		RecipeType<MelterRecipe> MELTER = new RecipeType<>(MelterRecipeCategory.UID, MelterRecipe.class);
 		RecipeType<TradeShadowRecipe> TRADES = new RecipeType<>(VillagerTradeCategory.UID,  TradeShadowRecipe.class);
-	}
-
-	public interface ECJEIMenuTypes {
-		MenuType<CarpentryTableMenu> CARPENTRY_TABLE = new MenuType<>(CarpentryTableMenu::new);
-		MenuType<GlassKilnMenu> GLASS_KILN = new MenuType<>(GlassKilnMenu::new);
-		MenuType<MineralTableMenu> MINERAL_TABLE = new MenuType<>(MineralTableMenu::new);
-		MenuType<IceMakerMenu> ICE_MAKER = new MenuType<>(IceMakerMenu::new);
-		MenuType<MelterMenu> MELTER = new MenuType<>(MelterMenu::new);
 	}
 
 	private static final ResourceLocation UID = new ResourceLocation(MODID, "main");
@@ -96,49 +88,49 @@ public class JEIHelper implements IModPlugin {
 	public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
 		registration.addRecipeTransferHandler(
 				CarpentryTableMenu.class,
-				ECJEIMenuTypes.CARPENTRY_TABLE,
+				ECContainerTypes.CARPENTRY_TABLE_MENU.get(),
 				ECJEIRecipeTypes.CARPENTRY_TABLE,
 				CarpentryTableMenu.INPUT_SLOT, 1,
 				CarpentryTableMenu.INV_SLOT_START, 36
 		);
 		registration.addRecipeTransferHandler(
 				GlassKilnMenu.class,
-				ECJEIMenuTypes.GLASS_KILN,
+				ECContainerTypes.GLASS_KILN_MENU.get(),
 				ECJEIRecipeTypes.GLASS_KILN,
 				GlassKilnMenu.INGREDIENT_SLOT, 1,
 				GlassKilnMenu.INV_SLOT_START, 36
 		);
 		registration.addRecipeTransferHandler(
 				GlassKilnMenu.class,
-				ECJEIMenuTypes.GLASS_KILN,
+				ECContainerTypes.GLASS_KILN_MENU.get(),
 				RecipeTypes.FUELING,
 				GlassKilnMenu.FUEL_SLOT,1,
 				GlassKilnMenu.INV_SLOT_START, 36
 		);
 		registration.addRecipeTransferHandler(
 				MineralTableMenu.class,
-				ECJEIMenuTypes.MINERAL_TABLE,
+				ECContainerTypes.MINERAL_TABLE_MENU.get(),
 				ECJEIRecipeTypes.MINERAL_TABLE,
 				MineralTableMenu.INGREDIENT_SLOT, 1,
 				MineralTableMenu.INV_SLOT_START, 36
 		);
 		registration.addRecipeTransferHandler(
 				MelterMenu.class,
-				ECJEIMenuTypes.MELTER,
+				ECContainerTypes.MELTER_MENU.get(),
 				ECJEIRecipeTypes.MELTER,
 				MelterMenu.INGREDIENT_SLOT, 1,
 				MelterMenu.INV_SLOT_START, 36
 		);
 		registration.addRecipeTransferHandler(
 				MelterMenu.class,
-				ECJEIMenuTypes.MELTER,
+				ECContainerTypes.MELTER_MENU.get(),
 				RecipeTypes.FUELING,
 				MelterMenu.FUEL_SLOT,1,
 				MelterMenu.INV_SLOT_START, 36
 		);
 		registration.addRecipeTransferHandler(
 				IceMakerMenu.class,
-				ECJEIMenuTypes.ICE_MAKER,
+				ECContainerTypes.ICE_MAKER_MENU.get(),
 				ECJEIRecipeTypes.ICE_MAKER,
 				IceMakerMenu.INGREDIENT_INPUT_SLOT, 1,
 				IceMakerMenu.INV_SLOT_START, 36
