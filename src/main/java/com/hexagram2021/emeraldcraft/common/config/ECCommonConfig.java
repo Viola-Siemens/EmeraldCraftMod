@@ -25,6 +25,8 @@ public class ECCommonConfig {
 	public static final ForgeConfigSpec.IntValue ZOMBIFIED_PIGLIN_CONVERT_TO_PIGLIN_BRUTE_POSSIBILITY_INV;
 	public static final ForgeConfigSpec.BooleanValue ENABLE_CURE_PHANTOM;
 
+	public static final ForgeConfigSpec.BooleanValue ENABLE_JEI_TRADING_SHADOW_RECIPE;
+
 	static {
 		BUILDER.push("emeraldcraft-common-config");
 			BUILDER.comment("You can determine whether each biome can generate in the world or not.");
@@ -53,6 +55,12 @@ public class ECCommonConfig {
 						.defineInRange("ZOMBIFIED_PIGLIN_CONVERT_TO_PIGLIN_BRUTE_POSSIBILITY_INV", 16, 1, 256);
 				ENABLE_CURE_PHANTOM = BUILDER.comment("Allow players to cure phantom.")
 						.define("ENABLE_CURE_PHANTOM", true);
+			BUILDER.pop();
+
+			BUILDER.comment("You can disable some functions to improve the speed of server starting.");
+			BUILDER.push("additional-functions");
+				ENABLE_JEI_TRADING_SHADOW_RECIPE = BUILDER.comment("If disabled, players cannot use JEI to look over the trading list of villagers and other tradable mobs, but it might be faster for starting the server.")
+						.define("ENABLE_JEI_TRADING_SHADOW_RECIPE", true);
 			BUILDER.pop();
 		BUILDER.pop();
 

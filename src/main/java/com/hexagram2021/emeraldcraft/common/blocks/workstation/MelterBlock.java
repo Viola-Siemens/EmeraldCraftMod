@@ -103,7 +103,6 @@ public class MelterBlock extends AbstractFurnaceBlock {
 		}
 	}
 
-
 	@Override
 	public void animateTick(BlockState state, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
 		if (state.getValue(LIT)) {

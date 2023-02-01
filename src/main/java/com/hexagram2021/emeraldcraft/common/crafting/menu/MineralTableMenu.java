@@ -138,7 +138,7 @@ public class MineralTableMenu extends AbstractContainerMenu {
 		}
 
 		public static boolean mayPlaceItem(ItemStack itemStack) {
-			return itemStack.is(Items.BLAZE_POWDER);
+			return itemStack.is(Items.MAGMA_CREAM);
 		}
 
 		@Override

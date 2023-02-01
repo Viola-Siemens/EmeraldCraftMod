@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.hexagram2021.emeraldcraft.common.blocks.entity.ContinuousMinerBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import net.minecraft.core.*;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -100,6 +101,22 @@ public class ContinuousMinerBlock extends BaseEntityBlock {
 	@Override
 	public void neighborChanged(BlockState blockState, Level level, @NotNull BlockPos blockPos, @NotNull Block block, @NotNull BlockPos neighbor, boolean v) {
 		level.setBlock(blockPos, blockState.setValue(TRIGGERED, level.hasNeighborSignal(blockPos) || level.hasNeighborSignal(blockPos.above())), Block.UPDATE_CLIENTS);
+	}
+
+	@Override
+	public void onRemove(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, BlockState newBlockState, boolean b) {
+		if (!blockState.is(newBlockState.getBlock())) {
+			BlockEntity blockentity = level.getBlockEntity(blockPos);
+			if (blockentity instanceof ContinuousMinerBlockEntity continuousMinerBlockEntity) {
+				if (level instanceof ServerLevel serverLevel) {
+					Containers.dropContents(serverLevel, blockPos, continuousMinerBlockEntity);
+				}
+
+				level.updateNeighbourForOutputSignal(blockPos, this);
+			}
+		}
+
+		super.onRemove(blockState, level, blockPos, newBlockState, b);
 	}
 
 	@Override

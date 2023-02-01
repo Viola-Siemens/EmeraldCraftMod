@@ -1,4 +1,4 @@
-package com.hexagram2021.emeraldcraft.common.items;
+package com.hexagram2021.emeraldcraft.common.items.armors;
 
 import com.hexagram2021.emeraldcraft.EmeraldCraft;
 import net.minecraft.sounds.SoundEvent;
@@ -22,7 +22,6 @@ public class LapisArmorItem extends ArmorItem {
 	private static final int durabilityMultiplier = 6;
 	private static final int[] slotProtections = new int[]{1, 3, 4, 1};
 	private static final int enchantmentValue = 40;
-	private static final SoundEvent sound = SoundEvents.ARMOR_EQUIP_GOLD;
 	private static final float toughness = 0.0F;
 	private static final float knockbackResistance = 0.0F;
 	
@@ -58,7 +57,7 @@ public class LapisArmorItem extends ArmorItem {
 		
 		@Override @NotNull
 		public SoundEvent getEquipSound() {
-			return sound;
+			return SoundEvents.ARMOR_EQUIP_GOLD;
 		}
 		
 		@Override @NotNull

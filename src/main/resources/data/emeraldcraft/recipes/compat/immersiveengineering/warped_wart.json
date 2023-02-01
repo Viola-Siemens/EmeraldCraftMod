@@ -1,0 +1,20 @@
+{
+  "type": "immersiveengineering:cloche",
+  "input": {
+    "item": "emeraldcraft:warped_wart"
+  },
+  "render": {
+    "type": "crop",
+    "block": "emeraldcraft:warped_wart"
+  },
+  "results": [
+    {
+      "count": 2,
+      "item": "emeraldcraft:warped_wart"
+    }
+  ],
+  "soil": {
+    "item": "minecraft:soul_sand"
+  },
+  "time":800
+}

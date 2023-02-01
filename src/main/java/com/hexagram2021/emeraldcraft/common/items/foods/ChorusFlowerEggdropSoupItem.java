@@ -1,4 +1,4 @@
-package com.hexagram2021.emeraldcraft.common.items;
+package com.hexagram2021.emeraldcraft.common.items.foods;
 
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;

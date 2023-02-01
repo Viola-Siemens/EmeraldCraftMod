@@ -236,7 +236,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 		if (itemStack.isEmpty()) {
 			return 0;
 		}
-		return itemStack.is(Items.BLAZE_POWDER) ? MineralTableRecipe.BURN_TIME * 20 : 0;
+		return itemStack.is(Items.MAGMA_CREAM) ? MineralTableRecipe.BURN_TIME * 20 : 0;
 	}
 
 	@Override @NotNull
@@ -334,7 +334,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 		if (index != MineralTableMenu.FUEL_SLOT) {
 			return true;
 		}
-		return itemStack.is(Items.BLAZE_POWDER);
+		return itemStack.is(Items.MAGMA_CREAM);
 	}
 
 	@Override

@@ -3,7 +3,9 @@ package com.hexagram2021.emeraldcraft.common.register;
 import com.hexagram2021.emeraldcraft.EmeraldCraft;
 import com.hexagram2021.emeraldcraft.common.crafting.compat.ModsLoadedEventSubscriber;
 import com.hexagram2021.emeraldcraft.common.entities.ECBoat;
-import com.hexagram2021.emeraldcraft.common.items.*;
+import com.hexagram2021.emeraldcraft.common.items.ECBoatItem;
+import com.hexagram2021.emeraldcraft.common.items.armors.*;
+import com.hexagram2021.emeraldcraft.common.items.foods.*;
 import com.hexagram2021.emeraldcraft.common.util.ECFoods;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
@@ -38,6 +40,7 @@ public class ECItems {
 
 	public static final Map<EquipmentSlot, ItemRegObject<EmeraldArmorItem>> EMERALD_ARMOR = new EnumMap<>(EquipmentSlot.class);
 	public static final Map<EquipmentSlot, ItemRegObject<LapisArmorItem>> LAPIS_ARMOR = new EnumMap<>(EquipmentSlot.class);
+	public static final Map<EquipmentSlot, ItemRegObject<WoodenArmorItem>> WOODEN_ARMOR = new EnumMap<>(EquipmentSlot.class);
 
 	public static final ItemRegObject<ItemNameBlockItem> WARPED_WART = ItemRegObject.register(
 			"warped_wart", () -> new ItemNameBlockItem(ECBlocks.Plant.WARPED_WART.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))

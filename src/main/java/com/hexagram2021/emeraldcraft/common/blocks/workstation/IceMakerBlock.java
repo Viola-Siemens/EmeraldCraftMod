@@ -5,9 +5,11 @@ import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -74,6 +76,21 @@ public class IceMakerBlock extends AbstractFurnaceBlock {
 		return new IceMakerBlockEntity(blockPos, blockState);
 	}
 
+	@Override
+	public void onRemove(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, BlockState newBlockState, boolean b) {
+		if (!blockState.is(newBlockState.getBlock())) {
+			BlockEntity blockentity = level.getBlockEntity(blockPos);
+			if (blockentity instanceof IceMakerBlockEntity iceMakerBlockEntity) {
+				if (level instanceof ServerLevel serverLevel) {
+					Containers.dropContents(serverLevel, blockPos, iceMakerBlockEntity);
+				}
+
+				level.updateNeighbourForOutputSignal(blockPos, this);
+			}
+
+			super.onRemove(blockState, level, blockPos, newBlockState, b);
+		}
+	}
 
 	@Override
 	public void animateTick(BlockState state, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull RandomSource random) {

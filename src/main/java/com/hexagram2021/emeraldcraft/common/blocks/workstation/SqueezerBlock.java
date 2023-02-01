@@ -51,7 +51,7 @@ public class SqueezerBlock extends Block {
 		}
 
 		if (isSqueezable(itemstack) && canBeCharged(blockState)) {
-			charge(level, blockPos, blockState);
+			charge(level, itemstack, blockPos, blockState);
 			if (!player.getAbilities().instabuild) {
 				itemstack.shrink(1);
 			}
@@ -114,7 +114,7 @@ public class SqueezerBlock extends Block {
 	}
 
 	private static boolean isSqueezable(ItemStack itemStack) {
-		return itemStack.is(Items.HONEYCOMB_BLOCK);
+		return itemStack.is(Items.HONEYCOMB_BLOCK) || itemStack.is(Items.HONEYCOMB);
 	}
 
 	private static boolean isEmptyBottle(ItemStack itemStack) {
@@ -129,16 +129,24 @@ public class SqueezerBlock extends Block {
 		level.setBlock(blockPos, blockState.setValue(HONEY_COUNT, blockState.getValue(HONEY_COUNT) - 1), Block.UPDATE_ALL);
 	}
 
-	public static void charge(Level level, BlockPos blockPos, BlockState blockState) {
-		level.setBlock(blockPos, blockState.setValue(HONEY_COUNT, blockState.getValue(HONEY_COUNT) + 4), Block.UPDATE_ALL);
-		level.playSound(
-				null,
-				(double)blockPos.getX() + 0.5D,
-				(double)blockPos.getY() + 0.5D,
-				(double)blockPos.getZ() + 0.5D,
-				ECSounds.VILLAGER_WORK_BEEKEEPER, SoundSource.BLOCKS,
-				1.0F, 1.0F
-		);
+	public static void charge(Level level, ItemStack itemStack, BlockPos blockPos, BlockState blockState) {
+		int chargeValue = 0;
+		if(itemStack.is(Items.HONEYCOMB_BLOCK)) {
+			chargeValue = 4;
+		} else if(itemStack.is(Items.HONEYCOMB)) {
+			chargeValue = 1;
+		}
+		if(chargeValue != 0) {
+			level.setBlock(blockPos, blockState.setValue(HONEY_COUNT, blockState.getValue(HONEY_COUNT) + chargeValue), Block.UPDATE_ALL);
+			level.playSound(
+					null,
+					(double) blockPos.getX() + 0.5D,
+					(double) blockPos.getY() + 0.5D,
+					(double) blockPos.getZ() + 0.5D,
+					ECSounds.VILLAGER_WORK_BEEKEEPER, SoundSource.BLOCKS,
+					1.0F, 1.0F
+			);
+		}
 	}
 
 	@Override

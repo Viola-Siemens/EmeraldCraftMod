@@ -1,0 +1,23 @@
+{
+  "type": "immersiveengineering:cloche",
+  "input": {
+    "item": "emeraldcraft:chili_seed"
+  },
+  "render": {
+    "type": "crop",
+    "block": "emeraldcraft:chili"
+  },
+  "results": [
+    {
+      "count": 2,
+      "item": "emeraldcraft:chili"
+    },
+    {
+      "item": "emeraldcraft:chili_seed"
+    }
+  ],
+  "soil": {
+    "item": "minecraft:dirt"
+  },
+  "time": 640
+}
