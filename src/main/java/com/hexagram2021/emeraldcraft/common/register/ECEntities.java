@@ -14,7 +14,7 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 public class ECEntities {
 	public static final EntityType<PiglinCuteyEntity> PIGLIN_CUTEY = EntityType.Builder.of(PiglinCuteyEntity::new, MobCategory.MISC)
 					.sized(0.6F, 1.9F)
-					.clientTrackingRange(10)
+					.clientTrackingRange(8)
 					.build(new ResourceLocation(MODID, "piglin_cutey").toString());
 	public static final EntityType<NetherPigmanEntity> NETHER_PIGMAN = EntityType.Builder.of(NetherPigmanEntity::new, MobCategory.CREATURE)
 					.sized(0.6F, 1.95F)
@@ -42,6 +42,11 @@ public class ECEntities {
 					.clientTrackingRange(8)
 					.build(new ResourceLocation(MODID, "manta").toString());
 
+	public static final EntityType<LumineEntity> LUMINE = EntityType.Builder.of(LumineEntity::new, MobCategory.CREATURE)
+					.sized(0.35F, 0.6F)
+					.clientTrackingRange(8)
+					.build(new ResourceLocation(MODID, "lumine").toString());
+
 	public static final EntityType<ECBoat> BOAT = EntityType.Builder.<ECBoat>of(ECBoat::new, MobCategory.MISC)
 					.sized(1.375F, 0.5625F)
 					.clientTrackingRange(10)
@@ -63,6 +68,7 @@ public class ECEntities {
 			helper.register(new ResourceLocation(MODID, "purple_spotted_bigeye"), PURPLE_SPOTTED_BIGEYE);
 			helper.register(new ResourceLocation(MODID, "wraith"), WRAITH);
 			helper.register(new ResourceLocation(MODID, "manta"), MANTA);
+			helper.register(new ResourceLocation(MODID, "lumine"), LUMINE);
 			helper.register(new ResourceLocation(MODID, "boat"), BOAT);
 			helper.register(new ResourceLocation(MODID, "chest_boat"), CHEST_BOAT);
 		});

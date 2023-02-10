@@ -23,6 +23,7 @@ public class ClientMobEventSubscriber {
 		event.registerLayerDefinition(PurpleSpottedBigeyeModel.LAYER_LOCATION, PurpleSpottedBigeyeModel::createBodyLayer);
 		event.registerLayerDefinition(WraithModel.LAYER_LOCATION, WraithModel::createBodyLayer);
 		event.registerLayerDefinition(MantaModel.LAYER_LOCATION, MantaModel::createBodyLayer);
+		event.registerLayerDefinition(LumineModel.LAYER_LOCATION, LumineModel::createBodyLayer);
 
 		for(ECBoat.ECBoatType type: ECBoat.ECBoatType.values()) {
 			event.registerLayerDefinition(ECBoatRenderer.createBoatModelName(type), () -> BoatModel.createBodyModel(false));
@@ -39,6 +40,7 @@ public class ClientMobEventSubscriber {
 		event.registerEntityRenderer(ECEntities.PURPLE_SPOTTED_BIGEYE, PurpleSpottedBigeyeRenderer::new);
 		event.registerEntityRenderer(ECEntities.WRAITH, WraithRenderer::new);
 		event.registerEntityRenderer(ECEntities.MANTA, MantaRenderer::new);
+		event.registerEntityRenderer(ECEntities.LUMINE, LumineRenderer::new);
 		event.registerEntityRenderer(ECEntities.BOAT, (context) -> new ECBoatRenderer(context, false));
 		event.registerEntityRenderer(ECEntities.CHEST_BOAT, (context) -> new ECBoatRenderer(context, true));
 	}

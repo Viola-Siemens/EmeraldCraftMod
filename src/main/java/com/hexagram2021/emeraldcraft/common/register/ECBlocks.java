@@ -614,6 +614,10 @@ public final class ECBlocks {
 				BlockBehaviour.Properties.of(Material.STONE, MaterialColor.WARPED_NYLIUM)
 						.requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.STONE);
 
+		public static final Supplier<BlockBehaviour.Properties> STONE_PROPERTIES = () ->
+				BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE)
+						.requiresCorrectToolForDrops().strength(1.5F, 6.0F);
+
 		public static final BlockEntry<Block> VITRIFIED_SAND = new BlockEntry<>(
 				"vitrified_sand", SANDSTONE_PROPERTIES, Block::new
 		);
@@ -702,6 +706,10 @@ public final class ECBlocks {
 				"warped_cobblestone", WARPED_STONE_PROPERTIES, Block::new
 		);
 
+		public static final BlockEntry<Block> MOSSY_STONE = new BlockEntry<>(
+				"mossy_stone", STONE_PROPERTIES, Block::new
+		);
+
 		private static void init() {
 			ECItems.REGISTER.register(VITRIFIED_SAND.getId().getPath(), () -> new BlockItem(VITRIFIED_SAND.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
 
@@ -737,6 +745,8 @@ public final class ECBlocks {
 			ECItems.REGISTER.register(WARPED_STONE.getId().getPath(), () -> new BlockItem(WARPED_STONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
 			ECItems.REGISTER.register(WARPED_COBBLESTONE.getId().getPath(), () -> new BlockItem(WARPED_COBBLESTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
 
+			ECItems.REGISTER.register(MOSSY_STONE.getId().getPath(), () -> new BlockItem(MOSSY_STONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+
 
 			registerStairs(Decoration.AZURE_SANDSTONE);
 			registerStairs(Decoration.QUARTZ_SANDSTONE);
@@ -754,6 +764,7 @@ public final class ECBlocks {
 			registerStairs(Decoration.CRIMSON_COBBLESTONE);
 			registerStairs(Decoration.WARPED_STONE);
 			registerStairs(Decoration.WARPED_COBBLESTONE);
+			registerStairs(Decoration.MOSSY_STONE);
 
 			registerSlab(Decoration.AZURE_SANDSTONE);
 			registerSlab(Decoration.QUARTZ_SANDSTONE);
@@ -776,6 +787,7 @@ public final class ECBlocks {
 			registerSlab(Decoration.CRIMSON_COBBLESTONE);
 			registerSlab(Decoration.WARPED_STONE);
 			registerSlab(Decoration.WARPED_COBBLESTONE);
+			registerSlab(Decoration.MOSSY_STONE);
 
 			registerWall(Decoration.AZURE_SANDSTONE);
 			registerWall(Decoration.QUARTZ_SANDSTONE);

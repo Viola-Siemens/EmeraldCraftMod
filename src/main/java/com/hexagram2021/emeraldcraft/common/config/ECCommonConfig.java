@@ -6,6 +6,8 @@ public class ECCommonConfig {
 	public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 	public static final ForgeConfigSpec SPEC;
 
+	public static final ForgeConfigSpec.IntValue EMERALD_CRAFT_OVERWORLD_BIOMES_WEIGHT;
+	public static final ForgeConfigSpec.IntValue EMERALD_CRAFT_NETHER_BIOMES_WEIGHT;
 	public static final ForgeConfigSpec.BooleanValue GENERATE_DEAD_CRIMSON_OCEAN;
 	public static final ForgeConfigSpec.BooleanValue GENERATE_DEAD_WARPED_OCEAN;
 	public static final ForgeConfigSpec.BooleanValue GENERATE_XANADU;
@@ -31,6 +33,8 @@ public class ECCommonConfig {
 		BUILDER.push("emeraldcraft-common-config");
 			BUILDER.comment("You can determine whether each biome can generate in the world or not.");
 				BUILDER.push("biomes-generation");
+				EMERALD_CRAFT_OVERWORLD_BIOMES_WEIGHT = BUILDER.defineInRange("EMERALD_CRAFT_OVERWORLD_BIOMES_WEIGHT", 40, 0, 65536);
+				EMERALD_CRAFT_NETHER_BIOMES_WEIGHT = BUILDER.defineInRange("EMERALD_CRAFT_NETHER_BIOMES_WEIGHT", 40, 0, 65536);
 				GENERATE_DEAD_CRIMSON_OCEAN = BUILDER.define("GENERATE_DEAD_CRIMSON_OCEAN", true);
 				GENERATE_DEAD_WARPED_OCEAN = BUILDER.define("GENERATE_DEAD_WARPED_OCEAN", true);
 				GENERATE_XANADU = BUILDER.define("GENERATE_XANADU", true);

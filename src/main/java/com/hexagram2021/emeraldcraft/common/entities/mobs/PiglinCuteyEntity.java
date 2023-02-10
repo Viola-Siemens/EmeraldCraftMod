@@ -139,6 +139,10 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 			}
 		}
 
+		if (!this.hasRestriction()) {
+			this.restrictTo(this.findNearestAnchor(), 12);
+		}
+
 		super.customServerAiStep();
 	}
 
@@ -391,15 +395,15 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 	private static final int VerticalSearchRange = 10;
 	protected void findNearestPortal() {
 		BlockPos blockpos = this.blockPosition();
-		BlockPos.MutableBlockPos mutableblockpos = new BlockPos.MutableBlockPos();
+		BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
 
 		for(int k = 0; k <= VerticalSearchRange; k = k > 0 ? -k : 1 - k) {
 			for(int l = 0; l < SearchRange; ++l) {
 				for(int i1 = 0; i1 <= l; i1 = i1 > 0 ? -i1 : 1 - i1) {
 					for(int j1 = 0; j1 <= l; j1 = j1 > 0 ? -j1 : 1 - j1) {
-						mutableblockpos.setWithOffset(blockpos, i1, k, j1);
-						if (this.isWithinRestriction(mutableblockpos) && level.getBlockState(mutableblockpos).is(Blocks.NETHER_PORTAL)) {
-							this.portalTarget = mutableblockpos;
+						mutable.setWithOffset(blockpos, i1, k, j1);
+						if (this.isWithinRestriction(mutable) && level.getBlockState(mutable).is(Blocks.NETHER_PORTAL)) {
+							this.portalTarget = mutable;
 							return;
 						}
 					}
@@ -408,6 +412,26 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		}
 
 		this.portalTarget = null;
+	}
+
+	protected BlockPos findNearestAnchor() {
+		BlockPos blockpos = this.blockPosition();
+		BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
+
+		for(int k = 0; k <= VerticalSearchRange; k = k > 0 ? -k : 1 - k) {
+			for(int l = 0; l < SearchRange; ++l) {
+				for(int i1 = 0; i1 <= l; i1 = i1 > 0 ? -i1 : 1 - i1) {
+					for(int j1 = 0; j1 <= l; j1 = j1 > 0 ? -j1 : 1 - j1) {
+						mutable.setWithOffset(blockpos, i1, k, j1);
+						if (this.isWithinRestriction(mutable) && level.getBlockState(mutable).is(Blocks.RESPAWN_ANCHOR)) {
+							return mutable;
+						}
+					}
+				}
+			}
+		}
+
+		return blockpos;
 	}
 
 	@Nullable

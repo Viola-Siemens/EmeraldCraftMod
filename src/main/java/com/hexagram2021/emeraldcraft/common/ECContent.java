@@ -1,5 +1,6 @@
 package com.hexagram2021.emeraldcraft.common;
 
+import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
 import com.hexagram2021.emeraldcraft.common.crafting.compat.ModsLoadedEventSubscriber;
 import com.hexagram2021.emeraldcraft.common.register.*;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
@@ -27,6 +28,7 @@ public class ECContent {
 		ECWoodType.init();
 		ECBlocks.init(bus);
 		ECItems.init(bus);
+		ECMemoryModuleTypes.init(bus);
 		ECBannerPatterns.init(bus);
 		Villages.Registers.POINTS_OF_INTEREST.register(bus);
 		Villages.Registers.PROFESSIONS.register(bus);
@@ -45,8 +47,8 @@ public class ECContent {
 	public static void init() {
 		SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, ECSurfaceRules.overworld());
 		SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.NETHER, MODID, ECSurfaceRules.nether());
-		Regions.register(new ECOverworldBiomeRegion(40));
-		Regions.register(new ECNetherBiomeRegion(40));
+		Regions.register(new ECOverworldBiomeRegion(ECCommonConfig.EMERALD_CRAFT_OVERWORLD_BIOMES_WEIGHT.get()));
+		Regions.register(new ECNetherBiomeRegion(ECCommonConfig.EMERALD_CRAFT_NETHER_BIOMES_WEIGHT.get()));
 	}
 
 	@SubscribeEvent

@@ -20,5 +20,6 @@ public class MobAttributeEventSubscriber {
 		event.put(ECEntities.PURPLE_SPOTTED_BIGEYE, AbstractFish.createAttributes().build());
 		event.put(ECEntities.WRAITH, WraithEntity.createAttributes().build());
 		event.put(ECEntities.MANTA, MantaEntity.createAttributes().build());
+		event.put(ECEntities.LUMINE, LumineEntity.createAttributes().build());
 	}
 }
