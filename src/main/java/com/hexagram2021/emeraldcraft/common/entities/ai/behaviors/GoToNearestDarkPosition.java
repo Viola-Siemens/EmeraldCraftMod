@@ -29,7 +29,8 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 		super(ImmutableMap.of(
 				MemoryModuleType.LOOK_TARGET, MemoryStatus.REGISTERED,
 				MemoryModuleType.WALK_TARGET, registered ? MemoryStatus.REGISTERED : MemoryStatus.VALUE_ABSENT,
-				ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get(), MemoryStatus.REGISTERED
+				ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get(), MemoryStatus.REGISTERED,
+				ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), MemoryStatus.VALUE_ABSENT
 		));
 		this.maxDist = maxDist;
 		this.speedModifier = speedModifier;
@@ -37,11 +38,16 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 
 	@Override
 	protected boolean checkExtraStartConditions(@NotNull ServerLevel level, @NotNull E entity) {
-		if(this.isOnSearchingCooldown(entity) || entity.getMainHandItem().isEmpty() || !(entity.getMainHandItem().getItem() instanceof BlockItem)) {
+		if(entity.getMainHandItem().isEmpty() || !(entity.getMainHandItem().getItem() instanceof BlockItem)) {
 			return false;
 		}
 		BlockPos blockPos = this.getClosestDarkLocation(level, entity);
 		return blockPos != null && blockPos.closerThan(entity.blockPosition(), this.maxDist);
+	}
+
+	@Override
+	protected boolean canStillUse(@NotNull ServerLevel level, @NotNull E entity, long tick) {
+		return this.checkExtraStartConditions(level, entity);
 	}
 
 	@Override
@@ -54,10 +60,11 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 		BlockPos pos = this.getClosestDarkLocation(level, entity);
 		if(pos == null || entity.getMainHandItem().isEmpty() || !(entity.getMainHandItem().getItem() instanceof BlockItem)) {
 			entity.getBrain().eraseMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get());
+			entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), 200);
 			return;
 		}
 		Block torch = ((BlockItem)(entity.getMainHandItem().getItem())).getBlock();
-		if(pos.closerThan(entity.blockPosition(), 1.5D) && torch.canSurvive(torch.defaultBlockState(), level, pos)) {
+		if(pos.closerToCenterThan(entity.position(), 2.0D) && torch.canSurvive(torch.defaultBlockState(), level, pos)) {
 			level.setBlock(pos, torch.defaultBlockState(), Block.UPDATE_ALL);
 			if(entity.getInventory().getItem(0).sameItem(entity.getMainHandItem())) {
 				entity.getInventory().getItem(0).shrink(1);
@@ -70,11 +77,8 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 				}
 			}
 			entity.getBrain().eraseMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get());
+			entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), 200);
 		}
-	}
-
-	private boolean isOnSearchingCooldown(@NotNull E entity) {
-		return entity.getBrain().checkMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), MemoryStatus.VALUE_PRESENT);
 	}
 
 	@Nullable
@@ -84,7 +88,6 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 			Block torch = ((BlockItem)(entity.getMainHandItem().getItem())).getBlock();
 			BlockPos pos = VerticalSearch(current, torch, level);
 			if(pos != null) {
-				entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), 200);
 				entity.getBrain().setMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get(), pos);
 				return pos;
 			}
@@ -95,7 +98,6 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 						pos = VerticalSearch(current.mutable().move(x, 0, d), torch, level);
 					}
 					if(pos != null) {
-						entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), 200);
 						entity.getBrain().setMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get(), pos);
 						return pos;
 					}
@@ -106,7 +108,6 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 						pos = VerticalSearch(current.mutable().move(d, 0, z), torch, level);
 					}
 					if(pos != null) {
-						entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), 200);
 						entity.getBrain().setMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get(), pos);
 						return pos;
 					}
