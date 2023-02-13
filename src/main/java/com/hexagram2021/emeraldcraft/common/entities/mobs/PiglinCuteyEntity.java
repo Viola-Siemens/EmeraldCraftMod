@@ -102,6 +102,11 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 	}
 
 	@Override
+	public int getPortalWaitTime() {
+		return 20;
+	}
+
+	@Override
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new PiglinCuteyEntity.RushToPortalGoal(this, 1.5D, 50.0D, SPEED_MODIFIER));
 		this.goalSelector.addGoal(1, new TradeWithPlayerGoal(this));
@@ -391,27 +396,46 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		return (int)Math.floor(foodLevel / (MULTIPLIER_FOOD_THRESHOLD * 0.025D));
 	}
 
-	private static final int SearchRange = 30;
-	private static final int VerticalSearchRange = 10;
+	private static final int SearchRange = 32;
+	private static final int VerticalSearchRange = 12;
 	protected void findNearestPortal() {
 		BlockPos blockpos = this.blockPosition();
 		BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
 
-		for(int k = 0; k <= VerticalSearchRange; k = k > 0 ? -k : 1 - k) {
-			for(int l = 0; l < SearchRange; ++l) {
-				for(int i1 = 0; i1 <= l; i1 = i1 > 0 ? -i1 : 1 - i1) {
-					for(int j1 = 0; j1 <= l; j1 = j1 > 0 ? -j1 : 1 - j1) {
-						mutable.setWithOffset(blockpos, i1, k, j1);
-						if (this.isWithinRestriction(mutable) && level.getBlockState(mutable).is(Blocks.NETHER_PORTAL)) {
-							this.portalTarget = mutable;
-							return;
-						}
+		for(int y = 0; y <= VerticalSearchRange; y = y > 0 ? -y : 1 - y) {
+			for(int d = 1; d <= SearchRange; ++d) {
+				for(int x = -d; x <= d; ++x) {
+					mutable.setWithOffset(blockpos, x, y, d);
+					if(this.tryCheckPortalAndSet(mutable)) {
+						return;
+					}
+					mutable.setWithOffset(blockpos, x, y, -d);
+					if(this.tryCheckPortalAndSet(mutable)) {
+						return;
+					}
+				}
+				for(int z = -d + 1; z < d; ++z) {
+					mutable.setWithOffset(blockpos, d, y, z);
+					if(this.tryCheckPortalAndSet(mutable)) {
+						return;
+					}
+					mutable.setWithOffset(blockpos, -d, y, z);
+					if(this.tryCheckPortalAndSet(mutable)) {
+						return;
 					}
 				}
 			}
 		}
 
 		this.portalTarget = null;
+	}
+
+	private boolean tryCheckPortalAndSet(BlockPos pos) {
+		if (this.level.getBlockState(pos).is(Blocks.NETHER_PORTAL)) {
+			this.portalTarget = pos;
+			return true;
+		}
+		return false;
 	}
 
 	protected BlockPos findNearestAnchor() {
@@ -504,7 +528,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 
 			if(this.cutey.lastTradedPlayer != null && !isTooFarAway(this.cutey.lastTradedPlayer, this.giveupDistance)) {
 				this.cutey.level.addFreshEntity(new ItemEntity(
-						this.cutey.level,
+						this.cutey.lastTradedPlayer.level,
 						this.cutey.lastTradedPlayer.getX(),
 						this.cutey.lastTradedPlayer.getY() + 0.5D,
 						this.cutey.lastTradedPlayer.getZ(),

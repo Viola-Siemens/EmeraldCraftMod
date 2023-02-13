@@ -280,7 +280,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 			this.removeInteractionItem(player, playerItem);
 			return InteractionResult.SUCCESS;
 		}
-		if (lumineItem.isEmpty() && !playerItem.isEmpty()) {
+		if (lumineItem.isEmpty() && playerItem.is(ECItemTags.TORCHES)) {
 			ItemStack itemstack3 = playerItem.copy();
 			itemstack3.setCount(1);
 			this.setItemInHand(InteractionHand.MAIN_HAND, itemstack3);
@@ -289,13 +289,14 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 			this.getBrain().setMemory(MemoryModuleType.LIKED_PLAYER, player.getUUID());
 			return InteractionResult.SUCCESS;
 		}
-		if (!lumineItem.isEmpty() && hand == InteractionHand.MAIN_HAND && playerItem.isEmpty()) {
+		if (!lumineItem.isEmpty() && hand == InteractionHand.MAIN_HAND && playerItem.isEmpty() &&
+				this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER).orElse(player.getUUID()).equals(player.getUUID())) {
 			this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
 			this.level.playSound(player, this, SoundEvents.ALLAY_ITEM_TAKEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
 			this.swing(InteractionHand.MAIN_HAND);
 
 			for(ItemStack itemstack2 : this.getInventory().removeAllItems()) {
-				BehaviorUtils.throwItem(this, itemstack2, this.position());
+				BehaviorUtils.throwItem(this, itemstack2, player.position());
 			}
 
 			this.getBrain().eraseMemory(MemoryModuleType.LIKED_PLAYER);

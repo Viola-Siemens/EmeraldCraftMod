@@ -80,6 +80,9 @@ public class ECItems {
 	public static final ItemRegObject<SpawnEggItem> MANTA_SPAWN_EGG = ItemRegObject.register(
 			"manta_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.MANTA, 0xFFFFC8, 0xF8F8E0, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
+	public static final ItemRegObject<SpawnEggItem> LUMINE_SPAWN_EGG = ItemRegObject.register(
+			"lumine_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.LUMINE, 0xF7FF55, 0xF9FFAA, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+	);
 
 	public static final ItemRegObject<Item> AGATE_APPLE = ItemRegObject.register(
 			"agate_apple", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).rarity(Rarity.RARE).food(ECFoods.AGATE_APPLE))
@@ -192,6 +195,16 @@ public class ECItems {
 					}
 				}
 			}
+	);
+	//TODO: localization and recipes.
+	public static final ItemRegObject<Item> RESIN_SHARD = ItemRegObject.register(
+			"resin_shard", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+	);
+	public static final ItemRegObject<Item> RESIN_BOTTLE = ItemRegObject.register(
+			"resin_bottle", () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).tab(EmeraldCraft.ITEM_GROUP))
+	);
+	public static final ItemRegObject<Item> RESIN_BUCKET = ItemRegObject.register(
+			"resin_bucket", () -> new Item(new Item.Properties().craftRemainder(Items.BUCKET).tab(EmeraldCraft.ITEM_GROUP))
 	);
 
 	public static final ItemRegObject<Item> DIAMOND_NUGGET = ItemRegObject.register(

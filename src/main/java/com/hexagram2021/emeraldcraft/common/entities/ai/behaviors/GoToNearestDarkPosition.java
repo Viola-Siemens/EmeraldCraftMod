@@ -81,6 +81,16 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 		}
 	}
 
+	@Override
+	protected void stop(@NotNull ServerLevel level, @NotNull E entity, long tick) {
+		entity.getBrain().eraseMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get());
+		entity.getBrain().eraseMemory(MemoryModuleType.LOOK_TARGET);
+		entity.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
+		if(entity.getBrain().checkMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), MemoryStatus.VALUE_ABSENT)) {
+			entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), 400);
+		}
+	}
+
 	@Nullable
 	private BlockPos getClosestDarkLocation(@NotNull ServerLevel level, @NotNull E entity) {
 		return entity.getBrain().getMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get()).orElseGet(() -> {

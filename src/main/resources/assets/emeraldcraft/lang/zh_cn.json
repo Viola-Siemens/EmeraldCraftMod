@@ -295,6 +295,7 @@
   "item.emeraldcraft.herring_spawn_egg": "鲱鱼刷怪蛋",
   "item.emeraldcraft.wraith_spawn_egg": "死灵刷怪蛋",
   "item.emeraldcraft.manta_spawn_egg": "鳐鲲刷怪蛋",
+  "item.emeraldcraft.lumine_spawn_egg": "荧灵刷怪蛋",
   "item.emeraldcraft.agate_apple": "青苹果",
   "item.emeraldcraft.jade_apple": "翠苹果",
   "item.emeraldcraft.bee_banner_pattern": "旗帜图案",
@@ -409,6 +410,7 @@
   "entity.minecraft.villager.emeraldcraft.geologist": "地质勘测员",
   "entity.minecraft.villager.emeraldcraft.icer": "制冰师",
   "entity.minecraft.villager.emeraldcraft.chemical_engineer": "化学工程师",
+  "entity.minecraft.villager.emeraldcraft.paperhanger": "裱糊匠",
 
   "subtitles.entity.piglin_cutey.ambient": "猪灵妹妹：喃喃自语",
   "subtitles.entity.piglin_cutey.celebrate": "猪灵妹妹：欢呼",
