@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "emeraldcraft:block/reinforced_resin_block",
+    "side": "emeraldcraft:block/reinforced_resin_slab_side"
+  }
+}

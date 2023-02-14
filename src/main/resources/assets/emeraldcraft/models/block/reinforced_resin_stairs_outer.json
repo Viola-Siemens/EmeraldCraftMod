@@ -1,0 +1,11 @@
+{
+  "parent": "emeraldcraft:block/sided_outer_stairs",
+  "textures": {
+    "bottom": "emeraldcraft:block/reinforced_resin_block",
+    "top": "emeraldcraft:block/reinforced_resin_stairs_3",
+    "north": "emeraldcraft:block/reinforced_resin_stairs_5",
+    "south": "emeraldcraft:block/reinforced_resin_stairs_2",
+    "west": "emeraldcraft:block/reinforced_resin_stairs_5",
+    "east": "emeraldcraft:block/reinforced_resin_stairs_1"
+  }
+}

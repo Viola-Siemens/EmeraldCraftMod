@@ -2,6 +2,7 @@ package com.hexagram2021.emeraldcraft.common.register;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -238,6 +239,38 @@ public final class ECBlocks {
 		)));
 	}
 
+	private static <T extends Block> void addColoredBlockToList(List<BlockEntry<?>> list, DyeColor color, BlockEntry<T> colorlessBlock,
+																Function<DyeColor, Supplier<BlockBehaviour.Properties>> properties,
+																Function<BlockBehaviour.Properties, T> factory) {
+		list.add(new BlockEntry<>(color.getName() + "_" + colorlessBlock.getId().getPath(), properties.apply(color), factory));
+	}
+
+	@SuppressWarnings("SameParameterValue")
+	private static <T extends Block> List<BlockEntry<?>> registerAllColors(BlockEntry<T> colorlessBlock,
+																		   Function<DyeColor, Supplier<BlockBehaviour.Properties>> properties,
+																		   Function<BlockBehaviour.Properties, T> factory) {
+		List<BlockEntry<?>> list = new ArrayList<>();
+		/* 不会吧，不会真有mod会添加或修改原版DyeColor吧，我怕了还不行吗 */
+		addColoredBlockToList(list, DyeColor.WHITE, colorlessBlock, properties, factory);
+		addColoredBlockToList(list, DyeColor.ORANGE, colorlessBlock, properties, factory);
+		addColoredBlockToList(list, DyeColor.MAGENTA, colorlessBlock, properties, factory);
+		addColoredBlockToList(list, DyeColor.LIGHT_BLUE, colorlessBlock, properties, factory);
+		addColoredBlockToList(list, DyeColor.YELLOW, colorlessBlock, properties, factory);
+		addColoredBlockToList(list, DyeColor.LIME, colorlessBlock, properties, factory);
+		addColoredBlockToList(list, DyeColor.PINK, colorlessBlock, properties, factory);
+		addColoredBlockToList(list, DyeColor.GRAY, colorlessBlock, properties, factory);
+		addColoredBlockToList(list, DyeColor.LIGHT_GRAY, colorlessBlock, properties, factory);
+		addColoredBlockToList(list, DyeColor.CYAN, colorlessBlock, properties, factory);
+		addColoredBlockToList(list, DyeColor.PURPLE, colorlessBlock, properties, factory);
+		addColoredBlockToList(list, DyeColor.BLUE, colorlessBlock, properties, factory);
+		addColoredBlockToList(list, DyeColor.BROWN, colorlessBlock, properties, factory);
+		addColoredBlockToList(list, DyeColor.GREEN, colorlessBlock, properties, factory);
+		addColoredBlockToList(list, DyeColor.RED, colorlessBlock, properties, factory);
+		addColoredBlockToList(list, DyeColor.BLACK, colorlessBlock, properties, factory);
+		TO_COLORS.put(colorlessBlock.getId(), list);
+		return list;
+	}
+
 	public static void init(IEventBus bus) {
 		REGISTER.register(bus);
 
@@ -289,6 +322,11 @@ public final class ECBlocks {
 					new SignItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP),
 							blockSign.getValue().getA().get(),
 							blockSign.getValue().getB().get()));
+		}
+		for(Map.Entry<ResourceLocation, List<BlockEntry<?>>> colorBlock: ECBlocks.TO_COLORS.entrySet()) {
+			for(BlockEntry<?> blockEntry: colorBlock.getValue()) {
+				ECItems.REGISTER.register(blockEntry.getId().getPath(), () -> new BlockItem(blockEntry.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			}
 		}
 	}
 
@@ -618,6 +656,17 @@ public final class ECBlocks {
 				BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE)
 						.requiresCorrectToolForDrops().strength(1.5F, 6.0F);
 
+		public static final Supplier<BlockBehaviour.Properties> RESIN_PROPERTIES = () ->
+				BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_YELLOW)
+						.strength(0.5F).sound(SoundType.FROGLIGHT);
+		public static final Supplier<BlockBehaviour.Properties> REINFORCED_RESIN_PROPERTIES = () ->
+				BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_ORANGE)
+						.requiresCorrectToolForDrops().strength(30.0F, 600.0F).sound(SoundType.FROGLIGHT);
+
+		public static final Function<DyeColor, Supplier<BlockBehaviour.Properties>> COLORED_REINFORCED_RESIN_PROPERTIES = (color) ->
+				() -> BlockBehaviour.Properties.of(Material.DECORATION, color)
+						.requiresCorrectToolForDrops().strength(30.0F, 600.0F).sound(SoundType.FROGLIGHT);
+
 		public static final BlockEntry<Block> VITRIFIED_SAND = new BlockEntry<>(
 				"vitrified_sand", SANDSTONE_PROPERTIES, Block::new
 		);
@@ -710,6 +759,13 @@ public final class ECBlocks {
 				"mossy_stone", STONE_PROPERTIES, Block::new
 		);
 
+		public static final BlockEntry<Block> RESIN_BLOCK = new BlockEntry<>(
+				"resin_block", RESIN_PROPERTIES, Block::new
+		);
+		public static final BlockEntry<Block> REINFORCED_RESIN_BLOCK = new BlockEntry<>(
+				"reinforced_resin_block", REINFORCED_RESIN_PROPERTIES, Block::new
+		);
+
 		private static void init() {
 			ECItems.REGISTER.register(VITRIFIED_SAND.getId().getPath(), () -> new BlockItem(VITRIFIED_SAND.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
 
@@ -747,6 +803,8 @@ public final class ECBlocks {
 
 			ECItems.REGISTER.register(MOSSY_STONE.getId().getPath(), () -> new BlockItem(MOSSY_STONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
 
+			ECItems.REGISTER.register(RESIN_BLOCK.getId().getPath(), () -> new BlockItem(RESIN_BLOCK.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.REGISTER.register(REINFORCED_RESIN_BLOCK.getId().getPath(), () -> new BlockItem(REINFORCED_RESIN_BLOCK.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
 
 			registerStairs(Decoration.AZURE_SANDSTONE);
 			registerStairs(Decoration.QUARTZ_SANDSTONE);
@@ -765,6 +823,7 @@ public final class ECBlocks {
 			registerStairs(Decoration.WARPED_STONE);
 			registerStairs(Decoration.WARPED_COBBLESTONE);
 			registerStairs(Decoration.MOSSY_STONE);
+			registerStairs(Decoration.REINFORCED_RESIN_BLOCK);
 
 			registerSlab(Decoration.AZURE_SANDSTONE);
 			registerSlab(Decoration.QUARTZ_SANDSTONE);
@@ -788,6 +847,7 @@ public final class ECBlocks {
 			registerSlab(Decoration.WARPED_STONE);
 			registerSlab(Decoration.WARPED_COBBLESTONE);
 			registerSlab(Decoration.MOSSY_STONE);
+			registerSlab(Decoration.REINFORCED_RESIN_BLOCK);
 
 			registerWall(Decoration.AZURE_SANDSTONE);
 			registerWall(Decoration.QUARTZ_SANDSTONE);
@@ -800,6 +860,12 @@ public final class ECBlocks {
 			registerWall(Decoration.CRIMSON_COBBLESTONE);
 			registerWall(Decoration.WARPED_STONE);
 			registerWall(Decoration.WARPED_COBBLESTONE);
+			registerWall(Decoration.REINFORCED_RESIN_BLOCK);
+
+			List<ECBlocks.BlockEntry<?>> list = registerAllColors(Decoration.REINFORCED_RESIN_BLOCK, COLORED_REINFORCED_RESIN_PROPERTIES, Block::new);
+			list.forEach(ECBlocks::registerStairs);
+			list.forEach(ECBlocks::registerSlab);
+			list.forEach(ECBlocks::registerWall);
 		}
 	}
 
@@ -900,19 +966,16 @@ public final class ECBlocks {
 				"higan_bana", HIGAN_BANA_PROPERTIES, (props) -> new HiganBanaFlowerBlock(() -> MobEffects.LEVITATION, 12, props)
 		);
 		public static final BlockEntry<FlowerPotBlock> POTTED_CYAN_PETUNIA = new BlockEntry<>(
-				"potted_cyan_petunia", POTTED_FLOWER_PROPERTIES, (props) -> new FlowerPotBlock(
-						null, CYAN_PETUNIA, props
-				)
+				"potted_cyan_petunia", POTTED_FLOWER_PROPERTIES,
+				(props) -> new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, CYAN_PETUNIA, props)
 		);
 		public static final BlockEntry<FlowerPotBlock> POTTED_MAGENTA_PETUNIA = new BlockEntry<>(
-				"potted_magenta_petunia", POTTED_FLOWER_PROPERTIES, (props) -> new FlowerPotBlock(
-						null, MAGENTA_PETUNIA, props
-				)
+				"potted_magenta_petunia", POTTED_FLOWER_PROPERTIES,
+				(props) -> new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, MAGENTA_PETUNIA, props)
 		);
 		public static final BlockEntry<FlowerPotBlock> POTTED_HIGAN_BANA = new BlockEntry<>(
-				"potted_higan_bana", POTTED_FLOWER_PROPERTIES, (props) -> new FlowerPotBlock(
-						null, HIGAN_BANA, props
-				)
+				"potted_higan_bana", POTTED_FLOWER_PROPERTIES,
+				(props) -> new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, HIGAN_BANA, props)
 		);
 
 		//GINKGO
@@ -920,9 +983,8 @@ public final class ECBlocks {
 				"ginkgo_sapling", SAPLING_PROPERTIES, (props) -> new SaplingBlock(new GinkgoTreeGrower(), props)
 		);
 		public static final BlockEntry<FlowerPotBlock> POTTED_GINKGO_SAPLING = new BlockEntry<>(
-				"potted_ginkgo_sapling", POTTED_FLOWER_PROPERTIES, (props) -> new FlowerPotBlock(
-						null, GINKGO_SAPLING, props
-				)
+				"potted_ginkgo_sapling", POTTED_FLOWER_PROPERTIES,
+				(props) -> new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, GINKGO_SAPLING, props)
 		);
 		public static final BlockEntry<RotatedPillarBlock> GINKGO_LOG = new BlockEntry<>(
 				"ginkgo_log", GINKGO_LOG_PROPERTIES, RotatedPillarBlock::new
@@ -949,9 +1011,8 @@ public final class ECBlocks {
 				"palm_sapling", SAPLING_PROPERTIES, (props) -> new SaplingBlock(new PalmTreeGrower(), props)
 		);
 		public static final BlockEntry<FlowerPotBlock> POTTED_PALM_SAPLING = new BlockEntry<>(
-				"potted_palm_sapling", POTTED_FLOWER_PROPERTIES, (props) -> new FlowerPotBlock(
-				null, PALM_SAPLING, props
-		)
+				"potted_palm_sapling", POTTED_FLOWER_PROPERTIES,
+				(props) -> new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, PALM_SAPLING, props)
 		);
 		public static final BlockEntry<RotatedPillarBlock> PALM_LOG = new BlockEntry<>(
 				"palm_log", PALM_LOG_PROPERTIES, RotatedPillarBlock::new
@@ -978,9 +1039,8 @@ public final class ECBlocks {
 				"peach_sapling", SAPLING_PROPERTIES, (props) -> new SaplingBlock(new PeachTreeGrower(), props)
 		);
 		public static final BlockEntry<FlowerPotBlock> POTTED_PEACH_SAPLING = new BlockEntry<>(
-				"potted_peach_sapling", POTTED_FLOWER_PROPERTIES, (props) -> new FlowerPotBlock(
-				null, PEACH_SAPLING, props
-		)
+				"potted_peach_sapling", POTTED_FLOWER_PROPERTIES,
+				(props) -> new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, PEACH_SAPLING, props)
 		);
 		public static final BlockEntry<RotatedPillarBlock> PEACH_LOG = new BlockEntry<>(
 				"peach_log", PEACH_LOG_PROPERTIES, RotatedPillarBlock::new
@@ -1009,9 +1069,8 @@ public final class ECBlocks {
 				(props) -> new FungusBlock(props, () -> ECConfiguredFeatures.TreeConfiguredFeatures.PURPURACEUS_FUNGUS_PLANTED)
 		);
 		public static final BlockEntry<FlowerPotBlock> POTTED_PURPURACEUS_FUNGUS = new BlockEntry<>(
-				"potted_purpuraceus_fungus", POTTED_FLOWER_PROPERTIES, (props) -> new FlowerPotBlock(
-						null, PURPURACEUS_FUNGUS, props
-				)
+				"potted_purpuraceus_fungus", POTTED_FLOWER_PROPERTIES,
+				(props) -> new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, PURPURACEUS_FUNGUS, props)
 		);
 		public static final BlockEntry<RotatedPillarBlock> PURPURACEUS_STEM = new BlockEntry<>(
 				"purpuraceus_stem", PURPURACEUS_STEM_PROPERTIES, RotatedPillarBlock::new
@@ -1047,9 +1106,8 @@ public final class ECBlocks {
 				RootsBlock::new
 		);
 		public static final BlockEntry<FlowerPotBlock> POTTED_PURPURACEUS_ROOTS = new BlockEntry<>(
-				"potted_purpuraceus_roots", POTTED_FLOWER_PROPERTIES, (props) -> new FlowerPotBlock(
-						null, PURPURACEUS_ROOTS, props
-				)
+				"potted_purpuraceus_roots", POTTED_FLOWER_PROPERTIES,
+				(props) -> new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, PURPURACEUS_ROOTS, props)
 		);
 
 
@@ -1138,6 +1196,7 @@ public final class ECBlocks {
 	public static final Map<ResourceLocation, BlockEntry<PressurePlateBlock>> TO_PRESSURE_PLATE = new HashMap<>();
 	public static final Map<ResourceLocation, BlockEntry<ButtonBlock>> TO_BUTTON = new HashMap<>();
 	public static final Map<ResourceLocation, Tuple<BlockEntry<StandingSignBlock>, BlockEntry<WallSignBlock>>> TO_SIGN = new HashMap<>();
+	public static final Map<ResourceLocation, List<BlockEntry<?>>> TO_COLORS = new HashMap<>();
 
 	public static final class BlockEntry<T extends Block> implements Supplier<T>, ItemLike {
 		private final RegistryObject<T> regObject;

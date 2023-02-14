@@ -41,9 +41,9 @@ public class MineralTableMenu extends AbstractContainerMenu {
 		this.mineralTable = container;
 		this.mineralTableData = data;
 		this.level = inventory.player.level;
-		this.addSlot(new MineralTableMenu.MineralResultSlot(inventory.player, container, RESULT_SLOT, 79, 58));
 		this.ingredientSlot = this.addSlot(new MineralTableMenu.IngredientSlot(this, container, INGREDIENT_SLOT, 79, 17));
 		this.addSlot(new MineralTableMenu.FuelSlot(container, FUEL_SLOT, 17, 17));
+		this.addSlot(new MineralTableMenu.MineralResultSlot(inventory.player, container, RESULT_SLOT, 79, 58));
 		this.addDataSlots(data);
 
 		for(int i = 0; i < 3; ++i) {

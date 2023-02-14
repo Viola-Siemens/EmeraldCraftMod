@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "emeraldcraft:block/reinforced_resin_block"
+  }
+}

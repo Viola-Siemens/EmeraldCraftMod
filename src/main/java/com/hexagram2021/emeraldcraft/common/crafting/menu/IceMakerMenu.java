@@ -42,7 +42,6 @@ public class IceMakerMenu extends AbstractContainerMenu {
 		checkContainerDataCount(data, DATA_COUNT);
 		this.iceMaker = container;
 		this.iceMakerData = data;
-		this.addSlot(new IceMakerMenu.IceMakerResultSlot(inventory.player, container, RESULT_SLOT, 134, 35));
 		this.ingredientInputSlot = this.addSlot(new Slot(container, INGREDIENT_INPUT_SLOT, 50, 18) {
 			@Override
 			public boolean mayPlace(@NotNull ItemStack itemStack) {
@@ -76,6 +75,7 @@ public class IceMakerMenu extends AbstractContainerMenu {
 				return 1;
 			}
 		});
+		this.addSlot(new IceMakerMenu.IceMakerResultSlot(inventory.player, container, RESULT_SLOT, 134, 35));
 		this.addDataSlots(data);
 
 		for(int i = 0; i < 3; ++i) {

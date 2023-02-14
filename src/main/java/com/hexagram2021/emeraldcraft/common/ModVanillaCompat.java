@@ -5,12 +5,12 @@ import com.google.common.collect.Maps;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
 import net.minecraft.world.item.AxeItem;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.ComposterBlock;
-import net.minecraft.world.level.block.FireBlock;
+import net.minecraft.world.level.block.*;
 
 import java.util.Map;
+import java.util.function.Supplier;
+
+import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 public class ModVanillaCompat {
 	public static void setup() {
@@ -78,11 +78,25 @@ public class ModVanillaCompat {
 		registerFlammable(ECBlocks.TO_STAIRS.get(ECBlocks.Plant.PEACH_PLANKS.getId()).get(), 5, 20);
 		registerFlammable(ECBlocks.TO_FENCE.get(ECBlocks.Plant.PEACH_PLANKS.getId()).get(), 5, 20);
 		registerFlammable(ECBlocks.TO_FENCE_GATE.get(ECBlocks.Plant.PEACH_PLANKS.getId()).get(), 5, 20);
+		registerFlammable(ECBlocks.Decoration.RESIN_BLOCK.get(), 5, 20);
+
+		registerFlowerPot(ECBlocks.Plant.CYAN_PETUNIA.get(), ECBlocks.Plant.POTTED_CYAN_PETUNIA::get);
+		registerFlowerPot(ECBlocks.Plant.MAGENTA_PETUNIA.get(), ECBlocks.Plant.POTTED_MAGENTA_PETUNIA::get);
+		registerFlowerPot(ECBlocks.Plant.HIGAN_BANA.get(), ECBlocks.Plant.POTTED_HIGAN_BANA::get);
+		registerFlowerPot(ECBlocks.Plant.GINKGO_SAPLING.get(), ECBlocks.Plant.POTTED_GINKGO_SAPLING::get);
+		registerFlowerPot(ECBlocks.Plant.PALM_SAPLING.get(), ECBlocks.Plant.POTTED_PALM_SAPLING::get);
+		registerFlowerPot(ECBlocks.Plant.PEACH_SAPLING.get(), ECBlocks.Plant.POTTED_PEACH_SAPLING::get);
+		registerFlowerPot(ECBlocks.Plant.PURPURACEUS_FUNGUS.get(), ECBlocks.Plant.POTTED_PURPURACEUS_FUNGUS::get);
+		registerFlowerPot(ECBlocks.Plant.PURPURACEUS_ROOTS.get(), ECBlocks.Plant.POTTED_PURPURACEUS_ROOTS::get);
 	}
 
 	private static final FireBlock fireblock = (FireBlock)Blocks.FIRE;
-
 	public static void registerFlammable(Block blockIn, int encouragement, int flammability) {
 		fireblock.setFlammable(blockIn, encouragement, flammability);
+	}
+
+	private static final FlowerPotBlock flowerpotblock = (FlowerPotBlock)Blocks.FLOWER_POT;
+	public static void registerFlowerPot(Block flower, Supplier<Block> pot) {
+		flowerpotblock.addPlant(getRegistryName(flower), pot);
 	}
 }
