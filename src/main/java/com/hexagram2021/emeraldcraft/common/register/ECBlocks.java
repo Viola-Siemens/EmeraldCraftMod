@@ -759,8 +759,8 @@ public final class ECBlocks {
 				"mossy_stone", STONE_PROPERTIES, Block::new
 		);
 
-		public static final BlockEntry<Block> RESIN_BLOCK = new BlockEntry<>(
-				"resin_block", RESIN_PROPERTIES, Block::new
+		public static final BlockEntry<HalfTransparentBlock> RESIN_BLOCK = new BlockEntry<>(
+				"resin_block", RESIN_PROPERTIES, HalfTransparentBlock::new
 		);
 		public static final BlockEntry<Block> REINFORCED_RESIN_BLOCK = new BlockEntry<>(
 				"reinforced_resin_block", REINFORCED_RESIN_PROPERTIES, Block::new
@@ -862,10 +862,10 @@ public final class ECBlocks {
 			registerWall(Decoration.WARPED_COBBLESTONE);
 			registerWall(Decoration.REINFORCED_RESIN_BLOCK);
 
-			List<ECBlocks.BlockEntry<?>> list = registerAllColors(Decoration.REINFORCED_RESIN_BLOCK, COLORED_REINFORCED_RESIN_PROPERTIES, Block::new);
-			list.forEach(ECBlocks::registerStairs);
-			list.forEach(ECBlocks::registerSlab);
-			list.forEach(ECBlocks::registerWall);
+		//	List<ECBlocks.BlockEntry<?>> list = registerAllColors(Decoration.REINFORCED_RESIN_BLOCK, COLORED_REINFORCED_RESIN_PROPERTIES, Block::new);
+		//	list.forEach(ECBlocks::registerStairs);
+		//	list.forEach(ECBlocks::registerSlab);
+		//	list.forEach(ECBlocks::registerWall);
 		}
 	}
 

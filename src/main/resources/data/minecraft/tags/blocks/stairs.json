@@ -29,15 +29,15 @@
 
     "emeraldcraft:mossy_stone_stairs",
     "emeraldcraft:reinforced_resin_stairs",
-	
-	"emeraldcraft:zinc_stairs",
-	"emeraldcraft:aluminum_stairs",
-	"emeraldcraft:lead_stairs",
-	"emeraldcraft:silver_stairs",
-	"emeraldcraft:nickel_stairs",
-	"emeraldcraft:uranium_stairs",
-	"emeraldcraft:constantan_stairs",
-	"emeraldcraft:electrum_stairs",
-	"emeraldcraft:steel_stairs"
+    
+    "emeraldcraft:zinc_stairs",
+    "emeraldcraft:aluminum_stairs",
+    "emeraldcraft:lead_stairs",
+    "emeraldcraft:silver_stairs",
+    "emeraldcraft:nickel_stairs",
+    "emeraldcraft:uranium_stairs",
+    "emeraldcraft:constantan_stairs",
+    "emeraldcraft:electrum_stairs",
+    "emeraldcraft:steel_stairs"
   ]
 }

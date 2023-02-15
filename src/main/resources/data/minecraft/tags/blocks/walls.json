@@ -19,15 +19,15 @@
     "emeraldcraft:warped_cobblestone_wall",
 
     "emeraldcraft:reinforced_resin_wall",
-	
-	"emeraldcraft:zinc_wall",
-	"emeraldcraft:aluminum_wall",
-	"emeraldcraft:lead_wall",
-	"emeraldcraft:silver_wall",
-	"emeraldcraft:nickel_wall",
-	"emeraldcraft:uranium_wall",
-	"emeraldcraft:constantan_wall",
-	"emeraldcraft:electrum_wall",
-	"emeraldcraft:steel_wall"
+    
+    "emeraldcraft:zinc_wall",
+    "emeraldcraft:aluminum_wall",
+    "emeraldcraft:lead_wall",
+    "emeraldcraft:silver_wall",
+    "emeraldcraft:nickel_wall",
+    "emeraldcraft:uranium_wall",
+    "emeraldcraft:constantan_wall",
+    "emeraldcraft:electrum_wall",
+    "emeraldcraft:steel_wall"
   ]
 }

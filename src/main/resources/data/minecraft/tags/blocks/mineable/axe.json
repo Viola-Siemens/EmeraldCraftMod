@@ -5,6 +5,11 @@
     "emeraldcraft:carpentry_table",
     "emeraldcraft:squeezer",
     "emeraldcraft:purpuraceus_fungus",
-    "emeraldcraft:purpuraceus_roots"
+    "emeraldcraft:purpuraceus_roots",
+    
+    "emeraldcraft:reinforced_resin_block",
+    "emeraldcraft:reinforced_resin_slab",
+    "emeraldcraft:reinforced_resin_stairs",
+    "emeraldcraft:reinforced_resin_wall"
   ]
 }

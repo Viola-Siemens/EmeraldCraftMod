@@ -54,21 +54,21 @@ public class CachedRecipeList<R extends Recipe<?>> {
 
 	public Collection<R> getRecipes(@Nonnull Level level) {
 		updateCache(level.getRecipeManager(), level.isClientSide());
-		return Objects.requireNonNull(recipes).values();
+		return Objects.requireNonNull(this.recipes).values();
 	}
 
 	public Collection<ResourceLocation> getRecipeNames(@Nonnull Level level) {
 		updateCache(level.getRecipeManager(), level.isClientSide());
-		return Objects.requireNonNull(recipes).keySet();
+		return Objects.requireNonNull(this.recipes).keySet();
 	}
 
 	public R getById(@Nonnull Level level, ResourceLocation name) {
 		updateCache(level.getRecipeManager(), level.isClientSide());
-		return recipes.get(name);
+		return this.recipes.get(name);
 	}
 
 	private void updateCache(RecipeManager manager, boolean isClient) {
-		if(recipes!=null && cachedAtReloadCount==reloadCount && (!cachedDataIsClient||isClient)) {
+		if(this.recipes != null && this.cachedAtReloadCount == reloadCount && (!this.cachedDataIsClient || isClient)) {
 			return;
 		}
 		this.recipes = manager.getRecipes().stream()
@@ -79,7 +79,7 @@ public class CachedRecipeList<R extends Recipe<?>> {
 					}
 					return Stream.of(r);
 				})
-				.map(recipeClass::cast)
+				.map(this.recipeClass::cast)
 				.collect(Collectors.toMap(R::getId, Function.identity()));
 		this.cachedDataIsClient = isClient;
 		this.cachedAtReloadCount = reloadCount;

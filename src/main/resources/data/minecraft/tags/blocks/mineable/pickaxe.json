@@ -69,73 +69,73 @@
     "emeraldcraft:emery_sandstone_wall",
     "emeraldcraft:jadeite_sandstone_wall",
     "emeraldcraft:quartz_sandstone_wall",
-
+    
     "emeraldcraft:glass_kiln",
     "emeraldcraft:mineral_table",
     "emeraldcraft:continuous_miner",
     "emeraldcraft:ice_maker",
     "emeraldcraft:melter",
-
+    
     "emeraldcraft:blue_nether_bricks",
     "emeraldcraft:blue_nether_brick_slab",
     "emeraldcraft:blue_nether_brick_stairs",
     "emeraldcraft:blue_nether_brick_wall",
-
+    
     "emeraldcraft:purple_nether_bricks",
     "emeraldcraft:purple_nether_brick_slab",
     "emeraldcraft:purple_nether_brick_stairs",
     "emeraldcraft:purple_nether_brick_wall",
-
+    
     "emeraldcraft:crimson_stone",
     "emeraldcraft:crimson_stone_slab",
     "emeraldcraft:crimson_stone_stairs",
     "emeraldcraft:crimson_stone_wall",
-
+    
     "emeraldcraft:crimson_cobblestone",
     "emeraldcraft:crimson_cobblestone_slab",
     "emeraldcraft:crimson_cobblestone_stairs",
     "emeraldcraft:crimson_cobblestone_wall",
-
+    
     "emeraldcraft:warped_stone",
     "emeraldcraft:warped_stone_slab",
     "emeraldcraft:warped_stone_stairs",
     "emeraldcraft:warped_stone_wall",
-
+    
     "emeraldcraft:warped_cobblestone",
     "emeraldcraft:warped_cobblestone_slab",
     "emeraldcraft:warped_cobblestone_stairs",
     "emeraldcraft:warped_cobblestone_wall",
-	
+    
     "emeraldcraft:purpuraceus_nylium",
-
+    
     "emeraldcraft:mossy_stone",
     "emeraldcraft:mossy_stone_slab",
     "emeraldcraft:mossy_stone_stairs",
-
+    
     "emeraldcraft:resin_block",
     "emeraldcraft:reinforced_resin_block",
     "emeraldcraft:reinforced_resin_slab",
     "emeraldcraft:reinforced_resin_stairs",
     "emeraldcraft:reinforced_resin_wall",
-	
-	"emeraldcraft:zinc_slab",
+    
+    "emeraldcraft:zinc_slab",
     "emeraldcraft:zinc_stairs",
-	"emeraldcraft:zinc_wall",
+    "emeraldcraft:zinc_wall",
     "emeraldcraft:aluminum_stairs",
-	"emeraldcraft:aluminum_wall",
+    "emeraldcraft:aluminum_wall",
     "emeraldcraft:lead_stairs",
-	"emeraldcraft:lead_wall",
+    "emeraldcraft:lead_wall",
     "emeraldcraft:silver_stairs",
-	"emeraldcraft:silver_wall",
+    "emeraldcraft:silver_wall",
     "emeraldcraft:nickel_stairs",
-	"emeraldcraft:nickel_wall",
+    "emeraldcraft:nickel_wall",
     "emeraldcraft:uranium_stairs",
-	"emeraldcraft:uranium_wall",
+    "emeraldcraft:uranium_wall",
     "emeraldcraft:constantan_stairs",
-	"emeraldcraft:constantan_wall",
+    "emeraldcraft:constantan_wall",
     "emeraldcraft:electrum_stairs",
-	"emeraldcraft:electrum_wall",
+    "emeraldcraft:electrum_wall",
     "emeraldcraft:steel_stairs",
-	"emeraldcraft:steel_wall"
+    "emeraldcraft:steel_wall"
   ]
 }
