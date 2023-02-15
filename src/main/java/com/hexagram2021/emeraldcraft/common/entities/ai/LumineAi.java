@@ -43,7 +43,7 @@ public class LumineAi {
 
 	private static void initIdleActivity(Brain<LumineEntity> brain) {
 		brain.addActivityWithConditions(Activity.IDLE, ImmutableList.of(
-				Pair.of(0, new GoToNearestDarkPosition<>(1.75F, true, 32)),
+				Pair.of(0, new GoToNearestDarkPosition<>(1.25F, true, 32)),
 				Pair.of(1, new GoToWantedItem<>(lumine -> true, 1.75F, true, 32)),
 				Pair.of(2, new StayCloseToTarget<>(LumineAi::getLikedPlayerPositionTracker, 4, 16, 2.25F)),
 				Pair.of(3, new RunSometimes<>(new SetEntityLookTarget(livingEntity -> true, 6.0F), UniformInt.of(30, 60))),

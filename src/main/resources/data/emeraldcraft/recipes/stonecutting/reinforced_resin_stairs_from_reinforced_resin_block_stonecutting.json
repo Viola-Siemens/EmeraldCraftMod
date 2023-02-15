@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emeraldcraft:reinforced_resin_block"
+  },
+  "result": "emeraldcraft:reinforced_resin_stairs",
+  "count": 1
+}
