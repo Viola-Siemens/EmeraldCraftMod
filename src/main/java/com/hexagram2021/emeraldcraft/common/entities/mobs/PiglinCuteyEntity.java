@@ -509,6 +509,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		final double speedModifier;
 		private static final int INTERVAL_TICKS = 20;
 		protected int nextStartTick;
+		protected boolean couldTry = true;
 
 		RushToPortalGoal(PiglinCuteyEntity cutey, double stopDistance, double giveupDistance, double speedModifier) {
 			this.cutey = cutey;
@@ -550,6 +551,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 			}
 
 			this.nextStartTick = this.nextStartTick(this.cutey);
+			this.couldTry = true;
 			this.cutey.findNearestPortal();
 			BlockPos blockpos = this.cutey.getPortalTarget();
 			return blockpos != null && this.isTooFarAway(blockpos, this.stopDistance);
@@ -565,7 +567,8 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		@Override
 		public void tick() {
 			BlockPos blockpos = this.cutey.getPortalTarget();
-			if (blockpos != null && PiglinCuteyEntity.this.navigation.isDone()) {
+			if (blockpos != null && this.couldTry) {
+				this.couldTry = false;
 				if (this.isTooFarAway(blockpos, 10.0D)) {
 					Vec3 vec3 = (new Vec3(
 							(double)blockpos.getX() - this.cutey.getX(),
@@ -594,7 +597,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 
 	public static AttributeSupplier.Builder createAttributes() {
 		return Mob.createMobAttributes()
-				.add(Attributes.MAX_HEALTH, 25.0D)
+				.add(Attributes.MAX_HEALTH, 24.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.5D)
 				.add(Attributes.FOLLOW_RANGE, 48.0D);
 	}
