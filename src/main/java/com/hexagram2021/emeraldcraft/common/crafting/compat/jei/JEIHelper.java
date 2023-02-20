@@ -4,6 +4,7 @@ import com.hexagram2021.emeraldcraft.client.screens.GlassKilnScreen;
 import com.hexagram2021.emeraldcraft.client.screens.IceMakerScreen;
 import com.hexagram2021.emeraldcraft.client.screens.MelterScreen;
 import com.hexagram2021.emeraldcraft.client.screens.MineralTableScreen;
+import com.hexagram2021.emeraldcraft.common.blocks.entity.RabbleFurnaceBlockEntity;
 import com.hexagram2021.emeraldcraft.common.crafting.*;
 import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.*;
@@ -36,6 +37,7 @@ public class JEIHelper implements IModPlugin {
 		RecipeType<MineralTableRecipe> MINERAL_TABLE = new RecipeType<>(MineralTableRecipeCategory.UID, MineralTableRecipe.class);
 		RecipeType<IceMakerRecipe> ICE_MAKER = new RecipeType<>(IceMakerRecipeCategory.UID, IceMakerRecipe.class);
 		RecipeType<MelterRecipe> MELTER = new RecipeType<>(MelterRecipeCategory.UID, MelterRecipe.class);
+		RecipeType<RabbleFurnaceRecipe> RABBLE_FURNACE = new RecipeType<>(RabbleFurnaceRecipeCategory.UID, RabbleFurnaceRecipe.class);
 		RecipeType<TradeShadowRecipe> TRADES = new RecipeType<>(VillagerTradeCategory.UID,  TradeShadowRecipe.class);
 	}
 
@@ -62,6 +64,7 @@ public class JEIHelper implements IModPlugin {
 				new MineralTableRecipeCategory(guiHelper),
 				new MelterRecipeCategory(guiHelper),
 				new IceMakerRecipeCategory(guiHelper),
+				new RabbleFurnaceRecipeCategory(guiHelper),
 				new VillagerTradeCategory(guiHelper)
 		);
 	}
@@ -77,6 +80,7 @@ public class JEIHelper implements IModPlugin {
 		registration.addRecipes(ECJEIRecipeTypes.MINERAL_TABLE, getRecipes(MineralTableRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.MELTER, getRecipes(MelterRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.ICE_MAKER, getRecipes(IceMakerRecipe.recipeList));
+		registration.addRecipes(ECJEIRecipeTypes.RABBLE_FURNACE, getRecipes(RabbleFurnaceRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.TRADES, getRecipes(TradeShadowRecipe.recipeList));
 	}
 
@@ -135,6 +139,20 @@ public class JEIHelper implements IModPlugin {
 				IceMakerMenu.INGREDIENT_INPUT_SLOT, 1,
 				IceMakerMenu.INV_SLOT_START, 36
 		);
+		registration.addRecipeTransferHandler(
+				RabbleFurnaceMenu.class,
+				ECContainerTypes.RABBLE_FURNACE_MENU.get(),
+				ECJEIRecipeTypes.RABBLE_FURNACE,
+				RabbleFurnaceBlockEntity.SLOT_INPUT, 3,
+				RabbleFurnaceMenu.INV_SLOT_START, 36
+		);
+		registration.addRecipeTransferHandler(
+				RabbleFurnaceMenu.class,
+				ECContainerTypes.RABBLE_FURNACE_MENU.get(),
+				RecipeTypes.FUELING,
+				RabbleFurnaceBlockEntity.SLOT_FUEL,1,
+				RabbleFurnaceMenu.INV_SLOT_START, 36
+		);
 	}
 
 	@Override
@@ -144,6 +162,7 @@ public class JEIHelper implements IModPlugin {
 		registration.addRecipeCatalyst(new ItemStack(ECBlocks.WorkStation.MINERAL_TABLE), ECJEIRecipeTypes.MINERAL_TABLE);
 		registration.addRecipeCatalyst(new ItemStack(ECBlocks.WorkStation.MELTER), ECJEIRecipeTypes.MELTER);
 		registration.addRecipeCatalyst(new ItemStack(ECBlocks.WorkStation.ICE_MAKER), ECJEIRecipeTypes.ICE_MAKER);
+		registration.addRecipeCatalyst(new ItemStack(ECBlocks.WorkStation.RABBLE_FURNACE), ECJEIRecipeTypes.RABBLE_FURNACE);
 		registration.addRecipeCatalyst(new ItemStack(Items.EMERALD), ECJEIRecipeTypes.TRADES);
 	}
 

@@ -1,6 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.crafting.menu;
 
-import com.hexagram2021.emeraldcraft.common.blocks.entity.GlassKilnBlockEntity;
+import com.hexagram2021.emeraldcraft.common.blocks.entity.RabbleFurnaceBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import net.minecraft.server.level.ServerPlayer;
@@ -16,34 +16,35 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.NotNull;
 
-public class GlassKilnMenu extends RecipeBookMenu<Container> {
+import static com.hexagram2021.emeraldcraft.common.blocks.entity.RabbleFurnaceBlockEntity.*;
+
+public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 	private final Container container;
 	private final ContainerData data;
 	protected final Level level;
 
-	public static final int INGREDIENT_SLOT = 0;
-	public static final int FUEL_SLOT = 1;
-	public static final int RESULT_SLOT = 2;
-	public static final int INV_SLOT_START = 3;
-	private static final int INV_SLOT_END = 30;
-	private static final int USE_ROW_SLOT_START = 30;
-	private static final int USE_ROW_SLOT_END = 39;
-	public static final int SLOT_COUNT = 3;
+	public static final int INV_SLOT_START = 5;
+	private static final int INV_SLOT_END = 32;
+	private static final int USE_ROW_SLOT_START = 32;
+	private static final int USE_ROW_SLOT_END = 41;
+	public static final int SLOT_COUNT = 5;
 	public static final int DATA_COUNT = 4;
 
-	public GlassKilnMenu(int id, Inventory inventory) {
+	public RabbleFurnaceMenu(int id, Inventory inventory) {
 		this(id, inventory, new SimpleContainer(SLOT_COUNT), new SimpleContainerData(DATA_COUNT));
 	}
 
-	public GlassKilnMenu(int id, Inventory inventory, Container container, ContainerData data) {
-		super(ECContainerTypes.GLASS_KILN_MENU.get(), id);
+	public RabbleFurnaceMenu(int id, Inventory inventory, Container container, ContainerData data) {
+		super(ECContainerTypes.RABBLE_FURNACE_MENU.get(), id);
 		this.container = container;
 		this.data = data;
 		this.level = inventory.player.level;
 
-		this.addSlot(new Slot(this.container, INGREDIENT_SLOT, 56, 17));
-		this.addSlot(new GlassKilnMenu.GlassKilnFuelSlot(this, this.container, FUEL_SLOT, 56, 53));
-		this.addSlot(new GlassKilnMenu.GlassKilnResultSlot(inventory.player, this.container, RESULT_SLOT, 116, 35));
+		this.addSlot(new Slot(this.container, SLOT_INPUT, 56, 17));
+		this.addSlot(new Slot(this.container, SLOT_MIX1, 18, 21));
+		this.addSlot(new Slot(this.container, SLOT_MIX2, 18, 39));
+		this.addSlot(new RabbleFurnaceMenu.RabbleFurnaceFuelSlot(this, this.container, SLOT_FUEL, 56, 53));
+		this.addSlot(new RabbleFurnaceMenu.RabbleFurnaceResultSlot(inventory.player, this.container, SLOT_RESULT, 116, 35));
 
 		for(int i = 0; i < 3; ++i) {
 			for(int j = 0; j < 9; ++j) {
@@ -65,19 +66,19 @@ public class GlassKilnMenu extends RecipeBookMenu<Container> {
 		if (slot.hasItem()) {
 			ItemStack itemstack1 = slot.getItem();
 			itemstack = itemstack1.copy();
-			if (index == RESULT_SLOT) {
+			if (index == SLOT_RESULT) {
 				if (!this.moveItemStackTo(itemstack1, INV_SLOT_START, USE_ROW_SLOT_END, true)) {
 					return ItemStack.EMPTY;
 				}
 
 				slot.onQuickCraft(itemstack1, itemstack);
-			} else if (index != FUEL_SLOT && index != INGREDIENT_SLOT) {
+			} else if (index != SLOT_FUEL && index != SLOT_INPUT && index != SLOT_MIX1 && index != SLOT_MIX2) {
 				if (this.canSmelt(itemstack1)) {
-					if (!this.moveItemStackTo(itemstack1, INGREDIENT_SLOT, FUEL_SLOT, false)) {
+					if (!this.moveItemStackTo(itemstack1, SLOT_INPUT, SLOT_FUEL, false)) {
 						return ItemStack.EMPTY;
 					}
 				} else if (this.isFuel(itemstack1)) {
-					if (!this.moveItemStackTo(itemstack1, FUEL_SLOT, RESULT_SLOT, false)) {
+					if (!this.moveItemStackTo(itemstack1, SLOT_FUEL, SLOT_RESULT, false)) {
 						return ItemStack.EMPTY;
 					}
 				} else if (index >= INV_SLOT_START && index < INV_SLOT_END) {
@@ -109,11 +110,11 @@ public class GlassKilnMenu extends RecipeBookMenu<Container> {
 	}
 
 	protected boolean canSmelt(ItemStack itemStack) {
-		return this.level.getRecipeManager().getRecipeFor(ECRecipes.GLASS_KILN_TYPE.get(), new SimpleContainer(itemStack), this.level).isPresent();
+		return this.level.getRecipeManager().getRecipeFor(ECRecipes.RABBLE_FURNACE_TYPE.get(), new SimpleContainer(itemStack), this.level).isPresent();
 	}
 
 	public boolean isFuel(ItemStack itemStack) {
-		return ForgeHooks.getBurnTime(itemStack, ECRecipes.GLASS_KILN_TYPE.get()) > 0;
+		return ForgeHooks.getBurnTime(itemStack, ECRecipes.RABBLE_FURNACE_TYPE.get()) > 0;
 	}
 
 	@Override
@@ -130,8 +131,10 @@ public class GlassKilnMenu extends RecipeBookMenu<Container> {
 
 	@Override
 	public void clearCraftingContent() {
-		this.getSlot(INGREDIENT_SLOT).set(ItemStack.EMPTY);
-		this.getSlot(RESULT_SLOT).set(ItemStack.EMPTY);
+		this.getSlot(SLOT_INPUT).set(ItemStack.EMPTY);
+		this.getSlot(SLOT_MIX1).set(ItemStack.EMPTY);
+		this.getSlot(SLOT_MIX2).set(ItemStack.EMPTY);
+		this.getSlot(SLOT_RESULT).set(ItemStack.EMPTY);
 	}
 
 	public int getBurnProgress() {
@@ -160,7 +163,7 @@ public class GlassKilnMenu extends RecipeBookMenu<Container> {
 
 	@Override
 	public int getResultSlotIndex() {
-		return RESULT_SLOT;
+		return SLOT_RESULT;
 	}
 
 	@Override
@@ -180,7 +183,7 @@ public class GlassKilnMenu extends RecipeBookMenu<Container> {
 
 	@Override @NotNull
 	public RecipeBookType getRecipeBookType() {
-		return ECRecipes.GLASS_KILN;
+		return ECRecipes.RABBLE_FURNACE;
 	}
 
 	@Override
@@ -188,10 +191,10 @@ public class GlassKilnMenu extends RecipeBookMenu<Container> {
 		return flag != 1;
 	}
 
-	static class GlassKilnFuelSlot extends Slot {
-		private final GlassKilnMenu menu;
+	static class RabbleFurnaceFuelSlot extends Slot {
+		private final RabbleFurnaceMenu menu;
 
-		public GlassKilnFuelSlot(GlassKilnMenu menu, Container container, int slot, int x, int y) {
+		public RabbleFurnaceFuelSlot(RabbleFurnaceMenu menu, Container container, int slot, int x, int y) {
 			super(container, slot, x, y);
 			this.menu = menu;
 		}
@@ -205,11 +208,11 @@ public class GlassKilnMenu extends RecipeBookMenu<Container> {
 		}
 	}
 
-	static class GlassKilnResultSlot extends Slot {
+	static class RabbleFurnaceResultSlot extends Slot {
 		private final Player player;
 		private int removeCount;
 
-		public GlassKilnResultSlot(Player player, Container container, int slot, int x, int y) {
+		public RabbleFurnaceResultSlot(Player player, Container container, int slot, int x, int y) {
 			super(container, slot, x, y);
 			this.player = player;
 		}
@@ -239,8 +242,8 @@ public class GlassKilnMenu extends RecipeBookMenu<Container> {
 
 		protected void checkTakeAchievements(ItemStack itemStack) {
 			itemStack.onCraftedBy(this.player.level, this.player, this.removeCount);
-			if (this.player instanceof ServerPlayer && this.container instanceof GlassKilnBlockEntity glassKilnBlockEntity) {
-				glassKilnBlockEntity.awardUsedRecipesAndPopExperience((ServerPlayer)this.player);
+			if (this.player instanceof ServerPlayer && this.container instanceof RabbleFurnaceBlockEntity rabbleFurnaceBlockEntity) {
+				rabbleFurnaceBlockEntity.awardUsedRecipesAndPopExperience((ServerPlayer)this.player);
 			}
 
 			this.removeCount = 0;

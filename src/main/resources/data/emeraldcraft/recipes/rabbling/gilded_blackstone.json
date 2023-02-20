@@ -1,0 +1,12 @@
+{
+  "type": "emeraldcraft:rabble_furnace",
+  "ingredient": {
+    "item": "minecraft:blackstone"
+  },
+  "mix1": {
+    "item": "minecraft:gold_ingot"
+  },
+  "result": "minecraft:gilded_blackstone",
+  "experience": 0.1,
+  "cookingtime": 100
+}

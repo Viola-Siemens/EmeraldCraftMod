@@ -90,6 +90,7 @@
   "block.emeraldcraft.continuous_miner": "連続採掘機",
   "block.emeraldcraft.ice_maker": "製氷機",
   "block.emeraldcraft.melter": "溶解炉",
+  "block.emeraldcraft.rabble_furnace": "攪拌炉",
   "block.emeraldcraft.blue_nether_brick_slab": "青いネザーレンガのハーフブロック",
   "block.emeraldcraft.blue_nether_brick_stairs": "青いネザーレンガの階段",
   "block.emeraldcraft.blue_nether_brick_wall": "青いネザーレンガの塀",
@@ -354,6 +355,9 @@
   "item.emeraldcraft.melon_juice": "メロンジュース",
   "item.emeraldcraft.peach_juice": "ピーチジュース",
   "item.emeraldcraft.pumpkin_juice": "かぼちゃジュース",
+  "item.emeraldcraft.resin_shard": "樹脂の欠片",
+  "item.emeraldcraft.resin_bottle": "樹脂入りの瓶",
+  "item.emeraldcraft.resin_bucket": "樹脂入りバケツ",
   "item.emeraldcraft.herring_bucket": "ハーリング入りバケツ",
   "item.emeraldcraft.bigeye_bucket": "キントキダイ入りバケツ",
 
@@ -445,6 +449,7 @@
   "subtitles.entity.villager.work_geologist": "地質学者がアイテムを補充する",
   "subtitles.entity.villager.work_icer": "氷屋がアイテムを補充する",
   "subtitles.entity.villager.work_chemical_engineer": "化学エンジニアがアイテムを補充する",
+  "subtitles.entity.villager.work_paperhanger": "経師屋がアイテムを補充する",
   "subtitles.entity.herring.flop": "ハーリングが跳ねる",
   "subtitles.entity.herring.hurt": "ハーリングがダメージを受ける",
   "subtitles.entity.herring.death": "ハーリングが死ぬ",
@@ -466,6 +471,7 @@
   "container.continuous_miner": "連続採掘機",
   "container.ice_maker": "製氷機",
   "container.melter": "溶解炉",
+  "container.rabble_furnace": "攪拌炉",
 
   "desc.emeraldcraft.carpentry_table": "木材に関連するブロックをクラフトよりも少量かつ正確な量で作成できるブロックである",
   "desc.emeraldcraft.glass_kiln": "通常のかまどの2倍の早さでガラスやテラコッタを焼成できる",
@@ -494,11 +500,14 @@
   "biome.emeraldcraft.purpuraceus_swamp": "紫斑の沼地",
 
   "gui.recipebook.toggleRecipes.kilnable": "窯で焼く可能なアイテムを表示中",
+  "gui.recipebook.toggleRecipes.boilable": "攪拌する可能なアイテムを表示中",
 
   "gui.emeraldcraft.glass_kiln.experience": "%s EXP",
   "gui.emeraldcraft.glass_kiln.time.seconds": "%s s",
   "gui.emeraldcraft.melter.time.seconds": "%s s",
   "gui.emeraldcraft.ice_maker.time.seconds": "%s s",
+  "gui.emeraldcraft.rabble_furnace.experience": "%s EXP",
+  "gui.emeraldcraft.rabble_furnace.time.seconds": "%s s",
 
   "book.emeraldcraft.piglin_cutey.title": "最後の望み",
   "book.emeraldcraft.piglin_cutey.content": "何日も私はネザーに閉じ込められていました。ポータルがガストに壊されましたから、ピグリンのように振る舞い、彼らと取引するしかありません。まだ、ポータルを起動するのに十分な黒曜石が手に入れません。私がオーバーワールドに戻ることを手伝ってくれませんか？",

@@ -30,6 +30,9 @@ public class ECContainerTypes {
 	public static final RegistryObject<MenuType<MelterMenu>> MELTER_MENU = REGISTER.register(
 			"melter", () -> new MenuType<>(MelterMenu::new)
 	);
+	public static final RegistryObject<MenuType<RabbleFurnaceMenu>> RABBLE_FURNACE_MENU = REGISTER.register(
+			"rabble_furnace", () -> new MenuType<>(RabbleFurnaceMenu::new)
+	);
 	public static final RegistryObject<MenuType<PiglinCuteyMerchantMenu>> PIGLIN_CUTEY_MERCHANT_MENU = REGISTER.register(
 			"piglin_cutey_merchant", () -> new MenuType<>(PiglinCuteyMerchantMenu::new)
 	);

@@ -2,13 +2,14 @@
   "replace": false,
   "values": [
     "emeraldcraft:carpentry_table",
-    "emeraldcraft:glass_kiln",
-    "emeraldcraft:mineral_table",
+    "emeraldcraft:continuous_miner",
     "emeraldcraft:crystalball_table",
     "emeraldcraft:flower_pot",
-    "emeraldcraft:squeezer",
-    "emeraldcraft:continuous_miner",
+    "emeraldcraft:glass_kiln",
     "emeraldcraft:ice_maker",
-    "emeraldcraft:melter"
+    "emeraldcraft:melter",
+    "emeraldcraft:mineral_table",
+    "emeraldcraft:rabble_furnace",
+    "emeraldcraft:squeezer"
   ]
 }

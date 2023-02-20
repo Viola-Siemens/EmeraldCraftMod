@@ -14,6 +14,7 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public class ECRecipes {
 	public static final RecipeBookType GLASS_KILN = RecipeBookType.create("GLASS_KILN");
+	public static final RecipeBookType RABBLE_FURNACE = RecipeBookType.create("RABBLE_FURNACE");
 
 	private static final DeferredRegister<RecipeType<?>> REGISTER = DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, MODID);
 
@@ -22,6 +23,7 @@ public class ECRecipes {
 	public static final RegistryObject<RecipeType<MineralTableRecipe>> MINERAL_TABLE_TYPE = register("mineral_table");
 	public static final RegistryObject<RecipeType<IceMakerRecipe>> ICE_MAKER_TYPE = register("ice_maker");
 	public static final RegistryObject<RecipeType<MelterRecipe>> MELTER_TYPE = register("melter");
+	public static final RegistryObject<RecipeType<RabbleFurnaceRecipe>> RABBLE_FURNACE_TYPE = register("rabble_furnace");
 	public static final RegistryObject<RecipeType<TradeShadowRecipe>> TRADE_SHADOW_TYPE = register("trade_shadow");
 
 	public static void init(IEventBus bus) {

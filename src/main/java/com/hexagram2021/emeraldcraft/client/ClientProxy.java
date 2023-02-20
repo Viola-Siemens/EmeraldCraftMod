@@ -62,6 +62,7 @@ public class ClientProxy extends CommonProxy {
 		MenuScreens.register(ECContainerTypes.CONTINUOUS_MINER_MENU.get(), ContinuousMinerScreen::new);
 		MenuScreens.register(ECContainerTypes.ICE_MAKER_MENU.get(), IceMakerScreen::new);
 		MenuScreens.register(ECContainerTypes.MELTER_MENU.get(), MelterScreen::new);
+		MenuScreens.register(ECContainerTypes.RABBLE_FURNACE_MENU.get(), RabbleFurnaceScreen::new);
 		MenuScreens.register(ECContainerTypes.PIGLIN_CUTEY_MERCHANT_MENU.get(), PiglinCuteyMerchantScreen::new);
 	}
 

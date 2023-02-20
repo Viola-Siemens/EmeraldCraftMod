@@ -1,0 +1,12 @@
+{
+  "type": "emeraldcraft:rabble_furnace",
+  "ingredient": {
+    "item": "emeraldcraft:resin_block"
+  },
+  "mix1": {
+    "item": "minecraft:phantom_membrane"
+  },
+  "result": "emeraldcraft:reinforced_resin_block",
+  "experience": 0.3,
+  "cookingtime": 100
+}

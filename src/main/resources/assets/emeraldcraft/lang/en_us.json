@@ -90,6 +90,7 @@
   "block.emeraldcraft.continuous_miner": "Continuous Miner",
   "block.emeraldcraft.ice_maker": "Ice Maker",
   "block.emeraldcraft.melter": "Melter",
+  "block.emeraldcraft.rabble_furnace": "Rabble Furnace",
   "block.emeraldcraft.blue_nether_brick_slab": "Blue Nether Brick Slab",
   "block.emeraldcraft.blue_nether_brick_stairs": "Blue Nether Brick Stairs",
   "block.emeraldcraft.blue_nether_brick_wall": "Blue Nether Brick Wall",
@@ -354,6 +355,9 @@
   "item.emeraldcraft.melon_juice": "Melon Juice",
   "item.emeraldcraft.peach_juice": "Peach Juice",
   "item.emeraldcraft.pumpkin_juice": "Pumpkin Juice",
+  "item.emeraldcraft.resin_shard": "Resin Shard",
+  "item.emeraldcraft.resin_bottle": "Resin Bottle",
+  "item.emeraldcraft.resin_bucket": "Resin Bucket",
   "item.emeraldcraft.herring_bucket": "Herring Bucket",
   "item.emeraldcraft.bigeye_bucket": "Purple Spotted Bigeye Bucket",
 
@@ -445,6 +449,7 @@
   "subtitles.entity.villager.work_geologist": "Geologist works",
   "subtitles.entity.villager.work_icer": "Icer works",
   "subtitles.entity.villager.work_chemical_engineer": "Chemical Engineer works",
+  "subtitles.entity.villager.work_paperhanger": "Paperhanger works",
   "subtitles.entity.herring.flop": "Herring flops",
   "subtitles.entity.herring.hurt": "Herring hurts",
   "subtitles.entity.herring.death": "Herring dies",
@@ -466,6 +471,7 @@
   "container.continuous_miner": "Continuous Miner",
   "container.ice_maker": "Ice Maker",
   "container.melter": "Melter",
+  "container.rabble_furnace": "Rabble Furnace",
 
   "desc.emeraldcraft.carpentry_table": "Craft wood related blocks and items in smaller and more precise quantities, and even more efficient than crafting for certain recipes",
   "desc.emeraldcraft.glass_kiln": "Cook glass and terracotta items and takes only half the time as a standard furnace takes",
@@ -494,11 +500,14 @@
   "biome.emeraldcraft.purpuraceus_swamp": "Purpuraceus Swamp",
 
   "gui.recipebook.toggleRecipes.kilnable": "Showing Kilnable",
+  "gui.recipebook.toggleRecipes.boilable": "Showing Boilable",
 
   "gui.emeraldcraft.glass_kiln.experience": "%s XP",
   "gui.emeraldcraft.glass_kiln.time.seconds": "%ss",
   "gui.emeraldcraft.melter.time.seconds": "%ss",
   "gui.emeraldcraft.ice_maker.time.seconds": "%ss",
+  "gui.emeraldcraft.rabble_furnace.experience": "%s XP",
+  "gui.emeraldcraft.rabble_furnace.time.seconds": "%ss",
 
   "book.emeraldcraft.piglin_cutey.title": "One Last Thing I Need",
   "book.emeraldcraft.piglin_cutey.content": "I was trapped in the nether for days. A ghast broke my portal, so I have no choice but to act like a piglin and to trade with them. Still I don't have enough obsidian to activate a portal. Would you mind help me back to the overworld?",

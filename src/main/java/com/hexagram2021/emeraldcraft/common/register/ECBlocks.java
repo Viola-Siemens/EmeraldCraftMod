@@ -519,6 +519,9 @@ public final class ECBlocks {
 		public static final BlockEntry<MelterBlock> MELTER = new BlockEntry<>(
 				"melter", MelterBlock.PROPERTIES, MelterBlock::new
 		);
+		public static final BlockEntry<RabbleFurnaceBlock> RABBLE_FURNACE = new BlockEntry<>(
+				"rabble_furnace", RabbleFurnaceBlock.PROPERTIES, RabbleFurnaceBlock::new
+		);
 
 		private static void init() {
 			ECItems.REGISTER.register(
@@ -593,6 +596,10 @@ public final class ECBlocks {
 						}
 					}
 			);
+			ECItems.REGISTER.register(
+					RABBLE_FURNACE.getId().getPath(),
+					() -> new BlockItem(RABBLE_FURNACE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+			);
 		}
 	}
 
@@ -658,7 +665,7 @@ public final class ECBlocks {
 
 		public static final Supplier<BlockBehaviour.Properties> RESIN_PROPERTIES = () ->
 				BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_YELLOW)
-						.strength(0.5F).sound(SoundType.FROGLIGHT);
+						.strength(0.5F).noOcclusion().sound(SoundType.FROGLIGHT);
 		public static final Supplier<BlockBehaviour.Properties> REINFORCED_RESIN_PROPERTIES = () ->
 				BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_ORANGE)
 						.requiresCorrectToolForDrops().strength(30.0F, 600.0F).sound(SoundType.FROGLIGHT);

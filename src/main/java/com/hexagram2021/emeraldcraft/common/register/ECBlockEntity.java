@@ -38,6 +38,11 @@ public final class ECBlockEntity {
 					MelterBlockEntity::new, ImmutableSet.of(ECBlocks.WorkStation.MELTER.get()), null
 			)
 	);
+	public static final RegistryObject<BlockEntityType<RabbleFurnaceBlockEntity>> RABBLE_FURNACE = REGISTER.register(
+			"rabble_furnace", () -> new BlockEntityType<>(
+					RabbleFurnaceBlockEntity::new, ImmutableSet.of(ECBlocks.WorkStation.RABBLE_FURNACE.get()), null
+			)
+	);
 
 	public static void init(IEventBus bus) {
 		REGISTER.register(bus);

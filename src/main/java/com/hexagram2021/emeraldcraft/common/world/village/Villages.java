@@ -61,6 +61,7 @@ public class Villages {
 	public static final ResourceLocation GEOLOGIST = new ResourceLocation(MODID, "geologist");
 	public static final ResourceLocation ICER = new ResourceLocation(MODID, "icer");
 	public static final ResourceLocation CHEMICAL_ENGINEER = new ResourceLocation(MODID, "chemical_engineer");
+	public static final ResourceLocation PAPERHANGER = new ResourceLocation(MODID, "paperhanger");
 
 	public static void init() {
 		PlainVillagePools.bootstrap();
@@ -75,6 +76,7 @@ public class Villages {
 		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_GEOLOGIST.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/geologist_gift"));
 		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_ICER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/icer_gift"));
 		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_CHEMICAL_ENGINEER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/chemical_engineer_gift"));
+		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_PAPERHANGER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/paperhanger_gift"));
 	}
 
 	@SuppressWarnings("SameParameterValue")
@@ -139,6 +141,9 @@ public class Villages {
 		public static final RegistryObject<PoiType> POI_MELTER = POINTS_OF_INTEREST.register(
 				"melter", () -> createPOI(assembleStates(ECBlocks.WorkStation.MELTER.get()))
 		);
+		public static final RegistryObject<PoiType> POI_RABBLE_FURNACE = POINTS_OF_INTEREST.register(
+				"rabble_furnace", () -> createPOI(assembleStates(ECBlocks.WorkStation.RABBLE_FURNACE.get()))
+		);
 
 		public static final RegistryObject<VillagerProfession> PROF_CARPENTER = PROFESSIONS.register(
 				CARPENTER.getPath(), () -> createProf(CARPENTER, POI_CARPENTRY_TABLE::getKey, ECSounds.VILLAGER_WORK_CARPENTER)
@@ -166,6 +171,9 @@ public class Villages {
 		);
 		public static final RegistryObject<VillagerProfession> PROF_CHEMICAL_ENGINEER = PROFESSIONS.register(
 				CHEMICAL_ENGINEER.getPath(), () -> createProf(CHEMICAL_ENGINEER, POI_MELTER::getKey, ECSounds.VILLAGER_WORK_CHEMICAL_ENGINEER)
+		);
+		public static final RegistryObject<VillagerProfession> PROF_PAPERHANGER = PROFESSIONS.register(
+				PAPERHANGER.getPath(), () -> createProf(PAPERHANGER, POI_RABBLE_FURNACE::getKey, ECSounds.VILLAGER_WORK_PAPERHANGER)
 		);
 
 		private static Collection<BlockState> assembleStates(Block block) {
@@ -375,6 +383,12 @@ public class Villages {
 				trades.get(4).add(new ECTrades.ItemsForEmeralds(new ItemStack(ECItems.MELTED_GOLD_BUCKET), 4, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(new ItemStack(ECBannerPatterns.BOTTLE.item()), 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(new ItemStack(ECBannerPatterns.POTION.item()), 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+			} else if(PAPERHANGER.equals(currentVillagerProfession)) {
+				trades.get(1).add(new ECTrades.EmeraldForItems(Items.PAPER, 24, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
+				trades.get(1).add(new ECTrades.ItemsForEmeralds(new ItemStack(ECBlocks.Decoration.RESIN_BLOCK), 2, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
+				trades.get(2).add(new ECTrades.ItemsForEmeralds(new ItemStack(Items.SLIME_BALL), 4, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
+				trades.get(3).add(new ECTrades.EmeraldForItems(ECBlocks.Decoration.REINFORCED_RESIN_BLOCK, 1, 2, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_3_BUY));
+				//TODO: Unfinished!
 			} else if(new ResourceLocation(VillagerProfession.FARMER.name()).equals(currentVillagerProfession)) {
 				trades.get(1).add(new ECTrades.ItemsForEmeralds(new ItemStack(ECItems.CHILI_SEED), 1, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
 				trades.get(2).add(new ECTrades.ItemsForEmeralds(new ItemStack(ECItems.PEACH), 3, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));

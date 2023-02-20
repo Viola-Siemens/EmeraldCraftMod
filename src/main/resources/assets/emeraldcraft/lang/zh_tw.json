@@ -90,6 +90,7 @@
   "block.emeraldcraft.continuous_miner": "連續採礦機",
   "block.emeraldcraft.ice_maker": "制冰機",
   "block.emeraldcraft.melter": "熔化爐",
+  "block.emeraldcraft.rabble_furnace": "攪拌爐",
   "block.emeraldcraft.blue_nether_brick_slab": "藍地獄磚半磚",
   "block.emeraldcraft.blue_nether_brick_stairs": "藍地獄磚階梯",
   "block.emeraldcraft.blue_nether_brick_wall": "藍地獄磚牆",
@@ -354,6 +355,9 @@
   "item.emeraldcraft.melon_juice": "西瓜汁",
   "item.emeraldcraft.peach_juice": "桃汁",
   "item.emeraldcraft.pumpkin_juice": "南瓜汁",
+  "item.emeraldcraft.resin_shard": "樹脂碎片",
+  "item.emeraldcraft.resin_bottle": "樹脂瓶",
+  "item.emeraldcraft.resin_bucket": "樹脂桶",
   "item.emeraldcraft.herring_bucket": "鯡魚桶",
   "item.emeraldcraft.bigeye_bucket": "紅目鰱桶",
 
@@ -445,6 +449,7 @@
   "subtitles.entity.villager.work_geologist": "地質勘測員：工作",
   "subtitles.entity.villager.work_icer": "制冰師：工作",
   "subtitles.entity.villager.work_chemical_engineer": "化學專案師：工作",
+  "subtitles.entity.villager.work_paperhanger": "裱糊匠：工作",
   "subtitles.entity.herring.flop": "鯡魚拍打",
   "subtitles.entity.herring.hurt": "鯡魚受傷",
   "subtitles.entity.herring.death": "鯡魚死亡",
@@ -466,6 +471,7 @@
   "container.continuous_miner": "連續採礦機",
   "container.ice_maker": "制冰機",
   "container.melter": "熔化爐",
+  "container.rabble_furnace": "攪拌爐",
 
   "desc.emeraldcraft.carpentry_table": "更少而精確的數量制作與木材相關的方塊和物品，甚至對於某些配方來說比直接合成更省原材料",
   "desc.emeraldcraft.glass_kiln": "只消耗普通熔爐一半時間即可燒制玻璃和陶瓦制品",
@@ -494,11 +500,14 @@
   "biome.emeraldcraft.purpuraceus_swamp": "紫陀螺沼澤",
 
   "gui.recipebook.toggleRecipes.kilnable": "僅顯示可燒制",
+  "gui.recipebook.toggleRecipes.boilable": "僅顯示可攪拌",
 
   "gui.emeraldcraft.glass_kiln.experience": "%s 點經驗",
   "gui.emeraldcraft.glass_kiln.time.seconds": "%s 秒",
   "gui.emeraldcraft.melter.time.seconds": "%s 秒",
   "gui.emeraldcraft.ice_maker.time.seconds": "%s 秒",
+  "gui.emeraldcraft.rabble_furnace.experience": "%s 點經驗",
+  "gui.emeraldcraft.rabble_furnace.time.seconds": "%s 秒",
 
   "book.emeraldcraft.piglin_cutey.title": "最後一個請求",
   "book.emeraldcraft.piglin_cutey.content": "數天來，我一直被睏在地獄。一只惡魂摧毀了我的傳送門，所以我別無選擇，只能裝扮成豬布林併與他們交易——但迄今為止我仍然沒有找到足夠的黑曜石。妳可以幫我返回主世界嗎？",

@@ -1,0 +1,7 @@
+{
+  "parent": "emeraldcraft:block/template_rabble_furnace",
+  "textures": {
+    "middle": "emeraldcraft:block/rabble_funace_middle_lit",
+    "cfside": "emeraldcraft:block/rabble_funace_side_lit"
+  }
+}

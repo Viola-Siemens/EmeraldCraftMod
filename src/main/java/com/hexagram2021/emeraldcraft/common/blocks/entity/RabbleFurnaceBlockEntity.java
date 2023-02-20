@@ -1,9 +1,9 @@
 package com.hexagram2021.emeraldcraft.common.blocks.entity;
 
 import com.google.common.collect.Lists;
-import com.hexagram2021.emeraldcraft.common.blocks.workstation.GlassKilnBlock;
-import com.hexagram2021.emeraldcraft.common.crafting.GlassKilnRecipe;
-import com.hexagram2021.emeraldcraft.common.crafting.menu.GlassKilnMenu;
+import com.hexagram2021.emeraldcraft.common.blocks.workstation.RabbleFurnaceBlock;
+import com.hexagram2021.emeraldcraft.common.crafting.RabbleFurnaceRecipe;
+import com.hexagram2021.emeraldcraft.common.crafting.menu.RabbleFurnaceMenu;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -48,19 +48,21 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class GlassKilnBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeHolder, StackedContentsCompatible {
-	protected static final int SLOT_INPUT = 0;
-	protected static final int SLOT_FUEL = 1;
-	protected static final int SLOT_RESULT = 2;
-	public static final int NUM_SLOTS = 3;
-	public static final int DATA_LIT_TIME = 0;
-	public static final int DATA_LIT_DURATION = 1;
-	public static final int DATA_COOKING_PROGRESS = 2;
-	public static final int DATA_COOKING_TOTAL_TIME = 3;
+public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeHolder, StackedContentsCompatible {
+	public static final int SLOT_INPUT = 0;
+	public static final int SLOT_MIX1 = 1;
+	public static final int SLOT_MIX2 = 2;
+	public static final int SLOT_FUEL = 3;
+	public static final int SLOT_RESULT = 4;
+	public static final int NUM_SLOTS = 5;
+	protected static final int DATA_LIT_TIME = 0;
+	protected static final int DATA_LIT_DURATION = 1;
+	protected static final int DATA_COOKING_PROGRESS = 2;
+	protected static final int DATA_COOKING_TOTAL_TIME = 3;
 	public static final int NUM_DATA_VALUES = 4;
-	private static final int[] SLOTS_FOR_UP = new int[]{SLOT_INPUT};
+	private static final int[] SLOTS_FOR_UP = new int[]{SLOT_INPUT, SLOT_MIX1, SLOT_MIX2};
 	private static final int[] SLOTS_FOR_DOWN = new int[]{SLOT_RESULT, SLOT_FUEL};
-	private static final int[] SLOTS_FOR_SIDES = new int[]{SLOT_FUEL};
+	private static final int[] SLOTS_FOR_SIDES = new int[]{SLOT_FUEL, SLOT_MIX1, SLOT_MIX2};
 	public static final int BURN_COOL_SPEED = 2;
 	protected NonNullList<ItemStack> items = NonNullList.withSize(NUM_SLOTS, ItemStack.EMPTY);
 	int litTime;
@@ -70,20 +72,20 @@ public class GlassKilnBlockEntity extends BaseContainerBlockEntity implements Wo
 	protected final ContainerData dataAccess = new ContainerData() {
 		public int get(int index) {
 			return switch (index) {
-				case DATA_LIT_TIME -> GlassKilnBlockEntity.this.litTime;
-				case DATA_LIT_DURATION -> GlassKilnBlockEntity.this.litDuration;
-				case DATA_COOKING_PROGRESS -> GlassKilnBlockEntity.this.cookingProgress;
-				case DATA_COOKING_TOTAL_TIME -> GlassKilnBlockEntity.this.cookingTotalTime;
+				case DATA_LIT_TIME -> RabbleFurnaceBlockEntity.this.litTime;
+				case DATA_LIT_DURATION -> RabbleFurnaceBlockEntity.this.litDuration;
+				case DATA_COOKING_PROGRESS -> RabbleFurnaceBlockEntity.this.cookingProgress;
+				case DATA_COOKING_TOTAL_TIME -> RabbleFurnaceBlockEntity.this.cookingTotalTime;
 				default -> 0;
 			};
 		}
 
 		public void set(int index, int value) {
 			switch (index) {
-				case DATA_LIT_TIME -> GlassKilnBlockEntity.this.litTime = value;
-				case DATA_LIT_DURATION -> GlassKilnBlockEntity.this.litDuration = value;
-				case DATA_COOKING_PROGRESS -> GlassKilnBlockEntity.this.cookingProgress = value;
-				case DATA_COOKING_TOTAL_TIME -> GlassKilnBlockEntity.this.cookingTotalTime = value;
+				case DATA_LIT_TIME -> RabbleFurnaceBlockEntity.this.litTime = value;
+				case DATA_LIT_DURATION -> RabbleFurnaceBlockEntity.this.litDuration = value;
+				case DATA_COOKING_PROGRESS -> RabbleFurnaceBlockEntity.this.cookingProgress = value;
+				case DATA_COOKING_TOTAL_TIME -> RabbleFurnaceBlockEntity.this.cookingTotalTime = value;
 			}
 
 		}
@@ -93,23 +95,23 @@ public class GlassKilnBlockEntity extends BaseContainerBlockEntity implements Wo
 		}
 	};
 	private final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
-	private final RecipeType<GlassKilnRecipe> recipeType;
+	private final RecipeType<RabbleFurnaceRecipe> recipeType;
 
 
-	public GlassKilnBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntity.GLASS_KILN.get(), pos, state);
-		this.recipeType = ECRecipes.GLASS_KILN_TYPE.get();
+	public RabbleFurnaceBlockEntity(BlockPos pos, BlockState state) {
+		super(ECBlockEntity.RABBLE_FURNACE.get(), pos, state);
+		this.recipeType = ECRecipes.RABBLE_FURNACE_TYPE.get();
 	}
 
 	@Override @NotNull
 	protected Component getDefaultName() {
-		return Component.translatable("container.glass_kiln");
+		return Component.translatable("container.rabble_furnace");
 	}
 
 
 	@Override @NotNull
 	protected AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory) {
-		return new GlassKilnMenu(id, inventory, this, this.dataAccess);
+		return new RabbleFurnaceMenu(id, inventory, this, this.dataAccess);
 	}
 
 	private boolean isLit() {
@@ -144,7 +146,7 @@ public class GlassKilnBlockEntity extends BaseContainerBlockEntity implements Wo
 		nbt.put("RecipesUsed", compoundtag);
 	}
 
-	public static void serverTick(Level level, BlockPos pos, BlockState blockState, GlassKilnBlockEntity blockEntity) {
+	public static void serverTick(Level level, BlockPos pos, BlockState blockState, RabbleFurnaceBlockEntity blockEntity) {
 		boolean flag = blockEntity.isLit();
 		boolean flag1 = false;
 		if (blockEntity.isLit()) {
@@ -153,7 +155,7 @@ public class GlassKilnBlockEntity extends BaseContainerBlockEntity implements Wo
 
 		ItemStack itemstack = blockEntity.items.get(SLOT_FUEL);
 		if (blockEntity.isLit() || !itemstack.isEmpty() && !blockEntity.items.get(SLOT_INPUT).isEmpty()) {
-			GlassKilnRecipe recipe = level.getRecipeManager().getRecipeFor(blockEntity.recipeType, blockEntity, level).orElse(null);
+			RabbleFurnaceRecipe recipe = level.getRecipeManager().getRecipeFor(blockEntity.recipeType, blockEntity, level).orElse(null);
 			int i = blockEntity.getMaxStackSize();
 			if (!blockEntity.isLit() && blockEntity.canBurn(recipe, blockEntity.items, i)) {
 				blockEntity.litTime = blockEntity.getBurnDuration(itemstack);
@@ -191,7 +193,7 @@ public class GlassKilnBlockEntity extends BaseContainerBlockEntity implements Wo
 
 		if (flag != blockEntity.isLit()) {
 			flag1 = true;
-			blockState = blockState.setValue(GlassKilnBlock.LIT, blockEntity.isLit());
+			blockState = blockState.setValue(RabbleFurnaceBlock.LIT, blockEntity.isLit());
 			level.setBlock(pos, blockState, Block.UPDATE_ALL);
 		}
 
@@ -201,44 +203,50 @@ public class GlassKilnBlockEntity extends BaseContainerBlockEntity implements Wo
 
 	}
 
-	private boolean canBurn(@Nullable GlassKilnRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
+	private boolean canBurn(@Nullable RabbleFurnaceRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
 		if (!container.get(SLOT_INPUT).isEmpty() && recipe != null) {
 			ItemStack itemstack = recipe.assemble(this);
 			if (itemstack.isEmpty()) {
 				return false;
-			} else {
-				ItemStack itemstack1 = container.get(SLOT_RESULT);
-				if (itemstack1.isEmpty()) {
-					return true;
-				} else if (!itemstack1.sameItem(itemstack)) {
-					return false;
-				} else if (itemstack1.getCount() + itemstack.getCount() <= maxCount && itemstack1.getCount() + itemstack.getCount() <= itemstack1.getMaxStackSize()) {
-					return true;
-				} else {
-					return itemstack1.getCount() + itemstack.getCount() <= itemstack.getMaxStackSize();
-				}
 			}
-		} else {
-			return false;
+			ItemStack resultSlot = container.get(SLOT_RESULT);
+			if (resultSlot.isEmpty()) {
+				return true;
+			}
+			if (!resultSlot.sameItem(itemstack)) {
+				return false;
+			}
+			if (resultSlot.getCount() + itemstack.getCount() <= maxCount && resultSlot.getCount() + itemstack.getCount() <= resultSlot.getMaxStackSize()) {
+				return true;
+			}
+			return resultSlot.getCount() + itemstack.getCount() <= itemstack.getMaxStackSize();
 		}
+		return false;
 	}
 
-	private boolean burn(@Nullable GlassKilnRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
+	private boolean burn(@Nullable RabbleFurnaceRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
 		if (recipe != null && this.canBurn(recipe, container, maxCount)) {
-			ItemStack itemstack = container.get(SLOT_INPUT);
+			ItemStack input = container.get(SLOT_INPUT);
+			ItemStack mix1 = container.get(SLOT_MIX1);
+			ItemStack mix2 = container.get(SLOT_MIX2);
 			ItemStack itemstack1 = recipe.assemble(this);
-			ItemStack itemstack2 = container.get(SLOT_RESULT);
-			if (itemstack2.isEmpty()) {
+			ItemStack resultSlot = container.get(SLOT_RESULT);
+			if (resultSlot.isEmpty()) {
 				container.set(SLOT_RESULT, itemstack1.copy());
-			} else if (itemstack2.is(itemstack1.getItem())) {
-				itemstack2.grow(itemstack1.getCount());
+			} else if (resultSlot.is(itemstack1.getItem())) {
+				resultSlot.grow(itemstack1.getCount());
 			}
 
-			itemstack.shrink(1);
+			input.shrink(1);
+			if(!mix1.isEmpty()) {
+				mix1.shrink(1);
+			}
+			if(!mix2.isEmpty()) {
+				mix2.shrink(1);
+			}
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	protected int getBurnDuration(@NotNull ItemStack itemStack) {
@@ -248,8 +256,8 @@ public class GlassKilnBlockEntity extends BaseContainerBlockEntity implements Wo
 		return ForgeHooks.getBurnTime(itemStack, this.recipeType) / 2;
 	}
 
-	private static int getTotalCookTime(Level level, RecipeType<GlassKilnRecipe> recipeType, Container container) {
-		return level.getRecipeManager().getRecipeFor(recipeType, container, level).map(GlassKilnRecipe::getCookingTime).orElse(200);
+	private static int getTotalCookTime(Level level, RecipeType<RabbleFurnaceRecipe> recipeType, Container container) {
+		return level.getRecipeManager().getRecipeFor(recipeType, container, level).map(RabbleFurnaceRecipe::getRabblingTime).orElse(200);
 	}
 
 	@Override
@@ -307,14 +315,14 @@ public class GlassKilnBlockEntity extends BaseContainerBlockEntity implements Wo
 
 	@Override
 	public void setItem(int index, ItemStack itemStack) {
-		ItemStack itemstack = this.items.get(index);
-		boolean flag = !itemStack.isEmpty() && itemStack.sameItem(itemstack) && ItemStack.tagMatches(itemStack, itemstack);
+		ItemStack slot = this.items.get(index);
+		boolean flag = !itemStack.isEmpty() && itemStack.sameItem(slot) && ItemStack.tagMatches(itemStack, slot);
 		this.items.set(index, itemStack);
 		if (itemStack.getCount() > this.getMaxStackSize()) {
 			itemStack.setCount(this.getMaxStackSize());
 		}
 
-		if (index == SLOT_INPUT && !flag) {
+		if ((index == SLOT_INPUT || index == SLOT_MIX1 || index == SLOT_MIX2) && !flag) {
 			this.cookingTotalTime = getTotalCookTime(this.level, this.recipeType, this);
 			this.cookingProgress = 0;
 			this.setChanged();
@@ -377,7 +385,7 @@ public class GlassKilnBlockEntity extends BaseContainerBlockEntity implements Wo
 		for(Object2IntMap.Entry<ResourceLocation> entry : this.recipesUsed.object2IntEntrySet()) {
 			this.level.getRecipeManager().byKey(entry.getKey()).ifPresent((recipe) -> {
 				list.add(recipe);
-				createExperience(level, pos, entry.getIntValue(), ((GlassKilnRecipe)recipe).getExperience());
+				createExperience(level, pos, entry.getIntValue(), ((RabbleFurnaceRecipe)recipe).getExperience());
 			});
 		}
 

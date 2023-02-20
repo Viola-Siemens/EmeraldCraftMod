@@ -90,6 +90,7 @@
   "block.emeraldcraft.continuous_miner": "ɹǝuᴉW snonuᴉʇuoƆ",
   "block.emeraldcraft.ice_maker": "ɹǝʞɐW ǝɔI",
   "block.emeraldcraft.melter": "ɹǝʇlǝW",
+  "block.emeraldcraft.rabble_furnace": "ǝɔɐuɹnℲ ǝlqqɐɹ",
   "block.emeraldcraft.blue_nether_brick_slab": "qɐlS ʞɔᴉɹq ɹǝɥʇǝN ǝnlq",
   "block.emeraldcraft.blue_nether_brick_stairs": "sɹᴉɐʇS ʞɔᴉɹq ɹǝɥʇǝN ǝnlq",
   "block.emeraldcraft.blue_nether_brick_wall": "llɐM ʞɔᴉɹq ɹǝɥʇǝN ǝnlq",
@@ -354,6 +355,9 @@
   "item.emeraldcraft.melon_juice": "ǝɔᴉnſ uolǝW",
   "item.emeraldcraft.peach_juice": "ǝɔᴉnſ ɥɔɐǝԀ",
   "item.emeraldcraft.pumpkin_juice": "ǝɔᴉnſ uᴉʞdɯnԀ",
+  "item.emeraldcraft.resin_shard": "pɹɐɥS uᴉsǝɹ",
+  "item.emeraldcraft.resin_bottle": "ǝlʇʇoq uᴉsǝɹ",
+  "item.emeraldcraft.resin_bucket": "ʇǝʞɔnq uᴉsǝɹ",
   "item.emeraldcraft.herring_bucket": "ʇǝʞɔnq ƃuᴉɹɹǝH",
   "item.emeraldcraft.bigeye_bucket": "ʇǝʞɔnq ǝʎǝƃᴉq pǝʇʇodS ǝldɹnԀ",
 
@@ -445,6 +449,7 @@
   "subtitles.entity.villager.work_geologist": "sʞɹoʍ ʇsᴉƃoloǝפ",
   "subtitles.entity.villager.work_icer": "sʞɹoʍ ɹǝɔI",
   "subtitles.entity.villager.work_chemical_engineer": "sʞɹoʍ ɹǝǝuᴉƃuƎ lɐɔᴉɯǝɥƆ",
+  "subtitles.entity.villager.work_paperhanger": "sʞɹoʍ ɹǝƃuɐɥɹǝdɐԀ",
   "subtitles.entity.herring.flop": "sdolɟ ƃuᴉɹɹǝH",
   "subtitles.entity.herring.hurt": "sʇɹnɥ ƃuᴉɹɹǝH",
   "subtitles.entity.herring.death": "sǝᴉp ƃuᴉɹɹǝH",
@@ -466,6 +471,7 @@
   "container.continuous_miner": "ɹǝuᴉW snonuᴉʇuoƆ",
   "container.ice_maker": "ɹǝʞɐW ǝɔI",
   "container.melter": "ɹǝʇlǝW",
+  "container.rabble_furnace": "ǝɔɐuɹnℲ ǝlqqɐɹ",
 
   "desc.emeraldcraft.carpentry_table": "sǝdᴉɔǝɹ uᴉɐʇɹǝɔ ɹoɟ ƃuᴉʇɟɐɹɔ uɐɥʇ ʇuǝᴉɔᴉɟɟǝ ǝɹoɯ uǝʌǝ puɐ 'sǝᴉʇᴉʇuɐnb ǝsᴉɔǝɹd ǝɹoɯ puɐ ɹǝllɐɯs uᴉ sɯǝʇᴉ puɐ sʞɔolq pǝʇɐlǝɹ pooʍ ʇɟɐɹƆ",
   "desc.emeraldcraft.glass_kiln": "sǝʞɐʇ ǝɔɐuɹnɟ pɹɐpuɐʇs ɐ sɐ ǝɯᴉʇ ǝɥʇ ɟlɐɥ ʎluo sǝʞɐʇ puɐ sɯǝʇᴉ ɐʇʇoɔɐɹɹǝʇ puɐ ssɐlƃ ʞooƆ",
@@ -494,11 +500,14 @@
   "biome.emeraldcraft.purpuraceus_swamp": "dɯɐʍS snǝɔɐɹndɹnԀ",
 
   "gui.recipebook.toggleRecipes.kilnable": "ǝlqɐulᴉʞ ƃuᴉʍoɥS",
+  "gui.recipebook.toggleRecipes.boilable": "ǝlqɐlᴉoq ƃuᴉʍoɥS",
 
   "gui.emeraldcraft.glass_kiln.experience": "ԀX %s",
   "gui.emeraldcraft.glass_kiln.time.seconds": "s%s",
   "gui.emeraldcraft.melter.time.seconds": "s%s",
   "gui.emeraldcraft.ice_maker.time.seconds": "s%s",
+  "gui.emeraldcraft.rabble_furnace.experience": "ԀX %s",
+  "gui.emeraldcraft.rabble_furnace.time.seconds": "s%s",
 
   "book.emeraldcraft.piglin_cutey.title": "pǝǝN I ƃuᴉɥ┴ ʇsɐ˥ ǝuO",
   "book.emeraldcraft.piglin_cutey.content": "¿plɹoʍɹǝʌo ǝɥʇ oʇ ʞɔɐq ǝɯ dlǝɥ puᴉɯ noʎ plnoM ˙lɐʇɹod ɐ ǝʇɐʌᴉʇɔɐ oʇ uɐᴉpᴉsqo ɥƃnouǝ ǝʌɐɥ ʇ,uop I llᴉʇS ˙ɯǝɥʇ ɥʇᴉʍ ǝpɐɹʇ oʇ puɐ uᴉlƃᴉd ɐ ǝʞᴉl ʇɔɐ oʇ ʇnq ǝɔᴉoɥɔ ou ǝʌɐɥ I os 'lɐʇɹod ʎɯ ǝʞoɹq ʇsɐɥƃ ∀ ˙sʎɐp ɹoɟ ɹǝɥʇǝu ǝɥʇ uᴉ pǝddɐɹʇ sɐʍ I",

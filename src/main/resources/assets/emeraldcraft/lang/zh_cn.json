@@ -90,6 +90,7 @@
   "block.emeraldcraft.continuous_miner": "连续采矿机",
   "block.emeraldcraft.ice_maker": "制冰机",
   "block.emeraldcraft.melter": "熔化炉",
+  "block.emeraldcraft.rabble_furnace": "搅拌炉",
   "block.emeraldcraft.blue_nether_brick_slab": "蓝色地狱砖台阶",
   "block.emeraldcraft.blue_nether_brick_stairs": "蓝色地狱砖楼梯",
   "block.emeraldcraft.blue_nether_brick_wall": "蓝色地狱砖墙",
@@ -354,6 +355,9 @@
   "item.emeraldcraft.melon_juice": "西瓜汁",
   "item.emeraldcraft.peach_juice": "桃汁",
   "item.emeraldcraft.pumpkin_juice": "南瓜汁",
+  "item.emeraldcraft.resin_shard": "树脂碎片",
+  "item.emeraldcraft.resin_bottle": "树脂瓶",
+  "item.emeraldcraft.resin_bucket": "树脂桶",
   "item.emeraldcraft.herring_bucket": "鲱鱼桶",
   "item.emeraldcraft.bigeye_bucket": "大眼鲷桶",
 
@@ -445,6 +449,7 @@
   "subtitles.entity.villager.work_geologist": "地质勘测员：工作",
   "subtitles.entity.villager.work_icer": "制冰师：工作",
   "subtitles.entity.villager.work_chemical_engineer": "化学工程师：工作",
+  "subtitles.entity.villager.work_paperhanger": "裱糊匠：工作",
   "subtitles.entity.herring.flop": "鲱鱼：扑腾",
   "subtitles.entity.herring.hurt": "鲱鱼：受伤",
   "subtitles.entity.herring.death": "鲱鱼：死亡",
@@ -466,6 +471,7 @@
   "container.continuous_miner": "连续采矿机",
   "container.ice_maker": "制冰机",
   "container.melter": "熔化炉",
+  "container.rabble_furnace": "搅拌炉",
 
   "desc.emeraldcraft.carpentry_table": "更少而精确的数量制作与木材相关的方块和物品，甚至对于某些配方来说比直接合成更省原材料",
   "desc.emeraldcraft.glass_kiln": "只消耗普通熔炉一半时间即可烧制玻璃和陶瓦制品",
@@ -494,11 +500,14 @@
   "biome.emeraldcraft.purpuraceus_swamp": "紫陀螺沼泽",
 
   "gui.recipebook.toggleRecipes.kilnable": "仅显示可烧制",
+  "gui.recipebook.toggleRecipes.boilable": "仅显示可搅拌",
 
   "gui.emeraldcraft.glass_kiln.experience": "%s 点经验",
   "gui.emeraldcraft.glass_kiln.time.seconds": "%s 秒",
   "gui.emeraldcraft.melter.time.seconds": "%s 秒",
   "gui.emeraldcraft.ice_maker.time.seconds": "%s 秒",
+  "gui.emeraldcraft.rabble_furnace.experience": "%s 点经验",
+  "gui.emeraldcraft.rabble_furnace.time.seconds": "%s 秒",
 
   "book.emeraldcraft.piglin_cutey.title": "最后一个请求",
   "book.emeraldcraft.piglin_cutey.content": "数天来，我一直被困在地狱。一只恶魂摧毁了我的传送门，所以我别无选择，只能装扮成猪灵并与他们交易——但迄今为止我仍然没有找到足够的黑曜石。你可以帮我返回主世界吗？",

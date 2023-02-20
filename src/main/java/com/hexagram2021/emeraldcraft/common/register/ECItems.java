@@ -196,7 +196,7 @@ public class ECItems {
 				}
 			}
 	);
-	//TODO: localization and recipes.
+
 	public static final ItemRegObject<Item> RESIN_SHARD = ItemRegObject.register(
 			"resin_shard", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);

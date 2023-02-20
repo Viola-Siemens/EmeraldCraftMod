@@ -209,6 +209,13 @@
     ],
     "subtitle": "subtitles.entity.villager.work_miner"
   },
+  "villager.work_paperhanger": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:villager/work_glazier"
+    ],
+    "subtitle": "subtitles.entity.villager.work_paperhanger"
+  },
   "flower.drop_leaves": {
     "category": "block",
     "sounds": [
