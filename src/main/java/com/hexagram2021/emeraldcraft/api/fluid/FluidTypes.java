@@ -19,14 +19,15 @@ public enum FluidTypes implements FluidType {
 	melted_emerald(2),
 	melted_iron(3),
 	melted_gold(4),
-	melted_copper(5);
+	melted_copper(5),
+	resin(17);
 
 	private static final HashMap<String, Supplier<Item>> FLUID_TYPE_ITEM = new HashMap<>();
 	private static final HashMap<ResourceLocation, FluidType> BUCKET_FLUID_TYPE = new HashMap<>();
 
 	final int guiid;
 
-	private static final List<FluidType> FLUID_TYPES = new ArrayList<>(List.of(water, lava, melted_emerald, melted_iron, melted_gold, melted_copper));
+	private static final List<FluidType> FLUID_TYPES = new ArrayList<>(List.of(water, lava, melted_emerald, melted_iron, melted_gold, melted_copper, resin));
 
 	FluidTypes(int guiid) {
 		this.guiid = guiid;
@@ -50,6 +51,9 @@ public enum FluidTypes implements FluidType {
 		}
 		if(item == ECItems.MELTED_COPPER_BUCKET.get()) {
 			return melted_copper;
+		}
+		if(item == ECItems.RESIN_BUCKET.get()) {
+			return resin;
 		}
 		FluidType ret = BUCKET_FLUID_TYPE.get(getRegistryName(item));
 		if(ret == null) {
@@ -76,6 +80,9 @@ public enum FluidTypes implements FluidType {
 		}
 		if (FluidTypes.melted_copper.equals(fluidType)) {
 			return ECItems.MELTED_COPPER_BUCKET.get();
+		}
+		if (FluidTypes.resin.equals(fluidType)) {
+			return ECItems.RESIN_BUCKET.get();
 		}
 		Supplier<Item> ret = FLUID_TYPE_ITEM.get(fluidType.toString());
 		if(ret == null) {

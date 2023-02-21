@@ -204,7 +204,7 @@ public class ECItems {
 			"resin_bottle", () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<Item> RESIN_BUCKET = ItemRegObject.register(
-			"resin_bucket", () -> new Item(new Item.Properties().craftRemainder(Items.BUCKET).tab(EmeraldCraft.ITEM_GROUP))
+			"resin_bucket", () -> new Item(new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(16).tab(EmeraldCraft.ITEM_GROUP))
 	);
 
 	public static final ItemRegObject<Item> DIAMOND_NUGGET = ItemRegObject.register(

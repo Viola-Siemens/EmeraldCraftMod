@@ -93,6 +93,7 @@ public class MelterMenu extends AbstractContainerMenu {
 				itemStack.is(ECItems.MELTED_IRON_BUCKET.get()) ||
 				itemStack.is(ECItems.MELTED_GOLD_BUCKET.get()) ||
 				itemStack.is(ECItems.MELTED_COPPER_BUCKET.get()) ||
+				itemStack.is(ECItems.RESIN_BUCKET.get()) ||
 				FluidTypes.isExtraFluidBucket(itemStack);
 	}
 

@@ -3,6 +3,7 @@ package com.hexagram2021.emeraldcraft.common.crafting.compat.jei;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
 import com.hexagram2021.emeraldcraft.common.crafting.MelterRecipe;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -100,7 +101,8 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 
 		IDrawableAnimated arrow = getArrow(recipe);
 		arrow.draw(poseStack, 24, 18);
-		drawCookTime(recipe, poseStack, 22);
+		drawCookTime(recipe, poseStack, 18);
+		drawFluidAmount(recipe, poseStack, 48);
 
 		resultFluids[recipe.getFluidType().getGUIID()].draw(poseStack, 65, 2);
 	}
@@ -118,9 +120,22 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 		}
 	}
 
+	@SuppressWarnings("SameParameterValue")
+	protected void drawFluidAmount(MelterRecipe recipe, PoseStack poseStack, int y) {
+		int fluidAmount = recipe.getFluidAmount();
+		if (fluidAmount > 0) {
+			Component amountString = Component.translatable("gui.emeraldcraft.melter.fluid.amount", String.format("%.2f", fluidAmount / 100.0F));
+			Minecraft minecraft = Minecraft.getInstance();
+			Font fontRenderer = minecraft.font;
+			int stringWidth = fontRenderer.width(amountString);
+			fontRenderer.draw(poseStack, amountString, background.getWidth() - stringWidth, y, 0xFF808080);
+		}
+	}
+
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, MelterRecipe recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1).addIngredients(recipe.getIngredient());
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 92, 36).addItemStack(new ItemStack(FluidTypes.getFluidBucketItem(recipe.getFluidType())));
 	}
 
 	protected IDrawableAnimated getArrow(MelterRecipe recipe) {

@@ -38,10 +38,10 @@ public class RabbleFurnaceScreen extends AbstractContainerScreen<RabbleFurnaceMe
 		this.widthTooNarrow = this.width < 379;
 		recipeBookComponent.init(this.width, this.height, this.minecraft, this.widthTooNarrow, this.menu);
 		this.leftPos = recipeBookComponent.updateScreenPosition(this.width, this.imageWidth);
-		this.addRenderableWidget(new ImageButton(this.leftPos + 20, this.height / 2 - 49, 20, 18, 0, 0, 19, RECIPE_BUTTON_LOCATION, button -> {
+		this.addRenderableWidget(new ImageButton(this.leftPos + 84, this.height / 2 - 33, 20, 18, 0, 0, 19, RECIPE_BUTTON_LOCATION, button -> {
 			recipeBookComponent.toggleVisibility();
 			this.leftPos = recipeBookComponent.updateScreenPosition(this.width, this.imageWidth);
-			((ImageButton)button).setPosition(this.leftPos + 20, this.height / 2 - 49);
+			((ImageButton)button).setPosition(this.leftPos + 84, this.height / 2 - 33);
 		}));
 		this.titleLabelX = (this.imageWidth - this.font.width(this.title)) / 2;
 	}

@@ -70,11 +70,11 @@ public class MelterRecipe implements Recipe<Container> {
 	}
 
 	public FluidType getFluidType() {
-		return resultFluid;
+		return this.resultFluid;
 	}
 
 	public int getFluidAmount() {
-		return resultAmount;
+		return this.resultAmount;
 	}
 
 	public int getMeltingTime() {
