@@ -2,18 +2,21 @@ package com.hexagram2021.emeraldcraft.common.register;
 
 import com.google.common.collect.Lists;
 import com.hexagram2021.emeraldcraft.api.camp.CampTypes;
-import com.hexagram2021.emeraldcraft.common.world.structures.camp.CampFeature;
-import com.hexagram2021.emeraldcraft.common.world.structures.shelter.ShelterFeature;
 import com.hexagram2021.emeraldcraft.common.world.pools.NetherWarfieldPools;
 import com.hexagram2021.emeraldcraft.common.world.pools.SwampVillagePools;
+import com.hexagram2021.emeraldcraft.common.world.structures.camp.CampFeature;
 import com.hexagram2021.emeraldcraft.common.world.structures.entrenchment.EntrenchmentFeature;
+import com.hexagram2021.emeraldcraft.common.world.structures.hollow_tree.HollowTreeFeature;
+import com.hexagram2021.emeraldcraft.common.world.structures.shelter.ShelterFeature;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -41,7 +44,14 @@ public class ECStructures {
 	);
 	public static final Holder<Structure> ENTRENCHMENT = register(
 			ECStructureKeys.ENTRENCHMENT,
-			new EntrenchmentFeature(structure(ECBiomeTags.HAS_ENTRENCHMENT, TerrainAdjustment.BURY))
+			new EntrenchmentFeature(structure(
+					ECBiomeTags.HAS_ENTRENCHMENT,
+					Map.of(MobCategory.MONSTER, new StructureSpawnOverride(
+							StructureSpawnOverride.BoundingBoxType.STRUCTURE,
+							WeightedRandomList.create(new MobSpawnSettings.SpawnerData(ECEntities.WRAITH, 1, 1, 1))
+					)),
+					TerrainAdjustment.BURY
+			))
 	);
 	public static final Holder<Structure> VILLAGE_SWAMP = register(
 			ECStructureKeys.VILLAGE_SWAMP,
@@ -49,6 +59,10 @@ public class ECStructures {
 					structure(ECBiomeTags.HAS_VILLAGE_SWAMP, TerrainAdjustment.BEARD_THIN), SwampVillagePools.START, 6,
 					ConstantHeight.of(VerticalAnchor.absolute(0)), true, Heightmap.Types.WORLD_SURFACE_WG
 			)
+	);
+	public static final Holder<Structure> HOLLOW_TREE = register(
+			ECStructureKeys.HOLLOW_TREE,
+			new HollowTreeFeature(structure(ECBiomeTags.HAS_HOLLOW_TREE, TerrainAdjustment.BEARD_THIN))
 	);
 
 	public static final Holder<Structure> BADLANDS_CAMP = register(
@@ -112,6 +126,11 @@ public class ECStructures {
 	private static Structure.StructureSettings structure(TagKey<Biome> biome, Map<MobCategory, StructureSpawnOverride> mobs,
 														 GenerationStep.Decoration step, TerrainAdjustment adjustment) {
 		return new Structure.StructureSettings(biomes(biome), mobs, step, adjustment);
+	}
+
+	@SuppressWarnings("SameParameterValue")
+	private static Structure.StructureSettings structure(TagKey<Biome> biome, Map<MobCategory, StructureSpawnOverride> mobs, TerrainAdjustment adjustment) {
+		return structure(biome, mobs, GenerationStep.Decoration.SURFACE_STRUCTURES, adjustment);
 	}
 
 	@SuppressWarnings("SameParameterValue")

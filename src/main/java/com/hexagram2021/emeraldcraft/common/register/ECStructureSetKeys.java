@@ -11,6 +11,7 @@ public class ECStructureSetKeys {
 	public static final ResourceKey<StructureSet> SHELTER = createKey("shelter");
 	public static final ResourceKey<StructureSet> NETHER_WARFIELD = createKey("nether_warfield");
 	public static final ResourceKey<StructureSet> ENTRENCHMENT = createKey("entrenchment");
+	public static final ResourceKey<StructureSet> HOLLOW_TREE = createKey("hollow_tree");
 	public static final ResourceKey<StructureSet> CAMP = createKey("camp");
 
 	private static ResourceKey<StructureSet> createKey(String name) {

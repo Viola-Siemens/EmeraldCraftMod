@@ -12,6 +12,7 @@ public class ECStructureKeys {
 	public static final ResourceKey<Structure> NETHER_WARFIELD = createKey("nether_warfield");
 	public static final ResourceKey<Structure> ENTRENCHMENT = createKey("entrenchment");
 	public static final ResourceKey<Structure> VILLAGE_SWAMP = createKey("village_swamp");
+	public static final ResourceKey<Structure> HOLLOW_TREE = createKey("hollow_tree");
 	public static final ResourceKey<Structure> BADLANDS_CAMP = createKey("badlands_camp");
 	public static final ResourceKey<Structure> BIRCH_CAMP = createKey("birch_camp");
 	public static final ResourceKey<Structure> DESERT_CAMP = createKey("desert_camp");

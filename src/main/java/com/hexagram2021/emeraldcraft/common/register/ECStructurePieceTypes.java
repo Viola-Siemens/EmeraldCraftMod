@@ -1,6 +1,7 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
 import com.hexagram2021.emeraldcraft.common.world.structures.camp.CampPieces;
+import com.hexagram2021.emeraldcraft.common.world.structures.hollow_tree.HollowTreePieces;
 import com.hexagram2021.emeraldcraft.common.world.structures.shelter.ShelterPieces;
 import com.hexagram2021.emeraldcraft.common.world.structures.entrenchment.EntrenchmentPieces;
 import net.minecraft.core.Registry;
@@ -11,6 +12,7 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public class ECStructurePieceTypes {
 	public static final StructurePieceType SHELTER_TYPE = Registry.register(Registry.STRUCTURE_PIECE, new ResourceLocation(MODID, "shelter"), ShelterPieces.ShelterPiece::new);
+	public static final StructurePieceType HOLLOW_TREE_TYPE = Registry.register(Registry.STRUCTURE_PIECE, new ResourceLocation(MODID, "hollow_tree"), HollowTreePieces.HollowTreePiece::new);
 	public static final StructurePieceType CAMP_TYPE = Registry.register(Registry.STRUCTURE_PIECE, new ResourceLocation(MODID, "camp"), CampPieces.CampPiece::new);
 
 	public static final class EntrenchmentPieceTypes {

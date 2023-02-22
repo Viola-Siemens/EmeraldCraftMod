@@ -12,6 +12,7 @@ public class ECBiomeTags {
 	public static final TagKey<Biome> HAS_NETHER_WARFIELD = create("has_structure/nether_warfield");
 	public static final TagKey<Biome> HAS_ENTRENCHMENT = create("has_structure/entrenchment");
 	public static final TagKey<Biome> HAS_VILLAGE_SWAMP = create("has_structure/village_swamp");
+	public static final TagKey<Biome> HAS_HOLLOW_TREE = create("has_structure/hollow_tree");
 
 	public static final TagKey<Biome> HAS_CAMP_BADLANDS = create("has_structure/camp_badlands");
 	public static final TagKey<Biome> HAS_CAMP_BIRCH = create("has_structure/camp_birch");
