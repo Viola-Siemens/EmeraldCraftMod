@@ -31,7 +31,7 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 				MemoryModuleType.WALK_TARGET, registered ? MemoryStatus.REGISTERED : MemoryStatus.VALUE_ABSENT,
 				ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get(), MemoryStatus.REGISTERED,
 				ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), MemoryStatus.VALUE_ABSENT
-		));
+		), 120);
 		this.maxDist = maxDist;
 		this.speedModifier = speedModifier;
 	}
@@ -55,40 +55,46 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 		BehaviorUtils.setWalkAndLookTargetMemories(entity, Objects.requireNonNull(this.getClosestDarkLocation(level, entity)), this.speedModifier, 0);
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	@Override
 	protected void tick(@NotNull ServerLevel level, @NotNull E entity, long tick) {
-		BlockPos pos = this.getClosestDarkLocation(level, entity);
-		if(pos == null || entity.getMainHandItem().isEmpty() || !(entity.getMainHandItem().getItem() instanceof BlockItem)) {
-			entity.getBrain().eraseMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get());
-			entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), 200);
+		if(entity.getBrain().checkMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), MemoryStatus.VALUE_PRESENT)) {
 			return;
 		}
-		Block torch = ((BlockItem)(entity.getMainHandItem().getItem())).getBlock();
-		if(pos.closerToCenterThan(entity.position(), 2.0D) && torch.canSurvive(torch.defaultBlockState(), level, pos)) {
-			level.setBlock(pos, torch.defaultBlockState(), Block.UPDATE_ALL);
-			if(entity.getInventory().getItem(0).sameItem(entity.getMainHandItem())) {
-				entity.getInventory().getItem(0).shrink(1);
-			} else {
-				if(entity.getInventory().getItem(0).isEmpty()) {
-					entity.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-				} else {
-					entity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(entity.getInventory().getItem(0).getItem()));
-					entity.getInventory().getItem(0).shrink(1);
+		BlockPos pos = this.getClosestDarkLocation(level, entity);
+		boolean isBlockItemInHand = entity.getMainHandItem().getItem() instanceof BlockItem;
+		//boolean isFlint = entity.getMainHandItem().is(Items.FLINT_AND_STEEL) || entity.getMainHandItem().is(Items.FLINT);
+		if(pos == null || entity.getMainHandItem().isEmpty() || !isBlockItemInHand) {
+			entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), 200);
+			entity.getBrain().eraseMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get());
+			return;
+		}
+		if(pos.closerToCenterThan(entity.position(), 1.0D)) {
+			if(isBlockItemInHand) {
+				Block torch = ((BlockItem) (entity.getMainHandItem().getItem())).getBlock();
+				if (level.getBlockState(pos).isAir() && torch.canSurvive(torch.defaultBlockState(), level, pos) && !entity.getInventory().getItem(0).isEmpty()) {
+					level.setBlock(pos, torch.defaultBlockState(), Block.UPDATE_ALL);
+					if (entity.getInventory().getItem(0).sameItem(entity.getMainHandItem())) {
+						entity.getInventory().getItem(0).shrink(1);
+					} else {
+						entity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(entity.getInventory().getItem(0).getItem()));
+						entity.getInventory().getItem(0).shrink(1);
+					}
+					entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), 200);
+					entity.getBrain().eraseMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get());
 				}
 			}
-			entity.getBrain().eraseMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get());
-			entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), 200);
 		}
 	}
 
 	@Override
 	protected void stop(@NotNull ServerLevel level, @NotNull E entity, long tick) {
-		entity.getBrain().eraseMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get());
-		entity.getBrain().eraseMemory(MemoryModuleType.LOOK_TARGET);
-		entity.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
 		if(entity.getBrain().checkMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), MemoryStatus.VALUE_ABSENT)) {
 			entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), 400);
 		}
+		entity.getBrain().eraseMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get());
+		entity.getBrain().eraseMemory(MemoryModuleType.LOOK_TARGET);
+		entity.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
 	}
 
 	@Nullable

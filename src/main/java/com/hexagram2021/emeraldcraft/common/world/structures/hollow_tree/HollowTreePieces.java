@@ -39,7 +39,7 @@ public class HollowTreePieces {
 			return (new StructurePlaceSettings())
 					.setRotation(rotation)
 					.setMirror(Mirror.LEFT_RIGHT)
-					.setRotationPivot(new BlockPos(5, 1, 5))
+					.setRotationPivot(new BlockPos(6, 1, 7))
 					.addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
 		}
 

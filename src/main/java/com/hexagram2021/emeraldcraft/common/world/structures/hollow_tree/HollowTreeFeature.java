@@ -21,17 +21,17 @@ public class HollowTreeFeature extends Structure {
 
 	@Override @NotNull
 	public Optional<GenerationStub> findGenerationPoint(@NotNull Structure.GenerationContext context) {
-		return onTopOfChunkCenter(context, Heightmap.Types.OCEAN_FLOOR_WG, (builder) -> this.generatePieces(builder, context));
+		return onTopOfChunkCenter(context, Heightmap.Types.WORLD_SURFACE_WG, (builder) -> this.generatePieces(builder, context));
 	}
 
 	private void generatePieces(StructurePiecesBuilder builder, GenerationContext context) {
-		BlockPos centerOfChunk = new BlockPos(context.chunkPos().getMinBlockX() + 7, 0, context.chunkPos().getMinBlockZ() + 7);
+		BlockPos centerOfChunk = new BlockPos(context.chunkPos().getBlockX(5), 0, context.chunkPos().getBlockZ(5));
 		BlockPos blockpos = new BlockPos(
-				context.chunkPos().getBlockX(5),
+				centerOfChunk.getX(),
 				context.chunkGenerator().getBaseHeight(
 						centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()
 				),
-				context.chunkPos().getBlockZ(5)
+				centerOfChunk.getZ()
 		);
 		Rotation rotation = Rotation.getRandom(context.random());
 		HollowTreePieces.addPieces(context.structureTemplateManager(), blockpos, rotation, builder);

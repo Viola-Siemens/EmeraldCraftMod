@@ -35,7 +35,7 @@ public class ECStructureSets {
 	public static final Holder<StructureSet> SET_HOLLOW_TREE = register(
 			ECStructureSetKeys.HOLLOW_TREE,
 			ECStructures.HOLLOW_TREE,
-			new RandomSpreadStructurePlacement(36, 16, RandomSpreadType.LINEAR, 511604474)
+			new RandomSpreadStructurePlacement(24, 20, RandomSpreadType.LINEAR, 511604474)
 	);
 
 	public static final Holder<StructureSet> SET_CAMP = register(
