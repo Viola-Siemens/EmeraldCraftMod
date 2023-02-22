@@ -27,7 +27,7 @@ public class ServerPlayerMixin {
 			);
 			for(AbstractPiglin piglin: piglins) {
 				PlayerHealable playerHealable = (PlayerHealable)piglin;
-				if(playerHealable.isPlayerHealed() && playerHealable.getHealedPlayer() == current.getUUID()) {
+				if(playerHealable.isPlayerHealed() && current.getUUID().equals(playerHealable.getHealedPlayer()) && !livingEntity.getUUID().equals(playerHealable.getHealedPlayer())) {
 					PiglinAi.maybeRetaliate(piglin, livingEntity);
 				}
 			}
