@@ -70,7 +70,9 @@ public class IceMakerRecipeCategory implements IRecipeCategory<IceMakerRecipe> {
 				guiHelper.createDrawable(TEXTURE, 144, 56, 12, 49),
 				guiHelper.createDrawable(TEXTURE, 156, 56, 12, 49),
 				guiHelper.createDrawable(TEXTURE, 168, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 180, 56, 12, 49)
+				guiHelper.createDrawable(TEXTURE, 180, 56, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 192, 56, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 204, 56, 12, 49)
 		};
 	}
 
@@ -86,23 +88,23 @@ public class IceMakerRecipeCategory implements IRecipeCategory<IceMakerRecipe> {
 
 	@Override
 	public IDrawable getBackground() {
-		return background;
+		return this.background;
 	}
 
 	@Override
 	public IDrawable getIcon() {
-		return icon;
+		return this.icon;
 	}
 
 	@Override
 	public void draw(IceMakerRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double mouseX, double mouseY) {
-		animatedFlame.draw(poseStack, 1, 47);
+		this.animatedFlame.draw(poseStack, 1, 47);
 
 		IDrawableAnimated arrow = getArrow(recipe);
 		arrow.draw(poseStack, 90, 16);
 		drawCookTime(recipe, poseStack, 49);
 
-		inputFluids[recipe.getFluidType().getGUIID()].draw(poseStack, 72, 1);
+		this.inputFluids[recipe.getFluidType().getGUIID()].draw(poseStack, 72, 1);
 	}
 
 	@SuppressWarnings("SameParameterValue")
@@ -114,7 +116,7 @@ public class IceMakerRecipeCategory implements IRecipeCategory<IceMakerRecipe> {
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(timeString);
-			fontRenderer.draw(poseStack, timeString, background.getWidth() - stringWidth, y, 0xFF808080);
+			fontRenderer.draw(poseStack, timeString, this.background.getWidth() - stringWidth, y, 0xFF808080);
 		}
 	}
 

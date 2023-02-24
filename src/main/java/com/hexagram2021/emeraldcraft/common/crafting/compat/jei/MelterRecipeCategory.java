@@ -71,7 +71,9 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 				guiHelper.createDrawable(TEXTURE, 144, 54, 12, 49),
 				guiHelper.createDrawable(TEXTURE, 156, 54, 12, 49),
 				guiHelper.createDrawable(TEXTURE, 168, 54, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 180, 54, 12, 49)
+				guiHelper.createDrawable(TEXTURE, 180, 54, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 192, 54, 12, 49),
+				guiHelper.createDrawable(TEXTURE, 204, 54, 12, 49)
 		};
 	}
 
@@ -97,14 +99,14 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 
 	@Override
 	public void draw(MelterRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double mouseX, double mouseY) {
-		animatedFlame.draw(poseStack, 1, 20);
+		this.animatedFlame.draw(poseStack, 1, 20);
 
 		IDrawableAnimated arrow = getArrow(recipe);
 		arrow.draw(poseStack, 24, 18);
 		drawCookTime(recipe, poseStack, 18);
 		drawFluidAmount(recipe, poseStack, 48);
 
-		resultFluids[recipe.getFluidType().getGUIID()].draw(poseStack, 65, 2);
+		this.resultFluids[recipe.getFluidType().getGUIID()].draw(poseStack, 65, 2);
 	}
 
 	@SuppressWarnings("SameParameterValue")
@@ -116,7 +118,7 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(timeString);
-			fontRenderer.draw(poseStack, timeString, background.getWidth() - stringWidth, y, 0xFF808080);
+			fontRenderer.draw(poseStack, timeString, this.background.getWidth() - stringWidth, y, 0xFF808080);
 		}
 	}
 
@@ -128,7 +130,7 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(amountString);
-			fontRenderer.draw(poseStack, amountString, background.getWidth() - stringWidth, y, 0xFF808080);
+			fontRenderer.draw(poseStack, amountString, this.background.getWidth() - stringWidth, y, 0xFF808080);
 		}
 	}
 

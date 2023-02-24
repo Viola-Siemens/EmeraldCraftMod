@@ -84,7 +84,7 @@ public class RabbleFurnaceRecipeCategory implements IRecipeCategory<RabbleFurnac
 
 	@Override
 	public void draw(RabbleFurnaceRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double mouseX, double mouseY) {
-		animatedFlame.draw(poseStack, 39, 20);
+		this.animatedFlame.draw(poseStack, 39, 20);
 
 		IDrawableAnimated arrow = getArrow(recipe);
 		arrow.draw(poseStack, 62, 18);
@@ -101,7 +101,7 @@ public class RabbleFurnaceRecipeCategory implements IRecipeCategory<RabbleFurnac
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(experienceString);
-			fontRenderer.draw(poseStack, experienceString, background.getWidth() - stringWidth, y, 0xFF808080);
+			fontRenderer.draw(poseStack, experienceString, this.background.getWidth() - stringWidth, y, 0xFF808080);
 		}
 	}
 
@@ -114,7 +114,7 @@ public class RabbleFurnaceRecipeCategory implements IRecipeCategory<RabbleFurnac
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(timeString);
-			fontRenderer.draw(poseStack, timeString, background.getWidth() - stringWidth, y, 0xFF808080);
+			fontRenderer.draw(poseStack, timeString, this.background.getWidth() - stringWidth, y, 0xFF808080);
 		}
 	}
 
@@ -128,7 +128,7 @@ public class RabbleFurnaceRecipeCategory implements IRecipeCategory<RabbleFurnac
 				builder.addSlot(RecipeIngredientRole.INPUT, 1, 23).addIngredients(list.get(2));
 			}
 		}
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 89, 19).addItemStack(recipe.getResultItem());
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 99, 19).addItemStack(recipe.getResultItem());
 	}
 
 	@Override
