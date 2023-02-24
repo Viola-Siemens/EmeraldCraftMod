@@ -671,7 +671,7 @@ public class ECOverworldBiomeBuilder {
 					ParameterUtils.Continentalness.FULL_RANGE.parameter(),
 					Climate.Parameter.span(ParameterUtils.Erosion.EROSION_4.parameter(), ParameterUtils.Erosion.EROSION_6.parameter()),
 					Climate.Parameter.span(ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_ASCENDING.parameter(), ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_DESCENDING.parameter()),
-					0.75F, ECBiomeKeys.VOLCANIC_CAVES.key());
+					0.625F, ECBiomeKeys.VOLCANIC_CAVES.key());
 			this.addUndergroundBiome(mapper,
 					ParameterUtils.Temperature.FROZEN.parameter(),
 					ParameterUtils.Humidity.FULL_RANGE.parameter(),
@@ -705,11 +705,11 @@ public class ECOverworldBiomeBuilder {
 		if(BiomeUtil.isKeyRegistered(biomeRegistry, ECBiomeKeys.MOSSY_CAVES)) {
 			this.addShallowCaveBiome(mapper,
 					ParameterUtils.Temperature.UNFROZEN.parameter(),
-					Climate.Parameter.span(0.6F, 0.9F),
+					Climate.Parameter.span(0.5F, 0.9F),
 					ParameterUtils.Continentalness.span(ParameterUtils.Continentalness.DEEP_OCEAN, ParameterUtils.Continentalness.FAR_INLAND),
 					ParameterUtils.Erosion.FULL_RANGE.parameter(),
 					ParameterUtils.Weirdness.FULL_RANGE.parameter(),
-					0.5F, ECBiomeKeys.MOSSY_CAVES.key());
+					0.375F, ECBiomeKeys.MOSSY_CAVES.key());
 		}
 	}
 
@@ -815,6 +815,6 @@ public class ECOverworldBiomeBuilder {
 
 	@SuppressWarnings("SameParameterValue")
 	protected void addShallowCaveBiome(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper, Climate.Parameter temperature, Climate.Parameter humidity, Climate.Parameter continentalness, Climate.Parameter erosion, Climate.Parameter weirdness, float offset, ResourceKey<Biome> biome) {
-		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, Climate.Parameter.span(0.125F, 0.375F), weirdness, offset), biome));
+		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, Climate.Parameter.span(0.15F, 0.35F), weirdness, offset), biome));
 	}
 }
