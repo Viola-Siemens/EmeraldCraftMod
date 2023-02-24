@@ -36,6 +36,7 @@ public class ECBiomes {
 	public static final RegistryObject<Biome> AZURE_DESERT = REGISTER.register("azure_desert", ECBiomes::AzureDesertBiome);
 	public static final RegistryObject<Biome> JADEITE_DESERT = REGISTER.register("jadeite_desert", ECBiomes::JadeiteDesertBiome);
 	public static final RegistryObject<Biome> VOLCANIC_CAVES = REGISTER.register("volcanic_caves", ECBiomes::VolcanicCaves);
+	public static final RegistryObject<Biome> MOSSY_CAVES = REGISTER.register("mossy_caves", ECBiomes::MossyCaves);
 	public static final RegistryObject<Biome> EMERY_DESERT = REGISTER.register("emery_desert", ECBiomes::EmeryDesertBiome);
 	public static final RegistryObject<Biome> QUARTZ_DESERT = REGISTER.register("quartz_desert", ECBiomes::QuartzDesertBiome);
 	public static final RegistryObject<Biome> PURPURACEUS_SWAMP = REGISTER.register("purpuraceus_swamp", ECBiomes::PurpuraceusSwamp);
@@ -349,6 +350,26 @@ public class ECBiomes {
 				.generationSettings(biomeGenSettingsBuilder.build()).build();
 	}
 
+	public static Biome MossyCaves() {
+		MobSpawnSettings.Builder mobSpawnSettingsBuilder = new MobSpawnSettings.Builder();
+		BiomeDefaultFeatures.commonSpawns(mobSpawnSettingsBuilder);
+		BiomeGenerationSettings.Builder biomeGenSettingsBuilder = new BiomeGenerationSettings.Builder();
+		globalOverworldGeneration(biomeGenSettingsBuilder);
+		BiomeDefaultFeatures.addDefaultOres(biomeGenSettingsBuilder);
+		BiomeDefaultFeatures.addDefaultSoftDisks(biomeGenSettingsBuilder);
+		BiomeDefaultFeatures.addDefaultMushrooms(biomeGenSettingsBuilder);
+		addMossyCavesFeatures(biomeGenSettingsBuilder);
+		Music music = Musics.createGameMusic(SoundEvents.MUSIC_BIOME_LUSH_CAVES);
+
+		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.RAIN)
+				.temperature(0.5F).downfall(0.5F)
+				.specialEffects((new BiomeSpecialEffects.Builder())
+						.waterColor(4159204).waterFogColor(329011).fogColor(12638463).skyColor(calculateSkyColor(0.5F))
+						.ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS).backgroundMusic(music).build())
+				.mobSpawnSettings(mobSpawnSettingsBuilder.build())
+				.generationSettings(biomeGenSettingsBuilder.build()).build();
+	}
+
 	private static Biome EmeryDesertBiome() {
 		MobSpawnSettings mobspawnsettings = (new MobSpawnSettings.Builder())
 				.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.WITHER_SKELETON, 1, 5, 5))
@@ -498,10 +519,13 @@ public class ECBiomes {
 
 	private static void addVolcanicCavesFeatures(BiomeGenerationSettings.Builder builder) {
 		builder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ECPlacedFeatures.VOLCANIC_CAVES_LAVA_POOL);
-		builder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, NetherPlacements.SPRING_OPEN);
-		builder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, OrePlacements.ORE_MAGMA);
-		builder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, NetherPlacements.SPRING_CLOSED);
-		builder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, OrePlacements.ORE_BLACKSTONE);
+		builder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ECPlacedFeatures.ORE_MAGMA_EXTRA);
+	}
+
+	private static void addMossyCavesFeatures(BiomeGenerationSettings.Builder builder) {
+		builder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.CLASSIC_VINES);
+		builder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ECPlacedFeatures.VINES_EXTRA);
+		builder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ECPlacedFeatures.ORE_MOSSY_STONE);
 	}
 
 	private static void addXanaduDeltas(BiomeGenerationSettings.Builder builder) {

@@ -390,6 +390,9 @@ public class ECItems {
 				LAPIS_ARMOR.put(slot, ItemRegObject.register(
 						"lapis_" + slot.getName().toLowerCase(Locale.ENGLISH), () -> new LapisArmorItem(slot)
 				));
+				WOODEN_ARMOR.put(slot, ItemRegObject.register(
+						"wooden_" + slot.getName().toLowerCase(Locale.ENGLISH), () -> new WoodenArmorItem(slot)
+				));
 			}
 		}
 

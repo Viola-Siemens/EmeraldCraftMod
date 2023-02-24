@@ -671,7 +671,6 @@ public class ECOverworldBiomeBuilder {
 					ParameterUtils.Continentalness.FULL_RANGE.parameter(),
 					Climate.Parameter.span(ParameterUtils.Erosion.EROSION_4.parameter(), ParameterUtils.Erosion.EROSION_6.parameter()),
 					Climate.Parameter.span(ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_ASCENDING.parameter(), ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_DESCENDING.parameter()),
-					Climate.Parameter.span(0.2F, 0.4F),
 					0.75F, ECBiomeKeys.VOLCANIC_CAVES.key());
 			this.addUndergroundBiome(mapper,
 					ParameterUtils.Temperature.FROZEN.parameter(),
@@ -679,8 +678,7 @@ public class ECOverworldBiomeBuilder {
 					ParameterUtils.Continentalness.FULL_RANGE.parameter(),
 					Climate.Parameter.span(ParameterUtils.Erosion.EROSION_4.parameter(), ParameterUtils.Erosion.EROSION_6.parameter()),
 					Climate.Parameter.span(ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_ASCENDING.parameter(), ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_DESCENDING.parameter()),
-					Climate.Parameter.span(0.2F, 0.4F),
-					0.25F, ECBiomeKeys.VOLCANIC_CAVES.key());
+					0.375F, ECBiomeKeys.VOLCANIC_CAVES.key());
 		}
 
 		this.addUndergroundBiome(mapper,
@@ -689,29 +687,30 @@ public class ECOverworldBiomeBuilder {
 				Climate.Parameter.span(0.8F, 1.0F),
 				ParameterUtils.Erosion.FULL_RANGE.parameter(),
 				ParameterUtils.Weirdness.FULL_RANGE.parameter(),
-				ParameterUtils.Depth.UNDERGROUND.parameter(),
-				0.0F,
-				Biomes.DRIPSTONE_CAVES
-		);
+				0.0F, Biomes.DRIPSTONE_CAVES);
 		this.addUndergroundBiome(mapper,
 				ParameterUtils.Temperature.FULL_RANGE.parameter(),
 				Climate.Parameter.span(0.7F, 1.0F),
 				ParameterUtils.Continentalness.FULL_RANGE.parameter(),
 				ParameterUtils.Erosion.FULL_RANGE.parameter(),
 				ParameterUtils.Weirdness.FULL_RANGE.parameter(),
-				ParameterUtils.Depth.UNDERGROUND.parameter(),
-				0.0F,
-				Biomes.LUSH_CAVES
-		);
+				0.0F, Biomes.LUSH_CAVES);
 		this.addBottomBiome(mapper,
 				ParameterUtils.Temperature.FULL_RANGE.parameter(),
 				ParameterUtils.Humidity.FULL_RANGE.parameter(),
 				ParameterUtils.Continentalness.FULL_RANGE.parameter(),
 				Climate.Parameter.span(ParameterUtils.Erosion.EROSION_0.parameter(), ParameterUtils.Erosion.EROSION_1.parameter()),
 				ParameterUtils.Weirdness.FULL_RANGE.parameter(),
-				0.0F,
-				Biomes.DEEP_DARK
-		);
+				0.0F, Biomes.DEEP_DARK);
+		if(BiomeUtil.isKeyRegistered(biomeRegistry, ECBiomeKeys.MOSSY_CAVES)) {
+			this.addShallowCaveBiome(mapper,
+					ParameterUtils.Temperature.UNFROZEN.parameter(),
+					Climate.Parameter.span(0.6F, 0.9F),
+					ParameterUtils.Continentalness.span(ParameterUtils.Continentalness.DEEP_OCEAN, ParameterUtils.Continentalness.FAR_INLAND),
+					ParameterUtils.Erosion.FULL_RANGE.parameter(),
+					ParameterUtils.Weirdness.FULL_RANGE.parameter(),
+					0.5F, ECBiomeKeys.MOSSY_CAVES.key());
+		}
 	}
 
 	protected ResourceKey<Biome> pickECIslandBiome(Registry<Biome> biomeRegistry, int temperatureIndex, int humidityIndex) {
@@ -805,12 +804,17 @@ public class ECOverworldBiomeBuilder {
 		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, ParameterUtils.Depth.FLOOR.parameter(), weirdness, offset), biome));
 	}
 
-	protected void addUndergroundBiome(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper, Climate.Parameter temperature, Climate.Parameter humidity, Climate.Parameter continentalness, Climate.Parameter erosion, Climate.Parameter weirdness, Climate.Parameter depth, float offset, ResourceKey<Biome> biome) {
-		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, depth, weirdness, offset), biome));
+	protected void addUndergroundBiome(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper, Climate.Parameter temperature, Climate.Parameter humidity, Climate.Parameter continentalness, Climate.Parameter erosion, Climate.Parameter weirdness, float offset, ResourceKey<Biome> biome) {
+		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, ParameterUtils.Depth.UNDERGROUND.parameter(), weirdness, offset), biome));
 	}
 
 	@SuppressWarnings("SameParameterValue")
 	protected void addBottomBiome(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper, Climate.Parameter temperature, Climate.Parameter humidity, Climate.Parameter continentalness, Climate.Parameter erosion, Climate.Parameter weirdness, float offset, ResourceKey<Biome> biome) {
 		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, Climate.Parameter.point(1.1F), weirdness, offset), biome));
+	}
+
+	@SuppressWarnings("SameParameterValue")
+	protected void addShallowCaveBiome(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper, Climate.Parameter temperature, Climate.Parameter humidity, Climate.Parameter continentalness, Climate.Parameter erosion, Climate.Parameter weirdness, float offset, ResourceKey<Biome> biome) {
+		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, Climate.Parameter.span(0.125F, 0.375F), weirdness, offset), biome));
 	}
 }

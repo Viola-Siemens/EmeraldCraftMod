@@ -19,6 +19,7 @@ public class ECCommonConfig {
 	public static final ForgeConfigSpec.BooleanValue GENERATE_AZURE_DESERT;
 	public static final ForgeConfigSpec.BooleanValue GENERATE_JADEITE_DESERT;
 	public static final ForgeConfigSpec.BooleanValue GENERATE_VOLCANIC_CAVES;
+	public static final ForgeConfigSpec.BooleanValue GENERATE_MOSSY_CAVES;
 	public static final ForgeConfigSpec.BooleanValue GENERATE_EMERY_DESERT;
 	public static final ForgeConfigSpec.BooleanValue GENERATE_QUARTZ_DESERT;
 	public static final ForgeConfigSpec.BooleanValue GENERATE_PURPURACEUS_SWAMP;
@@ -46,6 +47,7 @@ public class ECCommonConfig {
 				GENERATE_AZURE_DESERT = BUILDER.define("GENERATE_AZURE_DESERT", true);
 				GENERATE_JADEITE_DESERT = BUILDER.define("GENERATE_JADEITE_DESERT", true);
 				GENERATE_VOLCANIC_CAVES = BUILDER.define("GENERATE_VOLCANIC_CAVES", true);
+				GENERATE_MOSSY_CAVES = BUILDER.define("GENERATE_MOSSY_CAVES", true);
 				GENERATE_EMERY_DESERT = BUILDER.define("GENERATE_EMERY_DESERT", true);
 				GENERATE_QUARTZ_DESERT = BUILDER.define("GENERATE_QUARTZ_DESERT", true);
 				GENERATE_PURPURACEUS_SWAMP = BUILDER.define("GENERATE_PURPURACEUS_SWAMP", true);

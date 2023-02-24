@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:cooked_tropical_fish",
+    "emeraldcraft:cooked_purpuraceus_fungus",
+    "emeraldcraft:boiled_egg",
+    "emeraldcraft:chorus_flower_eggdrop_soup",
+    "emeraldcraft:rougamo",
+    "emeraldcraft:beef_and_potato_stew",
+    "emeraldcraft:braised_chicken",
+    "emeraldcraft:herring",
+    "emeraldcraft:cooked_herring",
+    "emeraldcraft:purple_spotted_bigeye",
+    "emeraldcraft:cooked_purple_spotted_bigeye",
+    "emeraldcraft:sausage",
+    "emeraldcraft:cooked_sausage",
+    "emeraldcraft:warden_heart",
+    "emeraldcraft:stir_fried_warden_heart"
+  ]
+}

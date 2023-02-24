@@ -1,4 +1,4 @@
-package com.hexagram2021.emeraldcraft.common.world;
+package com.hexagram2021.emeraldcraft.common.world.features;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
@@ -28,7 +28,7 @@ public class VolcanicCavesLavaPoolFeature extends Feature<NoneFeatureConfigurati
 		super(codec);
 	}
 
-	private static final int MAX_DEPTH = 6;
+	private static final int MAX_DEPTH = 7;
 
 	private void doPlace(WorldGenLevel level, Set<BlockPos> visited, BlockPos curPosition, RandomSource random, Predicate<BlockState> predicate, int depth) {
 		for(int b = 1; b <= 6; ++b) {

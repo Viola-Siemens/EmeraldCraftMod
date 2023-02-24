@@ -23,11 +23,11 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 public class ECPlacedFeatures {
 	public static final Holder<PlacedFeature> ORE_LAPIS_EXTRA = register(
 			"ore_lapis_extra", OreFeatures.ORE_LAPIS,
-			commonOrePlacement(50, HeightRangePlacement.uniform(VerticalAnchor.absolute(32), VerticalAnchor.absolute(256)))
+			commonOrePlacement(50, HeightRangePlacement.uniform(VerticalAnchor.absolute(-32), VerticalAnchor.absolute(128)))
 	);
 	public static final Holder<PlacedFeature> ORE_EMERALD_EXTRA = register(
 			"ore_emerald_extra", OreFeatures.ORE_EMERALD,
-			commonOrePlacement(80, HeightRangePlacement.uniform(VerticalAnchor.absolute(32), VerticalAnchor.absolute(256)))
+			commonOrePlacement(80, HeightRangePlacement.uniform(VerticalAnchor.absolute(-32), VerticalAnchor.absolute(128)))
 	);
 	public static final Holder<PlacedFeature> ORE_DEBRIS_EXTRA = register(
 			"ore_debris_extra", ECConfiguredFeatures.OreConfiguredFeatures.ORE_DEBRIS_EXTRA, List.of(
@@ -39,6 +39,14 @@ public class ECPlacedFeatures {
 	public static final Holder<PlacedFeature> ORE_QUARTZ_EXTRA = register(
 			"ore_quartz_extra", ECConfiguredFeatures.OreConfiguredFeatures.ORE_QUARTZ_EXTRA,
 			commonOrePlacement(20, PlacementUtils.RANGE_10_10)
+	);
+	public static final Holder<PlacedFeature> ORE_MAGMA_EXTRA = register(
+			"ore_magma_extra", ECConfiguredFeatures.OreConfiguredFeatures.ORE_MAGMA_EXTRA,
+			commonOrePlacement(20, HeightRangePlacement.uniform(VerticalAnchor.absolute(-32), VerticalAnchor.absolute(64)))
+	);
+	public static final Holder<PlacedFeature> ORE_MOSSY_STONE = register(
+			"ore_mossy_stone", ECConfiguredFeatures.OreConfiguredFeatures.ORE_MOSSY_STONE,
+			commonOrePlacement(64, HeightRangePlacement.uniform(VerticalAnchor.absolute(0), VerticalAnchor.absolute(64)))
 	);
 
 	public static final Holder<PlacedFeature> ZOMBIE_VILLAGER_ROOM = register(
@@ -99,6 +107,16 @@ public class ECPlacedFeatures {
 					RandomOffsetPlacement.vertical(ConstantInt.of(1)),
 					BiomeFilter.biome()
 			));
+
+	public static final Holder<PlacedFeature> VINES_EXTRA = register(
+			"vines_extra", ECConfiguredFeatures.SpecialFeatures.VINES_EXTRA, List.of(
+					CountPlacement.of(128),
+					PlacementUtils.RANGE_BOTTOM_TO_MAX_TERRAIN_HEIGHT,
+					InSquarePlacement.spread(),
+					SurfaceRelativeThresholdFilter.of(Heightmap.Types.OCEAN_FLOOR_WG, -64, 40),
+					BiomeFilter.biome()
+			)
+	);
 
 	public static final Holder<PlacedFeature> XANADU_DELTA = register(
 			"xanadu_delta", ECConfiguredFeatures.SpecialFeatures.XANADU_DELTA, List.of(

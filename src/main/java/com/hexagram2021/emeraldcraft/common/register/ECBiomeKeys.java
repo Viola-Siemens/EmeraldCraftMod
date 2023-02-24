@@ -39,6 +39,7 @@ public class ECBiomeKeys {
 
 	//Underground
 	public static final BiomeKey VOLCANIC_CAVES = registerKey(ECCommonConfig.GENERATE_VOLCANIC_CAVES.get(), "volcanic_caves");
+	public static final BiomeKey MOSSY_CAVES = registerKey(ECCommonConfig.GENERATE_MOSSY_CAVES.get(), "mossy_caves");
 
 //Nether
 	public static final BiomeKey EMERY_DESERT = registerKey(ECCommonConfig.GENERATE_EMERY_DESERT.get(), "emery_desert");

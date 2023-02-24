@@ -1,7 +1,9 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
 import com.google.common.collect.ImmutableList;
+import com.hexagram2021.emeraldcraft.common.world.features.configuration.VineGrowthConfiguration;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
@@ -32,10 +34,11 @@ import java.util.List;
 import java.util.OptionalInt;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
+import static net.minecraft.data.worldgen.features.OreFeatures.DEEPSLATE_ORE_REPLACEABLES;
+import static net.minecraft.data.worldgen.features.OreFeatures.STONE_ORE_REPLACEABLES;
 
+@SuppressWarnings("deprecation")
 public final class ECConfiguredFeatures {
-
-
 	public static final class OreConfiguredFeatures {
 		public static final Holder<ConfiguredFeature<OreConfiguration, ?>> ORE_DEBRIS_EXTRA = register(
 				"ore_debris_extra", Feature.SCATTERED_ORE, new OreConfiguration(
@@ -49,6 +52,20 @@ public final class ECConfiguredFeatures {
 						OreFeatures.NETHERRACK,
 						Blocks.NETHER_QUARTZ_ORE.defaultBlockState(),
 						16
+				)
+		);
+		public static final Holder<ConfiguredFeature<OreConfiguration, ?>> ORE_MAGMA_EXTRA = register(
+				"ore_magma_extra", Feature.ORE, new OreConfiguration(
+						List.of(
+								OreConfiguration.target(STONE_ORE_REPLACEABLES, Blocks.MAGMA_BLOCK.defaultBlockState()),
+								OreConfiguration.target(DEEPSLATE_ORE_REPLACEABLES, Blocks.MAGMA_BLOCK.defaultBlockState())
+						),
+						32, 0.2F
+				)
+		);
+		public static final Holder<ConfiguredFeature<OreConfiguration, ?>> ORE_MOSSY_STONE = register(
+				"ore_mossy_stone", Feature.ORE, new OreConfiguration(
+						OreFeatures.NATURAL_STONE, ECBlocks.Decoration.MOSSY_STONE.defaultBlockState(), 18
 				)
 		);
 
@@ -259,6 +276,17 @@ public final class ECConfiguredFeatures {
 	public static final class SpecialFeatures {
 		public static final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> VOLCANIC_CAVES_LAVA_POOL = register(
 				"volcanic_caves_lava_pool", ECFeatures.VOLCANIC_CAVES_LAVA_POOL, FeatureConfiguration.NONE
+		);
+
+		public static final Holder<ConfiguredFeature<VineGrowthConfiguration, ?>> VINES_EXTRA = register(
+				"vines_extra", ECFeatures.VINE_GROWTH, new VineGrowthConfiguration(
+						Blocks.VINE, 20,
+						HolderSet.direct(Block::builtInRegistryHolder,
+								Blocks.STONE, Blocks.ANDESITE, Blocks.DIORITE, Blocks.GRANITE,
+								Blocks.DRIPSTONE_BLOCK, Blocks.CALCITE, Blocks.TUFF, Blocks.DEEPSLATE,
+								ECBlocks.Decoration.MOSSY_STONE.get()
+						)
+				)
 		);
 
 		public static final Holder<ConfiguredFeature<DeltaFeatureConfiguration, ?>> XANADU_DELTA = register(

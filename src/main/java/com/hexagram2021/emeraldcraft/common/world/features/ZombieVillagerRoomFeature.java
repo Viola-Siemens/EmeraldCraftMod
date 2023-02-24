@@ -1,4 +1,4 @@
-package com.hexagram2021.emeraldcraft.common.world;
+package com.hexagram2021.emeraldcraft.common.world.features;
 
 import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.mojang.serialization.Codec;
@@ -126,8 +126,7 @@ public class ZombieVillagerRoomFeature extends Feature<NoneFeatureConfiguration>
 			}
 
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 }
