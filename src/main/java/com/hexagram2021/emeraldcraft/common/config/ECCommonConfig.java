@@ -24,6 +24,8 @@ public class ECCommonConfig {
 	public static final ForgeConfigSpec.BooleanValue GENERATE_QUARTZ_DESERT;
 	public static final ForgeConfigSpec.BooleanValue GENERATE_PURPURACEUS_SWAMP;
 
+	public static final ForgeConfigSpec.IntValue PIGLIN_CUTEY_GIFT;
+
 	public static final ForgeConfigSpec.BooleanValue ENABLE_CURE_ZOMBIFIED_PIGLIN;
 	public static final ForgeConfigSpec.IntValue ZOMBIFIED_PIGLIN_CONVERT_TO_PIGLIN_BRUTE_POSSIBILITY_INV;
 	public static final ForgeConfigSpec.BooleanValue ENABLE_CURE_PHANTOM;
@@ -61,6 +63,11 @@ public class ECCommonConfig {
 						.defineInRange("ZOMBIFIED_PIGLIN_CONVERT_TO_PIGLIN_BRUTE_POSSIBILITY_INV", 16, 1, 256);
 				ENABLE_CURE_PHANTOM = BUILDER.comment("Allow players to cure phantom.")
 						.define("ENABLE_CURE_PHANTOM", true);
+			BUILDER.pop();
+
+			BUILDER.comment("Other functional configs.");
+				PIGLIN_CUTEY_GIFT = BUILDER.comment("How many gold blocks will a piglin cutey give to the player who helps her.")
+						.defineInRange("PIGLIN_CUTEY_GIFT", 16, 1, 64);
 			BUILDER.pop();
 
 			BUILDER.comment("You can disable some functions to improve the speed of server starting.");

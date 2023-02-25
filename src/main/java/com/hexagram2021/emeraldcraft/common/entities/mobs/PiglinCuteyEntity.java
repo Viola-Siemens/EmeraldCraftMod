@@ -3,6 +3,7 @@ package com.hexagram2021.emeraldcraft.common.entities.mobs;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.PiglinCuteyMerchantMenu;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
 import com.hexagram2021.emeraldcraft.common.register.ECTriggers;
@@ -460,7 +461,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 
 	@Nullable
 	private BlockPos getPortalTarget() {
-		return portalTarget;
+		return this.portalTarget;
 	}
 
 	@Override
@@ -510,6 +511,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		private static final int INTERVAL_TICKS = 20;
 		protected int nextStartTick;
 		protected boolean couldTry = true;
+		protected boolean reached = false;
 
 		RushToPortalGoal(PiglinCuteyEntity cutey, double stopDistance, double giveupDistance, double speedModifier) {
 			this.cutey = cutey;
@@ -527,20 +529,22 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		public void stop() {
 			this.cutey.navigation.stop();
 
-			if(this.cutey.lastTradedPlayer != null && !isTooFarAway(this.cutey.lastTradedPlayer, this.giveupDistance)) {
-				this.cutey.level.addFreshEntity(new ItemEntity(
-						this.cutey.lastTradedPlayer.level,
-						this.cutey.lastTradedPlayer.getX(),
-						this.cutey.lastTradedPlayer.getY() + 0.5D,
-						this.cutey.lastTradedPlayer.getZ(),
-						new ItemStack(Items.GOLD_BLOCK, 16)
-				));
-				if(!this.cutey.level.isClientSide) {
-					ECTriggers.PIGLIN_CUTEY.trigger((ServerPlayer) this.cutey.lastTradedPlayer);
+			if(this.reached) {
+				if (this.cutey.lastTradedPlayer != null && !isTooFarAway(this.cutey.lastTradedPlayer, this.giveupDistance)) {
+					this.cutey.level.addFreshEntity(new ItemEntity(
+							this.cutey.lastTradedPlayer.level,
+							this.cutey.lastTradedPlayer.getX(),
+							this.cutey.lastTradedPlayer.getY() + 0.5D,
+							this.cutey.lastTradedPlayer.getZ(),
+							new ItemStack(Items.GOLD_BLOCK, ECCommonConfig.PIGLIN_CUTEY_GIFT.get())
+					));
+					if (!this.cutey.level.isClientSide) {
+						ECTriggers.PIGLIN_CUTEY.trigger((ServerPlayer) this.cutey.lastTradedPlayer);
+					}
 				}
-			}
 
-			this.cutey.discard();
+				this.cutey.discard();
+			}
 		}
 
 		@Override
@@ -580,8 +584,11 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 				} else if(this.isTooFarAway(blockpos, this.stopDistance)) {
 					PiglinCuteyEntity.this.navigation.moveTo(blockpos.getX(), blockpos.getY(), blockpos.getZ(), this.speedModifier);
 				} else {
+					this.reached = true;
 					this.stop();
 				}
+			} else {
+				this.stop();
 			}
 		}
 

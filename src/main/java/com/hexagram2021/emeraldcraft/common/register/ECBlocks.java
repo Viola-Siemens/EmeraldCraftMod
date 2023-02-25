@@ -817,6 +817,7 @@ public final class ECBlocks {
 			ECItems.REGISTER.register(WARPED_COBBLESTONE.getId().getPath(), () -> new BlockItem(WARPED_COBBLESTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
 
 			ECItems.REGISTER.register(MOSSY_STONE.getId().getPath(), () -> new BlockItem(MOSSY_STONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.REGISTER.register(PAPER_BLOCK.getId().getPath(), () -> new BlockItem(PAPER_BLOCK.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
 
 			ECItems.REGISTER.register(RESIN_BLOCK.getId().getPath(), () -> new BlockItem(RESIN_BLOCK.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
 			ECItems.REGISTER.register(REINFORCED_RESIN_BLOCK.getId().getPath(), () -> new BlockItem(REINFORCED_RESIN_BLOCK.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
