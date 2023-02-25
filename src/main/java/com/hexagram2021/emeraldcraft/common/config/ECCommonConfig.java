@@ -66,6 +66,7 @@ public class ECCommonConfig {
 			BUILDER.pop();
 
 			BUILDER.comment("Other functional configs.");
+			BUILDER.push("functional-configs");
 				PIGLIN_CUTEY_GIFT = BUILDER.comment("How many gold blocks will a piglin cutey give to the player who helps her.")
 						.defineInRange("PIGLIN_CUTEY_GIFT", 16, 1, 64);
 			BUILDER.pop();
