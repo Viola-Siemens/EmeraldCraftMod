@@ -103,7 +103,7 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 
 		IDrawableAnimated arrow = getArrow(recipe);
 		arrow.draw(poseStack, 24, 18);
-		drawCookTime(recipe, poseStack, 18);
+		drawCookTime(recipe, poseStack, 22);
 		drawFluidAmount(recipe, poseStack, 48);
 
 		this.resultFluids[recipe.getFluidType().getGUIID()].draw(poseStack, 65, 2);

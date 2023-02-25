@@ -670,6 +670,10 @@ public final class ECBlocks {
 				BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_ORANGE)
 						.requiresCorrectToolForDrops().strength(30.0F, 600.0F).sound(SoundType.FROGLIGHT);
 
+		public static final Supplier<BlockBehaviour.Properties> PAPER_BLOCK_PROPERTIES = () ->
+				BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.SNOW)
+						.strength(0.2F).instabreak().sound(SoundType.WOOL);
+
 		public static final Function<DyeColor, Supplier<BlockBehaviour.Properties>> COLORED_REINFORCED_RESIN_PROPERTIES = (color) ->
 				() -> BlockBehaviour.Properties.of(Material.DECORATION, color)
 						.requiresCorrectToolForDrops().strength(30.0F, 600.0F).sound(SoundType.FROGLIGHT);
@@ -764,6 +768,10 @@ public final class ECBlocks {
 
 		public static final BlockEntry<Block> MOSSY_STONE = new BlockEntry<>(
 				"mossy_stone", STONE_PROPERTIES, Block::new
+		);
+
+		public static final BlockEntry<Block> PAPER_BLOCK = new BlockEntry<>(
+				"paper_block", PAPER_BLOCK_PROPERTIES, Block::new
 		);
 
 		public static final BlockEntry<HalfTransparentBlock> RESIN_BLOCK = new BlockEntry<>(

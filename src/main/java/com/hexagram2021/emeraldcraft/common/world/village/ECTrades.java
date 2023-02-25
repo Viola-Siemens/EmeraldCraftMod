@@ -191,6 +191,10 @@ public class ECTrades {
 		private final int Xp;
 		private final float priceMultiplier;
 
+		public ItemsForEmeralds(ItemLike item, int emeraldCost, int numberOfItems, int maxUses, int Xp) {
+			this(new ItemStack(item), emeraldCost, numberOfItems, maxUses, Xp);
+		}
+
 		public ItemsForEmeralds(ItemStack itemStack, int emeraldCost, int numberOfItems, int maxUses, int Xp) {
 			this.itemStack = itemStack;
 			this.emeraldCost = emeraldCost;

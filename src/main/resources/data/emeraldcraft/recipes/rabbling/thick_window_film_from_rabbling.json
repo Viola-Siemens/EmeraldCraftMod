@@ -1,0 +1,15 @@
+{
+  "type": "emeraldcraft:rabble_furnace",
+  "ingredient": {
+    "item": "emeraldcraft:paper_block"
+  },
+  "mix1": {
+    "item": "minecraft:vine"
+  },
+  "mix2": {
+    "item": "emeraldcraft:resin_shard"
+  },
+  "result": "emeraldcraft:thick_window_film",
+  "experience": 0.1,
+  "cookingtime": 100
+}

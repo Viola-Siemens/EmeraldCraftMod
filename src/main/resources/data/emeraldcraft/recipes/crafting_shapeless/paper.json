@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:paper_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "minecraft:paper"
+  }
+}

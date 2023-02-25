@@ -5,10 +5,12 @@ import net.minecraft.core.Registry;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BannerPatternItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,5 +46,10 @@ public class ECBannerPatterns {
 			RegistryObject<BannerPattern> pattern,
 			TagKey<BannerPattern> tag,
 			ECItems.ItemRegObject<BannerPatternItem> item
-	) { }
+	) implements ItemLike {
+		@Override @NotNull
+		public Item asItem() {
+			return this.item.asItem();
+		}
+	}
 }

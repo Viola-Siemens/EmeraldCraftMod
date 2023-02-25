@@ -201,10 +201,16 @@ public class ECItems {
 			"resin_shard", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<Item> RESIN_BOTTLE = ItemRegObject.register(
-			"resin_bottle", () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).tab(EmeraldCraft.ITEM_GROUP))
+			"resin_bottle", () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16).tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<Item> RESIN_BUCKET = ItemRegObject.register(
 			"resin_bucket", () -> new Item(new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(16).tab(EmeraldCraft.ITEM_GROUP))
+	);
+	public static final ItemRegObject<Item> WINDOW_FILM = ItemRegObject.register(
+			"window_film", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+	);
+	public static final ItemRegObject<Item> THICK_WINDOW_FILM = ItemRegObject.register(
+			"thick_window_film", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
 
 	public static final ItemRegObject<Item> DIAMOND_NUGGET = ItemRegObject.register(

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "emeraldcraft:window_film"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "emeraldcraft:thick_window_film"
+  }
+}
