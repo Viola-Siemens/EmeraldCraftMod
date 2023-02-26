@@ -671,14 +671,14 @@ public class ECOverworldBiomeBuilder {
 					ParameterUtils.Continentalness.FULL_RANGE.parameter(),
 					Climate.Parameter.span(ParameterUtils.Erosion.EROSION_4.parameter(), ParameterUtils.Erosion.EROSION_6.parameter()),
 					Climate.Parameter.span(ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_ASCENDING.parameter(), ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_DESCENDING.parameter()),
-					0.625F, ECBiomeKeys.VOLCANIC_CAVES.key());
+					0.5625F, ECBiomeKeys.VOLCANIC_CAVES.key());
 			this.addUndergroundBiome(mapper,
 					ParameterUtils.Temperature.FROZEN.parameter(),
 					ParameterUtils.Humidity.FULL_RANGE.parameter(),
 					ParameterUtils.Continentalness.FULL_RANGE.parameter(),
 					Climate.Parameter.span(ParameterUtils.Erosion.EROSION_4.parameter(), ParameterUtils.Erosion.EROSION_6.parameter()),
 					Climate.Parameter.span(ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_ASCENDING.parameter(), ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_DESCENDING.parameter()),
-					0.375F, ECBiomeKeys.VOLCANIC_CAVES.key());
+					0.3125F, ECBiomeKeys.VOLCANIC_CAVES.key());
 		}
 
 		this.addUndergroundBiome(mapper,
@@ -709,7 +709,7 @@ public class ECOverworldBiomeBuilder {
 					ParameterUtils.Continentalness.span(ParameterUtils.Continentalness.DEEP_OCEAN, ParameterUtils.Continentalness.FAR_INLAND),
 					ParameterUtils.Erosion.FULL_RANGE.parameter(),
 					ParameterUtils.Weirdness.FULL_RANGE.parameter(),
-					0.375F, ECBiomeKeys.MOSSY_CAVES.key());
+					0.3125F, ECBiomeKeys.MOSSY_CAVES.key());
 		}
 	}
 

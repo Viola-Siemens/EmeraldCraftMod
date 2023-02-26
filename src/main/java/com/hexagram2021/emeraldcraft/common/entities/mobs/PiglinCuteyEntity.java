@@ -54,8 +54,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -93,9 +93,6 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 	private int foodLevel;
 	private int cuteyXp;
 
-	@Nullable
-	protected BlockPos portalTarget = null;
-
 	public PiglinCuteyEntity(EntityType<? extends PiglinCuteyEntity> entityType, Level level) {
 		super(entityType, level);
 		((GroundPathNavigation)this.getNavigation()).setCanOpenDoors(true);
@@ -104,12 +101,12 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 
 	@Override
 	public int getPortalWaitTime() {
-		return 20;
+		return 40;
 	}
 
 	@Override
 	protected void registerGoals() {
-		this.goalSelector.addGoal(0, new PiglinCuteyEntity.RushToPortalGoal(this, 1.5D, 50.0D, SPEED_MODIFIER));
+		this.goalSelector.addGoal(0, new RushToPortalGoal(this, 2.0D, 50.0D, SPEED_MODIFIER));
 		this.goalSelector.addGoal(1, new TradeWithPlayerGoal(this));
 		this.goalSelector.addGoal(1, new LookAtTradingPlayerGoal(this));
 		this.goalSelector.addGoal(1, new OpenDoorGoal(this, true));
@@ -393,51 +390,13 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		}
 	}
 
+	@SuppressWarnings("unused")
 	public int getPlayerReputation(Player player) {
 		return (int)Math.floor(foodLevel / (MULTIPLIER_FOOD_THRESHOLD * 0.025D));
 	}
 
-	private static final int SearchRange = 32;
+	private static final int SearchRange = 30;
 	private static final int VerticalSearchRange = 12;
-	protected void findNearestPortal() {
-		BlockPos blockpos = this.blockPosition();
-		BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
-
-		for(int y = 0; y <= VerticalSearchRange; y = y > 0 ? -y : 1 - y) {
-			for(int d = 1; d <= SearchRange; ++d) {
-				for(int x = -d; x <= d; ++x) {
-					mutable.setWithOffset(blockpos, x, y, d);
-					if(this.tryCheckPortalAndSet(mutable)) {
-						return;
-					}
-					mutable.setWithOffset(blockpos, x, y, -d);
-					if(this.tryCheckPortalAndSet(mutable)) {
-						return;
-					}
-				}
-				for(int z = -d + 1; z < d; ++z) {
-					mutable.setWithOffset(blockpos, d, y, z);
-					if(this.tryCheckPortalAndSet(mutable)) {
-						return;
-					}
-					mutable.setWithOffset(blockpos, -d, y, z);
-					if(this.tryCheckPortalAndSet(mutable)) {
-						return;
-					}
-				}
-			}
-		}
-
-		this.portalTarget = null;
-	}
-
-	private boolean tryCheckPortalAndSet(BlockPos pos) {
-		if (this.level.getBlockState(pos).is(Blocks.NETHER_PORTAL)) {
-			this.portalTarget = pos;
-			return true;
-		}
-		return false;
-	}
 
 	protected BlockPos findNearestAnchor() {
 		BlockPos blockpos = this.blockPosition();
@@ -445,10 +404,10 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 
 		for(int k = 0; k <= VerticalSearchRange; k = k > 0 ? -k : 1 - k) {
 			for(int l = 0; l < SearchRange; ++l) {
-				for(int i1 = 0; i1 <= l; i1 = i1 > 0 ? -i1 : 1 - i1) {
-					for(int j1 = 0; j1 <= l; j1 = j1 > 0 ? -j1 : 1 - j1) {
-						mutable.setWithOffset(blockpos, i1, k, j1);
-						if (this.isWithinRestriction(mutable) && level.getBlockState(mutable).is(Blocks.RESPAWN_ANCHOR)) {
+				for(int x = 0; x <= l; x = x > 0 ? -x : 1 - x) {
+					for(int z = 0; z <= l; z = z > 0 ? -z : 1 - z) {
+						mutable.setWithOffset(blockpos, x, k, z);
+						if (this.isWithinRestriction(mutable) && this.level.getBlockState(mutable).is(Blocks.RESPAWN_ANCHOR)) {
 							return mutable;
 						}
 					}
@@ -457,11 +416,6 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		}
 
 		return blockpos;
-	}
-
-	@Nullable
-	private BlockPos getPortalTarget() {
-		return this.portalTarget;
 	}
 
 	@Override
@@ -503,102 +457,69 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 	@Override
 	public boolean removeWhenFarAway(double pDistanceToClosestPlayer) { return false; }
 
-	class RushToPortalGoal extends Goal {
-		final PiglinCuteyEntity cutey;
+	static class RushToPortalGoal extends MoveToBlockGoal {
 		final double stopDistance;
 		final double giveupDistance;
-		final double speedModifier;
-		private static final int INTERVAL_TICKS = 20;
-		protected int nextStartTick;
-		protected boolean couldTry = true;
-		protected boolean reached = false;
 
 		RushToPortalGoal(PiglinCuteyEntity cutey, double stopDistance, double giveupDistance, double speedModifier) {
-			this.cutey = cutey;
+			super(cutey, speedModifier, PiglinCuteyEntity.SearchRange, PiglinCuteyEntity.VerticalSearchRange);
 			this.stopDistance = stopDistance;
 			this.giveupDistance = giveupDistance;
-			this.speedModifier = speedModifier;
+		}
+
+		@Override
+		public double acceptedDistance() {
+			return this.stopDistance;
+		}
+
+		@Override @NotNull
+		protected BlockPos getMoveToTarget() {
+			return this.blockPos;
 		}
 
 		@Override
 		public void start() {
-			this.cutey.playCelebrateSound();
-		}
-
-		@Override
-		public void stop() {
-			this.cutey.navigation.stop();
-
-			if(this.reached) {
-				if (this.cutey.lastTradedPlayer != null && !isTooFarAway(this.cutey.lastTradedPlayer, this.giveupDistance)) {
-					this.cutey.level.addFreshEntity(new ItemEntity(
-							this.cutey.lastTradedPlayer.level,
-							this.cutey.lastTradedPlayer.getX(),
-							this.cutey.lastTradedPlayer.getY() + 0.5D,
-							this.cutey.lastTradedPlayer.getZ(),
-							new ItemStack(Items.GOLD_BLOCK, ECCommonConfig.PIGLIN_CUTEY_GIFT.get())
-					));
-					if (!this.cutey.level.isClientSide) {
-						ECTriggers.PIGLIN_CUTEY.trigger((ServerPlayer) this.cutey.lastTradedPlayer);
-					}
-				}
-
-				this.cutey.discard();
+			super.start();
+			if(this.mob instanceof PiglinCuteyEntity cutey) {
+				cutey.playCelebrateSound();
 			}
-		}
-
-		@Override
-		public boolean canUse() {
-			if (this.nextStartTick > 0) {
-				--this.nextStartTick;
-				return false;
-			}
-
-			this.nextStartTick = this.nextStartTick(this.cutey);
-			this.couldTry = true;
-			this.cutey.findNearestPortal();
-			BlockPos blockpos = this.cutey.getPortalTarget();
-			return blockpos != null && this.isTooFarAway(blockpos, this.stopDistance);
-		}
-
-		protected int nextStartTick(PathfinderMob mob) { return INTERVAL_TICKS + mob.getRandom().nextInt(INTERVAL_TICKS); }
-
-		@Override
-		public boolean canContinueToUse() {
-			return true;
 		}
 
 		@Override
 		public void tick() {
-			BlockPos blockpos = this.cutey.getPortalTarget();
-			if (blockpos != null && this.couldTry) {
-				this.couldTry = false;
-				if (this.isTooFarAway(blockpos, 10.0D)) {
-					Vec3 vec3 = (new Vec3(
-							(double)blockpos.getX() - this.cutey.getX(),
-							(double)blockpos.getY() - this.cutey.getY(),
-							(double)blockpos.getZ() - this.cutey.getZ()
-					)).normalize();
-					Vec3 vec31 = vec3.scale(10.0D).add(this.cutey.getX(), this.cutey.getY(), this.cutey.getZ());
-					PiglinCuteyEntity.this.navigation.moveTo(vec31.x, vec31.y, vec31.z, this.speedModifier);
-				} else if(this.isTooFarAway(blockpos, this.stopDistance)) {
-					PiglinCuteyEntity.this.navigation.moveTo(blockpos.getX(), blockpos.getY(), blockpos.getZ(), this.speedModifier);
-				} else {
-					this.reached = true;
-					this.stop();
-				}
-			} else {
+			super.tick();
+			if(this.isReachedTarget()) {
 				this.stop();
 			}
 		}
 
-		private boolean isTooFarAway(BlockPos blockpos, double dist) {
-			Vec3 targetPos = new Vec3(blockpos.getX(), this.cutey.position().y, blockpos.getZ());
-			return !targetPos.closerThan(this.cutey.position(), dist);
+		@Override
+		public void stop() {
+			this.mob.getNavigation().stop();
+
+			if(this.mob instanceof PiglinCuteyEntity cutey && this.isReachedTarget()) {
+				if (cutey.lastTradedPlayer != null && !isTooFarAway(cutey.lastTradedPlayer, this.giveupDistance) && !cutey.level.isClientSide) {
+					cutey.level.addFreshEntity(new ItemEntity(
+							cutey.lastTradedPlayer.level,
+							cutey.lastTradedPlayer.getX(),
+							cutey.lastTradedPlayer.getY() + 0.5D,
+							cutey.lastTradedPlayer.getZ(),
+							new ItemStack(Items.GOLD_BLOCK, ECCommonConfig.PIGLIN_CUTEY_GIFT.get())
+					));
+					ECTriggers.PIGLIN_CUTEY.trigger((ServerPlayer) cutey.lastTradedPlayer);
+				}
+
+				cutey.discard();
+			}
+		}
+
+		@Override
+		protected boolean isValidTarget(LevelReader level, @NotNull BlockPos blockPos) {
+			return level.getBlockState(blockPos).is(Blocks.NETHER_PORTAL);
 		}
 
 		private boolean isTooFarAway(Entity entity, double dist) {
-			return !entity.closerThan(this.cutey, dist);
+			return !entity.closerThan(this.mob, dist);
 		}
 	}
 
