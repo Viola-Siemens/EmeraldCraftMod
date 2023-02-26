@@ -709,7 +709,7 @@ public class ECOverworldBiomeBuilder {
 					ParameterUtils.Continentalness.span(ParameterUtils.Continentalness.DEEP_OCEAN, ParameterUtils.Continentalness.FAR_INLAND),
 					ParameterUtils.Erosion.FULL_RANGE.parameter(),
 					ParameterUtils.Weirdness.FULL_RANGE.parameter(),
-					0.3125F, ECBiomeKeys.MOSSY_CAVES.key());
+					0.25F, ECBiomeKeys.MOSSY_CAVES.key());
 		}
 	}
 
@@ -815,6 +815,6 @@ public class ECOverworldBiomeBuilder {
 
 	@SuppressWarnings("SameParameterValue")
 	protected void addShallowCaveBiome(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper, Climate.Parameter temperature, Climate.Parameter humidity, Climate.Parameter continentalness, Climate.Parameter erosion, Climate.Parameter weirdness, float offset, ResourceKey<Biome> biome) {
-		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, Climate.Parameter.span(0.15F, 0.35F), weirdness, offset), biome));
+		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, Climate.Parameter.span(0.0625F, 0.3125F), weirdness, offset), biome));
 	}
 }

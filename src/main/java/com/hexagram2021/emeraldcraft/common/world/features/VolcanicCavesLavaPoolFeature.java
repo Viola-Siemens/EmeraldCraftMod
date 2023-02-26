@@ -1,5 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.world.features;
 
+import com.hexagram2021.emeraldcraft.common.register.ECBlockTags;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
@@ -42,22 +43,20 @@ public class VolcanicCavesLavaPoolFeature extends Feature<NoneFeatureConfigurati
 			y *= 2 * s - 1;
 			z *= 2 * s - 1;
 
-			BlockPos blockpos1 = curPosition.offset(x, y, z);
-			BlockState blockstate = level.getBlockState(blockpos1);
+			BlockPos searchPos = curPosition.offset(x, y, z);
 
-			if(visited.contains(blockpos1)) {
+			if(visited.contains(searchPos)) {
 				continue;
 			}
-			visited.add(blockpos1);
+			visited.add(searchPos);
 			if(random.nextInt(6) == 0) {
 				continue;
 			}
-			if(blockstate.is(Blocks.DEEPSLATE) || blockstate.is(Blocks.TUFF) ||blockstate.is(Blocks.STONE) ||
-					blockstate.is(Blocks.ANDESITE) || blockstate.is(Blocks.DIORITE) || blockstate.is(Blocks.GRANITE)) {
+			if(level.getBlockState(searchPos).is(ECBlockTags.VOLCANIC_CAVES_LAVA_POOL_REPLACEABLE)) {
 				if(depth <= MAX_DEPTH) {
-					doPlace(level, visited, blockpos1, random, predicate, depth + 1);
+					doPlace(level, visited, searchPos, random, predicate, depth + 1);
 				}
-				this.safeSetBlock(level, blockpos1, LAVA, predicate);
+				this.safeSetBlock(level, searchPos, LAVA, predicate);
 
 				for(int m = 1; m <= 5; ++m) {
 					int ms = ((m & 4) >> 2);
@@ -70,14 +69,14 @@ public class VolcanicCavesLavaPoolFeature extends Feature<NoneFeatureConfigurati
 					my *= 2 * ms - 1;
 					mz *= 2 * ms - 1;
 
-					BlockPos blockpos2 = blockpos1.offset(mx, my, mz);
-					if(level.isEmptyBlock(blockpos2) || (blockstate.is(Blocks.DEEPSLATE) && random.nextInt(3) != 0)) {
+					BlockPos bounding = searchPos.offset(mx, my, mz);
+					if(level.isEmptyBlock(bounding) || (level.getBlockState(bounding).is(ECBlockTags.VOLCANIC_CAVES_LAVA_POOL_REPLACEABLE) && random.nextInt(3) != 0)) {
 						switch (random.nextInt(15)) {
-							case 0, 1, 2, 3, 4 -> this.safeSetBlock(level, blockpos1, OBSIDIAN, predicate);
-							case 5, 6, 7, 8 -> this.safeSetBlock(level, blockpos1, MAGMA_BLOCK, predicate);
-							case 9, 10, 11 -> this.safeSetBlock(level, blockpos1, SMOOTH_BASALT, predicate);
-							case 12, 13 -> this.safeSetBlock(level, blockpos1, CRYING_OBSIDIAN, predicate);
-							case 14 -> this.safeSetBlock(level, blockpos1, BLACKSTONE, predicate);
+							case 0, 1, 2, 3, 4 -> this.safeSetBlock(level, bounding, OBSIDIAN, predicate);
+							case 5, 6, 7, 8 -> this.safeSetBlock(level, bounding, MAGMA_BLOCK, predicate);
+							case 9, 10, 11 -> this.safeSetBlock(level, bounding, SMOOTH_BASALT, predicate);
+							case 12, 13 -> this.safeSetBlock(level, bounding, CRYING_OBSIDIAN, predicate);
+							case 14 -> this.safeSetBlock(level, bounding, BLACKSTONE, predicate);
 						}
 					}
 				}
