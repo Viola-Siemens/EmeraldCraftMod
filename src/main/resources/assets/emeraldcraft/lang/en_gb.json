@@ -469,6 +469,12 @@
   "subtitles.entity.manta.ambient": "Manta flies",
   "subtitles.entity.manta.hurt": "Manta hurts",
   "subtitles.entity.manta.death": "Manta dies",
+  "subtitles.entity.lumine.death": "Lumine dies",
+  "subtitles.entity.lumine.hurt": "Lumine hurts",
+  "subtitles.entity.lumine.ambient_with_item": "Lumine seeks",
+  "subtitles.entity.lumine.ambient_without_item": "Lumine yearns",
+  "subtitles.entity.lumine.item_given": "Lumine chortles",
+  "subtitles.entity.lumine.item_taken": "Lumine allays",
 
   "subtitles.block.flower.drop_leaves": "Higan Bana Drops Leaves",
 

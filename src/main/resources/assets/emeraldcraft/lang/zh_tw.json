@@ -469,6 +469,12 @@
   "subtitles.entity.manta.ambient": "鰩鯤飛翔",
   "subtitles.entity.manta.hurt": "鰩鯤受傷",
   "subtitles.entity.manta.death": "鰩鯤死亡",
+  "subtitles.entity.lumine.death": "熒靈死亡",
+  "subtitles.entity.lumine.hurt": "熒靈受傷",
+  "subtitles.entity.lumine.ambient_with_item": "熒靈搜尋",
+  "subtitles.entity.lumine.ambient_without_item": "熒靈渴望",
+  "subtitles.entity.lumine.item_given": "熒靈咯咯笑",
+  "subtitles.entity.lumine.item_taken": "熒靈喜悅",
 
   "subtitles.block.flower.drop_leaves": "彼岸花：落葉",
 

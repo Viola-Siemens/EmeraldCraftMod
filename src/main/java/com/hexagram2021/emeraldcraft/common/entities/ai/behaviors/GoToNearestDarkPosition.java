@@ -15,6 +15,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -70,7 +71,7 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 			return;
 		}
 		if(pos.closerToCenterThan(entity.position(), 1.0D)) {
-			if(isBlockItemInHand) {
+			if(isBlockItemInHand && ForgeEventFactory.getMobGriefingEvent(level, entity)) {
 				Block torch = ((BlockItem) (entity.getMainHandItem().getItem())).getBlock();
 				if (level.getBlockState(pos).isAir() && torch.canSurvive(torch.defaultBlockState(), level, pos) && !entity.getInventory().getItem(0).isEmpty()) {
 					level.setBlock(pos, torch.defaultBlockState(), Block.UPDATE_ALL);

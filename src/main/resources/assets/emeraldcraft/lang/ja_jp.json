@@ -469,6 +469,12 @@
   "subtitles.entity.manta.ambient": "鰩鯤が飛ぶ",
   "subtitles.entity.manta.hurt": "鰩鯤がダメージを受ける",
   "subtitles.entity.manta.death": "鰩鯤が死ぬ",
+  "subtitles.entity.lumine.ambient_with_item": "ルミネが探す",
+  "subtitles.entity.lumine.ambient_without_item": "ルミネがアイテムを欲しがる",
+  "subtitles.entity.lumine.death": "ルミネが死ぬ",
+  "subtitles.entity.lumine.hurt": "ルミネがダメージを受ける",
+  "subtitles.entity.lumine.item_given": "ルミネが笑う",
+  "subtitles.entity.lumine.item_taken": "ルミネが鎮まる",
 
   "subtitles.block.flower.drop_leaves": "彼岸花が葉を落とす",
 

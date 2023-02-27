@@ -469,6 +469,12 @@
   "subtitles.entity.manta.ambient": "鳐鲲：飞翔",
   "subtitles.entity.manta.hurt": "鳐鲲：受伤",
   "subtitles.entity.manta.death": "鳐鲲：死亡",
+  "subtitles.entity.lumine.death": "荧灵：死亡",
+  "subtitles.entity.lumine.hurt": "荧灵：受伤",
+  "subtitles.entity.lumine.ambient_with_item": "荧灵：搜寻",
+  "subtitles.entity.lumine.ambient_without_item": "荧灵：渴求",
+  "subtitles.entity.lumine.item_given": "荧灵：嬉笑",
+  "subtitles.entity.lumine.item_taken": "荧灵：愉悦",
 
   "subtitles.block.flower.drop_leaves": "彼岸花：落叶",
 

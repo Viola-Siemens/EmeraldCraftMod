@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "emeraldcraft:volcanic_caves"
+    "emeraldcraft:volcanic_caves",
+    "emeraldcraft:mossy_caves"
   ]
 }

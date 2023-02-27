@@ -5,6 +5,7 @@ import com.hexagram2021.emeraldcraft.common.entities.ai.LumineAi;
 import com.hexagram2021.emeraldcraft.common.register.ECEntities;
 import com.hexagram2021.emeraldcraft.common.register.ECItemTags;
 import com.hexagram2021.emeraldcraft.common.register.ECMemoryModuleTypes;
+import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
@@ -191,17 +192,17 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return this.hasItemInSlot(EquipmentSlot.MAINHAND) ? SoundEvents.ALLAY_AMBIENT_WITH_ITEM : SoundEvents.ALLAY_AMBIENT_WITHOUT_ITEM;
+		return this.hasItemInSlot(EquipmentSlot.MAINHAND) ? ECSounds.LUMINE_AMBIENT_WITH_ITEM : ECSounds.LUMINE_AMBIENT_WITHOUT_ITEM;
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
-		return SoundEvents.ALLAY_HURT;
+		return ECSounds.LUMINE_HURT;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return SoundEvents.ALLAY_DEATH;
+		return ECSounds.LUMINE_DEATH;
 	}
 
 	@Override
@@ -211,10 +212,10 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 
 	@Override
 	protected void customServerAiStep() {
-		this.level.getProfiler().push("allayBrain");
+		this.level.getProfiler().push("lumineBrain");
 		this.getBrain().tick((ServerLevel)this.level, this);
 		this.level.getProfiler().pop();
-		this.level.getProfiler().push("allayActivityUpdate");
+		this.level.getProfiler().push("lumineActivityUpdate");
 		LumineAi.updateActivity(this);
 		this.level.getProfiler().pop();
 		super.customServerAiStep();
@@ -285,14 +286,14 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 			itemstack3.setCount(1);
 			this.setItemInHand(InteractionHand.MAIN_HAND, itemstack3);
 			this.removeInteractionItem(player, playerItem);
-			this.level.playSound(player, this, SoundEvents.ALLAY_ITEM_GIVEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
+			this.level.playSound(player, this, ECSounds.LUMINE_ITEM_GIVEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
 			this.getBrain().setMemory(MemoryModuleType.LIKED_PLAYER, player.getUUID());
 			return InteractionResult.SUCCESS;
 		}
 		if (!lumineItem.isEmpty() && hand == InteractionHand.MAIN_HAND && playerItem.isEmpty() &&
 				this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER).orElse(player.getUUID()).equals(player.getUUID())) {
 			this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-			this.level.playSound(player, this, SoundEvents.ALLAY_ITEM_TAKEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
+			this.level.playSound(player, this, ECSounds.LUMINE_ITEM_TAKEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
 			this.swing(InteractionHand.MAIN_HAND);
 
 			for(ItemStack itemstack2 : this.getInventory().removeAllItems()) {

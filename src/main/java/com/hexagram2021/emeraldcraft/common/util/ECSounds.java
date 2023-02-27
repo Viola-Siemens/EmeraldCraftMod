@@ -68,6 +68,13 @@ public class ECSounds {
 	public static final SoundEvent MANTA_HURT = registerSound("manta.hurt");
 	public static final SoundEvent MANTA_DEATH = registerSound("manta.death");
 
+	public static final SoundEvent LUMINE_AMBIENT_WITH_ITEM = registerSound("lumine.ambient_with_item");
+	public static final SoundEvent LUMINE_AMBIENT_WITHOUT_ITEM = registerSound("lumine.ambient_without_item");
+	public static final SoundEvent LUMINE_DEATH = registerSound("lumine.death");
+	public static final SoundEvent LUMINE_HURT = registerSound("lumine.hurt");
+	public static final SoundEvent LUMINE_ITEM_GIVEN = registerSound("lumine.item_given");
+	public static final SoundEvent LUMINE_ITEM_TAKEN = registerSound("lumine.item_taken");
+
 	private static SoundEvent registerSound(String name) {
 		ResourceLocation location = new ResourceLocation(MODID, name);
 		SoundEvent event = new SoundEvent(location);

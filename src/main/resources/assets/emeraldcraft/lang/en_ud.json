@@ -469,6 +469,12 @@
   "subtitles.entity.manta.ambient": "sǝᴉlɟ ɐʇuɐW",
   "subtitles.entity.manta.hurt": "sʇɹnɥ ɐʇuɐW",
   "subtitles.entity.manta.death": "sǝᴉp ɐʇuɐW",
+  "subtitles.entity.lumine.death": "sǝᴉp ǝuᴉɯn˥",
+  "subtitles.entity.lumine.hurt": "sʇɹnɥ ǝuᴉɯn˥",
+  "subtitles.entity.lumine.ambient_with_item": "sʞǝǝs ǝuᴉɯn˥",
+  "subtitles.entity.lumine.ambient_without_item": "suɹɐǝʎ ǝuᴉɯn˥",
+  "subtitles.entity.lumine.item_given": "sǝlʇɹoɥɔ ǝuᴉɯn˥",
+  "subtitles.entity.lumine.item_taken": "sʎɐllɐ ǝuᴉɯn˥",
 
   "subtitles.block.flower.drop_leaves": "sǝʌɐǝ˥ sdoɹp ɐuɐq uɐƃᴉH",
 
