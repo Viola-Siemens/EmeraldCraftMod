@@ -19,7 +19,10 @@ public class TickEventHandler {
 					ItemStack itemstack = event.player.getItemBySlot(slot);
 					if (ECItems.WOODEN_ARMOR.values().stream().anyMatch(armor -> itemstack.is(armor.get()))) {
 						if(event.player.tickCount % 10 == 0) {
-							itemstack.hurtAndBreak(1, event.player, player -> player.broadcastBreakEvent(slot));
+							int maxDamage = itemstack.getMaxDamage();
+							if(maxDamage > 0 && event.player.getRandom().nextInt(maxDamage) >= itemstack.getDamageValue() * 9 / 10 - 1) {
+								itemstack.hurtAndBreak(1, event.player, player -> player.broadcastBreakEvent(slot));
+							}
 							if(event.player.getRandom().nextInt(4) == 0) {
 								event.player.setRemainingFireTicks(event.player.getRemainingFireTicks() + 4);
 							}
