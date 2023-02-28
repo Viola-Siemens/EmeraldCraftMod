@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:dead_crimson_ocean",
+    "emeraldcraft:dead_warped_ocean",
+    "emeraldcraft:deep_dead_crimson_ocean",
+    "emeraldcraft:deep_dead_warped_ocean",
+    "emeraldcraft:xanadu",
+    "emeraldcraft:ginkgo_forest",
+    "emeraldcraft:karst_hills",
+    "emeraldcraft:petunia_plains",
+    "emeraldcraft:golden_beach",
+    "emeraldcraft:palm_beach",
+    "emeraldcraft:azure_desert",
+    "emeraldcraft:jadeite_desert",
+    "emeraldcraft:volcanic_caves",
+    "emeraldcraft:mossy_caves"
+  ]
+}

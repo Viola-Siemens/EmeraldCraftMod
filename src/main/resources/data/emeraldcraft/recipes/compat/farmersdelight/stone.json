@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "farmersdelight"
+    }
+  ],
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:mossy_stone"
+    }
+  ],
+  "result": [
+    {
+      "item": "minecraft:mossy_cobblestone"
+    }
+  ],
+  "tool": {
+    "type": "farmersdelight:tool_action",
+    "action": "pickaxe_dig"
+  }
+}

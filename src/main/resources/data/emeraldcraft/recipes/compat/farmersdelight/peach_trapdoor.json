@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "farmersdelight"
+    }
+  ],
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:peach_trapdoor"
+    }
+  ],
+  "result": [
+    {
+      "item": "emeraldcraft:peach_planks"
+    }
+  ],
+  "tool": {
+    "type": "farmersdelight:tool_action",
+    "action": "axe_dig"
+  }
+}

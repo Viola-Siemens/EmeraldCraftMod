@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "farmersdelight"
+    }
+  ],
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:purpuraceus_door"
+    }
+  ],
+  "result": [
+    {
+      "item": "emeraldcraft:purpuraceus_planks"
+    }
+  ],
+  "tool": {
+    "type": "farmersdelight:tool_action",
+    "action": "axe_dig"
+  }
+}

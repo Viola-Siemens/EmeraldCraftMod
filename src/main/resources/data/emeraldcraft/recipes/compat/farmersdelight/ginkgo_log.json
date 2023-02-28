@@ -1,0 +1,27 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "farmersdelight"
+    }
+  ],
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:ginkgo_log"
+    }
+  ],
+  "result": [
+    {
+      "item": "emeraldcraft:stripped_ginkgo_log"
+    },
+    {
+      "item": "farmersdelight:tree_bark"
+    }
+  ],
+  "sound": "minecraft:item.axe.strip",
+  "tool": {
+    "type": "farmersdelight:tool_action",
+    "action": "axe_strip"
+  }
+}
