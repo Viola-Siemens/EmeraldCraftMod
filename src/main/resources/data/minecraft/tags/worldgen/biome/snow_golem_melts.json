@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:azure_desert",
+    "emeraldcraft:jadeite_desert",
+    "emeraldcraft:volcanic_caves",
+    "emeraldcraft:emery_desert",
+    "emeraldcraft:quartz_desert",
+    "emeraldcraft:purpuraceus_swamp"
+  ]
+}
