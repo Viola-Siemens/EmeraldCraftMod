@@ -1,0 +1,106 @@
+name: Crash Report
+description: You can report major bugs and crashes here.
+title: "[Crash]: "
+labels: [ "Bug Major" ]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Please try following steps before report and tell me if the crash reproduces:**
+        
+        - Delete the config file to reset the config.
+
+        - Tries Emerald Craft mod alone (with its dependency).
+        
+        - Find the smallest reproducible set of this crash - for example, if this crash occurs when you only install emeraldcraft, biomesoplenty and terrablender, even if you add some new mods, the smallest reproducible set is the three mods mentions above if the same crash occurs.
+  - type: input
+    id: mod-version
+    attributes:
+      label: The Version of Emerald Craft
+      description: |
+        What version are you using when this crash occurs?
+      placeholder: ex. 6.1
+    validations:
+      required: true
+  - type: input
+    id: terrablender-version
+    attributes:
+      label: Terrablender Version
+      description: |
+        What version of Terrablender are you using? 
+        Terrablender is a required mod for Emerald Craft in 1.18+, if you're using 1.16 or 1.17, specify N/A.
+      placeholder: ex. 2.0.1.128
+    validations:
+      required: true
+  - type: input
+    id: minecraft-version
+    attributes:
+      label: Minecraft Version
+      description: What version of minecraft are you using?
+      placeholder: ex. 1.19.2
+    validations:
+      required: true
+  - type: dropdown
+    id: mod-loader
+    attributes:
+      label: Mod Loader
+      description: What Mod Loader are you running?
+      options:
+        - Forge
+        - Fabric (coming s∞n?)
+    validations:
+      required: true
+  - type: input
+    id: mod-loader-version
+    attributes:
+      label: Mod Loader Version
+      description: What version of the mod loader are you using?
+      placeholder: ex. 43.2.0
+    validations:
+      required: true
+  - type: dropdown
+    id: crash-type
+    attributes:
+      label: Crash Side
+      description: Which side crashes?
+      options:
+        - Server Crashes
+        - Client Crashes
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: How to reproduce the crash?
+      placeholder: Tell us what you see, and also, any other mods you are using?
+    validations:
+      required: true
+  - type: textarea
+    id: crash-report
+    attributes:
+      label: Crash report
+      description: Please upload your crash report file. You can use https://gist.github.com/ and leave the link here.
+      placeholder: Drag and drop crash report file here or link it with https://gist.github.com/!
+    validations:
+      required: true
+  - type: textarea
+    id: debug-log
+    attributes:
+      label: debug.log
+      description: Please upload your debug.log file. You can use https://gist.github.com/ and leave the link here.
+      placeholder: Drag and drop debug.log file here or link it with https://gist.github.com/!
+    validations:
+      required: true
+  - type: dropdown
+    id: isolate-mod
+    attributes:
+      label: Did you isolate Emerald Craft?
+      description: |
+        Did you try a separate instance with Emerald Craft only and its required dependencies?
+      options:
+        - I tried Emerald Craft alone and the crash occurs.
+        - I tried Emerald Craft alone and the crash doesn't occurs.
+        - I didn't try Emerald Craft alone. (Please have a try before submit!)
+    validations:
+      required: true

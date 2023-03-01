@@ -1,0 +1,34 @@
+name: New Feature Request
+description: What features would you like to add in Emerald Craft?
+title: "[Enhancement]: "
+labels: [ "Enhancement" ]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your supporting!
+  - type: checkboxes
+    id: feature-type
+    attributes:
+      label: Feature Type
+      description: What type of the feature would you describe?
+      options:
+        - Loot Table Missing
+        - Render Problems or Texture Missing
+        - Biomes
+        - Recipes and GUI
+        - Trades of Villagers
+        - Features and Structures
+        - Blocks and Items Usage
+        - Entities
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description of the feature
+      description: What can Emerald Craft mod do for you?
+      placeholder: Feel free to describe what you thought :)
+    validations:
+      required: true
