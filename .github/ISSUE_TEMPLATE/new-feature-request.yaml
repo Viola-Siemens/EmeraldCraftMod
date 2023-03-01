@@ -13,15 +13,15 @@ body:
       label: Feature Type
       description: What type of the feature would you describe?
       options:
-        - Loot Table Missing
-        - Render Problems or Texture Missing
-        - Biomes
-        - Recipes and GUI
-        - Trades of Villagers
-        - Features and Structures
-        - Blocks and Items Usage
-        - Entities
-        - Other
+      - label: Loot Table Missing
+      - label: Render Problems or Texture Missing
+      - label: Biomes
+      - label: Recipes and GUI
+      - label: Trades of Villagers
+      - label: Features and Structures
+      - label: Blocks and Items Usage
+      - label: Entities
+      - label: Other
     validations:
       required: true
   - type: textarea
