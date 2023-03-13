@@ -1,0 +1,56 @@
+{
+  "type": "minecraft:flower",
+  "config": {
+    "feature": {
+      "feature": {
+        "type": "minecraft:simple_block",
+        "config": {
+          "to_place": {
+            "type": "minecraft:noise_threshold_provider",
+            "default_state": {
+              "Name": "minecraft:allium"
+            },
+            "high_chance": 0.75,
+            "high_states": [
+              {
+                "Name": "minecraft:poppy"
+              },
+              {
+                "Name": "minecraft:dandelion"
+              }
+            ],
+            "low_states": [
+              {
+                "Name": "emeraldcraft:cyan_petunia"
+              },
+              {
+                "Name": "emeraldcraft:magenta_petunia"
+              }
+            ],
+            "noise": {
+              "amplitudes": [
+                1.0
+              ],
+              "firstOctave": 0
+            },
+            "scale": 0.005,
+            "seed": 2345,
+            "threshold": 0.625
+          }
+        }
+      },
+      "placement": [
+        {
+          "type": "minecraft:block_predicate_filter",
+          "predicate": {
+            "type": "minecraft:matching_blocks",
+            "blocks": "minecraft:air"
+          }
+        }
+      ]
+    },
+    "tries": 80,
+    "xz_spread": 6,
+    "y_spread": 2
+  }
+}

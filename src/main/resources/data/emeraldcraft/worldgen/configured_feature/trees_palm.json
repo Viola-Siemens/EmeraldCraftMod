@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "default": "emeraldcraft:palm",
+    "features": [
+      {
+        "chance": 0.25,
+        "feature": "emeraldcraft:palm_tall"
+      }
+    ]
+  }
+}

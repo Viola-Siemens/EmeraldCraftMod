@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "default": "emeraldcraft:peach",
+    "features": [
+      {
+        "chance": 0.4,
+        "feature": "emeraldcraft:peach_bees"
+      }
+    ]
+  }
+}
