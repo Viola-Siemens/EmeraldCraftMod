@@ -1,26 +1,20 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
-import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
-import com.hexagram2021.emeraldcraft.EmeraldCraft;
 import com.hexagram2021.emeraldcraft.common.blocks.nylium.PurpuraceusNyliumBlock;
-import com.hexagram2021.emeraldcraft.common.blocks.plant.*;
+import com.hexagram2021.emeraldcraft.common.blocks.plant.ChiliBlock;
+import com.hexagram2021.emeraldcraft.common.blocks.plant.HiganBanaFlowerBlock;
+import com.hexagram2021.emeraldcraft.common.blocks.plant.WarpedWartBlock;
 import com.hexagram2021.emeraldcraft.common.blocks.workstation.*;
 import com.hexagram2021.emeraldcraft.common.crafting.compat.ModsLoadedEventSubscriber;
-import com.hexagram2021.emeraldcraft.common.world.grower.*;
+import com.hexagram2021.emeraldcraft.common.world.grower.GinkgoTreeGrower;
+import com.hexagram2021.emeraldcraft.common.world.grower.PalmTreeGrower;
+import com.hexagram2021.emeraldcraft.common.world.grower.PeachTreeGrower;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -41,7 +35,15 @@ import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
+import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 @SuppressWarnings("unused")
@@ -185,7 +187,7 @@ public final class ECBlocks {
 		TO_FENCE_GATE.put(fullBlock.getId(), new BlockEntry<>(
 				name,
 				() -> BlockBehaviour.Properties.copy(Blocks.OAK_FENCE_GATE).color(fullBlock.get().defaultMaterialColor()),
-				FenceGateBlock::new
+				(props) -> new FenceGateBlock(props, SoundEvents.FENCE_GATE_CLOSE, SoundEvents.FENCE_GATE_OPEN)
 		));
 	}
 
@@ -194,7 +196,7 @@ public final class ECBlocks {
 		TO_DOOR.put(fullBlock.getId(), new BlockEntry<>(
 				name,
 				() -> BlockBehaviour.Properties.copy(Blocks.OAK_DOOR).color(fullBlock.get().defaultMaterialColor()),
-				DoorBlock::new
+				(props) -> new DoorBlock(props, SoundEvents.WOODEN_DOOR_CLOSE, SoundEvents.WOODEN_DOOR_OPEN)
 		));
 	}
 
@@ -203,7 +205,7 @@ public final class ECBlocks {
 		TO_TRAPDOOR.put(fullBlock.getId(), new BlockEntry<>(
 				name,
 				() -> BlockBehaviour.Properties.copy(Blocks.OAK_TRAPDOOR).color(fullBlock.get().defaultMaterialColor()),
-				TrapDoorBlock::new
+				(props) -> new TrapDoorBlock(props, SoundEvents.WOODEN_TRAPDOOR_CLOSE, SoundEvents.WOODEN_TRAPDOOR_OPEN)
 		));
 	}
 
@@ -212,7 +214,7 @@ public final class ECBlocks {
 		TO_PRESSURE_PLATE.put(fullBlock.getId(), new BlockEntry<>(
 				name,
 				() -> BlockBehaviour.Properties.copy(Blocks.OAK_PRESSURE_PLATE).color(fullBlock.get().defaultMaterialColor()),
-				(props) -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, props)
+				(props) -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, props, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_OFF, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_ON)
 		));
 	}
 
@@ -221,7 +223,7 @@ public final class ECBlocks {
 		TO_BUTTON.put(fullBlock.getId(), new BlockEntry<>(
 				name,
 				() -> BlockBehaviour.Properties.copy(Blocks.OAK_BUTTON).color(fullBlock.get().defaultMaterialColor()),
-				WoodButtonBlock::new
+				(props) -> new ButtonBlock(props, 30, true, SoundEvents.BAMBOO_WOOD_BUTTON_CLICK_OFF, SoundEvents.BAMBOO_WOOD_BUTTON_CLICK_ON)
 		));
 	}
 
@@ -281,51 +283,51 @@ public final class ECBlocks {
 		Plant.init();
 
 		for(Map.Entry<ResourceLocation, ECBlocks.BlockEntry<SlabBlock>> blockSlab : ECBlocks.TO_SLAB.entrySet()) {
-			ECItems.REGISTER.register(blockSlab.getValue().getId().getPath(), () ->
-					new BlockItem(blockSlab.getValue().get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(blockSlab.getValue().getId().getPath(), () ->
+					new BlockItem(blockSlab.getValue().get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 		}
 		for(Map.Entry<ResourceLocation, ECBlocks.BlockEntry<StairBlock>> blockStairs : ECBlocks.TO_STAIRS.entrySet()) {
-			ECItems.REGISTER.register(blockStairs.getValue().getId().getPath(), () ->
-					new BlockItem(blockStairs.getValue().get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(blockStairs.getValue().getId().getPath(), () ->
+					new BlockItem(blockStairs.getValue().get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 		}
 		for(Map.Entry<ResourceLocation, ECBlocks.BlockEntry<WallBlock>> blockWall : ECBlocks.TO_WALL.entrySet()) {
-			ECItems.REGISTER.register(blockWall.getValue().getId().getPath(), () ->
-					new BlockItem(blockWall.getValue().get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(blockWall.getValue().getId().getPath(), () ->
+					new BlockItem(blockWall.getValue().get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 		}
 		for(Map.Entry<ResourceLocation, ECBlocks.BlockEntry<FenceBlock>> blockFence : ECBlocks.TO_FENCE.entrySet()) {
-			ECItems.REGISTER.register(blockFence.getValue().getId().getPath(), () ->
-					new BlockItem(blockFence.getValue().get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(blockFence.getValue().getId().getPath(), () ->
+					new BlockItem(blockFence.getValue().get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 		}
 		for(Map.Entry<ResourceLocation, ECBlocks.BlockEntry<FenceGateBlock>> blockFenceGate : ECBlocks.TO_FENCE_GATE.entrySet()) {
-			ECItems.REGISTER.register(blockFenceGate.getValue().getId().getPath(), () ->
-					new BlockItem(blockFenceGate.getValue().get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(blockFenceGate.getValue().getId().getPath(), () ->
+					new BlockItem(blockFenceGate.getValue().get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 		}
 		for(Map.Entry<ResourceLocation, ECBlocks.BlockEntry<DoorBlock>> blockDoor : ECBlocks.TO_DOOR.entrySet()) {
-			ECItems.REGISTER.register(blockDoor.getValue().getId().getPath(), () ->
-					new BlockItem(blockDoor.getValue().get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(blockDoor.getValue().getId().getPath(), () ->
+					new BlockItem(blockDoor.getValue().get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 		}
 		for(Map.Entry<ResourceLocation, ECBlocks.BlockEntry<TrapDoorBlock>> blockTrapDoor : ECBlocks.TO_TRAPDOOR.entrySet()) {
-			ECItems.REGISTER.register(blockTrapDoor.getValue().getId().getPath(), () ->
-					new BlockItem(blockTrapDoor.getValue().get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(blockTrapDoor.getValue().getId().getPath(), () ->
+					new BlockItem(blockTrapDoor.getValue().get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 		}
 		for(Map.Entry<ResourceLocation, ECBlocks.BlockEntry<PressurePlateBlock>> blockPressurePlate : ECBlocks.TO_PRESSURE_PLATE.entrySet()) {
-			ECItems.REGISTER.register(blockPressurePlate.getValue().getId().getPath(), () ->
-					new BlockItem(blockPressurePlate.getValue().get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(blockPressurePlate.getValue().getId().getPath(), () ->
+					new BlockItem(blockPressurePlate.getValue().get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 		}
 		for(Map.Entry<ResourceLocation, ECBlocks.BlockEntry<ButtonBlock>> blockButton : ECBlocks.TO_BUTTON.entrySet()) {
-			ECItems.REGISTER.register(blockButton.getValue().getId().getPath(), () ->
-					new BlockItem(blockButton.getValue().get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(blockButton.getValue().getId().getPath(), () ->
+					new BlockItem(blockButton.getValue().get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 		}
 		for(Map.Entry<ResourceLocation, Tuple<BlockEntry<StandingSignBlock>, BlockEntry<WallSignBlock>>> blockSign :
 				ECBlocks.TO_SIGN.entrySet()) {
-			ECItems.REGISTER.register(blockSign.getValue().getA().getId().getPath(), () ->
-					new SignItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP),
+			ECItems.ItemEntry.register(blockSign.getValue().getA().getId().getPath(), () ->
+					new SignItem(new Item.Properties(),
 							blockSign.getValue().getA().get(),
-							blockSign.getValue().getB().get()));
+							blockSign.getValue().getB().get()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 		}
 		for(Map.Entry<ResourceLocation, List<BlockEntry<?>>> colorBlock: ECBlocks.TO_COLORS.entrySet()) {
 			for(BlockEntry<?> blockEntry: colorBlock.getValue()) {
-				ECItems.REGISTER.register(blockEntry.getId().getPath(), () -> new BlockItem(blockEntry.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+				ECItems.ItemEntry.register(blockEntry.getId().getPath(), () -> new BlockItem(blockEntry.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 			}
 		}
 	}
@@ -524,81 +526,82 @@ public final class ECBlocks {
 		);
 
 		private static void init() {
-			ECItems.REGISTER.register(
+			ECItems.ItemEntry.register(
 					CARPENTRY_TABLE.getId().getPath(),
-					() -> new BlockItem(CARPENTRY_TABLE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)) {
+					() -> new BlockItem(CARPENTRY_TABLE.get(), new Item.Properties()) {
 						@Override
 						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
 							components.add(Component.translatable("desc.emeraldcraft.carpentry_table").withStyle(ChatFormatting.GRAY));
 						}
-					}
+					}, ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 			);
-			ECItems.REGISTER.register(
+			ECItems.ItemEntry.register(
 					GLASS_KILN.getId().getPath(),
-					() -> new BlockItem(GLASS_KILN.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)) {
+					() -> new BlockItem(GLASS_KILN.get(), new Item.Properties()) {
 						@Override
 						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
 							components.add(Component.translatable("desc.emeraldcraft.glass_kiln").withStyle(ChatFormatting.GRAY));
 						}
-					}
+					}, ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 			);
-			ECItems.REGISTER.register(
+			ECItems.ItemEntry.register(
 					MINERAL_TABLE.getId().getPath(),
-					() -> new BlockItem(MINERAL_TABLE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)) {
+					() -> new BlockItem(MINERAL_TABLE.get(), new Item.Properties()) {
 						@Override
 						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
 							components.add(Component.translatable("desc.emeraldcraft.mineral_table").withStyle(ChatFormatting.GRAY));
 						}
-					}
+					}, ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 			);
-			ECItems.REGISTER.register(
+			ECItems.ItemEntry.register(
 					CRYSTALBALL_TABLE.getId().getPath(),
-					() -> new BlockItem(CRYSTALBALL_TABLE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)) {
+					() -> new BlockItem(CRYSTALBALL_TABLE.get(), new Item.Properties()) {
 						@Override
 						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
 							components.add(Component.translatable("desc.emeraldcraft.crystalball_table").withStyle(ChatFormatting.GRAY));
 						}
-					}
+					}, ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 			);
-			ECItems.REGISTER.register(
+			ECItems.ItemEntry.register(
 					SQUEEZER.getId().getPath(),
-					() -> new BlockItem(SQUEEZER.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)) {
+					() -> new BlockItem(SQUEEZER.get(), new Item.Properties()) {
 						@Override
 						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
 							components.add(Component.translatable("desc.emeraldcraft.squeezer").withStyle(ChatFormatting.GRAY));
 						}
-					}
+					}, ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 			);
-			ECItems.REGISTER.register(
+			ECItems.ItemEntry.register(
 					CONTINUOUS_MINER.getId().getPath(),
-					() -> new BlockItem(CONTINUOUS_MINER.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)) {
+					() -> new BlockItem(CONTINUOUS_MINER.get(), new Item.Properties()) {
 						@Override
 						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
 							components.add(Component.translatable("desc.emeraldcraft.continuous_miner").withStyle(ChatFormatting.GRAY));
 						}
-					}
+					}, ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 			);
-			ECItems.REGISTER.register(
+			ECItems.ItemEntry.register(
 					ICE_MAKER.getId().getPath(),
-					() -> new BlockItem(ICE_MAKER.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)) {
+					() -> new BlockItem(ICE_MAKER.get(), new Item.Properties()) {
 						@Override
 						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
 							components.add(Component.translatable("desc.emeraldcraft.ice_maker").withStyle(ChatFormatting.GRAY));
 						}
-					}
+					}, ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 			);
-			ECItems.REGISTER.register(
+			ECItems.ItemEntry.register(
 					MELTER.getId().getPath(),
-					() -> new BlockItem(MELTER.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)) {
+					() -> new BlockItem(MELTER.get(), new Item.Properties()) {
 						@Override
 						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
 							components.add(Component.translatable("desc.emeraldcraft.melter").withStyle(ChatFormatting.GRAY));
 						}
-					}
+					}, ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 			);
-			ECItems.REGISTER.register(
+			ECItems.ItemEntry.register(
 					RABBLE_FURNACE.getId().getPath(),
-					() -> new BlockItem(RABBLE_FURNACE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+					() -> new BlockItem(RABBLE_FURNACE.get(), new Item.Properties()),
+					ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 			);
 		}
 	}
@@ -619,10 +622,10 @@ public final class ECBlocks {
 		);
 
 		private static void init() {
-			ECItems.REGISTER.register(VILLAGER_SCULPTURE.getId().getPath(), () -> new BlockItem(VILLAGER_SCULPTURE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(IRON_GOLEM_SCULPTURE.getId().getPath(), () -> new BlockItem(IRON_GOLEM_SCULPTURE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(WOLF_SCULPTURE.getId().getPath(), () -> new BlockItem(WOLF_SCULPTURE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(CAT_SCULPTURE.getId().getPath(), () -> new BlockItem(CAT_SCULPTURE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(VILLAGER_SCULPTURE.getId().getPath(), () -> new BlockItem(VILLAGER_SCULPTURE.get(), new Item.Properties()));
+			ECItems.ItemEntry.register(IRON_GOLEM_SCULPTURE.getId().getPath(), () -> new BlockItem(IRON_GOLEM_SCULPTURE.get(), new Item.Properties()));
+			ECItems.ItemEntry.register(WOLF_SCULPTURE.getId().getPath(), () -> new BlockItem(WOLF_SCULPTURE.get(), new Item.Properties()));
+			ECItems.ItemEntry.register(CAT_SCULPTURE.getId().getPath(), () -> new BlockItem(CAT_SCULPTURE.get(), new Item.Properties()));
 		}
 	}
 	//*/
@@ -782,45 +785,45 @@ public final class ECBlocks {
 		);
 
 		private static void init() {
-			ECItems.REGISTER.register(VITRIFIED_SAND.getId().getPath(), () -> new BlockItem(VITRIFIED_SAND.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(VITRIFIED_SAND.getId().getPath(), () -> new BlockItem(VITRIFIED_SAND.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 
-			ECItems.REGISTER.register(AZURE_SAND.getId().getPath(), () -> new BlockItem(AZURE_SAND.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(QUARTZ_SAND.getId().getPath(), () -> new BlockItem(QUARTZ_SAND.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(JADEITE_SAND.getId().getPath(), () -> new BlockItem(JADEITE_SAND.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(EMERY_SAND.getId().getPath(), () -> new BlockItem(EMERY_SAND.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(DARK_SAND.getId().getPath(), () -> new BlockItem(DARK_SAND.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(AZURE_SAND.getId().getPath(), () -> new BlockItem(AZURE_SAND.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(QUARTZ_SAND.getId().getPath(), () -> new BlockItem(QUARTZ_SAND.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(JADEITE_SAND.getId().getPath(), () -> new BlockItem(JADEITE_SAND.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(EMERY_SAND.getId().getPath(), () -> new BlockItem(EMERY_SAND.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(DARK_SAND.getId().getPath(), () -> new BlockItem(DARK_SAND.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 
-			ECItems.REGISTER.register(AZURE_SANDSTONE.getId().getPath(), () -> new BlockItem(AZURE_SANDSTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(QUARTZ_SANDSTONE.getId().getPath(), () -> new BlockItem(QUARTZ_SANDSTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(JADEITE_SANDSTONE.getId().getPath(), () -> new BlockItem(JADEITE_SANDSTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(EMERY_SANDSTONE.getId().getPath(), () -> new BlockItem(EMERY_SANDSTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(DARK_SANDSTONE.getId().getPath(), () -> new BlockItem(DARK_SANDSTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(AZURE_SANDSTONE.getId().getPath(), () -> new BlockItem(AZURE_SANDSTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(QUARTZ_SANDSTONE.getId().getPath(), () -> new BlockItem(QUARTZ_SANDSTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(JADEITE_SANDSTONE.getId().getPath(), () -> new BlockItem(JADEITE_SANDSTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(EMERY_SANDSTONE.getId().getPath(), () -> new BlockItem(EMERY_SANDSTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(DARK_SANDSTONE.getId().getPath(), () -> new BlockItem(DARK_SANDSTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 
-			ECItems.REGISTER.register(SMOOTH_AZURE_SANDSTONE.getId().getPath(), () -> new BlockItem(SMOOTH_AZURE_SANDSTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(SMOOTH_QUARTZ_SANDSTONE.getId().getPath(), () -> new BlockItem(SMOOTH_QUARTZ_SANDSTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(SMOOTH_JADEITE_SANDSTONE.getId().getPath(), () -> new BlockItem(SMOOTH_JADEITE_SANDSTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(SMOOTH_EMERY_SANDSTONE.getId().getPath(), () -> new BlockItem(SMOOTH_EMERY_SANDSTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(SMOOTH_DARK_SANDSTONE.getId().getPath(), () -> new BlockItem(SMOOTH_DARK_SANDSTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(SMOOTH_AZURE_SANDSTONE.getId().getPath(), () -> new BlockItem(SMOOTH_AZURE_SANDSTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(SMOOTH_QUARTZ_SANDSTONE.getId().getPath(), () -> new BlockItem(SMOOTH_QUARTZ_SANDSTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(SMOOTH_JADEITE_SANDSTONE.getId().getPath(), () -> new BlockItem(SMOOTH_JADEITE_SANDSTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(SMOOTH_EMERY_SANDSTONE.getId().getPath(), () -> new BlockItem(SMOOTH_EMERY_SANDSTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(SMOOTH_DARK_SANDSTONE.getId().getPath(), () -> new BlockItem(SMOOTH_DARK_SANDSTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 
-			ECItems.REGISTER.register(CUT_AZURE_SANDSTONE.getId().getPath(), () -> new BlockItem(CUT_AZURE_SANDSTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(CUT_QUARTZ_SANDSTONE.getId().getPath(), () -> new BlockItem(CUT_QUARTZ_SANDSTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(CUT_JADEITE_SANDSTONE.getId().getPath(), () -> new BlockItem(CUT_JADEITE_SANDSTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(CUT_EMERY_SANDSTONE.getId().getPath(), () -> new BlockItem(CUT_EMERY_SANDSTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(CUT_DARK_SANDSTONE.getId().getPath(), () -> new BlockItem(CUT_DARK_SANDSTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(CUT_AZURE_SANDSTONE.getId().getPath(), () -> new BlockItem(CUT_AZURE_SANDSTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(CUT_QUARTZ_SANDSTONE.getId().getPath(), () -> new BlockItem(CUT_QUARTZ_SANDSTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(CUT_JADEITE_SANDSTONE.getId().getPath(), () -> new BlockItem(CUT_JADEITE_SANDSTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(CUT_EMERY_SANDSTONE.getId().getPath(), () -> new BlockItem(CUT_EMERY_SANDSTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(CUT_DARK_SANDSTONE.getId().getPath(), () -> new BlockItem(CUT_DARK_SANDSTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 
-			ECItems.REGISTER.register(BLUE_NETHER_BRICKS.getId().getPath(), () -> new BlockItem(BLUE_NETHER_BRICKS.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PURPLE_NETHER_BRICKS.getId().getPath(), () -> new BlockItem(PURPLE_NETHER_BRICKS.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(BLUE_NETHER_BRICKS.getId().getPath(), () -> new BlockItem(BLUE_NETHER_BRICKS.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PURPLE_NETHER_BRICKS.getId().getPath(), () -> new BlockItem(PURPLE_NETHER_BRICKS.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 
-			ECItems.REGISTER.register(CRIMSON_STONE.getId().getPath(), () -> new BlockItem(CRIMSON_STONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(CRIMSON_COBBLESTONE.getId().getPath(), () -> new BlockItem(CRIMSON_COBBLESTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(WARPED_STONE.getId().getPath(), () -> new BlockItem(WARPED_STONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(WARPED_COBBLESTONE.getId().getPath(), () -> new BlockItem(WARPED_COBBLESTONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(CRIMSON_STONE.getId().getPath(), () -> new BlockItem(CRIMSON_STONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(CRIMSON_COBBLESTONE.getId().getPath(), () -> new BlockItem(CRIMSON_COBBLESTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(WARPED_STONE.getId().getPath(), () -> new BlockItem(WARPED_STONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(WARPED_COBBLESTONE.getId().getPath(), () -> new BlockItem(WARPED_COBBLESTONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 
-			ECItems.REGISTER.register(MOSSY_STONE.getId().getPath(), () -> new BlockItem(MOSSY_STONE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PAPER_BLOCK.getId().getPath(), () -> new BlockItem(PAPER_BLOCK.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(MOSSY_STONE.getId().getPath(), () -> new BlockItem(MOSSY_STONE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PAPER_BLOCK.getId().getPath(), () -> new BlockItem(PAPER_BLOCK.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 
-			ECItems.REGISTER.register(RESIN_BLOCK.getId().getPath(), () -> new BlockItem(RESIN_BLOCK.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(REINFORCED_RESIN_BLOCK.getId().getPath(), () -> new BlockItem(REINFORCED_RESIN_BLOCK.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(RESIN_BLOCK.getId().getPath(), () -> new BlockItem(RESIN_BLOCK.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(REINFORCED_RESIN_BLOCK.getId().getPath(), () -> new BlockItem(REINFORCED_RESIN_BLOCK.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 
 			registerStairs(Decoration.AZURE_SANDSTONE);
 			registerStairs(Decoration.QUARTZ_SANDSTONE);
@@ -1079,10 +1082,17 @@ public final class ECBlocks {
 		);
 
 		//PURPURACEUS
+		public static final BlockEntry<Block> PURPURACEUS_NYLIUM = new BlockEntry<>(
+				"purpuraceus_nylium",
+				() -> BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_PURPLE)
+						.requiresCorrectToolForDrops().strength(0.4F).sound(SoundType.NYLIUM).randomTicks(),
+				PurpuraceusNyliumBlock::new
+		);
+
 		public static final BlockEntry<FungusBlock> PURPURACEUS_FUNGUS = new BlockEntry<>(
 				"purpuraceus_fungus",
 				() -> BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE).instabreak().noCollission().sound(SoundType.FUNGUS),
-				(props) -> new FungusBlock(props, () -> ECConfiguredFeatures.TreeConfiguredFeatures.PURPURACEUS_FUNGUS_PLANTED)
+				(props) -> new FungusBlock(props, ECConfiguredFeatureKeys.TreeConfiguredFeatures.PURPURACEUS_FUNGUS_PLANTED, PURPURACEUS_NYLIUM.get())
 		);
 		public static final BlockEntry<FlowerPotBlock> POTTED_PURPURACEUS_FUNGUS = new BlockEntry<>(
 				"potted_purpuraceus_fungus", POTTED_FLOWER_PROPERTIES,
@@ -1108,13 +1118,6 @@ public final class ECBlocks {
 				"purpuraceus_planks", PURPURACEUS_PLANKS_PROPERTIES, Block::new
 		);
 
-		public static final BlockEntry<Block> PURPURACEUS_NYLIUM = new BlockEntry<>(
-				"purpuraceus_nylium",
-				() -> BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_PURPLE)
-						.requiresCorrectToolForDrops().strength(0.4F).sound(SoundType.NYLIUM).randomTicks(),
-				PurpuraceusNyliumBlock::new
-		);
-
 		public static final BlockEntry<Block> PURPURACEUS_ROOTS = new BlockEntry<>(
 				"purpuraceus_roots",
 				() -> BlockBehaviour.Properties.of(Material.REPLACEABLE_FIREPROOF_PLANT, MaterialColor.COLOR_PURPLE)
@@ -1128,39 +1131,39 @@ public final class ECBlocks {
 
 
 		private static void init() {
-			ECItems.REGISTER.register(CYAN_PETUNIA.getId().getPath(), () -> new BlockItem(CYAN_PETUNIA.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(MAGENTA_PETUNIA.getId().getPath(), () -> new BlockItem(MAGENTA_PETUNIA.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(HIGAN_BANA.getId().getPath(), () -> new BlockItem(HIGAN_BANA.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(GINKGO_SAPLING.getId().getPath(), () -> new BlockItem(GINKGO_SAPLING.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(GINKGO_LOG.getId().getPath(), () -> new BlockItem(GINKGO_LOG.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(STRIPPED_GINKGO_LOG.getId().getPath(), () -> new BlockItem(STRIPPED_GINKGO_LOG.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(GINKGO_WOOD.getId().getPath(), () -> new BlockItem(GINKGO_WOOD.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(STRIPPED_GINKGO_WOOD.getId().getPath(), () -> new BlockItem(STRIPPED_GINKGO_WOOD.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(GINKGO_LEAVES.getId().getPath(), () -> new BlockItem(GINKGO_LEAVES.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(GINKGO_PLANKS.getId().getPath(), () -> new BlockItem(GINKGO_PLANKS.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PALM_SAPLING.getId().getPath(), () -> new BlockItem(PALM_SAPLING.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PALM_LOG.getId().getPath(), () -> new BlockItem(PALM_LOG.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(STRIPPED_PALM_LOG.getId().getPath(), () -> new BlockItem(STRIPPED_PALM_LOG.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PALM_WOOD.getId().getPath(), () -> new BlockItem(PALM_WOOD.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(STRIPPED_PALM_WOOD.getId().getPath(), () -> new BlockItem(STRIPPED_PALM_WOOD.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PALM_LEAVES.getId().getPath(), () -> new BlockItem(PALM_LEAVES.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PALM_PLANKS.getId().getPath(), () -> new BlockItem(PALM_PLANKS.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PEACH_SAPLING.getId().getPath(), () -> new BlockItem(PEACH_SAPLING.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PEACH_LOG.getId().getPath(), () -> new BlockItem(PEACH_LOG.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(STRIPPED_PEACH_LOG.getId().getPath(), () -> new BlockItem(STRIPPED_PEACH_LOG.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PEACH_WOOD.getId().getPath(), () -> new BlockItem(PEACH_WOOD.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(STRIPPED_PEACH_WOOD.getId().getPath(), () -> new BlockItem(STRIPPED_PEACH_WOOD.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PEACH_LEAVES.getId().getPath(), () -> new BlockItem(PEACH_LEAVES.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PEACH_PLANKS.getId().getPath(), () -> new BlockItem(PEACH_PLANKS.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PURPURACEUS_FUNGUS.getId().getPath(), () -> new BlockItem(PURPURACEUS_FUNGUS.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PURPURACEUS_STEM.getId().getPath(), () -> new BlockItem(PURPURACEUS_STEM.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(STRIPPED_PURPURACEUS_STEM.getId().getPath(), () -> new BlockItem(STRIPPED_PURPURACEUS_STEM.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PURPURACEUS_HYPHAE.getId().getPath(), () -> new BlockItem(PURPURACEUS_HYPHAE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(STRIPPED_PURPURACEUS_HYPHAE.getId().getPath(), () -> new BlockItem(STRIPPED_PURPURACEUS_HYPHAE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PURPURACEUS_WART_BLOCK.getId().getPath(), () -> new BlockItem(PURPURACEUS_WART_BLOCK.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PURPURACEUS_PLANKS.getId().getPath(), () -> new BlockItem(PURPURACEUS_PLANKS.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PURPURACEUS_NYLIUM.getId().getPath(), () -> new BlockItem(PURPURACEUS_NYLIUM.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
-			ECItems.REGISTER.register(PURPURACEUS_ROOTS.getId().getPath(), () -> new BlockItem(PURPURACEUS_ROOTS.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.ItemEntry.register(CYAN_PETUNIA.getId().getPath(), () -> new BlockItem(CYAN_PETUNIA.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(MAGENTA_PETUNIA.getId().getPath(), () -> new BlockItem(MAGENTA_PETUNIA.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(HIGAN_BANA.getId().getPath(), () -> new BlockItem(HIGAN_BANA.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(GINKGO_SAPLING.getId().getPath(), () -> new BlockItem(GINKGO_SAPLING.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(GINKGO_LOG.getId().getPath(), () -> new BlockItem(GINKGO_LOG.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(STRIPPED_GINKGO_LOG.getId().getPath(), () -> new BlockItem(STRIPPED_GINKGO_LOG.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(GINKGO_WOOD.getId().getPath(), () -> new BlockItem(GINKGO_WOOD.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(STRIPPED_GINKGO_WOOD.getId().getPath(), () -> new BlockItem(STRIPPED_GINKGO_WOOD.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(GINKGO_LEAVES.getId().getPath(), () -> new BlockItem(GINKGO_LEAVES.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(GINKGO_PLANKS.getId().getPath(), () -> new BlockItem(GINKGO_PLANKS.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PALM_SAPLING.getId().getPath(), () -> new BlockItem(PALM_SAPLING.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PALM_LOG.getId().getPath(), () -> new BlockItem(PALM_LOG.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(STRIPPED_PALM_LOG.getId().getPath(), () -> new BlockItem(STRIPPED_PALM_LOG.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PALM_WOOD.getId().getPath(), () -> new BlockItem(PALM_WOOD.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(STRIPPED_PALM_WOOD.getId().getPath(), () -> new BlockItem(STRIPPED_PALM_WOOD.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PALM_LEAVES.getId().getPath(), () -> new BlockItem(PALM_LEAVES.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PALM_PLANKS.getId().getPath(), () -> new BlockItem(PALM_PLANKS.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PEACH_SAPLING.getId().getPath(), () -> new BlockItem(PEACH_SAPLING.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PEACH_LOG.getId().getPath(), () -> new BlockItem(PEACH_LOG.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(STRIPPED_PEACH_LOG.getId().getPath(), () -> new BlockItem(STRIPPED_PEACH_LOG.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PEACH_WOOD.getId().getPath(), () -> new BlockItem(PEACH_WOOD.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(STRIPPED_PEACH_WOOD.getId().getPath(), () -> new BlockItem(STRIPPED_PEACH_WOOD.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PEACH_LEAVES.getId().getPath(), () -> new BlockItem(PEACH_LEAVES.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PEACH_PLANKS.getId().getPath(), () -> new BlockItem(PEACH_PLANKS.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PURPURACEUS_FUNGUS.getId().getPath(), () -> new BlockItem(PURPURACEUS_FUNGUS.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PURPURACEUS_STEM.getId().getPath(), () -> new BlockItem(PURPURACEUS_STEM.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(STRIPPED_PURPURACEUS_STEM.getId().getPath(), () -> new BlockItem(STRIPPED_PURPURACEUS_STEM.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PURPURACEUS_HYPHAE.getId().getPath(), () -> new BlockItem(PURPURACEUS_HYPHAE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(STRIPPED_PURPURACEUS_HYPHAE.getId().getPath(), () -> new BlockItem(STRIPPED_PURPURACEUS_HYPHAE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PURPURACEUS_WART_BLOCK.getId().getPath(), () -> new BlockItem(PURPURACEUS_WART_BLOCK.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PURPURACEUS_PLANKS.getId().getPath(), () -> new BlockItem(PURPURACEUS_PLANKS.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PURPURACEUS_NYLIUM.getId().getPath(), () -> new BlockItem(PURPURACEUS_NYLIUM.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(PURPURACEUS_ROOTS.getId().getPath(), () -> new BlockItem(PURPURACEUS_ROOTS.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 
 
 			registerStairs(Plant.GINKGO_PLANKS);

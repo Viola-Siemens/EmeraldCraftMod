@@ -2,7 +2,10 @@
   "language": "ɥsᴉꞁᵷuƎ （uʍoᗡ ǝpᴉsd∩）",
   "language.code": "en_ud",
   "language.region": "",
-  "itemGroup.emeraldcraft": "ʇɟɐɹƆ plɐɹǝɯƎ",
+  "itemGroup.emeraldcraft.building_blocks": "sʞɔolq ƃuᴉplᴉnq :ʇɟɐɹƆ plɐɹǝɯƎ",
+  "itemGroup.emeraldcraft.functional_blocks_and_materials": "slɐᴉɹǝʇɐW puɐ sʞɔolq lɐuoᴉʇɔunℲ :ʇɟɐɹƆ plɐɹǝɯƎ",
+  "itemGroup.emeraldcraft.tools_and_armors": "sɹoɯɹ∀ puɐ sloo┴ :ʇɟɐɹƆ plɐɹǝɯƎ",
+  "itemGroup.emeraldcraft.foods_and_drinks": "sʞuᴉɹp puɐ spooℲ :ʇɟɐɹƆ plɐɹǝɯƎ",
   "emeraldcraft.config.title": "",
 
   "block.emeraldcraft.emerald_slab": "qɐlS plɐɹǝɯƎ",

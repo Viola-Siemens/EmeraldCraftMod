@@ -19,10 +19,12 @@ import com.hexagram2021.emeraldcraft.common.world.village.Villages;
 import com.hexagram2021.emeraldcraft.mixin.BlockEntityTypeAccess;
 import com.hexagram2021.emeraldcraft.mixin.RecipeManagerAccess;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.item.CreativeModeTab;
@@ -36,6 +38,7 @@ import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.*;
@@ -47,7 +50,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import org.apache.logging.log4j.LogManager;
 
-import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -209,11 +211,32 @@ public class EmeraldCraft {
 		signBuilderAccess.ec_setValidBlocks(signValidBlocks);
 	}
 
-	public static final CreativeModeTab ITEM_GROUP = new CreativeModeTab(MODID) {
-		@Override
-		@Nonnull
-		public ItemStack makeIcon() {
-			return new ItemStack(ECBlocks.TO_STAIRS.get(new ResourceLocation(ResourceLocation.DEFAULT_NAMESPACE, "emerald_block")));
-		}
-	};
+	public static CreativeModeTab BUILDING_BLOCKS;
+	public static CreativeModeTab FUNCTIONAL_BLOCKS_AND_MATERIALS;
+	public static CreativeModeTab TOOLS_AND_ARMORS;
+	public static CreativeModeTab FOODS_AND_DRINKS;
+	public static CreativeModeTab CREATIVE_ONLY;
+
+	public void creativeTabEvent(CreativeModeTabEvent.Register event) {
+		BUILDING_BLOCKS = event.registerCreativeModeTab(new ResourceLocation(MODID, "building_blocks"), builder -> builder
+				.icon(() -> new ItemStack(ECBlocks.TO_STAIRS.get(new ResourceLocation(ResourceLocation.DEFAULT_NAMESPACE, "emerald_block"))))
+				.title(Component.translatable("itemGroup.emeraldcraft.building_blocks")).displayItems(
+						(flags, output, hasPermission) -> ECItems.ItemEntry.BUILDING_BLOCKS.forEach(output::accept)
+				));
+		FUNCTIONAL_BLOCKS_AND_MATERIALS = event.registerCreativeModeTab(new ResourceLocation(MODID, "functional_blocks_and_materials"), builder -> builder
+				.icon(() -> new ItemStack(ECBlocks.WorkStation.CARPENTRY_TABLE))
+				.title(Component.translatable("itemGroup.emeraldcraft.functional_blocks_and_materials")).displayItems(
+						(flags, output, hasPermission) -> ECItems.ItemEntry.FUNCTIONAL_BLOCKS_AND_MATERIALS.forEach(output::accept)
+				));
+		TOOLS_AND_ARMORS = event.registerCreativeModeTab(new ResourceLocation(MODID, "tools_and_armors"), builder -> builder
+				.icon(() -> new ItemStack(ECItems.EMERALD_ARMOR.get(EquipmentSlot.CHEST)))
+				.title(Component.translatable("itemGroup.emeraldcraft.tools_and_armors")).displayItems(
+						(flags, output, hasPermission) -> ECItems.ItemEntry.TOOLS_AND_ARMORS.forEach(output::accept)
+				));
+		FOODS_AND_DRINKS = event.registerCreativeModeTab(new ResourceLocation(MODID, "foods_and_drinks"), builder -> builder
+				.icon(() -> new ItemStack(ECItems.ROUGAMO))
+				.title(Component.translatable("itemGroup.emeraldcraft.foods_and_drinks")).displayItems(
+						(flags, output, hasPermission) -> ECItems.ItemEntry.FOODS_AND_DRINKS.forEach(output::accept)
+				));
+	}
 }

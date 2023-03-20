@@ -18,7 +18,7 @@ plugins {
 }
 apply plugin: 'org.spongepowered.mixin'
 
-version = '6.1'
+version = '7.0'
 group = 'com.hexagram2021.emeraldcraft'
 archivesBaseName = 'emeraldcraft'
 
@@ -26,7 +26,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-    mappings channel: 'official', version: '1.19.2'
+    mappings channel: 'official', version: '1.19.3'
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -126,13 +126,13 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.2-43.2.0'
+    minecraft 'net.minecraftforge:forge:1.19.3-44.1.0'
 
-    compileOnly fg.deobf("mezz.jei:jei-1.19.2-forge:11.5.0.297")
+    compileOnly fg.deobf("mezz.jei:jei-1.19.3-forge:12.3.0.18")
     
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     
-    implementation fg.deobf("com.github.glitchfiend:TerraBlender-forge:1.19.2-2.0.1.128")   //TerraBlender
+    implementation fg.deobf("com.github.glitchfiend:TerraBlender-forge:1.19.3-2.1.0.134")   //TerraBlender
 }
 
 jar {

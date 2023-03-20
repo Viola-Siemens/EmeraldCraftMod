@@ -2,7 +2,10 @@
   "language": "Japanese",
   "language.code": "ja_jp",
   "language.region": "Japan",
-  "itemGroup.emeraldcraft": "エメラルドの工芸",
+  "itemGroup.emeraldcraft.building_blocks": "エメラルドの工芸：建築ブロック",
+  "itemGroup.emeraldcraft.functional_blocks_and_materials": "エメラルドの工芸：機能的ブロックと材料",
+  "itemGroup.emeraldcraft.tools_and_armors": "エメラルドの工芸：道具と防具",
+  "itemGroup.emeraldcraft.foods_and_drinks": "エメラルドの工芸：食べ物と飲み物",
   "emeraldcraft.config.title": "",
 
   "block.emeraldcraft.emerald_slab": "エメラルドのハーフブロック",

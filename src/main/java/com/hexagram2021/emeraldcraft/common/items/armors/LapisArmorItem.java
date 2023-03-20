@@ -1,6 +1,5 @@
 package com.hexagram2021.emeraldcraft.common.items.armors;
 
-import com.hexagram2021.emeraldcraft.EmeraldCraft;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.LazyLoadedValue;
@@ -31,7 +30,7 @@ public class LapisArmorItem extends ArmorItem {
 	public static final ArmorMaterial mat = new LapisArmorMaterial();
 
 	public LapisArmorItem(EquipmentSlot type) {
-		super(mat, type, new Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP));
+		super(mat, type, new Properties().stacksTo(1));
 	}
 
 	@Override

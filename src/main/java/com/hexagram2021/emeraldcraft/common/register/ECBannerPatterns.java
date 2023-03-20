@@ -1,7 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
-import com.hexagram2021.emeraldcraft.EmeraldCraft;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BannerPatternItem;
 import net.minecraft.world.item.Item;
@@ -18,7 +17,7 @@ import java.util.List;
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public class ECBannerPatterns {
-	public static final DeferredRegister<BannerPattern> REGISTER = DeferredRegister.create(Registry.BANNER_PATTERN_REGISTRY, MODID);
+	public static final DeferredRegister<BannerPattern> REGISTER = DeferredRegister.create(Registries.BANNER_PATTERN, MODID);
 
 	public static final List<BannerEntry> ALL_BANNERS = new ArrayList<>();
 
@@ -33,10 +32,10 @@ public class ECBannerPatterns {
 
 	private static BannerEntry addBanner(String name, String hashName) {
 		RegistryObject<BannerPattern> pattern = REGISTER.register(name, () -> new BannerPattern("ec_"+hashName));
-		TagKey<BannerPattern> tag = TagKey.create(Registry.BANNER_PATTERN_REGISTRY, pattern.getId());
-		ECItems.ItemRegObject<BannerPatternItem> item = ECItems.ItemRegObject.register(name + "_banner_pattern", () -> new BannerPatternItem(
-				tag, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(1)
-		));
+		TagKey<BannerPattern> tag = TagKey.create(Registries.BANNER_PATTERN, pattern.getId());
+		ECItems.ItemEntry<BannerPatternItem> item = ECItems.ItemEntry.register(name + "_banner_pattern", () -> new BannerPatternItem(
+				tag, new Item.Properties().stacksTo(1)
+		), ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS);
 		BannerEntry result = new BannerEntry(pattern, tag, item);
 		ALL_BANNERS.add(result);
 		return result;
@@ -45,7 +44,7 @@ public class ECBannerPatterns {
 	public record BannerEntry(
 			RegistryObject<BannerPattern> pattern,
 			TagKey<BannerPattern> tag,
-			ECItems.ItemRegObject<BannerPatternItem> item
+			ECItems.ItemEntry<BannerPatternItem> item
 	) implements ItemLike {
 		@Override @NotNull
 		public Item asItem() {

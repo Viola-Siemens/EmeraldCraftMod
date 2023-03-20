@@ -2,7 +2,10 @@
   "language": "Traditional Chinese",
   "language.code": "zh_tw",
   "language.region": "Taiwan, China",
-  "itemGroup.emeraldcraft": "綠寶石工藝",
+  "itemGroup.emeraldcraft.building_blocks": "綠寶石工藝：建築方塊",
+  "itemGroup.emeraldcraft.functional_blocks_and_materials": "綠寶石工藝：功能方塊及原材料",
+  "itemGroup.emeraldcraft.tools_and_armors": "綠寶石工藝：工具及盔甲",
+  "itemGroup.emeraldcraft.foods_and_drinks": "綠寶石工藝：食物及飲品",
   "emeraldcraft.config.title": "",
 
   "block.emeraldcraft.emerald_slab": "綠寶石半磚",

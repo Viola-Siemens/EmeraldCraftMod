@@ -2,7 +2,10 @@
   "language": "English",
   "language.code": "en_us",
   "language.region": "United States",
-  "itemGroup.emeraldcraft": "Emerald Craft",
+  "itemGroup.emeraldcraft.building_blocks": "Emerald Craft: Building Blocks",
+  "itemGroup.emeraldcraft.functional_blocks_and_materials": "Emerald Craft: Functional Blocks and Materials",
+  "itemGroup.emeraldcraft.tools_and_armors": "Emerald Craft: Tools and Armors",
+  "itemGroup.emeraldcraft.foods_and_drinks": "Emerald Craft: Foods and Drinks",
   "emeraldcraft.config.title": "",
 
   "block.emeraldcraft.emerald_slab": "Emerald Slab",

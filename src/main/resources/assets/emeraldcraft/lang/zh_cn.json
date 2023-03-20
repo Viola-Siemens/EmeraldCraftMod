@@ -2,7 +2,10 @@
   "language": "Chinese",
   "language.code": "zh_cn",
   "language.region": "China",
-  "itemGroup.emeraldcraft": "绿宝石工艺",
+  "itemGroup.emeraldcraft.building_blocks": "绿宝石工艺：建筑方块",
+  "itemGroup.emeraldcraft.functional_blocks_and_materials": "绿宝石工艺：功能方块与材料",
+  "itemGroup.emeraldcraft.tools_and_armors": "绿宝石工艺：工具与盔甲",
+  "itemGroup.emeraldcraft.foods_and_drinks": "绿宝石工艺：食物和饮品",
   "emeraldcraft.config.title": "",
 
   "block.emeraldcraft.emerald_slab": "绿宝石台阶",
