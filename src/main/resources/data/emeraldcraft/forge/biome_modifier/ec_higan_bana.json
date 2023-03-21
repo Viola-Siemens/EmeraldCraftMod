@@ -1,6 +1,9 @@
 {
-  "type": "emeraldcraft:ec_higan_bana",
+  "type": "forge:add_features",
   "biomes": [
     "minecraft:soul_sand_valley"
+  ],
+  "features": [
+    "emeraldcraft:flower_higan_bana"
   ]
 }
