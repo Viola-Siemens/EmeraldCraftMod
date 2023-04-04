@@ -51,4 +51,6 @@ public class ECBiomeKeys {
 	}
 
 	public record BiomeKey(ResourceKey<Biome> key, boolean generate) {}
+
+	public static void init() {}
 }

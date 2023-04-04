@@ -27,7 +27,7 @@ public class AboveHeightmapFilter extends PlacementModifier {
 
 	@Override @NotNull
 	public Stream<BlockPos> getPositions(PlacementContext placementContext, @NotNull RandomSource random, BlockPos blockPos) {
-		return blockPos.getY() >= placementContext.getHeight(heightmap, blockPos.getX(), blockPos.getZ()) ? Stream.of(blockPos) : Stream.empty();
+		return blockPos.getY() >= placementContext.getHeight(this.heightmap, blockPos.getX(), blockPos.getZ()) ? Stream.of(blockPos) : Stream.empty();
 	}
 
 	@Override @NotNull

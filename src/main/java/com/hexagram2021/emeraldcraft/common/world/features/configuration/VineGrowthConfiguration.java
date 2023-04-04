@@ -7,8 +7,9 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -21,9 +22,9 @@ import java.util.List;
 public class VineGrowthConfiguration implements FeatureConfiguration {
 	@SuppressWarnings("deprecation")
 	public static final Codec<VineGrowthConfiguration> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-			Registry.BLOCK.byNameCodec().fieldOf("block").flatXmap(VineGrowthConfiguration::apply, DataResult::success).orElse(Blocks.VINE).forGetter(conf -> conf.placeBlock),
+			BuiltInRegistries.BLOCK.byNameCodec().fieldOf("block").flatXmap(VineGrowthConfiguration::apply, DataResult::success).orElse(Blocks.VINE).forGetter(conf -> conf.placeBlock),
 			Codec.intRange(1, 64).fieldOf("search_range").orElse(10).forGetter(conf -> conf.searchRange),
-			RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).fieldOf("can_be_placed_on").forGetter(conf -> conf.canBePlacedOn)).apply(instance, VineGrowthConfiguration::new));
+			RegistryCodecs.homogeneousList(Registries.BLOCK).fieldOf("can_be_placed_on").forGetter(conf -> conf.canBePlacedOn)).apply(instance, VineGrowthConfiguration::new));
 	public final Block placeBlock;
 	public final int searchRange;
 	public final HolderSet<Block> canBePlacedOn;

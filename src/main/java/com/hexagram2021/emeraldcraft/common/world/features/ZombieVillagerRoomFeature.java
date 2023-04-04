@@ -120,7 +120,7 @@ public class ZombieVillagerRoomFeature extends Feature<NoneFeatureConfiguration>
 			this.safeSetBlock(worldgenlevel, blockpos, Blocks.SPAWNER.defaultBlockState(), predicate);
 			BlockEntity blockentity = worldgenlevel.getBlockEntity(blockpos);
 			if (blockentity instanceof SpawnerBlockEntity) {
-				((SpawnerBlockEntity)blockentity).getSpawner().setEntityId(EntityType.ZOMBIE_VILLAGER);
+				((SpawnerBlockEntity)blockentity).setEntityId(EntityType.ZOMBIE_VILLAGER, random);
 			} else {
 				ECLogger.error("Failed to fetch mob spawner entity at ({}, {}, {})", blockpos.getX(), blockpos.getY(), blockpos.getZ());
 			}

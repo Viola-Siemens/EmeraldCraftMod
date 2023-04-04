@@ -5,6 +5,7 @@ import com.hexagram2021.emeraldcraft.client.renderers.*;
 import com.hexagram2021.emeraldcraft.common.entities.ECBoat;
 import com.hexagram2021.emeraldcraft.common.register.ECEntities;
 import net.minecraft.client.model.BoatModel;
+import net.minecraft.client.model.ChestBoatModel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -13,7 +14,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 @EventBusSubscriber(modid = MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
-public class ClientMobEventSubscriber {
+public class ClientEntityEventSubscriber {
 	@SubscribeEvent
 	public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		event.registerLayerDefinition(PiglinCuteyModel.LAYER_LOCATION, PiglinCuteyModel::createBodyLayer);
@@ -26,8 +27,8 @@ public class ClientMobEventSubscriber {
 		event.registerLayerDefinition(LumineModel.LAYER_LOCATION, LumineModel::createBodyLayer);
 
 		for(ECBoat.ECBoatType type: ECBoat.ECBoatType.values()) {
-			event.registerLayerDefinition(ECBoatRenderer.createBoatModelName(type), () -> BoatModel.createBodyModel(false));
-			event.registerLayerDefinition(ECBoatRenderer.createChestBoatModelName(type), () -> BoatModel.createBodyModel(true));
+			event.registerLayerDefinition(ECBoatRenderer.createBoatModelName(type), BoatModel::createBodyModel);
+			event.registerLayerDefinition(ECBoatRenderer.createChestBoatModelName(type), ChestBoatModel::createBodyModel);
 		}
 	}
 
