@@ -7,6 +7,7 @@ import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.NotNull;
@@ -17,8 +18,9 @@ public class GlassKilnRecipe extends AbstractCookingRecipe {
 			GlassKilnRecipe.class
 	);
 
-	public GlassKilnRecipe(ResourceLocation id, String group, Ingredient ingredient, ItemStack result, float experience, int cookingTime) {
-		super(ECRecipes.GLASS_KILN_TYPE.get(), id, group, ingredient, result, experience, cookingTime);
+	public GlassKilnRecipe(ResourceLocation id, String group, CookingBookCategory category, Ingredient ingredient,
+						   ItemStack result, float experience, int cookingTime) {
+		super(ECRecipes.GLASS_KILN_TYPE.get(), id, group, category, ingredient, result, experience, cookingTime);
 	}
 
 	@Override @NotNull

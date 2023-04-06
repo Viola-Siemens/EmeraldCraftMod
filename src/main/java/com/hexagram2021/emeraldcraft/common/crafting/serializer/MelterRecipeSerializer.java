@@ -25,7 +25,7 @@ public class MelterRecipeSerializer<T extends MelterRecipe> implements RecipeSer
 
 	@Override @NotNull
 	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
-		String s = GsonHelper.getAsString(json, "group", "");
+		String group = GsonHelper.getAsString(json, "group", "");
 		JsonElement jsonelement =
 				GsonHelper.isArrayNode(json, "ingredient") ?
 						GsonHelper.getAsJsonArray(json, "ingredient") :
@@ -42,8 +42,8 @@ public class MelterRecipeSerializer<T extends MelterRecipe> implements RecipeSer
 		} else {
 			throw new IllegalStateException("result is not a Json object");
 		}
-		int i = GsonHelper.getAsInt(json, "meltingtime", this.defaultMeltingTime);
-		return this.factory.create(id, s, ingredient, fluidType, fluidAmount, i);
+		int time = GsonHelper.getAsInt(json, "meltingtime", this.defaultMeltingTime);
+		return this.factory.create(id, group, ingredient, fluidType, fluidAmount, time);
 	}
 
 	@Override @Nullable

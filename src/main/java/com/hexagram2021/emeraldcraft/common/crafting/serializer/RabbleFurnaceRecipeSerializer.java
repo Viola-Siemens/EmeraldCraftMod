@@ -3,13 +3,16 @@ package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.hexagram2021.emeraldcraft.common.crafting.RabbleFurnaceRecipe;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -26,7 +29,7 @@ public class RabbleFurnaceRecipeSerializer<T extends RabbleFurnaceRecipe> implem
 	@SuppressWarnings("deprecation")
 	@Override @NotNull
 	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
-		String s = GsonHelper.getAsString(json, "group", "");
+		String group = GsonHelper.getAsString(json, "group", "");
 		JsonElement ingredientJson =
 				GsonHelper.isArrayNode(json, "ingredient") ?
 						GsonHelper.getAsJsonArray(json, "ingredient") :
@@ -53,15 +56,15 @@ public class RabbleFurnaceRecipeSerializer<T extends RabbleFurnaceRecipe> implem
 		if (json.get("result").isJsonObject()) {
 			itemstack = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
 		} else {
-			String s1 = GsonHelper.getAsString(json, "result");
-			ResourceLocation resourcelocation = new ResourceLocation(s1);
-			itemstack = new ItemStack(Registry.ITEM.getOptional(resourcelocation).orElseThrow(
-					() -> new IllegalStateException("Item: " + s1 + " does not exist")
+			String result = GsonHelper.getAsString(json, "result");
+			ResourceLocation resourcelocation = new ResourceLocation(result);
+			itemstack = new ItemStack(BuiltInRegistries.ITEM.getOptional(resourcelocation).orElseThrow(
+					() -> new IllegalStateException("Item: " + result + " does not exist")
 			));
 		}
 		float f = GsonHelper.getAsFloat(json, "experience", 0.0F);
 		int i = GsonHelper.getAsInt(json, "cookingtime", this.defaultCookingTime);
-		return this.factory.create(id, s, ingredient, mix1, mix2, itemstack, f, i);
+		return this.factory.create(id, group, ingredient, mix1, mix2, itemstack, f, i);
 	}
 
 	@Override @Nullable

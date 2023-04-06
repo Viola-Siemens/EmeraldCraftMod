@@ -3,7 +3,7 @@ package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.hexagram2021.emeraldcraft.common.crafting.MineralTableRecipe;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -28,7 +28,7 @@ public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implemen
 	@SuppressWarnings("deprecation")
 	@Override @NotNull
 	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
-		String s = GsonHelper.getAsString(json, "group", "");
+		String group = GsonHelper.getAsString(json, "group", "");
 		JsonElement jsonelement =
 				GsonHelper.isArrayNode(json, "ingredient") ?
 						GsonHelper.getAsJsonArray(json, "ingredient") :
@@ -40,15 +40,15 @@ public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implemen
 		if (json.get("result").isJsonObject()) {
 			itemstack = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
 		} else {
-			String s1 = GsonHelper.getAsString(json, "result");
-			ResourceLocation resourcelocation = new ResourceLocation(s1);
-			itemstack = new ItemStack(Registry.ITEM.getOptional(resourcelocation).orElseThrow(
-					() -> new IllegalStateException("Item: " + s1 + " does not exist")
+			String result = GsonHelper.getAsString(json, "result");
+			ResourceLocation resourcelocation = new ResourceLocation(result);
+			itemstack = new ItemStack(BuiltInRegistries.ITEM.getOptional(resourcelocation).orElseThrow(
+					() -> new IllegalStateException("Item: " + result + " does not exist")
 			));
 		}
 		float f = GsonHelper.getAsFloat(json, "experience", 0.0F);
 		int i = GsonHelper.getAsInt(json, "cookingtime", this.defaultCookingTime);
-		return this.factory.create(id, s, ingredient, itemstack, f, i);
+		return this.factory.create(id, group, ingredient, itemstack, f, i);
 	}
 
 	@Nullable

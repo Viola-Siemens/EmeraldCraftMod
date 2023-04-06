@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.hexagram2021.emeraldcraft.api.fluid.FluidType;
 import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
 import com.hexagram2021.emeraldcraft.common.crafting.IceMakerRecipe;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -42,19 +42,19 @@ public class IceMakerRecipeSerializer<T extends IceMakerRecipe> implements Recip
 			throw new IllegalStateException("ingredient is not a Json object");
 		}
 
-		ItemStack result;
+		ItemStack itemStack;
 		if (!json.has("result")) throw new com.google.gson.JsonSyntaxException("Missing result, expected to find a string or object");
 		if (json.get("result").isJsonObject()) {
-			result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
+			itemStack = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
 		} else {
-			String s1 = GsonHelper.getAsString(json, "result");
-			ResourceLocation resourcelocation = new ResourceLocation(s1);
-			result = new ItemStack(Registry.ITEM.getOptional(resourcelocation).orElseThrow(
-					() -> new IllegalStateException("Item: " + s1 + " does not exist")
+			String result = GsonHelper.getAsString(json, "result");
+			ResourceLocation resourcelocation = new ResourceLocation(result);
+			itemStack = new ItemStack(BuiltInRegistries.ITEM.getOptional(resourcelocation).orElseThrow(
+					() -> new IllegalStateException("Item: " + result + " does not exist")
 			));
 		}
-		int i = GsonHelper.getAsInt(json, "freezingtime", this.defaultFreezingTime);
-		return this.factory.create(id, group, fluidType, fluidAmount, result, i);
+		int time = GsonHelper.getAsInt(json, "freezingtime", this.defaultFreezingTime);
+		return this.factory.create(id, group, fluidType, fluidAmount, itemStack, time);
 	}
 
 	@Override @Nullable

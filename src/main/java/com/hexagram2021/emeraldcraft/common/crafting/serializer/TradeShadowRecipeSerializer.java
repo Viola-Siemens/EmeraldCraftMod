@@ -2,7 +2,7 @@ package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 
 import com.google.gson.JsonObject;
 import com.hexagram2021.emeraldcraft.common.crafting.TradeShadowRecipe;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -27,13 +27,24 @@ public class TradeShadowRecipeSerializer<T extends TradeShadowRecipe> implements
 	@Override @NotNull
 	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
 		JsonObject costAObject = GsonHelper.getAsJsonObject(json, "costA");
-		ItemStack costA = new ItemStack(Registry.ITEM.get(new ResourceLocation(GsonHelper.getAsString(costAObject, "item"))), GsonHelper.getAsInt(costAObject, "count"));
+		ItemStack costA = new ItemStack(
+				BuiltInRegistries.ITEM.get(new ResourceLocation(GsonHelper.getAsString(costAObject, "item"))),
+				GsonHelper.getAsInt(costAObject, "count")
+		);
 		JsonObject costBObject = GsonHelper.getAsJsonObject(json, "costB");
-		ItemStack costB = new ItemStack(Registry.ITEM.get(new ResourceLocation(GsonHelper.getAsString(costBObject, "item"))), GsonHelper.getAsInt(costBObject, "count"));
+		ItemStack costB = new ItemStack(
+				BuiltInRegistries.ITEM.get(new ResourceLocation(GsonHelper.getAsString(costBObject, "item"))),
+				GsonHelper.getAsInt(costBObject, "count")
+		);
 		JsonObject resultObject = GsonHelper.getAsJsonObject(json, "result");
-		ItemStack result = new ItemStack(Registry.ITEM.get(new ResourceLocation(GsonHelper.getAsString(resultObject, "item"))), GsonHelper.getAsInt(resultObject, "count"));
-		EntityType<?> entityType = Registry.ENTITY_TYPE.get(new ResourceLocation(GsonHelper.getAsString(json, "entityType")));
-		VillagerProfession profession = Registry.VILLAGER_PROFESSION.get(new ResourceLocation(GsonHelper.getAsString(json, "profession")));
+		ItemStack result = new ItemStack(
+				BuiltInRegistries.ITEM.get(new ResourceLocation(GsonHelper.getAsString(resultObject, "item"))),
+				GsonHelper.getAsInt(resultObject, "count")
+		);
+		EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(GsonHelper.getAsString(json, "entityType")));
+		VillagerProfession profession = BuiltInRegistries.VILLAGER_PROFESSION.get(
+				new ResourceLocation(GsonHelper.getAsString(json, "profession"))
+		);
 		int villagerLevel = GsonHelper.getAsInt(json, "villagerLevel");
 		int xp = GsonHelper.getAsInt(json, "xp");
 
@@ -46,8 +57,8 @@ public class TradeShadowRecipeSerializer<T extends TradeShadowRecipe> implements
 		ItemStack costA = buf.readItem();
 		ItemStack costB = buf.readItem();
 		ItemStack result = buf.readItem();
-		EntityType<?> entityType = Registry.ENTITY_TYPE.get(buf.readResourceLocation());
-		VillagerProfession profession = Registry.VILLAGER_PROFESSION.get(buf.readResourceLocation());
+		EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.get(buf.readResourceLocation());
+		VillagerProfession profession = BuiltInRegistries.VILLAGER_PROFESSION.get(buf.readResourceLocation());
 		int villagerLevel = buf.readInt();
 		int xp = buf.readInt();
 

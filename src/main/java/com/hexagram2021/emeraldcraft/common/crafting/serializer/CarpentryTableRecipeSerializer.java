@@ -2,7 +2,7 @@ package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 
 import com.google.gson.JsonObject;
 import com.hexagram2021.emeraldcraft.common.crafting.CarpentryTableRecipe;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -23,7 +23,7 @@ public class CarpentryTableRecipeSerializer<T extends CarpentryTableRecipe> impl
 	@SuppressWarnings("deprecation")
 	@Override @NotNull
 	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
-		String s = GsonHelper.getAsString(json, "group", "");
+		String group = GsonHelper.getAsString(json, "group", "");
 		Ingredient ingredient;
 		if (GsonHelper.isArrayNode(json, "ingredients")) {
 			ingredient = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "ingredients"));
@@ -31,10 +31,12 @@ public class CarpentryTableRecipeSerializer<T extends CarpentryTableRecipe> impl
 			ingredient = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "ingredients"));
 		}
 
-		String s1 = GsonHelper.getAsString(json, "result");
-		int i = GsonHelper.getAsInt(json, "count");
-		ItemStack itemstack = new ItemStack(Registry.ITEM.get(new ResourceLocation(s1)), i);
-		return this.factory.create(id, s, ingredient, itemstack);
+		String result = GsonHelper.getAsString(json, "result");
+		int count = GsonHelper.getAsInt(json, "count");
+		ItemStack itemstack = new ItemStack(BuiltInRegistries.ITEM.getOptional(new ResourceLocation(result)).orElseThrow(
+				() -> new IllegalStateException("Item: " + result + " does not exist")
+		), count);
+		return this.factory.create(id, group, ingredient, itemstack);
 	}
 
 	@Override @Nullable
