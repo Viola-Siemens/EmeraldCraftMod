@@ -1048,7 +1048,7 @@ public class EntrenchmentPieces {
 					level.setBlock(blockpos, Blocks.SPAWNER.defaultBlockState(), 2);
 					BlockEntity blockentity = level.getBlockEntity(blockpos);
 					if (blockentity instanceof SpawnerBlockEntity) {
-						((SpawnerBlockEntity)blockentity).getSpawner().setEntityId(ECEntities.WRAITH);
+						((SpawnerBlockEntity)blockentity).setEntityId(ECEntities.WRAITH, random);
 					}
 				}
 			}

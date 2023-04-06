@@ -1,19 +1,15 @@
 package com.hexagram2021.emeraldcraft.common.world.grower;
 
-import com.hexagram2021.emeraldcraft.common.register.ECConfiguredFeatures;
-import net.minecraft.core.Holder;
+import com.hexagram2021.emeraldcraft.common.register.ECConfiguredFeatureKeys;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import org.jetbrains.annotations.NotNull;
 
 public class PeachTreeGrower extends AbstractTreeGrower {
 	@Override
-	protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource random, boolean bee) {
-		return switch (random.nextInt(3)) {
-			case 0 -> ECConfiguredFeatures.TreeConfiguredFeatures.PEACH_1;
-			case 1 -> ECConfiguredFeatures.TreeConfiguredFeatures.PEACH_2;
-			case 2 -> ECConfiguredFeatures.TreeConfiguredFeatures.PEACH_3;
-			default -> throw new AssertionError();
-		};
+	protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(@NotNull RandomSource random, boolean bee) {
+		return bee ? ECConfiguredFeatureKeys.TreeConfiguredFeatures.PEACH_BEES : ECConfiguredFeatureKeys.TreeConfiguredFeatures.PEACH;
 	}
 }

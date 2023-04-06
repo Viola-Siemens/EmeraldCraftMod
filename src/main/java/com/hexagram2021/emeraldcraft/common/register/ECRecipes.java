@@ -1,13 +1,13 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
 import com.hexagram2021.emeraldcraft.common.crafting.*;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.RecipeBookType;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
@@ -16,7 +16,7 @@ public class ECRecipes {
 	public static final RecipeBookType GLASS_KILN = RecipeBookType.create("GLASS_KILN");
 	public static final RecipeBookType RABBLE_FURNACE = RecipeBookType.create("RABBLE_FURNACE");
 
-	private static final DeferredRegister<RecipeType<?>> REGISTER = DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, MODID);
+	private static final DeferredRegister<RecipeType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.RECIPE_TYPES, MODID);
 
 	public static final RegistryObject<RecipeType<CarpentryTableRecipe>> CARPENTRY_TABLE_TYPE = register("carpentry");
 	public static final RegistryObject<RecipeType<GlassKilnRecipe>> GLASS_KILN_TYPE = register("glass_kiln");

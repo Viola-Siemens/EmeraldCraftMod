@@ -7,6 +7,7 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
+@SuppressWarnings("unused")
 public class ECConfiguredFeatureKeys {
 	public static final class OreConfiguredFeatures {
 		public static final ResourceKey<ConfiguredFeature<?, ?>> ORE_DEBRIS_EXTRA = createKey("ore_debris_extra");

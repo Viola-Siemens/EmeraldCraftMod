@@ -64,15 +64,15 @@ public class ECOverworldBiomeBuilder {
 			{null, null, null, null, null},
 			{null, null, null, null, null},
 			{null, null, null, ECBiomeKeys.GINKGO_FOREST, ECBiomeKeys.GINKGO_FOREST},
-			{ECBiomeKeys.JADEITE_DESERT, null, null, null, null},
-			{ECBiomeKeys.JADEITE_DESERT, ECBiomeKeys.JADEITE_DESERT, ECBiomeKeys.AZURE_DESERT, ECBiomeKeys.AZURE_DESERT, ECBiomeKeys.AZURE_DESERT}
+			{null, null, null, null, null},
+			{null, ECBiomeKeys.JADEITE_DESERT, ECBiomeKeys.AZURE_DESERT, null, null}
 	};
 	private final ECBiomeKeys.BiomeKey[][] MIDDLE_BIOMES_VARIANT_EC = new ECBiomeKeys.BiomeKey[][] {
 			{null, null, null, null, null},
 			{null, ECBiomeKeys.PETUNIA_PLAINS, null, null, null},
 			{null, ECBiomeKeys.PETUNIA_PLAINS, null, null, null},
 			{null, null, null, null, null},
-			{null, null, null, null, null}
+			{ECBiomeKeys.JADEITE_DESERT, null, null, ECBiomeKeys.AZURE_DESERT, null}
 	};
 	private final ResourceKey<Biome>[][] PLATEAU_BIOMES = new ResourceKey[][] {
 			{Biomes.SNOWY_PLAINS, Biomes.SNOWY_PLAINS, Biomes.SNOWY_PLAINS, Biomes.SNOWY_TAIGA, Biomes.SNOWY_TAIGA},

@@ -7,6 +7,7 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
+@SuppressWarnings("unused")
 public class ECPlacedFeatureKeys {
 	public static final ResourceKey<PlacedFeature> ORE_LAPIS_EXTRA = createKey("ore_lapis_extra");
 	public static final ResourceKey<PlacedFeature> ORE_EMERALD_EXTRA = createKey("ore_emerald_extra");

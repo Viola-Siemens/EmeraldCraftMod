@@ -1,6 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -30,7 +30,7 @@ public class ECPotions {
 	private ECPotions() {}
 
 	public static void init(RegisterEvent event) {
-		event.register(Registry.POTION_REGISTRY, helper -> {
+		event.register(Registries.POTION, helper -> {
 			helper.register(new ResourceLocation(MODID, "hunger"), HUNGER);
 			helper.register(new ResourceLocation(MODID, "long_hunger"), LONG_HUNGER);
 			helper.register(new ResourceLocation(MODID, "strong_hunger"), STRONG_HUNGER);

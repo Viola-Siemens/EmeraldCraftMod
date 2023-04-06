@@ -1,6 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -25,6 +25,6 @@ public class ECStructureKeys {
 	public static final ResourceKey<Structure> TAIGA_CAMP = createKey("taiga_camp");
 
 	private static ResourceKey<Structure> createKey(String name) {
-		return ResourceKey.create(Registry.STRUCTURE_REGISTRY, new ResourceLocation(MODID, name));
+		return ResourceKey.create(Registries.STRUCTURE, new ResourceLocation(MODID, name));
 	}
 }
