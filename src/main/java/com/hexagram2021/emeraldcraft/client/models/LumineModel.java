@@ -2,7 +2,7 @@ package com.hexagram2021.emeraldcraft.client.models;
 
 import com.hexagram2021.emeraldcraft.common.entities.mobs.LumineEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -113,7 +113,7 @@ public class LumineModel extends HierarchicalModel<LumineEntity> implements Arme
 		this.root.translateAndRotate(transform);
 		this.body.translateAndRotate(transform);
 		transform.translate(0.0D, -0.09375D, 0.09375D);
-		transform.mulPose(Vector3f.XP.rotation(this.right_arm.xRot + DEFAULT_WING_X_ROT));
+		transform.mulPose(Axis.XP.rotation(this.right_arm.xRot + DEFAULT_WING_X_ROT));
 		transform.scale(0.7F, 0.7F, 0.7F);
 		transform.translate(0.0625D, 0.0D, 0.0D);
 	}

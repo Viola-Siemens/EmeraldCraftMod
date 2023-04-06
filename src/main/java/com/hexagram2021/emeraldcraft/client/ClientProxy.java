@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.Villager;
@@ -27,7 +26,6 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterRecipeBookCategoriesEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -129,17 +127,6 @@ public class ClientProxy extends CommonProxy {
 		event.register((stack, tintIndex) ->
 				event.getBlockColors().getColor(((BlockItem)stack.getItem()).getBlock().defaultBlockState(), null, null, tintIndex),
 				ECBlocks.Plant.GINKGO_LEAVES, ECBlocks.Plant.PALM_LEAVES, ECBlocks.Plant.PEACH_LEAVES);
-	}
-
-	@SubscribeEvent
-	public static void registerTextureStitchPre(TextureStitchEvent.Pre event) {
-		ResourceLocation sheet = event.getAtlas().location();
-		if (sheet.equals(Sheets.BANNER_SHEET) || sheet.equals(Sheets.SHIELD_SHEET)) {
-			ECBannerPatterns.ALL_BANNERS.forEach(entry -> {
-				ResourceKey<BannerPattern> pattern = Objects.requireNonNull(entry.pattern().getKey());
-				event.addSprite(BannerPattern.location(pattern, sheet.equals(Sheets.BANNER_SHEET)));
-			});
-		}
 	}
 
 	@SubscribeEvent
