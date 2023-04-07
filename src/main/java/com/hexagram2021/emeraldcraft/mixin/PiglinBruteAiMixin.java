@@ -1,6 +1,6 @@
 package com.hexagram2021.emeraldcraft.mixin;
 
-import com.hexagram2021.emeraldcraft.common.util.PlayerHealable;
+import com.hexagram2021.emeraldcraft.common.entities.mobs.PlayerHealable;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;

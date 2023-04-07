@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.hexagram2021.emeraldcraft.common.register.ECBiomeKeys;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
@@ -56,7 +57,7 @@ public class BiomeUtil {
 				throw new RuntimeException("Failed to get registry key for biome!");
 			}
 		} else {
-			return ResourceKey.create(Registry.BIOME_REGISTRY, name);
+			return ResourceKey.create(Registries.BIOME, name);
 		}
 	}
 
@@ -125,7 +126,7 @@ public class BiomeUtil {
 		if (world == null) {
 			throw new RuntimeException("Cannot acquire biome registry when the world is null.");
 		} else {
-			return world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
+			return world.registryAccess().registryOrThrow(Registries.BIOME);
 		}
 	}
 
@@ -156,7 +157,7 @@ public class BiomeUtil {
 			}
 
 			Level world = var1.next();
-			biome = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).get(key);
+			biome = world.registryAccess().registryOrThrow(Registries.BIOME).get(key);
 		} while(biome == null);
 
 		return biome;

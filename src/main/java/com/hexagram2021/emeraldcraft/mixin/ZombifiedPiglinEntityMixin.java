@@ -2,8 +2,8 @@ package com.hexagram2021.emeraldcraft.mixin;
 
 import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
 import com.hexagram2021.emeraldcraft.common.register.ECTriggers;
-import com.hexagram2021.emeraldcraft.common.util.Convertible;
-import com.hexagram2021.emeraldcraft.common.util.PlayerHealable;
+import com.hexagram2021.emeraldcraft.common.entities.mobs.Convertible;
+import com.hexagram2021.emeraldcraft.common.entities.mobs.PlayerHealable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;

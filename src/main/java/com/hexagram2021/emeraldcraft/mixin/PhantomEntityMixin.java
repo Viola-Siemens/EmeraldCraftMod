@@ -2,7 +2,7 @@ package com.hexagram2021.emeraldcraft.mixin;
 
 import com.hexagram2021.emeraldcraft.common.entities.mobs.MantaEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECEntities;
-import com.hexagram2021.emeraldcraft.common.util.Convertible;
+import com.hexagram2021.emeraldcraft.common.entities.mobs.Convertible;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;

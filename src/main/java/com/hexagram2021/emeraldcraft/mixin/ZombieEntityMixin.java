@@ -1,6 +1,6 @@
 package com.hexagram2021.emeraldcraft.mixin;
 
-import com.hexagram2021.emeraldcraft.common.util.Convertible;
+import com.hexagram2021.emeraldcraft.common.entities.mobs.Convertible;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Zombie;

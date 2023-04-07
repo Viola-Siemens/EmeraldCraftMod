@@ -1,4 +1,4 @@
-package com.hexagram2021.emeraldcraft.common.util;
+package com.hexagram2021.emeraldcraft.common.entities.mobs;
 
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;

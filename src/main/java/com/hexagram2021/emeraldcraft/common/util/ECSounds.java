@@ -1,6 +1,7 @@
 package com.hexagram2021.emeraldcraft.common.util;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -77,19 +78,24 @@ public class ECSounds {
 
 	private static SoundEvent registerSound(String name) {
 		ResourceLocation location = new ResourceLocation(MODID, name);
-		SoundEvent event = new SoundEvent(location);
+		SoundEvent event = SoundEvent.createVariableRangeEvent(location);
 		registeredEvents.put(location, event);
 		return event;
 	}
 
 	public static void init(RegisterEvent event) {
-		event.register(Registry.SOUND_EVENT_REGISTRY, helper -> registeredEvents.forEach(helper::register));
+		event.register(Registries.SOUND_EVENT, helper -> registeredEvents.forEach(helper::register));
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings({ "unused", "deprecation" })
 	public static void PlaySoundForPlayer(Entity player, SoundEvent sound, float volume, float pitch) {
 		if(player instanceof ServerPlayer serverPlayer)
-			serverPlayer.connection.send(new ClientboundSoundPacket(sound, player.getSoundSource(),
-					player.getX(), player.getY(), player.getZ(), volume, pitch, serverPlayer.getRandom().nextLong()));
+			serverPlayer.connection.send(new ClientboundSoundPacket(
+					BuiltInRegistries.SOUND_EVENT.wrapAsHolder(sound),
+					player.getSoundSource(),
+					player.getX(), player.getY(), player.getZ(),
+					volume, pitch,
+					serverPlayer.getRandom().nextLong()
+			));
 	}
 }

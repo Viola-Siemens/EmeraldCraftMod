@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import com.hexagram2021.emeraldcraft.common.entities.ai.MantaAi;
 import com.hexagram2021.emeraldcraft.common.register.ECTriggers;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
-import com.hexagram2021.emeraldcraft.common.util.PlayerHealable;
 import com.hexagram2021.emeraldcraft.common.util.Vec3Util;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.Util;

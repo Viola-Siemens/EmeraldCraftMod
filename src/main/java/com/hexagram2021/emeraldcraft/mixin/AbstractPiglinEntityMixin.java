@@ -1,6 +1,6 @@
 package com.hexagram2021.emeraldcraft.mixin;
 
-import com.hexagram2021.emeraldcraft.common.util.PlayerHealable;
+import com.hexagram2021.emeraldcraft.common.entities.mobs.PlayerHealable;
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
