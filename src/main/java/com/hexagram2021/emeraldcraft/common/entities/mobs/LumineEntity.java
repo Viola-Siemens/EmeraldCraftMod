@@ -59,7 +59,7 @@ import java.util.UUID;
  * - 玩家可以将火把类物品递给荧灵，荧灵会自动前往周围（同一水平面或下方）20×4×20范围内亮度低于3的方块表面插上火把。
  * - 荧灵会自动捡起同类火把。
  * - 被玩家给予火把的荧灵不会受到该玩家的伤害。
- * - 如果荧灵在夜晚身处于方块亮度大于等于floor(13.25 - 4×月相亮度)的环境中，则它会跳舞，此时玩家用萤石粉与其交互则会使它复制。复制后一段时间内不能再次复制。
+ * - 如果荧灵在夜晚身处于方块亮度大于等于floor(14.25 - 4×月相亮度)的环境中，则它会跳舞，此时玩家用萤石粉与其交互则会使它复制。复制后一段时间内不能再次复制。
  * - (?) 意愿系统，并非每晚荧灵都可以跳舞，而是根据插过火把的数量和月相决定。
  */
 public class LumineEntity extends PathfinderMob implements InventoryCarrier {
@@ -267,6 +267,8 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 				this.spinningAnimationTicks = 0.0F;
 				this.spinningAnimationTicks0 = 0.0F;
 			}
+		} else if(this.isPanicking()) {
+			this.setDancing(false);
 		}
 	}
 
@@ -338,7 +340,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	@Override
 	public boolean wantsToPickUp(@NotNull ItemStack itemStack) {
 		ItemStack handItemStack = this.getItemInHand(InteractionHand.MAIN_HAND);
-		return itemStack.is(ECItemTags.TORCHES) && handItemStack.sameItemStackIgnoreDurability(itemStack) && this.inventory.canAddItem(itemStack) && ForgeEventFactory.getMobGriefingEvent(this.level, this);
+		return itemStack.is(ECItemTags.TORCHES) && handItemStack.sameItem(itemStack) && this.inventory.canAddItem(itemStack) && ForgeEventFactory.getMobGriefingEvent(this.level, this);
 	}
 
 	@Override
@@ -355,18 +357,22 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 		return this.entityData.get(DATA_DANCING);
 	}
 
-	public void setDancing(boolean p_240178_) {
-		if (!this.level.isClientSide) {
-			this.entityData.set(DATA_DANCING, p_240178_);
+	public boolean isPanicking() {
+		return this.brain.getMemory(MemoryModuleType.IS_PANICKING).isPresent();
+	}
+
+	public void setDancing(boolean dancing) {
+		if (!this.level.isClientSide && this.isEffectiveAi() && (!dancing || !this.isPanicking())) {
+			this.entityData.set(DATA_DANCING, dancing);
 		}
 	}
 
 	private boolean shouldDance() {
-		return this.level.isNight() && this.level.getBrightness(LightLayer.BLOCK, this.blockPosition()) >= Mth.floor(13.25F - 4.0F * this.level.getMoonBrightness());
+		return this.level.isNight() && this.level.getBrightness(LightLayer.BLOCK, this.blockPosition()) >= Mth.floor(14.25F - 4.0F * this.level.getMoonBrightness());
 	}
 
-	public float getHoldingItemAnimationProgress(float p_218395_) {
-		return Mth.lerp(p_218395_, this.holdingItemAnimationTicks0, this.holdingItemAnimationTicks) / 5.0F;
+	public float getHoldingItemAnimationProgress(float progress) {
+		return Mth.lerp(progress, this.holdingItemAnimationTicks0, this.holdingItemAnimationTicks) / 5.0F;
 	}
 
 	public boolean isSpinning() {
@@ -374,8 +380,8 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 		return f < 15.0F;
 	}
 
-	public float getSpinningProgress(float p_240057_) {
-		return Mth.lerp(p_240057_, this.spinningAnimationTicks0, this.spinningAnimationTicks) / 15.0F;
+	public float getSpinningProgress(float progress) {
+		return Mth.lerp(progress, this.spinningAnimationTicks0, this.spinningAnimationTicks) / 15.0F;
 	}
 
 	@Override
@@ -397,7 +403,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	@Override
 	public void addAdditionalSaveData(@NotNull CompoundTag nbt) {
 		super.addAdditionalSaveData(nbt);
-		nbt.put("Inventory", this.inventory.createTag());
+		this.writeInventoryToTag(nbt);
 		nbt.putInt("DuplicationCooldown", this.duplicationCooldown);
 		nbt.putBoolean("CanDuplicate", this.canDuplicate());
 	}
@@ -405,7 +411,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	@Override
 	public void readAdditionalSaveData(@NotNull CompoundTag nbt) {
 		super.readAdditionalSaveData(nbt);
-		this.inventory.fromTag(nbt.getList("Inventory", 10));
+		this.readInventoryFromTag(nbt);
 		this.duplicationCooldown = nbt.getInt("DuplicationCooldown");
 		this.entityData.set(DATA_CAN_DUPLICATE, nbt.getBoolean("CanDuplicate"));
 	}
@@ -413,18 +419,6 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	@Override
 	protected boolean shouldStayCloseToLeashHolder() {
 		return false;
-	}
-
-	@Override @NotNull
-	public Iterable<BlockPos> iteratePathfindingStartNodeCandidatePositions() {
-		AABB aabb = this.getBoundingBox();
-		int i = Mth.floor(aabb.minX - 0.5D);
-		int j = Mth.floor(aabb.maxX + 0.5D);
-		int k = Mth.floor(aabb.minZ - 0.5D);
-		int l = Mth.floor(aabb.maxZ + 0.5D);
-		int i1 = Mth.floor(aabb.minY - 0.5D);
-		int j1 = Mth.floor(aabb.maxY + 0.5D);
-		return BlockPos.betweenClosed(i, i1, k, j, j1, l);
 	}
 
 	private void updateDuplicationCooldown() {
@@ -470,6 +464,11 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	@Override @NotNull
 	public Vec3 getLeashOffset() {
 		return new Vec3(0.0D, (double)this.getEyeHeight() * 0.6D, (double)this.getBbWidth() * 0.1D);
+	}
+
+	@Override
+	public double getMyRidingOffset() {
+		return 0.4D;
 	}
 
 	@Override

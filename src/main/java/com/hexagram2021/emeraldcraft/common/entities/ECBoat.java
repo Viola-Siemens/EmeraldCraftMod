@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -48,7 +49,7 @@ public class ECBoat extends Boat implements IECBoat {
 	}
 
 	@Override @NotNull
-	public Packet<?> getAddEntityPacket() {
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
 		return new ClientboundAddEntityPacket(this);
 	}
 
@@ -121,13 +122,13 @@ public class ECBoat extends Boat implements IECBoat {
 	/** @deprecated */
 	@Deprecated
 	@Override
-	public void setType(@NotNull Boat.Type vanillaType) {
+	public void setVariant(@NotNull Boat.Type vanillaType) {
 	}
 
 	/** @deprecated */
 	@Deprecated
 	@Override @NotNull
-	public Boat.Type getBoatType() {
+	public Boat.Type getVariant() {
 		return Type.OAK;
 	}
 

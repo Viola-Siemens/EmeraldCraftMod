@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import java.util.EnumSet;
 
 public class OfferFlowerToPlayerGoal extends Goal {
-	private static final TargetingConditions OFFER_TARGER_CONTEXT = TargetingConditions.forNonCombat().range(6.0D).selector(entity ->
+	private static final TargetingConditions OFFER_TARGET_CONTEXT = TargetingConditions.forNonCombat().range(6.0D).selector(entity ->
 			entity.hasEffect(MobEffects.HERO_OF_THE_VILLAGE));
 	public static final int OFFER_TICKS = 400;
 	private final IronGolem golem;
@@ -28,7 +28,7 @@ public class OfferFlowerToPlayerGoal extends Goal {
 		if (this.golem.getRandom().nextInt(4000) != 0) {
 			return false;
 		}
-		this.player = this.golem.level.getNearestPlayer(OFFER_TARGER_CONTEXT, this.golem);
+		this.player = this.golem.level.getNearestPlayer(OFFER_TARGET_CONTEXT, this.golem);
 		return this.player != null && this.golem.closerThan(this.player, 6.0D);
 	}
 

@@ -37,13 +37,14 @@ public class MantaAi {
 		));
 	}
 
+	@SuppressWarnings("deprecation")
 	private static void initIdleActivity(Brain<MantaEntity> brain) {
 		brain.addActivityWithConditions(Activity.IDLE, ImmutableList.of(
-				Pair.of(0, new RunSometimes<>(new SetEntityLookTarget(entity -> true, 6.0F), UniformInt.of(30, 60))),
-				Pair.of(1, new StayCloseToTarget<>(MantaAi::getLikedPlayerPositionTracker, 7, 32, 1.0F)),
+				Pair.of(0, SetEntityLookTargetSometimes.create(6.0F, UniformInt.of(30, 60))),
+				Pair.of(1, StayCloseToTarget.create(MantaAi::getLikedPlayerPositionTracker, 7, 32, 1.0F)),
 				Pair.of(2, new RunOne<>(ImmutableList.of(
-						Pair.of(new FlyingRandomStroll(1.0F), 2),
-						Pair.of(new SetWalkTargetFromLookTarget(1.0F, 3), 2),
+						Pair.of(RandomStroll.fly(1.0F), 2),
+						Pair.of(SetWalkTargetFromLookTarget.create(1.0F, 3), 2),
 						Pair.of(new DoNothing(30, 60), 1)
 				)))
 		), ImmutableSet.of());
