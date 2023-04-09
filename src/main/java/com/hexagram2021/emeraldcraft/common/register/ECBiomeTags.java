@@ -7,6 +7,7 @@ import net.minecraft.world.level.biome.Biome;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
+@SuppressWarnings("unused")
 public class ECBiomeTags {
 	public static final TagKey<Biome> HAS_SHELTER = create("has_structure/shelter");
 	public static final TagKey<Biome> HAS_NETHER_WARFIELD = create("has_structure/nether_warfield");

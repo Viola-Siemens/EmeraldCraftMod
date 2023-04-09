@@ -1,0 +1,7 @@
+{
+  "type": "emeraldcraft:desert_camp",
+  "biomes": "#emeraldcraft:has_structure/camp_desert",
+  "camp_type": "DESERT",
+  "spawn_overrides": {},
+  "step": "surface_structures"
+}

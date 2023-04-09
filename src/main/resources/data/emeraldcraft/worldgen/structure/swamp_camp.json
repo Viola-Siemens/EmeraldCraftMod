@@ -1,0 +1,7 @@
+{
+  "type": "emeraldcraft:swamp_camp",
+  "biomes": "#emeraldcraft:has_structure/camp_swamp",
+  "camp_type": "SWAMP",
+  "spawn_overrides": {},
+  "step": "surface_structures"
+}

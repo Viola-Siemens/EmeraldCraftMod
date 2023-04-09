@@ -10,6 +10,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
+@SuppressWarnings("unused")
 public class ECProcessorLists {
 	private static final DeferredRegister<StructureProcessorList> REGISTER = DeferredRegister.create(Registries.PROCESSOR_LIST, MODID);
 

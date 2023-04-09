@@ -48,6 +48,8 @@ public class ECContent {
 		ECPlacedFeatureKeys.init();
 		ECVillagePlacedFeatureKeys.init();
 		ECBiomeKeys.init();
+		ECStructureKeys.init();
+		ECStructureSetKeys.init();
 
 		runLater.accept(ModsLoadedEventSubscriber::SolveCompat);
 	}
@@ -71,8 +73,6 @@ public class ECContent {
 
 		ECStructureTypes.init();
 		ECStructurePieceTypes.init();
-		ECStructures.init();
-		ECStructureSets.init();
 	}
 
 	@SubscribeEvent

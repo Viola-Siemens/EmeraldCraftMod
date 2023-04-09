@@ -1,0 +1,15 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 24,
+    "separation": 20,
+    "salt": 511604474,
+    "spread_type": "linear"
+  },
+  "structures": [
+    {
+      "structure": "emeraldcraft:hollow_tree",
+      "weight": 1
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
@@ -15,6 +15,10 @@ public class ECStructureSetKeys {
 	public static final ResourceKey<StructureSet> CAMP = createKey("camp");
 
 	private static ResourceKey<StructureSet> createKey(String name) {
-		return ResourceKey.create(Registry.STRUCTURE_SET_REGISTRY, new ResourceLocation(MODID, name));
+		return ResourceKey.create(Registries.STRUCTURE_SET, new ResourceLocation(MODID, name));
+	}
+
+	public static void init() {
+
 	}
 }

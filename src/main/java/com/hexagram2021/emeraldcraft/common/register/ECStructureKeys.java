@@ -27,4 +27,8 @@ public class ECStructureKeys {
 	private static ResourceKey<Structure> createKey(String name) {
 		return ResourceKey.create(Registries.STRUCTURE, new ResourceLocation(MODID, name));
 	}
+
+	public static void init() {
+
+	}
 }

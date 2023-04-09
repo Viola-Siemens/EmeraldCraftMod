@@ -160,6 +160,8 @@ public class EmeraldCraft {
 	}
 
 	public void serverStarted(ServerStartedEvent event) {
+		ECStructures.init(event.getServer().registryAccess());
+
 		ServerLevel world = event.getServer().getLevel(Level.OVERWORLD);
 		assert world != null;
 		if(!world.isClientSide) {

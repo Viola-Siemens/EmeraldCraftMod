@@ -1,0 +1,15 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 64,
+    "separation": 16,
+    "salt": 1926081709,
+    "spread_type": "linear"
+  },
+  "structures": [
+    {
+      "structure": "emeraldcraft:shelter",
+      "weight": 1
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 40,
+    "separation": 24,
+    "salt": 23456,
+    "spread_type": "triangular"
+  },
+  "structures": [
+    {
+      "structure": "emeraldcraft:entrenchment",
+      "weight": 1
+    }
+  ]
+}
