@@ -1,0 +1,27 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:nether_warfield/warped/striders/strider1",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:nether_warfield/warped/striders/strider2",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 2
+    }
+  ],
+  "fallback": "minecraft:empty"
+}

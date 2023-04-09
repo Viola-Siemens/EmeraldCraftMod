@@ -28,7 +28,6 @@ public class ECSaveData extends SavedData {
 		return nbt;
 	}
 
-
 	public static void markInstanceDirty() {
 		if(INSTANCE!=null)
 			INSTANCE.setDirty();

@@ -1,0 +1,336 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_small_house_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_small_house_2",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_small_house_3",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_small_house_4",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_small_house_5",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_small_house_6",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_small_house_7",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_small_house_8",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_medium_house_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_medium_house_2",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_big_house_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_astrologist_house_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_armorer_house_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_butcher_shop_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_carpenter_house_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_cartographer_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_fisher_cottage_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_fletcher_house_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_glazier_house_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_icer_house_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_large_farm_1",
+        "processors": "emeraldcraft:farm_swamp",
+        "projection": "rigid"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_library_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 6
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_masons_house_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_miner_house_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_small_farm_1",
+        "processors": "emeraldcraft:farm_swamp",
+        "projection": "rigid"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_tannery_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_temple_3",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_tool_smith_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_weaponsmith_1",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_animal_pen_1",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_animal_pen_2",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_animal_pen_3",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_accessory_1",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_meeting_point_4",
+        "processors": "minecraft:mossify_70_percent",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/houses/swamp_meeting_point_5",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:empty_pool_element"
+      },
+      "weight": 10
+    }
+  ],
+  "fallback": "emeraldcraft:village/swamp/terminators"
+}

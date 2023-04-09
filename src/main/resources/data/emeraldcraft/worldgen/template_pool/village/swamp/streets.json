@@ -1,0 +1,149 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/streets/corner_01",
+        "processors": "emeraldcraft:street_swamp",
+        "projection": "terrain_matching"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/streets/corner_02",
+        "processors": "emeraldcraft:street_swamp",
+        "projection": "terrain_matching"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/streets/corner_03",
+        "processors": "emeraldcraft:street_swamp",
+        "projection": "terrain_matching"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/streets/straight_01",
+        "processors": "emeraldcraft:street_swamp",
+        "projection": "terrain_matching"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/streets/straight_02",
+        "processors": "emeraldcraft:street_swamp",
+        "projection": "terrain_matching"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/streets/straight_03",
+        "processors": "emeraldcraft:street_swamp",
+        "projection": "terrain_matching"
+      },
+      "weight": 7
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/streets/straight_04",
+        "processors": "emeraldcraft:street_swamp",
+        "projection": "terrain_matching"
+      },
+      "weight": 7
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/streets/straight_05",
+        "processors": "emeraldcraft:street_swamp",
+        "projection": "terrain_matching"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/streets/straight_06",
+        "processors": "emeraldcraft:street_swamp",
+        "projection": "terrain_matching"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/streets/crossroad_01",
+        "processors": "emeraldcraft:street_swamp",
+        "projection": "terrain_matching"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/streets/crossroad_02",
+        "processors": "emeraldcraft:street_swamp",
+        "projection": "terrain_matching"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/streets/crossroad_03",
+        "processors": "emeraldcraft:street_swamp",
+        "projection": "terrain_matching"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/streets/crossroad_04",
+        "processors": "emeraldcraft:street_swamp",
+        "projection": "terrain_matching"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/streets/crossroad_05",
+        "processors": "emeraldcraft:street_swamp",
+        "projection": "terrain_matching"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/streets/crossroad_06",
+        "processors": "emeraldcraft:street_swamp",
+        "projection": "terrain_matching"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "emeraldcraft:village/swamp/streets/turn_01",
+        "processors": "emeraldcraft:street_swamp",
+        "projection": "terrain_matching"
+      },
+      "weight": 3
+    }
+  ],
+  "fallback": "emeraldcraft:village/swamp/terminators"
+}

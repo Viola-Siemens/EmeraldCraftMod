@@ -351,8 +351,8 @@ public class ECSurfaceRules {
 			builder.add(SurfaceRules.ifTrue(SurfaceRules.verticalGradient("bedrock_floor", VerticalAnchor.bottom(), VerticalAnchor.aboveBottom(5)), BEDROCK));
 		}
 
-		SurfaceRules.RuleSource surfacerules$rulesource9 = SurfaceRules.ifTrue(SurfaceRules.abovePreliminarySurface(), ruleSource);
-		builder.add(checkAbovePreliminarySurface ? surfacerules$rulesource9 : ruleSource);
+		SurfaceRules.RuleSource abovePreliminary = SurfaceRules.ifTrue(SurfaceRules.abovePreliminarySurface(), ruleSource);
+		builder.add(checkAbovePreliminarySurface ? abovePreliminary : ruleSource);
 		builder.add(SurfaceRules.ifTrue(SurfaceRules.verticalGradient("deepslate", VerticalAnchor.absolute(0), VerticalAnchor.absolute(8)), DEEPSLATE));
 		return SurfaceRules.sequence(builder.build().toArray(SurfaceRules.RuleSource[]::new));
 	}
@@ -691,8 +691,8 @@ public class ECSurfaceRules {
 			builder.add(SurfaceRules.ifTrue(SurfaceRules.verticalGradient("bedrock_floor", VerticalAnchor.bottom(), VerticalAnchor.aboveBottom(5)), BEDROCK));
 		}
 
-		SurfaceRules.RuleSource surfacerules$rulesource9 = SurfaceRules.ifTrue(SurfaceRules.abovePreliminarySurface(), ruleSource);
-		builder.add(checkAbovePreliminarySurface ? surfacerules$rulesource9 : ruleSource);
+		SurfaceRules.RuleSource abovePreliminary = SurfaceRules.ifTrue(SurfaceRules.abovePreliminarySurface(), ruleSource);
+		builder.add(checkAbovePreliminarySurface ? abovePreliminary : ruleSource);
 		builder.add(SurfaceRules.ifTrue(SurfaceRules.verticalGradient("deepslate", VerticalAnchor.absolute(0), VerticalAnchor.absolute(8)), DEEPSLATE));
 		return SurfaceRules.sequence(builder.build().toArray(SurfaceRules.RuleSource[]::new));
 	}
