@@ -20,9 +20,8 @@
     "ServerboundPlayerCommandPacketActionMixin",
     "ServerPlayerMixin",
     "ServerPlayNetHandlerMixin",
-    "SingleJigsawAccess",
+    "StructureTemplatePoolAccess",
     "StructureSetMixin",
-    "VillagePoolsMixin",
     "WorkAtPoiMixin",
     "ZombieEntityMixin",
     "ZombifiedPiglinEntityMixin"

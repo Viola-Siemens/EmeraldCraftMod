@@ -39,6 +39,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.*;
@@ -86,6 +87,7 @@ public class EmeraldCraft {
 	public EmeraldCraft() {
 		ECLogger.logger = LogManager.getLogger(MODID);
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+		MinecraftForge.EVENT_BUS.addListener(this::tagsUpdated);
 		MinecraftForge.EVENT_BUS.addListener(this::serverStarted);
 		DeferredWorkQueue queue = DeferredWorkQueue.lookup(Optional.of(ModLoadingStage.CONSTRUCT)).orElseThrow();
 		Consumer<Runnable> runLater = job -> queue.enqueueWork(
@@ -159,9 +161,16 @@ public class EmeraldCraft {
 		}
 	}
 
-	public void serverStarted(ServerStartedEvent event) {
-		ECStructures.init(event.getServer().registryAccess());
+	public void tagsUpdated(TagsUpdatedEvent event) {
+		if(event.getUpdateCause() != TagsUpdatedEvent.UpdateCause.SERVER_DATA_LOAD) {
+			return;
+		}
 
+		ECStructures.init(event.getRegistryAccess());
+		Villages.addAllStructuresToPool(event.getRegistryAccess());
+	}
+
+	public void serverStarted(ServerStartedEvent event) {
 		ServerLevel world = event.getServer().getLevel(Level.OVERWORLD);
 		assert world != null;
 		if(!world.isClientSide) {

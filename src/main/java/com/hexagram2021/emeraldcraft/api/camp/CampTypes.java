@@ -36,7 +36,7 @@ public enum CampTypes implements CampType {
 
 	/**
 	 * API for custom camp.
-	 * You can add your camp at any time before server starts.
+	 * You can add your camp at any time before tags updated.
 	 * But please remember that you should only add once.
 	 *
 	 * @param type - Your custom type of camp.

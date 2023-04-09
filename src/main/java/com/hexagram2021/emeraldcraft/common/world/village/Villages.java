@@ -1,26 +1,19 @@
 package com.hexagram2021.emeraldcraft.common.world.village;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.hexagram2021.emeraldcraft.common.register.*;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import com.hexagram2021.emeraldcraft.mixin.HeroGiftsTaskAccess;
-import com.hexagram2021.emeraldcraft.mixin.SingleJigsawAccess;
-import com.mojang.datafixers.util.Either;
+import com.hexagram2021.emeraldcraft.mixin.StructureTemplatePoolAccess;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Lifecycle;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import net.minecraft.core.WritableRegistry;
-import net.minecraft.data.BuiltinRegistries;
-import net.minecraft.data.worldgen.PlainVillagePools;
-import net.minecraft.data.worldgen.ProcessorLists;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.VillagerProfession;
@@ -31,6 +24,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraftforge.event.village.VillagerTradesEvent;
@@ -41,11 +35,11 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.OptionalInt;
+import java.util.Objects;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
@@ -63,8 +57,6 @@ public class Villages {
 	public static final ResourceLocation PAPERHANGER = new ResourceLocation(MODID, "paperhanger");
 
 	public static void init() {
-		PlainVillagePools.bootstrap();
-		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_carpentry_house_1"), 5);
 
 		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_CARPENTER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/carpenter_gift"));
 		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_GLAZIER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/glazier_gift"));
@@ -78,34 +70,22 @@ public class Villages {
 		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_PAPERHANGER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/paperhanger_gift"));
 	}
 
+	public static void addAllStructuresToPool(RegistryAccess registryAccess) {
+		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_carpentry_house_1"), 5, registryAccess);
+	}
+
 	@SuppressWarnings("SameParameterValue")
-	private static void addToPool(ResourceLocation pool, ResourceLocation toAdd, int weight) {
-		StructureTemplatePool old = BuiltinRegistries.TEMPLATE_POOL.get(pool);
-		int id = BuiltinRegistries.TEMPLATE_POOL.getId(old);
+	private static void addToPool(ResourceLocation poolName, ResourceLocation toAdd, int weight, RegistryAccess registryAccess) {
+		Registry<StructureTemplatePool> registry = registryAccess.registryOrThrow(Registries.TEMPLATE_POOL);
+		StructureTemplatePoolAccess pool = (StructureTemplatePoolAccess)Objects.requireNonNull(registry.get(poolName), poolName.getPath());
+		List<Pair<StructurePoolElement, Integer>> rawTemplates = pool.getRawTemplates() instanceof ArrayList ?
+				pool.getRawTemplates() : new ArrayList<>(pool.getRawTemplates());
 
-		List<StructurePoolElement> shuffled;
-		if(old != null) {
-			shuffled = old.getShuffledTemplates(RandomSource.create(0));
-		} else {
-			shuffled = ImmutableList.of();
-		}
-		Object2IntMap<StructurePoolElement> newPieces = new Object2IntLinkedOpenHashMap<>();
-		for(StructurePoolElement p : shuffled)
-			newPieces.computeInt(p, (StructurePoolElement pTemp, Integer i) -> (i==null ? 0 : i) + 1);
-		newPieces.put(SingleJigsawAccess.construct(
-				Either.left(toAdd), ProcessorLists.EMPTY, StructureTemplatePool.Projection.RIGID
-		), weight);
-		List<Pair<StructurePoolElement, Integer>> newPieceList = newPieces.object2IntEntrySet().stream()
-				.map(e -> Pair.of(e.getKey(), e.getIntValue()))
-				.collect(Collectors.toList());
+		SinglePoolElement addedElement = SinglePoolElement.single(toAdd.toString()).apply(StructureTemplatePool.Projection.RIGID);
+		rawTemplates.add(Pair.of(addedElement, weight));
+		pool.getTemplates().add(addedElement);
 
-		ResourceLocation name = old.getName();
-		((WritableRegistry<StructureTemplatePool>)BuiltinRegistries.TEMPLATE_POOL).registerOrOverride(
-				OptionalInt.of(id),
-				ResourceKey.create(BuiltinRegistries.TEMPLATE_POOL.key(), name),
-				new StructureTemplatePool(pool, name, newPieceList),
-				Lifecycle.stable()
-		);
+		pool.setRawTemplates(rawTemplates);
 	}
 
 	@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)

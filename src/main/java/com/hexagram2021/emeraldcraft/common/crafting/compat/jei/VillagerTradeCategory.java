@@ -1,12 +1,9 @@
 package com.hexagram2021.emeraldcraft.common.crafting.compat.jei;
 
-import com.hexagram2021.emeraldcraft.common.crafting.MelterRecipe;
 import com.hexagram2021.emeraldcraft.common.crafting.TradeShadowRecipe;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -25,6 +22,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
@@ -119,8 +118,8 @@ public class VillagerTradeCategory implements IRecipeCategory<TradeShadowRecipe>
 		transform.scale(1.0F, 1.0F, -1.0F);
 		transform.translate(0.0D, 0.0D, 1000.0D);
 		transform.scale(scale, scale, scale);
-		Quaternion pitchRotation = Vector3f.XP.rotationDegrees(pitch);
-		transform.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
+		Quaternionf pitchRotation = Axis.XP.rotationDegrees(pitch);
+		transform.mulPose(Axis.ZP.rotationDegrees(180.0F));
 		transform.mulPose(pitchRotation);
 		float oldYawOffset = livingEntity.yBodyRot;
 		float oldYaw = livingEntity.getYRot();
@@ -134,7 +133,7 @@ public class VillagerTradeCategory implements IRecipeCategory<TradeShadowRecipe>
 		livingEntity.yHeadRotO = livingEntity.getYRot();
 
 		EntityRenderDispatcher dispatcher = mc.getEntityRenderDispatcher();
-		pitchRotation.conj();
+		pitchRotation = pitchRotation.conjugate();
 		dispatcher.overrideCameraOrientation(pitchRotation);
 		dispatcher.setRenderShadow(false);
 
@@ -156,7 +155,7 @@ public class VillagerTradeCategory implements IRecipeCategory<TradeShadowRecipe>
 	private static double[] getGLTranslation(PoseStack transform, double scale) {
 		final Matrix4f matrix = transform.last().pose();
 		final FloatBuffer buf = BufferUtils.createFloatBuffer(16);
-		matrix.store(buf);
+		matrix.get(buf);
 		return new double[] {
 				buf.get(getIndexFloatBuffer(0, 3)) * scale,
 				buf.get(getIndexFloatBuffer(1, 3)) * scale,
