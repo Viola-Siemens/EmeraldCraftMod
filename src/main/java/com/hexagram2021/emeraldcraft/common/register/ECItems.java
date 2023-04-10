@@ -296,20 +296,12 @@ public class ECItems {
 
 	public static class CreateCompatItems {
 		public static final ItemEntry<Item> ZINC_CONCENTRATE = ItemEntry.register(
-				"zinc_concentrate", () -> {
-					if(ModsLoadedEventSubscriber.CREATE) {
-						return new Item(new Item.Properties());
-					}
-					return new Item(new Item.Properties());
-				}, ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+				"zinc_concentrate", () -> new Item(new Item.Properties()),
+				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.CREATE
 		);
 		public static final ItemEntry<Item> MELTED_ZINC_BUCKET = ItemEntry.register(
-				"melted_zinc_bucket", () -> {
-					if(ModsLoadedEventSubscriber.CREATE) {
-						return new Item(new Item.Properties().stacksTo(16));
-					}
-					return new Item(new Item.Properties().stacksTo(16));
-				}, ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+				"melted_zinc_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
+				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.CREATE
 		);
 
 		private static void init() {}
@@ -317,84 +309,44 @@ public class ECItems {
 
 	public static class IECompatItems {
 		public static final ItemEntry<Item> ALUMINUM_CONCENTRATE = ItemEntry.register(
-				"aluminum_concentrate", () -> {
-					if(ModsLoadedEventSubscriber.IE) {
-						return new Item(new Item.Properties());
-					}
-					return new Item(new Item.Properties());
-				}, ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+				"aluminum_concentrate", () -> new Item(new Item.Properties()),
+				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
 		public static final ItemEntry<Item> MELTED_ALUMINUM_BUCKET = ItemEntry.register(
-				"melted_aluminum_bucket", () -> {
-					if(ModsLoadedEventSubscriber.IE) {
-						return new Item(new Item.Properties().stacksTo(16));
-					}
-					return new Item(new Item.Properties().stacksTo(16));
-				}, ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+				"melted_aluminum_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
+				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
 		public static final ItemEntry<Item> LEAD_CONCENTRATE = ItemEntry.register(
-				"lead_concentrate", () -> {
-					if(ModsLoadedEventSubscriber.IE) {
-						return new Item(new Item.Properties());
-					}
-					return new Item(new Item.Properties());
-				}, ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+				"lead_concentrate", () -> new Item(new Item.Properties()),
+				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
 		public static final ItemEntry<Item> MELTED_LEAD_BUCKET = ItemEntry.register(
-				"melted_lead_bucket", () -> {
-					if(ModsLoadedEventSubscriber.IE) {
-						return new Item(new Item.Properties().stacksTo(16));
-					}
-					return new Item(new Item.Properties().stacksTo(16));
-				}, ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+				"melted_lead_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
+				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
 		public static final ItemEntry<Item> SILVER_CONCENTRATE = ItemEntry.register(
-				"silver_concentrate", () -> {
-					if(ModsLoadedEventSubscriber.IE) {
-						return new Item(new Item.Properties());
-					}
-					return new Item(new Item.Properties());
-				}, ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+				"silver_concentrate", () -> new Item(new Item.Properties()),
+				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
 		public static final ItemEntry<Item> MELTED_SILVER_BUCKET = ItemEntry.register(
-				"melted_silver_bucket", () -> {
-					if(ModsLoadedEventSubscriber.IE) {
-						return new Item(new Item.Properties().stacksTo(16));
-					}
-					return new Item(new Item.Properties().stacksTo(16));
-				}, ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+				"melted_silver_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
+				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
 		public static final ItemEntry<Item> NICKEL_CONCENTRATE = ItemEntry.register(
-				"nickel_concentrate", () -> {
-					if(ModsLoadedEventSubscriber.IE) {
-						return new Item(new Item.Properties());
-					}
-					return new Item(new Item.Properties());
-				}, ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+				"nickel_concentrate", () -> new Item(new Item.Properties()),
+				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
 		public static final ItemEntry<Item> MELTED_NICKEL_BUCKET = ItemEntry.register(
-				"melted_nickel_bucket", () -> {
-					if(ModsLoadedEventSubscriber.IE) {
-						return new Item(new Item.Properties().stacksTo(16));
-					}
-					return new Item(new Item.Properties().stacksTo(16));
-				}, ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+				"melted_nickel_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
+				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
 		public static final ItemEntry<Item> URANIUM_CONCENTRATE = ItemEntry.register(
-				"uranium_concentrate", () -> {
-					if(ModsLoadedEventSubscriber.IE) {
-						return new Item(new Item.Properties());
-					}
-					return new Item(new Item.Properties());
-				}, ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+				"uranium_concentrate", () -> new Item(new Item.Properties()),
+				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
 		public static final ItemEntry<Item> MELTED_URANIUM_BUCKET = ItemEntry.register(
-				"melted_uranium_bucket", () -> {
-					if(ModsLoadedEventSubscriber.IE) {
-						return new Item(new Item.Properties().stacksTo(16));
-					}
-					return new Item(new Item.Properties().stacksTo(16));
-				}, ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+				"melted_uranium_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
+				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
 
 		private static void init() {}
@@ -450,18 +402,25 @@ public class ECItems {
 			return new ItemEntry<>(REGISTER.register(name, make), type);
 		}
 
+		@SuppressWarnings("SameParameterValue")
+		static <T extends Item> ItemEntry<T> register(String name, Supplier<? extends T> make, ItemGroupType type, boolean compat) {
+			return new ItemEntry<>(REGISTER.register(name, make), compat ? type : null);
+		}
+
 		private static <T extends Item> ItemEntry<T> of(T existing, ItemGroupType type) {
 			return new ItemEntry<>(RegistryObject.create(getRegistryName(existing), ForgeRegistries.ITEMS), type);
 		}
 
 		private ItemEntry(RegistryObject<T> regObject, ItemGroupType type) {
 			this.regObject = regObject;
-			(switch (type) {
-				case BUILDING_BLOCKS -> BUILDING_BLOCKS;
-				case FUNCTIONAL_BLOCKS_AND_MATERIALS -> FUNCTIONAL_BLOCKS_AND_MATERIALS;
-				case TOOLS_AND_ARMORS -> TOOLS_AND_ARMORS;
-				case FOODS_AND_DRINKS -> FOODS_AND_DRINKS;
-			}).add(this);
+			if(type != null) {
+				(switch (type) {
+					case BUILDING_BLOCKS -> BUILDING_BLOCKS;
+					case FUNCTIONAL_BLOCKS_AND_MATERIALS -> FUNCTIONAL_BLOCKS_AND_MATERIALS;
+					case TOOLS_AND_ARMORS -> TOOLS_AND_ARMORS;
+					case FOODS_AND_DRINKS -> FOODS_AND_DRINKS;
+				}).add(this);
+			}
 		}
 
 		@Override @NotNull
