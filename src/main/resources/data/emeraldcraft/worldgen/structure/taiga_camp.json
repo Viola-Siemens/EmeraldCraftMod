@@ -1,5 +1,5 @@
 {
-  "type": "emeraldcraft:taiga_camp",
+  "type": "emeraldcraft:camp",
   "biomes": "#emeraldcraft:has_structure/camp_taiga",
   "camp_type": "TAIGA",
   "spawn_overrides": {},

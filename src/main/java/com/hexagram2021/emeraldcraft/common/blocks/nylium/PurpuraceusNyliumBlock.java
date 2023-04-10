@@ -1,7 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.blocks.nylium;
 
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
-import com.hexagram2021.emeraldcraft.common.register.ECConfiguredFeatureKeys;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;

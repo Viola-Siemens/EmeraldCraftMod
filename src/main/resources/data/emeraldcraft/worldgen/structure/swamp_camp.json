@@ -1,5 +1,5 @@
 {
-  "type": "emeraldcraft:swamp_camp",
+  "type": "emeraldcraft:camp",
   "biomes": "#emeraldcraft:has_structure/camp_swamp",
   "camp_type": "SWAMP",
   "spawn_overrides": {},

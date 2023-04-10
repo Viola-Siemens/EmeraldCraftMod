@@ -1,11 +1,13 @@
 package com.hexagram2021.emeraldcraft.common.util;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public interface RegistryHelper {
@@ -23,5 +25,8 @@ public interface RegistryHelper {
 	}
 	static ResourceLocation getRegistryName(EntityType<?> entityType) {
 		return ForgeRegistries.ENTITY_TYPES.getKey(entityType);
+	}
+	static ResourceLocation getRegistryName(StructureType<?> structureType) {
+		return BuiltInRegistries.STRUCTURE_TYPE.getKey(structureType);
 	}
 }

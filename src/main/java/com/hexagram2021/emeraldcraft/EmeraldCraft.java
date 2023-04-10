@@ -100,6 +100,7 @@ public class EmeraldCraft {
 
 		bus.addListener(this::setup);
 		bus.addListener(this::enqueueIMC);
+		bus.addListener(this::creativeTabEvent);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 

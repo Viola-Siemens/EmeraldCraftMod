@@ -1,5 +1,5 @@
 {
-  "type": "emeraldcraft:savanna_camp",
+  "type": "emeraldcraft:camp",
   "biomes": "#emeraldcraft:has_structure/camp_savanna",
   "camp_type": "SAVANNA",
   "spawn_overrides": {},

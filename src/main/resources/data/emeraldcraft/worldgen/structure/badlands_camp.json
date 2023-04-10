@@ -1,5 +1,5 @@
 {
-  "type": "emeraldcraft:badlands_camp",
+  "type": "emeraldcraft:camp",
   "biomes": "#emeraldcraft:has_structure/camp_badlands",
   "camp_type": "BADLANDS",
   "spawn_overrides": {},

@@ -4,7 +4,6 @@ import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
 import com.hexagram2021.emeraldcraft.common.crafting.compat.ModsLoadedEventSubscriber;
 import com.hexagram2021.emeraldcraft.common.register.*;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
-import com.hexagram2021.emeraldcraft.common.world.ECProcessorLists;
 import com.hexagram2021.emeraldcraft.common.world.compat.ECNetherBiomeRegion;
 import com.hexagram2021.emeraldcraft.common.world.compat.ECOverworldBiomeRegion;
 import com.hexagram2021.emeraldcraft.common.world.surface.ECSurfaceRules;
@@ -43,16 +42,14 @@ public class ECContent {
 		ECContainerTypes.init(bus);
 		ECBlockEntity.init(bus);
 		ECPlacementModifierType.init(bus);
-		ECProcessorLists.init(bus);
 		ECConfiguredFeatureKeys.init();
 		ECPlacedFeatureKeys.init();
 		ECVillagePlacedFeatureKeys.init();
-		ECBiomeKeys.init();
 		ECStructureTypes.init(bus);
-		ECStructurePieceTypes.init();
 		ECStructureKeys.init();
 		ECStructureSetKeys.init();
 
+		runLater.accept(ECStructurePieceTypes::init);
 		runLater.accept(ModsLoadedEventSubscriber::SolveCompat);
 	}
 
@@ -66,11 +63,8 @@ public class ECContent {
 	@SubscribeEvent
 	public static void onRegister(RegisterEvent event) {
 		ECSounds.init(event);
-
 		ECEntities.init(event);
-
 		ECFeatures.init(event);
-
 		ECPotions.init(event);
 	}
 
