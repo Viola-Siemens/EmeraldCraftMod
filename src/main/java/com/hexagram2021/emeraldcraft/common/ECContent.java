@@ -48,6 +48,8 @@ public class ECContent {
 		ECPlacedFeatureKeys.init();
 		ECVillagePlacedFeatureKeys.init();
 		ECBiomeKeys.init();
+		ECStructureTypes.init(bus);
+		ECStructurePieceTypes.init();
 		ECStructureKeys.init();
 		ECStructureSetKeys.init();
 
@@ -70,9 +72,6 @@ public class ECContent {
 		ECFeatures.init(event);
 
 		ECPotions.init(event);
-
-		ECStructureTypes.init();
-		ECStructurePieceTypes.init();
 	}
 
 	@SubscribeEvent

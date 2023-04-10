@@ -39,6 +39,6 @@ public class HollowTreeFeature extends Structure {
 
 	@Override @NotNull
 	public StructureType<?> type() {
-		return ECStructureTypes.HOLLOW_TREE;
+		return ECStructureTypes.HOLLOW_TREE.get();
 	}
 }

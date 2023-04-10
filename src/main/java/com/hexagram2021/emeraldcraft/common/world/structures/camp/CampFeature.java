@@ -47,6 +47,6 @@ public class CampFeature extends Structure {
 
 	@Override @NotNull
 	public StructureType<?> type() {
-		return ECStructureTypes.CAMP;
+		return ECStructureTypes.CAMP.get();
 	}
 }

@@ -6,7 +6,7 @@ import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -323,8 +323,8 @@ public class ECTrades {
 		private final float priceMultiplier;
 
 		public EmeraldsForVillagerTypeItem(int cost, int emeraldCost, int maxUses, int Xp, Map<VillagerType, Item> trades, Item defaultTradeItem) {
-			Registry.VILLAGER_TYPE.stream().filter((villagerType) -> !trades.containsKey(villagerType)).findAny().ifPresent((villagerType) ->
-					ECLogger.debug("Missing trade for villager type: " + Registry.VILLAGER_TYPE.getKey(villagerType)));
+			BuiltInRegistries.VILLAGER_TYPE.stream().filter((villagerType) -> !trades.containsKey(villagerType)).findAny().ifPresent((villagerType) ->
+					ECLogger.debug("Missing trade for villager type: " + BuiltInRegistries.VILLAGER_TYPE.getKey(villagerType)));
 			this.trades = trades;
 			this.defaultTradeItem = defaultTradeItem;
 			this.cost = cost;
@@ -359,8 +359,8 @@ public class ECTrades {
 		private final float priceMultiplier;
 
 		public VillagerTypeItemForEmeralds(int numberOfItems, int emeraldCost, int maxUses, int Xp, Map<VillagerType, Item> trades, Item defaultTradeItem) {
-			Registry.VILLAGER_TYPE.stream().filter((villagerType) -> !trades.containsKey(villagerType)).findAny().ifPresent((villagerType) ->
-					ECLogger.debug("Missing trade for villager type: " + Registry.VILLAGER_TYPE.getKey(villagerType)));
+			BuiltInRegistries.VILLAGER_TYPE.stream().filter((villagerType) -> !trades.containsKey(villagerType)).findAny().ifPresent((villagerType) ->
+					ECLogger.debug("Missing trade for villager type: " + BuiltInRegistries.VILLAGER_TYPE.getKey(villagerType)));
 			this.trades = trades;
 			this.defaultTradeItem = defaultTradeItem;
 			this.numberOfItems = numberOfItems;

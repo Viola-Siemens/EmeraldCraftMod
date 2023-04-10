@@ -46,6 +46,6 @@ public class EntrenchmentFeature extends Structure {
 
 	@Override @NotNull
 	public StructureType<?> type() {
-		return ECStructureTypes.ENTRENCHMENT;
+		return ECStructureTypes.ENTRENCHMENT.get();
 	}
 }

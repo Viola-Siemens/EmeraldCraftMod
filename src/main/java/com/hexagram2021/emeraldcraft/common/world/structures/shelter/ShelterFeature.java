@@ -32,6 +32,6 @@ public class ShelterFeature extends Structure {
 
 	@Override @NotNull
 	public StructureType<?> type() {
-		return ECStructureTypes.SHELTER;
+		return ECStructureTypes.SHELTER.get();
 	}
 }
