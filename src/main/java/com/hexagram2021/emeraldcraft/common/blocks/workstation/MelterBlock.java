@@ -114,12 +114,12 @@ public class MelterBlock extends AbstractFurnaceBlock {
 			}
 
 			Direction direction = state.getValue(FACING);
-			Direction.Axis direction$axis = direction.getAxis();
+			Direction.Axis axis = direction.getAxis();
 			double d3 = 0.52D;
 			double d4 = random.nextDouble() * 0.6D - 0.3D;
-			double d5 = direction$axis == Direction.Axis.X ? (double)direction.getStepX() * d3 : d4;
+			double d5 = axis == Direction.Axis.X ? (double)direction.getStepX() * d3 : d4;
 			double d6 = random.nextDouble() * 9.0D / 16.0D;
-			double d7 = direction$axis == Direction.Axis.Z ? (double)direction.getStepZ() * d3 : d4;
+			double d7 = axis == Direction.Axis.Z ? (double)direction.getStepZ() * d3 : d4;
 			level.addParticle(ParticleTypes.SMOKE, d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
 		}
 	}

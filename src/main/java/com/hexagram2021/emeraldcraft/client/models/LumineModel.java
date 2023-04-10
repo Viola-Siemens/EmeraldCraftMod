@@ -31,8 +31,8 @@ public class LumineModel extends HierarchicalModel<LumineEntity> implements Arme
 	private static final float DEFAULT_WING_Y_ROT = 0.61086524F;
 	private static final float DEFAULT_ARM_Y_ROT = 0.27925268F;
 
-	public LumineModel(ModelPart p_233312_) {
-		this.root = p_233312_.getChild("root");
+	public LumineModel(ModelPart root) {
+		this.root = root.getChild("root");
 		this.head = this.root.getChild("head");
 		this.body = this.root.getChild("body");
 		this.right_arm = this.body.getChild("right_arm");

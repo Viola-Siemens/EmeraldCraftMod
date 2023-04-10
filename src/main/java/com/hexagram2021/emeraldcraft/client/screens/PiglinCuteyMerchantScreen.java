@@ -208,12 +208,12 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 				this.renderTooltip(transform, DEPRECATED_TOOLTIP, x, y);
 			}
 
-			for(TradeOfferButton merchantscreen$tradeofferbutton : this.tradeOfferButtons) {
-				if (merchantscreen$tradeofferbutton.isHoveredOrFocused()) {
-					merchantscreen$tradeofferbutton.renderToolTip(transform, x, y);
+			for(TradeOfferButton tradeOfferButton : this.tradeOfferButtons) {
+				if (tradeOfferButton.isHoveredOrFocused()) {
+					tradeOfferButton.renderToolTip(transform, x, y);
 				}
 
-				merchantscreen$tradeofferbutton.visible = merchantscreen$tradeofferbutton.index < this.menu.getOffers().size();
+				tradeOfferButton.visible = tradeOfferButton.index < this.menu.getOffers().size();
 			}
 
 			RenderSystem.enableDepthTest();
@@ -303,7 +303,7 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 		final int index;
 
 		public TradeOfferButton(int x, int y, int index, Button.OnPress onPress) {
-			super(x, y, TRADE_BUTTON_WIDTH, TRADE_BUTTON_HEIGHT, CommonComponents.EMPTY, onPress);
+			super(x, y, TRADE_BUTTON_WIDTH, TRADE_BUTTON_HEIGHT, CommonComponents.EMPTY, onPress, DEFAULT_NARRATION);
 			this.index = index;
 			this.visible = false;
 		}
@@ -312,18 +312,17 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 			return this.index;
 		}
 
-		@Override
 		public void renderToolTip(@NotNull PoseStack transform, int x, int y) {
 			if (this.isHovered && PiglinCuteyMerchantScreen.this.menu.getOffers().size() > this.index + PiglinCuteyMerchantScreen.this.scrollOff) {
-				if (x < this.x + 20) {
+				if (x < this.getX() + 20) {
 					ItemStack itemstack = PiglinCuteyMerchantScreen.this.menu.getOffers().get(this.index + PiglinCuteyMerchantScreen.this.scrollOff).getCostA();
 					PiglinCuteyMerchantScreen.this.renderTooltip(transform, itemstack, x, y);
-				} else if (x < this.x + 50 && x > this.x + 30) {
+				} else if (x < this.getX() + 50 && x > this.getX() + 30) {
 					ItemStack itemstack2 = PiglinCuteyMerchantScreen.this.menu.getOffers().get(this.index + PiglinCuteyMerchantScreen.this.scrollOff).getCostB();
 					if (!itemstack2.isEmpty()) {
 						PiglinCuteyMerchantScreen.this.renderTooltip(transform, itemstack2, x, y);
 					}
-				} else if (x > this.x + 65) {
+				} else if (x > this.getX() + 65) {
 					ItemStack itemstack1 = PiglinCuteyMerchantScreen.this.menu.getOffers().get(this.index + PiglinCuteyMerchantScreen.this.scrollOff).getResult();
 					PiglinCuteyMerchantScreen.this.renderTooltip(transform, itemstack1, x, y);
 				}

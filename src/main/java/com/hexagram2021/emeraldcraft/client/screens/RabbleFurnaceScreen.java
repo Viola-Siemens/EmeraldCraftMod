@@ -24,7 +24,7 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 public class RabbleFurnaceScreen extends AbstractContainerScreen<RabbleFurnaceMenu> implements RecipeUpdateListener {
 	private static final ResourceLocation RECIPE_BUTTON_LOCATION = new ResourceLocation("textures/gui/recipe_button.png");
 	private static final ResourceLocation texture = new ResourceLocation(MODID, "textures/gui/container/rabble_furnace.png");
-	private static final RabbleFurnaceRecipeBookComponent recipeBookComponent = new RabbleFurnaceRecipeBookComponent();
+	public final RabbleFurnaceRecipeBookComponent recipeBookComponent = new RabbleFurnaceRecipeBookComponent();
 
 	private boolean widthTooNarrow;
 
@@ -35,13 +35,15 @@ public class RabbleFurnaceScreen extends AbstractContainerScreen<RabbleFurnaceMe
 	@Override
 	public void init() {
 		super.init();
+		assert this.minecraft != null;
+
 		this.widthTooNarrow = this.width < 379;
-		recipeBookComponent.init(this.width, this.height, this.minecraft, this.widthTooNarrow, this.menu);
-		this.leftPos = recipeBookComponent.updateScreenPosition(this.width, this.imageWidth);
+		this.recipeBookComponent.init(this.width, this.height, this.minecraft, this.widthTooNarrow, this.menu);
+		this.leftPos = this.recipeBookComponent.updateScreenPosition(this.width, this.imageWidth);
 		this.addRenderableWidget(new ImageButton(this.leftPos + 84, this.height / 2 - 33, 20, 18, 0, 0, 19, RECIPE_BUTTON_LOCATION, button -> {
-			recipeBookComponent.toggleVisibility();
-			this.leftPos = recipeBookComponent.updateScreenPosition(this.width, this.imageWidth);
-			((ImageButton)button).setPosition(this.leftPos + 84, this.height / 2 - 33);
+			this.recipeBookComponent.toggleVisibility();
+			this.leftPos = this.recipeBookComponent.updateScreenPosition(this.width, this.imageWidth);
+			button.setPosition(this.leftPos + 84, this.height / 2 - 33);
 		}));
 		this.titleLabelX = (this.imageWidth - this.font.width(this.title)) / 2;
 	}
@@ -49,23 +51,23 @@ public class RabbleFurnaceScreen extends AbstractContainerScreen<RabbleFurnaceMe
 	@Override
 	public void containerTick() {
 		super.containerTick();
-		recipeBookComponent.tick();
+		this.recipeBookComponent.tick();
 	}
 
 	@Override
 	public void render(@NotNull PoseStack transform, int x, int y, float partialTicks) {
 		this.renderBackground(transform);
-		if (recipeBookComponent.isVisible() && this.widthTooNarrow) {
+		if (this.recipeBookComponent.isVisible() && this.widthTooNarrow) {
 			this.renderBg(transform, partialTicks, x, y);
-			recipeBookComponent.render(transform, x, y, partialTicks);
+			this.recipeBookComponent.render(transform, x, y, partialTicks);
 		} else {
-			recipeBookComponent.render(transform, x, y, partialTicks);
+			this.recipeBookComponent.render(transform, x, y, partialTicks);
 			super.render(transform, x, y, partialTicks);
-			recipeBookComponent.renderGhostRecipe(transform, this.leftPos, this.topPos, true, partialTicks);
+			this.recipeBookComponent.renderGhostRecipe(transform, this.leftPos, this.topPos, true, partialTicks);
 		}
 
 		this.renderTooltip(transform, x, y);
-		recipeBookComponent.renderTooltip(transform, this.leftPos, this.topPos, x, y);
+		this.recipeBookComponent.renderTooltip(transform, this.leftPos, this.topPos, x, y);
 	}
 
 	@Override
@@ -87,47 +89,41 @@ public class RabbleFurnaceScreen extends AbstractContainerScreen<RabbleFurnaceMe
 
 	@Override
 	public boolean mouseClicked(double x, double y, int mouseButton) {
-		if (recipeBookComponent.mouseClicked(x, y, mouseButton)) {
+		if (this.recipeBookComponent.mouseClicked(x, y, mouseButton)) {
 			return true;
 		}
-		return this.widthTooNarrow && recipeBookComponent.isVisible() || super.mouseClicked(x, y, mouseButton);
+		return this.widthTooNarrow && this.recipeBookComponent.isVisible() || super.mouseClicked(x, y, mouseButton);
 	}
 
 	@Override
 	protected void slotClicked(@NotNull Slot clickedSlot, int x, int y, @NotNull ClickType type) {
 		super.slotClicked(clickedSlot, x, y, type);
-		recipeBookComponent.slotClicked(clickedSlot);
+		this.recipeBookComponent.slotClicked(clickedSlot);
 	}
 
 	@Override
 	public boolean keyPressed(int key, int scanCode, int modifiers) {
-		return !recipeBookComponent.keyPressed(key, scanCode, modifiers) && super.keyPressed(key, scanCode, modifiers);
+		return !this.recipeBookComponent.keyPressed(key, scanCode, modifiers) && super.keyPressed(key, scanCode, modifiers);
 	}
 
 	@Override
 	protected boolean hasClickedOutside(double x, double y, int left, int top, int mouseButton) {
 		boolean flag = x < (double)left || y < (double)top || x >= (double)(left + this.imageWidth) || y >= (double)(top + this.imageHeight);
-		return recipeBookComponent.hasClickedOutside(x, y, this.leftPos, this.topPos, this.imageWidth, this.imageHeight, mouseButton) && flag;
+		return this.recipeBookComponent.hasClickedOutside(x, y, this.leftPos, this.topPos, this.imageWidth, this.imageHeight, mouseButton) && flag;
 	}
 
 	@Override
 	public boolean charTyped(char code, int modifiers) {
-		return recipeBookComponent.charTyped(code, modifiers) || super.charTyped(code, modifiers);
+		return this.recipeBookComponent.charTyped(code, modifiers) || super.charTyped(code, modifiers);
 	}
 
 	@Override
 	public void recipesUpdated() {
-		recipeBookComponent.recipesUpdated();
+		this.recipeBookComponent.recipesUpdated();
 	}
 
 	@Override @NotNull
 	public RecipeBookComponent getRecipeBookComponent() {
-		return recipeBookComponent;
-	}
-
-	@Override
-	public void removed() {
-		recipeBookComponent.removed();
-		super.removed();
+		return this.recipeBookComponent;
 	}
 }
