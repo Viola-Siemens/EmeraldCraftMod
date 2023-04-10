@@ -10,13 +10,13 @@
     "rim": {
       "Name": "minecraft:moss_block"
     },
-    "rim_size": {
+    "rim_size": 0,
+    "size": {
       "type": "minecraft:uniform",
       "value": {
         "max_inclusive": 9,
         "min_inclusive": 3
       }
-    },
-    "size": 0
+    }
   }
 }

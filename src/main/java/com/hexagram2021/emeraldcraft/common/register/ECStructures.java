@@ -1,7 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
 import com.google.common.collect.Lists;
-import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.util.ListAppendable;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -12,8 +11,6 @@ import net.minecraft.world.level.levelgen.structure.StructureSet;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 public class ECStructures {
 	public static final List<ResourceKey<Structure>> ALL_CAMPS = Lists.newArrayList(
@@ -38,7 +35,7 @@ public class ECStructures {
 										registryAccess.lookupOrThrow(Registries.STRUCTURE).get(rk).orElseThrow()
 								)
 						).collect(Collectors.toList())
-				).forEach(v -> ECLogger.debug("{} - {}", getRegistryName(v.structure().value().type()), v.weight()));
+				);
 		((ListAppendable<StructureSet.StructureSelectionEntry>)(Object)
 				registryAccess.lookupOrThrow(Registries.STRUCTURE_SET).get(ECStructureSetKeys.CAMP).orElseThrow().get())
 				.appendAll(
@@ -47,6 +44,6 @@ public class ECStructures {
 										registryAccess.lookupOrThrow(Registries.STRUCTURE).get(rk).orElseThrow()
 								)
 						).collect(Collectors.toList())
-				).forEach(v -> ECLogger.debug("{} - {}", getRegistryName(v.structure().value().type()), v.weight()));
+				);
 	}
 }

@@ -19,13 +19,11 @@ public class MapInstanceMixin {
 	private byte getImageAndUpdateBuffer(MapDecoration instance) {
 		MapDecoration.Type type = instance.getType();
 		this.bufferDecorationRenderType = MapCustomIcons.RENDER_TYPES.get(type);
-		ECLogger.debug("Before: " + type.name());
 		return MapCustomIcons.ORDINARIES.getOrDefault(type, instance.getImage());
 	}
 
 	@Redirect(method = "draw", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/MultiBufferSource;getBuffer(Lnet/minecraft/client/renderer/RenderType;)Lcom/mojang/blaze3d/vertex/VertexConsumer;", ordinal = 1))
 	private VertexConsumer getVertexConsumerForCustomIcons(MultiBufferSource instance, RenderType renderType) {
-		ECLogger.debug("After: " + (this.bufferDecorationRenderType == null));
 		if(this.bufferDecorationRenderType == null) {
 			return instance.getBuffer(renderType);
 		}

@@ -23,6 +23,21 @@ public class ECCommonConfig {
 	public static final ForgeConfigSpec.BooleanValue GENERATE_EMERY_DESERT;
 	public static final ForgeConfigSpec.BooleanValue GENERATE_QUARTZ_DESERT;
 	public static final ForgeConfigSpec.BooleanValue GENERATE_PURPURACEUS_SWAMP;
+	public static final ForgeConfigSpec.DoubleValue SUPPRESS_DEAD_CRIMSON_OCEAN;
+	public static final ForgeConfigSpec.DoubleValue SUPPRESS_DEAD_WARPED_OCEAN;
+	public static final ForgeConfigSpec.DoubleValue SUPPRESS_XANADU;
+	public static final ForgeConfigSpec.DoubleValue SUPPRESS_GINKGO_FOREST;
+	public static final ForgeConfigSpec.DoubleValue SUPPRESS_KARST_HILLS;
+	public static final ForgeConfigSpec.DoubleValue SUPPRESS_PETUNIA_PLAINS;
+	public static final ForgeConfigSpec.DoubleValue SUPPRESS_GOLDEN_BEACH;
+	public static final ForgeConfigSpec.DoubleValue SUPPRESS_PALM_BEACH;
+	public static final ForgeConfigSpec.DoubleValue SUPPRESS_AZURE_DESERT;
+	public static final ForgeConfigSpec.DoubleValue SUPPRESS_JADEITE_DESERT;
+	public static final ForgeConfigSpec.DoubleValue SUPPRESS_VOLCANIC_CAVES;
+	public static final ForgeConfigSpec.DoubleValue SUPPRESS_MOSSY_CAVES;
+	public static final ForgeConfigSpec.DoubleValue SUPPRESS_EMERY_DESERT;
+	public static final ForgeConfigSpec.DoubleValue SUPPRESS_QUARTZ_DESERT;
+	public static final ForgeConfigSpec.DoubleValue SUPPRESS_PURPURACEUS_SWAMP;
 
 	public static final ForgeConfigSpec.IntValue PIGLIN_CUTEY_GIFT;
 
@@ -38,6 +53,7 @@ public class ECCommonConfig {
 				BUILDER.push("biomes-generation");
 				EMERALD_CRAFT_OVERWORLD_BIOMES_WEIGHT = BUILDER.defineInRange("EMERALD_CRAFT_OVERWORLD_BIOMES_WEIGHT", 40, 0, 65536);
 				EMERALD_CRAFT_NETHER_BIOMES_WEIGHT = BUILDER.defineInRange("EMERALD_CRAFT_NETHER_BIOMES_WEIGHT", 40, 0, 65536);
+				BUILDER.comment("The following values will determine whether the corresponding biomes can be generated ( = true) or not ( = false).");
 				GENERATE_DEAD_CRIMSON_OCEAN = BUILDER.define("GENERATE_DEAD_CRIMSON_OCEAN", true);
 				GENERATE_DEAD_WARPED_OCEAN = BUILDER.define("GENERATE_DEAD_WARPED_OCEAN", true);
 				GENERATE_XANADU = BUILDER.define("GENERATE_XANADU", true);
@@ -53,6 +69,22 @@ public class ECCommonConfig {
 				GENERATE_EMERY_DESERT = BUILDER.define("GENERATE_EMERY_DESERT", true);
 				GENERATE_QUARTZ_DESERT = BUILDER.define("GENERATE_QUARTZ_DESERT", true);
 				GENERATE_PURPURACEUS_SWAMP = BUILDER.define("GENERATE_PURPURACEUS_SWAMP", true);
+				BUILDER.comment("The following values will affect the probability of corresponding biomes. The bigger it is, the less possible the biome will appears. Range (-0.25, 1.0) is recommended.");
+				SUPPRESS_DEAD_CRIMSON_OCEAN = BUILDER.defineInRange("SUPPRESS_DEAD_CRIMSON_OCEAN", 0.0D, -1.0D, 4.0D);
+				SUPPRESS_DEAD_WARPED_OCEAN = BUILDER.defineInRange("SUPPRESS_DEAD_WARPED_OCEAN", 0.0D, -1.0D, 4.0D);
+				SUPPRESS_XANADU = BUILDER.defineInRange("SUPPRESS_XANADU", 0.0D, -1.0D, 4.0D);
+				SUPPRESS_GINKGO_FOREST = BUILDER.defineInRange("SUPPRESS_GINKGO_FOREST", 0.0D, -1.0D, 4.0D);
+				SUPPRESS_KARST_HILLS = BUILDER.defineInRange("SUPPRESS_KARST_HILLS", 0.0D, -1.0D, 4.0D);
+				SUPPRESS_PETUNIA_PLAINS = BUILDER.defineInRange("SUPPRESS_PETUNIA_PLAINS", 0.0D, -1.0D, 4.0D);
+				SUPPRESS_GOLDEN_BEACH = BUILDER.defineInRange("SUPPRESS_GOLDEN_BEACH", 0.0D, -1.0D, 4.0D);
+				SUPPRESS_PALM_BEACH = BUILDER.defineInRange("SUPPRESS_PALM_BEACH", 0.0D, -1.0D, 4.0D);
+				SUPPRESS_AZURE_DESERT = BUILDER.defineInRange("SUPPRESS_AZURE_DESERT", 0.0D, -1.0D, 4.0D);
+				SUPPRESS_JADEITE_DESERT = BUILDER.defineInRange("SUPPRESS_JADEITE_DESERT", 0.0D, -1.0D, 4.0D);
+				SUPPRESS_VOLCANIC_CAVES = BUILDER.defineInRange("SUPPRESS_VOLCANIC_CAVES", 0.3125D, -1.0D, 4.0D);
+				SUPPRESS_MOSSY_CAVES = BUILDER.defineInRange("SUPPRESS_MOSSY_CAVES", 0.25D, -1.0D, 4.0D);
+				SUPPRESS_EMERY_DESERT = BUILDER.defineInRange("SUPPRESS_EMERY_DESERT", 0.0D, -1.0D, 4.0D);
+				SUPPRESS_QUARTZ_DESERT = BUILDER.defineInRange("SUPPRESS_QUARTZ_DESERT", 0.0D, -1.0D, 4.0D);
+				SUPPRESS_PURPURACEUS_SWAMP = BUILDER.defineInRange("SUPPRESS_PURPURACEUS_SWAMP", 0.125D, -1.0D, 4.0D);
 			BUILDER.pop();
 
 			BUILDER.comment("You can enable/disable curing mobs and change the possibilities.");

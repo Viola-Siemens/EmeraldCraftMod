@@ -31,13 +31,13 @@ public class ECNetherBiomeRegion extends Region {
 		this.addBiome(mapper, Climate.Parameter.point(0.0F), Climate.Parameter.point(0.5F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), 0.375F, Biomes.WARPED_FOREST);
 		this.addBiome(mapper, Climate.Parameter.point(-0.5F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), 0.175F, Biomes.BASALT_DELTAS);
 		if (BiomeUtil.isKeyRegistered(registry, ECBiomeKeys.EMERY_DESERT)) {
-			this.addBiome(mapper, Climate.Parameter.point(-0.8F), Climate.Parameter.point(-0.8F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), 0.0F, ECBiomeKeys.EMERY_DESERT.key());
+			this.addBiome(mapper, Climate.Parameter.point(-0.8F), Climate.Parameter.point(-0.8F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), ECBiomeKeys.EMERY_DESERT.suppress(), ECBiomeKeys.EMERY_DESERT.key());
 		}
 		if (BiomeUtil.isKeyRegistered(registry, ECBiomeKeys.PURPURACEUS_SWAMP)) {
-			this.addBiome(mapper, Climate.Parameter.point(0.7F), Climate.Parameter.point(0.7F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), 0.125F, ECBiomeKeys.PURPURACEUS_SWAMP.key());
+			this.addBiome(mapper, Climate.Parameter.point(0.7F), Climate.Parameter.point(0.7F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), ECBiomeKeys.PURPURACEUS_SWAMP.suppress(), ECBiomeKeys.PURPURACEUS_SWAMP.key());
 		}
 		if (BiomeUtil.isKeyRegistered(registry, ECBiomeKeys.QUARTZ_DESERT)) {
-			this.addBiome(mapper, Climate.Parameter.point(0.75F), Climate.Parameter.point(-0.7F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), 0.0F, ECBiomeKeys.QUARTZ_DESERT.key());
+			this.addBiome(mapper, Climate.Parameter.point(0.75F), Climate.Parameter.point(-0.7F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), Climate.Parameter.point(0.0F), ECBiomeKeys.QUARTZ_DESERT.suppress(), ECBiomeKeys.QUARTZ_DESERT.key());
 		}
 	}
 }

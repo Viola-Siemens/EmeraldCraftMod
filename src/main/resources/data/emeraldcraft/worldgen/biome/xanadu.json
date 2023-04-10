@@ -26,9 +26,7 @@
     "water_fog_color": 329011
   },
   "features": [
-    [
-      "emeraldcraft:xanadu_delta"
-    ],
+    [],
     [
       "minecraft:lake_lava_underground",
       "minecraft:lake_lava_surface"
@@ -40,7 +38,9 @@
       "minecraft:monster_room",
       "minecraft:monster_room_deep"
     ],
-    [],
+    [
+      "emeraldcraft:xanadu_delta"
+    ],
     [],
     [
       "minecraft:ore_dirt",

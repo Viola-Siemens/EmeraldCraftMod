@@ -111,7 +111,7 @@ public class ECOverworldBiomeBuilder {
 					ParameterUtils.Continentalness.DEEP_OCEAN.parameter(),
 					ParameterUtils.Erosion.FULL_RANGE.parameter(),
 					Climate.Parameter.span(ParameterUtils.Weirdness.PEAK_VARIANT.parameter(), ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING.parameter()),
-					0.0F,
+					ECBiomeKeys.DEEP_DEAD_CRIMSON_OCEAN.suppress(),
 					ECBiomeKeys.DEEP_DEAD_CRIMSON_OCEAN.key());
 		}
 
@@ -122,7 +122,7 @@ public class ECOverworldBiomeBuilder {
 					ParameterUtils.Continentalness.DEEP_OCEAN.parameter(),
 					ParameterUtils.Erosion.FULL_RANGE.parameter(),
 					Climate.Parameter.span(ParameterUtils.Weirdness.PEAK_VARIANT.parameter(), ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING.parameter()),
-					0.0F,
+					ECBiomeKeys.DEEP_DEAD_WARPED_OCEAN.suppress(),
 					ECBiomeKeys.DEEP_DEAD_WARPED_OCEAN.key());
 		}
 		if(BiomeUtil.isKeyRegistered(biomeRegistry, ECBiomeKeys.DEAD_CRIMSON_OCEAN)) {
@@ -132,7 +132,7 @@ public class ECOverworldBiomeBuilder {
 					ParameterUtils.Continentalness.OCEAN.parameter(),
 					ParameterUtils.Erosion.FULL_RANGE.parameter(),
 					Climate.Parameter.span(ParameterUtils.Weirdness.PEAK_VARIANT.parameter(), ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING.parameter()),
-					0.0F,
+					ECBiomeKeys.DEAD_CRIMSON_OCEAN.suppress(),
 					ECBiomeKeys.DEAD_CRIMSON_OCEAN.key());
 		}
 		if(BiomeUtil.isKeyRegistered(biomeRegistry, ECBiomeKeys.DEAD_WARPED_OCEAN)) {
@@ -142,7 +142,7 @@ public class ECOverworldBiomeBuilder {
 					ParameterUtils.Continentalness.OCEAN.parameter(),
 					ParameterUtils.Erosion.FULL_RANGE.parameter(),
 					Climate.Parameter.span(ParameterUtils.Weirdness.PEAK_VARIANT.parameter(), ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING.parameter()),
-					0.0F,
+					ECBiomeKeys.DEAD_WARPED_OCEAN.suppress(),
 					ECBiomeKeys.DEAD_WARPED_OCEAN.key());
 		}
 		this.addSurfaceBiome(mapper,
@@ -173,7 +173,7 @@ public class ECOverworldBiomeBuilder {
 						ParameterUtils.Continentalness.MUSHROOM_FIELDS.parameter(),
 						ParameterUtils.Erosion.FULL_RANGE.parameter(),
 						ParameterUtils.Weirdness.FULL_RANGE.parameter(),
-						0.0F,
+						ECBiomeKeys.getSuppress(islandBiome),
 						islandBiome);
 			}
 
@@ -228,57 +228,57 @@ public class ECOverworldBiomeBuilder {
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.COAST.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_0.parameter(),
-						weirdness, 0.0F, peakBiome);
+						weirdness, ECBiomeKeys.getSuppress(peakBiome), peakBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.COAST.parameter(), ParameterUtils.Continentalness.NEAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_1.parameter(),
-						weirdness, 0.0F, middleBadlandsOrSlopeECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleBadlandsOrSlopeECBiome), middleBadlandsOrSlopeECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.MID_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_1.parameter(),
-						weirdness, 0.0F, peakBiome);
+						weirdness, ECBiomeKeys.getSuppress(peakBiome), peakBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.COAST.parameter(), ParameterUtils.Continentalness.NEAR_INLAND.parameter()),
 						Climate.Parameter.span(ParameterUtils.Erosion.EROSION_2.parameter(), ParameterUtils.Erosion.EROSION_3.parameter()),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.MID_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_2.parameter(),
-						weirdness, 0.0F, plateauBiome);
+						weirdness, ECBiomeKeys.getSuppress(plateauBiome), plateauBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.MID_INLAND.parameter(),
 						ParameterUtils.Erosion.EROSION_3.parameter(),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.FAR_INLAND.parameter(),
 						ParameterUtils.Erosion.EROSION_3.parameter(),
-						weirdness, 0.0F, plateauBiome);
+						weirdness, ECBiomeKeys.getSuppress(plateauBiome), plateauBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.COAST.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_4.parameter(),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.COAST.parameter(), ParameterUtils.Continentalness.NEAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_5.parameter(),
-						weirdness, 0.0F, shatteredBiome);
+						weirdness, ECBiomeKeys.getSuppress(shatteredBiome), shatteredBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.MID_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_5.parameter(),
-						weirdness, 0.0F, extremeHillsBiome);
+						weirdness, ECBiomeKeys.getSuppress(extremeHillsBiome), extremeHillsBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.COAST.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_6.parameter(),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 			}
 		}
 
@@ -302,67 +302,67 @@ public class ECOverworldBiomeBuilder {
 						temperature, humidity,
 						ParameterUtils.Continentalness.COAST.parameter(),
 						Climate.Parameter.span(ParameterUtils.Erosion.EROSION_0.parameter(), ParameterUtils.Erosion.EROSION_1.parameter()),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.NEAR_INLAND.parameter(),
 						ParameterUtils.Erosion.EROSION_0.parameter(),
-						weirdness, 0.0F, slopeECBiome);
+						weirdness, ECBiomeKeys.getSuppress(slopeECBiome), slopeECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.MID_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_0.parameter(),
-						weirdness, 0.0F, peakBiome);
+						weirdness, ECBiomeKeys.getSuppress(peakBiome), peakBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.NEAR_INLAND.parameter(),
 						ParameterUtils.Erosion.EROSION_1.parameter(),
-						weirdness, 0.0F, middleBadlandsOrSlopeECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleBadlandsOrSlopeECBiome), middleBadlandsOrSlopeECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.MID_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_1.parameter(),
-						weirdness, 0.0F, slopeECBiome);
+						weirdness, ECBiomeKeys.getSuppress(slopeECBiome), slopeECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.COAST.parameter(), ParameterUtils.Continentalness.NEAR_INLAND.parameter()),
 						Climate.Parameter.span(ParameterUtils.Erosion.EROSION_2.parameter(), ParameterUtils.Erosion.EROSION_3.parameter()),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.MID_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_2.parameter(),
-						weirdness, 0.0F, plateauBiome);
+						weirdness, ECBiomeKeys.getSuppress(plateauBiome), plateauBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.MID_INLAND.parameter(),
 						ParameterUtils.Erosion.EROSION_3.parameter(),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.FAR_INLAND.parameter(),
 						ParameterUtils.Erosion.EROSION_3.parameter(),
-						weirdness, 0.0F, plateauBiome);
+						weirdness, ECBiomeKeys.getSuppress(plateauBiome), plateauBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.COAST.parameter(),ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_4.parameter(),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.COAST.parameter(), ParameterUtils.Continentalness.NEAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_5.parameter(),
-						weirdness, 0.0F, shatteredBiome);
+						weirdness, ECBiomeKeys.getSuppress(shatteredBiome), shatteredBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.MID_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_5.parameter(),
-						weirdness, 0.0F, extremeHillsBiome);
+						weirdness, ECBiomeKeys.getSuppress(extremeHillsBiome), extremeHillsBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.COAST.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_6.parameter(),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 			}
 		}
 
@@ -405,87 +405,88 @@ public class ECOverworldBiomeBuilder {
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.NEAR_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
-						ParameterUtils.Erosion.EROSION_0.parameter(), weirdness, 0.0F, slopeECBiome);
+						ParameterUtils.Erosion.EROSION_0.parameter(), weirdness, ECBiomeKeys.getSuppress(slopeECBiome), slopeECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.NEAR_INLAND.parameter(), ParameterUtils.Continentalness.MID_INLAND.parameter()),
-						ParameterUtils.Erosion.EROSION_1.parameter(), weirdness, 0.0F, middleBadlandsOrSlopeECBiome);
+						ParameterUtils.Erosion.EROSION_1.parameter(), weirdness, ECBiomeKeys.getSuppress(middleBadlandsOrSlopeECBiome), middleBadlandsOrSlopeECBiome);
+				ResourceKey<Biome> farInlandErosion1 = i == 0 ? slopeECBiome : plateauBiome;
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.FAR_INLAND.parameter(),
 						ParameterUtils.Erosion.EROSION_1.parameter(),
-						weirdness, 0.0F, i == 0 ? slopeECBiome : plateauBiome);
+						weirdness, ECBiomeKeys.getSuppress(farInlandErosion1), farInlandErosion1);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.NEAR_INLAND.parameter(),
 						ParameterUtils.Erosion.EROSION_2.parameter(),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.MID_INLAND.parameter(),
 						ParameterUtils.Erosion.EROSION_2.parameter(),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.FAR_INLAND.parameter(),
 						ParameterUtils.Erosion.EROSION_2.parameter(),
-						weirdness, 0.0F, plateauBiome);
+						weirdness, ECBiomeKeys.getSuppress(plateauBiome), plateauBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.COAST.parameter(), ParameterUtils.Continentalness.NEAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_3.parameter(),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.MID_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_3.parameter(),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				if (weirdness.max() < 0L) {
 					this.addSurfaceBiome(mapper,
 							temperature, humidity,
 							ParameterUtils.Continentalness.COAST.parameter(),
 							ParameterUtils.Erosion.EROSION_4.parameter(),
-							weirdness, 0.0F, beachBiome);
+							weirdness, ECBiomeKeys.getSuppress(beachBiome), beachBiome);
 					this.addSurfaceBiome(mapper,
 							temperature, humidity,
 							Climate.Parameter.span(ParameterUtils.Continentalness.NEAR_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 							ParameterUtils.Erosion.EROSION_4.parameter(),
-							weirdness, 0.0F, middleECBiome);
+							weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				} else {
 					this.addSurfaceBiome(mapper,
 							temperature, humidity,
 							Climate.Parameter.span(ParameterUtils.Continentalness.COAST.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 							ParameterUtils.Erosion.EROSION_4.parameter(),
-							weirdness, 0.0F, middleECBiome);
+							weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				}
 
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.COAST.parameter(),
 						ParameterUtils.Erosion.EROSION_5.parameter(),
-						weirdness, 0.0F, shatteredCoastBiome);
+						weirdness, ECBiomeKeys.getSuppress(shatteredCoastBiome), shatteredCoastBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.NEAR_INLAND.parameter(),
 						ParameterUtils.Erosion.EROSION_5.parameter(),
-						weirdness, 0.0F, shatteredBiome);
+						weirdness, ECBiomeKeys.getSuppress(shatteredBiome), shatteredBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.MID_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_5.parameter(),
-						weirdness, 0.0F, extremeHillsBiome);
+						weirdness, ECBiomeKeys.getSuppress(extremeHillsBiome), extremeHillsBiome);
 				if (weirdness.max() < 0L) {
 					this.addSurfaceBiome(mapper,
 							temperature, humidity,
 							ParameterUtils.Continentalness.COAST.parameter(),
 							ParameterUtils.Erosion.EROSION_6.parameter(),
-							weirdness, 0.0F, beachBiome);
+							weirdness, ECBiomeKeys.getSuppress(beachBiome), beachBiome);
 				} else {
 					this.addSurfaceBiome(mapper,
 							temperature, humidity,
 							ParameterUtils.Continentalness.COAST.parameter(),
 							ParameterUtils.Erosion.EROSION_6.parameter(),
-							weirdness, 0.0F, middleECBiome);
+							weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				}
 
 				if (i == 0) {
@@ -493,7 +494,7 @@ public class ECOverworldBiomeBuilder {
 							temperature, humidity,
 							Climate.Parameter.span(ParameterUtils.Continentalness.NEAR_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 							ParameterUtils.Erosion.EROSION_6.parameter(),
-							weirdness, 0.0F, middleECBiome);
+							weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				}
 			}
 		}
@@ -508,11 +509,17 @@ public class ECOverworldBiomeBuilder {
 				Climate.Parameter.span(ParameterUtils.Erosion.EROSION_0.parameter(), ParameterUtils.Erosion.EROSION_2.parameter()),
 				weirdness, 0.0F, Biomes.STONY_SHORE);
 		this.addSurfaceBiome(mapper,
-				ParameterUtils.Temperature.UNFROZEN.parameter(),
+				Climate.Parameter.span(ParameterUtils.Temperature.COOL.parameter(), ParameterUtils.Temperature.NEUTRAL.parameter()),
 				ParameterUtils.Humidity.FULL_RANGE.parameter(),
 				Climate.Parameter.span(ParameterUtils.Continentalness.NEAR_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 				ParameterUtils.Erosion.EROSION_6.parameter(),
 				weirdness, 0.0F, Biomes.SWAMP);
+		this.addSurfaceBiome(mapper,
+				Climate.Parameter.span(ParameterUtils.Temperature.WARM.parameter(), ParameterUtils.Temperature.HOT.parameter()),
+				ParameterUtils.Humidity.FULL_RANGE.parameter(),
+				Climate.Parameter.span(ParameterUtils.Continentalness.NEAR_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
+				ParameterUtils.Erosion.EROSION_6.parameter(),
+				weirdness, 0.0F, Biomes.MANGROVE_SWAMP);
 
 		for(int i = 0; i < TEMPERATURES.length; ++i) {
 			Climate.Parameter temperature = TEMPERATURES[i].parameter();
@@ -529,58 +536,58 @@ public class ECOverworldBiomeBuilder {
 						temperature, humidity,
 						ParameterUtils.Continentalness.NEAR_INLAND.parameter(),
 						Climate.Parameter.span(ParameterUtils.Erosion.EROSION_0.parameter(), ParameterUtils.Erosion.EROSION_1.parameter()),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.MID_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						Climate.Parameter.span(ParameterUtils.Erosion.EROSION_0.parameter(), ParameterUtils.Erosion.EROSION_1.parameter()),
-						weirdness, 0.0F, middleBadlandsOrSlopeECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleBadlandsOrSlopeECBiome), middleBadlandsOrSlopeECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.NEAR_INLAND.parameter(),
 						Climate.Parameter.span(ParameterUtils.Erosion.EROSION_2.parameter(), ParameterUtils.Erosion.EROSION_3.parameter()),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.MID_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						Climate.Parameter.span(ParameterUtils.Erosion.EROSION_2.parameter(), ParameterUtils.Erosion.EROSION_3.parameter()),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.COAST.parameter(),
 						Climate.Parameter.span(ParameterUtils.Erosion.EROSION_3.parameter(), ParameterUtils.Erosion.EROSION_4.parameter()),
-						weirdness, 0.0F, beachBiome);
+						weirdness, ECBiomeKeys.getSuppress(beachBiome), beachBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.NEAR_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_4.parameter(),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.COAST.parameter(),
 						ParameterUtils.Erosion.EROSION_5.parameter(),
-						weirdness, 0.0F, shatteredCoastBiome);
+						weirdness, ECBiomeKeys.getSuppress(shatteredCoastBiome), shatteredCoastBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.NEAR_INLAND.parameter(),
 						ParameterUtils.Erosion.EROSION_5.parameter(),
-						weirdness, 0.0F, shatteredBiome);
+						weirdness, ECBiomeKeys.getSuppress(shatteredBiome), shatteredBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.MID_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						ParameterUtils.Erosion.EROSION_5.parameter(),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				this.addSurfaceBiome(mapper,
 						temperature, humidity,
 						ParameterUtils.Continentalness.COAST.parameter(),
 						ParameterUtils.Erosion.EROSION_6.parameter(),
-						weirdness, 0.0F, beachBiome);
+						weirdness, ECBiomeKeys.getSuppress(beachBiome), beachBiome);
 				if (i == 0) {
 					this.addSurfaceBiome(mapper,
 							temperature, humidity,
 							Climate.Parameter.span(ParameterUtils.Continentalness.NEAR_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 							ParameterUtils.Erosion.EROSION_6.parameter(),
-							weirdness, 0.0F, middleECBiome);
+							weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 				}
 			}
 		}
@@ -621,7 +628,9 @@ public class ECOverworldBiomeBuilder {
 		this.addSurfaceBiome(mapper,
 				ParameterUtils.Temperature.UNFROZEN.parameter(),
 				ParameterUtils.Humidity.FULL_RANGE.parameter(),
-				Climate.Parameter.span(ParameterUtils.Continentalness.COAST.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()), Climate.Parameter.span(ParameterUtils.Erosion.EROSION_2.parameter(), ParameterUtils.Erosion.EROSION_5.parameter()), weirdness, 0.0F, Biomes.RIVER);
+				Climate.Parameter.span(ParameterUtils.Continentalness.COAST.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
+				Climate.Parameter.span(ParameterUtils.Erosion.EROSION_2.parameter(), ParameterUtils.Erosion.EROSION_5.parameter()),
+				weirdness, 0.0F, Biomes.RIVER);
 		this.addSurfaceBiome(mapper,
 				ParameterUtils.Temperature.FROZEN.parameter(),
 				ParameterUtils.Humidity.FULL_RANGE.parameter(),
@@ -641,11 +650,17 @@ public class ECOverworldBiomeBuilder {
 				ParameterUtils.Erosion.EROSION_6.parameter(),
 				weirdness, 0.0F, Biomes.FROZEN_RIVER);
 		this.addSurfaceBiome(mapper,
-				ParameterUtils.Temperature.UNFROZEN.parameter(),
+				Climate.Parameter.span(ParameterUtils.Temperature.COOL.parameter(), ParameterUtils.Temperature.NEUTRAL.parameter()),
 				ParameterUtils.Humidity.FULL_RANGE.parameter(),
 				Climate.Parameter.span(ParameterUtils.Continentalness.NEAR_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 				ParameterUtils.Erosion.EROSION_6.parameter(),
 				weirdness, 0.0F, Biomes.SWAMP);
+		this.addSurfaceBiome(mapper,
+				Climate.Parameter.span(ParameterUtils.Temperature.WARM.parameter(), ParameterUtils.Temperature.HOT.parameter()),
+				ParameterUtils.Humidity.FULL_RANGE.parameter(),
+				Climate.Parameter.span(ParameterUtils.Continentalness.NEAR_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
+				ParameterUtils.Erosion.EROSION_6.parameter(),
+				weirdness, 0.0F, Biomes.MANGROVE_SWAMP);
 
 		for(int i = 0; i < TEMPERATURES.length; ++i) {
 			Climate.Parameter temperature = TEMPERATURES[i].parameter();
@@ -657,7 +672,7 @@ public class ECOverworldBiomeBuilder {
 						temperature, humidity,
 						Climate.Parameter.span(ParameterUtils.Continentalness.MID_INLAND.parameter(),ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 						Climate.Parameter.span(ParameterUtils.Erosion.EROSION_0.parameter(), ParameterUtils.Erosion.EROSION_1.parameter()),
-						weirdness, 0.0F, middleECBiome);
+						weirdness, ECBiomeKeys.getSuppress(middleECBiome), middleECBiome);
 			}
 		}
 
@@ -671,14 +686,14 @@ public class ECOverworldBiomeBuilder {
 					ParameterUtils.Continentalness.FULL_RANGE.parameter(),
 					Climate.Parameter.span(ParameterUtils.Erosion.EROSION_4.parameter(), ParameterUtils.Erosion.EROSION_6.parameter()),
 					Climate.Parameter.span(ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_ASCENDING.parameter(), ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_DESCENDING.parameter()),
-					0.5625F, ECBiomeKeys.VOLCANIC_CAVES.key());
+					ECBiomeKeys.VOLCANIC_CAVES.suppress() + 0.25F, ECBiomeKeys.VOLCANIC_CAVES.key());
 			this.addUndergroundBiome(mapper,
 					ParameterUtils.Temperature.FROZEN.parameter(),
 					ParameterUtils.Humidity.FULL_RANGE.parameter(),
 					ParameterUtils.Continentalness.FULL_RANGE.parameter(),
 					Climate.Parameter.span(ParameterUtils.Erosion.EROSION_4.parameter(), ParameterUtils.Erosion.EROSION_6.parameter()),
 					Climate.Parameter.span(ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_ASCENDING.parameter(), ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_DESCENDING.parameter()),
-					0.3125F, ECBiomeKeys.VOLCANIC_CAVES.key());
+					ECBiomeKeys.VOLCANIC_CAVES.suppress(), ECBiomeKeys.VOLCANIC_CAVES.key());
 		}
 
 		this.addUndergroundBiome(mapper,
@@ -709,7 +724,7 @@ public class ECOverworldBiomeBuilder {
 					ParameterUtils.Continentalness.span(ParameterUtils.Continentalness.DEEP_OCEAN, ParameterUtils.Continentalness.FAR_INLAND),
 					ParameterUtils.Erosion.FULL_RANGE.parameter(),
 					ParameterUtils.Weirdness.FULL_RANGE.parameter(),
-					0.25F, ECBiomeKeys.MOSSY_CAVES.key());
+					ECBiomeKeys.MOSSY_CAVES.suppress(), ECBiomeKeys.MOSSY_CAVES.key());
 		}
 	}
 
@@ -798,7 +813,6 @@ public class ECOverworldBiomeBuilder {
 		return biome == null ? this.pickVanillaMiddleBiome(temperatureIndex, humidityIndex, weirdness) : biome;
 	}
 
-	@SuppressWarnings("SameParameterValue")
 	protected void addSurfaceBiome(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper, Climate.Parameter temperature, Climate.Parameter humidity, Climate.Parameter continentalness, Climate.Parameter erosion, Climate.Parameter weirdness, float offset, ResourceKey<Biome> biome) {
 		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, ParameterUtils.Depth.SURFACE.parameter(), weirdness, offset), biome));
 		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, ParameterUtils.Depth.FLOOR.parameter(), weirdness, offset), biome));
@@ -813,7 +827,6 @@ public class ECOverworldBiomeBuilder {
 		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, Climate.Parameter.point(1.1F), weirdness, offset), biome));
 	}
 
-	@SuppressWarnings("SameParameterValue")
 	protected void addShallowCaveBiome(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper, Climate.Parameter temperature, Climate.Parameter humidity, Climate.Parameter continentalness, Climate.Parameter erosion, Climate.Parameter weirdness, float offset, ResourceKey<Biome> biome) {
 		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, Climate.Parameter.span(0.0625F, 0.3125F), weirdness, offset), biome));
 	}
