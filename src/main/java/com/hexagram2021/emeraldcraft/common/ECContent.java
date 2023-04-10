@@ -49,7 +49,6 @@ public class ECContent {
 		ECStructureKeys.init();
 		ECStructureSetKeys.init();
 
-		runLater.accept(ECStructurePieceTypes::init);
 		runLater.accept(ModsLoadedEventSubscriber::SolveCompat);
 	}
 
@@ -66,6 +65,7 @@ public class ECContent {
 		ECEntities.init(event);
 		ECFeatures.init(event);
 		ECPotions.init(event);
+		ECStructurePieceTypes.init();
 	}
 
 	@SubscribeEvent
