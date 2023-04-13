@@ -57,7 +57,6 @@ public class Villages {
 	public static final ResourceLocation PAPERHANGER = new ResourceLocation(MODID, "paperhanger");
 
 	public static void init() {
-
 		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_CARPENTER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/carpenter_gift"));
 		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_GLAZIER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/glazier_gift"));
 		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_MINER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/miner_gift"));
@@ -71,7 +70,9 @@ public class Villages {
 	}
 
 	public static void addAllStructuresToPool(RegistryAccess registryAccess) {
-		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_carpentry_house_1"), 5, registryAccess);
+		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_beekeeper_1"), 4, registryAccess);
+		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_carpentry_house_1"), 4, registryAccess);
+		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_paperhanger_1"), 2, registryAccess);
 	}
 
 	@SuppressWarnings("SameParameterValue")
