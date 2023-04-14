@@ -3,6 +3,7 @@ package com.hexagram2021.emeraldcraft.common.world.village;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.hexagram2021.emeraldcraft.common.register.*;
+import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import com.hexagram2021.emeraldcraft.mixin.HeroGiftsTaskAccess;
 import com.hexagram2021.emeraldcraft.mixin.StructureTemplatePoolAccess;
@@ -38,7 +39,6 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Supplier;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
@@ -71,14 +71,20 @@ public class Villages {
 
 	public static void addAllStructuresToPool(RegistryAccess registryAccess) {
 		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_beekeeper_1"), 4, registryAccess);
-		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_carpentry_house_1"), 4, registryAccess);
+		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_carpenter_1"), 4, registryAccess);
 		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_paperhanger_1"), 2, registryAccess);
+		addToPool(new ResourceLocation("village/snowy/houses"), new ResourceLocation(MODID, "village/snowy/houses/snowy_astrologist_1"), 3, registryAccess);
+		addToPool(new ResourceLocation("village/snowy/houses"), new ResourceLocation(MODID, "village/snowy/houses/snowy_icer_1"), 4, registryAccess);
 	}
 
-	@SuppressWarnings("SameParameterValue")
 	private static void addToPool(ResourceLocation poolName, ResourceLocation toAdd, int weight, RegistryAccess registryAccess) {
 		Registry<StructureTemplatePool> registry = registryAccess.registryOrThrow(Registries.TEMPLATE_POOL);
-		StructureTemplatePoolAccess pool = (StructureTemplatePoolAccess)Objects.requireNonNull(registry.get(poolName), poolName.getPath());
+		StructureTemplatePool structureTemplatePool = registry.get(poolName);
+		if(structureTemplatePool == null) {
+			ECLogger.error("Ignored empty structure template pool: " + poolName);
+			return;
+		}
+		StructureTemplatePoolAccess pool = (StructureTemplatePoolAccess)structureTemplatePool;
 		List<Pair<StructurePoolElement, Integer>> rawTemplates = pool.getRawTemplates() instanceof ArrayList ?
 				pool.getRawTemplates() : new ArrayList<>(pool.getRawTemplates());
 

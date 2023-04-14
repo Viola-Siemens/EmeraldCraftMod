@@ -40,6 +40,7 @@ public class ECCommonConfig {
 	public static final ForgeConfigSpec.DoubleValue SUPPRESS_PURPURACEUS_SWAMP;
 
 	public static final ForgeConfigSpec.IntValue PIGLIN_CUTEY_GIFT;
+	public static final ForgeConfigSpec.DoubleValue POSSIBILITY_CONTINUOUS_MINER_DROP;
 
 	public static final ForgeConfigSpec.BooleanValue ENABLE_CURE_ZOMBIFIED_PIGLIN;
 	public static final ForgeConfigSpec.IntValue ZOMBIFIED_PIGLIN_CONVERT_TO_PIGLIN_BRUTE_POSSIBILITY_INV;
@@ -101,6 +102,8 @@ public class ECCommonConfig {
 			BUILDER.push("functional-configs");
 				PIGLIN_CUTEY_GIFT = BUILDER.comment("How many gold blocks will a piglin cutey give to the player who helps her.")
 						.defineInRange("PIGLIN_CUTEY_GIFT", 16, 1, 64);
+				POSSIBILITY_CONTINUOUS_MINER_DROP = BUILDER.comment("The possibility of continuous miner works successfully and drops loots (such as ores and planks) each time it tries. If this value is greater than 1.0, it may drops more loots.")
+						.defineInRange("POSSIBILITY_CONTINUOUS_MINER_DROP", 0.75, 0.0, 10.0);
 			BUILDER.pop();
 
 			BUILDER.comment("You can disable some functions to improve the speed of server starting.");

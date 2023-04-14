@@ -1,7 +1,9 @@
 package com.hexagram2021.emeraldcraft.common.blocks.entity;
 
+import com.google.common.collect.Lists;
 import com.hexagram2021.emeraldcraft.api.continuous_miner.ContinuousMinerCustomLoot;
 import com.hexagram2021.emeraldcraft.common.blocks.workstation.ContinuousMinerBlock;
+import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.ContinuousMinerMenu;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
@@ -35,6 +37,7 @@ import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -141,7 +144,12 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 		ContainerHelper.saveAllItems(nbt, this.items);
 	}
 
-	public static ItemStack byState(BlockState blockState, ServerLevel level, RandomSource random) {
+	@NotNull
+	public static List<ItemStack> byState(BlockState blockState, ServerLevel level, RandomSource random) {
+		double p = ECCommonConfig.POSSIBILITY_CONTINUOUS_MINER_DROP.get();
+		if(random.nextDouble() > p) {
+			return List.of(new ItemStack(Items.STRUCTURE_VOID));
+		}
 		ResourceLocation rl;
 		if (blockState.is(BlockTags.OAK_LOGS)) {
 			rl = new ResourceLocation(MODID, "continuous_miner/wood/oak_logs");
@@ -157,6 +165,8 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 			rl = new ResourceLocation(MODID, "continuous_miner/wood/dark_oak_logs");
 		} else if (blockState.is(BlockTags.MANGROVE_LOGS)) {
 			rl = new ResourceLocation(MODID, "continuous_miner/wood/mangrove_logs");
+		} else if (blockState.is(BlockTags.BAMBOO_BLOCKS)) {
+			rl = new ResourceLocation(MODID, "continuous_miner/wood/bamboo_blocks");
 		} else if (blockState.is(BlockTags.CRIMSON_STEMS)) {
 			rl = new ResourceLocation(MODID, "continuous_miner/wood/crimson_stems");
 		} else if (blockState.is(BlockTags.WARPED_STEMS)) {
@@ -181,13 +191,19 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 		} else {
 			rl = ContinuousMinerCustomLoot.getBlockLoot(blockState);
 			if(rl == null) {
-				return new ItemStack(Items.AIR);
+				return List.of(new ItemStack(Items.AIR));
 			}
 		}
-		List<ItemStack> list = level.getServer().getLootTables().get(rl).getRandomItems(
-				new LootContext.Builder(level).withRandom(random).create(LootContextParamSets.EMPTY)
-		);
-		return list.isEmpty() ? new ItemStack(Items.AIR) : list.get(0);
+		List<ItemStack> ret = Lists.newArrayList();
+		do {
+			LootTable lootTable = level.getServer().getLootTables().get(rl);
+			List<ItemStack> list = lootTable.getRandomItems(
+					new LootContext.Builder(level).withRandom(random).create(LootContextParamSets.EMPTY)
+			);
+			ret.add(list.isEmpty() ? new ItemStack(Items.STRUCTURE_VOID) : list.get(0));
+			p -= 1.0D;
+		} while(random.nextDouble() < p);
+		return ret;
 	}
 
 	public void dispenseFrom(BlockState blockState, ServerLevel level, BlockPos pos, RandomSource random, boolean needFluid) {
@@ -195,29 +211,32 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 
 		Direction facing = blockState.getValue(ContinuousMinerBlock.FACING);
 		BlockState front = level.getBlockState(pos.relative(facing));
-		ItemStack itemstack = byState(front, level, random);
-		if(!itemstack.is(Items.AIR)) {
-			if(needFluid) {
-				this.fluid -= 1;
-			}
-			this.mineTime = TOTAL_MINE_TIME;
-			level.playSound(null, pos, ECSounds.VILLAGER_WORK_GEOLOGIST, SoundSource.BLOCKS, 1.0F, 1.0F);
-			if(itemstack.is(Items.STRUCTURE_VOID)) {
-				return;
+		List<ItemStack> itemstacks = byState(front, level, random);
+		if(itemstacks.get(0).is(Items.AIR)) {
+			return;
+		}
+		if (needFluid) {
+			this.fluid -= 1;
+		}
+		this.mineTime = TOTAL_MINE_TIME;
+		level.playSound(null, pos, ECSounds.VILLAGER_WORK_GEOLOGIST, SoundSource.BLOCKS, 1.0F, 1.0F);
+		for(ItemStack itemstack: itemstacks) {
+			if (itemstack.is(Items.STRUCTURE_VOID) || itemstack.is(Items.AIR)) {
+				continue;
 			}
 
 			Direction opposite = facing.getOpposite();
 			BlockPos resultPos = pos.relative(opposite);
 			Container container = HopperBlockEntity.getContainerAt(level, resultPos);
-			if(container == null) {
+			if (container == null) {
 				ItemEntity itemEntity = new ItemEntity(level, resultPos.getX() + 0.5D, resultPos.getY() + 1.2D, resultPos.getZ() + 0.5D, itemstack);
-				itemEntity.setDeltaMovement(random.nextGaussian() * 0.001D + (double)opposite.getStepX() * velo, random.nextGaussian() * 0.001D + 0.2D, random.nextGaussian() * 0.001D + (double)opposite.getStepZ() * velo);
+				itemEntity.setDeltaMovement(random.nextGaussian() * 0.001D + (double) opposite.getStepX() * velo, random.nextGaussian() * 0.001D + 0.2D, random.nextGaussian() * 0.001D + (double) opposite.getStepZ() * velo);
 				level.addFreshEntity(itemEntity);
 			} else {
 				ItemStack addItemstack = HopperBlockEntity.addItem(null, container, itemstack.copy().split(1), facing.getOpposite());
-				if(!addItemstack.isEmpty()) {
+				if (!addItemstack.isEmpty()) {
 					ItemEntity itemEntity = new ItemEntity(level, resultPos.getX() + 0.5D, resultPos.getY() + 1.2D, resultPos.getZ() + 0.5D, itemstack);
-					itemEntity.setDeltaMovement(random.nextGaussian() * 0.001D + (double)opposite.getStepX() * velo, random.nextGaussian() * 0.001D + 0.2D, random.nextGaussian() * 0.001D + (double)opposite.getStepZ() * velo);
+					itemEntity.setDeltaMovement(random.nextGaussian() * 0.001D + (double) opposite.getStepX() * velo, random.nextGaussian() * 0.001D + 0.2D, random.nextGaussian() * 0.001D + (double) opposite.getStepZ() * velo);
 					level.addFreshEntity(itemEntity);
 				}
 			}
