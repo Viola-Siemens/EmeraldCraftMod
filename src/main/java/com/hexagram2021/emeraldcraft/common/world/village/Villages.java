@@ -75,6 +75,8 @@ public class Villages {
 		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_paperhanger_1"), 2, registryAccess);
 		addToPool(new ResourceLocation("village/snowy/houses"), new ResourceLocation(MODID, "village/snowy/houses/snowy_astrologist_1"), 3, registryAccess);
 		addToPool(new ResourceLocation("village/snowy/houses"), new ResourceLocation(MODID, "village/snowy/houses/snowy_icer_1"), 4, registryAccess);
+		addToPool(new ResourceLocation("village/savanna/houses"), new ResourceLocation(MODID, "village/savanna/houses/savanna_glazier_1"), 4, registryAccess);
+		addToPool(new ResourceLocation("village/savanna/houses"), new ResourceLocation(MODID, "village/savanna/houses/savanna_miner_1"), 3, registryAccess);
 	}
 
 	private static void addToPool(ResourceLocation poolName, ResourceLocation toAdd, int weight, RegistryAccess registryAccess) {
