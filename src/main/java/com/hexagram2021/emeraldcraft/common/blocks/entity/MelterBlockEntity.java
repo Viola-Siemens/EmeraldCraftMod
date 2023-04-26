@@ -248,8 +248,8 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	public void saveAdditional(@NotNull CompoundTag nbt) {
 		super.saveAdditional(nbt);
 		nbt.putInt("BurnTime", this.litTime);
-		nbt.putInt("CookTime", this.meltingProgress);
-		nbt.putInt("CookTimeTotal", this.meltingTotalTime);
+		nbt.putInt("MeltTime", this.meltingProgress);
+		nbt.putInt("MeltTimeTotal", this.meltingTotalTime);
 		nbt.putInt("FluidType", this.fluidTypeID);
 		nbt.putInt("FluidAmount", this.fluidAmount);
 		ContainerHelper.saveAllItems(nbt, this.items);
