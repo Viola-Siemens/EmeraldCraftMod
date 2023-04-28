@@ -20,6 +20,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -39,7 +40,7 @@ public class IceMakerRecipeCategory implements IRecipeCategory<IceMakerRecipe> {
 
 	public IceMakerRecipeCategory(IGuiHelper guiHelper) {
 		this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 148, 56);
-		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ECBlocks.WorkStation.ICE_MAKER));
+		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(ECBlocks.WorkStation.ICE_MAKER));
 
 		this.cachedArrows = CacheBuilder.newBuilder()
 				.maximumSize(25)
@@ -83,7 +84,7 @@ public class IceMakerRecipeCategory implements IRecipeCategory<IceMakerRecipe> {
 
 	@Override
 	public Component getTitle() {
-		return Component.translatable("block.emeraldcraft.ice_maker");
+		return new TranslatableComponent("block.emeraldcraft.ice_maker");
 	}
 
 	@Override
@@ -107,12 +108,24 @@ public class IceMakerRecipeCategory implements IRecipeCategory<IceMakerRecipe> {
 		this.inputFluids[recipe.getFluidType().getGUIID()].draw(poseStack, 72, 1);
 	}
 
+	@SuppressWarnings("removal")
+	@Override
+	public ResourceLocation getUid() {
+		return UID;
+	}
+
+	@SuppressWarnings("removal")
+	@Override
+	public Class<? extends IceMakerRecipe> getRecipeClass() {
+		return IceMakerRecipe.class;
+	}
+
 	@SuppressWarnings("SameParameterValue")
 	protected void drawCookTime(IceMakerRecipe recipe, PoseStack poseStack, int y) {
 		int freezeTime = recipe.getFreezingTime();
 		if (freezeTime > 0) {
 			int cookTimeSeconds = freezeTime / 20;
-			Component timeString = Component.translatable("gui.emeraldcraft.ice_maker.time.seconds", cookTimeSeconds);
+			Component timeString = new TranslatableComponent("gui.emeraldcraft.ice_maker.time.seconds", cookTimeSeconds);
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(timeString);

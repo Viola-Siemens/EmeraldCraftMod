@@ -376,17 +376,11 @@ public class ECOverworldBiomeBuilder {
 				Climate.Parameter.span(ParameterUtils.Erosion.EROSION_0.parameter(), ParameterUtils.Erosion.EROSION_2.parameter()),
 				weirdness, 0.0F, Biomes.STONY_SHORE);
 		this.addSurfaceBiome(mapper,
-				Climate.Parameter.span(ParameterUtils.Temperature.COOL.parameter(), ParameterUtils.Temperature.NEUTRAL.parameter()),
+				ParameterUtils.Temperature.UNFROZEN.parameter(),
 				ParameterUtils.Humidity.FULL_RANGE.parameter(),
 				Climate.Parameter.span(ParameterUtils.Continentalness.NEAR_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
 				ParameterUtils.Erosion.EROSION_6.parameter(),
 				weirdness, 0.0F, Biomes.SWAMP);
-		this.addSurfaceBiome(mapper,
-				Climate.Parameter.span(ParameterUtils.Temperature.WARM.parameter(), ParameterUtils.Temperature.HOT.parameter()),
-				ParameterUtils.Humidity.FULL_RANGE.parameter(),
-				Climate.Parameter.span(ParameterUtils.Continentalness.NEAR_INLAND.parameter(), ParameterUtils.Continentalness.FAR_INLAND.parameter()),
-				ParameterUtils.Erosion.EROSION_6.parameter(),
-				weirdness, 0.0F, Biomes.MANGROVE_SWAMP);
 
 		for(int i = 0; i < TEMPERATURES.length; ++i) {
 			Climate.Parameter temperature = TEMPERATURES[i].parameter();
@@ -695,13 +689,6 @@ public class ECOverworldBiomeBuilder {
 				ParameterUtils.Erosion.FULL_RANGE.parameter(),
 				ParameterUtils.Weirdness.FULL_RANGE.parameter(),
 				0.0F, Biomes.LUSH_CAVES);
-		this.addBottomBiome(mapper,
-				ParameterUtils.Temperature.FULL_RANGE.parameter(),
-				ParameterUtils.Humidity.FULL_RANGE.parameter(),
-				ParameterUtils.Continentalness.FULL_RANGE.parameter(),
-				Climate.Parameter.span(ParameterUtils.Erosion.EROSION_0.parameter(), ParameterUtils.Erosion.EROSION_1.parameter()),
-				ParameterUtils.Weirdness.FULL_RANGE.parameter(),
-				0.0F, Biomes.DEEP_DARK);
 		if(BiomeUtil.isKeyRegistered(biomeRegistry, ECBiomeKeys.MOSSY_CAVES)) {
 			this.addShallowCaveBiome(mapper,
 					ParameterUtils.Temperature.UNFROZEN.parameter(),
@@ -806,11 +793,6 @@ public class ECOverworldBiomeBuilder {
 
 	protected void addUndergroundBiome(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper, Climate.Parameter temperature, Climate.Parameter humidity, Climate.Parameter continentalness, Climate.Parameter erosion, Climate.Parameter weirdness, float offset, ResourceKey<Biome> biome) {
 		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, ParameterUtils.Depth.UNDERGROUND.parameter(), weirdness, offset), biome));
-	}
-
-	@SuppressWarnings("SameParameterValue")
-	protected void addBottomBiome(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper, Climate.Parameter temperature, Climate.Parameter humidity, Climate.Parameter continentalness, Climate.Parameter erosion, Climate.Parameter weirdness, float offset, ResourceKey<Biome> biome) {
-		mapper.accept(Pair.of(Climate.parameters(temperature, humidity, continentalness, erosion, Climate.Parameter.point(1.1F), weirdness, offset), biome));
 	}
 
 	@SuppressWarnings("SameParameterValue")

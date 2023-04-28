@@ -4,7 +4,6 @@ import com.hexagram2021.emeraldcraft.common.world.features.configuration.VineGro
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -16,6 +15,7 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Random;
 
 public class VineGrowthFeature extends Feature<VineGrowthConfiguration> {
 	public VineGrowthFeature(Codec<VineGrowthConfiguration> codec) {
@@ -26,7 +26,7 @@ public class VineGrowthFeature extends Feature<VineGrowthConfiguration> {
 	public boolean place(@NotNull FeaturePlaceContext<VineGrowthConfiguration> context) {
 		WorldGenLevel level = context.level();
 		BlockPos origin = context.origin();
-		RandomSource random = context.random();
+		Random random = context.random();
 		VineGrowthConfiguration config = context.config();
 		if (isNotAirOrWater(level.getBlockState(origin))) {
 			return false;

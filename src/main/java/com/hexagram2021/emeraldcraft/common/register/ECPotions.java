@@ -1,11 +1,11 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
-import net.minecraft.core.Registry;
+import com.hexagram2021.emeraldcraft.common.util.RegistryHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.alchemy.Potion;
-import net.minecraftforge.registries.RegisterEvent;
+import net.minecraftforge.event.RegistryEvent;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -29,23 +29,21 @@ public class ECPotions {
 
 	private ECPotions() {}
 
-	public static void init(RegisterEvent event) {
-		event.register(Registry.POTION_REGISTRY, helper -> {
-			helper.register(new ResourceLocation(MODID, "hunger"), HUNGER);
-			helper.register(new ResourceLocation(MODID, "long_hunger"), LONG_HUNGER);
-			helper.register(new ResourceLocation(MODID, "strong_hunger"), STRONG_HUNGER);
-			helper.register(new ResourceLocation(MODID, "saturation"), SATURATION);
-			helper.register(new ResourceLocation(MODID, "strong_saturation"), STRONG_SATURATION);
-			helper.register(new ResourceLocation(MODID, "wither"), WITHER);
-			helper.register(new ResourceLocation(MODID, "long_wither"), LONG_WITHER);
-			helper.register(new ResourceLocation(MODID, "strong_wither"), STRONG_WITHER);
-			helper.register(new ResourceLocation(MODID, "blindness"), BLINDNESS);
-			helper.register(new ResourceLocation(MODID, "long_blindness"), LONG_BLINDNESS);
-			helper.register(new ResourceLocation(MODID, "absorption"), ABSORPTION);
-			helper.register(new ResourceLocation(MODID, "long_absorption"), LONG_ABSORPTION);
-			helper.register(new ResourceLocation(MODID, "strong_absorption"), STRONG_ABSORPTION);
-			helper.register(new ResourceLocation(MODID, "glowing"), GLOWING);
-			helper.register(new ResourceLocation(MODID, "long_glowing"), LONG_GLOWING);
-		});
+	public static void init(RegistryEvent.Register<Potion> event) {
+		RegistryHelper.register(event, new ResourceLocation(MODID, "hunger"), HUNGER);
+		RegistryHelper.register(event, new ResourceLocation(MODID, "long_hunger"), LONG_HUNGER);
+		RegistryHelper.register(event, new ResourceLocation(MODID, "strong_hunger"), STRONG_HUNGER);
+		RegistryHelper.register(event, new ResourceLocation(MODID, "saturation"), SATURATION);
+		RegistryHelper.register(event, new ResourceLocation(MODID, "strong_saturation"), STRONG_SATURATION);
+		RegistryHelper.register(event, new ResourceLocation(MODID, "wither"), WITHER);
+		RegistryHelper.register(event, new ResourceLocation(MODID, "long_wither"), LONG_WITHER);
+		RegistryHelper.register(event, new ResourceLocation(MODID, "strong_wither"), STRONG_WITHER);
+		RegistryHelper.register(event, new ResourceLocation(MODID, "blindness"), BLINDNESS);
+		RegistryHelper.register(event, new ResourceLocation(MODID, "long_blindness"), LONG_BLINDNESS);
+		RegistryHelper.register(event, new ResourceLocation(MODID, "absorption"), ABSORPTION);
+		RegistryHelper.register(event, new ResourceLocation(MODID, "long_absorption"), LONG_ABSORPTION);
+		RegistryHelper.register(event, new ResourceLocation(MODID, "strong_absorption"), STRONG_ABSORPTION);
+		RegistryHelper.register(event, new ResourceLocation(MODID, "glowing"), GLOWING);
+		RegistryHelper.register(event, new ResourceLocation(MODID, "long_glowing"), LONG_GLOWING);
 	}
 }

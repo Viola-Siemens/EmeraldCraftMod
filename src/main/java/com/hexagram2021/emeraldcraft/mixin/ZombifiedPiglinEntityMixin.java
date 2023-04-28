@@ -87,7 +87,7 @@ public class ZombifiedPiglinEntityMixin implements Convertible {
 		current.getEntityData().set(DATA_PIGLIN_CONVERTING_ID, true);
 		current.removeEffect(MobEffects.HUNGER);
 		current.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, time, Math.min(current.level.getDifficulty().getId() - 1, 0)));
-		current.playSound(SoundEvents.ZOMBIE_VILLAGER_CURE);
+		current.playSound(SoundEvents.ZOMBIE_VILLAGER_CURE, 1.0F, 1.0F);
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class ZombifiedPiglinEntityMixin implements Convertible {
 		}
 
 		piglin.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
-		piglin.playSound(SoundEvents.ZOMBIE_VILLAGER_CONVERTED);
+		piglin.playSound(SoundEvents.ZOMBIE_VILLAGER_CONVERTED, 1.0F, 1.0F);
 		ForgeEventFactory.onLivingConvert(current, piglin);
 	}
 

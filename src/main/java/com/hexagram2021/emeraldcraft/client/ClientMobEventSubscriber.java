@@ -26,22 +26,20 @@ public class ClientMobEventSubscriber {
 		event.registerLayerDefinition(LumineModel.LAYER_LOCATION, LumineModel::createBodyLayer);
 
 		for(ECBoat.ECBoatType type: ECBoat.ECBoatType.values()) {
-			event.registerLayerDefinition(ECBoatRenderer.createBoatModelName(type), () -> BoatModel.createBodyModel(false));
-			event.registerLayerDefinition(ECBoatRenderer.createChestBoatModelName(type), () -> BoatModel.createBodyModel(true));
+			event.registerLayerDefinition(ECBoatRenderer.createBoatModelName(type), BoatModel::createBodyModel);
 		}
 	}
 
 	@SubscribeEvent
 	public static void onRegisterRenderer(EntityRenderersEvent.RegisterRenderers event) {
-		event.registerEntityRenderer(ECEntities.PIGLIN_CUTEY, PiglinCuteyRenderer::new);
-		event.registerEntityRenderer(ECEntities.NETHER_PIGMAN, NetherPigmanRenderer::new);
-		event.registerEntityRenderer(ECEntities.NETHER_LAMBMAN, NetherLambmanRenderer::new);
-		event.registerEntityRenderer(ECEntities.HERRING, HerringRenderer::new);
-		event.registerEntityRenderer(ECEntities.PURPLE_SPOTTED_BIGEYE, PurpleSpottedBigeyeRenderer::new);
-		event.registerEntityRenderer(ECEntities.WRAITH, WraithRenderer::new);
-		event.registerEntityRenderer(ECEntities.MANTA, MantaRenderer::new);
-		event.registerEntityRenderer(ECEntities.LUMINE, LumineRenderer::new);
-		event.registerEntityRenderer(ECEntities.BOAT, (context) -> new ECBoatRenderer(context, false));
-		event.registerEntityRenderer(ECEntities.CHEST_BOAT, (context) -> new ECBoatRenderer(context, true));
+		event.registerEntityRenderer(ECEntities.PIGLIN_CUTEY.get(), PiglinCuteyRenderer::new);
+		event.registerEntityRenderer(ECEntities.NETHER_PIGMAN.get(), NetherPigmanRenderer::new);
+		event.registerEntityRenderer(ECEntities.NETHER_LAMBMAN.get(), NetherLambmanRenderer::new);
+		event.registerEntityRenderer(ECEntities.HERRING.get(), HerringRenderer::new);
+		event.registerEntityRenderer(ECEntities.PURPLE_SPOTTED_BIGEYE.get(), PurpleSpottedBigeyeRenderer::new);
+		event.registerEntityRenderer(ECEntities.WRAITH.get(), WraithRenderer::new);
+		event.registerEntityRenderer(ECEntities.MANTA.get(), MantaRenderer::new);
+		event.registerEntityRenderer(ECEntities.LUMINE.get(), LumineRenderer::new);
+		event.registerEntityRenderer(ECEntities.BOAT.get(), ECBoatRenderer::new);
 	}
 }

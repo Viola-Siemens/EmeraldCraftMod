@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -25,14 +26,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.EnumMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
-import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 @SuppressWarnings("unused")
 public class ECItems {
@@ -60,28 +58,28 @@ public class ECItems {
 			"chili_seed", () -> new ItemNameBlockItem(ECBlocks.Plant.CHILI.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<SpawnEggItem> PIGLIN_CUTEY_SPAWN_EGG = ItemRegObject.register(
-			"piglin_cutey_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.PIGLIN_CUTEY, 0xF1E2B1, 0xE6BE02, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+			"piglin_cutey_spawn_egg", () -> new ForgeSpawnEggItem(ECEntities.PIGLIN_CUTEY, 0xF1E2B1, 0xE6BE02, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<SpawnEggItem> NETHER_PIGMAN_SPAWN_EGG = ItemRegObject.register(
-			"nether_pigman_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.NETHER_PIGMAN, 0xFF8EB3, 0x053636, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+			"nether_pigman_spawn_egg", () -> new ForgeSpawnEggItem(ECEntities.NETHER_PIGMAN, 0xFF8EB3, 0x053636, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<SpawnEggItem> NETHER_LAMBMAN_SPAWN_EGG = ItemRegObject.register(
-			"nether_lambman_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.NETHER_LAMBMAN, 0xFFFFFF, 0x0F9B9B, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+			"nether_lambman_spawn_egg", () -> new ForgeSpawnEggItem(ECEntities.NETHER_LAMBMAN, 0xFFFFFF, 0x0F9B9B, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<SpawnEggItem> BIGEYE_SPAWN_EGG = ItemRegObject.register(
-			"bigeye_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.PURPLE_SPOTTED_BIGEYE, 0xEC1C24, 0xD8B8CC, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+			"bigeye_spawn_egg", () -> new ForgeSpawnEggItem(ECEntities.PURPLE_SPOTTED_BIGEYE, 0xEC1C24, 0xD8B8CC, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<SpawnEggItem> HERRING_SPAWN_EGG = ItemRegObject.register(
-			"herring_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.HERRING, 0x12C6EC, 0xB44420, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+			"herring_spawn_egg", () -> new ForgeSpawnEggItem(ECEntities.HERRING, 0x12C6EC, 0xB44420, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<SpawnEggItem> WRAITH_SPAWN_EGG = ItemRegObject.register(
-			"wraith_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.WRAITH, 0x400040, 0xC8C8C8, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+			"wraith_spawn_egg", () -> new ForgeSpawnEggItem(ECEntities.WRAITH, 0x400040, 0xC8C8C8, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<SpawnEggItem> MANTA_SPAWN_EGG = ItemRegObject.register(
-			"manta_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.MANTA, 0xFFFFC8, 0xF8F8E0, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+			"manta_spawn_egg", () -> new ForgeSpawnEggItem(ECEntities.MANTA, 0xFFFFC8, 0xF8F8E0, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<SpawnEggItem> LUMINE_SPAWN_EGG = ItemRegObject.register(
-			"lumine_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.LUMINE, 0xF7FF55, 0xF9FFAA, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+			"lumine_spawn_egg", () -> new ForgeSpawnEggItem(ECEntities.LUMINE, 0xF7FF55, 0xF9FFAA, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
 
 	public static final ItemRegObject<Item> AGATE_APPLE = ItemRegObject.register(
@@ -166,7 +164,6 @@ public class ECItems {
 				protected void additionalEffects(Level level, LivingEntity entity) {
 					if(!level.isClientSide) {
 						entity.removeEffect(MobEffects.BLINDNESS);
-						entity.removeEffect(MobEffects.DARKNESS);
 					}
 				}
 			}
@@ -251,31 +248,64 @@ public class ECItems {
 	);
 
 	public static final ItemRegObject<ECBoatItem> GINKGO_BOAT = ItemRegObject.register(
-			"ginkgo_boat", () -> new ECBoatItem(false, ECBoat.ECBoatType.GINKGO, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
+			"ginkgo_boat", () -> new ECBoatItem(ECBoat.ECBoatType.GINKGO, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<ECBoatItem> PALM_BOAT = ItemRegObject.register(
-			"palm_boat", () -> new ECBoatItem(false, ECBoat.ECBoatType.PALM, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
+			"palm_boat", () -> new ECBoatItem(ECBoat.ECBoatType.PALM, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<ECBoatItem> PEACH_BOAT = ItemRegObject.register(
-			"peach_boat", () -> new ECBoatItem(false, ECBoat.ECBoatType.PEACH, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
-	);
-
-	public static final ItemRegObject<ECBoatItem> GINKGO_CHEST_BOAT = ItemRegObject.register(
-			"ginkgo_chest_boat", () -> new ECBoatItem(true, ECBoat.ECBoatType.GINKGO, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
-	);
-	public static final ItemRegObject<ECBoatItem> PALM_CHEST_BOAT = ItemRegObject.register(
-			"palm_chest_boat", () -> new ECBoatItem(true, ECBoat.ECBoatType.PALM, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
-	);
-	public static final ItemRegObject<ECBoatItem> PEACH_CHEST_BOAT = ItemRegObject.register(
-			"peach_chest_boat", () -> new ECBoatItem(true, ECBoat.ECBoatType.PEACH, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
+			"peach_boat", () -> new ECBoatItem(ECBoat.ECBoatType.PEACH, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
 	);
 
 	public static final ItemRegObject<MobBucketItem> HERRING_BUCKET = ItemRegObject.register(
-			"herring_bucket", () -> new MobBucketItem(() -> ECEntities.HERRING, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
+			"herring_bucket", () -> new MobBucketItem(ECEntities.HERRING, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
 	);
 	public static final ItemRegObject<MobBucketItem> BIGEYE_BUCKET = ItemRegObject.register(
-			"bigeye_bucket", () -> new MobBucketItem(() -> ECEntities.PURPLE_SPOTTED_BIGEYE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
+			"bigeye_bucket", () -> new MobBucketItem(ECEntities.PURPLE_SPOTTED_BIGEYE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
 	);
+
+	public static final class BannerPatterns {
+		public static final List<BannerPattern> ALL_BANNERS = new ArrayList<>();
+
+		public static final ItemRegObject<BannerPatternItem> BEE = ItemRegObject.register(
+				"bee_banner_pattern", () -> {
+					String enumName = MODID + "_bee";
+					String fullId = "ec_bee";
+					BannerPattern pattern = BannerPattern.create(enumName.toUpperCase(), enumName, fullId, true);
+					ALL_BANNERS.add(pattern);
+					return new BannerPatternItem(pattern, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(1));
+				}
+		);
+		public static final ItemRegObject<BannerPatternItem> SNOW = ItemRegObject.register(
+				"snow_banner_pattern", () -> {
+					String enumName = MODID + "_snow";
+					String fullId = "ec_snow";
+					BannerPattern pattern = BannerPattern.create(enumName.toUpperCase(), enumName, fullId, true);
+					ALL_BANNERS.add(pattern);
+					return new BannerPatternItem(pattern, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(1));
+				}
+		);
+		public static final ItemRegObject<BannerPatternItem> BOTTLE = ItemRegObject.register(
+				"bottle_banner_pattern", () -> {
+					String enumName = MODID + "_bottle";
+					String fullId = "ec_bottle";
+					BannerPattern pattern = BannerPattern.create(enumName.toUpperCase(), enumName, fullId, true);
+					ALL_BANNERS.add(pattern);
+					return new BannerPatternItem(pattern, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(1));
+				}
+		);
+		public static final ItemRegObject<BannerPatternItem> POTION = ItemRegObject.register(
+				"potion_banner_pattern", () -> {
+					String enumName = MODID + "_potion";
+					String fullId = "ec_potion";
+					BannerPattern pattern = BannerPattern.create(enumName.toUpperCase(), enumName, fullId, true);
+					ALL_BANNERS.add(pattern);
+					return new BannerPatternItem(pattern, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(1));
+				}
+		);
+
+		private static void init() {}
+	}
 
 	public static class CreateCompatItems {
 		public static final ItemRegObject<Item> ZINC_CONCENTRATE = ItemRegObject.register(
@@ -388,6 +418,8 @@ public class ECItems {
 	public static void init(IEventBus bus) {
 		REGISTER.register(bus);
 
+		BannerPatterns.init();
+
 		for(EquipmentSlot slot : EquipmentSlot.values()) {
 			if (slot.getType() == EquipmentSlot.Type.ARMOR) {
 				EMERALD_ARMOR.put(slot, ItemRegObject.register(
@@ -422,7 +454,7 @@ public class ECItems {
 		}
 
 		private static <T extends Item> ItemRegObject<T> of(T existing) {
-			return new ItemRegObject<>(RegistryObject.create(getRegistryName(existing), ForgeRegistries.ITEMS));
+			return new ItemRegObject<>(RegistryObject.create(existing.getRegistryName(), ForgeRegistries.ITEMS));
 		}
 
 		private ItemRegObject(RegistryObject<T> regObject)

@@ -1,27 +1,25 @@
 package com.hexagram2021.emeraldcraft.common.world.structures.entrenchment;
 
-import com.hexagram2021.emeraldcraft.common.register.ECStructureTypes;
 import com.mojang.serialization.Codec;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
-import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
+import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Optional;
 
-public class EntrenchmentFeature extends Structure {
-	public static final Codec<EntrenchmentFeature> CODEC = simpleCodec(EntrenchmentFeature::new);
-
-	public EntrenchmentFeature(Structure.StructureSettings settings) {
-		super(settings);
+public class EntrenchmentFeature extends StructureFeature<NoneFeatureConfiguration> {
+	public EntrenchmentFeature(Codec<NoneFeatureConfiguration> codec) {
+		super(codec, PieceGeneratorSupplier.simple(EntrenchmentFeature::checkLocation, EntrenchmentFeature::generatePieces));
 	}
 
-	@Override @NotNull
-	public Optional<GenerationStub> findGenerationPoint(Structure.GenerationContext context) {
-		return Optional.of(new Structure.GenerationStub(context.chunkPos().getWorldPosition(), (builder) -> generatePieces(builder, context)));
+	private static boolean checkLocation(PieceGeneratorSupplier.Context<NoneFeatureConfiguration> context) {
+		return context.validBiomeOnTop(Heightmap.Types.OCEAN_FLOOR_WG);
 	}
 
 	@Override @NotNull
@@ -29,7 +27,7 @@ public class EntrenchmentFeature extends Structure {
 		return GenerationStep.Decoration.STRONGHOLDS;
 	}
 
-	private static void generatePieces(StructurePiecesBuilder builder, Structure.GenerationContext context) {
+	private static void generatePieces(StructurePiecesBuilder builder, PieceGenerator.Context<NoneFeatureConfiguration> context) {
 		EntrenchmentPieces.StartPiece startPiece = new EntrenchmentPieces.StartPiece(
 				context.random(), context.chunkPos().getBlockX(2), context.chunkPos().getBlockZ(2)
 		);
@@ -42,10 +40,5 @@ public class EntrenchmentFeature extends Structure {
 			StructurePiece piece = list.remove(rank);
 			piece.addChildren(startPiece, builder, context.random());
 		}
-	}
-
-	@Override @NotNull
-	public StructureType<?> type() {
-		return ECStructureTypes.ENTRENCHMENT;
 	}
 }

@@ -16,10 +16,10 @@ import net.minecraft.world.item.trading.MerchantOffer;
 
 import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
-import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 public class TradeUtil {
 	private static void addTradeShadowRecipe(VillagerTrades.ItemListing list, LivingEntity trader, @Nullable VillagerProfession profession, int level,
@@ -37,18 +37,16 @@ public class TradeUtil {
 			costAItem.setTag(null);
 			costBItem.setTag(null);
 			resultItem.setTag(null);
-			String costA = getRegistryName(costAItem.getItem()).toString().replace(':', '_') + "_" + costAItem.getCount();
-			String costB = getRegistryName(costBItem.getItem()).toString().replace(':', '_') + "_" + costBItem.getCount();
-			String result = getRegistryName(resultItem.getItem()).toString().replace(':', '_') + "_" + resultItem.getCount();
+			String costA = Objects.requireNonNull(costAItem.getItem().getRegistryName()).toString()
+					.replace(':', '_') + "_" + costAItem.getCount();
+			String costB = Objects.requireNonNull(costBItem.getItem().getRegistryName()).toString()
+					.replace(':', '_') + "_" + costBItem.getCount();
+			String result = Objects.requireNonNull(resultItem.getItem().getRegistryName()).toString()
+					.replace(':', '_') + "_" + resultItem.getCount();
 
 			String name;
-			if(profession == null) {
-				name = getRegistryName(trader.getType()).toString().replace(':', '_') +
-						"_" + costA + "_" + costB + "_" + result;
-			} else {
-				name = getRegistryName(profession).toString().replace(':', '_') +
-						"_" + costA + "_" + costB + "_" + result;
-			}
+			name = Objects.requireNonNull(Objects.requireNonNullElseGet(profession, trader::getType).getRegistryName())
+					.toString().replace(':', '_') + "_" + costA + "_" + costB + "_" + result;
 			if(names.contains(name)) {
 				ECLogger.error("Duplicated trade entry: " + name);
 			} else {

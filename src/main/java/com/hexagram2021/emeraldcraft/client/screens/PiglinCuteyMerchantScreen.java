@@ -7,8 +7,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.ServerboundSelectTradePacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -41,9 +42,9 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 	private static final int SCROLL_BAR_HEIGHT = 139;
 	private static final int SCROLL_BAR_TOP_POS_Y = 18;
 	private static final int SCROLL_BAR_START_X = 94;
-	private static final Component TRADES_LABEL = Component.translatable("merchant.trades");
-	private static final Component LEVEL_SEPARATOR = Component.literal(" - ");
-	private static final Component DEPRECATED_TOOLTIP = Component.translatable("merchant.deprecated");
+	private static final Component TRADES_LABEL = new TranslatableComponent("merchant.trades");
+	private static final Component LEVEL_SEPARATOR = new TextComponent(" - ");
+	private static final Component DEPRECATED_TOOLTIP = new TranslatableComponent("merchant.deprecated");
 	private int shopItem;
 	private final TradeOfferButton[] tradeOfferButtons = new TradeOfferButton[NUMBER_OF_OFFER_BUTTONS];
 	int scrollOff;
@@ -84,7 +85,7 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 	protected void renderLabels(@NotNull PoseStack transform, int x, int y) {
 		int level = this.menu.getTraderLevel();
 		if (level > 0 && level <= 5 && this.menu.showProgressBar()) {
-			Component component = this.title.copy().append(LEVEL_SEPARATOR).append(Component.translatable("merchant.level." + level));
+			Component component = this.title.copy().append(LEVEL_SEPARATOR).append(new TranslatableComponent("merchant.level." + level));
 			int fontWidth = this.font.width(component);
 			int k = 49 + this.imageWidth / 2 - fontWidth / 2;
 			this.font.draw(transform, component, (float)k, 6.0F, 0x404040);
@@ -303,7 +304,7 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 		final int index;
 
 		public TradeOfferButton(int x, int y, int index, Button.OnPress onPress) {
-			super(x, y, TRADE_BUTTON_WIDTH, TRADE_BUTTON_HEIGHT, CommonComponents.EMPTY, onPress);
+			super(x, y, TRADE_BUTTON_WIDTH, TRADE_BUTTON_HEIGHT, TextComponent.EMPTY, onPress);
 			this.index = index;
 			this.visible = false;
 		}

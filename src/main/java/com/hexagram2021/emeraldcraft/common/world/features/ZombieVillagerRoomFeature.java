@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -21,6 +20,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.material.Material;
 
+import java.util.Random;
 import java.util.function.Predicate;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
@@ -39,7 +39,7 @@ public class ZombieVillagerRoomFeature extends Feature<NoneFeatureConfiguration>
 	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
 		Predicate<BlockState> predicate = Feature.isReplaceable(BlockTags.FEATURES_CANNOT_REPLACE);
 		BlockPos blockpos = context.origin();
-		RandomSource random = context.random();
+		Random random = context.random();
 		WorldGenLevel worldgenlevel = context.level();
 		int halfX = random.nextInt(2) + 3;
 		int beginX = -halfX - 1;

@@ -7,18 +7,13 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 20,
+          "weight": 22,
           "name": "minecraft:dirt"
         },
         {
           "type": "minecraft:item",
-          "weight": 5,
+          "weight": 6,
           "name": "minecraft:moss_block"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 3,
-          "name": "minecraft:mud"
         },
         {
           "type": "minecraft:item",

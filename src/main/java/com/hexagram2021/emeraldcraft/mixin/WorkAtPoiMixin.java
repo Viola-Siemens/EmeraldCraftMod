@@ -21,13 +21,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
-
 @Mixin(WorkAtPoi.class)
 public class WorkAtPoiMixin {
 	@Inject(method = "useWorkstation", at = @At(value = "HEAD"), cancellable = true)
 	protected void specialProfessionUseWorkstation(ServerLevel level, Villager villagerWithProfession, CallbackInfo ci) {
-		ResourceLocation professionID = getRegistryName(villagerWithProfession.getVillagerData().getProfession());
+		ResourceLocation professionID = villagerWithProfession.getVillagerData().getProfession().getRegistryName();
 		if(Villages.ASTROLOGIST.equals(professionID)) {
 			if(villagerWithProfession.getRandom().nextInt(4) == 0) {
 				List<ServerPlayer> players = level.getPlayers(player -> villagerWithProfession.distanceToSqr(player) < 1024.0D && player.hasEffect(MobEffects.HERO_OF_THE_VILLAGE));

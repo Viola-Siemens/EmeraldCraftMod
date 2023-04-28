@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -20,13 +19,13 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
+import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class HiganBanaFlowerBlock extends FlowerBlock {
 	public static final BooleanProperty LEAF = ECProperties.LEAF;
 
-	public HiganBanaFlowerBlock(Supplier<MobEffect> effect, int duration, Properties props) {
+	public HiganBanaFlowerBlock(MobEffect effect, int duration, Properties props) {
 		super(effect, duration, props);
 		this.registerDefaultState(this.stateDefinition.any().setValue(LEAF, true));
 	}
@@ -37,7 +36,7 @@ public class HiganBanaFlowerBlock extends FlowerBlock {
 	}
 
 	@Override
-	public void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+	public void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull Random random) {
 		if(level.dimension() == Level.OVERWORLD) {
 			level.setBlock(pos, state.setValue(LEAF, false), Block.UPDATE_ALL);
 			level.playSound(null, pos, ECSounds.HIGAN_BANA_DROP_LEAVES, SoundSource.BLOCKS, 1.0F, 1.0F);

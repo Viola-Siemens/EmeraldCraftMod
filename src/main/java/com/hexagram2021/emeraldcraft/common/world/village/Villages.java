@@ -20,7 +20,6 @@ import net.minecraft.data.worldgen.ProcessorLists;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.VillagerProfession;
@@ -41,14 +40,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.OptionalInt;
-import java.util.function.Supplier;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
-import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 public class Villages {
 	public static final ResourceLocation CARPENTER = new ResourceLocation(MODID, "carpenter");
@@ -91,7 +86,7 @@ public class Villages {
 
 		List<StructurePoolElement> shuffled;
 		if(old != null) {
-			shuffled = old.getShuffledTemplates(RandomSource.create(0));
+			shuffled = old.getShuffledTemplates(new Random(0));
 		} else {
 			shuffled = ImmutableList.of();
 		}
@@ -117,86 +112,83 @@ public class Villages {
 	@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class Registers {
 		public static final DeferredRegister<PoiType> POINTS_OF_INTEREST = DeferredRegister.create(ForgeRegistries.POI_TYPES, MODID);
-		public static final DeferredRegister<VillagerProfession> PROFESSIONS = DeferredRegister.create(ForgeRegistries.VILLAGER_PROFESSIONS, MODID);
+		public static final DeferredRegister<VillagerProfession> PROFESSIONS = DeferredRegister.create(ForgeRegistries.PROFESSIONS, MODID);
 
 		public static final RegistryObject<PoiType> POI_CARPENTRY_TABLE = POINTS_OF_INTEREST.register(
-				"carpentry_table", () -> createPOI(assembleStates(ECBlocks.WorkStation.CARPENTRY_TABLE.get()))
+				"carpentry_table", () -> createPOI(CARPENTER, assembleStates(ECBlocks.WorkStation.CARPENTRY_TABLE.get()))
 		);
 		public static final RegistryObject<PoiType> POI_GLASS_KILN = POINTS_OF_INTEREST.register(
-				"glass_kiln", () -> createPOI(assembleStates(ECBlocks.WorkStation.GLASS_KILN.get()))
+				"glass_kiln", () -> createPOI(GLAZIER, assembleStates(ECBlocks.WorkStation.GLASS_KILN.get()))
 		);
 		public static final RegistryObject<PoiType> POI_MINERAL_TABLE = POINTS_OF_INTEREST.register(
-				"mineral_table", () -> createPOI(assembleStates(ECBlocks.WorkStation.MINERAL_TABLE.get()))
+				"mineral_table", () -> createPOI(MINER, assembleStates(ECBlocks.WorkStation.MINERAL_TABLE.get()))
 		);
 		public static final RegistryObject<PoiType> POI_CRYSTALBALL_TABLE = POINTS_OF_INTEREST.register(
-				"crystalball_table", () -> createPOI(assembleStates(ECBlocks.WorkStation.CRYSTALBALL_TABLE.get()))
+				"crystalball_table", () -> createPOI(ASTROLOGIST, assembleStates(ECBlocks.WorkStation.CRYSTALBALL_TABLE.get()))
 		);
 		public static final RegistryObject<PoiType> POI_FLOWER_POT = POINTS_OF_INTEREST.register(
-				"flower_pot", () -> createPOI(assembleStates(Blocks.FLOWER_POT))
+				"flower_pot", () -> createPOI(GROWER, assembleStates(Blocks.FLOWER_POT))
 		);
 		public static final RegistryObject<PoiType> POI_SQUEEZER = POINTS_OF_INTEREST.register(
-				"squeezer", () -> createPOI(assembleStates(ECBlocks.WorkStation.SQUEEZER.get()))
+				"squeezer", () -> createPOI(BEEKEEPER, assembleStates(ECBlocks.WorkStation.SQUEEZER.get()))
 		);
 		public static final RegistryObject<PoiType> POI_CONTINUOUS_MINER = POINTS_OF_INTEREST.register(
-				"continuous_miner", () -> createPOI(assembleStates(ECBlocks.WorkStation.CONTINUOUS_MINER.get()))
+				"continuous_miner", () -> createPOI(GEOLOGIST, assembleStates(ECBlocks.WorkStation.CONTINUOUS_MINER.get()))
 		);
 		public static final RegistryObject<PoiType> POI_ICE_MAKER = POINTS_OF_INTEREST.register(
-				"ice_maker", () -> createPOI(assembleStates(ECBlocks.WorkStation.ICE_MAKER.get()))
+				"ice_maker", () -> createPOI(ICER, assembleStates(ECBlocks.WorkStation.ICE_MAKER.get()))
 		);
 		public static final RegistryObject<PoiType> POI_MELTER = POINTS_OF_INTEREST.register(
-				"melter", () -> createPOI(assembleStates(ECBlocks.WorkStation.MELTER.get()))
+				"melter", () -> createPOI(CHEMICAL_ENGINEER, assembleStates(ECBlocks.WorkStation.MELTER.get()))
 		);
 		public static final RegistryObject<PoiType> POI_RABBLE_FURNACE = POINTS_OF_INTEREST.register(
-				"rabble_furnace", () -> createPOI(assembleStates(ECBlocks.WorkStation.RABBLE_FURNACE.get()))
+				"rabble_furnace", () -> createPOI(PAPERHANGER, assembleStates(ECBlocks.WorkStation.RABBLE_FURNACE.get()))
 		);
 
 		public static final RegistryObject<VillagerProfession> PROF_CARPENTER = PROFESSIONS.register(
-				CARPENTER.getPath(), () -> createProf(CARPENTER, POI_CARPENTRY_TABLE::getKey, ECSounds.VILLAGER_WORK_CARPENTER)
+				CARPENTER.getPath(), () -> createProf(CARPENTER, POI_CARPENTRY_TABLE.get(), ECSounds.VILLAGER_WORK_CARPENTER)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_GLAZIER = PROFESSIONS.register(
-				GLAZIER.getPath(), () -> createProf(GLAZIER, POI_GLASS_KILN::getKey, ECSounds.VILLAGER_WORK_GLAZIER)
+				GLAZIER.getPath(), () -> createProf(GLAZIER, POI_GLASS_KILN.get(), ECSounds.VILLAGER_WORK_GLAZIER)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_MINER = PROFESSIONS.register(
-				MINER.getPath(), () -> createProf(MINER, POI_MINERAL_TABLE::getKey, ECSounds.VILLAGER_WORK_MINER)
+				MINER.getPath(), () -> createProf(MINER, POI_MINERAL_TABLE.get(), ECSounds.VILLAGER_WORK_MINER)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_ASTROLOGIST = PROFESSIONS.register(
-				ASTROLOGIST.getPath(), () -> createProf(ASTROLOGIST, POI_CRYSTALBALL_TABLE::getKey, ECSounds.VILLAGER_WORK_ASTROLOGIST)
+				ASTROLOGIST.getPath(), () -> createProf(ASTROLOGIST, POI_CRYSTALBALL_TABLE.get(), ECSounds.VILLAGER_WORK_ASTROLOGIST)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_GROWER = PROFESSIONS.register(
-				GROWER.getPath(), () -> createProf(GROWER, POI_FLOWER_POT::getKey, ECSounds.VILLAGER_WORK_GROWER)
+				GROWER.getPath(), () -> createProf(GROWER, POI_FLOWER_POT.get(), ECSounds.VILLAGER_WORK_GROWER)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_BEEKEEPER = PROFESSIONS.register(
-				BEEKEEPER.getPath(), () -> createProf(GROWER, POI_SQUEEZER::getKey, ECSounds.VILLAGER_WORK_BEEKEEPER)
+				BEEKEEPER.getPath(), () -> createProf(GROWER, POI_SQUEEZER.get(), ECSounds.VILLAGER_WORK_BEEKEEPER)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_GEOLOGIST = PROFESSIONS.register(
-				GEOLOGIST.getPath(), () -> createProf(GEOLOGIST, POI_CONTINUOUS_MINER::getKey, ECSounds.VILLAGER_WORK_GEOLOGIST)
+				GEOLOGIST.getPath(), () -> createProf(GEOLOGIST, POI_CONTINUOUS_MINER.get(), ECSounds.VILLAGER_WORK_GEOLOGIST)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_ICER = PROFESSIONS.register(
-				ICER.getPath(), () -> createProf(ICER, POI_ICE_MAKER::getKey, ECSounds.VILLAGER_WORK_ICER)
+				ICER.getPath(), () -> createProf(ICER, POI_ICE_MAKER.get(), ECSounds.VILLAGER_WORK_ICER)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_CHEMICAL_ENGINEER = PROFESSIONS.register(
-				CHEMICAL_ENGINEER.getPath(), () -> createProf(CHEMICAL_ENGINEER, POI_MELTER::getKey, ECSounds.VILLAGER_WORK_CHEMICAL_ENGINEER)
+				CHEMICAL_ENGINEER.getPath(), () -> createProf(CHEMICAL_ENGINEER, POI_MELTER.get(), ECSounds.VILLAGER_WORK_CHEMICAL_ENGINEER)
 		);
 		public static final RegistryObject<VillagerProfession> PROF_PAPERHANGER = PROFESSIONS.register(
-				PAPERHANGER.getPath(), () -> createProf(PAPERHANGER, POI_RABBLE_FURNACE::getKey, ECSounds.VILLAGER_WORK_PAPERHANGER)
+				PAPERHANGER.getPath(), () -> createProf(PAPERHANGER, POI_RABBLE_FURNACE.get(), ECSounds.VILLAGER_WORK_PAPERHANGER)
 		);
 
 		private static Collection<BlockState> assembleStates(Block block) {
 			return block.getStateDefinition().getPossibleStates();
 		}
 
-		private static PoiType createPOI(Collection<BlockState> block) {
-			return new PoiType(ImmutableSet.copyOf(block), 1, 1);
+		private static PoiType createPOI(ResourceLocation name, Collection<BlockState> block) {
+			return new PoiType(name.toString(), ImmutableSet.copyOf(block), 1, 1);
 		}
 
-		private static VillagerProfession createProf(ResourceLocation name, Supplier<ResourceKey<PoiType>> poi, SoundEvent sound) {
-			ResourceKey<PoiType> poiName = poi.get();
+		private static VillagerProfession createProf(ResourceLocation name, PoiType poi, SoundEvent sound) {
 			return new VillagerProfession(
-					name.toString(),
-					(p) -> p.is(poiName),
-					(p) -> p.is(poiName),
-					ImmutableSet.of(),
-					ImmutableSet.of(),
+					name.toString(), poi,
+					ImmutableSet.<Item>builder().build(),
+					ImmutableSet.<Block>builder().build(),
 					sound
 			);
 		}
@@ -208,7 +200,7 @@ public class Villages {
 		public static void registerTrades(VillagerTradesEvent event) {
 			Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
 
-			ResourceLocation currentVillagerProfession = getRegistryName(event.getType());
+			ResourceLocation currentVillagerProfession = event.getType().getRegistryName();
 			if(CARPENTER.equals(currentVillagerProfession)) {
 				trades.get(1).add(new ECTrades.EmeraldForItems(Items.STICK, 32, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
 				trades.get(1).add(new ECTrades.EmeraldsForVillagerTypeItem(8, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_SELL,
@@ -353,7 +345,7 @@ public class Villages {
 				trades.get(3).add(new ECTrades.EmeraldForItems(Items.WHITE_TULIP, 6, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_3_BUY));
 				trades.get(4).add(new ECTrades.ItemsAndEmeraldsToItems(Items.HONEYCOMB_BLOCK, 1, 1, Items.HONEYCOMB, 4, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
 				trades.get(4).add(new ECTrades.EmeraldForItems(Items.DANDELION, 6, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_BUY));
-				trades.get(5).add(new ECTrades.ItemsForEmeralds(ECBannerPatterns.BEE, 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+				trades.get(5).add(new ECTrades.ItemsForEmeralds(ECItems.BannerPatterns.BEE, 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 			} else if(GEOLOGIST.equals(currentVillagerProfession)) {
 				trades.get(1).add(new ECTrades.EmeraldForItems(Items.NETHERRACK, 24, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
 				trades.get(1).add(new ECTrades.EmeraldForItems(Items.DEEPSLATE, 18, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
@@ -377,7 +369,7 @@ public class Villages {
 				trades.get(4).add(new ECTrades.ItemsForEmeralds(Items.OBSIDIAN, 5, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
 				trades.get(4).add(new ECTrades.EnchantedItemForEmeralds(Items.LEATHER_BOOTS, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
 				trades.get(5).add(new ECTrades.ItemsAndEmeraldsToItems(Items.SNOWBALL, 4, 1, Items.SNOW, 4, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
-				trades.get(5).add(new ECTrades.ItemsForEmeralds(ECBannerPatterns.SNOW, 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+				trades.get(5).add(new ECTrades.ItemsForEmeralds(ECItems.BannerPatterns.SNOW, 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 			} else if(CHEMICAL_ENGINEER.equals(currentVillagerProfession)) {
 				trades.get(1).add(new ECTrades.ItemsForEmeralds(ECItems.MELTED_EMERALD_BUCKET, 12, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
 				trades.get(1).add(new ECTrades.EmeraldForItems(Items.BUCKET, 4, 3, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
@@ -386,8 +378,8 @@ public class Villages {
 				trades.get(3).add(new ECTrades.NetheriteScrapForItems(Items.EMERALD_BLOCK, 10, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
 				trades.get(4).add(new ECTrades.ItemsAndEmeraldsToItems(Items.FLINT, 4, 2, Items.GUNPOWDER, 4, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
 				trades.get(4).add(new ECTrades.ItemsForEmeralds(ECItems.MELTED_GOLD_BUCKET, 4, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
-				trades.get(5).add(new ECTrades.ItemsForEmeralds(ECBannerPatterns.BOTTLE.item(), 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
-				trades.get(5).add(new ECTrades.ItemsForEmeralds(ECBannerPatterns.POTION.item(), 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+				trades.get(5).add(new ECTrades.ItemsForEmeralds(ECItems.BannerPatterns.BOTTLE, 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+				trades.get(5).add(new ECTrades.ItemsForEmeralds(ECItems.BannerPatterns.POTION, 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 			} else if(PAPERHANGER.equals(currentVillagerProfession)) {
 				trades.get(1).add(new ECTrades.EmeraldForItems(Items.PAPER, 24, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
 				trades.get(1).add(new ECTrades.ItemsForEmeralds(ECBlocks.Decoration.RESIN_BLOCK, 2, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
@@ -410,10 +402,10 @@ public class Villages {
 				trades.get(4).add(new ECTrades.ItemsForEmeralds(Items.PAINTING, 2, 3, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
 				trades.get(5).add(new ECTrades.EmeraldForItems(Items.GLOW_INK_SAC, 5, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(Items.COBWEB, 6, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
-			} else if(new ResourceLocation(VillagerProfession.FARMER.name()).equals(currentVillagerProfession)) {
+			} else if(Objects.equals(VillagerProfession.FARMER.getRegistryName(), currentVillagerProfession)) {
 				trades.get(1).add(new ECTrades.ItemsForEmeralds(ECItems.CHILI_SEED, 1, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
 				trades.get(2).add(new ECTrades.ItemsForEmeralds(ECItems.PEACH, 3, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
-			} else if(new ResourceLocation(VillagerProfession.CARTOGRAPHER.name()).equals(currentVillagerProfession)) {
+			} else if(Objects.equals(VillagerProfession.CARTOGRAPHER.getRegistryName(), currentVillagerProfession)) {
 				trades.get(5).add(new ECTrades.NetherStructureMapForEmeralds(12, 2, ECStructureTags.ON_SAR_EXPLORER_MAPS, "filled_map.shelter", ECMapDecorationTypes.SHELTER, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.NetherStructureMapForEmeralds(14, 2, ECStructureTags.ON_GEOCENTER_EXPLORER_MAPS, "filled_map.entrenchment", ECMapDecorationTypes.ENTRENCHMENT, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 			}

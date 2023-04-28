@@ -8,9 +8,8 @@ import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.level.block.*;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Supplier;
-
-import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 public class ModVanillaCompat {
 	public static void setup() {
@@ -97,6 +96,6 @@ public class ModVanillaCompat {
 
 	private static final FlowerPotBlock flowerpotblock = (FlowerPotBlock)Blocks.FLOWER_POT;
 	public static void registerFlowerPot(Block flower, Supplier<Block> pot) {
-		flowerpotblock.addPlant(getRegistryName(flower), pot);
+		flowerpotblock.addPlant(Objects.requireNonNull(flower.getRegistryName()), pot);
 	}
 }

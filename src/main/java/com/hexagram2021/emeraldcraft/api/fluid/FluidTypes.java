@@ -1,17 +1,15 @@
 package com.hexagram2021.emeraldcraft.api.fluid;
 
+import com.google.common.collect.Lists;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Supplier;
-
-import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 public enum FluidTypes implements FluidType {
 	water(0),
@@ -27,7 +25,7 @@ public enum FluidTypes implements FluidType {
 
 	final int guiid;
 
-	private static final List<FluidType> FLUID_TYPES = new ArrayList<>(List.of(water, lava, melted_emerald, melted_iron, melted_gold, melted_copper, resin));
+	private static final List<FluidType> FLUID_TYPES = Lists.newArrayList(water, lava, melted_emerald, melted_iron, melted_gold, melted_copper, resin);
 
 	FluidTypes(int guiid) {
 		this.guiid = guiid;
@@ -55,9 +53,9 @@ public enum FluidTypes implements FluidType {
 		if(item == ECItems.RESIN_BUCKET.get()) {
 			return resin;
 		}
-		FluidType ret = BUCKET_FLUID_TYPE.get(getRegistryName(item));
+		FluidType ret = BUCKET_FLUID_TYPE.get(item.getRegistryName());
 		if(ret == null) {
-			throw new IllegalArgumentException("Cannot find fluid from item [" + getRegistryName(item) + "]");
+			throw new IllegalArgumentException("Cannot find fluid from item [" + item.getRegistryName() + "]");
 		}
 		return ret;
 	}
@@ -118,7 +116,7 @@ public enum FluidTypes implements FluidType {
 	}
 
 	public static boolean isExtraFluidBucket(ItemStack itemStack) {
-		return BUCKET_FLUID_TYPE.containsKey(getRegistryName(itemStack.getItem()));
+		return BUCKET_FLUID_TYPE.containsKey(itemStack.getItem().getRegistryName());
 	}
 
 	@Override

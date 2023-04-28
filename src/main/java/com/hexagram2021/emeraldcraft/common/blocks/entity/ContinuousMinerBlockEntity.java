@@ -13,11 +13,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
@@ -40,14 +40,15 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Random;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -92,7 +93,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 
 	@Override @NotNull
 	protected Component getDefaultName() {
-		return Component.translatable("container.continuous_miner");
+		return new TranslatableComponent("container.continuous_miner");
 	}
 
 	@Override
@@ -145,7 +146,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 	}
 
 	@NotNull
-	public static List<ItemStack> byState(BlockState blockState, ServerLevel level, RandomSource random) {
+	public static List<ItemStack> byState(BlockState blockState, ServerLevel level, Random random) {
 		double p = ECCommonConfig.POSSIBILITY_CONTINUOUS_MINER_DROP.get();
 		if(random.nextDouble() > p) {
 			return List.of(new ItemStack(Items.STRUCTURE_VOID));
@@ -163,8 +164,6 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 			rl = new ResourceLocation(MODID, "continuous_miner/wood/acacia_logs");
 		} else if (blockState.is(BlockTags.DARK_OAK_LOGS)) {
 			rl = new ResourceLocation(MODID, "continuous_miner/wood/dark_oak_logs");
-		} else if (blockState.is(BlockTags.MANGROVE_LOGS)) {
-			rl = new ResourceLocation(MODID, "continuous_miner/wood/mangrove_logs");
 		} else if (blockState.is(BlockTags.CRIMSON_STEMS)) {
 			rl = new ResourceLocation(MODID, "continuous_miner/wood/crimson_stems");
 		} else if (blockState.is(BlockTags.WARPED_STEMS)) {
@@ -204,7 +203,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 		return ret;
 	}
 
-	public void dispenseFrom(BlockState blockState, ServerLevel level, BlockPos pos, RandomSource random, boolean needFluid) {
+	public void dispenseFrom(BlockState blockState, ServerLevel level, BlockPos pos, Random random, boolean needFluid) {
 		final double velo = 0.1D;
 
 		Direction facing = blockState.getValue(ContinuousMinerBlock.FACING);
@@ -357,7 +356,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 
 	@Override @NotNull
 	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
-		if (!this.remove && facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
+		if (!this.remove && facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (facing == Direction.UP) {
 				return handlers[0].cast();
 			} else if (facing == Direction.DOWN) {

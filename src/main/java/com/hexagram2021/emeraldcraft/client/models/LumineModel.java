@@ -67,7 +67,6 @@ public class LumineModel extends HierarchicalModel<LumineEntity> implements Arme
 
 	@Override
 	public void setupAnim(LumineEntity lumine, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.root().getAllParts().forEach(ModelPart::resetPose);
 		float f = ageInTicks * 20.0F * (Mth.PI / 180F) + limbSwingAmount;
 		float f1 = Mth.cos(f) * Mth.PI * 0.15F;
 		float f2 = ageInTicks - lumine.tickCount;

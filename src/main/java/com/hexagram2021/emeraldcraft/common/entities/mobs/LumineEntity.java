@@ -45,7 +45,6 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.NotNull;
@@ -63,7 +62,6 @@ import java.util.UUID;
  * - (?) 意愿系统，并非每晚荧灵都可以跳舞，而是根据插过火把的数量和月相决定。
  */
 public class LumineEntity extends PathfinderMob implements InventoryCarrier {
-	private static final Vec3i ITEM_PICKUP_REACH = new Vec3i(1, 1, 1);
 	private static final Ingredient DUPLICATION_ITEM = Ingredient.of(Items.GLOWSTONE_DUST);
 	private final SimpleContainer inventory = new SimpleContainer(1);
 
@@ -92,10 +90,9 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 			MemoryModuleType.HURT_BY,
 			ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get(),
 			MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM,
-			MemoryModuleType.LIKED_PLAYER,
-			MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS,
-			ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(),
-			MemoryModuleType.IS_PANICKING
+			ECMemoryModuleTypes.LIKED_PLAYER.get(),
+			ECMemoryModuleTypes.ITEM_PICKUP_COOLDOWN_TICKS.get(),
+			ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get()
 	);
 
 	public LumineEntity(EntityType<? extends LumineEntity> type, Level level) {
@@ -173,7 +170,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	public boolean hurt(DamageSource damageSource, float value) {
 		Entity entity = damageSource.getEntity();
 		if (entity instanceof Player player) {
-			Optional<UUID> optional = this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
+			Optional<UUID> optional = this.getBrain().getMemory(ECMemoryModuleTypes.LIKED_PLAYER.get());
 			if (optional.isPresent() && player.getUUID().equals(optional.get())) {
 				return false;
 			}
@@ -287,11 +284,11 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 			this.setItemInHand(InteractionHand.MAIN_HAND, itemstack3);
 			this.removeInteractionItem(player, playerItem);
 			this.level.playSound(player, this, ECSounds.LUMINE_ITEM_GIVEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
-			this.getBrain().setMemory(MemoryModuleType.LIKED_PLAYER, player.getUUID());
+			this.getBrain().setMemory(ECMemoryModuleTypes.LIKED_PLAYER.get(), player.getUUID());
 			return InteractionResult.SUCCESS;
 		}
 		if (!lumineItem.isEmpty() && hand == InteractionHand.MAIN_HAND && playerItem.isEmpty() &&
-				this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER).orElse(player.getUUID()).equals(player.getUUID())) {
+				this.getBrain().getMemory(ECMemoryModuleTypes.LIKED_PLAYER.get()).orElse(player.getUUID()).equals(player.getUUID())) {
 			this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
 			this.level.playSound(player, this, ECSounds.LUMINE_ITEM_TAKEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
 			this.swing(InteractionHand.MAIN_HAND);
@@ -300,7 +297,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 				BehaviorUtils.throwItem(this, itemstack2, player.position());
 			}
 
-			this.getBrain().eraseMemory(MemoryModuleType.LIKED_PLAYER);
+			this.getBrain().eraseMemory(ECMemoryModuleTypes.LIKED_PLAYER.get());
 			player.addItem(lumineItem);
 			return InteractionResult.SUCCESS;
 		}
@@ -313,7 +310,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	}
 
 	private boolean isOnPickupCooldown() {
-		return this.getBrain().checkMemory(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS, MemoryStatus.VALUE_PRESENT);
+		return this.getBrain().checkMemory(ECMemoryModuleTypes.ITEM_PICKUP_COOLDOWN_TICKS.get(), MemoryStatus.VALUE_PRESENT);
 	}
 
 	@Override
@@ -330,11 +327,6 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 		return this.inventory;
 	}
 
-	@Override @NotNull
-	protected Vec3i getPickupReach() {
-		return ITEM_PICKUP_REACH;
-	}
-
 	@Override
 	public boolean wantsToPickUp(@NotNull ItemStack itemStack) {
 		ItemStack handItemStack = this.getItemInHand(InteractionHand.MAIN_HAND);
@@ -343,7 +335,23 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 
 	@Override
 	protected void pickUpItem(@NotNull ItemEntity itemStack) {
-		InventoryCarrier.pickUpItem(this, this, itemStack);
+		ItemStack itemstack = itemStack.getItem();
+		if (this.wantsToPickUp(itemstack)) {
+			SimpleContainer simplecontainer = this.getInventory();
+			boolean flag = simplecontainer.canAddItem(itemstack);
+			if (!flag) {
+				return;
+			}
+
+			this.onItemPickup(itemStack);
+			this.take(itemStack, itemstack.getCount());
+			ItemStack remain = simplecontainer.addItem(itemstack);
+			if (remain.isEmpty()) {
+				itemStack.discard();
+			} else {
+				itemstack.setCount(remain.getCount());
+			}
+		}
 	}
 
 	@Override
@@ -410,23 +418,6 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 		this.entityData.set(DATA_CAN_DUPLICATE, nbt.getBoolean("CanDuplicate"));
 	}
 
-	@Override
-	protected boolean shouldStayCloseToLeashHolder() {
-		return false;
-	}
-
-	@Override @NotNull
-	public Iterable<BlockPos> iteratePathfindingStartNodeCandidatePositions() {
-		AABB aabb = this.getBoundingBox();
-		int i = Mth.floor(aabb.minX - 0.5D);
-		int j = Mth.floor(aabb.maxX + 0.5D);
-		int k = Mth.floor(aabb.minZ - 0.5D);
-		int l = Mth.floor(aabb.maxZ + 0.5D);
-		int i1 = Mth.floor(aabb.minY - 0.5D);
-		int j1 = Mth.floor(aabb.maxY + 0.5D);
-		return BlockPos.betweenClosed(i, i1, k, j, j1, l);
-	}
-
 	private void updateDuplicationCooldown() {
 		if (this.duplicationCooldown > 0L) {
 			--this.duplicationCooldown;
@@ -442,7 +433,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	}
 
 	private void duplicateLumine() {
-		LumineEntity lumine = ECEntities.LUMINE.create(this.level);
+		LumineEntity lumine = ECEntities.LUMINE.get().create(this.level);
 		if (lumine != null) {
 			lumine.moveTo(this.position());
 			lumine.setPersistenceRequired();

@@ -13,11 +13,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class IceMakerRecipeSerializer<T extends IceMakerRecipe> implements RecipeSerializer<T> {
+public class IceMakerRecipeSerializer<T extends IceMakerRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T> {
 	private final int defaultFreezingTime;
 	private final IceMakerRecipeSerializer.Creator<T> factory;
 

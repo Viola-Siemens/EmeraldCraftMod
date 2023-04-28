@@ -21,6 +21,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -40,7 +41,7 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 
 	public MelterRecipeCategory(IGuiHelper guiHelper) {
 		this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 109, 54);
-		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ECBlocks.WorkStation.MELTER));
+		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(ECBlocks.WorkStation.MELTER));
 
 		this.cachedArrows = CacheBuilder.newBuilder()
 				.maximumSize(25)
@@ -84,7 +85,7 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 
 	@Override
 	public Component getTitle() {
-		return Component.translatable("block.emeraldcraft.melter");
+		return new TranslatableComponent("block.emeraldcraft.melter");
 	}
 
 	@Override
@@ -114,7 +115,7 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 		int meltTime = recipe.getMeltingTime();
 		if (meltTime > 0) {
 			int cookTimeSeconds = meltTime / 20;
-			Component timeString = Component.translatable("gui.emeraldcraft.melter.time.seconds", cookTimeSeconds);
+			Component timeString = new TranslatableComponent("gui.emeraldcraft.melter.time.seconds", cookTimeSeconds);
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(timeString);
@@ -126,7 +127,7 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 	protected void drawFluidAmount(MelterRecipe recipe, PoseStack poseStack, int y) {
 		int fluidAmount = recipe.getFluidAmount();
 		if (fluidAmount > 0) {
-			Component amountString = Component.translatable("gui.emeraldcraft.melter.fluid.amount", String.format("%.2f", fluidAmount / 100.0F));
+			Component amountString = new TranslatableComponent("gui.emeraldcraft.melter.fluid.amount", String.format("%.2f", fluidAmount / 100.0F));
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(amountString);
@@ -151,5 +152,17 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 	@Override
 	public boolean isHandled(MelterRecipe recipe) {
 		return !recipe.isSpecial();
+	}
+
+	@SuppressWarnings("removal")
+	@Override
+	public ResourceLocation getUid() {
+		return UID;
+	}
+
+	@SuppressWarnings("removal")
+	@Override
+	public Class<? extends MelterRecipe> getRecipeClass() {
+		return MelterRecipe.class;
 	}
 }

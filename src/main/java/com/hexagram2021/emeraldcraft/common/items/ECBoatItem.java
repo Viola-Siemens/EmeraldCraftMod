@@ -2,7 +2,6 @@ package com.hexagram2021.emeraldcraft.common.items;
 
 import com.hexagram2021.emeraldcraft.common.dispenser.ECBoatDispenseItemBehaviour;
 import com.hexagram2021.emeraldcraft.common.entities.ECBoat;
-import com.hexagram2021.emeraldcraft.common.entities.ECChestBoat;
 import com.hexagram2021.emeraldcraft.common.entities.IECBoat;
 import net.minecraft.core.BlockPos;
 import net.minecraft.stats.Stats;
@@ -28,13 +27,11 @@ import java.util.function.Predicate;
 public class ECBoatItem extends Item {
 	private static final Predicate<Entity> ENTITY_PREDICATE = EntitySelector.NO_SPECTATORS.and(Entity::isPickable);
 	private final ECBoat.ECBoatType type;
-	private final boolean hasChest;
 
-	public ECBoatItem(boolean hasChest, ECBoat.ECBoatType type, Item.Properties properties) {
+	public ECBoatItem(ECBoat.ECBoatType type, Item.Properties properties) {
 		super(properties);
-		this.hasChest = hasChest;
 		this.type = type;
-		DispenserBlock.registerBehavior(this, new ECBoatDispenseItemBehaviour(type, hasChest));
+		DispenserBlock.registerBehavior(this, new ECBoatDispenseItemBehaviour(type));
 	}
 
 	@Override @NotNull
@@ -58,9 +55,7 @@ public class ECBoatItem extends Item {
 			}
 
 			if (hitresult.getType() == HitResult.Type.BLOCK) {
-				IECBoat boat = this.hasChest ?
-						new ECChestBoat(level, hitresult.getLocation().x, hitresult.getLocation().y, hitresult.getLocation().z) :
-						new ECBoat(level, hitresult.getLocation().x, hitresult.getLocation().y, hitresult.getLocation().z);
+				IECBoat boat = new ECBoat(level, hitresult.getLocation().x, hitresult.getLocation().y, hitresult.getLocation().z);
 				boat.setECBoatType(this.type);
 				Entity boatEntity = (Entity)boat;
 				boatEntity.setYRot(player.getYRot());

@@ -10,7 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLEnvironment;
@@ -19,9 +19,9 @@ import net.minecraftforge.registries.ForgeRegistry;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
-import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid = MODID)
@@ -46,18 +46,17 @@ public class BiomeUtil {
 	}
 
 	public static ResourceKey<Biome> getBiomeKey(Biome biome) {
-		ResourceLocation name = getRegistryName(biome);
 		if (biome == null) {
 			throw new RuntimeException("Cannot get registry key for null biome");
-		} else if (name == null) {
+		}
+		ResourceLocation name = biome.getRegistryName();
+		if (name == null) {
 			if (FMLEnvironment.dist == Dist.CLIENT) {
 				return getClientKey(biome);
-			} else {
-				throw new RuntimeException("Failed to get registry key for biome!");
 			}
-		} else {
-			return ResourceKey.create(Registry.BIOME_REGISTRY, name);
+			throw new RuntimeException("Failed to get registry key for biome!");
 		}
+		return ResourceKey.create(Registry.BIOME_REGISTRY, name);
 	}
 
 	public static Biome getBiome(ResourceKey<Biome> key) {
@@ -88,9 +87,8 @@ public class BiomeUtil {
 	public static Biome getBiome(int id) {
 		if (id == -1) {
 			throw new RuntimeException("Attempted to get biome with id -1");
-		} else {
-			return getBiome(((ForgeRegistry<Biome>)ForgeRegistries.BIOMES).getKey(id));
 		}
+		return getBiome(Objects.requireNonNull(((ForgeRegistry<Biome>) ForgeRegistries.BIOMES).getKey(id)));
 	}
 
 	public static int getBiomeId(Biome biome) {
@@ -99,7 +97,7 @@ public class BiomeUtil {
 		} else {
 			int id = ((ForgeRegistry<Biome>)ForgeRegistries.BIOMES).getID(biome);
 			if (id == -1) {
-				throw new RuntimeException("Biome id is -1 for biome " + getRegistryName(biome));
+				throw new RuntimeException("Biome id is -1 for biome " + biome.getRegistryName());
 			} else {
 				return id;
 			}
@@ -163,12 +161,12 @@ public class BiomeUtil {
 	}
 
 	@SubscribeEvent
-	public static void onWorldLoad(LevelEvent.Load event) {
-		worldList.add((Level)event.getLevel());
+	public static void onWorldLoad(WorldEvent.Load event) {
+		worldList.add((Level)event.getWorld());
 	}
 
 	@SubscribeEvent
-	public static void onWorldUnload(LevelEvent.Unload event) {
-		worldList.remove((Level)event.getLevel());
+	public static void onWorldUnload(WorldEvent.Unload event) {
+		worldList.remove((Level)event.getWorld());
 	}
 }

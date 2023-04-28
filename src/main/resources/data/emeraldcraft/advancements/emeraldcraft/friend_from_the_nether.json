@@ -19,17 +19,9 @@
     "shelter": {
       "trigger": "minecraft:location",
       "conditions": {
-        "player": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-              "location": {
-                "structure": "emeraldcraft:shelter"
-              }
-            }
-          }
-        ]
+        "location": {
+          "feature": "emeraldcraft:shelter"
+        }
       }
     }
   },

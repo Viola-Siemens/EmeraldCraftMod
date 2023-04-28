@@ -4,6 +4,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.Carvers;
 import net.minecraft.data.worldgen.placement.*;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.Musics;
 import net.minecraft.sounds.SoundEvents;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -43,6 +45,8 @@ public class ECBiomes {
 
 	public static void init(IEventBus bus) {
 		REGISTER.register(bus);
+
+		registerBiomesToDictionary();
 	}
 
 	private static void globalOverworldGeneration(BiomeGenerationSettings.Builder builder) {
@@ -63,6 +67,7 @@ public class ECBiomes {
 
 	private static Biome baseOcean(MobSpawnSettings.Builder mobSpawnSetting, int waterColor, int waterFogColor, int fogColor, BiomeGenerationSettings.Builder biomeGenerationSetting) {
 		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.RAIN)
+				.biomeCategory(Biome.BiomeCategory.OCEAN)
 				.temperature(0.5F).downfall(0.5F)
 				.specialEffects((new BiomeSpecialEffects.Builder())
 						.waterColor(waterColor).waterFogColor(waterFogColor)
@@ -93,7 +98,7 @@ public class ECBiomes {
 			oceanSpawns(mobSpawnSettingsBuilder, 10, 2, 15);
 		}
 
-		mobSpawnSettingsBuilder.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(ECEntities.PURPLE_SPOTTED_BIGEYE, 25, 8, 8));
+		mobSpawnSettingsBuilder.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(ECEntities.PURPLE_SPOTTED_BIGEYE.get(), 25, 8, 8));
 		mobSpawnSettingsBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.DROWNED, 1, 1, 2));
 		BiomeGenerationSettings.Builder biomeGenSettingsBuilder = baseOceanGeneration();
 		biomeGenSettingsBuilder.addFeature(
@@ -111,7 +116,7 @@ public class ECBiomes {
 	public static Biome DeadWarpedOcean(boolean isDeep) {
 		MobSpawnSettings.Builder mobSpawnSettingsBuilder = new MobSpawnSettings.Builder();
 		oceanSpawns(mobSpawnSettingsBuilder, 3, 4, 15);
-		mobSpawnSettingsBuilder.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(ECEntities.HERRING, 15, 1, 5));
+		mobSpawnSettingsBuilder.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(ECEntities.HERRING.get(), 15, 1, 5));
 		mobSpawnSettingsBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.ENDERMAN, 1, 1, 2));
 		BiomeGenerationSettings.Builder biomeGenSettingsBuilder = baseOceanGeneration();
 		biomeGenSettingsBuilder.addFeature(
@@ -142,6 +147,7 @@ public class ECBiomes {
 		BiomeDefaultFeatures.addInfestedStone(biomeGenSettingsBuilder);
 		Music music = Musics.createGameMusic(SoundEvents.MUSIC_BIOME_MEADOW);
 		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.RAIN)
+				.biomeCategory(Biome.BiomeCategory.MUSHROOM)
 				.temperature(1.0F).downfall(0.9F)
 				.specialEffects((new BiomeSpecialEffects.Builder())
 						.waterColor(0x2260e1).waterFogColor(0x050533)
@@ -167,6 +173,7 @@ public class ECBiomes {
 		BiomeDefaultFeatures.addCommonBerryBushes(biomeGenSettingsBuilder);
 
 		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.RAIN)
+				.biomeCategory(Biome.BiomeCategory.FOREST)
 				.temperature(0.5F).downfall(0.9F)
 				.specialEffects((new BiomeSpecialEffects.Builder())
 						.waterColor(0x2260e1).waterFogColor(0x050533).grassColorOverride(0xfadc50).foliageColorOverride(0xfadc50)
@@ -189,6 +196,7 @@ public class ECBiomes {
 		Music music = Musics.createGameMusic(SoundEvents.MUSIC_BIOME_STONY_PEAKS);
 
 		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.RAIN)
+				.biomeCategory(Biome.BiomeCategory.MOUNTAIN)
 				.temperature(1.0F).downfall(0.3F)
 				.specialEffects((new BiomeSpecialEffects.Builder())
 						.waterColor(4445678).waterFogColor(270131)
@@ -214,6 +222,7 @@ public class ECBiomes {
 		BiomeDefaultFeatures.addInfestedStone(biomeGenSettingsBuilder);
 		Music music = Musics.createGameMusic(SoundEvents.MUSIC_BIOME_MEADOW);
 		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.RAIN)
+				.biomeCategory(Biome.BiomeCategory.PLAINS)
 				.temperature(0.5F).downfall(0.8F)
 				.specialEffects((new BiomeSpecialEffects.Builder())
 						.waterColor(0x2260e1).waterFogColor(0x050533)
@@ -237,6 +246,7 @@ public class ECBiomes {
 		BiomeDefaultFeatures.addDefaultExtraVegetation(biomeGenSettingsBuilder);
 
 		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.NONE)
+				.biomeCategory(Biome.BiomeCategory.BEACH)
 				.temperature(0.8F).downfall(0.4F)
 				.specialEffects((new BiomeSpecialEffects.Builder())
 						.waterColor(4159204).waterFogColor(329011)
@@ -261,6 +271,7 @@ public class ECBiomes {
 		BiomeDefaultFeatures.addDefaultExtraVegetation(biomeGenSettingsBuilder);
 
 		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.NONE)
+				.biomeCategory(Biome.BiomeCategory.BEACH)
 				.temperature(0.8F).downfall(0.6F)
 				.specialEffects((new BiomeSpecialEffects.Builder())
 						.waterColor(4159204).waterFogColor(329011)
@@ -289,6 +300,7 @@ public class ECBiomes {
 		BiomeDefaultFeatures.addBadlandGrass(biomeGenSettingsBuilder);
 		BiomeDefaultFeatures.addDefaultMushrooms(biomeGenSettingsBuilder);
 		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.NONE)
+				.biomeCategory(Biome.BiomeCategory.MESA)
 				.temperature(2.0F).downfall(0.0F)
 				.specialEffects((new BiomeSpecialEffects.Builder())
 						.waterColor(4159204).waterFogColor(329011).fogColor(12638463).skyColor(calculateSkyColor(2.0F))
@@ -319,6 +331,7 @@ public class ECBiomes {
 		BiomeDefaultFeatures.addExtraEmeralds(biomeGenSettingsBuilder);
 		addExtraEmerald(biomeGenSettingsBuilder);
 		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.NONE)
+				.biomeCategory(Biome.BiomeCategory.MESA)
 				.temperature(2.0F).downfall(0.0F)
 				.specialEffects((new BiomeSpecialEffects.Builder())
 						.waterColor(4159204).waterFogColor(329011).fogColor(12638463).skyColor(calculateSkyColor(2.0F))
@@ -341,6 +354,7 @@ public class ECBiomes {
 		Music music = Musics.createGameMusic(SoundEvents.MUSIC_BIOME_DRIPSTONE_CAVES);
 
 		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.RAIN)
+				.biomeCategory(Biome.BiomeCategory.UNDERGROUND)
 				.temperature(0.5F).downfall(0.5F)
 				.specialEffects((new BiomeSpecialEffects.Builder())
 						.waterColor(4159204).waterFogColor(329011).fogColor(0xc0d8ff).skyColor(calculateSkyColor(0.5F))
@@ -362,6 +376,7 @@ public class ECBiomes {
 		Music music = Musics.createGameMusic(SoundEvents.MUSIC_BIOME_LUSH_CAVES);
 
 		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.RAIN)
+				.biomeCategory(Biome.BiomeCategory.UNDERGROUND)
 				.temperature(0.5F).downfall(0.5F)
 				.specialEffects((new BiomeSpecialEffects.Builder())
 						.waterColor(4159204).waterFogColor(329011).fogColor(12638463).skyColor(calculateSkyColor(0.5F))
@@ -397,6 +412,7 @@ public class ECBiomes {
 		BiomeDefaultFeatures.addNetherDefaultOres(biomeGenSettingsBuilder);
 		addExtraAncientDebris(biomeGenSettingsBuilder);
 		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.NONE)
+				.biomeCategory(Biome.BiomeCategory.NETHER)
 				.temperature(2.0F).downfall(0.0F)
 				.specialEffects((new BiomeSpecialEffects.Builder())
 						.waterColor(4159204).waterFogColor(329011).fogColor(1787717).skyColor(calculateSkyColor(2.0F))
@@ -431,6 +447,7 @@ public class ECBiomes {
 		BiomeDefaultFeatures.addNetherDefaultOres(biomeGenSettingsBuilder);
 		addExtraQuartz(biomeGenSettingsBuilder);
 		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.NONE)
+				.biomeCategory(Biome.BiomeCategory.NETHER)
 				.temperature(2.0F).downfall(0.0F)
 				.specialEffects((new BiomeSpecialEffects.Builder())
 						.waterColor(4159204).waterFogColor(329011).fogColor(12169636).skyColor(calculateSkyColor(2.0F))
@@ -468,6 +485,7 @@ public class ECBiomes {
 		BiomeDefaultFeatures.addNetherDefaultOres(biomegenerationsettings$builder);
 		addPurpuraceusDeltas(biomegenerationsettings$builder);
 		return (new Biome.BiomeBuilder()).precipitation(Biome.Precipitation.NONE)
+				.biomeCategory(Biome.BiomeCategory.NETHER)
 				.temperature(2.0F).downfall(0.0F)
 				.specialEffects((new BiomeSpecialEffects.Builder())
 						.waterColor(4159204).waterFogColor(329011).fogColor(0x973e97).skyColor(calculateSkyColor(2.0F))
@@ -547,5 +565,52 @@ public class ECBiomes {
 	private static void addPurpuraceusDeltas(BiomeGenerationSettings.Builder builder) {
 		builder.addFeature(GenerationStep.Decoration.RAW_GENERATION, ECPlacedFeatures.PURPURACEUS_SWAMP_DELTA);
 		builder.addFeature(GenerationStep.Decoration.RAW_GENERATION, ECPlacedFeatures.PURPURACEUS_SWAMP_LAVA_DELTA);
+	}
+
+	private static void registerBiomesToDictionary() {
+		addBiome(ECBiomeKeys.DEAD_CRIMSON_OCEAN.key(),
+				BiomeDictionary.Type.OCEAN, BiomeDictionary.Type.HOT, BiomeDictionary.Type.OVERWORLD);
+		addBiome(ECBiomeKeys.DEAD_WARPED_OCEAN.key(),
+				BiomeDictionary.Type.OCEAN, BiomeDictionary.Type.COLD, BiomeDictionary.Type.OVERWORLD);
+		addBiome(ECBiomeKeys.DEEP_DEAD_CRIMSON_OCEAN.key(),
+				BiomeDictionary.Type.OCEAN, BiomeDictionary.Type.HOT, BiomeDictionary.Type.OVERWORLD);
+		addBiome(ECBiomeKeys.DEEP_DEAD_WARPED_OCEAN.key(),
+				BiomeDictionary.Type.OCEAN, BiomeDictionary.Type.COLD, BiomeDictionary.Type.OVERWORLD);
+
+		addBiome(ECBiomeKeys.XANADU.key(),
+				BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.RARE, BiomeDictionary.Type.WET, BiomeDictionary.Type.OVERWORLD);
+
+		addBiome(ECBiomeKeys.GINKGO_FOREST.key(),
+				BiomeDictionary.Type.FOREST, BiomeDictionary.Type.OVERWORLD);
+
+		addBiome(ECBiomeKeys.KARST_HILLS.key(),
+				BiomeDictionary.Type.SPARSE, BiomeDictionary.Type.PEAK, BiomeDictionary.Type.OVERWORLD);
+
+		addBiome(ECBiomeKeys.PETUNIA_PLAINS.key(),
+				BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.RARE, BiomeDictionary.Type.OVERWORLD);
+
+		addBiome(ECBiomeKeys.GOLDEN_BEACH.key(),
+				BiomeDictionary.Type.BEACH, BiomeDictionary.Type.HOT, BiomeDictionary.Type.WET, BiomeDictionary.Type.OVERWORLD);
+		addBiome(ECBiomeKeys.PALM_BEACH.key(),
+				BiomeDictionary.Type.BEACH, BiomeDictionary.Type.HOT, BiomeDictionary.Type.WET, BiomeDictionary.Type.OVERWORLD);
+
+		addBiome(ECBiomeKeys.VOLCANIC_CAVES.key(),
+				BiomeDictionary.Type.UNDERGROUND, BiomeDictionary.Type.HOT, BiomeDictionary.Type.OVERWORLD);
+
+		addBiome(ECBiomeKeys.AZURE_DESERT.key(),
+				BiomeDictionary.Type.MESA, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.DRY, BiomeDictionary.Type.OVERWORLD);
+		addBiome(ECBiomeKeys.JADEITE_DESERT.key(),
+				BiomeDictionary.Type.MESA, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.DRY, BiomeDictionary.Type.OVERWORLD);
+
+		addBiome(ECBiomeKeys.EMERY_DESERT.key(),
+				BiomeDictionary.Type.HOT, BiomeDictionary.Type.DRY, BiomeDictionary.Type.RARE, BiomeDictionary.Type.NETHER);
+		addBiome(ECBiomeKeys.QUARTZ_DESERT.key(),
+				BiomeDictionary.Type.HOT, BiomeDictionary.Type.DRY, BiomeDictionary.Type.NETHER);
+		addBiome(ECBiomeKeys.PURPURACEUS_SWAMP.key(),
+				BiomeDictionary.Type.HOT, BiomeDictionary.Type.SWAMP, BiomeDictionary.Type.RARE, BiomeDictionary.Type.NETHER);
+	}
+
+	private static void addBiome(ResourceKey<Biome> biomeKey, BiomeDictionary.Type... types) {
+		BiomeDictionary.addTypes(biomeKey, types);
 	}
 }

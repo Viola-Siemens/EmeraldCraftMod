@@ -20,6 +20,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.effect.MobEffects;
@@ -42,8 +43,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
-
 @SuppressWarnings("unused")
 public final class ECBlocks {
 	public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
@@ -64,8 +63,8 @@ public final class ECBlocks {
 	}
 
 	private static void registerStairs(Block fullBlock) {
-		String name = changeNameTo(getRegistryName(fullBlock).getPath(), "_stairs");
-		TO_STAIRS.put(getRegistryName(fullBlock), new BlockEntry<>(
+		String name = changeNameTo(fullBlock.getRegistryName().getPath(), "_stairs");
+		TO_STAIRS.put(fullBlock.getRegistryName(), new BlockEntry<>(
 				name,
 				() -> BlockBehaviour.Properties.copy(fullBlock),
 				p -> new StairBlock(fullBlock::defaultBlockState, p)
@@ -95,8 +94,8 @@ public final class ECBlocks {
 	}
 
 	private static void registerSlab(Block fullBlock) {
-		String name = changeNameTo(getRegistryName(fullBlock).getPath(), "_slab");
-		TO_SLAB.put(getRegistryName(fullBlock), new BlockEntry<>(
+		String name = changeNameTo(fullBlock.getRegistryName().getPath(), "_slab");
+		TO_SLAB.put(fullBlock.getRegistryName(), new BlockEntry<>(
 				name,
 				() -> BlockBehaviour.Properties.copy(fullBlock),
 				p -> new SlabBlock(p.isSuffocating((state, world, pos) ->
@@ -127,11 +126,12 @@ public final class ECBlocks {
 		BlockEntry<SlabBlock> blockEntry = new BlockEntry<>(
 				name,
 				() -> props,
-				p -> new SlabBlock(p.isSuffocating((state, world, pos) ->
-						defaultBlockState.get().isSuffocating(world, pos) && state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE
-				).isRedstoneConductor((state, world, pos) ->
-						defaultBlockState.get().isRedstoneConductor(world, pos) && state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE
-				)
+				p -> new SlabBlock(
+						p.isSuffocating((state, world, pos) ->
+								defaultBlockState.get().isSuffocating(world, pos) && state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE
+						).isRedstoneConductor((state, world, pos) ->
+								defaultBlockState.get().isRedstoneConductor(world, pos) && state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE
+						)
 				)
 		);
 		if(addToTab.get()) {
@@ -142,8 +142,8 @@ public final class ECBlocks {
 	}
 
 	private static void registerWall(Block fullBlock) {
-		String name = changeNameTo(getRegistryName(fullBlock).getPath(), "_wall");
-		TO_WALL.put(getRegistryName(fullBlock), new BlockEntry<>(
+		String name = changeNameTo(fullBlock.getRegistryName().getPath(), "_wall");
+		TO_WALL.put(fullBlock.getRegistryName(), new BlockEntry<>(
 				name,
 				() -> BlockBehaviour.Properties.copy(fullBlock),
 				WallBlock::new
@@ -529,7 +529,7 @@ public final class ECBlocks {
 					() -> new BlockItem(CARPENTRY_TABLE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)) {
 						@Override
 						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
-							components.add(Component.translatable("desc.emeraldcraft.carpentry_table").withStyle(ChatFormatting.GRAY));
+							components.add(new TranslatableComponent("desc.emeraldcraft.carpentry_table").withStyle(ChatFormatting.GRAY));
 						}
 					}
 			);
@@ -538,7 +538,7 @@ public final class ECBlocks {
 					() -> new BlockItem(GLASS_KILN.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)) {
 						@Override
 						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
-							components.add(Component.translatable("desc.emeraldcraft.glass_kiln").withStyle(ChatFormatting.GRAY));
+							components.add(new TranslatableComponent("desc.emeraldcraft.glass_kiln").withStyle(ChatFormatting.GRAY));
 						}
 					}
 			);
@@ -547,7 +547,7 @@ public final class ECBlocks {
 					() -> new BlockItem(MINERAL_TABLE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)) {
 						@Override
 						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
-							components.add(Component.translatable("desc.emeraldcraft.mineral_table").withStyle(ChatFormatting.GRAY));
+							components.add(new TranslatableComponent("desc.emeraldcraft.mineral_table").withStyle(ChatFormatting.GRAY));
 						}
 					}
 			);
@@ -556,7 +556,7 @@ public final class ECBlocks {
 					() -> new BlockItem(CRYSTALBALL_TABLE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)) {
 						@Override
 						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
-							components.add(Component.translatable("desc.emeraldcraft.crystalball_table").withStyle(ChatFormatting.GRAY));
+							components.add(new TranslatableComponent("desc.emeraldcraft.crystalball_table").withStyle(ChatFormatting.GRAY));
 						}
 					}
 			);
@@ -565,7 +565,7 @@ public final class ECBlocks {
 					() -> new BlockItem(SQUEEZER.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)) {
 						@Override
 						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
-							components.add(Component.translatable("desc.emeraldcraft.squeezer").withStyle(ChatFormatting.GRAY));
+							components.add(new TranslatableComponent("desc.emeraldcraft.squeezer").withStyle(ChatFormatting.GRAY));
 						}
 					}
 			);
@@ -574,7 +574,7 @@ public final class ECBlocks {
 					() -> new BlockItem(CONTINUOUS_MINER.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)) {
 						@Override
 						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
-							components.add(Component.translatable("desc.emeraldcraft.continuous_miner").withStyle(ChatFormatting.GRAY));
+							components.add(new TranslatableComponent("desc.emeraldcraft.continuous_miner").withStyle(ChatFormatting.GRAY));
 						}
 					}
 			);
@@ -583,7 +583,7 @@ public final class ECBlocks {
 					() -> new BlockItem(ICE_MAKER.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)) {
 						@Override
 						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
-							components.add(Component.translatable("desc.emeraldcraft.ice_maker").withStyle(ChatFormatting.GRAY));
+							components.add(new TranslatableComponent("desc.emeraldcraft.ice_maker").withStyle(ChatFormatting.GRAY));
 						}
 					}
 			);
@@ -592,7 +592,7 @@ public final class ECBlocks {
 					() -> new BlockItem(MELTER.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)) {
 						@Override
 						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
-							components.add(Component.translatable("desc.emeraldcraft.melter").withStyle(ChatFormatting.GRAY));
+							components.add(new TranslatableComponent("desc.emeraldcraft.melter").withStyle(ChatFormatting.GRAY));
 						}
 					}
 			);
@@ -665,10 +665,10 @@ public final class ECBlocks {
 
 		public static final Supplier<BlockBehaviour.Properties> RESIN_PROPERTIES = () ->
 				BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_YELLOW)
-						.strength(0.5F).noOcclusion().sound(SoundType.FROGLIGHT);
+						.strength(0.5F).noOcclusion().sound(SoundType.HONEY_BLOCK);
 		public static final Supplier<BlockBehaviour.Properties> REINFORCED_RESIN_PROPERTIES = () ->
 				BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_ORANGE)
-						.requiresCorrectToolForDrops().strength(30.0F, 600.0F).sound(SoundType.FROGLIGHT);
+						.requiresCorrectToolForDrops().strength(30.0F, 600.0F).sound(SoundType.HONEY_BLOCK);
 
 		public static final Supplier<BlockBehaviour.Properties> PAPER_BLOCK_PROPERTIES = () ->
 				BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.SNOW)
@@ -676,7 +676,7 @@ public final class ECBlocks {
 
 		public static final Function<DyeColor, Supplier<BlockBehaviour.Properties>> COLORED_REINFORCED_RESIN_PROPERTIES = (color) ->
 				() -> BlockBehaviour.Properties.of(Material.DECORATION, color)
-						.requiresCorrectToolForDrops().strength(30.0F, 600.0F).sound(SoundType.FROGLIGHT);
+						.requiresCorrectToolForDrops().strength(30.0F, 600.0F).sound(SoundType.HONEY_BLOCK);
 
 		public static final BlockEntry<Block> VITRIFIED_SAND = new BlockEntry<>(
 				"vitrified_sand", SANDSTONE_PROPERTIES, Block::new
@@ -877,11 +877,6 @@ public final class ECBlocks {
 			registerWall(Decoration.WARPED_STONE);
 			registerWall(Decoration.WARPED_COBBLESTONE);
 			registerWall(Decoration.REINFORCED_RESIN_BLOCK);
-
-		//	List<ECBlocks.BlockEntry<?>> list = registerAllColors(Decoration.REINFORCED_RESIN_BLOCK, COLORED_REINFORCED_RESIN_PROPERTIES, Block::new);
-		//	list.forEach(ECBlocks::registerStairs);
-		//	list.forEach(ECBlocks::registerSlab);
-		//	list.forEach(ECBlocks::registerWall);
 		}
 	}
 
@@ -973,13 +968,13 @@ public final class ECBlocks {
 		);
 
 		public static final BlockEntry<FlowerBlock> CYAN_PETUNIA = new BlockEntry<>(
-				"cyan_petunia", FLOWER_PROPERTIES, (props) -> new FlowerBlock(() -> MobEffects.WATER_BREATHING, 8, props)
+				"cyan_petunia", FLOWER_PROPERTIES, (props) -> new FlowerBlock(MobEffects.WATER_BREATHING, 8, props)
 		);
 		public static final BlockEntry<FlowerBlock> MAGENTA_PETUNIA = new BlockEntry<>(
-				"magenta_petunia", FLOWER_PROPERTIES, (props) -> new FlowerBlock(() -> MobEffects.WATER_BREATHING, 8, props)
+				"magenta_petunia", FLOWER_PROPERTIES, (props) -> new FlowerBlock(MobEffects.WATER_BREATHING, 8, props)
 		);
 		public static final BlockEntry<HiganBanaFlowerBlock> HIGAN_BANA = new BlockEntry<>(
-				"higan_bana", HIGAN_BANA_PROPERTIES, (props) -> new HiganBanaFlowerBlock(() -> MobEffects.LEVITATION, 12, props)
+				"higan_bana", HIGAN_BANA_PROPERTIES, (props) -> new HiganBanaFlowerBlock(MobEffects.LEVITATION, 12, props)
 		);
 		public static final BlockEntry<FlowerPotBlock> POTTED_CYAN_PETUNIA = new BlockEntry<>(
 				"potted_cyan_petunia", POTTED_FLOWER_PROPERTIES,

@@ -12,11 +12,12 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implements RecipeSerializer<T> {
+public class MineralTableRecipeSerializer<T extends MineralTableRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T> {
 	private final int defaultCookingTime;
 	private final MineralTableRecipeSerializer.Creator<T> factory;
 

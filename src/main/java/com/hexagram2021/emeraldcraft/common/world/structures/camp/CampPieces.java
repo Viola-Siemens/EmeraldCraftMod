@@ -6,7 +6,6 @@ import com.hexagram2021.emeraldcraft.common.register.ECStructurePieceTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
@@ -15,9 +14,11 @@ import net.minecraft.world.level.levelgen.structure.StructurePieceAccessor;
 import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Random;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -33,7 +34,7 @@ public class CampPieces {
 	private static final ResourceLocation SWAMP_CAMP = new ResourceLocation(MODID, "camp/swamp_camp");
 	private static final ResourceLocation TAIGA_CAMP = new ResourceLocation(MODID, "camp/taiga_camp");
 
-	public static void addPieces(StructureTemplateManager structureManager, BlockPos pos, Rotation rotation, StructurePieceAccessor pieces, CampType type) {
+	public static void addPieces(StructureManager structureManager, BlockPos pos, Rotation rotation, StructurePieceAccessor pieces, CampType type) {
 		if (CampTypes.BADLANDS.equals(type)) {
 			pieces.addPiece(new CampPiece(structureManager, BADLANDS_CAMP, pos, rotation));
 		} else if (CampTypes.BIRCH.equals(type)) {
@@ -64,12 +65,12 @@ public class CampPieces {
 	}
 
 	public static class CampPiece extends TemplateStructurePiece {
-		public CampPiece(StructureTemplateManager structureManager, ResourceLocation location, BlockPos pos, Rotation rotation) {
+		public CampPiece(StructureManager structureManager, ResourceLocation location, BlockPos pos, Rotation rotation) {
 			super(ECStructurePieceTypes.CAMP_TYPE, 0, structureManager, location, location.toString(), makeSettings(rotation), pos);
 		}
 
 		public CampPiece(StructurePieceSerializationContext context, CompoundTag tag) {
-			super(ECStructurePieceTypes.CAMP_TYPE, tag, context.structureTemplateManager(), (location) -> makeSettings(Rotation.valueOf(tag.getString("Rot"))));
+			super(ECStructurePieceTypes.CAMP_TYPE, tag, context.structureManager(), (location) -> makeSettings(Rotation.valueOf(tag.getString("Rot"))));
 		}
 
 		private static StructurePlaceSettings makeSettings(Rotation rotation) {
@@ -88,6 +89,6 @@ public class CampPieces {
 		}
 
 		@Override
-		protected void handleDataMarker(@NotNull String function, @NotNull BlockPos pos, @NotNull ServerLevelAccessor level, @NotNull RandomSource random, @NotNull BoundingBox sbb) { }
+		protected void handleDataMarker(@NotNull String function, @NotNull BlockPos pos, @NotNull ServerLevelAccessor level, @NotNull Random random, @NotNull BoundingBox sbb) { }
 	}
 }

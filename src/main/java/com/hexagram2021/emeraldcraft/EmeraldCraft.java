@@ -14,6 +14,7 @@ import com.hexagram2021.emeraldcraft.common.register.*;
 import com.hexagram2021.emeraldcraft.common.util.ECFoods;
 import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.util.TradeUtil;
+import com.hexagram2021.emeraldcraft.common.world.ECWorldgen;
 import com.hexagram2021.emeraldcraft.common.world.village.ECTrades;
 import com.hexagram2021.emeraldcraft.common.world.village.Villages;
 import com.hexagram2021.emeraldcraft.mixin.BlockEntityTypeAccess;
@@ -37,6 +38,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.*;
 import net.minecraftforge.fml.common.Mod;
@@ -94,6 +96,7 @@ public class EmeraldCraft {
 
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ECCommonConfig.SPEC);
 
+		MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ECWorldgen::biomeModification);
 		bus.addListener(this::setup);
 		bus.addListener(this::enqueueIMC);
 		MinecraftForge.EVENT_BUS.register(this);
@@ -101,9 +104,10 @@ public class EmeraldCraft {
 
 	public void setup(FMLCommonSetupEvent event) {
 		ECTriggers.init();
-		ECBrewingRecipes.init();
 
 		event.enqueueWork(() -> {
+			ECContent.registerEntitySpawnPlacement();
+
 			VillagerType.BY_BIOME.putAll(ImmutableMap.of(
 					ECBiomeKeys.AZURE_DESERT.key(), VillagerType.DESERT,
 					ECBiomeKeys.JADEITE_DESERT.key(), VillagerType.DESERT,
@@ -113,12 +117,14 @@ public class EmeraldCraft {
 			Villages.init();
 			ECContent.init();
 			ModVanillaCompat.setup();
+
+			ECRecipeBookTypes.init();
 		});
 
 		TradeListingUtils.registerTradeListing(VillagerTrades.WANDERING_TRADER_TRADES, EntityType.WANDERING_TRADER, null);
-		TradeListingUtils.registerTradeListing(ECTrades.PIGLIN_CUTEY_TRADES, ECEntities.PIGLIN_CUTEY, null);
-		TradeListingUtils.registerTradeListing(ECTrades.NETHER_LAMBMAN_TRADES, ECEntities.NETHER_LAMBMAN, null);
-		TradeListingUtils.registerTradeListing(ECTrades.NETHER_PIGMAN_TRADES, ECEntities.NETHER_PIGMAN, null);
+		TradeListingUtils.registerTradeListing(ECTrades.PIGLIN_CUTEY_TRADES, ECEntities.PIGLIN_CUTEY.get(), null);
+		TradeListingUtils.registerTradeListing(ECTrades.NETHER_LAMBMAN_TRADES, ECEntities.NETHER_LAMBMAN.get(), null);
+		TradeListingUtils.registerTradeListing(ECTrades.NETHER_PIGMAN_TRADES, ECEntities.NETHER_PIGMAN.get(), null);
 	}
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {

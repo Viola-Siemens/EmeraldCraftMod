@@ -10,7 +10,7 @@ import net.minecraftforge.registries.RegistryObject;
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public class ECContainerTypes {
-	public static final DeferredRegister<MenuType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.MENU_TYPES, MODID);
+	public static final DeferredRegister<MenuType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.CONTAINERS, MODID);
 
 	public static final RegistryObject<MenuType<CarpentryTableMenu>> CARPENTRY_TABLE_MENU = REGISTER.register(
 			"carpentry", () -> new MenuType<>(CarpentryTableMenu::new)

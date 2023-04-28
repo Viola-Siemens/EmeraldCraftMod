@@ -10,13 +10,13 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 
-import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
-
-public class TradeShadowRecipeSerializer<T extends TradeShadowRecipe> implements RecipeSerializer<T> {
+public class TradeShadowRecipeSerializer<T extends TradeShadowRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T> {
 	private final TradeShadowRecipeSerializer.Creator<T> factory;
 
 	public TradeShadowRecipeSerializer(TradeShadowRecipeSerializer.Creator<T> creator) {
@@ -59,8 +59,8 @@ public class TradeShadowRecipeSerializer<T extends TradeShadowRecipe> implements
 		buf.writeItem(recipe.getCostA());
 		buf.writeItem(recipe.getCostB());
 		buf.writeItem(recipe.getResultItem());
-		buf.writeResourceLocation(getRegistryName(recipe.getEntityType()));
-		buf.writeResourceLocation(getRegistryName(recipe.getProfession()));
+		buf.writeResourceLocation(Objects.requireNonNull(recipe.getEntityType().getRegistryName()));
+		buf.writeResourceLocation(Objects.requireNonNull(recipe.getProfession().getRegistryName()));
 		buf.writeInt(recipe.getVillagerLevel());
 		buf.writeInt(recipe.getXp());
 	}

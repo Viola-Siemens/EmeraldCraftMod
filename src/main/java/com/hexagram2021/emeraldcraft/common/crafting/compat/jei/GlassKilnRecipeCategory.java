@@ -18,6 +18,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -37,7 +38,7 @@ public class GlassKilnRecipeCategory implements IRecipeCategory<GlassKilnRecipe>
 		this.background = guiHelper.createDrawable(TEXTURE, 0, 114, 82, 54);
 		IDrawableStatic staticFlame = guiHelper.createDrawable(TEXTURE, 82, 114, 14, 14);
 		this.animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true);
-		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ECBlocks.WorkStation.GLASS_KILN));
+		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(ECBlocks.WorkStation.GLASS_KILN));
 		this.cachedArrows = CacheBuilder.newBuilder()
 				.maximumSize(25)
 				.build(new CacheLoader<>() {
@@ -64,7 +65,7 @@ public class GlassKilnRecipeCategory implements IRecipeCategory<GlassKilnRecipe>
 
 	@Override
 	public Component getTitle() {
-		return Component.translatable("block.emeraldcraft.glass_kiln");
+		return new TranslatableComponent("block.emeraldcraft.glass_kiln");
 	}
 
 	@Override
@@ -92,7 +93,7 @@ public class GlassKilnRecipeCategory implements IRecipeCategory<GlassKilnRecipe>
 	protected void drawExperience(GlassKilnRecipe recipe, PoseStack poseStack, int y) {
 		float experience = recipe.getExperience();
 		if (experience > 0) {
-			Component experienceString = Component.translatable("gui.emeraldcraft.glass_kiln.experience", experience);
+			Component experienceString = new TranslatableComponent("gui.emeraldcraft.glass_kiln.experience", experience);
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(experienceString);
@@ -105,7 +106,7 @@ public class GlassKilnRecipeCategory implements IRecipeCategory<GlassKilnRecipe>
 		int cookTime = recipe.getCookingTime();
 		if (cookTime > 0) {
 			int cookTimeSeconds = cookTime / 20;
-			Component timeString = Component.translatable("gui.emeraldcraft.glass_kiln.time.seconds", cookTimeSeconds);
+			Component timeString = new TranslatableComponent("gui.emeraldcraft.glass_kiln.time.seconds", cookTimeSeconds);
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(timeString);
@@ -122,5 +123,17 @@ public class GlassKilnRecipeCategory implements IRecipeCategory<GlassKilnRecipe>
 	@Override
 	public boolean isHandled(GlassKilnRecipe recipe) {
 		return !recipe.isSpecial();
+	}
+
+	@SuppressWarnings("removal")
+	@Override
+	public ResourceLocation getUid() {
+		return UID;
+	}
+
+	@SuppressWarnings("removal")
+	@Override
+	public Class<? extends GlassKilnRecipe> getRecipeClass() {
+		return GlassKilnRecipe.class;
 	}
 }

@@ -11,7 +11,7 @@ import net.minecraftforge.registries.RegistryObject;
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public final class ECBlockEntity {
-	public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
+	public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, MODID);
 
 	public static final RegistryObject<BlockEntityType<GlassKilnBlockEntity>> GLASS_KILN = REGISTER.register(
 			"glass_kiln", () -> new BlockEntityType<>(

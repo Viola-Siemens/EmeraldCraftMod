@@ -9,7 +9,6 @@ import com.hexagram2021.emeraldcraft.common.crafting.*;
 import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.*;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
-import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
 import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -92,63 +91,54 @@ public class JEIHelper implements IModPlugin {
 	public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
 		registration.addRecipeTransferHandler(
 				CarpentryTableMenu.class,
-				ECContainerTypes.CARPENTRY_TABLE_MENU.get(),
 				ECJEIRecipeTypes.CARPENTRY_TABLE,
 				CarpentryTableMenu.INPUT_SLOT, 1,
 				CarpentryTableMenu.INV_SLOT_START, 36
 		);
 		registration.addRecipeTransferHandler(
 				GlassKilnMenu.class,
-				ECContainerTypes.GLASS_KILN_MENU.get(),
 				ECJEIRecipeTypes.GLASS_KILN,
 				GlassKilnMenu.INGREDIENT_SLOT, 1,
 				GlassKilnMenu.INV_SLOT_START, 36
 		);
 		registration.addRecipeTransferHandler(
 				GlassKilnMenu.class,
-				ECContainerTypes.GLASS_KILN_MENU.get(),
 				RecipeTypes.FUELING,
 				GlassKilnMenu.FUEL_SLOT,1,
 				GlassKilnMenu.INV_SLOT_START, 36
 		);
 		registration.addRecipeTransferHandler(
 				MineralTableMenu.class,
-				ECContainerTypes.MINERAL_TABLE_MENU.get(),
 				ECJEIRecipeTypes.MINERAL_TABLE,
 				MineralTableMenu.INGREDIENT_SLOT, 1,
 				MineralTableMenu.INV_SLOT_START, 36
 		);
 		registration.addRecipeTransferHandler(
 				MelterMenu.class,
-				ECContainerTypes.MELTER_MENU.get(),
 				ECJEIRecipeTypes.MELTER,
 				MelterMenu.INGREDIENT_SLOT, 1,
 				MelterMenu.INV_SLOT_START, 36
 		);
 		registration.addRecipeTransferHandler(
 				MelterMenu.class,
-				ECContainerTypes.MELTER_MENU.get(),
 				RecipeTypes.FUELING,
 				MelterMenu.FUEL_SLOT,1,
 				MelterMenu.INV_SLOT_START, 36
 		);
 		registration.addRecipeTransferHandler(
 				IceMakerMenu.class,
-				ECContainerTypes.ICE_MAKER_MENU.get(),
 				ECJEIRecipeTypes.ICE_MAKER,
 				IceMakerMenu.INGREDIENT_INPUT_SLOT, 1,
 				IceMakerMenu.INV_SLOT_START, 36
 		);
 		registration.addRecipeTransferHandler(
 				RabbleFurnaceMenu.class,
-				ECContainerTypes.RABBLE_FURNACE_MENU.get(),
 				ECJEIRecipeTypes.RABBLE_FURNACE,
 				RabbleFurnaceBlockEntity.SLOT_INPUT, 3,
 				RabbleFurnaceMenu.INV_SLOT_START, 36
 		);
 		registration.addRecipeTransferHandler(
 				RabbleFurnaceMenu.class,
-				ECContainerTypes.RABBLE_FURNACE_MENU.get(),
 				RecipeTypes.FUELING,
 				RabbleFurnaceBlockEntity.SLOT_FUEL,1,
 				RabbleFurnaceMenu.INV_SLOT_START, 36

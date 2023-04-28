@@ -3,7 +3,7 @@ package com.hexagram2021.emeraldcraft.common.register;
 import net.minecraft.client.RecipeBookCategories;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.client.event.RegisterRecipeBookCategoriesEvent;
+import net.minecraftforge.client.RecipeBookRegistry;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,10 +18,10 @@ public class ECRecipeBookTypes {
 	public static final RecipeBookCategories RABBLE_FURNACE_RESIN = RecipeBookCategories.create("RABBLE_FURNACE_RESIN", new ItemStack(ECBlocks.Decoration.RESIN_BLOCK));
 	public static final RecipeBookCategories RABBLE_FURNACE_PAPER = RecipeBookCategories.create("RABBLE_FURNACE_PAPER", new ItemStack(Items.PAPER));
 
-	public static void init(RegisterRecipeBookCategoriesEvent event) {
-		event.registerBookCategories(ECRecipes.GLASS_KILN, List.of(GLASS_KILN_SEARCH, GLASS_KILN_SAND, GLASS_KILN_CLAY, GLASS_KILN_TERRACOTTA));
-		event.registerAggregateCategory(GLASS_KILN_SEARCH, List.of(GLASS_KILN_SAND, GLASS_KILN_CLAY, GLASS_KILN_TERRACOTTA));
-		event.registerRecipeCategoryFinder(ECRecipes.GLASS_KILN_TYPE.get(), recipe -> {
+	public static void init() {
+		RecipeBookRegistry.addCategoriesToType(ECRecipes.GLASS_KILN, List.of(GLASS_KILN_SEARCH, GLASS_KILN_SAND, GLASS_KILN_CLAY, GLASS_KILN_TERRACOTTA));
+		RecipeBookRegistry.addAggregateCategories(GLASS_KILN_SEARCH, List.of(GLASS_KILN_SAND, GLASS_KILN_CLAY, GLASS_KILN_TERRACOTTA));
+		RecipeBookRegistry.addCategoriesFinder(ECRecipes.GLASS_KILN_TYPE.get(), recipe -> {
 			if(recipe.getResultItem().getDescriptionId().contains("glass")) {
 				return GLASS_KILN_SAND;
 			}
@@ -30,9 +30,9 @@ public class ECRecipeBookTypes {
 			}
 			return GLASS_KILN_CLAY;
 		});
-		event.registerBookCategories(ECRecipes.RABBLE_FURNACE, List.of(RABBLE_FURNACE_SEARCH, RABBLE_FURNACE_RESIN, RABBLE_FURNACE_PAPER));
-		event.registerAggregateCategory(RABBLE_FURNACE_SEARCH, List.of(RABBLE_FURNACE_RESIN, RABBLE_FURNACE_PAPER));
-		event.registerRecipeCategoryFinder(ECRecipes.RABBLE_FURNACE_TYPE.get(), recipe -> {
+		RecipeBookRegistry.addCategoriesToType(ECRecipes.RABBLE_FURNACE, List.of(RABBLE_FURNACE_SEARCH, RABBLE_FURNACE_RESIN, RABBLE_FURNACE_PAPER));
+		RecipeBookRegistry.addAggregateCategories(RABBLE_FURNACE_SEARCH, List.of(RABBLE_FURNACE_RESIN, RABBLE_FURNACE_PAPER));
+		RecipeBookRegistry.addCategoriesFinder(ECRecipes.RABBLE_FURNACE_TYPE.get(), recipe -> {
 			if(recipe.getResultItem().getDescriptionId().contains("resin")) {
 				return RABBLE_FURNACE_RESIN;
 			}

@@ -8,7 +8,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -31,6 +30,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 import java.util.function.Supplier;
 
 @SuppressWarnings("deprecation")
@@ -109,7 +109,7 @@ public class RabbleFurnaceBlock extends AbstractFurnaceBlock {
 	}
 
 	@Override
-	public void animateTick(BlockState state, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
+	public void animateTick(BlockState state, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull Random random) {
 		if (state.getValue(LIT)) {
 			double d0 = (double)blockPos.getX() + 0.5D;
 			double d1 = blockPos.getY();

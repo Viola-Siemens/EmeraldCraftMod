@@ -4,7 +4,6 @@ import com.hexagram2021.emeraldcraft.common.register.ECBlockTags;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -13,6 +12,7 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -31,7 +31,7 @@ public class VolcanicCavesLavaPoolFeature extends Feature<NoneFeatureConfigurati
 
 	private static final int MAX_DEPTH = 7;
 
-	private void doPlace(WorldGenLevel level, Set<BlockPos> visited, BlockPos curPosition, RandomSource random, Predicate<BlockState> predicate, int depth) {
+	private void doPlace(WorldGenLevel level, Set<BlockPos> visited, BlockPos curPosition, Random random, Predicate<BlockState> predicate, int depth) {
 		for(int b = 1; b <= 6; ++b) {
 			int s = ((b & 4) >> 2);
 			int b1 = (b & 3) + s;
@@ -87,7 +87,7 @@ public class VolcanicCavesLavaPoolFeature extends Feature<NoneFeatureConfigurati
 	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
 		Predicate<BlockState> predicate = Feature.isReplaceable(BlockTags.FEATURES_CANNOT_REPLACE);
 		BlockPos blockpos = context.origin();
-		RandomSource random = context.random();
+		Random random = context.random();
 		WorldGenLevel worldgenlevel = context.level();
 
 		final Set<BlockPos> visited = new HashSet<>();

@@ -11,6 +11,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
@@ -28,8 +29,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -88,7 +89,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 
 	@Override @NotNull
 	protected Component getDefaultName() {
-		return Component.translatable("container.ice_maker");
+		return new TranslatableComponent("container.ice_maker");
 	}
 
 	public int getInputFluidTypeIndex() {
@@ -208,6 +209,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		return itemstack.getCount() + result.getCount() <= result.getMaxStackSize();
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	private boolean freeze(@Nullable IceMakerRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
 		if (this.canFreeze(recipe, container, maxCount)) {
 			ItemStack result = recipe.assemble(this);
@@ -349,7 +351,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 
 	@Override @NotNull
 	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
-		if (!this.remove && facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
+		if (!this.remove && facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (facing == Direction.UP) {
 				return handlers[0].cast();
 			} else if (facing == Direction.DOWN) {

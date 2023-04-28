@@ -9,11 +9,12 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class CarpentryTableRecipeSerializer<T extends CarpentryTableRecipe> implements RecipeSerializer<T>{
+public class CarpentryTableRecipeSerializer<T extends CarpentryTableRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>{
 	private final CarpentryTableRecipeSerializer.Creator<T> factory;
 
 	public CarpentryTableRecipeSerializer(CarpentryTableRecipeSerializer.Creator<T> creator) {

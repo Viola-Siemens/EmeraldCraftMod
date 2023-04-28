@@ -88,7 +88,7 @@ public class ECFoods {
 			new FoodProperties.Builder().nutrition(4).saturationMod(0.8F).build();
 	public static final FoodProperties WARDEN_HEART =
 			new FoodProperties.Builder().nutrition(8).saturationMod(0.8F)
-					.effect(() -> new MobEffectInstance(MobEffects.DARKNESS, 800, 0), 1.0F)
+					.effect(() -> new MobEffectInstance(MobEffects.BLINDNESS, 800, 0), 1.0F)
 					.build();
 	public static final FoodProperties STIR_FRIED_WARDEN_HEART =
 			new FoodProperties.Builder().nutrition(12).saturationMod(1.2F)

@@ -13,13 +13,13 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 public class MobAttributeEventSubscriber {
 	@SubscribeEvent
 	public static void onAttributeCreate(EntityAttributeCreationEvent event) {
-		event.put(ECEntities.PIGLIN_CUTEY, PiglinCuteyEntity.createAttributes().build());
-		event.put(ECEntities.NETHER_PIGMAN, NetherPigmanEntity.createAttributes().build());
-		event.put(ECEntities.NETHER_LAMBMAN, NetherLambmanEntity.createAttributes().build());
-		event.put(ECEntities.HERRING, AbstractFish.createAttributes().build());
-		event.put(ECEntities.PURPLE_SPOTTED_BIGEYE, AbstractFish.createAttributes().build());
-		event.put(ECEntities.WRAITH, WraithEntity.createAttributes().build());
-		event.put(ECEntities.MANTA, MantaEntity.createAttributes().build());
-		event.put(ECEntities.LUMINE, LumineEntity.createAttributes().build());
+		event.put(ECEntities.PIGLIN_CUTEY.get(), PiglinCuteyEntity.createAttributes().build());
+		event.put(ECEntities.NETHER_PIGMAN.get(), NetherPigmanEntity.createAttributes().build());
+		event.put(ECEntities.NETHER_LAMBMAN.get(), NetherLambmanEntity.createAttributes().build());
+		event.put(ECEntities.HERRING.get(), AbstractFish.createAttributes().build());
+		event.put(ECEntities.PURPLE_SPOTTED_BIGEYE.get(), AbstractFish.createAttributes().build());
+		event.put(ECEntities.WRAITH.get(), WraithEntity.createAttributes().build());
+		event.put(ECEntities.MANTA.get(), MantaEntity.createAttributes().build());
+		event.put(ECEntities.LUMINE.get(), LumineEntity.createAttributes().build());
 	}
 }

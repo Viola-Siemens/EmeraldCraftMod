@@ -10,6 +10,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
@@ -62,9 +63,9 @@ public class ContinuousMinerScreen extends AbstractContainerScreen<ContinuousMin
 	}
 
 	private List<Component> getFluidTypeToolTips(int fluidLevel) {
-		List<Component> ret = Lists.newArrayList(Component.translatable(FluidTypes.melted_emerald.getTranslationTag()));
+		List<Component> ret = Lists.newArrayList(new TranslatableComponent(FluidTypes.melted_emerald.getTranslationTag()));
 		if(this.minecraft != null && this.minecraft.options.advancedItemTooltips) {
-			ret.add(Component.translatable("fluids.save.bucket", String.format("%.2f", fluidLevel / 100.0F), Component.translatable(ECItems.MELTED_EMERALD_BUCKET.get().getDescriptionId())));
+			ret.add(new TranslatableComponent("fluids.save.bucket", String.format("%.2f", fluidLevel / 100.0F), new TranslatableComponent(ECItems.MELTED_EMERALD_BUCKET.get().getDescriptionId())));
 		}
 		return ret;
 	}

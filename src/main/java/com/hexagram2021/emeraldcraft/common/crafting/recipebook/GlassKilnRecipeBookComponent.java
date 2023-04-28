@@ -1,9 +1,9 @@
 package com.hexagram2021.emeraldcraft.common.crafting.recipebook;
 
-
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +21,7 @@ import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
 public class GlassKilnRecipeBookComponent extends RecipeBookComponent {
-	private static final Component FILTER_NAME = Component.translatable("gui.recipebook.toggleRecipes.kilnable");
+	private static final Component FILTER_NAME = new TranslatableComponent("gui.recipebook.toggleRecipes.kilnable");
 
 	@Nullable
 	private Ingredient fuels;

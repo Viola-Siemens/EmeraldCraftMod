@@ -10,11 +10,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.*;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class MelterRecipeSerializer<T extends MelterRecipe> implements RecipeSerializer<T> {
+public class MelterRecipeSerializer<T extends MelterRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T> {
 	private final int defaultMeltingTime;
 	private final MelterRecipeSerializer.Creator<T> factory;
 

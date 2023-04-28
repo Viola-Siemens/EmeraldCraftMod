@@ -4,7 +4,6 @@ import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
 import com.hexagram2021.emeraldcraft.common.register.ECConfiguredFeatures;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.NyliumBlock;
@@ -12,13 +11,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Random;
+
 public class PurpuraceusNyliumBlock extends NyliumBlock {
 	public PurpuraceusNyliumBlock(Properties props) {
 		super(props);
 	}
 
 	@Override
-	public void performBonemeal(ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos blockPos, @NotNull BlockState blockState) {
+	public void performBonemeal(ServerLevel level, @NotNull Random random, @NotNull BlockPos blockPos, @NotNull BlockState blockState) {
 		BlockState current = level.getBlockState(blockPos);
 		BlockPos above = blockPos.above();
 		ChunkGenerator chunkgenerator = level.getChunkSource().getGenerator();

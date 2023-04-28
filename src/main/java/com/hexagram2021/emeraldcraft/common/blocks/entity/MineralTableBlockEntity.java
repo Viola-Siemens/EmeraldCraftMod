@@ -13,6 +13,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -37,8 +38,8 @@ import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -100,7 +101,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 
 	@Override @NotNull
 	protected Component getDefaultName() {
-		return Component.translatable("container.mineral_table");
+		return new TranslatableComponent("container.mineral_table");
 	}
 
 
@@ -152,13 +153,13 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 				blockEntity.litDuration = blockEntity.litTime;
 				if (blockEntity.isLit()) {
 					flag1 = true;
-					if (itemstack.hasCraftingRemainingItem())
-						blockEntity.items.set(SLOT_FUEL, itemstack.getCraftingRemainingItem());
+					if (itemstack.hasContainerItem())
+						blockEntity.items.set(SLOT_FUEL, itemstack.getContainerItem());
 					else
 					if (!itemstack.isEmpty()) {
 						itemstack.shrink(1);
 						if (itemstack.isEmpty()) {
-							blockEntity.items.set(SLOT_FUEL, itemstack.getCraftingRemainingItem());
+							blockEntity.items.set(SLOT_FUEL, itemstack.getContainerItem());
 						}
 					}
 				}
@@ -402,7 +403,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 
 	@Override @NotNull
 	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
-		if (!this.remove && facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
+		if (!this.remove && facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (facing == Direction.UP)
 				return handlers[0].cast();
 			else if (facing == Direction.DOWN)

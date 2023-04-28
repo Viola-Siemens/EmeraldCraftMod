@@ -16,7 +16,7 @@ public class LumineRenderer extends MobRenderer<LumineEntity, LumineModel> {
 
 	public LumineRenderer(EntityRendererProvider.Context context) {
 		super(context, new LumineModel(context.bakeLayer(LumineModel.LAYER_LOCATION)), 0.4F);
-		this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
+		this.addLayer(new ItemInHandLayer<>(this));
 	}
 
 	@Override @NotNull

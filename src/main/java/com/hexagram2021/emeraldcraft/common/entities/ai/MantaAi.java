@@ -2,7 +2,10 @@ package com.hexagram2021.emeraldcraft.common.entities.ai;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.hexagram2021.emeraldcraft.common.entities.ai.behaviors.RandomFly;
+import com.hexagram2021.emeraldcraft.common.entities.ai.behaviors.StayCloseToTarget;
 import com.hexagram2021.emeraldcraft.common.entities.mobs.MantaEntity;
+import com.hexagram2021.emeraldcraft.common.register.ECMemoryModuleTypes;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,7 +14,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.*;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.level.Level;
 
@@ -42,7 +44,7 @@ public class MantaAi {
 				Pair.of(0, new RunSometimes<>(new SetEntityLookTarget(entity -> true, 6.0F), UniformInt.of(30, 60))),
 				Pair.of(1, new StayCloseToTarget<>(MantaAi::getLikedPlayerPositionTracker, 7, 32, 1.0F)),
 				Pair.of(2, new RunOne<>(ImmutableList.of(
-						Pair.of(new FlyingRandomStroll(1.0F), 2),
+						Pair.of(new RandomFly(1.0F), 2),
 						Pair.of(new SetWalkTargetFromLookTarget(1.0F, 3), 2),
 						Pair.of(new DoNothing(30, 60), 1)
 				)))
@@ -60,7 +62,7 @@ public class MantaAi {
 	private static Optional<ServerPlayer> getLikedPlayer(LivingEntity manta) {
 		Level level = manta.getLevel();
 		if (!level.isClientSide() && level instanceof ServerLevel serverlevel) {
-			Optional<UUID> optional = manta.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
+			Optional<UUID> optional = manta.getBrain().getMemory(ECMemoryModuleTypes.LIKED_PLAYER.get());
 			if (optional.isPresent()) {
 				Entity entity = serverlevel.getEntity(optional.get());
 				if (entity instanceof ServerPlayer serverplayer) {

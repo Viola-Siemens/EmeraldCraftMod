@@ -28,7 +28,7 @@ public class CarpentryTableRecipeCategory implements IRecipeCategory<CarpentryTa
 
 	public CarpentryTableRecipeCategory(IGuiHelper guiHelper) {
 		this.background = guiHelper.createDrawable(TEXTURE, 0, 220, width, height);
-		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ECBlocks.WorkStation.CARPENTRY_TABLE));
+		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(ECBlocks.WorkStation.CARPENTRY_TABLE));
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class CarpentryTableRecipeCategory implements IRecipeCategory<CarpentryTa
 
 	@Override
 	public Component getTitle() {
-		return Component.translatable("block.emeraldcraft.carpentry_table");
+		return new TranslatableComponent("block.emeraldcraft.carpentry_table");
 	}
 
 	@Override
@@ -60,5 +60,17 @@ public class CarpentryTableRecipeCategory implements IRecipeCategory<CarpentryTa
 	@Override
 	public boolean isHandled(CarpentryTableRecipe recipe) {
 		return !recipe.isSpecial();
+	}
+
+	@SuppressWarnings("removal")
+	@Override
+	public ResourceLocation getUid() {
+		return UID;
+	}
+
+	@SuppressWarnings("removal")
+	@Override
+	public Class<? extends CarpentryTableRecipe> getRecipeClass() {
+		return CarpentryTableRecipe.class;
 	}
 }

@@ -14,6 +14,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
@@ -33,8 +34,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -113,12 +114,12 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 				blockEntity.litDuration = blockEntity.litTime;
 				if (blockEntity.isLit()) {
 					flag1 = true;
-					if (fuelItemStack.hasCraftingRemainingItem()) {
-							blockEntity.items.set(MelterMenu.FUEL_SLOT, fuelItemStack.getCraftingRemainingItem());
+					if (fuelItemStack.hasContainerItem()) {
+							blockEntity.items.set(MelterMenu.FUEL_SLOT, fuelItemStack.getContainerItem());
 					} else if (!fuelItemStack.isEmpty()) {
 						fuelItemStack.shrink(1);
 						if (fuelItemStack.isEmpty()) {
-							blockEntity.items.set(MelterMenu.FUEL_SLOT, fuelItemStack.getCraftingRemainingItem());
+							blockEntity.items.set(MelterMenu.FUEL_SLOT, fuelItemStack.getContainerItem());
 						}
 					}
 				}
@@ -260,7 +261,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 
 	@Override @NotNull
 	protected Component getDefaultName() {
-		return Component.translatable("container.melter");
+		return new TranslatableComponent("container.melter");
 	}
 
 	@Override
@@ -398,7 +399,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 
 	@Override @NotNull
 	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
-		if (!this.remove && facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
+		if (!this.remove && facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (facing == Direction.UP) {
 				return handlers[0].cast();
 			} else if (facing == Direction.DOWN) {

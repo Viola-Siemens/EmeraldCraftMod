@@ -34,7 +34,7 @@ public class ECBoat extends Boat implements IECBoat {
 	}
 
 	public ECBoat(Level level, double x, double y, double z) {
-		this(ECEntities.BOAT, level);
+		this(ECEntities.BOAT.get(), level);
 		this.setPos(x, y, z);
 		this.xo = x;
 		this.yo = y;

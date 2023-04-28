@@ -5,7 +5,6 @@ import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -26,6 +25,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Random;
 import java.util.function.Supplier;
 
 @SuppressWarnings("deprecation")
@@ -55,7 +55,7 @@ public class CrystalballTableBlock extends Block {
 	}
 
 	@Override
-	public void randomTick(@NotNull BlockState blockState, ServerLevel level, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
+	public void randomTick(@NotNull BlockState blockState, ServerLevel level, @NotNull BlockPos blockPos, @NotNull Random random) {
 		if(level.random.nextInt(250) == 0) {
 			int i = blockState.getValue(EXP_COUNT);
 			if(i < 15) {

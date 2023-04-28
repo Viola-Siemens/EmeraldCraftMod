@@ -2,6 +2,7 @@ package com.hexagram2021.emeraldcraft.common.entities.mobs;
 
 import com.google.common.collect.ImmutableList;
 import com.hexagram2021.emeraldcraft.common.entities.ai.MantaAi;
+import com.hexagram2021.emeraldcraft.common.register.ECMemoryModuleTypes;
 import com.hexagram2021.emeraldcraft.common.register.ECTriggers;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import com.hexagram2021.emeraldcraft.common.util.PlayerHealable;
@@ -52,8 +53,7 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 			MemoryModuleType.WALK_TARGET,
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
 			MemoryModuleType.HURT_BY,
-			MemoryModuleType.LIKED_PLAYER,
-			MemoryModuleType.IS_PANICKING
+			ECMemoryModuleTypes.LIKED_PLAYER.get()
 	);
 
 	public MantaEntity(EntityType<? extends MantaEntity> type, Level level) {
@@ -78,12 +78,12 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 
 	@SuppressWarnings("unused")
 	public boolean isTame() {
-		return this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER).isPresent();
+		return this.getBrain().getMemory(ECMemoryModuleTypes.LIKED_PLAYER.get()).isPresent();
 	}
 
 	@Override @Nullable
 	public UUID getOwnerUUID() {
-		Optional<UUID> player = this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
+		Optional<UUID> player = this.getBrain().getMemory(ECMemoryModuleTypes.LIKED_PLAYER.get());
 		return player.orElse(null);
 	}
 
@@ -302,7 +302,7 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 
 	@Override
 	public boolean isPlayerHealed() {
-		return this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER).isPresent();
+		return this.getBrain().getMemory(ECMemoryModuleTypes.LIKED_PLAYER.get()).isPresent();
 	}
 
 	@Deprecated
@@ -311,12 +311,12 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 
 	@Override @NotNull
 	public UUID getHealedPlayer() {
-		Optional<UUID> player = this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
+		Optional<UUID> player = this.getBrain().getMemory(ECMemoryModuleTypes.LIKED_PLAYER.get());
 		return player.orElse(Util.NIL_UUID);
 	}
 
 	@Override
 	public void setHealedPlayer(@Nullable UUID player) {
-		this.getBrain().setMemory(MemoryModuleType.LIKED_PLAYER, player);
+		this.getBrain().setMemory(ECMemoryModuleTypes.LIKED_PLAYER.get(), player);
 	}
 }

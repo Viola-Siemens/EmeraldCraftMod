@@ -10,6 +10,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
@@ -72,9 +73,9 @@ public class IceMakerScreen extends AbstractContainerScreen<IceMakerMenu> {
 	}
 
 	private List<Component> getFluidTypeToolTips(int fluidLevel, FluidType fluidType) {
-		List<Component> ret = Lists.newArrayList(Component.translatable(fluidType.getTranslationTag()));
+		List<Component> ret = Lists.newArrayList(new TranslatableComponent(fluidType.getTranslationTag()));
 		if(this.minecraft != null && this.minecraft.options.advancedItemTooltips) {
-			ret.add(Component.translatable("fluids.save.bucket", String.format("%.2f", fluidLevel / 100.0F), Component.translatable(FluidTypes.getFluidBucketItem(fluidType).getDescriptionId())));
+			ret.add(new TranslatableComponent("fluids.save.bucket", String.format("%.2f", fluidLevel / 100.0F), new TranslatableComponent(FluidTypes.getFluidBucketItem(fluidType).getDescriptionId())));
 		}
 		return ret;
 	}

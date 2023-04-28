@@ -3,6 +3,7 @@ package com.hexagram2021.emeraldcraft.common.blocks.workstation;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.CarpentryTableMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -29,7 +30,7 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("deprecation")
 public class CarpentryTableBlock extends Block {
-	private static final Component CONTAINER_TITLE = Component.translatable("container.carpentry");
+	private static final Component CONTAINER_TITLE = new TranslatableComponent("container.carpentry");
 	protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 9.0D, 16.0D);
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 

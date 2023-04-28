@@ -87,13 +87,13 @@ public class PhantomEntityMixin implements Convertible {
 		current.getEntityData().set(DATA_PHANTOM_CONVERTING_ID, true);
 		current.removeEffect(MobEffects.GLOWING);
 		current.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, time, Math.min(current.level.getDifficulty().getId() - 1, 0)));
-		current.playSound(SoundEvents.ZOMBIE_VILLAGER_CURE);
+		current.playSound(SoundEvents.ZOMBIE_VILLAGER_CURE, 1.0F, 1.0F);
 	}
 
 	@Override
 	public void finishConversion(ServerLevel level) {
 		Phantom current = (Phantom)(Object)this;
-		MantaEntity manta = current.convertTo(ECEntities.MANTA, true);
+		MantaEntity manta = current.convertTo(ECEntities.MANTA.get(), true);
 		if(manta == null) {
 			return;
 		}
@@ -106,7 +106,7 @@ public class PhantomEntityMixin implements Convertible {
 		}
 
 		manta.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
-		manta.playSound(SoundEvents.ZOMBIE_VILLAGER_CONVERTED);
+		manta.playSound(SoundEvents.ZOMBIE_VILLAGER_CONVERTED, 1.0F, 1.0F);
 		ForgeEventFactory.onLivingConvert(current, manta);
 	}
 
@@ -122,7 +122,7 @@ public class PhantomEntityMixin implements Convertible {
 			int i = this.getConversionProgress();
 			this.decreaseConversionRemainTime(i);
 			if (this.getConversionRemainTime() <= 0 &&
-					ForgeEventFactory.canLivingConvert(current, ECEntities.MANTA, this::setConversionRemainTime)) {
+					ForgeEventFactory.canLivingConvert(current, ECEntities.MANTA.get(), this::setConversionRemainTime)) {
 				this.finishConversion((ServerLevel) current.level);
 			}
 		}

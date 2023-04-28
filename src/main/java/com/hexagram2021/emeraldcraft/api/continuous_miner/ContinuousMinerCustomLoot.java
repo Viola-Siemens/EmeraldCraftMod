@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
-
 public class ContinuousMinerCustomLoot {
 	private static final Map<ResourceLocation, ResourceLocation> BLOCK_TO_LOOT_TABLE = new HashMap<>();
 
@@ -17,6 +15,6 @@ public class ContinuousMinerCustomLoot {
 	}
 
 	public static ResourceLocation getBlockLoot(BlockState blockState) {
-		return BLOCK_TO_LOOT_TABLE.get(getRegistryName(blockState.getBlock()));
+		return BLOCK_TO_LOOT_TABLE.get(blockState.getBlock().getRegistryName());
 	}
 }

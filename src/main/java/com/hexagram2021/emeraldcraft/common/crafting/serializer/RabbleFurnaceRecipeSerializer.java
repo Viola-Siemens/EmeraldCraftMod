@@ -10,11 +10,12 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class RabbleFurnaceRecipeSerializer<T extends RabbleFurnaceRecipe> implements RecipeSerializer<T> {
+public class RabbleFurnaceRecipeSerializer<T extends RabbleFurnaceRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T> {
 	private final int defaultCookingTime;
 	private final RabbleFurnaceRecipeSerializer.Creator<T> factory;
 

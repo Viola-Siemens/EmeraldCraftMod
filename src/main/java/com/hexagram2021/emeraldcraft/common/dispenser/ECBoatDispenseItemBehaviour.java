@@ -1,7 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.dispenser;
 
 import com.hexagram2021.emeraldcraft.common.entities.ECBoat;
-import com.hexagram2021.emeraldcraft.common.entities.ECChestBoat;
 import com.hexagram2021.emeraldcraft.common.entities.IECBoat;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
@@ -17,16 +16,9 @@ import org.jetbrains.annotations.NotNull;
 public class ECBoatDispenseItemBehaviour extends DefaultDispenseItemBehavior {
 	private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
 	private final ECBoat.ECBoatType type;
-	private final boolean isChestBoat;
 
-	@SuppressWarnings("unused")
 	public ECBoatDispenseItemBehaviour(ECBoat.ECBoatType type) {
-		this(type, false);
-	}
-
-	public ECBoatDispenseItemBehaviour(ECBoat.ECBoatType type, boolean withChest) {
 		this.type = type;
-		this.isChestBoat = withChest;
 	}
 
 	@Override @NotNull
@@ -38,7 +30,7 @@ public class ECBoatDispenseItemBehaviour extends DefaultDispenseItemBehavior {
 		double d2 = block.z() + (double)((float)direction.getStepZ() * 1.125F);
 		BlockPos blockpos = block.getPos().relative(direction);
 
-		IECBoat boat = isChestBoat ? new ECChestBoat(level, d0, d1, d2) : new ECBoat(level, d0, d1, d2);
+		IECBoat boat = new ECBoat(level, d0, d1, d2);
 		boat.setECBoatType(this.type);
 		Entity boatEntity = (Entity)boat;
 		boatEntity.setYRot(direction.toYRot());

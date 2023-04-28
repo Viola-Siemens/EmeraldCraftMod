@@ -1,22 +1,24 @@
 package com.hexagram2021.emeraldcraft.common.world.features.configuration;
 
+import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 public class VineGrowthConfiguration implements FeatureConfiguration {
 	@SuppressWarnings("deprecation")
@@ -50,11 +52,15 @@ public class VineGrowthConfiguration implements FeatureConfiguration {
 		Direction.Plane.HORIZONTAL.forEach(this.validDirections::add);
 	}
 
-	public List<Direction> getShuffledDirectionsExcept(RandomSource random, Direction except) {
-		return Util.toShuffledList(this.validDirections.stream().filter(direction -> direction != except), random);
+	public List<Direction> getShuffledDirectionsExcept(Random random, Direction except) {
+		List<Direction> list = this.validDirections.stream().filter(direction -> direction != except).collect(Collectors.toList());
+		Collections.shuffle(list, random);
+		return list;
 	}
 
-	public List<Direction> getShuffledDirections(RandomSource random) {
-		return Util.shuffledCopy(this.validDirections, random);
+	public List<Direction> getShuffledDirections(Random random) {
+		List<Direction> list = Lists.newArrayList(this.validDirections);
+		Collections.shuffle(list, random);
+		return list;
 	}
 }

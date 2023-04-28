@@ -1,11 +1,11 @@
 package com.hexagram2021.emeraldcraft.api.camp;
 
 import com.google.common.collect.Lists;
-import com.hexagram2021.emeraldcraft.common.register.ECStructures;
+import com.hexagram2021.emeraldcraft.common.register.ECConfiguredStructures;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 
 import java.util.Arrays;
@@ -36,11 +36,11 @@ public enum CampTypes implements CampType {
 
 	//API for custom camp.
 	@SuppressWarnings("unused")
-	public static void addCustomCamp(CampType type, ResourceLocation structure, Holder<Structure> holder) {
+	public static void addCustomCamp(CampType type, ResourceLocation structure, Holder<ConfiguredStructureFeature<?, ?>> holder) {
 		CUSTOM_CAMP.put(type.toString(), structure);
 		ALL_CAMP_IDS.put(type.toString(), ALL_CAMPS.size());
 		ALL_CAMPS.add(type);
-		ECStructures.ALL_CAMPS.add(StructureSet.entry(holder));
+		ECConfiguredStructures.ALL_CAMPS.add(StructureSet.entry(holder));
 	}
 
 	public static ResourceLocation getCampWithType(CampType type) {

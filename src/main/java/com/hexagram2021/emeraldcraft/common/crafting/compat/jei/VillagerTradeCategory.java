@@ -1,6 +1,5 @@
 package com.hexagram2021.emeraldcraft.common.crafting.compat.jei;
 
-import com.hexagram2021.emeraldcraft.common.crafting.MelterRecipe;
 import com.hexagram2021.emeraldcraft.common.crafting.TradeShadowRecipe;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -21,6 +20,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -45,12 +45,12 @@ public class VillagerTradeCategory implements IRecipeCategory<TradeShadowRecipe>
 
 	public VillagerTradeCategory(IGuiHelper guiHelper) {
 		this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 166, 120);
-		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(Items.EMERALD));
+		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(Items.EMERALD));
 	}
 
 	@Override
 	public Component getTitle() {
-		return Component.translatable("jei.emeraldcraft.villager_trade");
+		return new TranslatableComponent("jei.emeraldcraft.villager_trade");
 	}
 
 	@Override
@@ -72,6 +72,18 @@ public class VillagerTradeCategory implements IRecipeCategory<TradeShadowRecipe>
 	public void draw(TradeShadowRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
 		renderEntityInCategory(stack, VILLAGER_X, VILLAGER_Y, VILLAGER_W, VILLAGER_H, mouseX, mouseY, recipe.getRenderVillager());
 		drawVillagerName(recipe.getRenderVillager().getName().getString(), stack, 30);
+	}
+
+	@SuppressWarnings("removal")
+	@Override
+	public ResourceLocation getUid() {
+		return UID;
+	}
+
+	@SuppressWarnings("removal")
+	@Override
+	public Class<? extends TradeShadowRecipe> getRecipeClass() {
+		return TradeShadowRecipe.class;
 	}
 
 	@SuppressWarnings("SameParameterValue")

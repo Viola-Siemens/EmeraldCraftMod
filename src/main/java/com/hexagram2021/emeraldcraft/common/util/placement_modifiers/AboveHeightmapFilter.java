@@ -4,13 +4,13 @@ import com.hexagram2021.emeraldcraft.common.register.ECPlacementModifierType;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Random;
 import java.util.stream.Stream;
 
 public class AboveHeightmapFilter extends PlacementModifier {
@@ -26,7 +26,7 @@ public class AboveHeightmapFilter extends PlacementModifier {
 
 
 	@Override @NotNull
-	public Stream<BlockPos> getPositions(PlacementContext placementContext, @NotNull RandomSource random, BlockPos blockPos) {
+	public Stream<BlockPos> getPositions(PlacementContext placementContext, @NotNull Random random, BlockPos blockPos) {
 		return blockPos.getY() >= placementContext.getHeight(heightmap, blockPos.getX(), blockPos.getZ()) ? Stream.of(blockPos) : Stream.empty();
 	}
 

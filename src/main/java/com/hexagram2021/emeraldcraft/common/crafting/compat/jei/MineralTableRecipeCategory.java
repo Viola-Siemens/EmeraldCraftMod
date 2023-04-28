@@ -16,6 +16,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -36,7 +37,7 @@ public class MineralTableRecipeCategory implements IRecipeCategory<MineralTableR
 		background = guiHelper.drawableBuilder(TEXTURE, 0, 0, 64, 60)
 				.addPadding(1, 0, 0, 50)
 				.build();
-		icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ECBlocks.WorkStation.MINERAL_TABLE));
+		icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(ECBlocks.WorkStation.MINERAL_TABLE));
 
 		arrow = guiHelper.drawableBuilder(TEXTURE, 64, 0, 9, 28)
 				.buildAnimated(400, IDrawableAnimated.StartDirection.TOP, false);
@@ -57,7 +58,7 @@ public class MineralTableRecipeCategory implements IRecipeCategory<MineralTableR
 
 	@Override
 	public Component getTitle() {
-		return Component.translatable("block.emeraldcraft.mineral_table");
+		return new TranslatableComponent("block.emeraldcraft.mineral_table");
 	}
 
 	@Override
@@ -75,6 +76,18 @@ public class MineralTableRecipeCategory implements IRecipeCategory<MineralTableR
 		blazeHeat.draw(poseStack, 5, 30);
 		bubbles.draw(poseStack, 8, 0);
 		arrow.draw(poseStack, 42, 2);
+	}
+
+	@SuppressWarnings("removal")
+	@Override
+	public ResourceLocation getUid() {
+		return UID;
+	}
+
+	@SuppressWarnings("removal")
+	@Override
+	public Class<? extends MineralTableRecipe> getRecipeClass() {
+		return MineralTableRecipe.class;
 	}
 
 	@Override

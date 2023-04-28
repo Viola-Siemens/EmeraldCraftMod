@@ -1,21 +1,22 @@
 package com.hexagram2021.emeraldcraft.common.util;
 
-import net.minecraft.core.Registry;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.registries.RegisterEvent;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
+@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECSounds {
 	static final Map<ResourceLocation, SoundEvent> registeredEvents = new HashMap<>();
-	//public static final SoundEvent PIGLIN_CUTEY_ADMIRING_ITEM = registerSound("piglin_cutey.admiring_item");
 	public static final SoundEvent PIGLIN_CUTEY_AMBIENT = registerSound("piglin_cutey.ambient");
 	public static final SoundEvent PIGLIN_CUTEY_CELEBRATE = registerSound("piglin_cutey.celebrate");
 	public static final SoundEvent PIGLIN_CUTEY_DEATH = registerSound("piglin_cutey.death");
@@ -82,14 +83,15 @@ public class ECSounds {
 		return event;
 	}
 
-	public static void init(RegisterEvent event) {
-		event.register(Registry.SOUND_EVENT_REGISTRY, helper -> registeredEvents.forEach(helper::register));
+	@SubscribeEvent
+	public static void init(RegistryEvent.Register<SoundEvent> evt) {
+		registeredEvents.forEach((id, sound) -> RegistryHelper.register(evt, id, sound));
 	}
 
 	@SuppressWarnings("unused")
 	public static void PlaySoundForPlayer(Entity player, SoundEvent sound, float volume, float pitch) {
 		if(player instanceof ServerPlayer serverPlayer)
 			serverPlayer.connection.send(new ClientboundSoundPacket(sound, player.getSoundSource(),
-					player.getX(), player.getY(), player.getZ(), volume, pitch, serverPlayer.getRandom().nextLong()));
+					player.getX(), player.getY(), player.getZ(), volume, pitch));
 	}
 }
