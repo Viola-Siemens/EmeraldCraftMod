@@ -1,5 +1,6 @@
 package com.hexagram2021.emeraldcraft.client.models;
 
+import com.google.common.collect.Maps;
 import com.hexagram2021.emeraldcraft.common.entities.mobs.LumineEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
@@ -11,8 +12,12 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.HumanoidArm;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -31,14 +36,18 @@ public class LumineModel extends HierarchicalModel<LumineEntity> implements Arme
 	private static final float DEFAULT_WING_Y_ROT = 0.61086524F;
 	private static final float DEFAULT_ARM_Y_ROT = 0.27925268F;
 
-	public LumineModel(ModelPart p_233312_) {
-		this.root = p_233312_.getChild("root");
+	private final List<Tuple<ModelPart, PartPose>> initialPoses;
+
+	public LumineModel(ModelPart root) {
+		this.root = root.getChild("root");
 		this.head = this.root.getChild("head");
 		this.body = this.root.getChild("body");
 		this.right_arm = this.body.getChild("right_arm");
 		this.left_arm = this.body.getChild("left_arm");
 		this.right_wing = this.body.getChild("right_wing");
 		this.left_wing = this.body.getChild("left_wing");
+
+		this.initialPoses = this.root.getAllParts().map(part -> new Tuple<>(part, part.storePose())).collect(Collectors.toList());
 	}
 
 	@Override @NotNull
@@ -67,6 +76,7 @@ public class LumineModel extends HierarchicalModel<LumineEntity> implements Arme
 
 	@Override
 	public void setupAnim(LumineEntity lumine, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		this.initialPoses.forEach(tuple -> tuple.getA().loadPose(tuple.getB()));
 		float f = ageInTicks * 20.0F * (Mth.PI / 180F) + limbSwingAmount;
 		float f1 = Mth.cos(f) * Mth.PI * 0.15F;
 		float f2 = ageInTicks - lumine.tickCount;
