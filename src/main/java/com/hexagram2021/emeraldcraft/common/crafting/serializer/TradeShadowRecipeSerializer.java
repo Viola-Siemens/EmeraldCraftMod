@@ -79,6 +79,6 @@ public class TradeShadowRecipeSerializer<T extends TradeShadowRecipe> extends Fo
 
 
 	public interface Creator<T extends TradeShadowRecipe> {
-		T create(ResourceLocation id, ItemStack costA, ItemStack costB, ItemStack result, EntityType<?> entityType, VillagerProfession profession, int villagerLevel, int xp);
+		T create(ResourceLocation id, ItemStack costA, ItemStack costB, ItemStack result, @NotNull EntityType<?> entityType, @Nullable VillagerProfession profession, int villagerLevel, int xp);
 	}
 }

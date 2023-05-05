@@ -29,6 +29,7 @@ public class TradeShadowRecipe implements Recipe<Container> {
 	protected final ItemStack costA;
 	protected final ItemStack costB;
 	protected final ItemStack result;
+	@NotNull
 	protected final EntityType<?> entityType;
 	@Nullable
 	protected final VillagerProfession profession;
@@ -43,7 +44,7 @@ public class TradeShadowRecipe implements Recipe<Container> {
 			TradeShadowRecipe.class
 	);
 
-	public TradeShadowRecipe(ResourceLocation id, ItemStack costA, ItemStack costB, ItemStack result, EntityType<?> entityType,
+	public TradeShadowRecipe(ResourceLocation id, ItemStack costA, ItemStack costB, ItemStack result, @NotNull EntityType<?> entityType,
 							 @Nullable VillagerProfession profession, int villagerLevel, int xp) {
 		this.id = id;
 		this.costA = costA;
@@ -98,6 +99,7 @@ public class TradeShadowRecipe implements Recipe<Container> {
 		return this.costB;
 	}
 
+	@NotNull
 	public EntityType<?> getEntityType() {
 		return this.entityType;
 	}
