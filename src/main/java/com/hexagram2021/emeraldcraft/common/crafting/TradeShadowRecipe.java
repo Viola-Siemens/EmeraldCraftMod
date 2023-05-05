@@ -30,6 +30,7 @@ public class TradeShadowRecipe implements Recipe<Container> {
 	protected final ItemStack costB;
 	protected final ItemStack result;
 	protected final EntityType<?> entityType;
+	@Nullable
 	protected final VillagerProfession profession;
 	protected final int villagerLevel;
 	protected final int xp;
@@ -101,6 +102,7 @@ public class TradeShadowRecipe implements Recipe<Container> {
 		return this.entityType;
 	}
 
+	@Nullable
 	public VillagerProfession getProfession() {
 		return this.profession;
 	}
