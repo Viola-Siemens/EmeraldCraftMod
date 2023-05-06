@@ -42,7 +42,7 @@ public class BiomeUtil {
 	}
 
 	public static boolean isKeyRegistered(Registry<Biome> registry, ECBiomeKeys.BiomeKey key) {
-		return key != null && key.generate() && registry.get(key.key()) != null;
+		return key != null && key.generate().get() && registry.get(key.key()) != null;
 	}
 
 	public static ResourceKey<Biome> getBiomeKey(Biome biome) {
