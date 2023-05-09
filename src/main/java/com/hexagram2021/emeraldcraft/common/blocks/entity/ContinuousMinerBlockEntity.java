@@ -214,9 +214,9 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 		}
 		if (needFluid) {
 			this.fluid -= 1;
+			level.playSound(null, pos, ECSounds.VILLAGER_WORK_GEOLOGIST, SoundSource.BLOCKS, 1.0F, 1.0F);
 		}
 		this.mineTime = TOTAL_MINE_TIME;
-		level.playSound(null, pos, ECSounds.VILLAGER_WORK_GEOLOGIST, SoundSource.BLOCKS, 1.0F, 1.0F);
 		for(ItemStack itemstack: itemstacks) {
 			if (itemstack.is(Items.STRUCTURE_VOID) || itemstack.is(Items.AIR)) {
 				continue;
