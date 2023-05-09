@@ -428,6 +428,8 @@
   "entity.minecraft.villager.emeraldcraft.chemical_engineer": "Chemical Engineer",
   "entity.minecraft.villager.emeraldcraft.paperhanger": "Paperhanger",
 
+  "enchantment.emeraldcraft.vein_mining": "Vein Mining",
+
   "subtitles.entity.piglin_cutey.ambient": "Piglin Cutey mumbles",
   "subtitles.entity.piglin_cutey.celebrate": "Piglin Cutey celebrates",
   "subtitles.entity.piglin_cutey.death": "Piglin Cutey dies",

@@ -45,6 +45,7 @@ public class ECContent {
 		ECPlacementModifierType.init(bus);
 		ECBiomes.init(bus);
 		ECBiomeModifiers.init(bus);
+		ECEnchantments.init(bus);
 
 		runLater.accept(ModsLoadedEventSubscriber::SolveCompat);
 	}
