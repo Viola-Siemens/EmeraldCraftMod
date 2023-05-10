@@ -17,6 +17,7 @@
     "PiglinAiMixin",
     "PiglinBruteAiMixin",
     "PiglinSpecificSensorMixin",
+    "PlayerEntityMixin",
     "RecipeManagerAccess",
     "ServerboundPlayerCommandPacketActionMixin",
     "ServerPlayerMixin",

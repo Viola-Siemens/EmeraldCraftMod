@@ -1,13 +1,17 @@
 package com.hexagram2021.emeraldcraft.mixin;
 
 import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
+import com.hexagram2021.emeraldcraft.common.register.ECEntityTypeTags;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
+import com.hexagram2021.emeraldcraft.common.register.ECMobTypes;
 import com.hexagram2021.emeraldcraft.common.util.Convertible;
 import com.hexagram2021.emeraldcraft.common.util.PlayerHealable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.entity.monster.ZombifiedPiglin;
 import net.minecraft.world.entity.monster.piglin.Piglin;
@@ -17,6 +21,7 @@ import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Mob.class)
@@ -77,5 +82,13 @@ public class MobEntityMixin {
 			cir.setReturnValue(InteractionResult.PASS);
 			cir.cancel();
 		}
+	}
+
+	@Redirect(method = "doHurtTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getMobType()Lnet/minecraft/world/entity/MobType;"))
+	private MobType checkIfMammals(LivingEntity instance) {
+		if(instance.getType().is(ECEntityTypeTags.MAMMALS)) {
+			return ECMobTypes.MAMMAL;
+		}
+		return instance.getMobType();
 	}
 }

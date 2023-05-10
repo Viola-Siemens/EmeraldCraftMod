@@ -50,7 +50,7 @@ public class ForgeServerEventHandler {
 			ItemStack handItem = player.getItemInHand(InteractionHand.MAIN_HAND);
 			int lvl = handItem.getEnchantmentLevel(ECEnchantments.VEIN_MINING.get());
 			if(VeinMiningEnchantment.canWorkWhenHolding(handItem) && lvl > 0) {
-				lvl = Mth.clamp(lvl, 1, 33);
+				lvl = Mth.clamp(lvl, 1, 32);
 				int flag = lvl % 3;
 				int radius = (lvl + 2) / 3;
 
