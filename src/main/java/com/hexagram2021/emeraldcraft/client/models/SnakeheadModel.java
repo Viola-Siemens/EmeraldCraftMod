@@ -22,7 +22,7 @@ public class SnakeheadModel<T extends SnakeheadEntity> extends HierarchicalModel
 
 	public SnakeheadModel(ModelPart root) {
 		this.root = root;
-		this.bodyBack = root.getChild("body_back");
+		this.bodyBack = root.getChild("body_front").getChild("body_back");
 	}
 
 	public static LayerDefinition createBodyLayer() {
