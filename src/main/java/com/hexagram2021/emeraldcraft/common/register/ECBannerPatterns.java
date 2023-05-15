@@ -34,7 +34,7 @@ public class ECBannerPatterns {
 	private static BannerEntry addBanner(String name, String hashName) {
 		RegistryObject<BannerPattern> pattern = REGISTER.register(name, () -> new BannerPattern("ec_"+hashName));
 		TagKey<BannerPattern> tag = TagKey.create(Registry.BANNER_PATTERN_REGISTRY, pattern.getId());
-		ECItems.ItemRegObject<BannerPatternItem> item = ECItems.ItemRegObject.register(name + "_banner_pattern", () -> new BannerPatternItem(
+		ECItems.ItemEntry<BannerPatternItem> item = ECItems.ItemEntry.register(name + "_banner_pattern", () -> new BannerPatternItem(
 				tag, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(1)
 		));
 		BannerEntry result = new BannerEntry(pattern, tag, item);
@@ -45,7 +45,7 @@ public class ECBannerPatterns {
 	public record BannerEntry(
 			RegistryObject<BannerPattern> pattern,
 			TagKey<BannerPattern> tag,
-			ECItems.ItemRegObject<BannerPatternItem> item
+			ECItems.ItemEntry<BannerPatternItem> item
 	) implements ItemLike {
 		@Override @NotNull
 		public Item asItem() {

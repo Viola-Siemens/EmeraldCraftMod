@@ -18,6 +18,8 @@ import java.util.function.BiFunction;
 public class ECFoods {
 	public static final FoodProperties CHILI =
 			new FoodProperties.Builder().nutrition(1).saturationMod(0.3F).build();
+	public static final FoodProperties CABBAGE =
+			new FoodProperties.Builder().nutrition(2).saturationMod(0.3F).build();
 	public static final FoodProperties AGATE_APPLE =
 			new FoodProperties.Builder().nutrition(2).saturationMod(1.2F)
 					.effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 1200, 0), 1.0F)
