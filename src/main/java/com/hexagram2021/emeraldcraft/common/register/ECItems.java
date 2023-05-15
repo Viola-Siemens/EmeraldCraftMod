@@ -279,6 +279,9 @@ public class ECItems {
 	public static final ItemEntry<MobBucketItem> BIGEYE_BUCKET = ItemEntry.register(
 			"bigeye_bucket", () -> new MobBucketItem(() -> ECEntities.PURPLE_SPOTTED_BIGEYE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
 	);
+	public static final ItemEntry<MobBucketItem> SNAKEHEAD_BUCKET = ItemEntry.register(
+			"snakehead_bucket", () -> new MobBucketItem(() -> ECEntities.SNAKEHEAD, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1).tab(EmeraldCraft.ITEM_GROUP))
+	);
 
 	public static class CreateCompatItems {
 		public static final ItemEntry<Item> ZINC_CONCENTRATE = ItemEntry.register(

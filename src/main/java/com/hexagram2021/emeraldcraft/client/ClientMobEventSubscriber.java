@@ -21,6 +21,7 @@ public class ClientMobEventSubscriber {
 		event.registerLayerDefinition(NetherLambmanModel.LAYER_LOCATION, NetherLambmanModel::createBodyLayer);
 		event.registerLayerDefinition(HerringModel.LAYER_LOCATION, HerringModel::createBodyLayer);
 		event.registerLayerDefinition(PurpleSpottedBigeyeModel.LAYER_LOCATION, PurpleSpottedBigeyeModel::createBodyLayer);
+		event.registerLayerDefinition(SnakeheadModel.LAYER_LOCATION, SnakeheadModel::createBodyLayer);
 		event.registerLayerDefinition(WraithModel.LAYER_LOCATION, WraithModel::createBodyLayer);
 		event.registerLayerDefinition(MantaModel.LAYER_LOCATION, MantaModel::createBodyLayer);
 		event.registerLayerDefinition(LumineModel.LAYER_LOCATION, LumineModel::createBodyLayer);
@@ -38,6 +39,7 @@ public class ClientMobEventSubscriber {
 		event.registerEntityRenderer(ECEntities.NETHER_LAMBMAN, NetherLambmanRenderer::new);
 		event.registerEntityRenderer(ECEntities.HERRING, HerringRenderer::new);
 		event.registerEntityRenderer(ECEntities.PURPLE_SPOTTED_BIGEYE, PurpleSpottedBigeyeRenderer::new);
+		event.registerEntityRenderer(ECEntities.SNAKEHEAD, SnakeheadRenderer::new);
 		event.registerEntityRenderer(ECEntities.WRAITH, WraithRenderer::new);
 		event.registerEntityRenderer(ECEntities.MANTA, MantaRenderer::new);
 		event.registerEntityRenderer(ECEntities.LUMINE, LumineRenderer::new);

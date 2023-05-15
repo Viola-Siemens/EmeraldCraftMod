@@ -32,6 +32,10 @@ public class ECEntities {
 					.sized(0.5F, 0.4F)
 					.clientTrackingRange(4)
 					.build(new ResourceLocation(MODID, "purple_spotted_bigeye").toString());
+	public static final EntityType<SnakeheadEntity> SNAKEHEAD = EntityType.Builder.of(SnakeheadEntity::new, MobCategory.WATER_AMBIENT)
+					.sized(0.5F, 0.4F)
+					.clientTrackingRange(4)
+					.build(new ResourceLocation(MODID, "snakehead").toString());
 	public static final EntityType<WraithEntity> WRAITH = EntityType.Builder.of(WraithEntity::new, MobCategory.MONSTER)
 					.sized(0.75F, 2.5F)
 					.clientTrackingRange(8)

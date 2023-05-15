@@ -235,6 +235,11 @@
     "sounds": [
     ]
   },
+  "snakehead.ambient": {
+    "category": "entity",
+    "sounds": [
+    ]
+  },
   "herring.flop": {
     "category": "entity",
     "sounds": [
@@ -254,6 +259,16 @@
       "emeraldcraft:fish/flop4"
     ],
     "subtitle": "subtitles.entity.purple_spotted_bigeye.flop"
+  },
+  "snakehead.flop": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:fish/flop1",
+      "emeraldcraft:fish/flop2",
+      "emeraldcraft:fish/flop3",
+      "emeraldcraft:fish/flop4"
+    ],
+    "subtitle": "subtitles.entity.snakehead.flop"
   },
   "herring.hurt": {
     "category": "entity",
@@ -275,6 +290,16 @@
     ],
     "subtitle": "subtitles.entity.purple_spotted_bigeye.hurt"
   },
+  "snakehead.hurt": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:fish/hurt1",
+      "emeraldcraft:fish/hurt2",
+      "emeraldcraft:fish/hurt3",
+      "emeraldcraft:fish/hurt4"
+    ],
+    "subtitle": "subtitles.entity.snakehead.hurt"
+  },
   "herring.death": {
     "category": "entity",
     "sounds": [
@@ -294,6 +319,16 @@
       "emeraldcraft:fish/hurt4"
     ],
     "subtitle": "subtitles.entity.purple_spotted_bigeye.death"
+  },
+  "snakehead.death": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:fish/hurt1",
+      "emeraldcraft:fish/hurt2",
+      "emeraldcraft:fish/hurt3",
+      "emeraldcraft:fish/hurt4"
+    ],
+    "subtitle": "subtitles.entity.snakehead.death"
   },
   "wraith.ambient": {
     "category": "entity",
