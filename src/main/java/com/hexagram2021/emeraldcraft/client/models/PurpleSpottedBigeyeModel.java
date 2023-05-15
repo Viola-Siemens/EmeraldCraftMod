@@ -1,5 +1,6 @@
 package com.hexagram2021.emeraldcraft.client.models;
 
+import com.hexagram2021.emeraldcraft.common.entities.mobs.PurpleSpottedBigeyeEntity;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -10,12 +11,11 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
-public class PurpleSpottedBigeyeModel<T extends Entity> extends HierarchicalModel<T> {
+public class PurpleSpottedBigeyeModel<T extends PurpleSpottedBigeyeEntity> extends HierarchicalModel<T> {
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(MODID, "purple_spotted_bigeye"), "main");
 	private final ModelPart root;
 	private final ModelPart tail;

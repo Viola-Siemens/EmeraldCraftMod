@@ -70,6 +70,7 @@ public class ECEntities {
 			helper.register(new ResourceLocation(MODID, "nether_lambman"), NETHER_LAMBMAN);
 			helper.register(new ResourceLocation(MODID, "herring"), HERRING);
 			helper.register(new ResourceLocation(MODID, "purple_spotted_bigeye"), PURPLE_SPOTTED_BIGEYE);
+			helper.register(new ResourceLocation(MODID, "snakehead"), SNAKEHEAD);
 			helper.register(new ResourceLocation(MODID, "wraith"), WRAITH);
 			helper.register(new ResourceLocation(MODID, "manta"), MANTA);
 			helper.register(new ResourceLocation(MODID, "lumine"), LUMINE);
