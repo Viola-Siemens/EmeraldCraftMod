@@ -15,6 +15,11 @@ public class SnakeheadEntity extends AbstractSchoolingFish {
 		super(type, level);
 	}
 
+	@Override
+	public int getMaxSchoolSize() {
+		return 5;
+	}
+
 	@Override @NotNull
 	public ItemStack getBucketItemStack() {
 		return new ItemStack(ECItems.SNAKEHEAD_BUCKET);
