@@ -77,6 +77,9 @@ public class ECItems {
 	public static final ItemEntry<SpawnEggItem> HERRING_SPAWN_EGG = ItemEntry.register(
 			"herring_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.HERRING, 0x12C6EC, 0xB44420, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
+	public static final ItemEntry<SpawnEggItem> SNAKEHEAD_SPAWN_EGG = ItemEntry.register(
+			"snakehead_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.SNAKEHEAD, 0x413830, 0x646464, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+	);
 	public static final ItemEntry<SpawnEggItem> WRAITH_SPAWN_EGG = ItemEntry.register(
 			"wraith_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.WRAITH, 0x400040, 0xC8C8C8, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);
@@ -116,7 +119,7 @@ public class ECItems {
 			"boiled_egg", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.BOILED_EGG))
 	);
 	public static final ItemEntry<BowlFoodItem> CHORUS_FLOWER_EGGDROP_SOUP = ItemEntry.register(
-			"chorus_flower_eggdrop_soup", () -> new ChorusFlowerEggdropSoupItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(1).food(ECFoods.CHORUS_FLOWER_EGGDROP_SOUP))
+			"chorus_flower_eggdrop_soup", () -> new ChorusFlowerEggdropSoupItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(16).food(ECFoods.CHORUS_FLOWER_EGGDROP_SOUP))
 	);
 	public static final ItemEntry<Item> CARAMELIZED_POTATO = ItemEntry.register(
 			"caramelized_potato", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.CARAMELIZED_POTATO))
@@ -125,10 +128,13 @@ public class ECItems {
 			"rougamo", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.ROUGAMO))
 	);
 	public static final ItemEntry<BowlFoodItem> BEEF_AND_POTATO_STEW = ItemEntry.register(
-			"beef_and_potato_stew", () -> new BowlFoodItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(1).food(ECFoods.BEEF_AND_POTATO_STEW))
+			"beef_and_potato_stew", () -> new BowlFoodItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(16).food(ECFoods.BEEF_AND_POTATO_STEW))
 	);
 	public static final ItemEntry<BowlFoodItem> BRAISED_CHICKEN = ItemEntry.register(
-			"braised_chicken", () -> new BowlFoodItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(1).food(ECFoods.BRAISED_CHICKEN))
+			"braised_chicken", () -> new BowlFoodItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(16).food(ECFoods.BRAISED_CHICKEN))
+	);
+	public static final ItemEntry<BowlFoodItem> SAUERKRAUT_FISH = ItemEntry.register(
+			"sauerkraut_fish", () -> new BowlFoodItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(16).food(ECFoods.SAUERKRAUT_FISH))
 	);
 	public static final ItemEntry<StickFoodItem> SAUSAGE = ItemEntry.register(
 			"sausage", () -> new StickFoodItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(16).food(ECFoods.SAUSAGE))
@@ -143,7 +149,7 @@ public class ECItems {
 			"warden_heart", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).rarity(Rarity.EPIC).food(ECFoods.WARDEN_HEART))
 	);
 	public static final ItemEntry<BowlFoodItem> STIR_FRIED_WARDEN_HEART = ItemEntry.register(
-			"stir_fried_warden_heart", () -> new BowlFoodItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(1).rarity(Rarity.EPIC).food(ECFoods.STIR_FRIED_WARDEN_HEART))
+			"stir_fried_warden_heart", () -> new BowlFoodItem(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).stacksTo(16).rarity(Rarity.EPIC).food(ECFoods.STIR_FRIED_WARDEN_HEART))
 	);
 	public static final ItemEntry<Item> HERRING = ItemEntry.register(
 			"herring", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.HERRING))
@@ -156,6 +162,12 @@ public class ECItems {
 	);
 	public static final ItemEntry<Item> COOKED_PURPLE_SPOTTED_BIGEYE = ItemEntry.register(
 			"cooked_purple_spotted_bigeye", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.COOKED_PURPLE_SPOTTED_BIGEYE))
+	);
+	public static final ItemEntry<Item> SNAKEHEAD = ItemEntry.register(
+			"snakehead", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.SNAKEHEAD))
+	);
+	public static final ItemEntry<Item> COOKED_SNAKEHEAD = ItemEntry.register(
+			"cooked_snakehead", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.COOKED_SNAKEHEAD))
 	);
 	public static final ItemEntry<BottleFoodItem> APPLE_JUICE = ItemEntry.register(
 			"apple_juice", () -> new BottleFoodItem(20, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.APPLE_JUICE))

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:cooked_snakehead"
+    },
+    {
+      "item": "emeraldcraft:chili"
+    },
+    {
+      "item": "emeraldcraft:cabbage"
+    },
+    {
+      "item": "minecraft:bowl"
+    }
+  ],
+  "result": {
+    "item": "emeraldcraft:sauerkraut_fish"
+  }
+}

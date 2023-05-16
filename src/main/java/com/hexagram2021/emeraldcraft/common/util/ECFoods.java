@@ -72,16 +72,22 @@ public class ECFoods {
 			new FoodProperties.Builder().nutrition(10).saturationMod(0.8F).build();
 	public static final FoodProperties BRAISED_CHICKEN =
 			new FoodProperties.Builder().nutrition(10).saturationMod(0.8F).build();
+	public static final FoodProperties SAUERKRAUT_FISH =
+			new FoodProperties.Builder().nutrition(8).saturationMod(0.8F).build();
 
 	public static final FoodProperties HERRING =
 			new FoodProperties.Builder().nutrition(1).saturationMod(0.1F).build();
 	public static final FoodProperties PURPLE_SPOTTED_BIGEYE =
 			new FoodProperties.Builder().nutrition(2).saturationMod(0.1F).build();
+	public static final FoodProperties SNAKEHEAD =
+			new FoodProperties.Builder().nutrition(1).saturationMod(0.1F).build();
 
 	public static final FoodProperties COOKED_HERRING =
 			new FoodProperties.Builder().nutrition(5).saturationMod(0.6F).build();
 	public static final FoodProperties COOKED_PURPLE_SPOTTED_BIGEYE =
 			new FoodProperties.Builder().nutrition(6).saturationMod(0.6F).build();
+	public static final FoodProperties COOKED_SNAKEHEAD =
+			new FoodProperties.Builder().nutrition(5).saturationMod(0.6F).build();
 	public static final FoodProperties SAUSAGE =
 			new FoodProperties.Builder().nutrition(4).saturationMod(0.6F).build();
 	public static final FoodProperties COOKED_SAUSAGE =

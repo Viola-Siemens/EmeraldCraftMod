@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "emeraldcraft:snakehead"
+  },
+  "result": "emeraldcraft:cooked_snakehead",
+  "experience": 0.35,
+  "cookingtime": 200
+}
