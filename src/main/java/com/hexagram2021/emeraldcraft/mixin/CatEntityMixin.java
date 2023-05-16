@@ -23,7 +23,8 @@ public class CatEntityMixin {
 		TEMPT_INGREDIENT = Ingredient.of(ArrayUtils.addAll(
 				TEMPT_INGREDIENT.getItems(),
 				new ItemStack(ECItems.HERRING),
-				new ItemStack(ECItems.PURPLE_SPOTTED_BIGEYE)
+				new ItemStack(ECItems.PURPLE_SPOTTED_BIGEYE),
+				new ItemStack(ECItems.SNAKEHEAD)
 		));
 	}
 }

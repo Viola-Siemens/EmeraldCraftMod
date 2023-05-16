@@ -62,6 +62,10 @@ public class ECItems {
 	public static final ItemEntry<Item> CABBAGE = ItemEntry.register(
 			"cabbage", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP).food(ECFoods.CABBAGE))
 	);
+	//TODO: 未实装
+	public static final ItemEntry<Item> CABBAGE_SEED = ItemEntry.register(
+			"cabbage_seed", () -> new Item(new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
+	);
 	public static final ItemEntry<SpawnEggItem> PIGLIN_CUTEY_SPAWN_EGG = ItemEntry.register(
 			"piglin_cutey_spawn_egg", () -> new ForgeSpawnEggItem(() -> ECEntities.PIGLIN_CUTEY, 0xF1E2B1, 0xE6BE02, new Item.Properties().tab(EmeraldCraft.ITEM_GROUP))
 	);

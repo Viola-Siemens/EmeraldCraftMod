@@ -411,7 +411,7 @@ public class Villages {
 				trades.get(5).add(new ECTrades.EmeraldForItems(Items.GLOW_INK_SAC, 5, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(Items.COBWEB, 6, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 			} else if(new ResourceLocation(VillagerProfession.FARMER.name()).equals(currentVillagerProfession)) {
-				trades.get(1).add(new ECTrades.ItemsForEmeralds(ECItems.CHILI_SEED, 1, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
+				trades.get(1).add(new ECTrades.ItemsForEmeralds(ECItems.CHILI_SEED, 1, 2, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
 				trades.get(2).add(new ECTrades.ItemsForEmeralds(ECItems.PEACH, 3, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
 			} else if(new ResourceLocation(VillagerProfession.CARTOGRAPHER.name()).equals(currentVillagerProfession)) {
 				trades.get(5).add(new ECTrades.NetherStructureMapForEmeralds(12, 2, ECStructureTags.ON_SAR_EXPLORER_MAPS, "filled_map.shelter", ECMapDecorationTypes.SHELTER, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
@@ -425,6 +425,7 @@ public class Villages {
 			List<VillagerTrades.ItemListing> genericTrades = event.getGenericTrades();
 			List<VillagerTrades.ItemListing> rareTrades = event.getRareTrades();
 			genericTrades.add(new ECTrades.ItemsForEmeralds(ECItems.CHILI, 3, 1, 5, ECTrades.XP_LEVEL_1_SELL));
+			genericTrades.add(new ECTrades.ItemsForEmeralds(ECItems.CABBAGE, 3, 1, 5, ECTrades.XP_LEVEL_1_SELL));
 			genericTrades.add(new ECTrades.ItemsForEmeralds(ECItems.PEACH, 4, 1, 5, ECTrades.XP_LEVEL_1_SELL));
 			genericTrades.add(new ECTrades.ItemsForEmeralds(ECItems.GINKGO_NUT, 2, 1, 4, ECTrades.XP_LEVEL_1_SELL));
 			rareTrades.add(new ECTrades.ItemsForEmeralds(ECItems.GLUTEN, 3, 1, 4, ECTrades.XP_LEVEL_1_SELL));
