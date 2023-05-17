@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class MammalDamageEnchantment extends Enchantment {
 	public MammalDamageEnchantment(Rarity rarity, EquipmentSlot... equipmentSlots) {
-		super(rarity, EnchantmentCategory.DIGGER, equipmentSlots);
+		super(rarity, EnchantmentCategory.WEAPON, equipmentSlots);
 	}
 
 	@Override

@@ -962,6 +962,9 @@ public final class ECBlocks {
 		public static final Supplier<BlockBehaviour.Properties> PURPURACEUS_PLANKS_PROPERTIES = () ->
 				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_PURPLE)
 						.strength(2.0F, 3.0F).sound(SoundType.WOOD);
+		public static final Supplier<BlockBehaviour.Properties> CROP_PROPERTIES = () ->
+				BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks()
+						.instabreak().sound(SoundType.CROP);
 
 
 		public static final BlockEntry<WarpedWartBlock> WARPED_WART = new BlockEntry<>(
@@ -969,7 +972,10 @@ public final class ECBlocks {
 		);
 
 		public static final BlockEntry<ChiliBlock> CHILI = new BlockEntry<>(
-				"chili", ChiliBlock.PROPERTIES, ChiliBlock::new
+				"chili", CROP_PROPERTIES, ChiliBlock::new
+		);
+		public static final BlockEntry<CabbageBlock> CABBAGE = new BlockEntry<>(
+				"cabbage", CROP_PROPERTIES, CabbageBlock::new
 		);
 
 		public static final BlockEntry<FlowerBlock> CYAN_PETUNIA = new BlockEntry<>(
