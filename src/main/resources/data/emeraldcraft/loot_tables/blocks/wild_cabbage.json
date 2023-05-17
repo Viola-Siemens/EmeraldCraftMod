@@ -11,17 +11,8 @@
           "count": 2.0
         },
         {
-          "type": "minecraft:alternatives",
-          "children": [
-            {
-              "type": "minecraft:item",
-              "name": "emeraldcraft:cabbage"
-            },
-            {
-              "type": "minecraft:item",
-              "name": "emeraldcraft:cabbage_seed"
-            }
-          ]
+          "type": "minecraft:item",
+          "name": "emeraldcraft:cabbage_seed"
         }
       ]
     },
