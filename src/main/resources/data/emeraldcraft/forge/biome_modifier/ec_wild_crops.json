@@ -1,6 +1,4 @@
 {
   "type": "emeraldcraft:ec_wild_crops",
-  "biomes": [
-    "#forge:is_plains"
-  ]
+  "biomes": "#forge:is_plains"
 }
