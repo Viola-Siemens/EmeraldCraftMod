@@ -2,13 +2,12 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
+      "rolls": 2.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "emeraldcraft:cabbage",
-          "count": 2.0
+          "name": "emeraldcraft:cabbage"
         },
         {
           "type": "minecraft:item",

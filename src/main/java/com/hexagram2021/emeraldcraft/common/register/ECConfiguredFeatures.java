@@ -258,7 +258,7 @@ public final class ECConfiguredFeatures {
 
 		public static final Holder<ConfiguredFeature<RandomPatchConfiguration, ?>> WILD_CHILI = register(
 				"wild_chili", Feature.FLOWER, new RandomPatchConfiguration(
-						8, 3, 2, PlacementUtils.onlyWhenEmpty(
+						10, 3, 2, PlacementUtils.onlyWhenEmpty(
 								Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
 										BlockStateProvider.simple(ECBlocks.Plant.WILD_CHILI.defaultBlockState())
 								)
@@ -267,7 +267,7 @@ public final class ECConfiguredFeatures {
 		);
 		public static final Holder<ConfiguredFeature<RandomPatchConfiguration, ?>> WILD_CABBAGE = register(
 				"wild_cabbage", Feature.FLOWER, new RandomPatchConfiguration(
-						8, 3, 2, PlacementUtils.onlyWhenEmpty(
+						10, 3, 2, PlacementUtils.onlyWhenEmpty(
 								Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
 										BlockStateProvider.simple(ECBlocks.Plant.WILD_CABBAGE.defaultBlockState())
 								)
