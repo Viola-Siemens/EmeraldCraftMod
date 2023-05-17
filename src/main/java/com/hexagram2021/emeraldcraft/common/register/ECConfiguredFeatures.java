@@ -256,6 +256,25 @@ public final class ECConfiguredFeatures {
 				)
 		);
 
+		public static final Holder<ConfiguredFeature<RandomPatchConfiguration, ?>> WILD_CHILI = register(
+				"wild_chili", Feature.FLOWER, new RandomPatchConfiguration(
+						8, 3, 2, PlacementUtils.onlyWhenEmpty(
+								Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+										BlockStateProvider.simple(ECBlocks.Plant.WILD_CHILI.defaultBlockState())
+								)
+						)
+				)
+		);
+		public static final Holder<ConfiguredFeature<RandomPatchConfiguration, ?>> WILD_CABBAGE = register(
+				"wild_cabbage", Feature.FLOWER, new RandomPatchConfiguration(
+						8, 3, 2, PlacementUtils.onlyWhenEmpty(
+								Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+										BlockStateProvider.simple(ECBlocks.Plant.WILD_CABBAGE.defaultBlockState())
+								)
+						)
+				)
+		);
+
 		public static final WeightedStateProvider PURPURACEUS_VEGETATION_PROVIDER = new WeightedStateProvider(
 				SimpleWeightedRandomList.<BlockState>builder()
 						.add(Blocks.CRIMSON_ROOTS.defaultBlockState(), 2)

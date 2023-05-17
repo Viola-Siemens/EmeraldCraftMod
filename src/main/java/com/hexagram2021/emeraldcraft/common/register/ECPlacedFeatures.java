@@ -76,6 +76,23 @@ public class ECPlacedFeatures {
 			)
 	);
 
+	public static final Holder<PlacedFeature> WILD_CHILI = register(
+			"wild_chili", ECConfiguredFeatures.VegetationFeatures.WILD_CHILI, List.of(
+					CountPlacement.of(1),
+					InSquarePlacement.spread(),
+					PlacementUtils.FULL_RANGE,
+					BiomeFilter.biome()
+			)
+	);
+	public static final Holder<PlacedFeature> WILD_CABBAGE = register(
+			"wild_cabbage", ECConfiguredFeatures.VegetationFeatures.WILD_CABBAGE, List.of(
+					CountPlacement.of(1),
+					InSquarePlacement.spread(),
+					PlacementUtils.FULL_RANGE,
+					BiomeFilter.biome()
+			)
+	);
+
 	public static final Holder<PlacedFeature> TREES_GINKGO = register(
 			"trees_ginkgo", ECConfiguredFeatures.TreeConfiguredFeatures.TREES_GINKGO,
 			VegetationPlacements.treePlacement(PlacementUtils.countExtra(10, 0.1F, 1), ECBlocks.Plant.GINKGO_SAPLING.get())

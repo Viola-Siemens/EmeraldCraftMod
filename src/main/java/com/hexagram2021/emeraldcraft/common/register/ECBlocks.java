@@ -18,13 +18,16 @@ import com.hexagram2021.emeraldcraft.common.crafting.compat.ModsLoadedEventSubsc
 import com.hexagram2021.emeraldcraft.common.world.grower.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -965,6 +968,9 @@ public final class ECBlocks {
 		public static final Supplier<BlockBehaviour.Properties> CROP_PROPERTIES = () ->
 				BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks()
 						.instabreak().sound(SoundType.CROP);
+		public static final Supplier<BlockBehaviour.Properties> WILD_CROP_PROPERTIES = () ->
+				BlockBehaviour.Properties.of(Material.PLANT).noCollission()
+						.instabreak().sound(SoundType.CROP);
 
 
 		public static final BlockEntry<WarpedWartBlock> WARPED_WART = new BlockEntry<>(
@@ -976,6 +982,13 @@ public final class ECBlocks {
 		);
 		public static final BlockEntry<CabbageBlock> CABBAGE = new BlockEntry<>(
 				"cabbage", CROP_PROPERTIES, CabbageBlock::new
+		);
+
+		public static final BlockEntry<BushBlock> WILD_CHILI = new BlockEntry<>(
+				"wild_chili", WILD_CROP_PROPERTIES, BushBlock::new
+		);
+		public static final BlockEntry<Block> WILD_CABBAGE = new BlockEntry<>(
+				"wild_cabbage", WILD_CROP_PROPERTIES, BushBlock::new
 		);
 
 		public static final BlockEntry<FlowerBlock> CYAN_PETUNIA = new BlockEntry<>(
@@ -1134,6 +1147,8 @@ public final class ECBlocks {
 
 
 		private static void init() {
+			ECItems.REGISTER.register(WILD_CHILI.getId().getPath(), () -> new BlockItem(WILD_CHILI.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
+			ECItems.REGISTER.register(WILD_CABBAGE.getId().getPath(), () -> new BlockItem(WILD_CABBAGE.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
 			ECItems.REGISTER.register(CYAN_PETUNIA.getId().getPath(), () -> new BlockItem(CYAN_PETUNIA.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
 			ECItems.REGISTER.register(MAGENTA_PETUNIA.getId().getPath(), () -> new BlockItem(MAGENTA_PETUNIA.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));
 			ECItems.REGISTER.register(HIGAN_BANA.getId().getPath(), () -> new BlockItem(HIGAN_BANA.get(), new Item.Properties().tab(EmeraldCraft.ITEM_GROUP)));

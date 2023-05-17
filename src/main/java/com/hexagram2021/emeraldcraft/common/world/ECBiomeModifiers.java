@@ -26,6 +26,11 @@ public class ECBiomeModifiers {
 					Biome.LIST_CODEC.fieldOf("biomes").forGetter(ECHiganBanaBiomeModifier::biomes)
 			).apply(builder, ECHiganBanaBiomeModifier::new))
 	);
+	public static final RegistryObject<Codec<ECWildCropsBiomeModifier>> EC_WILD_CROPS_MODIFIER = REGISTER.register(
+			"ec_wild_crops", () -> RecordCodecBuilder.create(builder -> builder.group(
+					Biome.LIST_CODEC.fieldOf("biomes").forGetter(ECWildCropsBiomeModifier::biomes)
+			).apply(builder, ECWildCropsBiomeModifier::new))
+	);
 
 	public record ECHiganBanaBiomeModifier(HolderSet<Biome> biomes) implements BiomeModifier {
 
@@ -39,6 +44,22 @@ public class ECBiomeModifiers {
 		@Override
 		public Codec<? extends BiomeModifier> codec() {
 			return EC_HIGAN_BANA_MODIFIER.get();
+		}
+	}
+
+	public record ECWildCropsBiomeModifier(HolderSet<Biome> biomes) implements BiomeModifier {
+		@Override
+		public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
+			if(phase == Phase.ADD && this.biomes.contains(biome)) {
+				builder.getGenerationSettings()
+						.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ECPlacedFeatures.WILD_CHILI)
+						.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ECPlacedFeatures.WILD_CABBAGE);
+			}
+		}
+
+		@Override
+		public Codec<? extends BiomeModifier> codec() {
+			return EC_WILD_CROPS_MODIFIER.get();
 		}
 	}
 
