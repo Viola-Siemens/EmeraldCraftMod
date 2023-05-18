@@ -2,16 +2,30 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 2.0,
+      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "emeraldcraft:cabbage"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "emeraldcraft:cabbage_seed"
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "tag": "forge:shears"
+                  }
+                }
+              ],
+              "name": "emeraldcraft:wild_cabbage"
+            },
+            {
+              "type": "minecraft:item",
+              "name": "emeraldcraft:cabbage",
+              "count": 2
+            }
+          ]
         }
       ]
     },
@@ -21,6 +35,17 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:inverted",
+              "term": {
+                "condition": "minecraft:match_tool",
+                "predicate": {
+                  "tag": "forge:shears"
+                }
+              }
+            }
+          ],
           "functions": [
             {
               "enchantment": "minecraft:fortune",
@@ -28,7 +53,7 @@
               "function": "minecraft:apply_bonus",
               "parameters": {
                 "extra": 3,
-                "probability": 0.5714286
+                "probability": 0.625
               }
             }
           ],

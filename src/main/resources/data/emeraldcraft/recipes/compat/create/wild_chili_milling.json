@@ -1,0 +1,29 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:wild_chili"
+    }
+  ],
+  "results": [
+    {
+      "item": "emeraldcraft:chili_seed",
+      "count": 2
+    },
+    {
+      "item": "emeraldcraft:chili_seed",
+      "chance": 0.25
+    },
+    {
+      "item": "minecraft:green_dye",
+      "chance": 0.1
+    }
+  ],
+  "processingTime": 50
+}

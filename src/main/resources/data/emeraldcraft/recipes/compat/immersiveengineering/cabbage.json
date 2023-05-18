@@ -1,0 +1,29 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ],
+  "type": "immersiveengineering:cloche",
+  "input": {
+    "item": "emeraldcraft:cabbage_seed"
+  },
+  "render": {
+    "type": "crop",
+    "block": "emeraldcraft:cabbage"
+  },
+  "results": [
+    {
+      "count": 2,
+      "item": "emeraldcraft:cabbage_seed"
+    },
+    {
+      "item": "emeraldcraft:cabbage"
+    }
+  ],
+  "soil": {
+    "item": "minecraft:dirt"
+  },
+  "time": 640
+}
