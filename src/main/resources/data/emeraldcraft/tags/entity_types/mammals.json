@@ -1,0 +1,262 @@
+{
+  "values": [
+    "#minecraft:raiders",
+    "#emeraldcraft:villagers",
+    "minecraft:bat",
+    "minecraft:cat",
+    "minecraft:cow",
+    "minecraft:dolphin",
+    "minecraft:donkey",
+    "minecraft:fox",
+    "minecraft:goat",
+    "minecraft:hoglin",
+    "minecraft:horse",
+    "minecraft:llama",
+    "minecraft:trader_llama",
+    "minecraft:mule",
+    "minecraft:mooshroom",
+    "minecraft:ocelot",
+    "minecraft:panda",
+    "minecraft:pig",
+    "minecraft:piglin",
+    "minecraft:piglin_brute",
+    "minecraft:polar_bear",
+    "minecraft:rabbit",
+    "minecraft:sheep",
+    "minecraft:wolf",
+    "minecraft:player",
+
+    {
+      "id": "quark:foxhound",
+      "required": false
+    },
+    {
+      "id": "quark:shiba",
+      "required": false
+    },
+
+    {
+      "id": "twilightforest:armored_giant",
+      "required": false
+    },
+    {
+      "id": "twilightforest:boar",
+      "required": false
+    },
+    {
+      "id": "twilightforest:bighorn_sheep",
+      "required": false
+    },
+    {
+      "id": "twilightforest:deer",
+      "required": false
+    },
+    {
+      "id": "twilightforest:dwarf_rabbit",
+      "required": false
+    },
+    {
+      "id": "twilightforest:giant_miner",
+      "required": false
+    },
+    {
+      "id": "twilightforest:hostile_wolf",
+      "required": false
+    },
+    {
+      "id": "twilightforest:kobold",
+      "required": false
+    },
+    {
+      "id": "twilightforest:minotaur",
+      "required": false
+    },
+    {
+      "id": "twilightforest:mist_wolf",
+      "required": false
+    },
+    {
+      "id": "twilightforest:penguin",
+      "required": false
+    },
+    {
+      "id": "twilightforest:quest_ram",
+      "required": false
+    },
+    {
+      "id": "twilightforest:redcap",
+      "required": false
+    },
+    {
+      "id": "twilightforest:redcap_sapper",
+      "required": false
+    },
+    {
+      "id": "twilightforest:squirrel",
+      "required": false
+    },
+    {
+      "id": "twilightforest:winter_wolf",
+      "required": false
+    },
+
+    {
+      "id": "alexsmobs:anteater",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:bison",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:bunfungus",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:cachalot_whale",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:capuchin_monkey",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:dropbear",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:elephant",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:gazelle",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:gelada_monkey",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:gorilla",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:grizzly_bear",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:jerboa",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:kangaroo",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:maned_wolf",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:moose",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:orca",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:platypus",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:raccoon",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:rhinoceros",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:seal",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:snow_leopard",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:skreecher",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:skunk",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:sugar_glider",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:tasmanian_devil",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:tiger",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:tusklin",
+      "required": false
+    },
+
+    {
+      "id": "ecologics:camel",
+      "required": false
+    },
+    {
+      "id": "ecologics:penguin",
+      "required": false
+    },
+    {
+      "id": "ecologics:squirrel",
+      "required": false
+    },
+
+    {
+      "id": "naturalist:bear",
+      "required": false
+    },
+    {
+      "id": "naturalist:boar",
+      "required": false
+    },
+    {
+      "id": "naturalist:deer",
+      "required": false
+    },
+    {
+      "id": "naturalist:elephant",
+      "required": false
+    },
+    {
+      "id": "naturalist:giraffe",
+      "required": false
+    },
+    {
+      "id": "naturalist:hippo",
+      "required": false
+    },
+    {
+      "id": "naturalist:lion",
+      "required": false
+    },
+    {
+      "id": "naturalist:rhino",
+      "required": false
+    },
+    {
+      "id": "naturalist:zebra",
+      "required": false
+    }
+  ]
+}

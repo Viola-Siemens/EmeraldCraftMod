@@ -130,6 +130,7 @@ public class EmeraldCraft {
 		if(ModList.get().isLoaded("diet")) {
 			//I'm waiting for your migration!
 			ECFoods.compatDiet(ECItems.CHILI.get(), ECFoods.CHILI);
+			ECFoods.compatDiet(ECItems.CABBAGE.get(), ECFoods.CABBAGE);
 			ECFoods.compatDiet(ECItems.AGATE_APPLE.get(), ECFoods.AGATE_APPLE);
 			ECFoods.compatDiet(ECItems.JADE_APPLE.get(), ECFoods.JADE_APPLE);
 			ECFoods.compatDiet(ECItems.GINKGO_NUT.get(), ECFoods.GINKGO_NUT);
@@ -144,10 +145,13 @@ public class EmeraldCraft {
 			ECFoods.compatDiet(ECItems.ROUGAMO.get(), ECFoods.ROUGAMO);
 			ECFoods.compatDiet(ECItems.BEEF_AND_POTATO_STEW.get(), ECFoods.BEEF_AND_POTATO_STEW);
 			ECFoods.compatDiet(ECItems.BRAISED_CHICKEN.get(), ECFoods.BRAISED_CHICKEN);
+			ECFoods.compatDiet(ECItems.SAUERKRAUT_FISH.get(), ECFoods.SAUERKRAUT_FISH);
 			ECFoods.compatDiet(ECItems.HERRING.get(), ECFoods.HERRING);
 			ECFoods.compatDiet(ECItems.PURPLE_SPOTTED_BIGEYE.get(), ECFoods.PURPLE_SPOTTED_BIGEYE);
+			ECFoods.compatDiet(ECItems.SNAKEHEAD.get(), ECFoods.SNAKEHEAD);
 			ECFoods.compatDiet(ECItems.COOKED_HERRING.get(), ECFoods.COOKED_HERRING);
 			ECFoods.compatDiet(ECItems.COOKED_PURPLE_SPOTTED_BIGEYE.get(), ECFoods.COOKED_PURPLE_SPOTTED_BIGEYE);
+			ECFoods.compatDiet(ECItems.COOKED_SNAKEHEAD.get(), ECFoods.COOKED_SNAKEHEAD);
 			ECFoods.compatDiet(ECItems.SAUSAGE.get(), ECFoods.SAUSAGE);
 			ECFoods.compatDiet(ECItems.COOKED_SAUSAGE.get(), ECFoods.COOKED_SAUSAGE);
 			ECFoods.compatDiet(ECItems.GLUTEN.get(), ECFoods.GLUTEN);

@@ -14,6 +14,7 @@ import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegist
 
 public class ModVanillaCompat {
 	public static void setup() {
+		//STRIPPABLES
 		Map<Block, Block> strippables = Maps.newHashMap(AxeItem.STRIPPABLES);
 		strippables.putAll(
 				ImmutableMap.<Block, Block>builder()
@@ -29,8 +30,10 @@ public class ModVanillaCompat {
 		);
 		AxeItem.STRIPPABLES = strippables;
 
-		ComposterBlock.COMPOSTABLES.put(ECItems.CHILI.asItem(), 0.65F);
+		//COMPOSTABLES
+		/* 30% */
 		ComposterBlock.COMPOSTABLES.put(ECItems.CHILI_SEED.asItem(), 0.3F);
+		ComposterBlock.COMPOSTABLES.put(ECItems.CABBAGE_SEED.asItem(), 0.3F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.GINKGO_LEAVES.asItem(), 0.3F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.GINKGO_LEAVES.asItem(), 0.3F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.GINKGO_SAPLING.asItem(), 0.3F);
@@ -38,16 +41,23 @@ public class ModVanillaCompat {
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.PALM_SAPLING.asItem(), 0.3F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.PEACH_LEAVES.asItem(), 0.3F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.PEACH_SAPLING.asItem(), 0.3F);
+		/* 65% */
+		ComposterBlock.COMPOSTABLES.put(ECItems.CHILI.asItem(), 0.65F);
+		ComposterBlock.COMPOSTABLES.put(ECItems.CABBAGE.asItem(), 0.65F);
 		ComposterBlock.COMPOSTABLES.put(ECItems.GINKGO_NUT.asItem(), 0.65F);
 		ComposterBlock.COMPOSTABLES.put(ECItems.PEACH.asItem(), 0.65F);
+		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.WILD_CHILI.asItem(), 0.65F);
+		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.WILD_CABBAGE.asItem(), 0.65F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.CYAN_PETUNIA.asItem(), 0.65F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.MAGENTA_PETUNIA.asItem(), 0.65F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.HIGAN_BANA.asItem(), 0.65F);
 		ComposterBlock.COMPOSTABLES.put(ECItems.WARPED_WART.asItem(), 0.65F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.PURPURACEUS_ROOTS.asItem(), 0.65F);
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.PURPURACEUS_FUNGUS.asItem(), 0.65F);
+		/* 85% */
 		ComposterBlock.COMPOSTABLES.put(ECBlocks.Plant.PURPURACEUS_WART_BLOCK.asItem(), 0.85F);
 
+		//FLAMMABLES
 		registerFlammable(ECBlocks.Plant.GINKGO_LEAVES.get(), 30, 60);
 		registerFlammable(ECBlocks.Plant.GINKGO_LOG.get(), 5, 5);
 		registerFlammable(ECBlocks.Plant.GINKGO_WOOD.get(), 5, 5);
@@ -80,6 +90,7 @@ public class ModVanillaCompat {
 		registerFlammable(ECBlocks.TO_FENCE_GATE.get(ECBlocks.Plant.PEACH_PLANKS.getId()).get(), 5, 20);
 		registerFlammable(ECBlocks.Decoration.RESIN_BLOCK.get(), 5, 20);
 
+		//FLOWER POTS
 		registerFlowerPot(ECBlocks.Plant.CYAN_PETUNIA.get(), ECBlocks.Plant.POTTED_CYAN_PETUNIA::get);
 		registerFlowerPot(ECBlocks.Plant.MAGENTA_PETUNIA.get(), ECBlocks.Plant.POTTED_MAGENTA_PETUNIA::get);
 		registerFlowerPot(ECBlocks.Plant.HIGAN_BANA.get(), ECBlocks.Plant.POTTED_HIGAN_BANA::get);

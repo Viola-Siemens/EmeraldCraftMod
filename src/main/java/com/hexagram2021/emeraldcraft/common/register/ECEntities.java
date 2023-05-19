@@ -32,6 +32,10 @@ public class ECEntities {
 					.sized(0.5F, 0.4F)
 					.clientTrackingRange(4)
 					.build(new ResourceLocation(MODID, "purple_spotted_bigeye").toString());
+	public static final EntityType<SnakeheadEntity> SNAKEHEAD = EntityType.Builder.of(SnakeheadEntity::new, MobCategory.WATER_AMBIENT)
+					.sized(0.5F, 0.4F)
+					.clientTrackingRange(4)
+					.build(new ResourceLocation(MODID, "snakehead").toString());
 	public static final EntityType<WraithEntity> WRAITH = EntityType.Builder.of(WraithEntity::new, MobCategory.MONSTER)
 					.sized(0.75F, 2.5F)
 					.clientTrackingRange(8)
@@ -66,6 +70,7 @@ public class ECEntities {
 			helper.register(new ResourceLocation(MODID, "nether_lambman"), NETHER_LAMBMAN);
 			helper.register(new ResourceLocation(MODID, "herring"), HERRING);
 			helper.register(new ResourceLocation(MODID, "purple_spotted_bigeye"), PURPLE_SPOTTED_BIGEYE);
+			helper.register(new ResourceLocation(MODID, "snakehead"), SNAKEHEAD);
 			helper.register(new ResourceLocation(MODID, "wraith"), WRAITH);
 			helper.register(new ResourceLocation(MODID, "manta"), MANTA);
 			helper.register(new ResourceLocation(MODID, "lumine"), LUMINE);

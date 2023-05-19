@@ -42,6 +42,7 @@ public class ECContent {
 		ECContainerTypes.init(bus);
 		ECBlockEntity.init(bus);
 		ECPlacementModifierType.init(bus);
+		ECEnchantments.init(bus);
 		ECConfiguredFeatureKeys.init();
 		ECPlacedFeatureKeys.init();
 		ECVillagePlacedFeatureKeys.init();
@@ -73,6 +74,8 @@ public class ECContent {
 		event.register(ECEntities.HERRING, SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
 				WaterAnimal::checkSurfaceWaterAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
 		event.register(ECEntities.PURPLE_SPOTTED_BIGEYE, SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+				WaterAnimal::checkSurfaceWaterAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+		event.register(ECEntities.SNAKEHEAD, SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
 				WaterAnimal::checkSurfaceWaterAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
 		event.register(ECEntities.WRAITH, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
 				Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);

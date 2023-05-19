@@ -4,8 +4,12 @@ import com.google.common.collect.Lists;
 import com.hexagram2021.emeraldcraft.common.crafting.compat.ModsLoadedEventSubscriber;
 import com.hexagram2021.emeraldcraft.common.entities.ECBoat;
 import com.hexagram2021.emeraldcraft.common.items.ECBoatItem;
-import com.hexagram2021.emeraldcraft.common.items.armors.*;
-import com.hexagram2021.emeraldcraft.common.items.foods.*;
+import com.hexagram2021.emeraldcraft.common.items.armors.EmeraldArmorItem;
+import com.hexagram2021.emeraldcraft.common.items.armors.LapisArmorItem;
+import com.hexagram2021.emeraldcraft.common.items.armors.WoodenArmorItem;
+import com.hexagram2021.emeraldcraft.common.items.foods.BottleFoodItem;
+import com.hexagram2021.emeraldcraft.common.items.foods.ChorusFlowerEggdropSoupItem;
+import com.hexagram2021.emeraldcraft.common.items.foods.StickFoodItem;
 import com.hexagram2021.emeraldcraft.common.util.ECFoods;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
@@ -60,6 +64,12 @@ public class ECItems {
 	public static final ItemEntry<ItemNameBlockItem> CHILI_SEED = ItemEntry.register(
 			"chili_seed", () -> new ItemNameBlockItem(ECBlocks.Plant.CHILI.get(), new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
+	public static final ItemEntry<Item> CABBAGE = ItemEntry.register(
+			"cabbage", () -> new Item(new Item.Properties().food(ECFoods.CABBAGE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
+	public static final ItemEntry<ItemNameBlockItem> CABBAGE_SEED = ItemEntry.register(
+			"cabbage_seed", () -> new ItemNameBlockItem(ECBlocks.Plant.CABBAGE.get(), new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
 	public static final ItemEntry<SpawnEggItem> PIGLIN_CUTEY_SPAWN_EGG = ItemEntry.register(
 			"piglin_cutey_spawn_egg", () -> new ForgeSpawnEggItem(
 					() -> ECEntities.PIGLIN_CUTEY, 0xF1E2B1, 0xE6BE02, new Item.Properties()
@@ -83,6 +93,11 @@ public class ECItems {
 	public static final ItemEntry<SpawnEggItem> HERRING_SPAWN_EGG = ItemEntry.register(
 			"herring_spawn_egg", () -> new ForgeSpawnEggItem(
 					() -> ECEntities.HERRING, 0x12C6EC, 0xB44420, new Item.Properties()
+			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+	);
+	public static final ItemEntry<SpawnEggItem> SNAKEHEAD_SPAWN_EGG = ItemEntry.register(
+			"snakehead_spawn_egg", () -> new ForgeSpawnEggItem(
+					() -> ECEntities.SNAKEHEAD, 0x413830, 0x646464, new Item.Properties()
 			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
 	);
 	public static final ItemEntry<SpawnEggItem> WRAITH_SPAWN_EGG = ItemEntry.register(
@@ -130,7 +145,7 @@ public class ECItems {
 			"boiled_egg", () -> new Item(new Item.Properties().food(ECFoods.BOILED_EGG)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
 	public static final ItemEntry<BowlFoodItem> CHORUS_FLOWER_EGGDROP_SOUP = ItemEntry.register(
-			"chorus_flower_eggdrop_soup", () -> new ChorusFlowerEggdropSoupItem(new Item.Properties().stacksTo(1).food(ECFoods.CHORUS_FLOWER_EGGDROP_SOUP)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+			"chorus_flower_eggdrop_soup", () -> new ChorusFlowerEggdropSoupItem(new Item.Properties().stacksTo(16).food(ECFoods.CHORUS_FLOWER_EGGDROP_SOUP)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
 	public static final ItemEntry<Item> CARAMELIZED_POTATO = ItemEntry.register(
 			"caramelized_potato", () -> new Item(new Item.Properties().food(ECFoods.CARAMELIZED_POTATO)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
@@ -139,10 +154,13 @@ public class ECItems {
 			"rougamo", () -> new Item(new Item.Properties().food(ECFoods.ROUGAMO)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
 	public static final ItemEntry<BowlFoodItem> BEEF_AND_POTATO_STEW = ItemEntry.register(
-			"beef_and_potato_stew", () -> new BowlFoodItem(new Item.Properties().stacksTo(1).food(ECFoods.BEEF_AND_POTATO_STEW)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+			"beef_and_potato_stew", () -> new BowlFoodItem(new Item.Properties().stacksTo(16).food(ECFoods.BEEF_AND_POTATO_STEW)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
 	public static final ItemEntry<BowlFoodItem> BRAISED_CHICKEN = ItemEntry.register(
-			"braised_chicken", () -> new BowlFoodItem(new Item.Properties().stacksTo(1).food(ECFoods.BRAISED_CHICKEN)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+			"braised_chicken", () -> new BowlFoodItem(new Item.Properties().stacksTo(16).food(ECFoods.BRAISED_CHICKEN)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
+	public static final ItemEntry<BowlFoodItem> SAUERKRAUT_FISH = ItemEntry.register(
+			"sauerkraut_fish", () -> new BowlFoodItem(new Item.Properties().stacksTo(16).food(ECFoods.SAUERKRAUT_FISH)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
 	public static final ItemEntry<StickFoodItem> SAUSAGE = ItemEntry.register(
 			"sausage", () -> new StickFoodItem(new Item.Properties().stacksTo(16).food(ECFoods.SAUSAGE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
@@ -157,7 +175,7 @@ public class ECItems {
 			"warden_heart", () -> new Item(new Item.Properties().rarity(Rarity.EPIC).food(ECFoods.WARDEN_HEART)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
 	public static final ItemEntry<BowlFoodItem> STIR_FRIED_WARDEN_HEART = ItemEntry.register(
-			"stir_fried_warden_heart", () -> new BowlFoodItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).food(ECFoods.STIR_FRIED_WARDEN_HEART)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+			"stir_fried_warden_heart", () -> new BowlFoodItem(new Item.Properties().stacksTo(16).rarity(Rarity.EPIC).food(ECFoods.STIR_FRIED_WARDEN_HEART)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
 	public static final ItemEntry<Item> HERRING = ItemEntry.register(
 			"herring", () -> new Item(new Item.Properties().food(ECFoods.HERRING)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
@@ -170,6 +188,12 @@ public class ECItems {
 	);
 	public static final ItemEntry<Item> COOKED_PURPLE_SPOTTED_BIGEYE = ItemEntry.register(
 			"cooked_purple_spotted_bigeye", () -> new Item(new Item.Properties().food(ECFoods.COOKED_PURPLE_SPOTTED_BIGEYE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
+	public static final ItemEntry<Item> SNAKEHEAD = ItemEntry.register(
+			"snakehead", () -> new Item(new Item.Properties().food(ECFoods.SNAKEHEAD)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
+	public static final ItemEntry<Item> COOKED_SNAKEHEAD = ItemEntry.register(
+			"cooked_snakehead", () -> new Item(new Item.Properties().food(ECFoods.COOKED_SNAKEHEAD)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
 	public static final ItemEntry<BottleFoodItem> APPLE_JUICE = ItemEntry.register(
 			"apple_juice", () -> new BottleFoodItem(20, new Item.Properties().food(ECFoods.APPLE_JUICE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
@@ -292,6 +316,9 @@ public class ECItems {
 	);
 	public static final ItemEntry<MobBucketItem> BIGEYE_BUCKET = ItemEntry.register(
 			"bigeye_bucket", () -> new MobBucketItem(() -> ECEntities.PURPLE_SPOTTED_BIGEYE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+	);
+	public static final ItemEntry<MobBucketItem> SNAKEHEAD_BUCKET = ItemEntry.register(
+			"snakehead_bucket", () -> new MobBucketItem(() -> ECEntities.SNAKEHEAD, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
 	);
 
 	public static class CreateCompatItems {

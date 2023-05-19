@@ -50,7 +50,7 @@ public class TradeUtil {
 						"_" + costA + "_" + costB + "_" + result;
 			}
 			if(names.contains(name)) {
-				ECLogger.error("Duplicated trade entry: " + name);
+				ECLogger.warn("Duplicated trade entry: " + name);
 			} else {
 				names.add(name);
 				ResourceLocation id = new ResourceLocation(MODID, "trade_shadow/" + name);

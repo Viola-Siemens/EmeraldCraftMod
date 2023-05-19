@@ -60,6 +60,10 @@ public class ECSounds {
 	public static final SoundEvent BIGEYE_FLOP = registerSound("purple_spotted_bigeye.flop");
 	public static final SoundEvent BIGEYE_HURT = registerSound("purple_spotted_bigeye.hurt");
 	public static final SoundEvent BIGEYE_DEATH = registerSound("purple_spotted_bigeye.death");
+	public static final SoundEvent SNAKEHEAD_AMBIENT = registerSound("snakehead.ambient");
+	public static final SoundEvent SNAKEHEAD_FLOP = registerSound("snakehead.flop");
+	public static final SoundEvent SNAKEHEAD_HURT = registerSound("snakehead.hurt");
+	public static final SoundEvent SNAKEHEAD_DEATH = registerSound("snakehead.death");
 
 	public static final SoundEvent WRAITH_AMBIENT = registerSound("wraith.ambient");
 	public static final SoundEvent WRAITH_HURT = registerSound("wraith.hurt");

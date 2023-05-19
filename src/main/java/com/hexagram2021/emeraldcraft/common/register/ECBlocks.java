@@ -1,6 +1,7 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
 import com.hexagram2021.emeraldcraft.common.blocks.nylium.PurpuraceusNyliumBlock;
+import com.hexagram2021.emeraldcraft.common.blocks.plant.CabbageBlock;
 import com.hexagram2021.emeraldcraft.common.blocks.plant.ChiliBlock;
 import com.hexagram2021.emeraldcraft.common.blocks.plant.HiganBanaFlowerBlock;
 import com.hexagram2021.emeraldcraft.common.blocks.plant.WarpedWartBlock;
@@ -965,6 +966,12 @@ public final class ECBlocks {
 		public static final Supplier<BlockBehaviour.Properties> PURPURACEUS_PLANKS_PROPERTIES = () ->
 				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_PURPLE)
 						.strength(2.0F, 3.0F).sound(SoundType.WOOD);
+		public static final Supplier<BlockBehaviour.Properties> CROP_PROPERTIES = () ->
+				BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks()
+						.instabreak().sound(SoundType.CROP);
+		public static final Supplier<BlockBehaviour.Properties> WILD_CROP_PROPERTIES = () ->
+				BlockBehaviour.Properties.of(Material.PLANT).noCollission()
+						.instabreak().sound(SoundType.CROP);
 
 
 		public static final BlockEntry<WarpedWartBlock> WARPED_WART = new BlockEntry<>(
@@ -972,7 +979,17 @@ public final class ECBlocks {
 		);
 
 		public static final BlockEntry<ChiliBlock> CHILI = new BlockEntry<>(
-				"chili", ChiliBlock.PROPERTIES, ChiliBlock::new
+				"chili", CROP_PROPERTIES, ChiliBlock::new
+		);
+		public static final BlockEntry<CabbageBlock> CABBAGE = new BlockEntry<>(
+				"cabbage", CROP_PROPERTIES, CabbageBlock::new
+		);
+
+		public static final BlockEntry<BushBlock> WILD_CHILI = new BlockEntry<>(
+				"wild_chili", WILD_CROP_PROPERTIES, BushBlock::new
+		);
+		public static final BlockEntry<Block> WILD_CABBAGE = new BlockEntry<>(
+				"wild_cabbage", WILD_CROP_PROPERTIES, BushBlock::new
 		);
 
 		public static final BlockEntry<FlowerBlock> CYAN_PETUNIA = new BlockEntry<>(
@@ -1131,6 +1148,8 @@ public final class ECBlocks {
 
 
 		private static void init() {
+			ECItems.ItemEntry.register(WILD_CHILI.getId().getPath(), () -> new BlockItem(WILD_CHILI.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(WILD_CABBAGE.getId().getPath(), () -> new BlockItem(WILD_CABBAGE.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 			ECItems.ItemEntry.register(CYAN_PETUNIA.getId().getPath(), () -> new BlockItem(CYAN_PETUNIA.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 			ECItems.ItemEntry.register(MAGENTA_PETUNIA.getId().getPath(), () -> new BlockItem(MAGENTA_PETUNIA.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 			ECItems.ItemEntry.register(HIGAN_BANA.getId().getPath(), () -> new BlockItem(HIGAN_BANA.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);

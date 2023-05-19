@@ -1,0 +1,29 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "item": "emeraldcraft:wild_cabbage"
+    }
+  ],
+  "results": [
+    {
+      "item": "emeraldcraft:cabbage_seed",
+      "count": 2
+    },
+    {
+      "item": "emeraldcraft:cabbage_seed",
+      "chance": 0.25
+    },
+    {
+      "item": "minecraft:yellow_dye",
+      "chance": 0.1
+    }
+  ],
+  "processingTime": 50
+}

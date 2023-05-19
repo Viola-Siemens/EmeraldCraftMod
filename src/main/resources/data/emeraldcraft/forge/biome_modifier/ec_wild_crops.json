@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#forge:is_plains",
+  "features": [
+    "emeraldcraft:wild_cabbage",
+    "emeraldcraft:wild_chili"
+  ],
+  "step": "vegetal_decoration"
+}

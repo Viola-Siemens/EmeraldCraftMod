@@ -1,7 +1,6 @@
 package com.hexagram2021.emeraldcraft.mixin;
 
 import com.hexagram2021.emeraldcraft.client.MapCustomIcons;
-import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.gui.MapRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
