@@ -8,6 +8,7 @@
     "AbstractSkeletonMixin",
     "BlockEntityTypeAccess",
     "CatEntityMixin",
+    "ChickenEntityMixin",
     "HeroGiftsTaskAccess",
     "IronGolemEntityMixin",
     "MapDecorationTypeMixin",
