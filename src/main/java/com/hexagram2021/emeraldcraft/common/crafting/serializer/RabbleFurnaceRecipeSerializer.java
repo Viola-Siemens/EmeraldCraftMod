@@ -30,6 +30,7 @@ public class RabbleFurnaceRecipeSerializer<T extends RabbleFurnaceRecipe> implem
 	@Override @NotNull
 	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
 		String group = GsonHelper.getAsString(json, "group", "");
+		String category = GsonHelper.getAsString(json, "group", "");
 		JsonElement ingredientJson =
 				GsonHelper.isArrayNode(json, "ingredient") ?
 						GsonHelper.getAsJsonArray(json, "ingredient") :
@@ -64,12 +65,13 @@ public class RabbleFurnaceRecipeSerializer<T extends RabbleFurnaceRecipe> implem
 		}
 		float f = GsonHelper.getAsFloat(json, "experience", 0.0F);
 		int i = GsonHelper.getAsInt(json, "cookingtime", this.defaultCookingTime);
-		return this.factory.create(id, group, ingredient, mix1, mix2, itemstack, f, i);
+		return this.factory.create(id, group, category, ingredient, mix1, mix2, itemstack, f, i);
 	}
 
 	@Override @Nullable
 	public T fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
 		String group = buf.readUtf();
+		String category = buf.readUtf();
 		int ingredientSize = buf.readVarInt();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);
 		Ingredient mix1 = null, mix2 = null;
@@ -82,24 +84,25 @@ public class RabbleFurnaceRecipeSerializer<T extends RabbleFurnaceRecipe> implem
 		ItemStack itemstack = buf.readItem();
 		float xp = buf.readFloat();
 		int time = buf.readVarInt();
-		return this.factory.create(id, group, ingredient, mix1, mix2, itemstack, xp, time);
+		return this.factory.create(id, group, category, ingredient, mix1, mix2, itemstack, xp, time);
 	}
 
 	@Override
 	public void toNetwork(FriendlyByteBuf buf, T recipe) {
 		buf.writeUtf(recipe.getGroup());
+		buf.writeUtf(recipe.getCategory());
 		buf.writeVarInt(Mth.clamp(recipe.getIngredients().size(), 1, 3));
 
 		for(Ingredient ingredient : recipe.getIngredients()) {
 			ingredient.toNetwork(buf);
 		}
-		buf.writeItem(recipe.getResultItem());
+		buf.writeItem(recipe.getResult());
 		buf.writeFloat(recipe.getExperience());
 		buf.writeVarInt(recipe.getRabblingTime());
 	}
 
 	public interface Creator<T extends Recipe<?>> {
-		T create(ResourceLocation id, String group, Ingredient ingredient, @Nullable Ingredient mix1, @Nullable Ingredient mix2,
+		T create(ResourceLocation id, String group, String category, Ingredient ingredient, @Nullable Ingredient mix1, @Nullable Ingredient mix2,
 				 ItemStack result, float experience, int cookingTime);
 	}
 }

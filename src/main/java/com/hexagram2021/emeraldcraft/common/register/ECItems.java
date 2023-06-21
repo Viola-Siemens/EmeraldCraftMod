@@ -15,7 +15,6 @@ import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -43,9 +42,9 @@ import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegist
 public class ECItems {
 	public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
 
-	public static final Map<EquipmentSlot, ItemEntry<EmeraldArmorItem>> EMERALD_ARMOR = new EnumMap<>(EquipmentSlot.class);
-	public static final Map<EquipmentSlot, ItemEntry<LapisArmorItem>> LAPIS_ARMOR = new EnumMap<>(EquipmentSlot.class);
-	public static final Map<EquipmentSlot, ItemEntry<WoodenArmorItem>> WOODEN_ARMOR = new EnumMap<>(EquipmentSlot.class);
+	public static final Map<ArmorItem.Type, ItemEntry<EmeraldArmorItem>> EMERALD_ARMOR = new EnumMap<>(ArmorItem.Type.class);
+	public static final Map<ArmorItem.Type, ItemEntry<LapisArmorItem>> LAPIS_ARMOR = new EnumMap<>(ArmorItem.Type.class);
+	public static final Map<ArmorItem.Type, ItemEntry<WoodenArmorItem>> WOODEN_ARMOR = new EnumMap<>(ArmorItem.Type.class);
 
 	public static final ItemEntry<ItemNameBlockItem> WARPED_WART = ItemEntry.register(
 			"warped_wart", () -> new ItemNameBlockItem(ECBlocks.Plant.WARPED_WART.get(), new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
@@ -384,18 +383,16 @@ public class ECItems {
 	public static void init(IEventBus bus) {
 		REGISTER.register(bus);
 
-		for(EquipmentSlot slot : EquipmentSlot.values()) {
-			if (slot.getType() == EquipmentSlot.Type.ARMOR) {
-				EMERALD_ARMOR.put(slot, ItemEntry.register(
-						"emerald_" + slot.getName().toLowerCase(Locale.ENGLISH), () -> new EmeraldArmorItem(slot), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-				));
-				LAPIS_ARMOR.put(slot, ItemEntry.register(
-						"lapis_" + slot.getName().toLowerCase(Locale.ENGLISH), () -> new LapisArmorItem(slot), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-				));
-				WOODEN_ARMOR.put(slot, ItemEntry.register(
-						"wooden_" + slot.getName().toLowerCase(Locale.ENGLISH), () -> new WoodenArmorItem(slot), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-				));
-			}
+		for(ArmorItem.Type type : ArmorItem.Type.values()) {
+			EMERALD_ARMOR.put(type, ItemEntry.register(
+					"emerald_" + type.getName().toLowerCase(Locale.ENGLISH), () -> new EmeraldArmorItem(type), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+			));
+			LAPIS_ARMOR.put(type, ItemEntry.register(
+					"lapis_" + type.getName().toLowerCase(Locale.ENGLISH), () -> new LapisArmorItem(type), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+			));
+			WOODEN_ARMOR.put(type, ItemEntry.register(
+					"wooden_" + type.getName().toLowerCase(Locale.ENGLISH), () -> new WoodenArmorItem(type), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+			));
 		}
 
 		CreateCompatItems.init();

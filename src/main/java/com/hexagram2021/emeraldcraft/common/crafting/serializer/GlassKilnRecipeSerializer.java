@@ -26,7 +26,7 @@ public class GlassKilnRecipeSerializer<T extends GlassKilnRecipe> implements Rec
 	@Override @NotNull
 	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
 		String group = GsonHelper.getAsString(json, "group", "");
-		CookingBookCategory category = CookingBookCategory.CODEC.byName(GsonHelper.getAsString(json, "category", null), CookingBookCategory.MISC);
+		String category = GsonHelper.getAsString(json, "category", "");
 		JsonElement jsonelement =
 				GsonHelper.isArrayNode(json, "ingredient") ?
 						GsonHelper.getAsJsonArray(json, "ingredient") :
@@ -52,7 +52,7 @@ public class GlassKilnRecipeSerializer<T extends GlassKilnRecipe> implements Rec
 	@Override @Nullable
 	public T fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
 		String group = buf.readUtf();
-		CookingBookCategory category = buf.readEnum(CookingBookCategory.class);
+		String category = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);
 		ItemStack itemstack = buf.readItem();
 		float xp = buf.readFloat();
@@ -63,14 +63,14 @@ public class GlassKilnRecipeSerializer<T extends GlassKilnRecipe> implements Rec
 	@Override
 	public void toNetwork(FriendlyByteBuf buf, T recipe) {
 		buf.writeUtf(recipe.getGroup());
-		buf.writeEnum(recipe.category());
+		buf.writeUtf(recipe.getCategory());
 		recipe.getIngredient().toNetwork(buf);
-		buf.writeItem(recipe.getResultItem());
+		buf.writeItem(recipe.getResult());
 		buf.writeFloat(recipe.getExperience());
 		buf.writeVarInt(recipe.getCookingTime());
 	}
 
 	public interface Creator<T extends AbstractCookingRecipe> {
-		T create(ResourceLocation id, String group, CookingBookCategory category, Ingredient ingredient, ItemStack result, float experience, int cookingtime);
+		T create(ResourceLocation id, String group, String category, Ingredient ingredient, ItemStack result, float experience, int cookingtime);
 	}
 }

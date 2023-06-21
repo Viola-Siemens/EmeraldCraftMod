@@ -1,5 +1,7 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
+import com.hexagram2021.emeraldcraft.common.crafting.GlassKilnRecipe;
+import com.hexagram2021.emeraldcraft.common.crafting.RabbleFurnaceRecipe;
 import net.minecraft.client.RecipeBookCategories;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -22,19 +24,23 @@ public class ECRecipeBookTypes {
 		event.registerBookCategories(ECRecipes.GLASS_KILN, List.of(GLASS_KILN_SEARCH, GLASS_KILN_SAND, GLASS_KILN_CLAY, GLASS_KILN_TERRACOTTA));
 		event.registerAggregateCategory(GLASS_KILN_SEARCH, List.of(GLASS_KILN_SAND, GLASS_KILN_CLAY, GLASS_KILN_TERRACOTTA));
 		event.registerRecipeCategoryFinder(ECRecipes.GLASS_KILN_TYPE.get(), recipe -> {
-			if(recipe.getResultItem().getDescriptionId().contains("glass")) {
-				return GLASS_KILN_SAND;
-			}
-			if(Arrays.stream(recipe.getIngredients().get(0).getItems()).anyMatch(itemStack -> itemStack.getDescriptionId().contains("terracotta"))) {
-				return GLASS_KILN_TERRACOTTA;
+			if(recipe instanceof GlassKilnRecipe glassKilnRecipe) {
+				if (glassKilnRecipe.getCategory().equals("sand")) {
+					return GLASS_KILN_SAND;
+				}
+				if (glassKilnRecipe.getCategory().equals("terracotta")) {
+					return GLASS_KILN_TERRACOTTA;
+				}
 			}
 			return GLASS_KILN_CLAY;
 		});
 		event.registerBookCategories(ECRecipes.RABBLE_FURNACE, List.of(RABBLE_FURNACE_SEARCH, RABBLE_FURNACE_RESIN, RABBLE_FURNACE_PAPER));
 		event.registerAggregateCategory(RABBLE_FURNACE_SEARCH, List.of(RABBLE_FURNACE_RESIN, RABBLE_FURNACE_PAPER));
 		event.registerRecipeCategoryFinder(ECRecipes.RABBLE_FURNACE_TYPE.get(), recipe -> {
-			if(recipe.getResultItem().getDescriptionId().contains("resin")) {
-				return RABBLE_FURNACE_RESIN;
+			if(recipe instanceof RabbleFurnaceRecipe rabbleFurnaceRecipe) {
+				if (rabbleFurnaceRecipe.getCategory().equals("resin")) {
+					return RABBLE_FURNACE_RESIN;
+				}
 			}
 			return RABBLE_FURNACE_PAPER;
 		});

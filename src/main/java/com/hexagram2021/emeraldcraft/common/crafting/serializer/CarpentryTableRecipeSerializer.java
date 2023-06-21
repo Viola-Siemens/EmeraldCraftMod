@@ -51,7 +51,7 @@ public class CarpentryTableRecipeSerializer<T extends CarpentryTableRecipe> impl
 	public void toNetwork(FriendlyByteBuf buf, T recipe) {
 		buf.writeUtf(recipe.getGroup());
 		recipe.getIngredient().toNetwork(buf);
-		buf.writeItem(recipe.getResultItem());
+		buf.writeItem(recipe.getResult());
 	}
 
 	public interface Creator<T extends CarpentryTableRecipe> {

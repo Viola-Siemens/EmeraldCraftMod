@@ -17,6 +17,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
@@ -122,7 +123,7 @@ public class IceMakerRecipeCategory implements IRecipeCategory<IceMakerRecipe> {
 
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, IceMakerRecipe recipe, IFocusGroup focuses) {
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 128, 19).addItemStack(recipe.getResultItem());
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 128, 19).addItemStack(RecipeUtil.getResultItem(recipe));
 	}
 
 	protected IDrawableAnimated getArrow(IceMakerRecipe recipe) {

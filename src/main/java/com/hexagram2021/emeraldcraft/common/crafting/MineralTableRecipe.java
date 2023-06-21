@@ -38,4 +38,9 @@ public class MineralTableRecipe extends AbstractCookingRecipe {
 	public Ingredient getIngredient() {
 		return this.ingredient;
 	}
+
+	@NotNull
+	public ItemStack getResult() {
+		return this.result;
+	}
 }

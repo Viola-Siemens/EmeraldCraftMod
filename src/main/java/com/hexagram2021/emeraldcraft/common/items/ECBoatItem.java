@@ -4,7 +4,6 @@ import com.hexagram2021.emeraldcraft.common.dispenser.ECBoatDispenseItemBehaviou
 import com.hexagram2021.emeraldcraft.common.entities.ECBoat;
 import com.hexagram2021.emeraldcraft.common.entities.ECChestBoat;
 import com.hexagram2021.emeraldcraft.common.entities.IECBoat;
-import net.minecraft.core.BlockPos;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -69,7 +68,7 @@ public class ECBoatItem extends Item {
 				} else {
 					if (!level.isClientSide) {
 						level.addFreshEntity(boatEntity);
-						level.gameEvent(player, GameEvent.ENTITY_PLACE, new BlockPos(hitresult.getLocation()));
+						level.gameEvent(player, GameEvent.ENTITY_PLACE, hitresult.getLocation());
 						if (!player.getAbilities().instabuild) {
 							itemstack.shrink(1);
 						}

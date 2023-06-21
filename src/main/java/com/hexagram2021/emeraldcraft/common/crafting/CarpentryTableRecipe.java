@@ -33,6 +33,11 @@ public class CarpentryTableRecipe extends SingleItemRecipe {
 	}
 
 	public Ingredient getIngredient() {
-		return ingredient;
+		return this.ingredient;
+	}
+
+	@NotNull
+	public ItemStack getResult() {
+		return this.result;
 	}
 }

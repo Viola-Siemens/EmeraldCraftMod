@@ -1,5 +1,6 @@
 {
   "type": "emeraldcraft:glass_kiln",
+  "category": "clay",
   "ingredient": {
     "item": "minecraft:clay_ball"
   },

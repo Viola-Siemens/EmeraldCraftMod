@@ -1,5 +1,6 @@
 {
   "type": "emeraldcraft:rabble_furnace",
+  "category": "resin",
   "ingredient": {
     "item": "emeraldcraft:resin_block"
   },

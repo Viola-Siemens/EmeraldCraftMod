@@ -6,6 +6,7 @@ import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipeSerializer;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
@@ -60,7 +61,7 @@ public class TradeShadowRecipe implements Recipe<Container> {
 	}
 
 	@Override @NotNull
-	public ItemStack assemble(@NotNull Container container) {
+	public ItemStack assemble(@NotNull Container container, @NotNull RegistryAccess registryAccess) {
 		return this.result.copy();
 	}
 
@@ -70,7 +71,7 @@ public class TradeShadowRecipe implements Recipe<Container> {
 	}
 
 	@Override @NotNull
-	public ItemStack getResultItem() {
+	public ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
 		return this.result;
 	}
 
@@ -89,12 +90,19 @@ public class TradeShadowRecipe implements Recipe<Container> {
 		return ECRecipes.TRADE_SHADOW_TYPE.get();
 	}
 
+	@NotNull
 	public ItemStack getCostA() {
 		return this.costA;
 	}
 
+	@NotNull
 	public ItemStack getCostB() {
 		return this.costB;
+	}
+
+	@NotNull
+	public ItemStack getResult() {
+		return this.result;
 	}
 
 	public EntityType<?> getEntityType() {

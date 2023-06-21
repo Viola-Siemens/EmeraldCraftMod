@@ -1,5 +1,6 @@
 {
   "type": "emeraldcraft:rabble_furnace",
+  "category": "stone",
   "ingredient": {
     "item": "minecraft:blackstone"
   },

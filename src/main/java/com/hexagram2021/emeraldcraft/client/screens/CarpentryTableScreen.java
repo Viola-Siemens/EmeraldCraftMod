@@ -49,14 +49,14 @@ public class CarpentryTableScreen extends AbstractContainerScreen<CarpentryTable
 		RenderSystem.setShaderTexture(0, BG_LOCATION);
 		int i = this.leftPos;
 		int j = this.topPos;
-		this.blit(transform, i, j, 0, 0, this.imageWidth, this.imageHeight);
+		blit(transform, i, j, 0, 0, this.imageWidth, this.imageHeight);
 		int k = (int)(41.0F * this.scrollOffs);
-		this.blit(transform, i + 119, j + 15 + k, 176 + (this.isScrollBarActive() ? 0 : 12), 0, 12, 15);
+		blit(transform, i + 119, j + 15 + k, 176 + (this.isScrollBarActive() ? 0 : 12), 0, 12, 15);
 		int l = this.leftPos + 52;
 		int i1 = this.topPos + 14;
 		int j1 = this.startIndex + 12;
 		this.renderButtons(transform, x, y, l, i1, j1);
-		this.renderRecipes(l, i1, j1);
+		this.renderRecipes(transform, l, i1, j1);
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class CarpentryTableScreen extends AbstractContainerScreen<CarpentryTable
 				int j1 = i + i1 % 4 * 16;
 				int k1 = j + i1 / 4 * 18 + 2;
 				if (x >= j1 && x < j1 + 16 && y >= k1 && y < k1 + 18) {
-					this.renderTooltip(transform, list.get(l).getResultItem(), x, y);
+					this.renderTooltip(transform, list.get(l).getResultItem(this.minecraft.level.registryAccess()), x, y);
 				}
 			}
 		}
@@ -93,12 +93,12 @@ public class CarpentryTableScreen extends AbstractContainerScreen<CarpentryTable
 				j1 += 36;
 			}
 
-			this.blit(transform, k, i1 - 1, 0, j1, 16, 18);
+			blit(transform, k, i1 - 1, 0, j1, 16, 18);
 		}
 
 	}
 
-	private void renderRecipes(int x, int y, int endIndex) {
+	private void renderRecipes(@NotNull PoseStack transform, int x, int y, int endIndex) {
 		List<CarpentryTableRecipe> list = this.menu.getRecipes();
 
 		for(int i = this.startIndex; i < endIndex && i < this.menu.getNumRecipes(); ++i) {
@@ -106,7 +106,7 @@ public class CarpentryTableScreen extends AbstractContainerScreen<CarpentryTable
 			int k = x + j % 4 * 16;
 			int l = j / 4;
 			int i1 = y + l * 18 + 2;
-			this.minecraft.getItemRenderer().renderAndDecorateItem(list.get(i).getResultItem(), k, i1);
+			this.minecraft.getItemRenderer().renderAndDecorateItem(transform, list.get(i).getResultItem(this.minecraft.level.registryAccess()), k, i1);
 		}
 	}
 
@@ -124,7 +124,7 @@ public class CarpentryTableScreen extends AbstractContainerScreen<CarpentryTable
 				double d1 = y - (double)(j + i1 / 4 * 18);
 				if (d0 >= 0.0D && d1 >= 0.0D && d0 < 16.0D && d1 < 18.0D && this.menu.clickMenuButton(this.minecraft.player, l)) {
 					Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_STONECUTTER_SELECT_RECIPE, 1.0F));
-					this.minecraft.gameMode.handleInventoryButtonClick((this.menu).containerId, l);
+					this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, l);
 					return true;
 				}
 			}

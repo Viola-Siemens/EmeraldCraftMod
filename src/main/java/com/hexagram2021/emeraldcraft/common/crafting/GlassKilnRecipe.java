@@ -13,14 +13,17 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.NotNull;
 
 public class GlassKilnRecipe extends AbstractCookingRecipe {
+	private final String category;
+
 	public static final CachedRecipeList<GlassKilnRecipe> recipeList = new CachedRecipeList<>(
 			ECRecipes.GLASS_KILN_TYPE,
 			GlassKilnRecipe.class
 	);
 
-	public GlassKilnRecipe(ResourceLocation id, String group, CookingBookCategory category, Ingredient ingredient,
+	public GlassKilnRecipe(ResourceLocation id, String group, String category, Ingredient ingredient,
 						   ItemStack result, float experience, int cookingTime) {
-		super(ECRecipes.GLASS_KILN_TYPE.get(), id, group, category, ingredient, result, experience, cookingTime);
+		super(ECRecipes.GLASS_KILN_TYPE.get(), id, group, CookingBookCategory.MISC, ingredient, result, experience, cookingTime);
+		this.category = category;
 	}
 
 	@Override @NotNull
@@ -35,5 +38,14 @@ public class GlassKilnRecipe extends AbstractCookingRecipe {
 
 	public Ingredient getIngredient() {
 		return this.ingredient;
+	}
+
+	@NotNull
+	public ItemStack getResult() {
+		return this.result;
+	}
+
+	public String getCategory() {
+		return this.category;
 	}
 }

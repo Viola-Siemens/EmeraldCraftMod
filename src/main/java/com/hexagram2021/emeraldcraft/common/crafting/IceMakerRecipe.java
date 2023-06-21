@@ -7,6 +7,7 @@ import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipeSerializer;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -69,17 +70,22 @@ public class IceMakerRecipe implements Recipe<Container> {
 		return this.inputAmount;
 	}
 
+	@NotNull
+	public ItemStack getResult() {
+		return this.result;
+	}
+
 	public int getFreezingTime() {
 		return this.freezingTime;
 	}
 
 	@Override @NotNull
-	public ItemStack assemble(@NotNull Container container) {
+	public ItemStack assemble(@NotNull Container container, @NotNull RegistryAccess registryAccess) {
 		return this.result.copy();
 	}
 
 	@Override @NotNull
-	public ItemStack getResultItem() {
+	public ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
 		return this.result;
 	}
 

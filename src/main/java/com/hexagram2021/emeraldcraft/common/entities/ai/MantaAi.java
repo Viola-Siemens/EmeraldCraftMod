@@ -41,7 +41,7 @@ public class MantaAi {
 	private static void initIdleActivity(Brain<MantaEntity> brain) {
 		brain.addActivityWithConditions(Activity.IDLE, ImmutableList.of(
 				Pair.of(0, SetEntityLookTargetSometimes.create(6.0F, UniformInt.of(30, 60))),
-				Pair.of(1, StayCloseToTarget.create(MantaAi::getLikedPlayerPositionTracker, 7, 32, 1.0F)),
+				Pair.of(1, StayCloseToTarget.create(MantaAi::getLikedPlayerPositionTracker, entity -> true, 7, 32, 1.0F)),
 				Pair.of(2, new RunOne<>(ImmutableList.of(
 						Pair.of(RandomStroll.fly(1.0F), 2),
 						Pair.of(SetWalkTargetFromLookTarget.create(1.0F, 3), 2),

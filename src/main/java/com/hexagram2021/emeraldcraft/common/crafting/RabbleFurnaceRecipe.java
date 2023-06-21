@@ -5,6 +5,7 @@ import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipeSerializer;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -20,6 +21,7 @@ import javax.annotation.Nullable;
 public class RabbleFurnaceRecipe implements Recipe<Container> {
 	protected final ResourceLocation id;
 	protected final String group;
+	protected final String category;
 	protected final Ingredient ingredient;
 	@Nullable
 	protected final Ingredient mix1;
@@ -36,10 +38,11 @@ public class RabbleFurnaceRecipe implements Recipe<Container> {
 
 	public static final int RABBLING_TIME = 100;
 
-	public RabbleFurnaceRecipe(ResourceLocation id, String group, Ingredient ingredient, @Nullable Ingredient mix1, @Nullable Ingredient mix2,
+	public RabbleFurnaceRecipe(ResourceLocation id, String group, String category, Ingredient ingredient, @Nullable Ingredient mix1, @Nullable Ingredient mix2,
 							   ItemStack result, float experience, int cookingTime) {
 		this.id = id;
 		this.group = group;
+		this.category = category;
 		this.ingredient = ingredient;
 		this.mix1 = mix1;
 		this.mix2 = mix2;
@@ -56,7 +59,7 @@ public class RabbleFurnaceRecipe implements Recipe<Container> {
 	}
 
 	@Override @NotNull
-	public ItemStack assemble(@NotNull Container container) {
+	public ItemStack assemble(@NotNull Container container, @NotNull RegistryAccess registryAccess) {
 		return this.result.copy();
 	}
 
@@ -97,8 +100,17 @@ public class RabbleFurnaceRecipe implements Recipe<Container> {
 	}
 
 	@Override @NotNull
-	public ItemStack getResultItem() {
+	public ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
 		return this.result;
+	}
+
+	@NotNull
+	public ItemStack getResult() {
+		return this.result;
+	}
+
+	public String getCategory() {
+		return this.category;
 	}
 
 	@Override @NotNull

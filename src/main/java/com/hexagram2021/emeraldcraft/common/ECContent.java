@@ -29,6 +29,7 @@ public class ECContent {
 	public static void modConstruction(IEventBus bus, Consumer<Runnable> runLater) {
 		ModsLoadedEventSubscriber.compatModLoaded();
 
+		ECBlockSetTypes.init();
 		ECWoodType.init();
 		ECBlocks.init(bus);
 		ECItems.init(bus);

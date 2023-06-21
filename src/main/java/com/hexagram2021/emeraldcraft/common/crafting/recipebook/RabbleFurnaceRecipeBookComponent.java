@@ -41,7 +41,7 @@ public class RabbleFurnaceRecipeBookComponent extends RecipeBookComponent {
 
 	@Override
 	public void setupGhostRecipe(Recipe<?> recipe, List<Slot> slots) {
-		ItemStack itemstack = recipe.getResultItem();
+		ItemStack itemstack = recipe.getResultItem(this.minecraft.level.registryAccess());
 		this.ghostRecipe.setRecipe(recipe);
 		this.ghostRecipe.addIngredient(Ingredient.of(itemstack), (slots.get(4)).x, (slots.get(4)).y);
 		NonNullList<Ingredient> ingredients = recipe.getIngredients();

@@ -9,6 +9,7 @@ import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -113,13 +114,13 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		if (blockEntity.isLit() && blockEntity.inputFluidAmount > 0) {
 			IceMakerRecipe recipe = level.getRecipeManager().getRecipeFor(ECRecipes.ICE_MAKER_TYPE.get(), blockEntity, level).orElse(null);
 
-			if (blockEntity.canFreeze(recipe, blockEntity.items, blockEntity.getMaxStackSize())) {
+			if (blockEntity.canFreeze(level.registryAccess(), recipe, blockEntity.items, blockEntity.getMaxStackSize())) {
 				++blockEntity.freezingProgress;
 				--blockEntity.condensateFluidAmount;
 				if (blockEntity.freezingProgress >= blockEntity.freezingTotalTime) {
 					blockEntity.freezingProgress = 0;
 					blockEntity.freezingTotalTime = getTotalFreezeTime(level, blockEntity);
-					blockEntity.freeze(recipe, blockEntity.items, blockEntity.getMaxStackSize());
+					blockEntity.freeze(level.registryAccess(), recipe, blockEntity.items, blockEntity.getMaxStackSize());
 
 					flag1 = true;
 				}
@@ -187,11 +188,11 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		}
 	}
 
-	private boolean canFreeze(@Nullable IceMakerRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
+	private boolean canFreeze(@NotNull RegistryAccess registryAccess, @Nullable IceMakerRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
 		if (recipe == null) {
 			return false;
 		}
-		ItemStack result = recipe.assemble(this);
+		ItemStack result = recipe.assemble(this, registryAccess);
 		if (result.isEmpty()) {
 			return false;
 		}
@@ -208,9 +209,9 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		return itemstack.getCount() + result.getCount() <= result.getMaxStackSize();
 	}
 
-	private boolean freeze(@Nullable IceMakerRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
-		if (this.canFreeze(recipe, container, maxCount)) {
-			ItemStack result = recipe.assemble(this);
+	private boolean freeze(@NotNull RegistryAccess registryAccess, @Nullable IceMakerRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
+		if (this.canFreeze(registryAccess, recipe, container, maxCount)) {
+			ItemStack result = recipe.assemble(this, registryAccess);
 			ItemStack itemstack = container.get(IceMakerMenu.RESULT_SLOT);
 			if(itemstack.isEmpty()) {
 				container.set(IceMakerMenu.RESULT_SLOT, result.copy());

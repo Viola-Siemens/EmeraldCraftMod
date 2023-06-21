@@ -154,7 +154,7 @@ public class CarpentryTableMenu extends AbstractContainerMenu {
 		if (!this.recipes.isEmpty() && this.isValidRecipeIndex(this.selectedRecipeIndex.get())) {
 			CarpentryTableRecipe carpentrytableRecipe = this.recipes.get(this.selectedRecipeIndex.get());
 			this.resultContainer.setRecipeUsed(carpentrytableRecipe);
-			this.resultSlot.set(carpentrytableRecipe.assemble(this.container));
+			this.resultSlot.set(carpentrytableRecipe.assemble(this.container, this.level.registryAccess()));
 		} else {
 			this.resultSlot.set(ItemStack.EMPTY);
 		}

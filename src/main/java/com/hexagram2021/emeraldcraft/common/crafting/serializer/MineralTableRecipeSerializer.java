@@ -66,7 +66,7 @@ public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implemen
 	public void toNetwork(FriendlyByteBuf buf, T recipe) {
 		buf.writeUtf(recipe.getGroup());
 		recipe.getIngredient().toNetwork(buf);
-		buf.writeItem(recipe.getResultItem());
+		buf.writeItem(recipe.getResult());
 		buf.writeFloat(recipe.getExperience());
 		buf.writeVarInt(recipe.getCookingTime());
 	}

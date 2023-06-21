@@ -13,6 +13,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -85,7 +86,7 @@ public class VillagerTradeCategory implements IRecipeCategory<TradeShadowRecipe>
 	public void setRecipe(IRecipeLayoutBuilder builder, TradeShadowRecipe recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 8, 15).addItemStack(recipe.getCostA());
 		builder.addSlot(RecipeIngredientRole.INPUT, 34, 15).addItemStack(recipe.getCostB());
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 94, 15).addItemStack(recipe.getResultItem());
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 94, 15).addItemStack(RecipeUtil.getResultItem(recipe));
 	}
 
 	@SuppressWarnings("deprecation")

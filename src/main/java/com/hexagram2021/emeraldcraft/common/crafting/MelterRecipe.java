@@ -7,6 +7,7 @@ import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipeSerializer;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -82,12 +83,12 @@ public class MelterRecipe implements Recipe<Container> {
 	}
 
 	@Override @Nullable
-	public ItemStack assemble(@NotNull Container container) {
+	public ItemStack assemble(@NotNull Container container, @NotNull RegistryAccess registryAccess) {
 		return null;
 	}
 
 	@Override @Nullable
-	public ItemStack getResultItem() {
+	public ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
 		return null;
 	}
 

@@ -1,5 +1,6 @@
 {
   "type": "emeraldcraft:glass_kiln",
+  "category": "sand",
   "ingredient": {
     "tag": "minecraft:sand"
   },

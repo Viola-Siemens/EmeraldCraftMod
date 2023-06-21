@@ -72,7 +72,7 @@ public class IceMakerRecipeSerializer<T extends IceMakerRecipe> implements Recip
 		buf.writeUtf(recipe.getGroup());
 		buf.writeUtf(recipe.getFluidType().toString());
 		buf.writeVarInt(recipe.getFluidAmount());
-		buf.writeItem(recipe.getResultItem());
+		buf.writeItem(recipe.getResult());
 		buf.writeVarInt(recipe.getFreezingTime());
 	}
 

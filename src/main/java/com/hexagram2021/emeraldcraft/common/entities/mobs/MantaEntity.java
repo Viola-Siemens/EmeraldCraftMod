@@ -177,7 +177,7 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 			}
 		}
 
-		this.calculateEntityAnimation(this, false);
+		this.calculateEntityAnimation(false);
 	}
 
 	@Override @Nullable

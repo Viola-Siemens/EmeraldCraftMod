@@ -69,7 +69,7 @@ public class TradeShadowRecipeSerializer<T extends TradeShadowRecipe> implements
 	public void toNetwork(@NotNull FriendlyByteBuf buf, @NotNull T recipe) {
 		buf.writeItem(recipe.getCostA());
 		buf.writeItem(recipe.getCostB());
-		buf.writeItem(recipe.getResultItem());
+		buf.writeItem(recipe.getResult());
 		buf.writeResourceLocation(getRegistryName(recipe.getEntityType()));
 		buf.writeResourceLocation(getRegistryName(recipe.getProfession()));
 		buf.writeInt(recipe.getVillagerLevel());

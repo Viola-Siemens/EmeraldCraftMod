@@ -52,15 +52,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 import java.util.UUID;
 
-/*
- * 荧灵
- * 行为：
- * - 玩家可以将火把类物品递给荧灵，荧灵会自动前往周围（同一水平面或下方）20×4×20范围内亮度低于3的方块表面插上火把。
- * - 荧灵会自动捡起同类火把。
- * - 被玩家给予火把的荧灵不会受到该玩家的伤害。
- * - 如果荧灵在夜晚身处于方块亮度大于等于floor(14.25 - 4×月相亮度)的环境中，则它会跳舞，此时玩家用萤石粉与其交互则会使它复制。复制后一段时间内不能再次复制。
- * - (?) 意愿系统，并非每晚荧灵都可以跳舞，而是根据插过火把的数量和月相决定。
- */
 public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	private static final Vec3i ITEM_PICKUP_REACH = new Vec3i(1, 1, 1);
 	private static final Ingredient DUPLICATION_ITEM = Ingredient.of(Items.GLOWSTONE_DUST);
@@ -155,7 +146,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 			}
 		}
 
-		this.calculateEntityAnimation(this, false);
+		this.calculateEntityAnimation(false);
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import com.hexagram2021.emeraldcraft.common.crafting.menu.PiglinCuteyMerchantMen
 import com.hexagram2021.emeraldcraft.common.entities.mobs.PiglinCuteyData;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -99,12 +100,10 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 
 	@Override
 	protected void renderBg(@NotNull PoseStack transform, float partialTicks, int x, int y) {
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.setShaderTexture(0, VILLAGER_LOCATION);
 		int left = (this.width - this.imageWidth) / 2;
 		int top = (this.height - this.imageHeight) / 2;
-		blit(transform, left, top, this.getBlitOffset(), 0.0F, 0.0F, this.imageWidth, this.imageHeight, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+		blit(transform, left, top, 0, 0.0F, 0.0F, this.imageWidth, this.imageHeight, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 		MerchantOffers merchantoffers = this.menu.getOffers();
 		if (!merchantoffers.isEmpty()) {
 			int k = this.shopItem;
@@ -115,8 +114,7 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 			MerchantOffer merchantoffer = merchantoffers.get(k);
 			if (merchantoffer.isOutOfStock()) {
 				RenderSystem.setShaderTexture(0, VILLAGER_LOCATION);
-				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-				blit(transform, this.leftPos + 83 + MERCHANT_MENU_PART_X, this.topPos + 35, this.getBlitOffset(), 311.0F, 0.0F, 28, 21, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+				blit(transform, this.leftPos + 83 + MERCHANT_MENU_PART_X, this.topPos + 35, 0, 311.0F, 0.0F, 28, 21, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 			}
 		}
 
@@ -128,16 +126,16 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 		int level = this.menu.getTraderLevel();
 		int xp = this.menu.getTraderXp();
 		if (level < 5) {
-			blit(transform, x + PROGRESS_BAR_X, y + PROGRESS_BAR_Y, this.getBlitOffset(), 0.0F, 186.0F, 102, 5, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+			blit(transform, x + PROGRESS_BAR_X, y + PROGRESS_BAR_Y, 0, 0.0F, 186.0F, 102, 5, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 			int k = PiglinCuteyData.getMinXpPerLevel(level);
 			if (xp >= k && PiglinCuteyData.canLevelUp(level)) {
 				float f = 100.0F / (float)(PiglinCuteyData.getMaxXpPerLevel(level) - k);
 				int progress = Math.min(Mth.floor(f * (float)(xp - k)), 100);
-				blit(transform, x + PROGRESS_BAR_X, y + PROGRESS_BAR_Y, this.getBlitOffset(), 0.0F, 191.0F, progress + 1, 5, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+				blit(transform, x + PROGRESS_BAR_X, y + PROGRESS_BAR_Y, 0, 0.0F, 191.0F, progress + 1, 5, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 				int addXp = this.menu.getFutureTraderXp();
 				if (addXp > 0) {
 					int addProgress = Math.min(Mth.floor((float)addXp * f), 100 - progress);
-					blit(transform, x + PROGRESS_BAR_X + progress + 1, y + PROGRESS_BAR_Y + 1, this.getBlitOffset(), 2.0F, 182.0F, addProgress, 3, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+					blit(transform, x + PROGRESS_BAR_X + progress + 1, y + PROGRESS_BAR_Y + 1, 0, 2.0F, 182.0F, addProgress, 3, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 				}
 
 			}
@@ -154,9 +152,9 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 				scrollY = 113;
 			}
 
-			blit(transform, x + SCROLL_BAR_START_X, y + SCROLL_BAR_TOP_POS_Y + scrollY, this.getBlitOffset(), 0.0F, 199.0F, SCROLLER_WIDTH, SCROLLER_HEIGHT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+			blit(transform, x + SCROLL_BAR_START_X, y + SCROLL_BAR_TOP_POS_Y + scrollY, 0, 0.0F, 199.0F, SCROLLER_WIDTH, SCROLLER_HEIGHT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 		} else {
-			blit(transform, x + SCROLL_BAR_START_X, y + SCROLL_BAR_TOP_POS_Y, this.getBlitOffset(), 6.0F, 199.0F, SCROLLER_WIDTH, SCROLLER_HEIGHT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+			blit(transform, x + SCROLL_BAR_START_X, y + SCROLL_BAR_TOP_POS_Y, 0, 6.0F, 199.0F, SCROLLER_WIDTH, SCROLLER_HEIGHT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 		}
 
 	}
@@ -171,29 +169,29 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 			int top = (this.height - this.imageHeight) / 2;
 			int merchantY = top + PROGRESS_BAR_Y + 1;
 			int costAX = left + TRADE_BUTTON_X + SELL_ITEM_1_X;
-			RenderSystem.setShader(GameRenderer::getPositionTexShader);
 			RenderSystem.setShaderTexture(0, VILLAGER_LOCATION);
 			this.renderScroller(transform, left, top, merchantoffers);
 			int index = 0;
 
 			for(MerchantOffer merchantoffer : merchantoffers) {
-				if (!this.canScroll(merchantoffers.size()) || (index >= this.scrollOff && index < NUMBER_OF_OFFER_BUTTONS + this.scrollOff)) {
+				if (!this.canScroll(merchantoffers.size()) || index >= this.scrollOff && index < 7 + this.scrollOff) {
 					ItemStack baseCostA = merchantoffer.getBaseCostA();
 					ItemStack costA = merchantoffer.getCostA();
 					ItemStack costB = merchantoffer.getCostB();
 					ItemStack result = merchantoffer.getResult();
-					this.itemRenderer.blitOffset = 100.0F;
+					transform.pushPose();
+					transform.translate(0.0F, 0.0F, 100.0F);
 					int itemY = merchantY + 2;
 					this.renderAndDecorateCostA(transform, costA, baseCostA, costAX, itemY);
 					if (!costB.isEmpty()) {
-						this.itemRenderer.renderAndDecorateFakeItem(costB, left + SELL_ITEM_1_X + SELL_ITEM_2_X, itemY);
-						this.itemRenderer.renderGuiItemDecorations(this.font, costB, left + SELL_ITEM_1_X + SELL_ITEM_2_X, itemY);
+						this.itemRenderer.renderAndDecorateFakeItem(transform, costB, left + SELL_ITEM_1_X + SELL_ITEM_2_X, itemY);
+						this.itemRenderer.renderGuiItemDecorations(transform, this.font, costB, left + SELL_ITEM_1_X + SELL_ITEM_2_X, itemY);
 					}
 
 					this.renderButtonArrows(transform, merchantoffer, left, itemY);
-					this.itemRenderer.renderAndDecorateFakeItem(result, left + SELL_ITEM_1_X + BUY_ITEM_X, itemY);
-					this.itemRenderer.renderGuiItemDecorations(this.font, result, left + SELL_ITEM_1_X + BUY_ITEM_X, itemY);
-					this.itemRenderer.blitOffset = 0.0F;
+					this.itemRenderer.renderAndDecorateFakeItem(transform, result, left + SELL_ITEM_1_X + BUY_ITEM_X, itemY);
+					this.itemRenderer.renderGuiItemDecorations(transform, this.font, result, left + SELL_ITEM_1_X + BUY_ITEM_X, itemY);
+					transform.popPose();
 					merchantY += TRADE_BUTTON_HEIGHT;
 				}
 				++index;
@@ -227,29 +225,32 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderTexture(0, VILLAGER_LOCATION);
 		if (offer.isOutOfStock()) {
-			blit(transform, x + SELL_ITEM_1_X + SELL_ITEM_2_X + 20, y + 3, this.getBlitOffset(), 25.0F, 171.0F, 10, 9, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+			blit(transform, x + SELL_ITEM_1_X + SELL_ITEM_2_X + 20, y + 3, 0, 25.0F, 171.0F, 10, 9, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 		} else {
-			blit(transform, x + SELL_ITEM_1_X + SELL_ITEM_2_X + 20, y + 3, this.getBlitOffset(), 15.0F, 171.0F, 10, 9, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+			blit(transform, x + SELL_ITEM_1_X + SELL_ITEM_2_X + 20, y + 3, 0, 15.0F, 171.0F, 10, 9, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 		}
-
 	}
 
 	private void renderAndDecorateCostA(PoseStack transform, ItemStack baseCostA, ItemStack costA, int x, int y) {
-		this.itemRenderer.renderAndDecorateFakeItem(baseCostA, x, y);
+		this.itemRenderer.renderAndDecorateFakeItem(transform, baseCostA, x, y);
 		if (costA.getCount() == baseCostA.getCount()) {
-			this.itemRenderer.renderGuiItemDecorations(this.font, baseCostA, x, y);
+			this.itemRenderer.renderGuiItemDecorations(transform, this.font, baseCostA, x, y);
 		} else {
-			this.itemRenderer.renderGuiItemDecorations(this.font, costA, x, y, costA.getCount() == 1 ? "1" : null);
+			this.itemRenderer.renderGuiItemDecorations(transform, this.font, costA, x, y, costA.getCount() == 1 ? "1" : null);
 			PoseStack posestack = new PoseStack();
-			posestack.translate(0.0D, 0.0D, (this.itemRenderer.blitOffset + 200.0F));
+			posestack.translate(0.0D, 0.0D, 200.0F);
 			net.minecraft.client.renderer.MultiBufferSource.BufferSource bufferSource = net.minecraft.client.renderer.MultiBufferSource.immediate(com.mojang.blaze3d.vertex.Tesselator.getInstance().getBuilder());
-			this.font.drawInBatch(String.valueOf(baseCostA.getCount()), (x + 14) + 19 - 2 - font.width(String.valueOf(baseCostA.getCount())), y + LABEL_Y + 3, 0xFFFFFF, true, posestack.last().pose(), bufferSource, false, 0, 15728880);
+			this.font.drawInBatch(
+					String.valueOf(baseCostA.getCount()),
+					(x + 14) + 19 - 2 - this.font.width(String.valueOf(baseCostA.getCount())), y + LABEL_Y + 3,
+					0xFFFFFF, true, posestack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, 15728880
+			);
 			bufferSource.endBatch();
-			RenderSystem.setShader(GameRenderer::getPositionTexShader);
 			RenderSystem.setShaderTexture(0, VILLAGER_LOCATION);
-			this.setBlitOffset(this.getBlitOffset() + 300);
-			blit(transform, x + 7, y + 12, this.getBlitOffset(), 0.0F, 176.0F, 9, 2, TEXTURE_WIDTH, TEXTURE_HEIGHT);
-			this.setBlitOffset(this.getBlitOffset() - 300);
+			transform.pushPose();
+			transform.translate(0.0F, 0.0F, 300.0F);
+			blit(transform, x + 7, y + 12, 0, 0.0F, 176.0F, 9, 2, 512, 256);
+			transform.popPose();
 		}
 
 	}

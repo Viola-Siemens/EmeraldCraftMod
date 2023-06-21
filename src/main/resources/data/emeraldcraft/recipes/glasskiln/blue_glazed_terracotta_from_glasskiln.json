@@ -1,5 +1,6 @@
 {
   "type": "emeraldcraft:glass_kiln",
+  "category": "terracotta",
   "ingredient": {
     "item": "minecraft:blue_terracotta"
   },

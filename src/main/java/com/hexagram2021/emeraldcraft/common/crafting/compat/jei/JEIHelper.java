@@ -102,14 +102,14 @@ public class JEIHelper implements IModPlugin {
 				ECContainerTypes.GLASS_KILN_MENU.get(),
 				ECJEIRecipeTypes.GLASS_KILN,
 				GlassKilnMenu.INGREDIENT_SLOT, 1,
-				GlassKilnMenu.INV_SLOT_START, 36
+				3, 36
 		);
 		registration.addRecipeTransferHandler(
 				GlassKilnMenu.class,
 				ECContainerTypes.GLASS_KILN_MENU.get(),
 				RecipeTypes.FUELING,
 				GlassKilnMenu.FUEL_SLOT,1,
-				GlassKilnMenu.INV_SLOT_START, 36
+				3, 36
 		);
 		registration.addRecipeTransferHandler(
 				MineralTableMenu.class,

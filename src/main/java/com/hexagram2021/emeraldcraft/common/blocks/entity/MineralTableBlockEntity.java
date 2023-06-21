@@ -11,6 +11,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -147,7 +148,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 		if (blockEntity.isLit() || !itemstack.isEmpty() && !blockEntity.items.get(SLOT_INPUT).isEmpty()) {
 			MineralTableRecipe recipe = level.getRecipeManager().getRecipeFor(blockEntity.recipeType, blockEntity, level).orElse(null);
 			int i = blockEntity.getMaxStackSize();
-			if (!blockEntity.isLit() && blockEntity.canBurn(recipe, blockEntity.items, i)) {
+			if (!blockEntity.isLit() && blockEntity.canBurn(level.registryAccess(), recipe, blockEntity.items, i)) {
 				blockEntity.litTime = blockEntity.getBurnDuration(itemstack);
 				blockEntity.litDuration = blockEntity.litTime;
 				if (blockEntity.isLit()) {
@@ -164,12 +165,12 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 				}
 			}
 
-			if (blockEntity.isLit() && blockEntity.canBurn(recipe, blockEntity.items, i)) {
+			if (blockEntity.isLit() && blockEntity.canBurn(level.registryAccess(), recipe, blockEntity.items, i)) {
 				++blockEntity.cookingProgress;
 				if (blockEntity.cookingProgress >= blockEntity.cookingTotalTime) {
 					blockEntity.cookingProgress = 0;
 					blockEntity.cookingTotalTime = getTotalCookTime(level, blockEntity.recipeType, blockEntity);
-					if (blockEntity.burn(recipe, blockEntity.items, i)) {
+					if (blockEntity.burn(level.registryAccess(), recipe, blockEntity.items, i)) {
 						blockEntity.setRecipeUsed(recipe);
 					}
 
@@ -194,9 +195,9 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 
 	}
 
-	private boolean canBurn(@Nullable MineralTableRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
+	private boolean canBurn(@NotNull RegistryAccess registryAccess, @Nullable MineralTableRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
 		if (!container.get(SLOT_INPUT).isEmpty() && recipe != null) {
-			ItemStack itemstack = recipe.assemble(this);
+			ItemStack itemstack = recipe.assemble(this, registryAccess);
 			if (itemstack.isEmpty()) {
 				return false;
 			}
@@ -215,10 +216,10 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 		return false;
 	}
 
-	private boolean burn(@Nullable MineralTableRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
-		if (recipe != null && this.canBurn(recipe, container, maxCount)) {
+	private boolean burn(@NotNull RegistryAccess registryAccess, @Nullable MineralTableRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
+		if (recipe != null && this.canBurn(registryAccess, recipe, container, maxCount)) {
 			ItemStack itemstack = container.get(SLOT_INPUT);
-			ItemStack itemstack1 = recipe.assemble(this);
+			ItemStack itemstack1 = recipe.assemble(this, registryAccess);
 			ItemStack itemstack2 = container.get(SLOT_RESULT);
 			if (itemstack2.isEmpty()) {
 				container.set(SLOT_RESULT, itemstack1.copy());

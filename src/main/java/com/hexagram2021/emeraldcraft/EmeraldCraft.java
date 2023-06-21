@@ -27,6 +27,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.npc.VillagerType;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
@@ -237,22 +238,22 @@ public class EmeraldCraft {
 		BUILDING_BLOCKS = event.registerCreativeModeTab(new ResourceLocation(MODID, "building_blocks"), builder -> builder
 				.icon(() -> new ItemStack(ECBlocks.TO_STAIRS.get(new ResourceLocation(ResourceLocation.DEFAULT_NAMESPACE, "emerald_block"))))
 				.title(Component.translatable("itemGroup.emeraldcraft.building_blocks")).displayItems(
-						(flags, output, hasPermission) -> ECItems.ItemEntry.BUILDING_BLOCKS.forEach(output::accept)
+						(flags, output) -> ECItems.ItemEntry.BUILDING_BLOCKS.forEach(output::accept)
 				));
 		FUNCTIONAL_BLOCKS_AND_MATERIALS = event.registerCreativeModeTab(new ResourceLocation(MODID, "functional_blocks_and_materials"), builder -> builder
 				.icon(() -> new ItemStack(ECBlocks.WorkStation.CARPENTRY_TABLE))
 				.title(Component.translatable("itemGroup.emeraldcraft.functional_blocks_and_materials")).displayItems(
-						(flags, output, hasPermission) -> ECItems.ItemEntry.FUNCTIONAL_BLOCKS_AND_MATERIALS.forEach(output::accept)
+						(flags, output) -> ECItems.ItemEntry.FUNCTIONAL_BLOCKS_AND_MATERIALS.forEach(output::accept)
 				));
 		TOOLS_AND_ARMORS = event.registerCreativeModeTab(new ResourceLocation(MODID, "tools_and_armors"), builder -> builder
-				.icon(() -> new ItemStack(ECItems.EMERALD_ARMOR.get(EquipmentSlot.CHEST)))
+				.icon(() -> new ItemStack(ECItems.EMERALD_ARMOR.get(ArmorItem.Type.CHESTPLATE)))
 				.title(Component.translatable("itemGroup.emeraldcraft.tools_and_armors")).displayItems(
-						(flags, output, hasPermission) -> ECItems.ItemEntry.TOOLS_AND_ARMORS.forEach(output::accept)
+						(flags, output) -> ECItems.ItemEntry.TOOLS_AND_ARMORS.forEach(output::accept)
 				));
 		FOODS_AND_DRINKS = event.registerCreativeModeTab(new ResourceLocation(MODID, "foods_and_drinks"), builder -> builder
 				.icon(() -> new ItemStack(ECItems.ROUGAMO))
 				.title(Component.translatable("itemGroup.emeraldcraft.foods_and_drinks")).displayItems(
-						(flags, output, hasPermission) -> ECItems.ItemEntry.FOODS_AND_DRINKS.forEach(output::accept)
+						(flags, output) -> ECItems.ItemEntry.FOODS_AND_DRINKS.forEach(output::accept)
 				));
 	}
 }

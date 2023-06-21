@@ -19,6 +19,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 public class LumineAi {
 	public static Brain<?> makeBrain(Brain<LumineEntity> brain) {
@@ -46,7 +47,7 @@ public class LumineAi {
 		brain.addActivityWithConditions(Activity.IDLE, ImmutableList.of(
 				Pair.of(0, new GoToNearestDarkPosition<>(1.25F, true, 32)),
 				Pair.of(1, GoToWantedItem.create(lumine -> true, 1.75F, true, 32)),
-				Pair.of(2, StayCloseToTarget.create(LumineAi::getLikedPlayerPositionTracker, 4, 16, 2.25F)),
+				Pair.of(2, StayCloseToTarget.create(LumineAi::getLikedPlayerPositionTracker, Predicate.not(LumineAi::hasPlaceToGo), 4, 16, 2.25F)),
 				Pair.of(3, SetEntityLookTargetSometimes.create(6.0F, UniformInt.of(30, 60))),
 				Pair.of(4, new RunOne<>(ImmutableList.of(
 						Pair.of(RandomStroll.fly(1.0F), 2),
@@ -62,6 +63,11 @@ public class LumineAi {
 
 	private static Optional<PositionTracker> getLikedPlayerPositionTracker(LivingEntity livingEntity) {
 		return getLikedPlayer(livingEntity).map(player -> new EntityTracker(player, true));
+	}
+
+	private static boolean hasPlaceToGo(LivingEntity lumine) {
+		Brain<?> brain = lumine.getBrain();
+		return brain.hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM);
 	}
 
 	public static Optional<ServerPlayer> getLikedPlayer(LivingEntity livingEntity) {

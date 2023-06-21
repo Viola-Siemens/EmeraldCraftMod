@@ -1,5 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.items.armors;
 
+import net.minecraft.Util;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.LazyLoadedValue;
@@ -12,14 +13,13 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.EnumMap;
+
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public class LapisArmorItem extends ArmorItem {
-	private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};
-
 	private static final String name = "lapis";
 	private static final int durabilityMultiplier = 6;
-	private static final int[] slotProtections = new int[]{1, 3, 4, 1};
 	private static final int enchantmentValue = 40;
 	private static final float toughness = 0.0F;
 	private static final float knockbackResistance = 0.0F;
@@ -29,7 +29,7 @@ public class LapisArmorItem extends ArmorItem {
 
 	public static final ArmorMaterial mat = new LapisArmorMaterial();
 
-	public LapisArmorItem(EquipmentSlot type) {
+	public LapisArmorItem(ArmorItem.Type type) {
 		super(mat, type, new Properties().stacksTo(1));
 	}
 
@@ -39,14 +39,27 @@ public class LapisArmorItem extends ArmorItem {
 	}
 
 	private static class LapisArmorMaterial implements ArmorMaterial {
+		private static final EnumMap<Type, Integer> HEALTH_FUNCTION_FOR_TYPE = Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
+			map.put(ArmorItem.Type.BOOTS, 13);
+			map.put(ArmorItem.Type.LEGGINGS, 15);
+			map.put(ArmorItem.Type.CHESTPLATE, 16);
+			map.put(ArmorItem.Type.HELMET, 11);
+		});
+		private static final EnumMap<Type, Integer> PROTECTIONS_FOR_TYPE = Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
+			map.put(ArmorItem.Type.BOOTS, 1);
+			map.put(ArmorItem.Type.LEGGINGS, 3);
+			map.put(ArmorItem.Type.CHESTPLATE, 4);
+			map.put(ArmorItem.Type.HELMET, 1);
+		});
+
 		@Override
-		public int getDurabilityForSlot(EquipmentSlot pSlot) {
-			return HEALTH_PER_SLOT[pSlot.getIndex()] * durabilityMultiplier;
+		public int getDurabilityForType(@NotNull ArmorItem.Type type) {
+			return HEALTH_FUNCTION_FOR_TYPE.get(type) * durabilityMultiplier;
 		}
-		
+
 		@Override
-		public int getDefenseForSlot(EquipmentSlot pSlot) {
-			return slotProtections[pSlot.getIndex()];
+		public int getDefenseForType(@NotNull ArmorItem.Type type) {
+			return PROTECTIONS_FOR_TYPE.get(type);
 		}
 		
 		@Override

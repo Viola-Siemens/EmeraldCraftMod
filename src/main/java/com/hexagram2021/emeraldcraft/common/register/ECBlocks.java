@@ -25,6 +25,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.Material;
@@ -192,39 +193,39 @@ public final class ECBlocks {
 		));
 	}
 
-	private static <T extends Block> void registerDoor(BlockEntry<T> fullBlock) {
+	private static <T extends Block> void registerDoor(BlockEntry<T> fullBlock, BlockSetType blockSetType) {
 		String name = changeNameTo(fullBlock.getId().getPath(), "_door");
 		TO_DOOR.put(fullBlock.getId(), new BlockEntry<>(
 				name,
 				() -> BlockBehaviour.Properties.copy(Blocks.OAK_DOOR).color(fullBlock.get().defaultMaterialColor()),
-				(props) -> new DoorBlock(props, SoundEvents.WOODEN_DOOR_CLOSE, SoundEvents.WOODEN_DOOR_OPEN)
+				(props) -> new DoorBlock(props, blockSetType)
 		));
 	}
 
-	private static <T extends Block> void registerTrapDoor(BlockEntry<T> fullBlock) {
+	private static <T extends Block> void registerTrapDoor(BlockEntry<T> fullBlock, BlockSetType blockSetType) {
 		String name = changeNameTo(fullBlock.getId().getPath(), "_trapdoor");
 		TO_TRAPDOOR.put(fullBlock.getId(), new BlockEntry<>(
 				name,
 				() -> BlockBehaviour.Properties.copy(Blocks.OAK_TRAPDOOR).color(fullBlock.get().defaultMaterialColor()),
-				(props) -> new TrapDoorBlock(props, SoundEvents.WOODEN_TRAPDOOR_CLOSE, SoundEvents.WOODEN_TRAPDOOR_OPEN)
+				(props) -> new TrapDoorBlock(props, blockSetType)
 		));
 	}
 
-	private static <T extends Block> void registerWoodPressurePlate(BlockEntry<T> fullBlock) {
+	private static <T extends Block> void registerWoodPressurePlate(BlockEntry<T> fullBlock, BlockSetType blockSetType) {
 		String name = changeNameTo(fullBlock.getId().getPath(), "_pressure_plate");
 		TO_PRESSURE_PLATE.put(fullBlock.getId(), new BlockEntry<>(
 				name,
 				() -> BlockBehaviour.Properties.copy(Blocks.OAK_PRESSURE_PLATE).color(fullBlock.get().defaultMaterialColor()),
-				(props) -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, props, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_OFF, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_ON)
+				(props) -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, props, blockSetType)
 		));
 	}
 
-	private static <T extends Block> void registerWoodButton(BlockEntry<T> fullBlock) {
+	private static <T extends Block> void registerWoodButton(BlockEntry<T> fullBlock, BlockSetType blockSetType) {
 		String name = changeNameTo(fullBlock.getId().getPath(), "_button");
 		TO_BUTTON.put(fullBlock.getId(), new BlockEntry<>(
 				name,
 				() -> BlockBehaviour.Properties.copy(Blocks.OAK_BUTTON).color(fullBlock.get().defaultMaterialColor()),
-				(props) -> new ButtonBlock(props, 30, true, SoundEvents.BAMBOO_WOOD_BUTTON_CLICK_OFF, SoundEvents.BAMBOO_WOOD_BUTTON_CLICK_ON)
+				(props) -> new ButtonBlock(props, blockSetType, 30, true)
 		));
 	}
 
@@ -1146,6 +1147,17 @@ public final class ECBlocks {
 				(props) -> new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, PURPURACEUS_ROOTS, props)
 		);
 
+		private static void registerAllPlanksDecorationBlocks(BlockEntry<? extends Block> planks, WoodType woodType) {
+			registerStairs(planks);
+			registerSlab(planks);
+			registerFence(planks);
+			registerFenceGate(planks);
+			registerDoor(planks, woodType.setType());
+			registerTrapDoor(planks, woodType.setType());
+			registerWoodPressurePlate(planks, woodType.setType());
+			registerWoodButton(planks, woodType.setType());
+			registerSign(planks, woodType);
+		}
 
 		private static void init() {
 			ECItems.ItemEntry.register(WILD_CHILI.getId().getPath(), () -> new BlockItem(WILD_CHILI.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
@@ -1184,43 +1196,10 @@ public final class ECBlocks {
 			ECItems.ItemEntry.register(PURPURACEUS_NYLIUM.getId().getPath(), () -> new BlockItem(PURPURACEUS_NYLIUM.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 			ECItems.ItemEntry.register(PURPURACEUS_ROOTS.getId().getPath(), () -> new BlockItem(PURPURACEUS_ROOTS.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 
-
-			registerStairs(Plant.GINKGO_PLANKS);
-			registerSlab(Plant.GINKGO_PLANKS);
-			registerFence(Plant.GINKGO_PLANKS);
-			registerFenceGate(Plant.GINKGO_PLANKS);
-			registerDoor(Plant.GINKGO_PLANKS);
-			registerTrapDoor(Plant.GINKGO_PLANKS);
-			registerWoodPressurePlate(Plant.GINKGO_PLANKS);
-			registerWoodButton(Plant.GINKGO_PLANKS);
-			registerSign(Plant.GINKGO_PLANKS, ECWoodType.GINKGO);
-			registerStairs(Plant.PALM_PLANKS);
-			registerSlab(Plant.PALM_PLANKS);
-			registerFence(Plant.PALM_PLANKS);
-			registerFenceGate(Plant.PALM_PLANKS);
-			registerDoor(Plant.PALM_PLANKS);
-			registerTrapDoor(Plant.PALM_PLANKS);
-			registerWoodPressurePlate(Plant.PALM_PLANKS);
-			registerWoodButton(Plant.PALM_PLANKS);
-			registerSign(Plant.PALM_PLANKS, ECWoodType.PALM);
-			registerStairs(Plant.PEACH_PLANKS);
-			registerSlab(Plant.PEACH_PLANKS);
-			registerFence(Plant.PEACH_PLANKS);
-			registerFenceGate(Plant.PEACH_PLANKS);
-			registerDoor(Plant.PEACH_PLANKS);
-			registerTrapDoor(Plant.PEACH_PLANKS);
-			registerWoodPressurePlate(Plant.PEACH_PLANKS);
-			registerWoodButton(Plant.PEACH_PLANKS);
-			registerSign(Plant.PEACH_PLANKS, ECWoodType.PEACH);
-			registerStairs(Plant.PURPURACEUS_PLANKS);
-			registerSlab(Plant.PURPURACEUS_PLANKS);
-			registerFence(Plant.PURPURACEUS_PLANKS);
-			registerFenceGate(Plant.PURPURACEUS_PLANKS);
-			registerDoor(Plant.PURPURACEUS_PLANKS);
-			registerTrapDoor(Plant.PURPURACEUS_PLANKS);
-			registerWoodPressurePlate(Plant.PURPURACEUS_PLANKS);
-			registerWoodButton(Plant.PURPURACEUS_PLANKS);
-			registerSign(Plant.PURPURACEUS_PLANKS, ECWoodType.PURPURACEUS);
+			registerAllPlanksDecorationBlocks(GINKGO_PLANKS, ECWoodType.GINKGO);
+			registerAllPlanksDecorationBlocks(PALM_PLANKS, ECWoodType.PALM);
+			registerAllPlanksDecorationBlocks(PEACH_PLANKS, ECWoodType.PEACH);
+			registerAllPlanksDecorationBlocks(PURPURACEUS_PLANKS, ECWoodType.PURPURACEUS);
 		}
 	}
 

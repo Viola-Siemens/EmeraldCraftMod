@@ -15,6 +15,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -80,7 +81,7 @@ public class MineralTableRecipeCategory implements IRecipeCategory<MineralTableR
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, MineralTableRecipe recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 24, 3).addIngredients(recipe.getIngredients().get(0));
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 81, 3).addItemStack(recipe.getResultItem()).setBackground(slotDrawable, -1, -1);
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 81, 3).addItemStack(RecipeUtil.getResultItem(recipe)).setBackground(slotDrawable, -1, -1);
 	}
 
 	private static class BubblesTickTimer implements ITickTimer {

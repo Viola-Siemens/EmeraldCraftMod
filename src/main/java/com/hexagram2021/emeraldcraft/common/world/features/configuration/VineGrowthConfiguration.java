@@ -37,7 +37,7 @@ public class VineGrowthConfiguration implements FeatureConfiguration {
 				blockState.hasProperty(PipeBlock.EAST) && blockState.hasProperty(PipeBlock.WEST)) {
 			result = DataResult.success(block);
 		} else {
-			result = DataResult.error("Growth block should have north, south, east and west properties.");
+			result = DataResult.error(() -> "Growth block should have north, south, east and west properties.");
 		}
 
 		return result;
