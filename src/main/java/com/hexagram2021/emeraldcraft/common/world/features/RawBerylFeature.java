@@ -7,7 +7,6 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -16,13 +15,13 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import java.util.function.Predicate;
 
 public class RawBerylFeature extends Feature<NoneFeatureConfiguration> {
-	private static final BlockState RAW_BERYL_BLOCK = ECBlocks.Decoration.RAW_BERYL_BLOCK.defaultBlockState();
-
 	public RawBerylFeature(Codec<NoneFeatureConfiguration> codec) {
 		super(codec);
 	}
 
 	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
+		BlockState RAW_BERYL_BLOCK = ECBlocks.Decoration.RAW_BERYL_BLOCK.defaultBlockState();
+
 		Predicate<BlockState> predicate = Feature.isReplaceable(BlockTags.FEATURES_CANNOT_REPLACE);
 		BlockPos origin = context.origin();
 		RandomSource random = context.random();
