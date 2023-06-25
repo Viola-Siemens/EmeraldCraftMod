@@ -41,6 +41,7 @@ public class RawBerylFeature extends Feature<NoneFeatureConfiguration> {
 							origin = current;
 						}
 						flag = true;
+						break;
 					}
 				}
 			}
