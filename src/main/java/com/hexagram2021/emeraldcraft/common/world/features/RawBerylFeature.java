@@ -27,14 +27,14 @@ public class RawBerylFeature extends Feature<NoneFeatureConfiguration> {
 		RandomSource random = context.random();
 		WorldGenLevel worldgenlevel = context.level();
 		int height = random.nextInt(3, 9);
-		int radius = random.nextInt(2, 5);
+		double radius = random.nextDouble() * 2.5D + 2.0D;
 		boolean flag = false;
 
 		for(int x = -5; x <= 5; ++x) {
-			for(int y = -3; y <= 3; ++y) {
+			for(int y = 3; y >= -3; --y) {
 				for(int z = -5; z <= 5; ++z) {
 					BlockPos current = origin.offset(x, y, z);
-					if(worldgenlevel.getBlockState(current).is(ECBlocks.Decoration.CUT_JADEITE_SANDSTONE.get())) {
+					if(worldgenlevel.getBlockState(current).is(ECBlocks.Decoration.JADEITE_SANDSTONE.get())) {
 						if(height > 6) {
 							origin = current.below();
 						} else {
@@ -49,10 +49,11 @@ public class RawBerylFeature extends Feature<NoneFeatureConfiguration> {
 			return false;
 		}
 
-		for(int y = 0; y < height - 1; ++y) {
-			int r = Mth.floor((double)(radius * (height - y)) / height);
-			for(int x = -r; x <= r; ++x) {
-				for(int z = -r; z <= r; ++z) {
+		for(int y = 0; y < height; ++y) {
+			double r = ((radius - 0.5D) * (height - y)) / (double)height + 0.5D;
+			int cr = Mth.floor(r);
+			for(int x = -cr; x <= cr; ++x) {
+				for(int z = -cr; z <= cr; ++z) {
 					double v = (double)(x * x + z * z) / (r * r + 0.1D);
 					if(v * v < random.nextDouble()) {
 						this.safeSetBlock(worldgenlevel, origin.offset(x, y, z), RAW_BERYL_BLOCK, predicate);

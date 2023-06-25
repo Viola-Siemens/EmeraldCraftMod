@@ -648,7 +648,9 @@ public class ECSurfaceRules {
 								),
 								SurfaceRules.ifTrue(SurfaceRules.UNDER_FLOOR, underSurfaceSource),
 								SurfaceRules.ifTrue(isSandSurfaceBiomes, SurfaceRules.ifTrue(SurfaceRules.DEEP_UNDER_FLOOR, SANDSTONE)),
-								SurfaceRules.ifTrue(isDesert, SurfaceRules.ifTrue(SurfaceRules.VERY_DEEP_UNDER_FLOOR, SANDSTONE))
+								SurfaceRules.ifTrue(isDesert, SurfaceRules.ifTrue(SurfaceRules.VERY_DEEP_UNDER_FLOOR, SANDSTONE)),
+								SurfaceRules.ifTrue(isAzureDesert, SurfaceRules.ifTrue(SurfaceRules.VERY_DEEP_UNDER_FLOOR, AZURE_SANDSTONE)),
+								SurfaceRules.ifTrue(isJadeiteDesert, SurfaceRules.ifTrue(SurfaceRules.VERY_DEEP_UNDER_FLOOR, JADEITE_SANDSTONE))
 						)
 				),
 				SurfaceRules.ifTrue(
