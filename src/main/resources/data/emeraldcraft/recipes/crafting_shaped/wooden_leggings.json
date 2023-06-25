@@ -2,14 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "XXX",
+    "X X",
     "X X"
   ],
   "key": {
     "X": {
-      "item": "minecraft:lapis_lazuli"
+      "tag": "minecraft:planks"
     }
   },
   "result": {
-    "item": "emeraldcraft:lapis_head"
+    "item": "emeraldcraft:wooden_leggings"
   }
 }

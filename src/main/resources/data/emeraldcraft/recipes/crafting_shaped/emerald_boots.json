@@ -2,15 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "X X",
-    "XXX",
-    "XXX"
+    "X X"
   ],
   "key": {
     "X": {
-      "item": "minecraft:lapis_lazuli"
+      "item": "minecraft:emerald"
     }
   },
   "result": {
-    "item": "emeraldcraft:lapis_chest"
+    "item": "emeraldcraft:emerald_boots"
   }
 }

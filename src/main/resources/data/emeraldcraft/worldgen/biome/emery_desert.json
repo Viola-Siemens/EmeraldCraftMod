@@ -2,6 +2,7 @@
   "carvers": {
     "air": "minecraft:nether_cave"
   },
+  "has_precipitation": false,
   "downfall": 0.0,
   "effects": {
     "additions_sound": {

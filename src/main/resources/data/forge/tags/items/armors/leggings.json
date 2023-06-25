@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "emeraldcraft:emerald_legs",
-    "emeraldcraft:lapis_legs",
-    "emeraldcraft:wooden_legs"
+    "emeraldcraft:emerald_leggings",
+    "emeraldcraft:lapis_leggings",
+    "emeraldcraft:wooden_leggings"
   ]
 }

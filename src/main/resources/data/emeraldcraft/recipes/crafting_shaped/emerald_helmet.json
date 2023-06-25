@@ -2,7 +2,6 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "XXX",
-    "X X",
     "X X"
   ],
   "key": {
@@ -11,6 +10,6 @@
     }
   },
   "result": {
-    "item": "emeraldcraft:emerald_legs"
+    "item": "emeraldcraft:emerald_helmet"
   }
 }

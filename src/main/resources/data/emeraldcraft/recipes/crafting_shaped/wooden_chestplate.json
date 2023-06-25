@@ -1,8 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
+    "X X",
     "XXX",
-    "X X"
+    "XXX"
   ],
   "key": {
     "X": {
@@ -10,6 +11,6 @@
     }
   },
   "result": {
-    "item": "emeraldcraft:wooden_head"
+    "item": "emeraldcraft:wooden_chestplate"
   }
 }

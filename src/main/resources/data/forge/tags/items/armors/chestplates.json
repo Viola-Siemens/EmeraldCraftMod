@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "emeraldcraft:emerald_chest",
-    "emeraldcraft:lapis_chest",
-    "emeraldcraft:wooden_chest"
+    "emeraldcraft:emerald_chestplate",
+    "emeraldcraft:lapis_chestplate",
+    "emeraldcraft:wooden_chestplate"
   ]
 }

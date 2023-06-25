@@ -183,29 +183,6 @@ public class EmeraldCraft {
 			ECSaveData worldData = world.getDataStorage().computeIfAbsent(ECSaveData::new, ECSaveData::new, ECSaveData.dataName);
 			ECSaveData.setInstance(worldData);
 		}
-
-		if(ECCommonConfig.ENABLE_JEI_TRADING_SHADOW_RECIPE.get()) {
-			RecipeManagerAccess recipeManagerAccess = (RecipeManagerAccess) (world.getRecipeManager());
-			Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipes = Maps.newHashMap(recipeManagerAccess.ec_getRecipes());
-			recipes.compute(ECRecipes.TRADE_SHADOW_TYPE.get(), (key, map) -> {
-				Map<ResourceLocation, Recipe<?>> shadows = Maps.newHashMap();
-				Set<String> names = Sets.newHashSet();
-
-				if (map != null) {
-					names.addAll(map.keySet().stream().map(resourceLocation -> resourceLocation.getPath().replaceFirst("trade_shadow/", "")).collect(Collectors.toSet()));
-					shadows.putAll(map);
-				}
-
-				VillagerTrades.TRADES.forEach((profession, trades) ->
-						TradeUtil.addTradeShadowRecipesFromListingMap(trades, EntityType.VILLAGER, profession, world, names, shadows));
-				TradeListingUtils.ADDITIONAL_TRADE_LISTINGS.forEach(tradeListing ->
-						TradeUtil.addTradeShadowRecipesFromListingMap(tradeListing.listings(), tradeListing.entityType(), tradeListing.profession(), world, names, shadows));
-
-
-				return shadows;
-			});
-			recipeManagerAccess.ec_setRecipes(recipes);
-		}
 	}
 
 	private static void appendBlocksToBlockEntities() {

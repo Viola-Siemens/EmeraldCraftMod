@@ -1,16 +1,21 @@
 package com.hexagram2021.emeraldcraft.common.crafting.compat.jei;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.hexagram2021.emeraldcraft.api.tradable.TradeListingUtils;
 import com.hexagram2021.emeraldcraft.client.screens.GlassKilnScreen;
 import com.hexagram2021.emeraldcraft.client.screens.IceMakerScreen;
 import com.hexagram2021.emeraldcraft.client.screens.MelterScreen;
 import com.hexagram2021.emeraldcraft.client.screens.MineralTableScreen;
 import com.hexagram2021.emeraldcraft.common.blocks.entity.RabbleFurnaceBlockEntity;
+import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
 import com.hexagram2021.emeraldcraft.common.crafting.*;
 import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.*;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
 import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
 import com.hexagram2021.emeraldcraft.common.util.ECLogger;
+import com.hexagram2021.emeraldcraft.common.util.TradeUtil;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -20,12 +25,17 @@ import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -81,11 +91,26 @@ public class JEIHelper implements IModPlugin {
 		registration.addRecipes(ECJEIRecipeTypes.MELTER, getRecipes(MelterRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.ICE_MAKER, getRecipes(IceMakerRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.RABBLE_FURNACE, getRecipes(RabbleFurnaceRecipe.recipeList));
-		registration.addRecipes(ECJEIRecipeTypes.TRADES, getRecipes(TradeShadowRecipe.recipeList));
+		registration.addRecipes(ECJEIRecipeTypes.TRADES, getTradeRecipes());
 	}
 
-	private <T extends Recipe<?>> List<T> getRecipes(CachedRecipeList<T> cachedList) {
-		return new ArrayList<>(cachedList.getRecipes(Minecraft.getInstance().level));
+	private static <T extends Recipe<?>> List<T> getRecipes(CachedRecipeList<T> cachedList) {
+		return new ArrayList<>(cachedList.getRecipes(Objects.requireNonNull(Minecraft.getInstance().level)));
+	}
+
+	private static List<TradeShadowRecipe> getTradeRecipes() {
+		List<TradeShadowRecipe> shadows = Lists.newArrayList();
+		if(ECCommonConfig.ENABLE_JEI_TRADING_SHADOW_RECIPE.get()) {
+			Level world = Objects.requireNonNull(Minecraft.getInstance().level);
+			Set<String> names = Sets.newHashSet();
+
+			VillagerTrades.TRADES.forEach((profession, trades) ->
+					TradeUtil.addTradeShadowRecipesFromListingMap(trades, EntityType.VILLAGER, profession, world, names, shadows));
+			TradeListingUtils.ADDITIONAL_TRADE_LISTINGS.forEach(tradeListing ->
+					TradeUtil.addTradeShadowRecipesFromListingMap(tradeListing.listings(), tradeListing.entityType(), tradeListing.profession(), world, names, shadows));
+		}
+
+		return shadows;
 	}
 
 	@Override

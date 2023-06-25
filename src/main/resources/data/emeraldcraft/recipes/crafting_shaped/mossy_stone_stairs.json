@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": [
+      {
+        "item": "emeraldcraft:mossy_stone"
+      }
+    ]
+  },
+  "result": {
+    "item": "emeraldcraft:mossy_stone_stairs",
+    "count": 4
+  }
+}

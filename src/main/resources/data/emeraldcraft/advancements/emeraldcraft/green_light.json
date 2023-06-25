@@ -2,7 +2,7 @@
   "parent": "emeraldcraft:emeraldcraft/hard_currency",
   "display": {
     "icon": {
-      "item": "emeraldcraft:emerald_head",
+      "item": "emeraldcraft:emerald_helmet",
       "nbt": "{Damage:0}"
     },
     "title": {
@@ -26,22 +26,22 @@
         "items": [
           {
             "items": [
-              "emeraldcraft:emerald_head"
+              "emeraldcraft:emerald_helmet"
             ]
           },
           {
             "items": [
-              "emeraldcraft:emerald_chest"
+              "emeraldcraft:emerald_chestplate"
             ]
           },
           {
             "items": [
-              "emeraldcraft:emerald_legs"
+              "emeraldcraft:emerald_leggings"
             ]
           },
           {
             "items": [
-              "emeraldcraft:emerald_feet"
+              "emeraldcraft:emerald_boots"
             ]
           }
         ]

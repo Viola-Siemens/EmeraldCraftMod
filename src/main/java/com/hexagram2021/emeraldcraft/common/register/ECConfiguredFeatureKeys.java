@@ -14,6 +14,7 @@ public class ECConfiguredFeatureKeys {
 		public static final ResourceKey<ConfiguredFeature<?, ?>> ORE_QUARTZ_EXTRA = createKey("ore_quartz_extra");
 		public static final ResourceKey<ConfiguredFeature<?, ?>> ORE_MAGMA_EXTRA = createKey("ore_magma_extra");
 		public static final ResourceKey<ConfiguredFeature<?, ?>> ORE_MOSSY_STONE = createKey("ore_mossy_stone");
+		public static final ResourceKey<ConfiguredFeature<?, ?>> RAW_BERYL = createKey("raw_beryl");
 
 		private OreConfiguredFeatures() {}
 

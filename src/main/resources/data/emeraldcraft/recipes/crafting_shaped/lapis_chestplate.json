@@ -7,10 +7,10 @@
   ],
   "key": {
     "X": {
-      "tag": "minecraft:planks"
+      "item": "minecraft:lapis_lazuli"
     }
   },
   "result": {
-    "item": "emeraldcraft:wooden_chest"
+    "item": "emeraldcraft:lapis_chestplate"
   }
 }

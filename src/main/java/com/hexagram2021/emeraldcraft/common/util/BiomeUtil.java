@@ -18,6 +18,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistry;
 
+import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,25 +43,28 @@ public class BiomeUtil {
 		throw new RuntimeException("Failed to find fallback for biome!");
 	}
 
-	public static boolean isKeyRegistered(Registry<Biome> registry, ECBiomeKeys.BiomeKey key) {
+	public static boolean isKeyRegistered(Registry<Biome> registry, @Nullable ECBiomeKeys.BiomeKey key) {
 		return key != null && key.generate() && registry.get(key.key()) != null;
 	}
 
-	public static ResourceKey<Biome> getBiomeKey(Biome biome) {
-		ResourceLocation name = getRegistryName(biome);
+	public static ResourceKey<Biome> getBiomeKey(@Nullable Biome biome) {
 		if (biome == null) {
 			throw new RuntimeException("Cannot get registry key for null biome");
-		} else if (name == null) {
-			if (FMLEnvironment.dist == Dist.CLIENT) {
-				return getClientKey(biome);
-			} else {
-				throw new RuntimeException("Failed to get registry key for biome!");
-			}
 		} else {
-			return ResourceKey.create(Registries.BIOME, name);
+			ResourceLocation name = getRegistryName(biome);
+			if (name == null) {
+				if (FMLEnvironment.dist == Dist.CLIENT) {
+					return getClientKey(biome);
+				} else {
+					throw new RuntimeException("Failed to get registry key for biome!");
+				}
+			} else {
+				return ResourceKey.create(Registries.BIOME, name);
+			}
 		}
 	}
 
+	@Nullable
 	public static Biome getBiome(ResourceKey<Biome> key) {
 		Biome biome = ForgeRegistries.BIOMES.getValue(key.location());
 		if (biome == null) {
@@ -86,6 +90,7 @@ public class BiomeUtil {
 		return biome;
 	}
 
+	@Nullable
 	public static Biome getBiome(int id) {
 		if (id == -1) {
 			throw new RuntimeException("Attempted to get biome with id -1");
@@ -94,7 +99,7 @@ public class BiomeUtil {
 		}
 	}
 
-	public static int getBiomeId(Biome biome) {
+	public static int getBiomeId(@Nullable Biome biome) {
 		if (biome == null) {
 			throw new RuntimeException("Attempted to get id of null biome");
 		} else {

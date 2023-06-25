@@ -675,6 +675,10 @@ public final class ECBlocks {
 				BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_ORANGE)
 						.requiresCorrectToolForDrops().strength(30.0F, 600.0F).sound(SoundType.FROGLIGHT);
 
+		public static final Supplier<BlockBehaviour.Properties> RAW_BERYL_PROPERTIES = () ->
+				BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_LIGHT_GREEN)
+						.requiresCorrectToolForDrops().strength(1.5F);
+
 		public static final Supplier<BlockBehaviour.Properties> PAPER_BLOCK_PROPERTIES = () ->
 				BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.SNOW)
 						.strength(0.2F).instabreak().sound(SoundType.WOOL);
@@ -786,6 +790,10 @@ public final class ECBlocks {
 				"reinforced_resin_block", REINFORCED_RESIN_PROPERTIES, Block::new
 		);
 
+		public static final BlockEntry<Block> RAW_BERYL_BLOCK = new BlockEntry<>(
+				"raw_beryl_block", RAW_BERYL_PROPERTIES, Block::new
+		);
+
 		private static void init() {
 			ECItems.ItemEntry.register(VITRIFIED_SAND.getId().getPath(), () -> new BlockItem(VITRIFIED_SAND.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 
@@ -826,6 +834,7 @@ public final class ECBlocks {
 
 			ECItems.ItemEntry.register(RESIN_BLOCK.getId().getPath(), () -> new BlockItem(RESIN_BLOCK.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 			ECItems.ItemEntry.register(REINFORCED_RESIN_BLOCK.getId().getPath(), () -> new BlockItem(REINFORCED_RESIN_BLOCK.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
+			ECItems.ItemEntry.register(RAW_BERYL_BLOCK.getId().getPath(), () -> new BlockItem(RAW_BERYL_BLOCK.get(), new Item.Properties()), ECItems.ItemEntry.ItemGroupType.BUILDING_BLOCKS);
 
 			registerStairs(Decoration.AZURE_SANDSTONE);
 			registerStairs(Decoration.QUARTZ_SANDSTONE);

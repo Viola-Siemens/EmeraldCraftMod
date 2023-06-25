@@ -13,9 +13,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.ForgeEventFactory;
 
+import javax.annotation.Nullable;
+
 public class BlockUtil {
 	@SuppressWarnings("UnusedReturnValue")
-	public static boolean breakBlock(ServerPlayer player, BlockState blockState, BlockEntity blockEntity, BlockPos pos, int exp) {
+	public static boolean breakBlock(ServerPlayer player, BlockState blockState, @Nullable BlockEntity blockEntity, BlockPos pos, int exp) {
 		Block block = blockState.getBlock();
 		if (block instanceof GameMasterBlock && !player.canUseGameMasterBlocks()) {
 			player.level.sendBlockUpdated(pos, blockState, blockState, 3);

@@ -2,7 +2,7 @@
   "parent": "emeraldcraft:emeraldcraft/root",
   "display": {
     "icon": {
-      "item": "emeraldcraft:emerald_chest",
+      "item": "emeraldcraft:emerald_chestplate",
       "nbt": "{Damage:0}"
     },
     "title": {
@@ -23,7 +23,7 @@
         "items": [
           {
             "items": [
-              "emeraldcraft:emerald_head"
+              "emeraldcraft:emerald_helmet"
             ]
           }
         ]
@@ -35,7 +35,7 @@
         "items": [
           {
             "items": [
-              "emeraldcraft:emerald_chest"
+              "emeraldcraft:emerald_chestplate"
             ]
           }
         ]
@@ -47,7 +47,7 @@
         "items": [
           {
             "items": [
-              "emeraldcraft:emerald_legs"
+              "emeraldcraft:emerald_leggings"
             ]
           }
         ]
@@ -59,7 +59,7 @@
         "items": [
           {
             "items": [
-              "emeraldcraft:emerald_feet"
+              "emeraldcraft:emerald_boots"
             ]
           }
         ]

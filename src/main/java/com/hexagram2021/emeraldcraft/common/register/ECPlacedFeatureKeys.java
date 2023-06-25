@@ -15,6 +15,7 @@ public class ECPlacedFeatureKeys {
 	public static final ResourceKey<PlacedFeature> ORE_QUARTZ_EXTRA = createKey("ore_quartz_extra");
 	public static final ResourceKey<PlacedFeature> ORE_MAGMA_EXTRA = createKey("ore_magma_extra");
 	public static final ResourceKey<PlacedFeature> ORE_MOSSY_STONE = createKey("ore_mossy_stone");
+	public static final ResourceKey<PlacedFeature> RAW_BERYL = createKey("raw_beryl");
 
 	public static final ResourceKey<PlacedFeature> ZOMBIE_VILLAGER_ROOM = createKey("zombie_villager_room");
 

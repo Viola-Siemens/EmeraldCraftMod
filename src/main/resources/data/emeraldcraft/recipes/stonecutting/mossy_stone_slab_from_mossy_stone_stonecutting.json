@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emeraldcraft:mossy_stone"
+  },
+  "result": "emeraldcraft:mossy_stone_slab",
+  "count": 2
+}

@@ -4,18 +4,17 @@ import com.hexagram2021.emeraldcraft.common.crafting.TradeShadowRecipe;
 import com.hexagram2021.emeraldcraft.common.world.village.ECTrades;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
@@ -23,7 +22,7 @@ import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegist
 
 public class TradeUtil {
 	private static void addTradeShadowRecipe(VillagerTrades.ItemListing list, LivingEntity trader, @Nullable VillagerProfession profession, int level,
-											Set<String> names, Map<ResourceLocation, Recipe<?>> shadows) {
+											Set<String> names, List<TradeShadowRecipe> shadows) {
 		MerchantOffer offer;
 		if(list instanceof VillagerTrades.TreasureMapForEmeralds || list instanceof ECTrades.NetherStructureMapForEmeralds) {
 			offer = new MerchantOffer(new ItemStack(Items.EMERALD, 13), new ItemStack(Items.COMPASS), new ItemStack(Items.FILLED_MAP), 12, 5, 0.2F);
@@ -54,13 +53,13 @@ public class TradeUtil {
 			} else {
 				names.add(name);
 				ResourceLocation id = new ResourceLocation(MODID, "trade_shadow/" + name);
-				shadows.put(id, new TradeShadowRecipe(id, costAItem, costBItem, resultItem, trader.getType(), profession, level, offer.getXp()));
+				shadows.add(new TradeShadowRecipe(id, costAItem, costBItem, resultItem, trader.getType(), profession, level, offer.getXp()));
 			}
 		}
 	}
 
 	public static <T extends LivingEntity> void addTradeShadowRecipesFromListingMap(Int2ObjectMap<VillagerTrades.ItemListing[]> listingMap, EntityType<T> entityType, @Nullable VillagerProfession profession,
-																					ServerLevel world, Set<String> names, Map<ResourceLocation, Recipe<?>> shadows) {
+																					Level world, Set<String> names, List<TradeShadowRecipe> shadows) {
 		listingMap.forEach((level, lists) -> {
 			T entity = entityType.create(world);
 			if(entity != null) {

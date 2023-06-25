@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "group": "emerald",
+  "ingredient": {
+    "item": "emeraldcraft:raw_beryl_block"
+  },
+  "result": "minecraft:emerald"
+}
