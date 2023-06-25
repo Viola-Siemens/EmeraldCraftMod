@@ -30,9 +30,9 @@ public class RawBerylFeature extends Feature<NoneFeatureConfiguration> {
 		double radius = random.nextDouble() * 2.5D + 2.0D;
 		boolean flag = false;
 
-		for(int x = -5; x <= 5; ++x) {
+		for(int x = -3; x <= 3; ++x) {
 			for(int y = 3; y >= -3; --y) {
-				for(int z = -5; z <= 5; ++z) {
+				for(int z = -3; z <= 3; ++z) {
 					BlockPos current = origin.offset(x, y, z);
 					if(worldgenlevel.getBlockState(current).is(ECBlocks.Decoration.JADEITE_SANDSTONE.get())) {
 						if(height > 6) {
