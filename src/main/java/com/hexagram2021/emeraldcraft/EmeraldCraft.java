@@ -1,8 +1,6 @@
 package com.hexagram2021.emeraldcraft;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.hexagram2021.emeraldcraft.api.tradable.TradeListingUtils;
 import com.hexagram2021.emeraldcraft.client.ClientProxy;
 import com.hexagram2021.emeraldcraft.common.CommonProxy;
@@ -10,28 +8,28 @@ import com.hexagram2021.emeraldcraft.common.ECContent;
 import com.hexagram2021.emeraldcraft.common.ECSaveData;
 import com.hexagram2021.emeraldcraft.common.ModVanillaCompat;
 import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
+import com.hexagram2021.emeraldcraft.common.crafting.TradeShadowRecipe;
 import com.hexagram2021.emeraldcraft.common.register.*;
 import com.hexagram2021.emeraldcraft.common.util.ECFoods;
 import com.hexagram2021.emeraldcraft.common.util.ECLogger;
-import com.hexagram2021.emeraldcraft.common.util.TradeUtil;
 import com.hexagram2021.emeraldcraft.common.world.village.ECTrades;
 import com.hexagram2021.emeraldcraft.common.world.village.Villages;
 import com.hexagram2021.emeraldcraft.mixin.BlockEntityTypeAccess;
-import com.hexagram2021.emeraldcraft.mixin.RecipeManagerAccess;
+import com.hexagram2021.emeraldcraft.network.ClientboundTradeSyncPacket;
+import com.hexagram2021.emeraldcraft.network.IECPacket;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.StandingSignBlock;
@@ -40,6 +38,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -50,26 +49,36 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 @Mod(EmeraldCraft.MODID)
 public class EmeraldCraft {
 	public static final String MODID = "emeraldcraft";
 	public static final String MODNAME = "Emerald Craft";
-	public static final String VERSION = "${version}";
+	public static final String VERSION = ModList.get().getModFileById(MODID).versionString();
 
 	public static final CommonProxy proxy = DistExecutor.safeRunForDist(
 			bootstrapErrorToXCPInDev(() -> ClientProxy::new),
 			bootstrapErrorToXCPInDev(() -> CommonProxy::new)
 	);
+
+	public final SimpleChannel packetHandler = NetworkRegistry.ChannelBuilder
+			.named(new ResourceLocation(MODID, "main"))
+			.networkProtocolVersion(() -> VERSION)
+			.serverAcceptedVersions(VERSION::equals)
+			.clientAcceptedVersions(VERSION::equals)
+			.simpleChannel();
 
 	public static <T>
 	Supplier<T> bootstrapErrorToXCPInDev(Supplier<T> in) {
@@ -85,11 +94,20 @@ public class EmeraldCraft {
 		};
 	}
 
+	private int messageId = 0;
+	@SuppressWarnings("SameParameterValue")
+	private <T extends IECPacket> void registerMessage(Class<T> packetType,
+													   Function<FriendlyByteBuf, T> constructor,
+													   NetworkDirection direction) {
+		this.packetHandler.registerMessage(this.messageId++, packetType, IECPacket::write, constructor, (packet, ctx) -> packet.handle(), Optional.of(direction));
+	}
+
 	public EmeraldCraft() {
 		ECLogger.logger = LogManager.getLogger(MODID);
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 		MinecraftForge.EVENT_BUS.addListener(this::tagsUpdated);
 		MinecraftForge.EVENT_BUS.addListener(this::serverStarted);
+		MinecraftForge.EVENT_BUS.addListener(this::datapackSync);
 		DeferredWorkQueue queue = DeferredWorkQueue.lookup(Optional.of(ModLoadingStage.CONSTRUCT)).orElseThrow();
 		Consumer<Runnable> runLater = job -> queue.enqueueWork(
 				ModLoadingContext.get().getActiveContainer(), job
@@ -125,6 +143,8 @@ public class EmeraldCraft {
 		TradeListingUtils.registerTradeListing(ECTrades.PIGLIN_CUTEY_TRADES, ECEntities.PIGLIN_CUTEY, null);
 		TradeListingUtils.registerTradeListing(ECTrades.NETHER_LAMBMAN_TRADES, ECEntities.NETHER_LAMBMAN, null);
 		TradeListingUtils.registerTradeListing(ECTrades.NETHER_PIGMAN_TRADES, ECEntities.NETHER_PIGMAN, null);
+
+		registerMessage(ClientboundTradeSyncPacket.class, ClientboundTradeSyncPacket::new, NetworkDirection.PLAY_TO_CLIENT);
 	}
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {
@@ -182,6 +202,16 @@ public class EmeraldCraft {
 		if(!world.isClientSide) {
 			ECSaveData worldData = world.getDataStorage().computeIfAbsent(ECSaveData::new, ECSaveData::new, ECSaveData.dataName);
 			ECSaveData.setInstance(worldData);
+		}
+	}
+
+	public void datapackSync(OnDatapackSyncEvent event) {
+		ServerPlayer player = event.getPlayer();
+		IECPacket packet = new ClientboundTradeSyncPacket(TradeShadowRecipe.getTradeRecipes());
+		if(player == null) {
+			this.packetHandler.send(PacketDistributor.ALL.noArg(), packet);
+		} else {
+			this.packetHandler.send(PacketDistributor.PLAYER.with(() -> player), packet);
 		}
 	}
 

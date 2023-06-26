@@ -9,7 +9,7 @@
   "group": "planks",
   "ingredients": [
     {
-      "tag": "byg:imparius_stems"
+      "tag": "byg:imparius_logs"
     }
   ],
   "result": "byg:imparius_planks",

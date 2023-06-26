@@ -91,26 +91,11 @@ public class JEIHelper implements IModPlugin {
 		registration.addRecipes(ECJEIRecipeTypes.MELTER, getRecipes(MelterRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.ICE_MAKER, getRecipes(IceMakerRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.RABBLE_FURNACE, getRecipes(RabbleFurnaceRecipe.recipeList));
-		registration.addRecipes(ECJEIRecipeTypes.TRADES, getTradeRecipes());
+		registration.addRecipes(ECJEIRecipeTypes.TRADES, TradeShadowRecipe.getTradeRecipes());
 	}
 
 	private static <T extends Recipe<?>> List<T> getRecipes(CachedRecipeList<T> cachedList) {
 		return new ArrayList<>(cachedList.getRecipes(Objects.requireNonNull(Minecraft.getInstance().level)));
-	}
-
-	private static List<TradeShadowRecipe> getTradeRecipes() {
-		List<TradeShadowRecipe> shadows = Lists.newArrayList();
-		if(ECCommonConfig.ENABLE_JEI_TRADING_SHADOW_RECIPE.get()) {
-			Level world = Objects.requireNonNull(Minecraft.getInstance().level);
-			Set<String> names = Sets.newHashSet();
-
-			VillagerTrades.TRADES.forEach((profession, trades) ->
-					TradeUtil.addTradeShadowRecipesFromListingMap(trades, EntityType.VILLAGER, profession, world, names, shadows));
-			TradeListingUtils.ADDITIONAL_TRADE_LISTINGS.forEach(tradeListing ->
-					TradeUtil.addTradeShadowRecipesFromListingMap(tradeListing.listings(), tradeListing.entityType(), tradeListing.profession(), world, names, shadows));
-		}
-
-		return shadows;
 	}
 
 	@Override

@@ -9,7 +9,7 @@
   "group": "wooden_door",
   "ingredients": [
     {
-      "tag": "byg:embur_pedus"
+      "tag": "byg:embur_logs"
     }
   ],
   "result": "byg:embur_door",

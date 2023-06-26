@@ -27,33 +27,13 @@ public class RawBerylFeature extends Feature<NoneFeatureConfiguration> {
 		RandomSource random = context.random();
 		WorldGenLevel worldgenlevel = context.level();
 		int height = random.nextInt(3, 9);
-		double radius = random.nextDouble() * 2.5D + 2.0D;
-		boolean flag = false;
+		double radius = random.nextDouble() * 3.0D + 1.5D;
 
-		for(int x = -3; x <= 3; ++x) {
-			for(int y = 3; y >= -3; --y) {
-				for(int z = -3; z <= 3; ++z) {
-					BlockPos current = origin.offset(x, y, z);
-					if(worldgenlevel.getBlockState(current).is(ECBlocks.Decoration.JADEITE_SANDSTONE.get())) {
-						if(height > 6) {
-							origin = current.below();
-						} else {
-							origin = current;
-						}
-						flag = true;
-						break;
-					}
-				}
-				if(flag) {
-					break;
-				}
-			}
-			if(flag) {
-				break;
-			}
-		}
-		if(!flag) {
+		if(!worldgenlevel.getBlockState(origin).is(ECBlocks.Decoration.JADEITE_SANDSTONE.get())) {
 			return false;
+		}
+		if(height > 6) {
+			origin = origin.below();
 		}
 
 		for(int y = 0; y < height; ++y) {

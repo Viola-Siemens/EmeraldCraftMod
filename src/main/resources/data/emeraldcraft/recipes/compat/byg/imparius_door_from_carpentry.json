@@ -9,7 +9,7 @@
   "group": "wooden_door",
   "ingredients": [
     {
-      "tag": "byg:imparius_stems"
+      "tag": "byg:imparius_logs"
     }
   ],
   "result": "byg:imparius_door",

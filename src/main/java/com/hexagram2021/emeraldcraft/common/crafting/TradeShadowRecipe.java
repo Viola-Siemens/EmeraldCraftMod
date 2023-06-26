@@ -1,10 +1,14 @@
 package com.hexagram2021.emeraldcraft.common.crafting;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.hexagram2021.emeraldcraft.api.tradable.ITradableDataFactory;
-import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
+import com.hexagram2021.emeraldcraft.api.tradable.TradeListingUtils;
+import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipeSerializer;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
+import com.hexagram2021.emeraldcraft.common.util.TradeUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
@@ -23,7 +27,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 public class TradeShadowRecipe implements Recipe<Container> {
 	protected final ResourceLocation id;
@@ -38,10 +45,30 @@ public class TradeShadowRecipe implements Recipe<Container> {
 	protected static final Map<VillagerProfession, Map<Integer, Villager>> LAZY_RENDER_VILLAGERS = Maps.newHashMap();
 	protected static final Map<EntityType<?>, Map<Integer, LivingEntity>> LAZY_RENDER_TRADERS = Maps.newHashMap();
 
-	public static final CachedRecipeList<TradeShadowRecipe> recipeList = new CachedRecipeList<>(
-			ECRecipes.TRADE_SHADOW_TYPE,
-			TradeShadowRecipe.class
-	);
+	private static List<TradeShadowRecipe> cachedList = null;
+
+	public static List<TradeShadowRecipe> getTradeRecipes() {
+		if(cachedList != null) {
+			return cachedList;
+		}
+
+		List<TradeShadowRecipe> shadows = Lists.newArrayList();
+		if(ECCommonConfig.ENABLE_JEI_TRADING_SHADOW_RECIPE.get()) {
+			Level world = Objects.requireNonNull(Minecraft.getInstance().level);
+			Set<String> names = Sets.newHashSet();
+
+			VillagerTrades.TRADES.forEach((profession, trades) ->
+					TradeUtil.addTradeShadowRecipesFromListingMap(trades, EntityType.VILLAGER, profession, world, names, shadows));
+			TradeListingUtils.ADDITIONAL_TRADE_LISTINGS.forEach(tradeListing ->
+					TradeUtil.addTradeShadowRecipesFromListingMap(tradeListing.listings(), tradeListing.entityType(), tradeListing.profession(), world, names, shadows));
+		}
+
+		return cachedList = shadows;
+	}
+
+	public static void setTradeRecipes(List<TradeShadowRecipe> shadows) {
+		cachedList = shadows;
+	}
 
 	public TradeShadowRecipe(ResourceLocation id, ItemStack costA, ItemStack costB, ItemStack result, EntityType<?> entityType,
 							 @Nullable VillagerProfession profession, int villagerLevel, int xp) {

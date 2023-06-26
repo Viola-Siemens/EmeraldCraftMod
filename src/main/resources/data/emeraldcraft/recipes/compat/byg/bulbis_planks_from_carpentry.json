@@ -9,7 +9,7 @@
   "group": "planks",
   "ingredients": [
     {
-      "tag": "byg:bulbis_stems"
+      "tag": "byg:bulbis_logs"
     }
   ],
   "result": "byg:bulbis_planks",

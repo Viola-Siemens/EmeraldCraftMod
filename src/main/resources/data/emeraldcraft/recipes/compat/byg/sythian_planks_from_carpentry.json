@@ -9,7 +9,7 @@
   "group": "planks",
   "ingredients": [
     {
-      "tag": "byg:sythian_stems"
+      "tag": "byg:sythian_logs"
     }
   ],
   "result": "byg:sythian_planks",
