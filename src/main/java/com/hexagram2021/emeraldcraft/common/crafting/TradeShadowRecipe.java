@@ -47,14 +47,13 @@ public class TradeShadowRecipe implements Recipe<Container> {
 
 	private static List<TradeShadowRecipe> cachedList = null;
 
-	public static List<TradeShadowRecipe> getTradeRecipes() {
+	public static List<TradeShadowRecipe> getTradeRecipes(Level world) {
 		if(cachedList != null) {
 			return cachedList;
 		}
 
 		List<TradeShadowRecipe> shadows = Lists.newArrayList();
 		if(ECCommonConfig.ENABLE_JEI_TRADING_SHADOW_RECIPE.get()) {
-			Level world = Objects.requireNonNull(Minecraft.getInstance().level);
 			Set<String> names = Sets.newHashSet();
 
 			VillagerTrades.TRADES.forEach((profession, trades) ->

@@ -91,7 +91,7 @@ public class JEIHelper implements IModPlugin {
 		registration.addRecipes(ECJEIRecipeTypes.MELTER, getRecipes(MelterRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.ICE_MAKER, getRecipes(IceMakerRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.RABBLE_FURNACE, getRecipes(RabbleFurnaceRecipe.recipeList));
-		registration.addRecipes(ECJEIRecipeTypes.TRADES, TradeShadowRecipe.getTradeRecipes());
+		registration.addRecipes(ECJEIRecipeTypes.TRADES, TradeShadowRecipe.getTradeRecipes(Objects.requireNonNull(Minecraft.getInstance().level)));
 	}
 
 	private static <T extends Recipe<?>> List<T> getRecipes(CachedRecipeList<T> cachedList) {

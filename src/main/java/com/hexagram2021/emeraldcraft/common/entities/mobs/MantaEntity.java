@@ -149,7 +149,7 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 
 	@Override
 	public void travel(@NotNull Vec3 velo) {
-		if (this.isAlive() && (this.isEffectiveAi() || this.isControlledByLocalInstance())) {
+		if (this.isAlive() && this.isControlledByLocalInstance()) {
 			LivingEntity passenger = this.getControllingPassenger();
 			if(this.isOnGround()) {
 				this.moveRelative(0.02F, Vec3Util.UP);
@@ -169,7 +169,7 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 				this.setRot(this.getYRot(), this.getXRot());
 				this.yBodyRot = this.getYRot();
 				this.yHeadRot = this.yBodyRot;
-				super.travel(new Vec3(passenger.xxa * 8.0D, velo.y, passenger.zza * 8.0D));
+				super.travel(new Vec3(passenger.xxa * 10.0D, velo.y, passenger.zza * 10.0D));
 			} else{
 				this.moveRelative(this.getSpeed(), velo);
 				this.move(MoverType.SELF, this.getDeltaMovement());
@@ -254,6 +254,11 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 					this.getZ() + f + this.random.nextDouble() - 0.5D,
 					0.0D, 0.0D, 0.0D);
 		}
+	}
+
+	@Override
+	protected float getRiddenSpeed(@NotNull LivingEntity livingEntity) {
+		return (float)this.getAttributeValue(Attributes.MOVEMENT_SPEED);
 	}
 
 	@Override

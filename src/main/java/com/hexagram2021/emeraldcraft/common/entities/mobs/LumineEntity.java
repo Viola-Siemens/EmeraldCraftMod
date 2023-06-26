@@ -130,7 +130,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 
 	@Override
 	public void travel(@NotNull Vec3 vec) {
-		if (this.isEffectiveAi() || this.isControlledByLocalInstance()) {
+		if (this.isControlledByLocalInstance()) {
 			if (this.isInWater()) {
 				this.moveRelative(0.02F, vec);
 				this.move(MoverType.SELF, this.getDeltaMovement());

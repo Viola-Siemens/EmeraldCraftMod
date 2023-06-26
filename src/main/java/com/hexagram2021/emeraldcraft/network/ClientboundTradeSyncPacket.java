@@ -5,7 +5,6 @@ import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
 import com.hexagram2021.emeraldcraft.common.crafting.TradeShadowRecipe;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipeSerializer;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
@@ -18,8 +17,7 @@ public class ClientboundTradeSyncPacket implements IECPacket {
 	}
 
 	public ClientboundTradeSyncPacket(FriendlyByteBuf buf) {
-		this.recipes = Lists.newArrayList();
-		buf.readList(friendlyByteBuf -> {
+		this.recipes = buf.readCollection(Lists::newArrayListWithCapacity, friendlyByteBuf -> {
 			ResourceLocation id = friendlyByteBuf.readResourceLocation();
 			return ECRecipeSerializer.TRADE_SHADOW_SERIALIZER.get().fromNetwork(id, friendlyByteBuf);
 		});
@@ -27,9 +25,9 @@ public class ClientboundTradeSyncPacket implements IECPacket {
 
 	@Override
 	public void write(FriendlyByteBuf buf) {
-		this.recipes.forEach(recipe -> {
-			buf.writeResourceLocation(recipe.getId());
-			ECRecipeSerializer.TRADE_SHADOW_SERIALIZER.get().toNetwork(buf, recipe);
+		buf.writeCollection(this.recipes, (friendlyByteBuf, recipe) -> {
+			friendlyByteBuf.writeResourceLocation(recipe.getId());
+			ECRecipeSerializer.TRADE_SHADOW_SERIALIZER.get().toNetwork(friendlyByteBuf, recipe);
 		});
 	}
 

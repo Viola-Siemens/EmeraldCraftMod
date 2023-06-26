@@ -207,7 +207,7 @@ public class EmeraldCraft {
 
 	public void datapackSync(OnDatapackSyncEvent event) {
 		ServerPlayer player = event.getPlayer();
-		IECPacket packet = new ClientboundTradeSyncPacket(TradeShadowRecipe.getTradeRecipes());
+		IECPacket packet = new ClientboundTradeSyncPacket(TradeShadowRecipe.getTradeRecipes(event.getPlayerList().getServer().overworld()));
 		if(player == null) {
 			this.packetHandler.send(PacketDistributor.ALL.noArg(), packet);
 		} else {
