@@ -31,6 +31,7 @@ import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -150,34 +151,49 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	@Override
 	public void travel(@NotNull Vec3 velo) {
 		if (this.isAlive() && this.isControlledByLocalInstance()) {
-			LivingEntity passenger = this.getControllingPassenger();
 			if(this.isOnGround()) {
 				this.moveRelative(0.02F, Vec3Util.UP);
 			}
+
 			if (this.isInWater()) {
 				this.moveRelative(0.02F, velo);
 				this.move(MoverType.SELF, this.getDeltaMovement());
-				this.setDeltaMovement(this.getDeltaMovement().scale(0.5F));
+				this.setDeltaMovement(this.getDeltaMovement().scale(0.5D));
 			} else if (this.isInLava()) {
 				this.moveRelative(0.02F, velo);
 				this.move(MoverType.SELF, this.getDeltaMovement());
 				this.setDeltaMovement(this.getDeltaMovement().scale(0.3D));
-			} else if (this.isVehicle() && passenger != null) {
-				this.setYRot(passenger.getYRot());
-				this.yRotO = this.getYRot();
-				this.setXRot(passenger.getXRot() * 0.5F);
-				this.setRot(this.getYRot(), this.getXRot());
-				this.yBodyRot = this.getYRot();
-				this.yHeadRot = this.yBodyRot;
-				super.travel(new Vec3(passenger.xxa * 10.0D, velo.y, passenger.zza * 10.0D));
-			} else{
+			} else {
 				this.moveRelative(this.getSpeed(), velo);
 				this.move(MoverType.SELF, this.getDeltaMovement());
-				this.setDeltaMovement(this.getDeltaMovement().scale(0.8F));
+				this.setDeltaMovement(this.getDeltaMovement().scale(0.8D));
 			}
 		}
 
 		this.calculateEntityAnimation(false);
+	}
+
+	@Override
+	protected void tickRidden(@NotNull LivingEntity rider, @NotNull Vec3 move) {
+		super.tickRidden(rider, move);
+		Vec2 vec2 = this.getRiddenRotation(rider);
+		this.setRot(vec2.y, vec2.x);
+		this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
+	}
+
+	protected Vec2 getRiddenRotation(LivingEntity rider) {
+		return new Vec2(rider.getXRot() * 0.5F, rider.getYRot());
+	}
+
+	@Override @NotNull
+	protected Vec3 getRiddenInput(@NotNull LivingEntity rider, @NotNull Vec3 move) {
+		float x = rider.xxa * 0.5F;
+		float z = rider.zza;
+		if (z <= 0.0F) {
+			z *= 0.5F;
+		}
+
+		return new Vec3(x, 0.0D, z);
 	}
 
 	@Override @Nullable
