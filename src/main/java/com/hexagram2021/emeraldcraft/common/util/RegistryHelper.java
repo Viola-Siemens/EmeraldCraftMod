@@ -11,30 +11,25 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 public interface RegistryHelper {
-	@Nullable
 	static ResourceLocation getRegistryName(Item item) {
-		return ForgeRegistries.ITEMS.getKey(item);
+		return Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item));
 	}
-	@Nullable
 	static ResourceLocation getRegistryName(Block block) {
-		return ForgeRegistries.BLOCKS.getKey(block);
+		return Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block));
 	}
-	@Nullable
 	static ResourceLocation getRegistryName(VillagerProfession profession) {
-		return ForgeRegistries.VILLAGER_PROFESSIONS.getKey(profession);
+		return Objects.requireNonNull(ForgeRegistries.VILLAGER_PROFESSIONS.getKey(profession));
 	}
-	@Nullable
 	static ResourceLocation getRegistryName(Biome biome) {
-		return ForgeRegistries.BIOMES.getKey(biome);
+		return Objects.requireNonNull(ForgeRegistries.BIOMES.getKey(biome));
 	}
-	@Nullable
 	static ResourceLocation getRegistryName(EntityType<?> entityType) {
-		return ForgeRegistries.ENTITY_TYPES.getKey(entityType);
+		return Objects.requireNonNull(ForgeRegistries.ENTITY_TYPES.getKey(entityType));
 	}
-	@Nullable
 	static ResourceLocation getRegistryName(StructureType<?> structureType) {
-		return BuiltInRegistries.STRUCTURE_TYPE.getKey(structureType);
+		return Objects.requireNonNull(BuiltInRegistries.STRUCTURE_TYPE.getKey(structureType));
 	}
 }

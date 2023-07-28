@@ -3,6 +3,7 @@ package com.hexagram2021.emeraldcraft.api.continuous_miner;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ public class ContinuousMinerCustomLoot {
 		blockRegistryNames.forEach((blockRegistryName) -> BLOCK_TO_LOOT_TABLE.put(blockRegistryName, lootTable));
 	}
 
+	@Nullable
 	public static ResourceLocation getBlockLoot(BlockState blockState) {
 		return BLOCK_TO_LOOT_TABLE.get(getRegistryName(blockState.getBlock()));
 	}
