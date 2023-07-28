@@ -10,7 +10,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -27,8 +26,8 @@ public class CampFeature extends Structure {
 		this.type = type;
 	}
 
-	@Override @NotNull
-	public Optional<GenerationStub> findGenerationPoint(@NotNull Structure.GenerationContext context) {
+	@Override
+	public Optional<GenerationStub> findGenerationPoint(Structure.GenerationContext context) {
 		return onTopOfChunkCenter(context, Heightmap.Types.WORLD_SURFACE_WG, (builder) -> this.generatePieces(builder, context, this.type));
 	}
 
@@ -45,7 +44,7 @@ public class CampFeature extends Structure {
 		CampPieces.addPieces(context.structureTemplateManager(), blockpos, rotation, builder, type);
 	}
 
-	@Override @NotNull
+	@Override
 	public StructureType<?> type() {
 		return ECStructureTypes.CAMP.get();
 	}

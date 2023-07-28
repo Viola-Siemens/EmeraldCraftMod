@@ -47,8 +47,8 @@ public class PhantomEntityMixin implements Convertible {
 			for(int dx = x - 4; dx < x + 4 && cnt < 15; ++dx) {
 				for(int dy = y - 4; dy < y + 4 && cnt < 15; ++dy) {
 					for(int dz = z - 4; dz < z + 4 && cnt < 15; ++dz) {
-						BlockState blockstate = current.level.getBlockState(mutable.set(dx, dy, dz));
-						if (blockstate.getLightEmission(current.level, mutable) > 8) {
+						BlockState blockstate = current.level().getBlockState(mutable.set(dx, dy, dz));
+						if (blockstate.getLightEmission(current.level(), mutable) > 8) {
 							if (current.getRandom().nextBoolean()) {
 								++ret;
 							}
@@ -86,7 +86,7 @@ public class PhantomEntityMixin implements Convertible {
 		Phantom current = (Phantom)(Object)this;
 		current.getEntityData().set(DATA_PHANTOM_CONVERTING_ID, true);
 		current.removeEffect(MobEffects.GLOWING);
-		current.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, time, Math.min(current.level.getDifficulty().getId() - 1, 0)));
+		current.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, time, Math.min(current.level().getDifficulty().getId() - 1, 0)));
 		current.playSound(SoundEvents.ZOMBIE_VILLAGER_CURE);
 	}
 
@@ -118,12 +118,12 @@ public class PhantomEntityMixin implements Convertible {
 	@Inject(method = "tick", at = @At(value = "HEAD"))
 	public void tickConverting(CallbackInfo ci) {
 		Phantom current = (Phantom)(Object)this;
-		if (!current.level.isClientSide && current.isAlive() && this.isConverting()) {
+		if (!current.level().isClientSide && current.isAlive() && this.isConverting()) {
 			int i = this.getConversionProgress();
 			this.decreaseConversionRemainTime(i);
 			if (this.getConversionRemainTime() <= 0 &&
 					ForgeEventFactory.canLivingConvert(current, ECEntities.MANTA, this::setConversionRemainTime)) {
-				this.finishConversion((ServerLevel) current.level);
+				this.finishConversion((ServerLevel) current.level());
 			}
 		}
 	}

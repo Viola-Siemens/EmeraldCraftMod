@@ -11,7 +11,6 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumMap;
 
@@ -54,12 +53,12 @@ public class EmeraldArmorItem extends ArmorItem {
 		});
 
 		@Override
-		public int getDurabilityForType(@NotNull ArmorItem.Type type) {
+		public int getDurabilityForType(ArmorItem.Type type) {
 			return HEALTH_FUNCTION_FOR_TYPE.get(type) * durabilityMultiplier;
 		}
 		
 		@Override
-		public int getDefenseForType(@NotNull ArmorItem.Type type) {
+		public int getDefenseForType(ArmorItem.Type type) {
 			return PROTECTIONS_FOR_TYPE.get(type);
 		}
 		
@@ -68,17 +67,17 @@ public class EmeraldArmorItem extends ArmorItem {
 			return enchantmentValue;
 		}
 
-		@Override @NotNull
+		@Override
 		public SoundEvent getEquipSound() {
 			return SoundEvents.ARMOR_EQUIP_GOLD;
 		}
 		
-		@Override @NotNull
+		@Override
 		public Ingredient getRepairIngredient() {
 			return repairIngredient.get();
 		}
 		
-		@Override @NotNull
+		@Override
 		public String getName() {
 			return name;
 		}

@@ -12,7 +12,6 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -26,8 +25,8 @@ public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implemen
 	}
 
 	@SuppressWarnings("deprecation")
-	@Override @NotNull
-	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
+	@Override
+	public T fromJson(ResourceLocation id, JsonObject json) {
 		String group = GsonHelper.getAsString(json, "group", "");
 		JsonElement jsonelement =
 				GsonHelper.isArrayNode(json, "ingredient") ?
@@ -53,7 +52,7 @@ public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implemen
 
 	@Nullable
 	@Override
-	public T fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
+	public T fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);
 		ItemStack itemstack = buf.readItem();

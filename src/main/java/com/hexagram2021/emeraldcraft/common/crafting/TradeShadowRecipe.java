@@ -24,7 +24,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -38,6 +37,7 @@ public class TradeShadowRecipe implements Recipe<Container> {
 	protected final ItemStack costB;
 	protected final ItemStack result;
 	protected final EntityType<?> entityType;
+	@Nullable
 	protected final VillagerProfession profession;
 	protected final int villagerLevel;
 	protected final int xp;
@@ -45,6 +45,7 @@ public class TradeShadowRecipe implements Recipe<Container> {
 	protected static final Map<VillagerProfession, Map<Integer, Villager>> LAZY_RENDER_VILLAGERS = Maps.newHashMap();
 	protected static final Map<EntityType<?>, Map<Integer, LivingEntity>> LAZY_RENDER_TRADERS = Maps.newHashMap();
 
+	@Nullable
 	private static List<TradeShadowRecipe> cachedList = null;
 
 	public static List<TradeShadowRecipe> getTradeRecipes(Level world) {
@@ -82,12 +83,12 @@ public class TradeShadowRecipe implements Recipe<Container> {
 	}
 
 	@Override
-	public boolean matches(Container container, @NotNull Level level) {
-		return this.costA.sameItem(container.getItem(0)) && this.costB.sameItem(container.getItem(1));
+	public boolean matches(Container container, Level level) {
+		return ItemStack.isSameItem(this.costA, container.getItem(0)) && ItemStack.isSameItem(this.costB, container.getItem(1));
 	}
 
-	@Override @NotNull
-	public ItemStack assemble(@NotNull Container container, @NotNull RegistryAccess registryAccess) {
+	@Override
+	public ItemStack assemble(Container container, RegistryAccess registryAccess) {
 		return this.result.copy();
 	}
 
@@ -96,37 +97,34 @@ public class TradeShadowRecipe implements Recipe<Container> {
 		return false;
 	}
 
-	@Override @NotNull
-	public ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
+	@Override
+	public ItemStack getResultItem(RegistryAccess registryAccess) {
 		return this.result;
 	}
 
-	@Override @NotNull
+	@Override
 	public ResourceLocation getId() {
 		return this.id;
 	}
 
-	@Override @NotNull
+	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return ECRecipeSerializer.TRADE_SHADOW_SERIALIZER.get();
 	}
 
-	@Override @NotNull
+	@Override
 	public RecipeType<?> getType() {
 		return ECRecipes.TRADE_SHADOW_TYPE.get();
 	}
 
-	@NotNull
 	public ItemStack getCostA() {
 		return this.costA;
 	}
 
-	@NotNull
 	public ItemStack getCostB() {
 		return this.costB;
 	}
 
-	@NotNull
 	public ItemStack getResult() {
 		return this.result;
 	}
@@ -135,6 +133,7 @@ public class TradeShadowRecipe implements Recipe<Container> {
 		return this.entityType;
 	}
 
+	@Nullable
 	public VillagerProfession getProfession() {
 		return this.profession;
 	}

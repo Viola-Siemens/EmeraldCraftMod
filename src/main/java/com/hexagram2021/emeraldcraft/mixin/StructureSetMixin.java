@@ -3,7 +3,6 @@ package com.hexagram2021.emeraldcraft.mixin;
 import com.google.common.collect.ImmutableList;
 import com.hexagram2021.emeraldcraft.common.util.ListAppendable;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -17,18 +16,18 @@ public class StructureSetMixin implements ListAppendable<StructureSet.StructureS
 	@Shadow @Final @Mutable
 	private List<StructureSet.StructureSelectionEntry> structures;
 
-	@Override @NotNull
-	public List<StructureSet.StructureSelectionEntry> append(@NotNull StructureSet.StructureSelectionEntry entry) {
+	@Override
+	public List<StructureSet.StructureSelectionEntry> append(StructureSet.StructureSelectionEntry entry) {
 		return this.structures = ImmutableList.<StructureSet.StructureSelectionEntry>builder().addAll(this.structures).add(entry).build();
 	}
 
-	@Override @NotNull
-	public List<StructureSet.StructureSelectionEntry> appendAll(@NotNull Iterator<StructureSet.StructureSelectionEntry> entries) {
+	@Override
+	public List<StructureSet.StructureSelectionEntry> appendAll(Iterator<StructureSet.StructureSelectionEntry> entries) {
 		return this.structures = ImmutableList.<StructureSet.StructureSelectionEntry>builder().addAll(this.structures).addAll(entries).build();
 	}
 
-	@Override @NotNull
-	public List<StructureSet.StructureSelectionEntry> appendAll(@NotNull Iterable<StructureSet.StructureSelectionEntry> entries) {
+	@Override
+	public List<StructureSet.StructureSelectionEntry> appendAll(Iterable<StructureSet.StructureSelectionEntry> entries) {
 		return this.structures = ImmutableList.<StructureSet.StructureSelectionEntry>builder().addAll(this.structures).addAll(entries).build();
 	}
 }

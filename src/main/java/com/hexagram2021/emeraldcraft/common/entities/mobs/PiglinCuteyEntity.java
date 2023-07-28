@@ -56,7 +56,6 @@ import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -70,7 +69,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 			buf.writeVarInt(data.level());
 		}
 
-		@Override @NotNull
+		@Override
 		public PiglinCuteyData read(FriendlyByteBuf buf) {
 			return new PiglinCuteyData(buf.readVarInt());
 		}
@@ -136,9 +135,9 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		}
 
 		if (!this.isNoAi() && this.random.nextInt(100) == 0) {
-			Raid raid = ((ServerLevel)this.level).getRaidAt(this.blockPosition());
+			Raid raid = ((ServerLevel)this.level()).getRaidAt(this.blockPosition());
 			if (raid != null && raid.isActive() && !raid.isOver()) {
-				this.level.broadcastEntityEvent(this, (byte)42);
+				this.level().broadcastEntityEvent(this, (byte)42);
 			}
 		}
 
@@ -150,9 +149,9 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 	}
 
 	@Override
-	public boolean hurt(@NotNull DamageSource source, float v) {
+	public boolean hurt(DamageSource source, float v) {
 		boolean flag = super.hurt(source, v);
-		if (this.level.isClientSide) {
+		if (this.level().isClientSide) {
 			return false;
 		} else {
 			if (flag && source.getEntity() instanceof Player) {
@@ -165,7 +164,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 
 	@Nullable
 	@Override
-	public AgeableMob getBreedOffspring(@NotNull ServerLevel level, @NotNull AgeableMob mob) { return null; }
+	public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob mob) { return null; }
 
 	@Override
 	protected void defineSynchedData() {
@@ -174,18 +173,18 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		this.entityData.define(DATA_IMMUNE_TO_DESPAWN, false);
 	}
 
-	@Override @NotNull
-	public InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
+	@Override
+	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (!itemstack.is(ECItems.PIGLIN_CUTEY_SPAWN_EGG.asItem()) && this.isAlive() && !this.isTrading() && !this.isBaby()) {
 			//TODO: player.awardStat
 			if (this.getOffers().isEmpty()) {
-				return InteractionResult.sidedSuccess(this.level.isClientSide);
+				return InteractionResult.sidedSuccess(this.level().isClientSide);
 			}
-			if (!this.level.isClientSide) {
+			if (!this.level().isClientSide) {
 				this.startTrading(player);
 			}
-			return InteractionResult.sidedSuccess(this.level.isClientSide);
+			return InteractionResult.sidedSuccess(this.level().isClientSide);
 		}
 		return super.mobInteract(player, hand);
 	}
@@ -217,7 +216,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		}
 
 		if (merchantOffer.shouldRewardExp()) {
-			this.level.addFreshEntity(new ExperienceOrb(this.level, this.getX(), this.getY() + 0.5D, this.getZ(), i));
+			this.level().addFreshEntity(new ExperienceOrb(this.level(), this.getX(), this.getY() + 0.5D, this.getZ(), i));
 		}
 	}
 
@@ -260,7 +259,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 	@Override
 	public void aiStep() {
 		super.aiStep();
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			this.maybeDespawn();
 		}
 	}
@@ -270,7 +269,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 	}
 
 	private void maybeDespawn() {
-		if (!this.level.dimensionType().piglinSafe() && !isImmuneToDespawn() && !this.isNoAi()) {
+		if (!this.level().dimensionType().piglinSafe() && !isImmuneToDespawn() && !this.isNoAi()) {
 			this.discard();
 		}
 	}
@@ -283,7 +282,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 	}
 
 	@Override
-	public void openTradingScreen(Player player, @NotNull Component title, int level) {
+	public void openTradingScreen(Player player, Component title, int level) {
 		OptionalInt menu = player.openMenu(
 				new SimpleMenuProvider((id, inventory, merchant) -> new PiglinCuteyMerchantMenu(id, inventory, this), title)
 		);
@@ -327,7 +326,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
+	protected SoundEvent getHurtSound(DamageSource damageSource) {
 		return ECSounds.PIGLIN_CUTEY_HURT;
 	}
 
@@ -336,12 +335,12 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		return ECSounds.PIGLIN_CUTEY_DEATH;
 	}
 
-	@Override @NotNull
+	@Override
 	protected SoundEvent getTradeUpdatedSound(boolean correct) {
 		return correct ? ECSounds.PIGLIN_CUTEY_YES : ECSounds.PIGLIN_CUTEY_NO;
 	}
 
-	@Override @NotNull
+	@Override
 	public SoundEvent getNotifyTradeSound() {
 		return ECSounds.PIGLIN_CUTEY_YES;
 	}
@@ -407,7 +406,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 				for(int x = 0; x <= l; x = x > 0 ? -x : 1 - x) {
 					for(int z = 0; z <= l; z = z > 0 ? -z : 1 - z) {
 						mutable.setWithOffset(blockpos, x, k, z);
-						if (this.isWithinRestriction(mutable) && this.level.getBlockState(mutable).is(Blocks.RESPAWN_ANCHOR)) {
+						if (this.isWithinRestriction(mutable) && this.level().getBlockState(mutable).is(Blocks.RESPAWN_ANCHOR)) {
 							return mutable;
 						}
 					}
@@ -419,7 +418,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 	}
 
 	@Override
-	public void addAdditionalSaveData(@NotNull CompoundTag nbt) {
+	public void addAdditionalSaveData(CompoundTag nbt) {
 		super.addAdditionalSaveData(nbt);
 		PiglinCuteyData.CODEC.encodeStart(NbtOps.INSTANCE, this.getPiglinCuteyData()).resultOrPartial(ECLogger::error).ifPresent(
 				piglinCuteyData -> nbt.put("PiglinCuteyData", piglinCuteyData)
@@ -432,7 +431,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 	}
 
 	@Override
-	public void readAdditionalSaveData(@NotNull CompoundTag nbt) {
+	public void readAdditionalSaveData(CompoundTag nbt) {
 		super.readAdditionalSaveData(nbt);
 		if (nbt.contains("PiglinCuteyData", Tag.TAG_COMPOUND)) {
 			DataResult<PiglinCuteyData> dataResult = PiglinCuteyData.CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, nbt.get("PiglinCuteyData")));
@@ -448,7 +447,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		}
 
 		if(nbt.contains("lastTradedPlayer", Tag.TAG_INT_ARRAY)) {
-			this.lastTradedPlayer = this.level.getPlayerByUUID(nbt.getUUID("lastTradedPlayer"));
+			this.lastTradedPlayer = this.level().getPlayerByUUID(nbt.getUUID("lastTradedPlayer"));
 		}
 
 		this.setCanPickUpLoot(true);
@@ -472,7 +471,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 			return this.stopDistance;
 		}
 
-		@Override @NotNull
+		@Override
 		protected BlockPos getMoveToTarget() {
 			return this.blockPos;
 		}
@@ -498,9 +497,9 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 			this.mob.getNavigation().stop();
 
 			if(this.mob instanceof PiglinCuteyEntity cutey && this.isReachedTarget()) {
-				if (cutey.lastTradedPlayer != null && !isTooFarAway(cutey.lastTradedPlayer, this.giveupDistance) && !cutey.level.isClientSide) {
-					cutey.level.addFreshEntity(new ItemEntity(
-							cutey.lastTradedPlayer.level,
+				if (cutey.lastTradedPlayer != null && !isTooFarAway(cutey.lastTradedPlayer, this.giveupDistance) && !cutey.level().isClientSide) {
+					cutey.level().addFreshEntity(new ItemEntity(
+							cutey.lastTradedPlayer.level(),
 							cutey.lastTradedPlayer.getX(),
 							cutey.lastTradedPlayer.getY() + 0.5D,
 							cutey.lastTradedPlayer.getZ(),
@@ -514,7 +513,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		}
 
 		@Override
-		protected boolean isValidTarget(LevelReader level, @NotNull BlockPos blockPos) {
+		protected boolean isValidTarget(LevelReader level, BlockPos blockPos) {
 			return level.getBlockState(blockPos).is(Blocks.NETHER_PORTAL);
 		}
 

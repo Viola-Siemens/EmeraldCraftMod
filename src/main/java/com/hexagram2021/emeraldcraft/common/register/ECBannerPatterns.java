@@ -9,7 +9,6 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +45,7 @@ public class ECBannerPatterns {
 			TagKey<BannerPattern> tag,
 			ECItems.ItemEntry<BannerPatternItem> item
 	) implements ItemLike {
-		@Override @NotNull
+		@Override
 		public Item asItem() {
 			return this.item.asItem();
 		}

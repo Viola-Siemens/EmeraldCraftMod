@@ -8,7 +8,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 public class SnakeheadEntity extends AbstractSchoolingFish {
 	public SnakeheadEntity(EntityType<? extends SnakeheadEntity> type, Level level) {
@@ -20,7 +19,7 @@ public class SnakeheadEntity extends AbstractSchoolingFish {
 		return 5;
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack getBucketItemStack() {
 		return new ItemStack(ECItems.SNAKEHEAD_BUCKET);
 	}
@@ -36,11 +35,11 @@ public class SnakeheadEntity extends AbstractSchoolingFish {
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
+	protected SoundEvent getHurtSound(DamageSource damageSource) {
 		return ECSounds.SNAKEHEAD_HURT;
 	}
 
-	@Override @NotNull
+	@Override
 	protected SoundEvent getFlopSound() {
 		return ECSounds.SNAKEHEAD_FLOP;
 	}

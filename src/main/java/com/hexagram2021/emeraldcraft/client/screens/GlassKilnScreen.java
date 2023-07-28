@@ -2,13 +2,11 @@ package com.hexagram2021.emeraldcraft.client.screens;
 
 import com.hexagram2021.emeraldcraft.common.crafting.menu.GlassKilnMenu;
 import com.hexagram2021.emeraldcraft.common.crafting.recipebook.GlassKilnRecipeBookComponent;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -16,14 +14,13 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 @OnlyIn(Dist.CLIENT)
 public class GlassKilnScreen extends AbstractContainerScreen<GlassKilnMenu> implements RecipeUpdateListener {
 	private static final ResourceLocation RECIPE_BUTTON_LOCATION = new ResourceLocation("textures/gui/recipe_button.png");
-	private static final ResourceLocation texture = new ResourceLocation(MODID, "textures/gui/container/glass_kiln.png");
+	private static final ResourceLocation BG_LOCATION = new ResourceLocation(MODID, "textures/gui/container/glass_kiln.png");
 	public final GlassKilnRecipeBookComponent recipeBookComponent = new GlassKilnRecipeBookComponent();
 
 	private boolean widthTooNarrow;
@@ -55,7 +52,7 @@ public class GlassKilnScreen extends AbstractContainerScreen<GlassKilnMenu> impl
 	}
 
 	@Override
-	public void render(@NotNull PoseStack transform, int x, int y, float partialTicks) {
+	public void render(GuiGraphics transform, int x, int y, float partialTicks) {
 		this.renderBackground(transform);
 		if (this.recipeBookComponent.isVisible() && this.widthTooNarrow) {
 			this.renderBg(transform, partialTicks, x, y);
@@ -71,20 +68,17 @@ public class GlassKilnScreen extends AbstractContainerScreen<GlassKilnMenu> impl
 	}
 
 	@Override
-	protected void renderBg(@NotNull PoseStack transform, float partialTicks, int x, int y) {
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.setShaderTexture(0, texture);
+	protected void renderBg(GuiGraphics transform, float partialTicks, int x, int y) {
 		int i = this.leftPos;
 		int j = this.topPos;
-		this.blit(transform, i, j, 0, 0, this.imageWidth, this.imageHeight);
+		transform.blit(BG_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
 		if (this.menu.isLit()) {
 			int k = this.menu.getLitProgress();
-			this.blit(transform, i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
+			transform.blit(BG_LOCATION, i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
 		}
 
 		int l = this.menu.getBurnProgress();
-		this.blit(transform, i + 79, j + 34, 176, 14, l + 1, 16);
+		transform.blit(BG_LOCATION, i + 79, j + 34, 176, 14, l + 1, 16);
 	}
 
 	@Override
@@ -96,7 +90,7 @@ public class GlassKilnScreen extends AbstractContainerScreen<GlassKilnMenu> impl
 	}
 
 	@Override
-	protected void slotClicked(@NotNull Slot clickedSlot, int x, int y, @NotNull ClickType type) {
+	protected void slotClicked(Slot clickedSlot, int x, int y, ClickType type) {
 		super.slotClicked(clickedSlot, x, y, type);
 		this.recipeBookComponent.slotClicked(clickedSlot);
 	}
@@ -122,7 +116,7 @@ public class GlassKilnScreen extends AbstractContainerScreen<GlassKilnMenu> impl
 		this.recipeBookComponent.recipesUpdated();
 	}
 
-	@Override @NotNull
+	@Override
 	public RecipeBookComponent getRecipeBookComponent() {
 		return this.recipeBookComponent;
 	}

@@ -14,7 +14,6 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -52,14 +51,14 @@ public class RabbleFurnaceRecipe implements Recipe<Container> {
 	}
 
 	@Override
-	public boolean matches(Container container, @NotNull Level level) {
+	public boolean matches(Container container, Level level) {
 		return this.ingredient.test(container.getItem(0)) &&
 				(this.mix1 == null || this.mix1.test(container.getItem(1))) &&
 				(this.mix2 == null || this.mix2.test(container.getItem(2)));
 	}
 
-	@Override @NotNull
-	public ItemStack assemble(@NotNull Container container, @NotNull RegistryAccess registryAccess) {
+	@Override
+	public ItemStack assemble(Container container, RegistryAccess registryAccess) {
 		return this.result.copy();
 	}
 
@@ -68,12 +67,12 @@ public class RabbleFurnaceRecipe implements Recipe<Container> {
 		return true;
 	}
 
-	@Override @NotNull
+	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return ECRecipeSerializer.RABBLE_FURNACE_SERIALIZER.get();
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack getToastSymbol() {
 		return new ItemStack(ECBlocks.WorkStation.RABBLE_FURNACE);
 	}
@@ -86,7 +85,7 @@ public class RabbleFurnaceRecipe implements Recipe<Container> {
 		return this.experience;
 	}
 
-	@Override @NotNull
+	@Override
 	public NonNullList<Ingredient> getIngredients() {
 		NonNullList<Ingredient> list = NonNullList.create();
 		list.add(this.ingredient);
@@ -99,12 +98,11 @@ public class RabbleFurnaceRecipe implements Recipe<Container> {
 		return list;
 	}
 
-	@Override @NotNull
-	public ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
+	@Override
+	public ItemStack getResultItem(RegistryAccess registryAccess) {
 		return this.result;
 	}
 
-	@NotNull
 	public ItemStack getResult() {
 		return this.result;
 	}
@@ -113,17 +111,17 @@ public class RabbleFurnaceRecipe implements Recipe<Container> {
 		return this.category;
 	}
 
-	@Override @NotNull
+	@Override
 	public String getGroup() {
 		return this.group;
 	}
 
-	@Override @NotNull
+	@Override
 	public ResourceLocation getId() {
 		return this.id;
 	}
 
-	@Override @NotNull
+	@Override
 	public RecipeType<?> getType() {
 		return ECRecipes.RABBLE_FURNACE_TYPE.get();
 	}

@@ -10,7 +10,7 @@ import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
@@ -29,6 +29,7 @@ public class CachedRecipeList<R extends Recipe<?>> {
 
 	private final Supplier<RecipeType<R>> type;
 	private final Class<R> recipeClass;
+	@Nullable
 	private Map<ResourceLocation, R> recipes;
 	private boolean cachedDataIsClient;
 	private int cachedAtReloadCount = INVALID_RELOAD_COUNT;
@@ -52,19 +53,19 @@ public class CachedRecipeList<R extends Recipe<?>> {
 		return reloadCount;
 	}
 
-	public Collection<R> getRecipes(@Nonnull Level level) {
+	public Collection<R> getRecipes(Level level) {
 		updateCache(level.getRecipeManager(), level.isClientSide());
 		return Objects.requireNonNull(this.recipes).values();
 	}
 
-	public Collection<ResourceLocation> getRecipeNames(@Nonnull Level level) {
+	public Collection<ResourceLocation> getRecipeNames(Level level) {
 		updateCache(level.getRecipeManager(), level.isClientSide());
 		return Objects.requireNonNull(this.recipes).keySet();
 	}
 
-	public R getById(@Nonnull Level level, ResourceLocation name) {
+	public R getById(Level level, ResourceLocation name) {
 		updateCache(level.getRecipeManager(), level.isClientSide());
-		return this.recipes.get(name);
+		return Objects.requireNonNull(this.recipes).get(name);
 	}
 
 	private void updateCache(RecipeManager manager, boolean isClient) {

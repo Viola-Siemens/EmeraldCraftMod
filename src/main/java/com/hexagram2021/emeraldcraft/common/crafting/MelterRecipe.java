@@ -13,7 +13,6 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -46,12 +45,12 @@ public class MelterRecipe implements Recipe<Container> {
 		return true;
 	}
 
-	@Override @NotNull
+	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return ECRecipeSerializer.MELTER_SERIALIZER.get();
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack getToastSymbol() {
 		return new ItemStack(ECBlocks.WorkStation.MELTER);
 	}
@@ -60,12 +59,12 @@ public class MelterRecipe implements Recipe<Container> {
 		return this.ingredient;
 	}
 
-	@Override @NotNull
+	@Override
 	public NonNullList<Ingredient> getIngredients() {
 		return NonNullList.of(this.ingredient);
 	}
 
-	@Override @NotNull
+	@Override
 	public String getGroup() {
 		return this.group;
 	}
@@ -83,26 +82,26 @@ public class MelterRecipe implements Recipe<Container> {
 	}
 
 	@Override @Nullable
-	public ItemStack assemble(@NotNull Container container, @NotNull RegistryAccess registryAccess) {
+	public ItemStack assemble(Container container, RegistryAccess registryAccess) {
 		return null;
 	}
 
 	@Override @Nullable
-	public ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
+	public ItemStack getResultItem(RegistryAccess registryAccess) {
 		return null;
 	}
 
 	@Override
-	public boolean matches(Container container, @NotNull Level level) {
+	public boolean matches(Container container, Level level) {
 		return this.ingredient.test(container.getItem(MelterMenu.INGREDIENT_SLOT));
 	}
 
-	@Override @NotNull
+	@Override
 	public ResourceLocation getId() {
 		return this.id;
 	}
 
-	@Override @NotNull
+	@Override
 	public RecipeType<?> getType() {
 		return ECRecipes.MELTER_TYPE.get();
 	}

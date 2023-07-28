@@ -12,7 +12,6 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;
@@ -70,7 +69,7 @@ public class RabbleFurnaceRecipeBookComponent extends RecipeBookComponent {
 	}
 
 
-	@Override @NotNull
+	@Override
 	protected Component getRecipeFilterName() {
 		return FILTER_NAME;
 	}

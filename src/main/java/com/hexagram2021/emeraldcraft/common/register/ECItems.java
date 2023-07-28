@@ -26,8 +26,8 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
@@ -51,8 +51,8 @@ public class ECItems {
 	);
 	public static final ItemEntry<Item> CHILI = ItemEntry.register(
 			"chili", () -> new Item(new Item.Properties().food(ECFoods.CHILI)) {
-				@Override @NotNull
-				public ItemStack finishUsingItem(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull LivingEntity entity) {
+				@Override
+				public ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity entity) {
 					if(entity instanceof Player player) {
 						player.getCooldowns().addCooldown(this, 120);
 					}
@@ -435,7 +435,7 @@ public class ECItems {
 			return new ItemEntry<>(RegistryObject.create(getRegistryName(existing), ForgeRegistries.ITEMS), type);
 		}
 
-		private ItemEntry(RegistryObject<T> regObject, ItemGroupType type) {
+		private ItemEntry(RegistryObject<T> regObject, @Nullable ItemGroupType type) {
 			this.regObject = regObject;
 			if(type != null) {
 				(switch (type) {
@@ -447,12 +447,12 @@ public class ECItems {
 			}
 		}
 
-		@Override @NotNull
+		@Override
 		public T get() {
 			return regObject.get();
 		}
 
-		@Override @NotNull
+		@Override
 		public Item asItem() {
 			return regObject.get();
 		}

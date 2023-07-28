@@ -11,7 +11,6 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import org.jetbrains.annotations.NotNull;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -63,13 +62,13 @@ public class SnakeheadModel<T extends SnakeheadEntity> extends HierarchicalModel
 		return LayerDefinition.create(meshdefinition, 32, 32);
 	}
 
-	@Override @NotNull
+	@Override
 	public ModelPart root() {
 		return this.root;
 	}
 
 	@Override
-	public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		float f = 1.0F;
 		float f1 = 1.0F;
 		if (!entity.isInWater()) {

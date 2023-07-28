@@ -17,7 +17,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 import static net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity.isFuel;
 
@@ -48,13 +47,13 @@ public class MelterMenu extends AbstractContainerMenu {
 		checkContainerDataCount(data, DATA_COUNT);
 		this.melter = container;
 		this.melterData = data;
-		this.level = inventory.player.level;
+		this.level = inventory.player.level();
 		this.ingredientSlot = this.addSlot(new MelterMenu.IngredientSlot(this, container, INGREDIENT_SLOT, 41, 17));
 		this.addSlot(new MelterMenu.MelterFuelSlot(container, FUEL_SLOT, 41, 53));
 
 		this.resultInputSlot = this.addSlot(new Slot(container, RESULT_INPUT_SLOT, 132, 18) {
 			@Override
-			public boolean mayPlace(@NotNull ItemStack itemStack) {
+			public boolean mayPlace(ItemStack itemStack) {
 				return itemStack.is(Items.BUCKET) || isFluidBucket(itemStack);
 			}
 
@@ -65,7 +64,7 @@ public class MelterMenu extends AbstractContainerMenu {
 		});
 		this.addSlot(new Slot(container, RESULT_OUTPUT_SLOT, 132, 52) {
 			@Override
-			public boolean mayPlace(@NotNull ItemStack itemStack) {
+			public boolean mayPlace(ItemStack itemStack) {
 				return itemStack.is(Items.BUCKET) || isFluidBucket(itemStack);
 			}
 
@@ -102,12 +101,12 @@ public class MelterMenu extends AbstractContainerMenu {
 	}
 
 	@Override
-	public boolean stillValid(@NotNull Player player) {
+	public boolean stillValid(Player player) {
 		return this.melter.stillValid(player);
 	}
 
-	@Override @NotNull
-	public ItemStack quickMoveStack(@NotNull Player player, int index) {
+	@Override
+	public ItemStack quickMoveStack(Player player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
 		if (slot.hasItem()) {
@@ -199,7 +198,7 @@ public class MelterMenu extends AbstractContainerMenu {
 		}
 
 		@Override
-		public boolean mayPlace(@NotNull ItemStack itemStack) {
+		public boolean mayPlace(ItemStack itemStack) {
 			return menu.level.getRecipeManager().getRecipeFor(ECRecipes.MELTER_TYPE.get(), new SimpleContainer(itemStack), menu.level).isPresent();
 		}
 
@@ -215,11 +214,11 @@ public class MelterMenu extends AbstractContainerMenu {
 			super(container, slot, x, y);
 		}
 
-		public boolean mayPlace(@NotNull ItemStack itemStack) {
+		public boolean mayPlace(ItemStack itemStack) {
 			return isFuel(itemStack);
 		}
 
-		public int getMaxStackSize(@NotNull ItemStack itemStack) {
+		public int getMaxStackSize(ItemStack itemStack) {
 			return super.getMaxStackSize(itemStack);
 		}
 	}

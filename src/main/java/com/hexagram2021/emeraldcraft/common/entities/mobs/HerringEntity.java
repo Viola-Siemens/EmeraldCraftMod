@@ -8,14 +8,13 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 public class HerringEntity extends AbstractSchoolingFish {
 	public HerringEntity(EntityType<? extends HerringEntity> type, Level level) {
 		super(type, level);
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack getBucketItemStack() {
 		return new ItemStack(ECItems.HERRING_BUCKET);
 	}
@@ -31,11 +30,11 @@ public class HerringEntity extends AbstractSchoolingFish {
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
+	protected SoundEvent getHurtSound(DamageSource damageSource) {
 		return ECSounds.HERRING_HURT;
 	}
 
-	@Override @NotNull
+	@Override
 	protected SoundEvent getFlopSound() {
 		return ECSounds.HERRING_FLOP;
 	}

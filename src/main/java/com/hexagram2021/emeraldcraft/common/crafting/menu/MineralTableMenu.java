@@ -13,7 +13,6 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 public class MineralTableMenu extends AbstractContainerMenu {
 	public static final int INGREDIENT_SLOT = 0;
@@ -40,7 +39,7 @@ public class MineralTableMenu extends AbstractContainerMenu {
 		checkContainerDataCount(data, DATA_COUNT);
 		this.mineralTable = container;
 		this.mineralTableData = data;
-		this.level = inventory.player.level;
+		this.level = inventory.player.level();
 		this.ingredientSlot = this.addSlot(new MineralTableMenu.IngredientSlot(this, container, INGREDIENT_SLOT, 79, 17));
 		this.addSlot(new MineralTableMenu.FuelSlot(container, FUEL_SLOT, 17, 17));
 		this.addSlot(new MineralTableMenu.MineralResultSlot(inventory.player, container, RESULT_SLOT, 79, 58));
@@ -58,12 +57,12 @@ public class MineralTableMenu extends AbstractContainerMenu {
 	}
 
 	@Override
-	public boolean stillValid(@NotNull Player player) {
+	public boolean stillValid(Player player) {
 		return this.mineralTable.stillValid(player);
 	}
 
-	@Override @NotNull
-	public ItemStack quickMoveStack(@NotNull Player player, int index) {
+	@Override
+	public ItemStack quickMoveStack(Player player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
 		if (slot.hasItem()) {
@@ -133,7 +132,7 @@ public class MineralTableMenu extends AbstractContainerMenu {
 		}
 
 		@Override
-		public boolean mayPlace(@NotNull ItemStack itemStack) {
+		public boolean mayPlace(ItemStack itemStack) {
 			return mayPlaceItem(itemStack);
 		}
 
@@ -155,7 +154,7 @@ public class MineralTableMenu extends AbstractContainerMenu {
 		}
 
 		@Override
-		public boolean mayPlace(@NotNull ItemStack itemStack) {
+		public boolean mayPlace(ItemStack itemStack) {
 			return this.menu.level.getRecipeManager().getRecipeFor(ECRecipes.MINERAL_TABLE_TYPE.get(), new SimpleContainer(itemStack), menu.level).isPresent();
 		}
 
@@ -175,11 +174,11 @@ public class MineralTableMenu extends AbstractContainerMenu {
 		}
 
 		@Override
-		public boolean mayPlace(@NotNull ItemStack itemStack) {
+		public boolean mayPlace(ItemStack itemStack) {
 			return false;
 		}
 
-		@Override @NotNull
+		@Override
 		public ItemStack remove(int count) {
 			if (this.hasItem()) {
 				this.removeCount += Math.min(count, this.getItem().getCount());
@@ -189,20 +188,20 @@ public class MineralTableMenu extends AbstractContainerMenu {
 		}
 
 		@Override
-		public void onTake(@NotNull Player player, @NotNull ItemStack itemStack) {
+		public void onTake(Player player, ItemStack itemStack) {
 			this.checkTakeAchievements(itemStack);
 			super.onTake(player, itemStack);
 		}
 
 		@Override
-		protected void onQuickCraft(@NotNull ItemStack itemStack, int count) {
+		protected void onQuickCraft(ItemStack itemStack, int count) {
 			this.removeCount += count;
 			this.checkTakeAchievements(itemStack);
 		}
 
 		@Override
 		protected void checkTakeAchievements(ItemStack itemStack) {
-			itemStack.onCraftedBy(this.player.level, this.player, this.removeCount);
+			itemStack.onCraftedBy(this.player.level(), this.player, this.removeCount);
 			if (this.player instanceof ServerPlayer && this.container instanceof MineralTableBlockEntity) {
 				((MineralTableBlockEntity)this.container).awardUsedRecipesAndPopExperience((ServerPlayer)this.player);
 			}

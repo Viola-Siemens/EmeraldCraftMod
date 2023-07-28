@@ -26,7 +26,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Set;
@@ -69,7 +68,7 @@ public class NetherLambmanEntity extends AbstractVillager {
 
 	@Override
 	@Nullable
-	public AgeableMob getBreedOffspring(@NotNull ServerLevel level, @NotNull AgeableMob mob) {
+	public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob mob) {
 		return null;
 	}
 
@@ -84,8 +83,8 @@ public class NetherLambmanEntity extends AbstractVillager {
 		return WANTED_ITEMS.contains(item) && this.getInventory().canAddItem(itemStack);
 	}
 
-	@Override @NotNull
-	public InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
+	@Override
+	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (!itemstack.is(ECItems.NETHER_LAMBMAN_SPAWN_EGG.get()) && this.isAlive() && !this.isTrading() && !this.isBaby()) {
 			//if (hand == InteractionHand.MAIN_HAND) {
@@ -93,20 +92,20 @@ public class NetherLambmanEntity extends AbstractVillager {
 			//}
 
 			if (this.getOffers().isEmpty()) {
-				return InteractionResult.sidedSuccess(this.level.isClientSide);
+				return InteractionResult.sidedSuccess(this.level().isClientSide);
 			}
-			if (!this.level.isClientSide) {
+			if (!this.level().isClientSide) {
 				this.setTradingPlayer(player);
 				this.openTradingScreen(player, this.getDisplayName(), 1);
 			}
 
-			return InteractionResult.sidedSuccess(this.level.isClientSide);
+			return InteractionResult.sidedSuccess(this.level().isClientSide);
 		}
 		return super.mobInteract(player, hand);
 	}
 
 	@Override
-	public void readAdditionalSaveData(@NotNull CompoundTag nbt) {
+	public void readAdditionalSaveData(CompoundTag nbt) {
 		super.readAdditionalSaveData(nbt);
 		this.setCanPickUpLoot(true);
 	}
@@ -143,20 +142,20 @@ public class NetherLambmanEntity extends AbstractVillager {
 	protected void rewardTradeXp(MerchantOffer offer) {
 		if (offer.shouldRewardExp()) {
 			int i = 3 + this.random.nextInt(4);
-			this.level.addFreshEntity(new ExperienceOrb(this.level, this.getX(), this.getY() + 0.5D, this.getZ(), i));
+			this.level().addFreshEntity(new ExperienceOrb(this.level(), this.getX(), this.getY() + 0.5D, this.getZ(), i));
 		}
 	}
 
 	@Override
 	public void setLastHurtByMob(@Nullable LivingEntity entity) {
-		if (entity != null && this.level instanceof ServerLevel) {
+		if (entity != null && this.level() instanceof ServerLevel) {
 			if (this.isAlive() && entity instanceof Player) {
 				for(int i = 0; i < this.getInventory().getContainerSize(); ++i) {
 					ItemStack itemStack = this.getInventory().getItem(i);
 					if(itemStack.getCount() != 0) {
 						int cnt = Math.max(itemStack.getCount(), this.random.nextInt(3));
-						this.level.addFreshEntity(new ItemEntity(
-								this.level, (this.getX() + entity.getX() * 2) / 3, this.getY() + 0.5D, (this.getZ() + entity.getZ() * 2) / 3, new ItemStack(itemStack.getItem(), cnt)
+						this.level().addFreshEntity(new ItemEntity(
+								this.level(), (this.getX() + entity.getX() * 2) / 3, this.getY() + 0.5D, (this.getZ() + entity.getZ() * 2) / 3, new ItemStack(itemStack.getItem(), cnt)
 						));
 						itemStack.shrink(cnt);
 					}
@@ -173,7 +172,7 @@ public class NetherLambmanEntity extends AbstractVillager {
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
+	protected SoundEvent getHurtSound(DamageSource damageSource) {
 		return ECSounds.NETHER_LAMBMAN_HURT;
 	}
 
@@ -182,7 +181,7 @@ public class NetherLambmanEntity extends AbstractVillager {
 		return ECSounds.NETHER_LAMBMAN_DEATH;
 	}
 
-	@Override @NotNull
+	@Override
 	protected SoundEvent getTradeUpdatedSound(boolean correct) {
 		return correct ? ECSounds.NETHER_LAMBMAN_YES : ECSounds.NETHER_LAMBMAN_NO;
 	}

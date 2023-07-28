@@ -9,7 +9,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.brewing.BrewingRecipe;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
 
 public class ECBrewingRecipes {
 	public static void init() {
@@ -22,7 +23,7 @@ public class ECBrewingRecipes {
 	}
 
 	@SuppressWarnings("SameParameterValue")
-	private static void addFullRecipe(Potion input, Potion input_longer, Potion input_stronger, ItemLike add, Potion origin, Potion longer, Potion stronger) {
+	private static void addFullRecipe(Potion input, @Nullable Potion input_longer, @Nullable Potion input_stronger, ItemLike add, Potion origin, Potion longer, Potion stronger) {
 		addRecipe(input, add, origin);
 		if(input_longer != null) {
 			addRecipe(input_longer, add, longer);
@@ -35,7 +36,7 @@ public class ECBrewingRecipes {
 	}
 
 	@SuppressWarnings("SameParameterValue")
-	private static void addFullRecipeWithoutStronger(Potion input, Potion input_longer, ItemLike add, Potion origin, Potion longer) {
+	private static void addFullRecipeWithoutStronger(Potion input, @Nullable Potion input_longer, ItemLike add, Potion origin, Potion longer) {
 		addRecipe(input, add, origin);
 		if(input_longer != null) {
 			addRecipe(input_longer, add, longer);
@@ -44,7 +45,7 @@ public class ECBrewingRecipes {
 	}
 
 	@SuppressWarnings("SameParameterValue")
-	private static void addFullRecipeWithoutLonger(Potion input, Potion input_stronger, ItemLike add, Potion origin, Potion stronger) {
+	private static void addFullRecipeWithoutLonger(Potion input, @Nullable Potion input_stronger, ItemLike add, Potion origin, Potion stronger) {
 		addRecipe(input, add, origin);
 		if(input_stronger != null) {
 			addRecipe(input_stronger, add, stronger);
@@ -84,10 +85,10 @@ public class ECBrewingRecipes {
 		}
 
 		@Override
-		public boolean isInput(@NotNull ItemStack input) {
+		public boolean isInput(ItemStack input) {
 			ItemStack[] itemStacks = this.getInput().getItems();
 			for(ItemStack itemstack : itemStacks) {
-				if (itemstack.sameItem(input) && PotionUtils.getPotion(input).equals(PotionUtils.getPotion(itemstack))) {
+				if (ItemStack.isSameItem(itemstack, input) && PotionUtils.getPotion(input).equals(PotionUtils.getPotion(itemstack))) {
 					return true;
 				}
 			}

@@ -55,15 +55,15 @@ public class ForgeServerEventHandler {
 				int radius = (lvl + 2) / 3;
 
 				BlockPos pos = event.getPos();
-				BlockState templateBlock = player.level.getBlockState(pos);
-				BlockEntity templateBlockEntity = player.level.getBlockEntity(pos);
+				BlockState templateBlock = player.level().getBlockState(pos);
+				BlockEntity templateBlockEntity = player.level().getBlockEntity(pos);
 				if(!templateBlock.isAir() && templateBlockEntity == null) {
 					searchInRadius(radius, (x, y, z) -> {
 						if (x * x + y * y + z * z <= radius * radius + flag * flag) {
 							BlockPos current = pos.offset(x, y, z);
 							if (!current.equals(pos)) {
-								BlockState blockState = player.level.getBlockState(current);
-								BlockEntity blockEntity = player.level.getBlockEntity(current);
+								BlockState blockState = player.level().getBlockState(current);
+								BlockEntity blockEntity = player.level().getBlockEntity(current);
 								if (blockState.is(templateBlock.getBlock())) {
 									BlockUtil.breakBlock(
 											player, blockState, blockEntity, current,

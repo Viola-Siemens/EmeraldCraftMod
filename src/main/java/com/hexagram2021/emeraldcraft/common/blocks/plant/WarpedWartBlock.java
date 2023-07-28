@@ -8,18 +8,15 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.NetherWartBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.common.PlantType;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
 public class WarpedWartBlock extends NetherWartBlock {
-	public static final Supplier<Properties> PROPERTIES = () -> Block.Properties.of(Material.PLANT)
-			.sound(SoundType.NETHER_WART)
-			.noCollission()
-			.strength(0)
-			.randomTicks();
+	public static final Supplier<Properties> PROPERTIES = () -> Block.Properties.of().mapColor(MapColor.COLOR_CYAN)
+			.noCollission().randomTicks().sound(SoundType.NETHER_WART).pushReaction(PushReaction.DESTROY);
 
 	public WarpedWartBlock(Properties props) {
 		super(props);
@@ -30,8 +27,8 @@ public class WarpedWartBlock extends NetherWartBlock {
 		return PlantType.NETHER;
 	}
 
-	@Override @NotNull
-	public ItemStack getCloneItemStack(@NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull BlockState blockState) {
+	@Override
+	public ItemStack getCloneItemStack(BlockGetter level, BlockPos pos, BlockState blockState) {
 		return new ItemStack(ECItems.WARPED_WART.asItem());
 	}
 }

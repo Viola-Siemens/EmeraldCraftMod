@@ -29,7 +29,7 @@ public class IronGolemEntityMixin {
 		if(itemstack.isEmpty() && current.getOfferFlowerTick() > 0 && player.hasEffect(MobEffects.HERO_OF_THE_VILLAGE)) {
 			current.offerFlower(false);
 			player.setItemInHand(hand, new ItemStack(Items.POPPY, 1));
-			cir.setReturnValue(InteractionResult.sidedSuccess(current.level.isClientSide));
+			cir.setReturnValue(InteractionResult.sidedSuccess(current.level().isClientSide));
 			cir.cancel();
 		}
 	}

@@ -21,7 +21,6 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
@@ -47,7 +46,7 @@ public class ECBoat extends Boat implements IECBoat {
 		this.entityData.define(DATA_ID_ECTYPE, ECBoatType.GINKGO.ordinal());
 	}
 
-	@Override @NotNull
+	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
 		return new ClientboundAddEntityPacket(this);
 	}
@@ -65,7 +64,7 @@ public class ECBoat extends Boat implements IECBoat {
 	}
 
 	@Override
-	protected void checkFallDamage(double y, boolean onGround, @NotNull BlockState state, @NotNull BlockPos pos) {
+	protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos) {
 		this.lastYd = this.getDeltaMovement().y;
 		if (!this.isPassenger()) {
 			if (onGround) {
@@ -76,9 +75,9 @@ public class ECBoat extends Boat implements IECBoat {
 					}
 
 					this.causeFallDamage(this.fallDistance, 1.0F, this.damageSources().fall());
-					if (!this.level.isClientSide && !this.isRemoved()) {
+					if (!this.level().isClientSide && !this.isRemoved()) {
 						this.kill();
-						if (this.level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
+						if (this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
 							int j;
 							for(j = 0; j < 3; ++j) {
 								this.spawnAtLocation(this.getECBoatType().getPlanks());
@@ -92,14 +91,14 @@ public class ECBoat extends Boat implements IECBoat {
 				}
 
 				this.resetFallDistance();
-			} else if (!this.level.getFluidState(this.blockPosition().below()).is(FluidTags.WATER) && y < 0.0) {
+			} else if (!this.level().getFluidState(this.blockPosition().below()).is(FluidTags.WATER) && y < 0.0) {
 				this.fallDistance = (float)((double)this.fallDistance - y);
 			}
 		}
 
 	}
 
-	@Override @NotNull
+	@Override
 	public Item getDropItem() {
 		return switch (ECBoatType.byId(this.entityData.get(DATA_ID_ECTYPE))) {
 			case GINKGO -> ECItems.GINKGO_BOAT.get();
@@ -121,12 +120,12 @@ public class ECBoat extends Boat implements IECBoat {
 	/** @deprecated */
 	@Deprecated
 	@Override
-	public void setVariant(@NotNull Boat.Type vanillaType) {
+	public void setVariant(Boat.Type vanillaType) {
 	}
 
 	/** @deprecated */
 	@Deprecated
-	@Override @NotNull
+	@Override
 	public Boat.Type getVariant() {
 		return Type.OAK;
 	}

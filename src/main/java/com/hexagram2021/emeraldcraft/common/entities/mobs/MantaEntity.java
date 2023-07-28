@@ -33,7 +33,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -61,17 +60,17 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 		this.moveControl = new FlyingMoveControl(this, 20, true);
 	}
 
-	@Override @NotNull
+	@Override
 	protected Brain.Provider<MantaEntity> brainProvider() {
 		return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
 	}
 
-	@Override @NotNull
-	protected Brain<?> makeBrain(@NotNull Dynamic<?> dynamic) {
+	@Override
+	protected Brain<?> makeBrain(Dynamic<?> dynamic) {
 		return MantaAi.makeBrain(this.brainProvider().makeBrain(dynamic));
 	}
 
-	@Override @NotNull @SuppressWarnings("unchecked")
+	@Override @SuppressWarnings("unchecked")
 	public Brain<MantaEntity> getBrain() {
 		return (Brain<MantaEntity>)super.getBrain();
 	}
@@ -91,7 +90,7 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	public LivingEntity getOwner() {
 		try {
 			UUID uuid = this.getOwnerUUID();
-			return uuid == null ? null : this.level.getPlayerByUUID(uuid);
+			return uuid == null ? null : this.level().getPlayerByUUID(uuid);
 		} catch (IllegalArgumentException illegalargumentexception) {
 			return null;
 		}
@@ -106,7 +105,7 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 
 	@Override
 	public void fly(int velocity) {
-		if(!this.isOnGround() || velocity > 12) {
+		if(!this.onGround() || velocity > 12) {
 			Vec3 move = this.getDeltaMovement();
 			this.setDeltaMovement(move.x, (velocity - 12) / 45.0D, move.z);
 		}
@@ -116,8 +115,8 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 30.0D).add(Attributes.FLYING_SPEED, 0.2D).add(Attributes.MOVEMENT_SPEED, 0.2D).add(Attributes.ATTACK_DAMAGE, 2.0D).add(Attributes.FOLLOW_RANGE, 48.0D);
 	}
 
-	@Override @NotNull
-	protected PathNavigation createNavigation(@NotNull Level level) {
+	@Override
+	protected PathNavigation createNavigation(Level level) {
 		FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, level);
 		flyingpathnavigation.setCanOpenDoors(false);
 		flyingpathnavigation.setCanFloat(true);
@@ -126,7 +125,7 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	}
 
 	@Override
-	protected float getStandingEyeHeight(@NotNull Pose pose, EntityDimensions dim) {
+	protected float getStandingEyeHeight(Pose pose, EntityDimensions dim) {
 		return dim.height * 0.6F;
 	}
 
@@ -149,9 +148,9 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	}
 
 	@Override
-	public void travel(@NotNull Vec3 velo) {
+	public void travel(Vec3 velo) {
 		if (this.isAlive() && this.isControlledByLocalInstance()) {
-			if(this.isOnGround()) {
+			if(this.onGround()) {
 				this.moveRelative(0.02F, Vec3Util.UP);
 			}
 
@@ -174,19 +173,19 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	}
 
 	@Override
-	protected void tickRidden(@NotNull LivingEntity rider, @NotNull Vec3 move) {
+	protected void tickRidden(Player rider, Vec3 move) {
 		super.tickRidden(rider, move);
 		Vec2 vec2 = this.getRiddenRotation(rider);
 		this.setRot(vec2.y, vec2.x);
 		this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
 	}
 
-	protected Vec2 getRiddenRotation(LivingEntity rider) {
+	protected Vec2 getRiddenRotation(Player rider) {
 		return new Vec2(rider.getXRot() * 0.5F, rider.getYRot());
 	}
 
-	@Override @NotNull
-	protected Vec3 getRiddenInput(@NotNull LivingEntity rider, @NotNull Vec3 move) {
+	@Override
+	protected Vec3 getRiddenInput(Player rider, Vec3 move) {
 		float x = rider.xxa * 0.5F;
 		float z = rider.zza;
 		if (z <= 0.0F) {
@@ -207,7 +206,7 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
+	protected SoundEvent getHurtSound(DamageSource damageSource) {
 		return ECSounds.MANTA_HURT;
 	}
 
@@ -217,11 +216,11 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	}
 
 	@Override
-	protected void playStepSound(@NotNull BlockPos blockPos, @NotNull BlockState blockState) {
+	protected void playStepSound(BlockPos blockPos, BlockState blockState) {
 	}
 
 	@Override
-	protected void checkFallDamage(double velo, boolean onGround, @NotNull BlockState blockState, @NotNull BlockPos blockPos) {
+	protected void checkFallDamage(double velo, boolean onGround, BlockState blockState, BlockPos blockPos) {
 	}
 
 	@Override
@@ -241,19 +240,19 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	@Override
 	public void aiStep() {
 		super.aiStep();
-		if (!this.level.isClientSide && this.isAlive() && this.tickCount % 20 == 0) {
+		if (!this.level().isClientSide && this.isAlive() && this.tickCount % 20 == 0) {
 			this.heal(1.0F);
 		}
 	}
 
 	@Override
 	protected void customServerAiStep() {
-		this.level.getProfiler().push("mantaBrain");
-		this.getBrain().tick((ServerLevel)this.level, this);
-		this.level.getProfiler().pop();
-		this.level.getProfiler().push("mantaActivityUpdate");
+		this.level().getProfiler().push("mantaBrain");
+		this.getBrain().tick((ServerLevel)this.level(), this);
+		this.level().getProfiler().pop();
+		this.level().getProfiler().push("mantaActivityUpdate");
 		MantaAi.updateActivity(this);
-		this.level.getProfiler().pop();
+		this.level().getProfiler().pop();
 		super.customServerAiStep();
 	}
 
@@ -261,10 +260,10 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	public void tick() {
 		super.tick();
 
-		if (this.level.isClientSide) {
+		if (this.level().isClientSide) {
 			float f = Mth.cos((float) (this.getUniqueFlapTickOffset() + this.tickCount) * 0.1F + (float) Math.PI);
 
-			this.level.addParticle(ParticleTypes.FIREWORK,
+			this.level().addParticle(ParticleTypes.FIREWORK,
 					this.getX() + f + this.random.nextDouble() - 0.5D,
 					this.getY() + f + this.random.nextDouble() * 0.5D,
 					this.getZ() + f + this.random.nextDouble() - 0.5D,
@@ -273,30 +272,30 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	}
 
 	@Override
-	protected float getRiddenSpeed(@NotNull LivingEntity livingEntity) {
+	protected float getRiddenSpeed(Player player) {
 		return (float)this.getAttributeValue(Attributes.MOVEMENT_SPEED);
 	}
 
 	@Override
-	public boolean causeFallDamage(float distance, float multiplier, @NotNull DamageSource damageSource) {
+	public boolean causeFallDamage(float distance, float multiplier, DamageSource damageSource) {
 		return false;
 	}
 
-	@Override @NotNull
-	public InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
+	@Override
+	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (!this.isBaby()) {
 			if (this.isVehicle()) {
 				return super.mobInteract(player, hand);
 			}
 		}
 
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			player.setYRot(this.getYRot());
 			player.setXRot(this.getXRot());
 			player.startRiding(this);
 		}
 
-		return InteractionResult.sidedSuccess(this.level.isClientSide);
+		return InteractionResult.sidedSuccess(this.level().isClientSide);
 	}
 
 	@Override
@@ -307,7 +306,7 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 
 	@Override
 	public boolean isFlapping() {
-		return !this.isOnGround();
+		return !this.onGround();
 	}
 
 	@Override
@@ -315,7 +314,7 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 		return false;
 	}
 
-	@Override @NotNull
+	@Override
 	public Vec3 getLeashOffset() {
 		return new Vec3(0.0D, this.getEyeHeight() * 0.6D, this.getBbWidth() * 0.1D);
 	}
@@ -329,7 +328,7 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	@Override
 	public void setPlayerHealed(boolean healed) {}
 
-	@Override @NotNull
+	@Override
 	public UUID getHealedPlayer() {
 		Optional<UUID> player = this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
 		return player.orElse(Util.NIL_UUID);

@@ -10,7 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -22,11 +21,11 @@ public class SnakeheadRenderer extends MobRenderer<SnakeheadEntity, SnakeheadMod
 		super(manager, new SnakeheadModel<>(manager.bakeLayer(SnakeheadModel.LAYER_LOCATION)), 0.7F);
 	}
 
-	@Override @NotNull
-	public ResourceLocation getTextureLocation(@NotNull SnakeheadEntity entity) { return TEXTURE; }
+	@Override
+	public ResourceLocation getTextureLocation(SnakeheadEntity entity) { return TEXTURE; }
 
 	@Override
-	protected void setupRotations(@NotNull SnakeheadEntity entity, @NotNull PoseStack transform, float bob, float yRot, float xRot) {
+	protected void setupRotations(SnakeheadEntity entity, PoseStack transform, float bob, float yRot, float xRot) {
 		super.setupRotations(entity, transform, bob, yRot, xRot);
 		float f = 1.0F;
 		float f1 = 1.0F;

@@ -26,21 +26,18 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.block.state.properties.WoodType;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -68,7 +65,7 @@ public final class ECBlocks {
 	}
 
 	private static void registerStairs(Block fullBlock) {
-		String name = changeNameTo(getRegistryName(fullBlock).getPath(), "_stairs");
+		String name = changeNameTo(Objects.requireNonNull(getRegistryName(fullBlock)).getPath(), "_stairs");
 		TO_STAIRS.put(getRegistryName(fullBlock), new BlockEntry<>(
 				name,
 				() -> BlockBehaviour.Properties.copy(fullBlock),
@@ -99,7 +96,7 @@ public final class ECBlocks {
 	}
 
 	private static void registerSlab(Block fullBlock) {
-		String name = changeNameTo(getRegistryName(fullBlock).getPath(), "_slab");
+		String name = changeNameTo(Objects.requireNonNull(getRegistryName(fullBlock)).getPath(), "_slab");
 		TO_SLAB.put(getRegistryName(fullBlock), new BlockEntry<>(
 				name,
 				() -> BlockBehaviour.Properties.copy(fullBlock),
@@ -146,7 +143,7 @@ public final class ECBlocks {
 	}
 
 	private static void registerWall(Block fullBlock) {
-		String name = changeNameTo(getRegistryName(fullBlock).getPath(), "_wall");
+		String name = changeNameTo(Objects.requireNonNull(getRegistryName(fullBlock)).getPath(), "_wall");
 		TO_WALL.put(getRegistryName(fullBlock), new BlockEntry<>(
 				name,
 				() -> BlockBehaviour.Properties.copy(fullBlock),
@@ -179,7 +176,7 @@ public final class ECBlocks {
 		String name = changeNameTo(fullBlock.getId().getPath(), "_fence");
 		TO_FENCE.put(fullBlock.getId(), new BlockEntry<>(
 				name,
-				() -> BlockBehaviour.Properties.copy(Blocks.OAK_FENCE).color(fullBlock.get().defaultMaterialColor()),
+				() -> BlockBehaviour.Properties.copy(Blocks.OAK_FENCE).mapColor(fullBlock.get().defaultMapColor()),
 				FenceBlock::new
 		));
 	}
@@ -188,7 +185,7 @@ public final class ECBlocks {
 		String name = changeNameTo(fullBlock.getId().getPath(), "_fence_gate");
 		TO_FENCE_GATE.put(fullBlock.getId(), new BlockEntry<>(
 				name,
-				() -> BlockBehaviour.Properties.copy(Blocks.OAK_FENCE_GATE).color(fullBlock.get().defaultMaterialColor()),
+				() -> BlockBehaviour.Properties.copy(Blocks.OAK_FENCE_GATE).mapColor(fullBlock.get().defaultMapColor()),
 				(props) -> new FenceGateBlock(props, SoundEvents.FENCE_GATE_CLOSE, SoundEvents.FENCE_GATE_OPEN)
 		));
 	}
@@ -197,7 +194,7 @@ public final class ECBlocks {
 		String name = changeNameTo(fullBlock.getId().getPath(), "_door");
 		TO_DOOR.put(fullBlock.getId(), new BlockEntry<>(
 				name,
-				() -> BlockBehaviour.Properties.copy(Blocks.OAK_DOOR).color(fullBlock.get().defaultMaterialColor()),
+				() -> BlockBehaviour.Properties.copy(Blocks.OAK_DOOR).mapColor(fullBlock.get().defaultMapColor()),
 				(props) -> new DoorBlock(props, blockSetType)
 		));
 	}
@@ -206,7 +203,7 @@ public final class ECBlocks {
 		String name = changeNameTo(fullBlock.getId().getPath(), "_trapdoor");
 		TO_TRAPDOOR.put(fullBlock.getId(), new BlockEntry<>(
 				name,
-				() -> BlockBehaviour.Properties.copy(Blocks.OAK_TRAPDOOR).color(fullBlock.get().defaultMaterialColor()),
+				() -> BlockBehaviour.Properties.copy(Blocks.OAK_TRAPDOOR).mapColor(fullBlock.get().defaultMapColor()),
 				(props) -> new TrapDoorBlock(props, blockSetType)
 		));
 	}
@@ -215,7 +212,7 @@ public final class ECBlocks {
 		String name = changeNameTo(fullBlock.getId().getPath(), "_pressure_plate");
 		TO_PRESSURE_PLATE.put(fullBlock.getId(), new BlockEntry<>(
 				name,
-				() -> BlockBehaviour.Properties.copy(Blocks.OAK_PRESSURE_PLATE).color(fullBlock.get().defaultMaterialColor()),
+				() -> BlockBehaviour.Properties.copy(Blocks.OAK_PRESSURE_PLATE).mapColor(fullBlock.get().defaultMapColor()),
 				(props) -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, props, blockSetType)
 		));
 	}
@@ -224,7 +221,7 @@ public final class ECBlocks {
 		String name = changeNameTo(fullBlock.getId().getPath(), "_button");
 		TO_BUTTON.put(fullBlock.getId(), new BlockEntry<>(
 				name,
-				() -> BlockBehaviour.Properties.copy(Blocks.OAK_BUTTON).color(fullBlock.get().defaultMaterialColor()),
+				() -> BlockBehaviour.Properties.copy(Blocks.OAK_BUTTON).mapColor(fullBlock.get().defaultMapColor()),
 				(props) -> new ButtonBlock(props, blockSetType, 30, true)
 		));
 	}
@@ -234,11 +231,11 @@ public final class ECBlocks {
 		String name2 = changeNameTo(fullBlock.getId().getPath(), "_wall_sign");
 		TO_SIGN.put(fullBlock.getId(), new Tuple<>(new BlockEntry<>(
 				name1,
-				() -> BlockBehaviour.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD).color(fullBlock.get().defaultMaterialColor()),
+				() -> BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).sound(SoundType.WOOD).mapColor(fullBlock.get().defaultMapColor()),
 				(props) -> new StandingSignBlock(props, woodType)
 		), new BlockEntry<>(
 				name2,
-				() -> BlockBehaviour.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD).color(fullBlock.get().defaultMaterialColor()),
+				() -> BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).sound(SoundType.WOOD).mapColor(fullBlock.get().defaultMapColor()),
 				(props) -> new WallSignBlock(props, woodType)
 		)));
 	}
@@ -363,21 +360,21 @@ public final class ECBlocks {
 			registerStairs(
 					new ResourceLocation("create", "zinc_block"),
 					"zinc_block",
-					BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).color(MaterialColor.GLOW_LICHEN),
+					BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).mapColor(MapColor.GLOW_LICHEN),
 					Blocks.AIR::defaultBlockState,
 					createCompatPredicate
 			);
 			registerSlab(
 					new ResourceLocation("create", "zinc_block"),
 					"zinc_block",
-					BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).color(MaterialColor.GLOW_LICHEN),
+					BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).mapColor(MapColor.GLOW_LICHEN),
 					Blocks.AIR::defaultBlockState,
 					createCompatPredicate
 			);
 			registerWall(
 					new ResourceLocation("create", "zinc_block"),
 					"zinc_block",
-					BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).color(MaterialColor.GLOW_LICHEN),
+					BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).mapColor(MapColor.GLOW_LICHEN),
 					createCompatPredicate
 			);
 
@@ -387,112 +384,112 @@ public final class ECBlocks {
 			registerStairs(
 					new ResourceLocation("immersiveengineering", "storage_aluminum"),
 					"aluminum_block",
-					BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
 					Blocks.AIR::defaultBlockState,
 					ieCompatPredicate
 			);
 			registerWall(
 					new ResourceLocation("immersiveengineering", "storage_aluminum"),
 					"aluminum_block",
-					BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
 					ieCompatPredicate
 			);
 
 			registerStairs(
 					new ResourceLocation("immersiveengineering", "storage_lead"),
 					"lead_block",
-					BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
 					Blocks.AIR::defaultBlockState,
 					ieCompatPredicate
 			);
 			registerWall(
 					new ResourceLocation("immersiveengineering", "storage_lead"),
 					"lead_block",
-					BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
 					ieCompatPredicate
 			);
 
 			registerStairs(
 					new ResourceLocation("immersiveengineering", "storage_silver"),
 					"silver_block",
-					BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
 					Blocks.AIR::defaultBlockState,
 					ieCompatPredicate
 			);
 			registerWall(
 					new ResourceLocation("immersiveengineering", "storage_silver"),
 					"silver_block",
-					BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
 					ieCompatPredicate
 			);
 
 			registerStairs(
 					new ResourceLocation("immersiveengineering", "storage_nickel"),
 					"nickel_block",
-					BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
 					Blocks.AIR::defaultBlockState,
 					ieCompatPredicate
 			);
 			registerWall(
 					new ResourceLocation("immersiveengineering", "storage_nickel"),
 					"nickel_block",
-					BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
 					ieCompatPredicate
 			);
 
 			registerStairs(
 					new ResourceLocation("immersiveengineering", "storage_uranium"),
 					"uranium_block",
-					BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
 					Blocks.AIR::defaultBlockState,
 					ieCompatPredicate
 			);
 			registerWall(
 					new ResourceLocation("immersiveengineering", "storage_uranium"),
 					"uranium_block",
-					BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
 					ieCompatPredicate
 			);
 
 			registerStairs(
 					new ResourceLocation("immersiveengineering", "storage_constantan"),
 					"constantan_block",
-					BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
 					Blocks.AIR::defaultBlockState,
 					ieCompatPredicate
 			);
 			registerWall(
 					new ResourceLocation("immersiveengineering", "storage_constantan"),
 					"constantan_block",
-					BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
 					ieCompatPredicate
 			);
 
 			registerStairs(
 					new ResourceLocation("immersiveengineering", "storage_electrum"),
 					"electrum_block",
-					BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
 					Blocks.AIR::defaultBlockState,
 					ieCompatPredicate
 			);
 			registerWall(
 					new ResourceLocation("immersiveengineering", "storage_electrum"),
 					"electrum_block",
-					BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
 					ieCompatPredicate
 			);
 
 			registerStairs(
 					new ResourceLocation("immersiveengineering", "storage_steel"),
 					"steel_block",
-					BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.NETHERITE_BLOCK).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					BlockBehaviour.Properties.of().sound(SoundType.NETHERITE_BLOCK).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
 					Blocks.AIR::defaultBlockState,
 					ieCompatPredicate
 			);
 			registerWall(
 					new ResourceLocation("immersiveengineering", "storage_steel"),
 					"steel_block",
-					BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.NETHERITE_BLOCK).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
+					BlockBehaviour.Properties.of().sound(SoundType.NETHERITE_BLOCK).strength(5.0F, 10.0F).requiresCorrectToolForDrops(),
 					ieCompatPredicate
 			);
 		}
@@ -532,7 +529,7 @@ public final class ECBlocks {
 					CARPENTRY_TABLE.getId().getPath(),
 					() -> new BlockItem(CARPENTRY_TABLE.get(), new Item.Properties()) {
 						@Override
-						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
+						public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
 							components.add(Component.translatable("desc.emeraldcraft.carpentry_table").withStyle(ChatFormatting.GRAY));
 						}
 					}, ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
@@ -541,7 +538,7 @@ public final class ECBlocks {
 					GLASS_KILN.getId().getPath(),
 					() -> new BlockItem(GLASS_KILN.get(), new Item.Properties()) {
 						@Override
-						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
+						public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
 							components.add(Component.translatable("desc.emeraldcraft.glass_kiln").withStyle(ChatFormatting.GRAY));
 						}
 					}, ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
@@ -550,7 +547,7 @@ public final class ECBlocks {
 					MINERAL_TABLE.getId().getPath(),
 					() -> new BlockItem(MINERAL_TABLE.get(), new Item.Properties()) {
 						@Override
-						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
+						public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
 							components.add(Component.translatable("desc.emeraldcraft.mineral_table").withStyle(ChatFormatting.GRAY));
 						}
 					}, ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
@@ -559,7 +556,7 @@ public final class ECBlocks {
 					CRYSTALBALL_TABLE.getId().getPath(),
 					() -> new BlockItem(CRYSTALBALL_TABLE.get(), new Item.Properties()) {
 						@Override
-						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
+						public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
 							components.add(Component.translatable("desc.emeraldcraft.crystalball_table").withStyle(ChatFormatting.GRAY));
 						}
 					}, ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
@@ -568,7 +565,7 @@ public final class ECBlocks {
 					SQUEEZER.getId().getPath(),
 					() -> new BlockItem(SQUEEZER.get(), new Item.Properties()) {
 						@Override
-						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
+						public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
 							components.add(Component.translatable("desc.emeraldcraft.squeezer").withStyle(ChatFormatting.GRAY));
 						}
 					}, ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
@@ -577,7 +574,7 @@ public final class ECBlocks {
 					CONTINUOUS_MINER.getId().getPath(),
 					() -> new BlockItem(CONTINUOUS_MINER.get(), new Item.Properties()) {
 						@Override
-						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
+						public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
 							components.add(Component.translatable("desc.emeraldcraft.continuous_miner").withStyle(ChatFormatting.GRAY));
 						}
 					}, ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
@@ -586,7 +583,7 @@ public final class ECBlocks {
 					ICE_MAKER.getId().getPath(),
 					() -> new BlockItem(ICE_MAKER.get(), new Item.Properties()) {
 						@Override
-						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
+						public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
 							components.add(Component.translatable("desc.emeraldcraft.ice_maker").withStyle(ChatFormatting.GRAY));
 						}
 					}, ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
@@ -595,7 +592,7 @@ public final class ECBlocks {
 					MELTER.getId().getPath(),
 					() -> new BlockItem(MELTER.get(), new Item.Properties()) {
 						@Override
-						public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
+						public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
 							components.add(Component.translatable("desc.emeraldcraft.melter").withStyle(ChatFormatting.GRAY));
 						}
 					}, ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
@@ -634,57 +631,72 @@ public final class ECBlocks {
 
 	public static final class Decoration {
 		public static final Supplier<BlockBehaviour.Properties> AZURE_SAND_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_LIGHT_BLUE)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.SNARE).mapColor(MapColor.COLOR_LIGHT_BLUE)
 						.strength(0.5F).sound(SoundType.SAND);
 		public static final Supplier<BlockBehaviour.Properties> QUARTZ_SAND_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_LIGHT_GRAY)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.SNARE).mapColor(MapColor.COLOR_LIGHT_GRAY)
 						.strength(0.5F).sound(SoundType.SAND);
 		public static final Supplier<BlockBehaviour.Properties> JADEITE_SAND_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_LIGHT_GREEN)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.SNARE).mapColor(MapColor.COLOR_LIGHT_GREEN)
 						.strength(0.5F).sound(SoundType.SAND);
 		public static final Supplier<BlockBehaviour.Properties> EMERY_SAND_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_BLACK)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.SNARE).mapColor(MapColor.COLOR_BLACK)
 						.strength(0.5F).sound(SoundType.SAND);
 		public static final Supplier<BlockBehaviour.Properties> DARK_SAND_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_BROWN)
-						.strength(0.5F).sound(SoundType.SAND);
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASEDRUM).mapColor(MapColor.COLOR_BROWN)
+						.strength(0.8F);
 		public static final Supplier<BlockBehaviour.Properties> SANDSTONE_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SAND)
-						.requiresCorrectToolForDrops().strength(0.8F);
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASEDRUM).mapColor(MapColor.SAND)
+						.strength(0.8F);
+		public static final Supplier<BlockBehaviour.Properties> AZURE_SANDSTONE_PROPERTIES = () ->
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASEDRUM).mapColor(MapColor.COLOR_LIGHT_BLUE)
+						.strength(0.8F);
+		public static final Supplier<BlockBehaviour.Properties> QUARTZ_SANDSTONE_PROPERTIES = () ->
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASEDRUM).mapColor(MapColor.COLOR_LIGHT_GRAY)
+						.strength(0.8F);
+		public static final Supplier<BlockBehaviour.Properties> JADEITE_SANDSTONE_PROPERTIES = () ->
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASEDRUM).mapColor(MapColor.COLOR_LIGHT_GREEN)
+						.strength(0.8F);
+		public static final Supplier<BlockBehaviour.Properties> EMERY_SANDSTONE_PROPERTIES = () ->
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASEDRUM).mapColor(MapColor.COLOR_BLACK)
+						.strength(0.8F);
+		public static final Supplier<BlockBehaviour.Properties> DARK_SANDSTONE_PROPERTIES = () ->
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASEDRUM).mapColor(MapColor.COLOR_BROWN)
+						.strength(0.8F);
 		public static final Supplier<BlockBehaviour.Properties> BLUE_NETHER_BRICKS_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_CYAN)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASEDRUM).mapColor(MapColor.COLOR_CYAN)
 						.requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS);
 		public static final Supplier<BlockBehaviour.Properties> PURPLE_NETHER_BRICKS_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_PURPLE)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASEDRUM).mapColor(MapColor.COLOR_PURPLE)
 						.requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS);
 		public static final Supplier<BlockBehaviour.Properties> CRIMSON_STONE_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.STONE, MaterialColor.CRIMSON_NYLIUM)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASEDRUM).mapColor(MapColor.CRIMSON_NYLIUM)
 						.requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.STONE);
 		public static final Supplier<BlockBehaviour.Properties> WARPED_STONE_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.STONE, MaterialColor.WARPED_NYLIUM)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASEDRUM).mapColor(MapColor.WARPED_NYLIUM)
 						.requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.STONE);
 
 		public static final Supplier<BlockBehaviour.Properties> STONE_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASEDRUM).mapColor(MapColor.STONE)
 						.requiresCorrectToolForDrops().strength(1.5F, 6.0F);
 
 		public static final Supplier<BlockBehaviour.Properties> RESIN_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_YELLOW)
+				BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_YELLOW)
 						.strength(0.5F).noOcclusion().sound(SoundType.FROGLIGHT);
 		public static final Supplier<BlockBehaviour.Properties> REINFORCED_RESIN_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_ORANGE)
+				BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE)
 						.requiresCorrectToolForDrops().strength(30.0F, 600.0F).sound(SoundType.FROGLIGHT);
 
 		public static final Supplier<BlockBehaviour.Properties> RAW_BERYL_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_LIGHT_GREEN)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASEDRUM).mapColor(MapColor.TERRACOTTA_LIGHT_GREEN)
 						.requiresCorrectToolForDrops().strength(1.5F);
 
 		public static final Supplier<BlockBehaviour.Properties> PAPER_BLOCK_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.SNOW)
+				BlockBehaviour.Properties.of().mapColor(MapColor.SNOW)
 						.strength(0.2F).instabreak().sound(SoundType.WOOL);
 
 		public static final Function<DyeColor, Supplier<BlockBehaviour.Properties>> COLORED_REINFORCED_RESIN_PROPERTIES = (color) ->
-				() -> BlockBehaviour.Properties.of(Material.DECORATION, color)
+				() -> BlockBehaviour.Properties.of().mapColor(color)
 						.requiresCorrectToolForDrops().strength(30.0F, 600.0F).sound(SoundType.FROGLIGHT);
 
 		public static final BlockEntry<Block> VITRIFIED_SAND = new BlockEntry<>(
@@ -708,51 +720,51 @@ public final class ECBlocks {
 		);
 
 		public static final BlockEntry<Block> AZURE_SANDSTONE = new BlockEntry<>(
-				"azure_sandstone", SANDSTONE_PROPERTIES, Block::new
+				"azure_sandstone", AZURE_SANDSTONE_PROPERTIES, Block::new
 		);
 		public static final BlockEntry<Block> QUARTZ_SANDSTONE = new BlockEntry<>(
-				"quartz_sandstone", SANDSTONE_PROPERTIES, Block::new
+				"quartz_sandstone", QUARTZ_SANDSTONE_PROPERTIES, Block::new
 		);
 		public static final BlockEntry<Block> JADEITE_SANDSTONE = new BlockEntry<>(
-				"jadeite_sandstone", SANDSTONE_PROPERTIES, Block::new
+				"jadeite_sandstone", JADEITE_SANDSTONE_PROPERTIES, Block::new
 		);
 		public static final BlockEntry<Block> EMERY_SANDSTONE = new BlockEntry<>(
-				"emery_sandstone", SANDSTONE_PROPERTIES, Block::new
+				"emery_sandstone", EMERY_SANDSTONE_PROPERTIES, Block::new
 		);
 		public static final BlockEntry<Block> DARK_SANDSTONE = new BlockEntry<>(
-				"dark_sandstone", SANDSTONE_PROPERTIES, Block::new
+				"dark_sandstone", DARK_SANDSTONE_PROPERTIES, Block::new
 		);
 
 		public static final BlockEntry<Block> SMOOTH_AZURE_SANDSTONE = new BlockEntry<>(
-				"smooth_azure_sandstone", SANDSTONE_PROPERTIES, Block::new
+				"smooth_azure_sandstone", AZURE_SANDSTONE_PROPERTIES, Block::new
 		);
 		public static final BlockEntry<Block> SMOOTH_QUARTZ_SANDSTONE = new BlockEntry<>(
-				"smooth_quartz_sandstone", SANDSTONE_PROPERTIES, Block::new
+				"smooth_quartz_sandstone", QUARTZ_SANDSTONE_PROPERTIES, Block::new
 		);
 		public static final BlockEntry<Block> SMOOTH_JADEITE_SANDSTONE = new BlockEntry<>(
-				"smooth_jadeite_sandstone", SANDSTONE_PROPERTIES, Block::new
+				"smooth_jadeite_sandstone", JADEITE_SANDSTONE_PROPERTIES, Block::new
 		);
 		public static final BlockEntry<Block> SMOOTH_EMERY_SANDSTONE = new BlockEntry<>(
-				"smooth_emery_sandstone", SANDSTONE_PROPERTIES, Block::new
+				"smooth_emery_sandstone", EMERY_SANDSTONE_PROPERTIES, Block::new
 		);
 		public static final BlockEntry<Block> SMOOTH_DARK_SANDSTONE = new BlockEntry<>(
-				"smooth_dark_sandstone", SANDSTONE_PROPERTIES, Block::new
+				"smooth_dark_sandstone", DARK_SANDSTONE_PROPERTIES, Block::new
 		);
 
 		public static final BlockEntry<Block> CUT_AZURE_SANDSTONE = new BlockEntry<>(
-				"cut_azure_sandstone", SANDSTONE_PROPERTIES, Block::new
+				"cut_azure_sandstone", AZURE_SANDSTONE_PROPERTIES, Block::new
 		);
 		public static final BlockEntry<Block> CUT_QUARTZ_SANDSTONE = new BlockEntry<>(
-				"cut_quartz_sandstone", SANDSTONE_PROPERTIES, Block::new
+				"cut_quartz_sandstone", QUARTZ_SANDSTONE_PROPERTIES, Block::new
 		);
 		public static final BlockEntry<Block> CUT_JADEITE_SANDSTONE = new BlockEntry<>(
-				"cut_jadeite_sandstone", SANDSTONE_PROPERTIES, Block::new
+				"cut_jadeite_sandstone", JADEITE_SANDSTONE_PROPERTIES, Block::new
 		);
 		public static final BlockEntry<Block> CUT_EMERY_SANDSTONE = new BlockEntry<>(
-				"cut_emery_sandstone", SANDSTONE_PROPERTIES, Block::new
+				"cut_emery_sandstone", EMERY_SANDSTONE_PROPERTIES, Block::new
 		);
 		public static final BlockEntry<Block> CUT_DARK_SANDSTONE = new BlockEntry<>(
-				"cut_dark_sandstone", SANDSTONE_PROPERTIES, Block::new
+				"cut_dark_sandstone", DARK_SANDSTONE_PROPERTIES, Block::new
 		);
 
 		public static final BlockEntry<Block> BLUE_NETHER_BRICKS = new BlockEntry<>(
@@ -901,86 +913,88 @@ public final class ECBlocks {
 
 	public static final class Plant {
 		public static final Supplier<BlockBehaviour.Properties> FLOWER_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS);
+				BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS);
 		public static final Supplier<BlockBehaviour.Properties> HIGAN_BANA_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().randomTicks().sound(SoundType.GRASS);
+				BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().randomTicks().sound(SoundType.GRASS);
 		public static final Supplier<BlockBehaviour.Properties> SAPLING_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS);
+				BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS);
 		public static final Supplier<BlockBehaviour.Properties> POTTED_FLOWER_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion();
+				BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY);
 		public static final Supplier<BlockBehaviour.Properties> GINKGO_LOG_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.WOOD, (blockState) ->
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).mapColor((blockState) ->
 								blockState.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ?
-										MaterialColor.TERRACOTTA_ORANGE : MaterialColor.TERRACOTTA_BROWN)
+										MapColor.TERRACOTTA_ORANGE : MapColor.TERRACOTTA_BROWN)
 						.strength(2.0F).sound(SoundType.WOOD);
 		public static final Supplier<BlockBehaviour.Properties> STRIPPED_GINKGO_LOG_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_ORANGE)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).mapColor(MapColor.TERRACOTTA_ORANGE)
 						.strength(2.0F).sound(SoundType.WOOD);
 		public static final Supplier<BlockBehaviour.Properties> GINKGO_WOOD_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_BROWN)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).mapColor(MapColor.TERRACOTTA_BROWN)
 						.strength(2.0F).sound(SoundType.WOOD);
 		public static final Supplier<BlockBehaviour.Properties> PALM_LOG_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.WOOD, (blockState) ->
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).mapColor((blockState) ->
 								blockState.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ?
-										MaterialColor.TERRACOTTA_BROWN : MaterialColor.COLOR_BLACK)
+										MapColor.TERRACOTTA_BROWN : MapColor.COLOR_BLACK)
 						.strength(2.0F).sound(SoundType.WOOD);
 		public static final Supplier<BlockBehaviour.Properties> STRIPPED_PALM_LOG_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_BROWN)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).mapColor(MapColor.TERRACOTTA_BROWN)
 						.strength(2.0F).sound(SoundType.WOOD);
 		public static final Supplier<BlockBehaviour.Properties> PALM_WOOD_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLACK)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).mapColor(MapColor.COLOR_BLACK)
 						.strength(2.0F).sound(SoundType.WOOD);
 
 		public static final Supplier<BlockBehaviour.Properties> PEACH_LOG_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.WOOD, (blockState) ->
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).mapColor((blockState) ->
 								blockState.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ?
-										MaterialColor.COLOR_MAGENTA : MaterialColor.TERRACOTTA_YELLOW)
+										MapColor.COLOR_MAGENTA : MapColor.TERRACOTTA_YELLOW)
 						.strength(2.0F).sound(SoundType.WOOD);
 		public static final Supplier<BlockBehaviour.Properties> STRIPPED_PEACH_LOG_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_MAGENTA)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).mapColor(MapColor.COLOR_MAGENTA)
 						.strength(2.0F).sound(SoundType.WOOD);
 		public static final Supplier<BlockBehaviour.Properties> PEACH_WOOD_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_YELLOW)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).mapColor(MapColor.TERRACOTTA_YELLOW)
 						.strength(2.0F).sound(SoundType.WOOD);
 
 		public static final Supplier<BlockBehaviour.Properties> PURPURACEUS_STEM_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.WOOD, (blockState) ->
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).mapColor((blockState) ->
 								blockState.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ?
-										MaterialColor.COLOR_PURPLE : MaterialColor.TERRACOTTA_PURPLE)
+										MapColor.COLOR_PURPLE : MapColor.TERRACOTTA_PURPLE)
 						.strength(2.0F).sound(SoundType.WOOD);
 		public static final Supplier<BlockBehaviour.Properties> STRIPPED_PURPURACEUS_STEM_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_PURPLE)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).mapColor(MapColor.COLOR_PURPLE)
 						.strength(2.0F).sound(SoundType.WOOD);
 		public static final Supplier<BlockBehaviour.Properties> PURPURACEUS_HYPHAE_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_PURPLE)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).mapColor(MapColor.TERRACOTTA_PURPLE)
 						.strength(2.0F).sound(SoundType.WOOD);
 
 		public static final Supplier<BlockBehaviour.Properties> LEAVES_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion()
+				BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion()
 						.isValidSpawn((blockState, level, pos, entityType) -> entityType == EntityType.OCELOT || entityType == EntityType.PARROT)
 						.isSuffocating((blockState, level, pos) -> false)
-						.isViewBlocking((blockState, level, pos) -> false);
+						.isViewBlocking((blockState, level, pos) -> false)
+						.isRedstoneConductor((blockState, level, pos) -> false)
+						.ignitedByLava().pushReaction(PushReaction.DESTROY);
 
-		public static final Supplier<BlockBehaviour.Properties> WART_BLOCKS_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_PURPLE).strength(1.0F).sound(SoundType.WART_BLOCK);
+		public static final Supplier<BlockBehaviour.Properties> PURPURACEUS_WART_BLOCKS_PROPERTIES = () ->
+				BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(1.0F).sound(SoundType.WART_BLOCK);
 
 		public static final Supplier<BlockBehaviour.Properties> GINKGO_PLANKS_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_ORANGE)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).mapColor(MapColor.TERRACOTTA_ORANGE)
 						.strength(2.0F, 3.0F).sound(SoundType.WOOD);
 		public static final Supplier<BlockBehaviour.Properties> PALM_PLANKS_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).mapColor(MapColor.COLOR_BROWN)
 						.strength(2.0F, 3.0F).sound(SoundType.WOOD);
 		public static final Supplier<BlockBehaviour.Properties> PEACH_PLANKS_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_MAGENTA)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).mapColor(MapColor.COLOR_MAGENTA)
 						.strength(2.0F, 3.0F).sound(SoundType.WOOD);
 		public static final Supplier<BlockBehaviour.Properties> PURPURACEUS_PLANKS_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_PURPLE)
+				BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).mapColor(MapColor.COLOR_PURPLE)
 						.strength(2.0F, 3.0F).sound(SoundType.WOOD);
 		public static final Supplier<BlockBehaviour.Properties> CROP_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks()
+				BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks()
 						.instabreak().sound(SoundType.CROP);
 		public static final Supplier<BlockBehaviour.Properties> WILD_CROP_PROPERTIES = () ->
-				BlockBehaviour.Properties.of(Material.PLANT).noCollission()
+				BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission()
 						.instabreak().sound(SoundType.CROP);
 
 
@@ -1111,14 +1125,14 @@ public final class ECBlocks {
 		//PURPURACEUS
 		public static final BlockEntry<Block> PURPURACEUS_NYLIUM = new BlockEntry<>(
 				"purpuraceus_nylium",
-				() -> BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_PURPLE)
+				() -> BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASEDRUM).mapColor(MapColor.COLOR_PURPLE)
 						.requiresCorrectToolForDrops().strength(0.4F).sound(SoundType.NYLIUM).randomTicks(),
 				PurpuraceusNyliumBlock::new
 		);
 
 		public static final BlockEntry<FungusBlock> PURPURACEUS_FUNGUS = new BlockEntry<>(
 				"purpuraceus_fungus",
-				() -> BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE).instabreak().noCollission().sound(SoundType.FUNGUS),
+				() -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).instabreak().noCollission().sound(SoundType.FUNGUS).pushReaction(PushReaction.DESTROY),
 				(props) -> new FungusBlock(props, ECConfiguredFeatureKeys.TreeConfiguredFeatures.PURPURACEUS_FUNGUS_PLANTED, PURPURACEUS_NYLIUM.get())
 		);
 		public static final BlockEntry<FlowerPotBlock> POTTED_PURPURACEUS_FUNGUS = new BlockEntry<>(
@@ -1138,7 +1152,7 @@ public final class ECBlocks {
 				"stripped_purpuraceus_hyphae", STRIPPED_PURPURACEUS_STEM_PROPERTIES, RotatedPillarBlock::new
 		);
 		public static final BlockEntry<Block> PURPURACEUS_WART_BLOCK = new BlockEntry<>(
-				"purpuraceus_wart_block", WART_BLOCKS_PROPERTIES, Block::new
+				"purpuraceus_wart_block", PURPURACEUS_WART_BLOCKS_PROPERTIES, Block::new
 		);
 
 		public static final BlockEntry<Block> PURPURACEUS_PLANKS = new BlockEntry<>(
@@ -1147,8 +1161,8 @@ public final class ECBlocks {
 
 		public static final BlockEntry<Block> PURPURACEUS_ROOTS = new BlockEntry<>(
 				"purpuraceus_roots",
-				() -> BlockBehaviour.Properties.of(Material.REPLACEABLE_FIREPROOF_PLANT, MaterialColor.COLOR_PURPLE)
-						.noCollission().instabreak().sound(SoundType.ROOTS),
+				() -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).replaceable().instabreak()
+						.noCollission().sound(SoundType.ROOTS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY),
 				RootsBlock::new
 		);
 		public static final BlockEntry<FlowerPotBlock> POTTED_PURPURACEUS_ROOTS = new BlockEntry<>(
@@ -1256,7 +1270,7 @@ public final class ECBlocks {
 			return properties.get();
 		}
 
-		@Override @NotNull
+		@Override
 		public Item asItem()
 		{
 			return get().asItem();

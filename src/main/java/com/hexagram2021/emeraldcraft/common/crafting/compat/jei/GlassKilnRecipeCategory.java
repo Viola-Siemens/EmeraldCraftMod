@@ -5,10 +5,11 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.hexagram2021.emeraldcraft.common.crafting.GlassKilnRecipe;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.drawable.*;
+import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.drawable.IDrawableAnimated;
+import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
@@ -18,6 +19,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -79,30 +81,30 @@ public class GlassKilnRecipeCategory implements IRecipeCategory<GlassKilnRecipe>
 	}
 
 	@Override
-	public void draw(GlassKilnRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double mouseX, double mouseY) {
-		animatedFlame.draw(poseStack, 1, 20);
+	public void draw(GlassKilnRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics transform, double mouseX, double mouseY) {
+		animatedFlame.draw(transform, 1, 20);
 
 		IDrawableAnimated arrow = getArrow(recipe);
-		arrow.draw(poseStack, 24, 18);
+		arrow.draw(transform, 24, 18);
 
-		drawExperience(recipe, poseStack, 0);
-		drawCookTime(recipe, poseStack, 45);
+		drawExperience(recipe, transform, 0);
+		drawCookTime(recipe, transform, 45);
 	}
 
 	@SuppressWarnings("SameParameterValue")
-	protected void drawExperience(GlassKilnRecipe recipe, PoseStack poseStack, int y) {
+	protected void drawExperience(GlassKilnRecipe recipe, GuiGraphics transform, int y) {
 		float experience = recipe.getExperience();
 		if (experience > 0) {
 			Component experienceString = Component.translatable("gui.emeraldcraft.glass_kiln.experience", experience);
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(experienceString);
-			fontRenderer.draw(poseStack, experienceString, background.getWidth() - stringWidth, y, 0xFF808080);
+			transform.drawString(fontRenderer, experienceString, this.background.getWidth() - stringWidth, y, 0xFF808080);
 		}
 	}
 
 	@SuppressWarnings("SameParameterValue")
-	protected void drawCookTime(GlassKilnRecipe recipe, PoseStack poseStack, int y) {
+	protected void drawCookTime(GlassKilnRecipe recipe, GuiGraphics transform, int y) {
 		int cookTime = recipe.getCookingTime();
 		if (cookTime > 0) {
 			int cookTimeSeconds = cookTime / 20;
@@ -110,7 +112,7 @@ public class GlassKilnRecipeCategory implements IRecipeCategory<GlassKilnRecipe>
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(timeString);
-			fontRenderer.draw(poseStack, timeString, background.getWidth() - stringWidth, y, 0xFF808080);
+			transform.drawString(fontRenderer, timeString, background.getWidth() - stringWidth, y, 0xFF808080);
 		}
 	}
 

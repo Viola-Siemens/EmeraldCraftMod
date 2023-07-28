@@ -104,14 +104,14 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 		this.recipeType = ECRecipes.RABBLE_FURNACE_TYPE.get();
 	}
 
-	@Override @NotNull
+	@Override
 	protected Component getDefaultName() {
 		return Component.translatable("container.rabble_furnace");
 	}
 
 
-	@Override @NotNull
-	protected AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory) {
+	@Override
+	protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
 		return new RabbleFurnaceMenu(id, inventory, this, this.dataAccess);
 	}
 
@@ -120,7 +120,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 	}
 
 	@Override
-	public void load(@NotNull CompoundTag nbt) {
+	public void load(CompoundTag nbt) {
 		super.load(nbt);
 		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
 		ContainerHelper.loadAllItems(nbt, this.items);
@@ -136,7 +136,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 	}
 
 	@Override
-	protected void saveAdditional(@NotNull CompoundTag nbt) {
+	protected void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
 		nbt.putInt("BurnTime", this.litTime);
 		nbt.putInt("CookTime", this.cookingProgress);
@@ -204,7 +204,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 
 	}
 
-	private boolean canBurn(@NotNull RegistryAccess registryAccess, @Nullable RabbleFurnaceRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
+	private boolean canBurn(RegistryAccess registryAccess, @Nullable RabbleFurnaceRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
 		if (!container.get(SLOT_INPUT).isEmpty() && recipe != null) {
 			ItemStack itemstack = recipe.assemble(this, registryAccess);
 			if (itemstack.isEmpty()) {
@@ -214,7 +214,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 			if (resultSlot.isEmpty()) {
 				return true;
 			}
-			if (!resultSlot.sameItem(itemstack)) {
+			if (!ItemStack.isSameItem(resultSlot, itemstack)) {
 				return false;
 			}
 			if (resultSlot.getCount() + itemstack.getCount() <= maxCount && resultSlot.getCount() + itemstack.getCount() <= resultSlot.getMaxStackSize()) {
@@ -225,7 +225,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 		return false;
 	}
 
-	private boolean burn(@NotNull RegistryAccess registryAccess, @Nullable RabbleFurnaceRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
+	private boolean burn(RegistryAccess registryAccess, @Nullable RabbleFurnaceRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
 		if (recipe != null && this.canBurn(registryAccess, recipe, container, maxCount)) {
 			ItemStack input = container.get(SLOT_INPUT);
 			ItemStack mix1 = container.get(SLOT_MIX1);
@@ -250,7 +250,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 		return false;
 	}
 
-	protected int getBurnDuration(@NotNull ItemStack itemStack) {
+	protected int getBurnDuration(ItemStack itemStack) {
 		if (itemStack.isEmpty()) {
 			return 0;
 		}
@@ -262,7 +262,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 	}
 
 	@Override
-	public int[] getSlotsForFace(@NotNull Direction direction) {
+	public int[] getSlotsForFace(Direction direction) {
 		if (direction == Direction.DOWN) {
 			return SLOTS_FOR_DOWN;
 		} else {
@@ -271,12 +271,12 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 	}
 
 	@Override
-	public boolean canPlaceItemThroughFace(int index, @NotNull ItemStack itemStack, @Nullable Direction direction) {
+	public boolean canPlaceItemThroughFace(int index, ItemStack itemStack, @Nullable Direction direction) {
 		return this.canPlaceItem(index, itemStack);
 	}
 
 	@Override
-	public boolean canTakeItemThroughFace(int index, @NotNull ItemStack itemStack, @NotNull Direction direction) {
+	public boolean canTakeItemThroughFace(int index, ItemStack itemStack, Direction direction) {
 		if (direction == Direction.DOWN && index == SLOT_FUEL) {
 			return itemStack.is(Items.WATER_BUCKET) || itemStack.is(Items.BUCKET);
 		}
@@ -299,17 +299,17 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 		return true;
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack getItem(int index) {
 		return this.items.get(index);
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack removeItem(int index, int count) {
 		return ContainerHelper.removeItem(this.items, index, count);
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack removeItemNoUpdate(int index) {
 		return ContainerHelper.takeItem(this.items, index);
 	}
@@ -317,7 +317,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 	@Override
 	public void setItem(int index, ItemStack itemStack) {
 		ItemStack slot = this.items.get(index);
-		boolean flag = !itemStack.isEmpty() && itemStack.sameItem(slot) && ItemStack.tagMatches(itemStack, slot);
+		boolean flag = !itemStack.isEmpty() && ItemStack.isSameItemSameTags(itemStack, slot);
 		this.items.set(index, itemStack);
 		if (itemStack.getCount() > this.getMaxStackSize()) {
 			itemStack.setCount(this.getMaxStackSize());
@@ -332,7 +332,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 	}
 
 	@Override
-	public boolean stillValid(@NotNull Player player) {
+	public boolean stillValid(Player player) {
 		if (this.level.getBlockEntity(this.worldPosition) != this) {
 			return false;
 		}
@@ -340,7 +340,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 	}
 
 	@Override
-	public boolean canPlaceItem(int index, @NotNull ItemStack itemStack) {
+	public boolean canPlaceItem(int index, ItemStack itemStack) {
 		if (index == SLOT_RESULT) {
 			return false;
 		}
@@ -371,11 +371,11 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 	}
 
 	@Override
-	public void awardUsedRecipes(@NotNull Player player) {
+	public void awardUsedRecipes(Player player, List<ItemStack> items) {
 	}
 
 	public void awardUsedRecipesAndPopExperience(ServerPlayer player) {
-		List<Recipe<?>> list = this.getRecipesToAwardAndPopExperience(player.getLevel(), player.position());
+		List<Recipe<?>> list = this.getRecipesToAwardAndPopExperience(player.serverLevel(), player.position());
 		player.awardRecipes(list);
 		this.recipesUsed.clear();
 	}
@@ -404,7 +404,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 	}
 
 	@Override
-	public void fillStackedContents(@NotNull StackedContents contents) {
+	public void fillStackedContents(StackedContents contents) {
 		for(ItemStack itemstack : this.items) {
 			contents.accountStack(itemstack);
 		}
@@ -415,7 +415,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 			SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 
 	@Override @NotNull
-	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
 		if (!this.remove && facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
 			if (facing == Direction.UP)
 				return handlers[0].cast();

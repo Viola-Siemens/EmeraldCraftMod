@@ -14,7 +14,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.stream.Stream;
@@ -45,8 +44,8 @@ public class ECBoatRenderer extends BoatRenderer {
 		this.withChest = withChest;
 	}
 
-	@Override @NotNull
-	public Pair<ResourceLocation, ListModel<Boat>> getModelWithLocation(@NotNull Boat boat) {
+	@Override
+	public Pair<ResourceLocation, ListModel<Boat>> getModelWithLocation(Boat boat) {
 		if(this.withChest) {
 			return this.boatResources.get(((ECChestBoat)boat).getECBoatType());
 		}

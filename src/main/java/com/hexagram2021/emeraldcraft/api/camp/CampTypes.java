@@ -6,8 +6,8 @@ import net.minecraft.Util;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -44,14 +44,15 @@ public enum CampTypes implements CampType {
 	 * @param holder - The resource key of your camp structure.
 	*/
 	@SuppressWarnings("unused")
-	public static void addCustomCamp(@NotNull CampType type, ResourceLocation structure, ResourceKey<Structure> holder) {
+	public static void addCustomCamp(CampType type, ResourceLocation structure, ResourceKey<Structure> holder) {
 		CUSTOM_CAMP.put(type.toString(), structure);
 		ALL_CAMP_IDS.put(type.toString(), ALL_CAMPS.size());
 		ALL_CAMPS.add(type);
 		ECStructures.ALL_CAMPS.add(holder);
 	}
 
-	public static ResourceLocation getCampWithType(@NotNull CampType type) {
+	@Nullable
+	public static ResourceLocation getCampWithType(CampType type) {
 		return CUSTOM_CAMP.get(type.toString());
 	}
 }

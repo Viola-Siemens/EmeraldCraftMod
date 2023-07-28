@@ -10,7 +10,6 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import org.jetbrains.annotations.NotNull;
 
 public class MineralTableRecipe extends AbstractCookingRecipe {
 
@@ -25,12 +24,12 @@ public class MineralTableRecipe extends AbstractCookingRecipe {
 		super(ECRecipes.MINERAL_TABLE_TYPE.get(), id, group, CookingBookCategory.MISC, ingredient, result, experience, cookingTime);
 	}
 
-	@Override @NotNull
+	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return ECRecipeSerializer.MINERAL_TABLE_SERIALIZER.get();
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack getToastSymbol() {
 		return new ItemStack(ECBlocks.WorkStation.MINERAL_TABLE);
 	}
@@ -39,7 +38,6 @@ public class MineralTableRecipe extends AbstractCookingRecipe {
 		return this.ingredient;
 	}
 
-	@NotNull
 	public ItemStack getResult() {
 		return this.result;
 	}

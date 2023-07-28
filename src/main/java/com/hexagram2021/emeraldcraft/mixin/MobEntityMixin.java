@@ -36,7 +36,7 @@ public class MobEntityMixin {
 					itemstack.shrink(1);
 				}
 
-				if (!zombifiedPiglin.level.isClientSide) {
+				if (!zombifiedPiglin.level().isClientSide) {
 					((Convertible)zombifiedPiglin).startConverting(player.getUUID(), zombifiedPiglin.getRandom().nextInt(2401) + 3600);
 				}
 
@@ -52,7 +52,7 @@ public class MobEntityMixin {
 					itemstack.shrink(1);
 				}
 
-				if (!phantom.level.isClientSide) {
+				if (!phantom.level().isClientSide) {
 					((Convertible)phantom).startConverting(player.getUUID(), phantom.getRandom().nextInt(2401) + 3600);
 				}
 
@@ -65,7 +65,7 @@ public class MobEntityMixin {
 		} else if(current instanceof Piglin piglin) {
 			PlayerHealable playerHealable = (PlayerHealable) piglin;
 			if(itemstack.isEmpty() && playerHealable.isPlayerHealed() && playerHealable.getHealedPlayer().equals(player.getUUID())) {
-				if (!piglin.level.isClientSide) {
+				if (!piglin.level().isClientSide) {
 					for(int i = 0; i < piglin.getInventory().getContainerSize(); ++i) {
 						ItemStack invItemStack = piglin.getInventory().getItem(i).copy();
 						if(!invItemStack.isEmpty()) {

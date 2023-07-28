@@ -8,7 +8,6 @@ import net.minecraft.world.item.ShearsItem;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.Enchantments;
-import org.jetbrains.annotations.NotNull;
 
 public class VeinMiningEnchantment extends Enchantment {
 	public VeinMiningEnchantment(Rarity rarity, EquipmentSlot... equipmentSlots) {
@@ -31,7 +30,7 @@ public class VeinMiningEnchantment extends Enchantment {
 	}
 
 	@Override
-	protected boolean checkCompatibility(@NotNull Enchantment other) {
+	protected boolean checkCompatibility(Enchantment other) {
 		return super.checkCompatibility(other) && other != Enchantments.BLOCK_EFFICIENCY;
 	}
 
@@ -41,7 +40,7 @@ public class VeinMiningEnchantment extends Enchantment {
 	}
 
 	@Override
-	public boolean canEnchant(@NotNull ItemStack itemStack) {
+	public boolean canEnchant(ItemStack itemStack) {
 		return canWorkWhenHolding(itemStack) || super.canEnchant(itemStack);
 	}
 

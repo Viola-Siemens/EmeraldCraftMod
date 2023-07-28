@@ -19,12 +19,12 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
-import net.minecraft.world.level.material.Material;
 
 import java.util.function.Predicate;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
+@SuppressWarnings("deprecation")
 public class ZombieVillagerRoomFeature extends Feature<NoneFeatureConfiguration> {
 	private static final ResourceLocation ZOMBIE_VILLAGER_ROOM_CHEST = new ResourceLocation(MODID, "chests/zombie_villager_room");
 
@@ -53,8 +53,7 @@ public class ZombieVillagerRoomFeature extends Feature<NoneFeatureConfiguration>
 			for(int y = -1; y <= 4; ++y) {
 				for(int z = beginZ; z <= endZ; ++z) {
 					BlockPos current = origin.offset(x, y, z);
-					Material material = worldgenlevel.getBlockState(current).getMaterial();
-					boolean flag = material.isSolid();
+					boolean flag = worldgenlevel.getBlockState(current).isSolid();
 					if (y == -1 && !flag) {
 						return false;
 					}
@@ -80,9 +79,9 @@ public class ZombieVillagerRoomFeature extends Feature<NoneFeatureConfiguration>
 							if (!blockstate.is(Blocks.CHEST) && !blockstate.is(Blocks.SPAWNER)) {
 								this.safeSetBlock(worldgenlevel, current, AIR, predicate);
 							}
-						} else if (current.getY() >= worldgenlevel.getMinBuildHeight() && !worldgenlevel.getBlockState(current.below()).getMaterial().isSolid()) {
+						} else if (current.getY() >= worldgenlevel.getMinBuildHeight() && !worldgenlevel.getBlockState(current.below()).isSolid()) {
 							worldgenlevel.setBlock(current, AIR, Block.UPDATE_CLIENTS);
-						} else if (blockstate.getMaterial().isSolid() && !blockstate.is(Blocks.CHEST)) {
+						} else if (blockstate.isSolid() && !blockstate.is(Blocks.CHEST)) {
 							if (y == -1 && random.nextInt(2) != 0) {
 								this.safeSetBlock(worldgenlevel, current, MOSSY_COBBLESTONE, predicate);
 							} else {
@@ -103,7 +102,7 @@ public class ZombieVillagerRoomFeature extends Feature<NoneFeatureConfiguration>
 						int solidCount = 0;
 
 						for(Direction direction : Direction.Plane.HORIZONTAL) {
-							if (worldgenlevel.getBlockState(current.relative(direction)).getMaterial().isSolid()) {
+							if (worldgenlevel.getBlockState(current.relative(direction)).isSolid()) {
 								++solidCount;
 							}
 						}

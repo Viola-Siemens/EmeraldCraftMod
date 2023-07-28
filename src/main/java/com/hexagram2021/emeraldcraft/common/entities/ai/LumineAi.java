@@ -71,7 +71,7 @@ public class LumineAi {
 	}
 
 	public static Optional<ServerPlayer> getLikedPlayer(LivingEntity livingEntity) {
-		Level level = livingEntity.getLevel();
+		Level level = livingEntity.level();
 		if (!level.isClientSide() && level instanceof ServerLevel serverlevel) {
 			Optional<UUID> optional = livingEntity.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
 			if (optional.isPresent()) {

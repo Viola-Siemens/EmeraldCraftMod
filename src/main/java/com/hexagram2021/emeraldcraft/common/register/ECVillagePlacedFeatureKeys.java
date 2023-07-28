@@ -7,6 +7,7 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
+@SuppressWarnings("unused")
 public class ECVillagePlacedFeatureKeys {
 
 	public static final ResourceKey<PlacedFeature> DARK_OAK_VILLAGE = createKey("dark_oak");

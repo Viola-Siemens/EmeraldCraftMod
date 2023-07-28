@@ -7,6 +7,7 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
+@SuppressWarnings("unused")
 public class ECStructureKeys {
 	public static final ResourceKey<Structure> SHELTER = createKey("shelter");
 	public static final ResourceKey<Structure> NETHER_WARFIELD = createKey("nether_warfield");

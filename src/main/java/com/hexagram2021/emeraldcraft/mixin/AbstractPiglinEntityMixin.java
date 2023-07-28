@@ -8,7 +8,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.monster.piglin.AbstractPiglin;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,7 +21,6 @@ import java.util.UUID;
 public class AbstractPiglinEntityMixin implements PlayerHealable {
 	private static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(AbstractPiglin.class, EntityDataSerializers.BYTE);
 
-	@NotNull
 	private UUID healedPlayer = Util.NIL_UUID;
 
 	@Inject(method = "defineSynchedData", at = @At(value = "TAIL"))
@@ -62,7 +60,7 @@ public class AbstractPiglinEntityMixin implements PlayerHealable {
 		}
 	}
 
-	@Override @NotNull
+	@Override
 	public UUID getHealedPlayer() {
 		return this.healedPlayer;
 	}

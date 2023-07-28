@@ -2,7 +2,7 @@ package com.hexagram2021.emeraldcraft.common.blocks.entity;
 
 import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
 import com.hexagram2021.emeraldcraft.common.blocks.workstation.IceMakerBlock;
-import com.hexagram2021.emeraldcraft.common.crafting.*;
+import com.hexagram2021.emeraldcraft.common.crafting.IceMakerRecipe;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.IceMakerMenu;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
@@ -87,7 +87,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		super(ECBlockEntity.ICE_MAKER.get(), pos, state);
 	}
 
-	@Override @NotNull
+	@Override
 	protected Component getDefaultName() {
 		return Component.translatable("container.ice_maker");
 	}
@@ -188,7 +188,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		}
 	}
 
-	private boolean canFreeze(@NotNull RegistryAccess registryAccess, @Nullable IceMakerRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
+	private boolean canFreeze(RegistryAccess registryAccess, @Nullable IceMakerRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
 		if (recipe == null) {
 			return false;
 		}
@@ -200,7 +200,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		if(itemstack.isEmpty()) {
 			return true;
 		}
-		if(!itemstack.sameItem(result)) {
+		if(!ItemStack.isSameItem(itemstack, result)) {
 			return false;
 		}
 		if(itemstack.getCount() + result.getCount() <= maxCount && itemstack.getCount() + result.getCount() <= itemstack.getMaxStackSize()) {
@@ -209,13 +209,13 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		return itemstack.getCount() + result.getCount() <= result.getMaxStackSize();
 	}
 
-	private boolean freeze(@NotNull RegistryAccess registryAccess, @Nullable IceMakerRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
+	private boolean freeze(RegistryAccess registryAccess, @Nullable IceMakerRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
 		if (this.canFreeze(registryAccess, recipe, container, maxCount)) {
 			ItemStack result = recipe.assemble(this, registryAccess);
 			ItemStack itemstack = container.get(IceMakerMenu.RESULT_SLOT);
 			if(itemstack.isEmpty()) {
 				container.set(IceMakerMenu.RESULT_SLOT, result.copy());
-			} else if (itemstack.is(result.getItem())) {
+			} else if (ItemStack.isSameItem(itemstack, result)) {
 				itemstack.grow(result.getCount());
 			}
 
@@ -226,7 +226,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	}
 
 	@Override
-	public boolean stillValid(@NotNull Player player) {
+	public boolean stillValid(Player player) {
 		if (this.level.getBlockEntity(this.worldPosition) != this) {
 			return false;
 		}
@@ -234,7 +234,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	}
 
 	@Override
-	public void load(@NotNull CompoundTag nbt) {
+	public void load(CompoundTag nbt) {
 		super.load(nbt);
 		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
 		ContainerHelper.loadAllItems(nbt, this.items);
@@ -246,7 +246,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	}
 
 	@Override
-	public void saveAdditional(@NotNull CompoundTag nbt) {
+	public void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
 		nbt.putInt("InputFluidType", this.inputFluidID);
 		nbt.putInt("InputFluidAmount", this.inputFluidAmount);
@@ -271,23 +271,23 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		return true;
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack getItem(int index) {
 		return this.items.get(index);
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack removeItem(int index, int count) {
 		return ContainerHelper.removeItem(this.items, index, count);
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack removeItemNoUpdate(int index) {
 		return ContainerHelper.takeItem(this.items, index);
 	}
 
 	@Override
-	public void setItem(int index, @NotNull ItemStack itemStack) {
+	public void setItem(int index, ItemStack itemStack) {
 		this.items.set(index, itemStack);
 		if (itemStack.getCount() > this.getMaxStackSize()) {
 			itemStack.setCount(this.getMaxStackSize());
@@ -295,7 +295,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	}
 
 	@Override
-	public boolean canPlaceItem(int index, @NotNull ItemStack itemStack) {
+	public boolean canPlaceItem(int index, ItemStack itemStack) {
 		if (index == IceMakerMenu.RESULT_SLOT) {
 			return false;
 		}
@@ -315,14 +315,14 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	}
 
 	@Override
-	public void fillStackedContents(@NotNull StackedContents contents) {
+	public void fillStackedContents(StackedContents contents) {
 		for(ItemStack itemstack : this.items) {
 			contents.accountStack(itemstack);
 		}
 	}
 
 	@Override
-	public int[] getSlotsForFace(@NotNull Direction direction) {
+	public int[] getSlotsForFace(Direction direction) {
 		if (direction == Direction.DOWN) {
 			return SLOTS_FOR_DOWN;
 		}
@@ -333,12 +333,12 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	}
 
 	@Override
-	public boolean canPlaceItemThroughFace(int index, @NotNull ItemStack itemStack, @Nullable Direction direction) {
+	public boolean canPlaceItemThroughFace(int index, ItemStack itemStack, @Nullable Direction direction) {
 		return this.canPlaceItem(index, itemStack);
 	}
 
 	@Override
-	public boolean canTakeItemThroughFace(int index, @NotNull ItemStack itemStack, @NotNull Direction direction) {
+	public boolean canTakeItemThroughFace(int index, ItemStack itemStack, Direction direction) {
 		if (direction == Direction.DOWN && index == IceMakerMenu.CONDENSATE_SLOT) {
 			return itemStack.is(Items.BUCKET);
 		}
@@ -349,7 +349,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 			SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 
 	@Override @NotNull
-	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
 		if (!this.remove && facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
 			if (facing == Direction.UP) {
 				return handlers[0].cast();
@@ -376,8 +376,8 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		this.handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 	}
 
-	@Override @NotNull
-	protected AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory) {
+	@Override
+	protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
 		return new IceMakerMenu(id, inventory, this, this.dataAccess);
 	}
 }

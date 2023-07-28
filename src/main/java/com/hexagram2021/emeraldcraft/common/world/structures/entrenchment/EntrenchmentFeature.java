@@ -7,7 +7,6 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,12 +18,12 @@ public class EntrenchmentFeature extends Structure {
 		super(settings);
 	}
 
-	@Override @NotNull
+	@Override
 	public Optional<GenerationStub> findGenerationPoint(Structure.GenerationContext context) {
 		return Optional.of(new Structure.GenerationStub(context.chunkPos().getWorldPosition(), (builder) -> generatePieces(builder, context)));
 	}
 
-	@Override @NotNull
+	@Override
 	public GenerationStep.Decoration step() {
 		return GenerationStep.Decoration.STRONGHOLDS;
 	}
@@ -44,7 +43,7 @@ public class EntrenchmentFeature extends Structure {
 		}
 	}
 
-	@Override @NotNull
+	@Override
 	public StructureType<?> type() {
 		return ECStructureTypes.ENTRENCHMENT.get();
 	}

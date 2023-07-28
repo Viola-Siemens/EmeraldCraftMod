@@ -22,7 +22,7 @@ public class ServerPlayerMixin {
 		Entity entity = damageSource.getEntity();
 		if(entity instanceof LivingEntity livingEntity && !(entity instanceof AbstractPiglin)) {
 			ServerPlayer current = (ServerPlayer)(Object)this;
-			List<AbstractPiglin> piglins = current.level.getNearbyEntities(
+			List<AbstractPiglin> piglins = current.level().getNearbyEntities(
 					AbstractPiglin.class, TargetingConditions.forNonCombat().range(64.0D), current, current.getBoundingBox().inflate(64.0D, 16.0D, 64.0D)
 			);
 			for(AbstractPiglin piglin: piglins) {

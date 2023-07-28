@@ -13,7 +13,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -27,8 +26,8 @@ public class RabbleFurnaceRecipeSerializer<T extends RabbleFurnaceRecipe> implem
 	}
 
 	@SuppressWarnings("deprecation")
-	@Override @NotNull
-	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
+	@Override
+	public T fromJson(ResourceLocation id, JsonObject json) {
 		String group = GsonHelper.getAsString(json, "group", "");
 		String category = GsonHelper.getAsString(json, "group", "");
 		JsonElement ingredientJson =
@@ -69,7 +68,7 @@ public class RabbleFurnaceRecipeSerializer<T extends RabbleFurnaceRecipe> implem
 	}
 
 	@Override @Nullable
-	public T fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
+	public T fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		String category = buf.readUtf();
 		int ingredientSize = buf.readVarInt();

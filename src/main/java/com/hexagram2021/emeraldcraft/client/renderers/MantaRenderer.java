@@ -8,7 +8,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -20,11 +19,11 @@ public class MantaRenderer extends MobRenderer<MantaEntity, MantaModel<MantaEnti
 		super(manager, new MantaModel<>(manager.bakeLayer(MantaModel.LAYER_LOCATION)), 0.8F);
 	}
 
-	@Override @NotNull
-	public ResourceLocation getTextureLocation(@NotNull MantaEntity entity) { return TEXTURE; }
+	@Override
+	public ResourceLocation getTextureLocation(MantaEntity entity) { return TEXTURE; }
 
 	@Override
-	protected int getBlockLightLevel(@NotNull MantaEntity manta, @NotNull BlockPos blockPos) {
+	protected int getBlockLightLevel(MantaEntity manta, BlockPos blockPos) {
 		return 15;
 	}
 }

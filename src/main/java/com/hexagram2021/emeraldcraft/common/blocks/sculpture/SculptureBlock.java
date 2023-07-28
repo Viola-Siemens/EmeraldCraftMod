@@ -7,18 +7,16 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
 @SuppressWarnings({"unused", "deprecation"})
 public class SculptureBlock extends Block {
-	public static final Supplier<Properties> PROPERTIES = () -> Block.Properties.of(Material.WOOD)
-			.strength(2.0F)
-			.sound(SoundType.WOOD);
+	public static final Supplier<Properties> PROPERTIES = () -> Block.Properties.of().instrument(NoteBlockInstrument.BASS)
+			.strength(2.0F).sound(SoundType.WOOD);
 
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
@@ -29,23 +27,23 @@ public class SculptureBlock extends Block {
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
 	}
 
-	@Override @NotNull
-	public VoxelShape getShape(@NotNull BlockState blockState, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+	@Override
+	public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return AABB;
 	}
 
-	@Override @NotNull
+	@Override
 	public BlockState rotate(BlockState blockState, Rotation rotation) {
 		return blockState.setValue(FACING, rotation.rotate(blockState.getValue(FACING)));
 	}
 
-	@Override @NotNull
+	@Override
 	public BlockState mirror(BlockState blockState, Mirror mirror) {
 		return blockState.setValue(FACING, mirror.mirror(blockState.getValue(FACING)));
 	}
 
 	@Override
-	protected void createBlockStateDefinition(@NotNull StateDefinition.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		super.createBlockStateDefinition(builder);
 		builder.add(FACING);
 	}

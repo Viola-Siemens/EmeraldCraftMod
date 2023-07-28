@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -19,13 +18,13 @@ public class LumineRenderer extends MobRenderer<LumineEntity, LumineModel> {
 		this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
 	}
 
-	@Override @NotNull
-	public ResourceLocation getTextureLocation(@NotNull LumineEntity lumine) {
+	@Override
+	public ResourceLocation getTextureLocation(LumineEntity lumine) {
 		return TEXTURE;
 	}
 
 	@Override
-	protected int getBlockLightLevel(@NotNull LumineEntity lumine, @NotNull BlockPos blockPos) {
+	protected int getBlockLightLevel(LumineEntity lumine, BlockPos blockPos) {
 		return 15;
 	}
 }

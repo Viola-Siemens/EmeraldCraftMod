@@ -1,10 +1,10 @@
 package com.hexagram2021.emeraldcraft.common.blocks.entity;
 
 import com.google.common.collect.Lists;
-import com.hexagram2021.emeraldcraft.common.blocks.workstation.MelterBlock;
 import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
-import com.hexagram2021.emeraldcraft.common.crafting.menu.MelterMenu;
+import com.hexagram2021.emeraldcraft.common.blocks.workstation.MelterBlock;
 import com.hexagram2021.emeraldcraft.common.crafting.MelterRecipe;
+import com.hexagram2021.emeraldcraft.common.crafting.menu.MelterMenu;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -40,7 +40,6 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-
 import java.util.List;
 
 import static com.hexagram2021.emeraldcraft.common.blocks.entity.ContinuousMinerBlockEntity.FLUID_LEVEL_BUCKET;
@@ -195,7 +194,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 		}
 	}
 
-	private boolean canBurn(MelterRecipe recipe, NonNullList<ItemStack> container) {
+	private boolean canBurn(@Nullable MelterRecipe recipe, NonNullList<ItemStack> container) {
 		if (recipe == null || container.get(0).isEmpty()) {
 			return false;
 		}
@@ -218,7 +217,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	}
 
 	@Override
-	public boolean stillValid(@NotNull Player player) {
+	public boolean stillValid(Player player) {
 		if (this.level.getBlockEntity(this.worldPosition) != this) {
 			return false;
 		}
@@ -226,7 +225,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	}
 
 	@Override
-	public void load(@NotNull CompoundTag nbt) {
+	public void load(CompoundTag nbt) {
 		super.load(nbt);
 		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
 		ContainerHelper.loadAllItems(nbt, this.items);
@@ -245,7 +244,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	}
 
 	@Override
-	public void saveAdditional(@NotNull CompoundTag nbt) {
+	public void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
 		nbt.putInt("BurnTime", this.litTime);
 		nbt.putInt("CookTime", this.meltingProgress);
@@ -258,7 +257,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 		nbt.put("RecipesUsed", compoundtag);
 	}
 
-	@Override @NotNull
+	@Override
 	protected Component getDefaultName() {
 		return Component.translatable("container.melter");
 	}
@@ -278,17 +277,17 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 		return true;
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack getItem(int index) {
 		return this.items.get(index);
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack removeItem(int index, int count) {
 		return ContainerHelper.removeItem(this.items, index, count);
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack removeItemNoUpdate(int index) {
 		return ContainerHelper.takeItem(this.items, index);
 	}
@@ -296,7 +295,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	@Override
 	public void setItem(int index, ItemStack itemStack) {
 		ItemStack itemstack = this.items.get(index);
-		boolean flag = !itemStack.isEmpty() && itemStack.sameItem(itemstack) && ItemStack.tagMatches(itemStack, itemstack);
+		boolean flag = !itemStack.isEmpty() && ItemStack.isSameItemSameTags(itemStack, itemstack);
 		this.items.set(index, itemStack);
 		if (itemStack.getCount() > this.getMaxStackSize()) {
 			itemStack.setCount(this.getMaxStackSize());
@@ -310,7 +309,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	}
 
 	@Override
-	public boolean canPlaceItem(int index, @NotNull ItemStack itemStack) {
+	public boolean canPlaceItem(int index, ItemStack itemStack) {
 		if (index == MelterMenu.RESULT_INPUT_SLOT || index == MelterMenu.RESULT_OUTPUT_SLOT) {
 			return itemStack.is(Items.BUCKET) || MelterMenu.isFluidBucket(itemStack);
 		}
@@ -351,7 +350,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	}
 
 	@Override
-	public void awardUsedRecipes(@NotNull Player player) {
+	public void awardUsedRecipes(Player player, List<ItemStack> items) {
 		List<Recipe<?>> list = Lists.newArrayList();
 
 		for(Object2IntMap.Entry<ResourceLocation> entry : this.recipesUsed.object2IntEntrySet()) {
@@ -363,14 +362,14 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	}
 
 	@Override
-	public void fillStackedContents(@NotNull StackedContents contents) {
+	public void fillStackedContents(StackedContents contents) {
 		for(ItemStack itemstack : this.items) {
 			contents.accountStack(itemstack);
 		}
 	}
 
 	@Override
-	public int[] getSlotsForFace(@NotNull Direction direction) {
+	public int[] getSlotsForFace(Direction direction) {
 		if (direction == Direction.DOWN) {
 			return SLOTS_FOR_DOWN;
 		}
@@ -381,12 +380,12 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	}
 
 	@Override
-	public boolean canPlaceItemThroughFace(int index, @NotNull ItemStack itemStack, @Nullable Direction direction) {
+	public boolean canPlaceItemThroughFace(int index, ItemStack itemStack, @Nullable Direction direction) {
 		return this.canPlaceItem(index, itemStack);
 	}
 
 	@Override
-	public boolean canTakeItemThroughFace(int index, @NotNull ItemStack itemStack, @NotNull Direction direction) {
+	public boolean canTakeItemThroughFace(int index, ItemStack itemStack, Direction direction) {
 		if (direction == Direction.DOWN && index == 1) {
 			return itemStack.is(Items.WATER_BUCKET) || itemStack.is(Items.BUCKET);
 		}
@@ -397,7 +396,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 			SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 
 	@Override @NotNull
-	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
 		if (!this.remove && facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
 			if (facing == Direction.UP) {
 				return handlers[0].cast();
@@ -424,8 +423,8 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 		this.handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 	}
 
-	@Override @NotNull
-	protected AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory) {
+	@Override
+	protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
 		return new MelterMenu(id, inventory, this, this.dataAccess);
 	}
 }

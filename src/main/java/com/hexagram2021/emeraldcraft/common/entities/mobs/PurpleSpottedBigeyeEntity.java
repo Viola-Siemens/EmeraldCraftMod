@@ -8,14 +8,13 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 public class PurpleSpottedBigeyeEntity extends AbstractSchoolingFish {
 	public PurpleSpottedBigeyeEntity(EntityType<? extends PurpleSpottedBigeyeEntity> type, Level level) {
 		super(type, level);
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack getBucketItemStack() {
 		return new ItemStack(ECItems.BIGEYE_BUCKET);
 	}
@@ -31,11 +30,11 @@ public class PurpleSpottedBigeyeEntity extends AbstractSchoolingFish {
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
+	protected SoundEvent getHurtSound(DamageSource damageSource) {
 		return ECSounds.BIGEYE_HURT;
 	}
 
-	@Override @NotNull
+	@Override
 	protected SoundEvent getFlopSound() {
 		return ECSounds.BIGEYE_FLOP;
 	}

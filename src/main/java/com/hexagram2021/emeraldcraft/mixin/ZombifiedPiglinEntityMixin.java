@@ -47,7 +47,7 @@ public class ZombifiedPiglinEntityMixin implements Convertible {
 			for(int dx = x - 4; dx < x + 4 && cnt < 15; ++dx) {
 				for(int dy = y - 4; dy < y + 4 && cnt < 15; ++dy) {
 					for(int dz = z - 4; dz < z + 4 && cnt < 15; ++dz) {
-						BlockState blockstate = current.level.getBlockState(mutable.set(dx, dy, dz));
+						BlockState blockstate = current.level().getBlockState(mutable.set(dx, dy, dz));
 						if (blockstate.is(BlockTags.GUARDED_BY_PIGLINS)) {
 							if (current.getRandom().nextBoolean()) {
 								++ret;
@@ -86,7 +86,7 @@ public class ZombifiedPiglinEntityMixin implements Convertible {
 		ZombifiedPiglin current = (ZombifiedPiglin)(Object)this;
 		current.getEntityData().set(DATA_PIGLIN_CONVERTING_ID, true);
 		current.removeEffect(MobEffects.HUNGER);
-		current.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, time, Math.min(current.level.getDifficulty().getId() - 1, 0)));
+		current.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, time, Math.min(current.level().getDifficulty().getId() - 1, 0)));
 		current.playSound(SoundEvents.ZOMBIE_VILLAGER_CURE);
 	}
 
@@ -112,7 +112,9 @@ public class ZombifiedPiglinEntityMixin implements Convertible {
 
 		if (this.conversionStarter != null) {
 			Player player = level.getPlayerByUUID(this.conversionStarter);
-			ECTriggers.CURED_ZOMBIFIED_PIGLIN.trigger((ServerPlayer) player, current, piglin);
+			if (player instanceof ServerPlayer serverPlayer) {
+				ECTriggers.CURED_ZOMBIFIED_PIGLIN.trigger(serverPlayer, current, piglin);
+			}
 		}
 
 		piglin.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));

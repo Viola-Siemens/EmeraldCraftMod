@@ -3,11 +3,10 @@ package com.hexagram2021.emeraldcraft.client.screens;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.PiglinCuteyMerchantMenu;
 import com.hexagram2021.emeraldcraft.common.entities.mobs.PiglinCuteyData;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundSelectTradePacket;
@@ -19,7 +18,6 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCuteyMerchantMenu> {
@@ -82,28 +80,27 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 	}
 
 	@Override
-	protected void renderLabels(@NotNull PoseStack transform, int x, int y) {
+	protected void renderLabels(GuiGraphics transform, int x, int y) {
 		int level = this.menu.getTraderLevel();
 		if (level > 0 && level <= 5 && this.menu.showProgressBar()) {
 			Component component = this.title.copy().append(LEVEL_SEPARATOR).append(Component.translatable("merchant.level." + level));
 			int fontWidth = this.font.width(component);
 			int k = 49 + this.imageWidth / 2 - fontWidth / 2;
-			this.font.draw(transform, component, (float)k, 6.0F, 0x404040);
+			transform.drawString(this.font, component, k, 6, 0x404040, false);
 		} else {
-			this.font.draw(transform, this.title, (float)(49 + this.imageWidth / 2 - this.font.width(this.title) / 2), 6.0F, 0x404040);
+			transform.drawString(this.font, this.title, 49 + this.imageWidth / 2 - this.font.width(this.title) / 2, 6, 0x404040, false);
 		}
 
-		this.font.draw(transform, this.playerInventoryTitle, (float)this.inventoryLabelX, (float)this.inventoryLabelY, 0x404040);
+		transform.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 0x404040, false);
 		int l = this.font.width(TRADES_LABEL);
-		this.font.draw(transform, TRADES_LABEL, (float)(5 - l / 2 + 48), 6.0F, 0x404040);
+		transform.drawString(this.font, TRADES_LABEL, 5 - l / 2 + 48, 6, 0x404040, false);
 	}
 
 	@Override
-	protected void renderBg(@NotNull PoseStack transform, float partialTicks, int x, int y) {
-		RenderSystem.setShaderTexture(0, VILLAGER_LOCATION);
+	protected void renderBg(GuiGraphics transform, float partialTicks, int x, int y) {
 		int left = (this.width - this.imageWidth) / 2;
 		int top = (this.height - this.imageHeight) / 2;
-		blit(transform, left, top, 0, 0.0F, 0.0F, this.imageWidth, this.imageHeight, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+		transform.blit(VILLAGER_LOCATION, left, top, 0, 0.0F, 0.0F, this.imageWidth, this.imageHeight, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 		MerchantOffers merchantoffers = this.menu.getOffers();
 		if (!merchantoffers.isEmpty()) {
 			int k = this.shopItem;
@@ -113,36 +110,33 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 
 			MerchantOffer merchantoffer = merchantoffers.get(k);
 			if (merchantoffer.isOutOfStock()) {
-				RenderSystem.setShaderTexture(0, VILLAGER_LOCATION);
-				blit(transform, this.leftPos + 83 + MERCHANT_MENU_PART_X, this.topPos + 35, 0, 311.0F, 0.0F, 28, 21, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+				transform.blit(VILLAGER_LOCATION, this.leftPos + 83 + MERCHANT_MENU_PART_X, this.topPos + 35, 0, 311.0F, 0.0F, 28, 21, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 			}
 		}
 
 	}
 
-	private void renderProgressBar(PoseStack transform, int x, int y) {
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderTexture(0, VILLAGER_LOCATION);
+	private void renderProgressBar(GuiGraphics transform, int x, int y) {
 		int level = this.menu.getTraderLevel();
 		int xp = this.menu.getTraderXp();
 		if (level < 5) {
-			blit(transform, x + PROGRESS_BAR_X, y + PROGRESS_BAR_Y, 0, 0.0F, 186.0F, 102, 5, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+			transform.blit(VILLAGER_LOCATION, x + PROGRESS_BAR_X, y + PROGRESS_BAR_Y, 0, 0.0F, 186.0F, 102, 5, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 			int k = PiglinCuteyData.getMinXpPerLevel(level);
 			if (xp >= k && PiglinCuteyData.canLevelUp(level)) {
 				float f = 100.0F / (float)(PiglinCuteyData.getMaxXpPerLevel(level) - k);
 				int progress = Math.min(Mth.floor(f * (float)(xp - k)), 100);
-				blit(transform, x + PROGRESS_BAR_X, y + PROGRESS_BAR_Y, 0, 0.0F, 191.0F, progress + 1, 5, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+				transform.blit(VILLAGER_LOCATION, x + PROGRESS_BAR_X, y + PROGRESS_BAR_Y, 0, 0.0F, 191.0F, progress + 1, 5, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 				int addXp = this.menu.getFutureTraderXp();
 				if (addXp > 0) {
 					int addProgress = Math.min(Mth.floor((float)addXp * f), 100 - progress);
-					blit(transform, x + PROGRESS_BAR_X + progress + 1, y + PROGRESS_BAR_Y + 1, 0, 2.0F, 182.0F, addProgress, 3, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+					transform.blit(VILLAGER_LOCATION, x + PROGRESS_BAR_X + progress + 1, y + PROGRESS_BAR_Y + 1, 0, 2.0F, 182.0F, addProgress, 3, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 				}
 
 			}
 		}
 	}
 
-	private void renderScroller(PoseStack transform, int x, int y, MerchantOffers offers) {
+	private void renderScroller(GuiGraphics transform, int x, int y, MerchantOffers offers) {
 		int overSize = offers.size() + 1 - NUMBER_OF_OFFER_BUTTONS;
 		if (overSize > 1) {
 			int overHeight = SCROLL_BAR_HEIGHT - (27 + (overSize - 1) * SCROLL_BAR_HEIGHT / overSize);
@@ -152,15 +146,15 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 				scrollY = 113;
 			}
 
-			blit(transform, x + SCROLL_BAR_START_X, y + SCROLL_BAR_TOP_POS_Y + scrollY, 0, 0.0F, 199.0F, SCROLLER_WIDTH, SCROLLER_HEIGHT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+			transform.blit(VILLAGER_LOCATION, x + SCROLL_BAR_START_X, y + SCROLL_BAR_TOP_POS_Y + scrollY, 0, 0.0F, 199.0F, SCROLLER_WIDTH, SCROLLER_HEIGHT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 		} else {
-			blit(transform, x + SCROLL_BAR_START_X, y + SCROLL_BAR_TOP_POS_Y, 0, 6.0F, 199.0F, SCROLLER_WIDTH, SCROLLER_HEIGHT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+			transform.blit(VILLAGER_LOCATION, x + SCROLL_BAR_START_X, y + SCROLL_BAR_TOP_POS_Y, 0, 6.0F, 199.0F, SCROLLER_WIDTH, SCROLLER_HEIGHT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 		}
 
 	}
 
 	@Override
-	public void render(@NotNull PoseStack transform, int x, int y, float partialTicks) {
+	public void render(GuiGraphics transform, int x, int y, float partialTicks) {
 		this.renderBackground(transform);
 		super.render(transform, x, y, partialTicks);
 		MerchantOffers merchantoffers = this.menu.getOffers();
@@ -169,7 +163,6 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 			int top = (this.height - this.imageHeight) / 2;
 			int merchantY = top + PROGRESS_BAR_Y + 1;
 			int costAX = left + TRADE_BUTTON_X + SELL_ITEM_1_X;
-			RenderSystem.setShaderTexture(0, VILLAGER_LOCATION);
 			this.renderScroller(transform, left, top, merchantoffers);
 			int index = 0;
 
@@ -179,19 +172,19 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 					ItemStack costA = merchantoffer.getCostA();
 					ItemStack costB = merchantoffer.getCostB();
 					ItemStack result = merchantoffer.getResult();
-					transform.pushPose();
-					transform.translate(0.0F, 0.0F, 100.0F);
+					transform.pose().pushPose();
+					transform.pose().translate(0.0F, 0.0F, 100.0F);
 					int itemY = merchantY + 2;
 					this.renderAndDecorateCostA(transform, costA, baseCostA, costAX, itemY);
 					if (!costB.isEmpty()) {
-						this.itemRenderer.renderAndDecorateFakeItem(transform, costB, left + SELL_ITEM_1_X + SELL_ITEM_2_X, itemY);
-						this.itemRenderer.renderGuiItemDecorations(transform, this.font, costB, left + SELL_ITEM_1_X + SELL_ITEM_2_X, itemY);
+						transform.renderFakeItem(costB, left + SELL_ITEM_1_X + SELL_ITEM_2_X, itemY);
+						transform.renderItemDecorations(this.font, costB, left + SELL_ITEM_1_X + SELL_ITEM_2_X, itemY);
 					}
 
 					this.renderButtonArrows(transform, merchantoffer, left, itemY);
-					this.itemRenderer.renderAndDecorateFakeItem(transform, result, left + SELL_ITEM_1_X + BUY_ITEM_X, itemY);
-					this.itemRenderer.renderGuiItemDecorations(transform, this.font, result, left + SELL_ITEM_1_X + BUY_ITEM_X, itemY);
-					transform.popPose();
+					transform.renderFakeItem(result, left + SELL_ITEM_1_X + BUY_ITEM_X, itemY);
+					transform.renderItemDecorations(this.font, result, left + SELL_ITEM_1_X + BUY_ITEM_X, itemY);
+					transform.pose().popPose();
 					merchantY += TRADE_BUTTON_HEIGHT;
 				}
 				++index;
@@ -203,7 +196,7 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 			}
 
 			if (currentOffer.isOutOfStock() && this.isHovering(186, 35, 22, 21, x, y) && this.menu.canRestock()) {
-				this.renderTooltip(transform, DEPRECATED_TOOLTIP, x, y);
+				transform.renderTooltip(this.font, DEPRECATED_TOOLTIP, x, y);
 			}
 
 			for(TradeOfferButton tradeOfferButton : this.tradeOfferButtons) {
@@ -220,39 +213,35 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 		this.renderTooltip(transform, x, y);
 	}
 
-	private void renderButtonArrows(PoseStack transform, MerchantOffer offer, int x, int y) {
-		RenderSystem.enableBlend();
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderTexture(0, VILLAGER_LOCATION);
+	private void renderButtonArrows(GuiGraphics transform, MerchantOffer offer, int x, int y) {
 		if (offer.isOutOfStock()) {
-			blit(transform, x + SELL_ITEM_1_X + SELL_ITEM_2_X + 20, y + 3, 0, 25.0F, 171.0F, 10, 9, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+			transform.blit(VILLAGER_LOCATION, x + SELL_ITEM_1_X + SELL_ITEM_2_X + 20, y + 3, 0, 25.0F, 171.0F, 10, 9, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 		} else {
-			blit(transform, x + SELL_ITEM_1_X + SELL_ITEM_2_X + 20, y + 3, 0, 15.0F, 171.0F, 10, 9, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+			transform.blit(VILLAGER_LOCATION, x + SELL_ITEM_1_X + SELL_ITEM_2_X + 20, y + 3, 0, 15.0F, 171.0F, 10, 9, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 		}
 	}
 
-	private void renderAndDecorateCostA(PoseStack transform, ItemStack baseCostA, ItemStack costA, int x, int y) {
-		this.itemRenderer.renderAndDecorateFakeItem(transform, baseCostA, x, y);
+	private void renderAndDecorateCostA(GuiGraphics transform, ItemStack baseCostA, ItemStack costA, int x, int y) {
+		transform.renderFakeItem(baseCostA, x, y);
 		if (costA.getCount() == baseCostA.getCount()) {
-			this.itemRenderer.renderGuiItemDecorations(transform, this.font, baseCostA, x, y);
+			transform.renderItemDecorations(this.font, baseCostA, x, y);
 		} else {
-			this.itemRenderer.renderGuiItemDecorations(transform, this.font, costA, x, y, costA.getCount() == 1 ? "1" : null);
-			PoseStack posestack = new PoseStack();
-			posestack.translate(0.0D, 0.0D, 200.0F);
-			net.minecraft.client.renderer.MultiBufferSource.BufferSource bufferSource = net.minecraft.client.renderer.MultiBufferSource.immediate(com.mojang.blaze3d.vertex.Tesselator.getInstance().getBuilder());
+			transform.renderItemDecorations(this.font, costA, x, y, costA.getCount() == 1 ? "1" : null);
+			transform.pose().pushPose();
+			transform.pose().translate(0.0F, 0.0F, 200.0F);
+			String count = baseCostA.getCount() == 1 ? "1" : String.valueOf(baseCostA.getCount());
 			this.font.drawInBatch(
-					String.valueOf(baseCostA.getCount()),
-					(x + 14) + 19 - 2 - this.font.width(String.valueOf(baseCostA.getCount())), y + LABEL_Y + 3,
-					0xFFFFFF, true, posestack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, 15728880
+					count, (float)(x + 14) + 19.0F - 2.0F - (float)this.font.width(count),
+					(float)(y + LABEL_Y) + 3.0F, 0xFFFFFF, true,
+					transform.pose().last().pose(), transform.bufferSource(),
+					Font.DisplayMode.NORMAL, 0, 15728880, false
 			);
-			bufferSource.endBatch();
-			RenderSystem.setShaderTexture(0, VILLAGER_LOCATION);
-			transform.pushPose();
-			transform.translate(0.0F, 0.0F, 300.0F);
-			blit(transform, x + 7, y + 12, 0, 0.0F, 176.0F, 9, 2, 512, 256);
-			transform.popPose();
+			transform.pose().popPose();
+			transform.pose().pushPose();
+			transform.pose().translate(0.0F, 0.0F, 300.0F);
+			transform.blit(VILLAGER_LOCATION, x + 7, y + 12, 0, 0.0F, 176.0F, 9, 2, 512, 256);
+			transform.pose().popPose();
 		}
-
 	}
 
 	private boolean canScroll(int size) {
@@ -313,19 +302,19 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 			return this.index;
 		}
 
-		public void renderToolTip(@NotNull PoseStack transform, int x, int y) {
+		public void renderToolTip(GuiGraphics transform, int x, int y) {
 			if (this.isHovered && PiglinCuteyMerchantScreen.this.menu.getOffers().size() > this.index + PiglinCuteyMerchantScreen.this.scrollOff) {
 				if (x < this.getX() + 20) {
 					ItemStack itemstack = PiglinCuteyMerchantScreen.this.menu.getOffers().get(this.index + PiglinCuteyMerchantScreen.this.scrollOff).getCostA();
-					PiglinCuteyMerchantScreen.this.renderTooltip(transform, itemstack, x, y);
+					transform.renderTooltip(PiglinCuteyMerchantScreen.this.font, itemstack, x, y);
 				} else if (x < this.getX() + 50 && x > this.getX() + 30) {
 					ItemStack itemstack2 = PiglinCuteyMerchantScreen.this.menu.getOffers().get(this.index + PiglinCuteyMerchantScreen.this.scrollOff).getCostB();
 					if (!itemstack2.isEmpty()) {
-						PiglinCuteyMerchantScreen.this.renderTooltip(transform, itemstack2, x, y);
+						transform.renderTooltip(PiglinCuteyMerchantScreen.this.font, itemstack2, x, y);
 					}
 				} else if (x > this.getX() + 65) {
 					ItemStack itemstack1 = PiglinCuteyMerchantScreen.this.menu.getOffers().get(this.index + PiglinCuteyMerchantScreen.this.scrollOff).getResult();
-					PiglinCuteyMerchantScreen.this.renderTooltip(transform, itemstack1, x, y);
+					transform.renderTooltip(PiglinCuteyMerchantScreen.this.font, itemstack1, x, y);
 				}
 			}
 		}

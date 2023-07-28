@@ -10,7 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -22,11 +21,11 @@ public class PurpleSpottedBigeyeRenderer extends MobRenderer<PurpleSpottedBigeye
 		super(manager, new PurpleSpottedBigeyeModel<>(manager.bakeLayer(PurpleSpottedBigeyeModel.LAYER_LOCATION)), 0.7F);
 	}
 
-	@Override @NotNull
-	public ResourceLocation getTextureLocation(@NotNull PurpleSpottedBigeyeEntity entity) { return TEXTURE; }
+	@Override
+	public ResourceLocation getTextureLocation(PurpleSpottedBigeyeEntity entity) { return TEXTURE; }
 
 	@Override
-	protected void setupRotations(@NotNull PurpleSpottedBigeyeEntity entity, @NotNull PoseStack transform, float bob, float yRot, float xRot) {
+	protected void setupRotations(PurpleSpottedBigeyeEntity entity, PoseStack transform, float bob, float yRot, float xRot) {
 		super.setupRotations(entity, transform, bob, yRot, xRot);
 		float f = 1.0F;
 		float f1 = 1.0F;

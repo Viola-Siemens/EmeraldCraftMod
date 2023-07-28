@@ -5,7 +5,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.hexagram2021.emeraldcraft.common.crafting.IceMakerRecipe;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -20,6 +19,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -98,18 +98,18 @@ public class IceMakerRecipeCategory implements IRecipeCategory<IceMakerRecipe> {
 	}
 
 	@Override
-	public void draw(IceMakerRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double mouseX, double mouseY) {
-		this.animatedFlame.draw(poseStack, 1, 47);
+	public void draw(IceMakerRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics transform, double mouseX, double mouseY) {
+		this.animatedFlame.draw(transform, 1, 47);
 
-		IDrawableAnimated arrow = getArrow(recipe);
-		arrow.draw(poseStack, 90, 16);
-		drawCookTime(recipe, poseStack, 49);
+		IDrawableAnimated arrow = this.getArrow(recipe);
+		arrow.draw(transform, 90, 16);
+		this.drawCookTime(recipe, transform, 49);
 
-		this.inputFluids[recipe.getFluidType().getGUIID()].draw(poseStack, 72, 1);
+		this.inputFluids[recipe.getFluidType().getGUIID()].draw(transform, 72, 1);
 	}
 
 	@SuppressWarnings("SameParameterValue")
-	protected void drawCookTime(IceMakerRecipe recipe, PoseStack poseStack, int y) {
+	protected void drawCookTime(IceMakerRecipe recipe, GuiGraphics transform, int y) {
 		int freezeTime = recipe.getFreezingTime();
 		if (freezeTime > 0) {
 			int cookTimeSeconds = freezeTime / 20;
@@ -117,7 +117,7 @@ public class IceMakerRecipeCategory implements IRecipeCategory<IceMakerRecipe> {
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(timeString);
-			fontRenderer.draw(poseStack, timeString, this.background.getWidth() - stringWidth, y, 0xFF808080);
+			transform.drawString(fontRenderer, timeString, this.background.getWidth() - stringWidth, y, 0xFF808080);
 		}
 	}
 

@@ -7,22 +7,21 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.level.storage.loot.LootContext;
-import org.jetbrains.annotations.NotNull;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public class CuredPhantomTrigger extends SimpleCriterionTrigger<CuredPhantomTrigger.TriggerInstance> {
 	static final ResourceLocation ID = new ResourceLocation(MODID, "cured_phantom");
 
-	@Override @NotNull
+	@Override
 	public ResourceLocation getId() {
 		return ID;
 	}
 
-	@Override @NotNull
-	public CuredPhantomTrigger.TriggerInstance createInstance(@NotNull JsonObject json, @NotNull EntityPredicate.Composite entity, @NotNull DeserializationContext context) {
-		EntityPredicate.Composite phantom = EntityPredicate.Composite.fromJson(json, "phantom", context);
-		EntityPredicate.Composite manta = EntityPredicate.Composite.fromJson(json, "manta", context);
+	@Override
+	public CuredPhantomTrigger.TriggerInstance createInstance(JsonObject json, ContextAwarePredicate entity, DeserializationContext context) {
+		ContextAwarePredicate phantom = EntityPredicate.fromJson(json, "phantom", context);
+		ContextAwarePredicate manta = EntityPredicate.fromJson(json, "manta", context);
 		return new CuredPhantomTrigger.TriggerInstance(entity, phantom, manta);
 	}
 
@@ -33,10 +32,10 @@ public class CuredPhantomTrigger extends SimpleCriterionTrigger<CuredPhantomTrig
 	}
 
 	public static class TriggerInstance extends AbstractCriterionTriggerInstance {
-		private final EntityPredicate.Composite phantom;
-		private final EntityPredicate.Composite manta;
+		private final ContextAwarePredicate phantom;
+		private final ContextAwarePredicate manta;
 
-		public TriggerInstance(EntityPredicate.Composite entity, EntityPredicate.Composite phantom, EntityPredicate.Composite manta) {
+		public TriggerInstance(ContextAwarePredicate entity, ContextAwarePredicate phantom, ContextAwarePredicate manta) {
 			super(CuredPhantomTrigger.ID, entity);
 			this.phantom = phantom;
 			this.manta = manta;
@@ -49,8 +48,8 @@ public class CuredPhantomTrigger extends SimpleCriterionTrigger<CuredPhantomTrig
 			return this.manta.matches(mantaContext);
 		}
 
-		@Override @NotNull
-		public JsonObject serializeToJson(@NotNull SerializationContext context) {
+		@Override
+		public JsonObject serializeToJson(SerializationContext context) {
 			JsonObject jsonobject = super.serializeToJson(context);
 			jsonobject.add("phantom", this.phantom.toJson(context));
 			jsonobject.add("manta", this.manta.toJson(context));

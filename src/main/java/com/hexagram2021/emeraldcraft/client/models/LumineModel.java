@@ -12,7 +12,6 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
-import org.jetbrains.annotations.NotNull;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -41,7 +40,7 @@ public class LumineModel extends HierarchicalModel<LumineEntity> implements Arme
 		this.left_wing = this.body.getChild("left_wing");
 	}
 
-	@Override @NotNull
+	@Override
 	public ModelPart root() {
 		return this.root;
 	}
@@ -109,7 +108,7 @@ public class LumineModel extends HierarchicalModel<LumineEntity> implements Arme
 	}
 
 	@Override
-	public void translateToHand(@NotNull HumanoidArm arm, @NotNull PoseStack transform) {
+	public void translateToHand(HumanoidArm arm, PoseStack transform) {
 		this.root.translateAndRotate(transform);
 		this.body.translateAndRotate(transform);
 		transform.translate(0.0D, -0.09375D, 0.09375D);

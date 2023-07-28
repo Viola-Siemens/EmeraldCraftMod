@@ -18,11 +18,11 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
@@ -32,16 +32,17 @@ import static net.minecraftforge.common.ToolActions.SHEARS_HARVEST;
 public class SqueezerBlock extends Block {
 	public static final IntegerProperty HONEY_COUNT = ECProperties.HONEY_COUNT;
 
-	public static final Supplier<Properties> PROPERTIES = () -> Block.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(0.6F);
+	public static final Supplier<Properties> PROPERTIES = () -> Block.Properties.of().instrument(NoteBlockInstrument.BASS)
+			.mapColor(MapColor.SAND).sound(SoundType.WOOD).strength(0.6F);
 
 	public SqueezerBlock(BlockBehaviour.Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any().setValue(HONEY_COUNT, 0));
 	}
 
-	@Override @NotNull
-	public InteractionResult use(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, Player player,
-								 @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
+	@Override
+	public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player,
+								 InteractionHand interactionHand, BlockHitResult blockHitResult) {
 		ItemStack itemstack = player.getItemInHand(interactionHand);
 		ItemStack itemstack2 = player.getItemInHand(InteractionHand.OFF_HAND);
 		if (interactionHand == InteractionHand.MAIN_HAND &&
@@ -105,11 +106,11 @@ public class SqueezerBlock extends Block {
 		popResource(level, blockPos, new ItemStack(Items.HONEYCOMB));
 	}
 
-	public boolean hasAnalogOutputSignal(@NotNull BlockState blockState) {
+	public boolean hasAnalogOutputSignal(BlockState blockState) {
 		return true;
 	}
 
-	public int getAnalogOutputSignal(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos) {
+	public int getAnalogOutputSignal(BlockState blockState, Level level, BlockPos blockPos) {
 		return blockState.getValue(HONEY_COUNT);
 	}
 
@@ -150,7 +151,7 @@ public class SqueezerBlock extends Block {
 	}
 
 	@Override
-	public boolean isPathfindable(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos blockPos, @NotNull PathComputationType type) {
+	public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos blockPos, PathComputationType type) {
 		return false;
 	}
 

@@ -8,7 +8,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.DamageEnchantment;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import org.jetbrains.annotations.NotNull;
 
 public class MammalDamageEnchantment extends Enchantment {
 	public MammalDamageEnchantment(Rarity rarity, EquipmentSlot... equipmentSlots) {
@@ -31,13 +30,13 @@ public class MammalDamageEnchantment extends Enchantment {
 	}
 
 	@Override
-	protected boolean checkCompatibility(@NotNull Enchantment other) {
+	protected boolean checkCompatibility(Enchantment other) {
 		return super.checkCompatibility(other) && !(other instanceof DamageEnchantment);
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public float getDamageBonus(int level, @NotNull MobType mobType) {
+	public float getDamageBonus(int level, MobType mobType) {
 		if(isMammal(mobType)) {
 			return (float)level * 2.0F;
 		}
@@ -45,7 +44,7 @@ public class MammalDamageEnchantment extends Enchantment {
 	}
 
 	@Override
-	public boolean canEnchant(@NotNull ItemStack itemStack) {
+	public boolean canEnchant(ItemStack itemStack) {
 		return itemStack.getItem() instanceof AxeItem || super.canEnchant(itemStack);
 	}
 

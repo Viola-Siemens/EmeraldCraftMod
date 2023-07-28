@@ -30,7 +30,7 @@ import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePieceAccessor;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
-import org.jetbrains.annotations.NotNull;
+import net.minecraftforge.event.ForgeEventFactory;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -83,8 +83,9 @@ public class EntrenchmentPieces {
 			this.entryDoor = DoorType.valueOf(nbt.getString("EntryDoor"));
 		}
 
+		@Nullable
 		private static EntrenchmentPiece findAndCreateEntrenchmentPieceFactory(Class<? extends EntrenchmentPiece> clazz, StructurePieceAccessor pieces,
-																			   RandomSource random, int x, int y, int z, @Nullable Direction direction, int depth) {
+																			   RandomSource random, int x, int y, int z, Direction direction, int depth) {
 			EntrenchmentPiece ret = null;
 			if(clazz == HallPiece.class) {
 				ret = HallPiece.createPiece(pieces, random, x, y, z, direction, depth);
@@ -121,7 +122,7 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		protected void addAdditionalSaveData(@NotNull StructurePieceSerializationContext context, @NotNull CompoundTag nbt) {
+		protected void addAdditionalSaveData(StructurePieceSerializationContext context, CompoundTag nbt) {
 			nbt.putString("EntryDoor", this.entryDoor.name());
 		}
 
@@ -259,7 +260,7 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public abstract void addChildren(@NotNull StructurePiece structurePiece, @NotNull StructurePieceAccessor pieces, @NotNull RandomSource random);
+		public abstract void addChildren(StructurePiece structurePiece, StructurePieceAccessor pieces, RandomSource random);
 
 		@Nullable
 		private EntrenchmentPiece generatePiece(StartPiece startPiece, List<PieceWeight> weights, StructurePieceAccessor pieces, RandomSource random,
@@ -316,6 +317,7 @@ public class EntrenchmentPieces {
 			return availablePieces;
 		}
 
+		@Nullable
 		private StructurePiece generateAndAddPiece(StartPiece startPiece, StructurePieceAccessor pieces, RandomSource random, int x, int y, int z,
 												   Direction direction, int genDepth) {
 			if (Math.abs(x - startPiece.getBoundingBox().minX()) <= 112 && Math.abs(z - startPiece.getBoundingBox().minZ()) <= 112 && genDepth < 50) {
@@ -332,6 +334,7 @@ public class EntrenchmentPieces {
 			return null;
 		}
 
+		@Nullable
 		private StructurePiece generateAndAddPiece(StartPiece startPiece, StructurePieceAccessor pieces, Class<? extends EntrenchmentPiece> pieceClass,
 												   RandomSource random, int x, int y, int z, Direction direction, int genDepth) {
 			if (Math.abs(x - startPiece.getBoundingBox().minX()) <= 112 && Math.abs(z - startPiece.getBoundingBox().minZ()) <= 112 && genDepth < 50) {
@@ -346,7 +349,7 @@ public class EntrenchmentPieces {
 			return null;
 		}
 
-		protected static boolean isOkBox(BoundingBox bbox) {
+		protected static boolean isOkBox(@Nullable BoundingBox bbox) {
 			return bbox != null && bbox.minY() > 10;
 		}
 
@@ -477,7 +480,7 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		protected void addAdditionalSaveData(@NotNull StructurePieceSerializationContext context, @NotNull CompoundTag nbt) {
+		protected void addAdditionalSaveData(StructurePieceSerializationContext context, CompoundTag nbt) {
 			super.addAdditionalSaveData(context, nbt);
 			nbt.putBoolean("leftLow", this.left_low);
 			nbt.putBoolean("leftHigh", this.left_high);
@@ -487,8 +490,8 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void postProcess(@NotNull WorldGenLevel level, @NotNull StructureManager manager, @NotNull ChunkGenerator chunk, @NotNull RandomSource random,
-								@NotNull BoundingBox bbox, @NotNull ChunkPos chunkPos, @NotNull BlockPos blockPos) {
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			BlockState PURPLE_NETHER_BRICKS = ECBlocks.Decoration.PURPLE_NETHER_BRICKS.defaultBlockState();
 			BlockState PURPLE_NETHER_BRICK_STAIRS = ECBlocks.TO_STAIRS.get(ECBlocks.Decoration.PURPLE_NETHER_BRICKS.getId()).defaultBlockState();
 			BlockState PURPLE_NETHER_BRICK_SLAB = ECBlocks.TO_SLAB.get(ECBlocks.Decoration.PURPLE_NETHER_BRICKS.getId()).defaultBlockState();
@@ -535,13 +538,14 @@ public class EntrenchmentPieces {
 			this.generateSmallDoor(level, bbox, this.entryDoor, OFF_X, OFF_Y, OFF_Z);
 		}
 
+		@Nullable
 		public static HallPiece createPiece(StructurePieceAccessor pieces, RandomSource random, int x, int y, int z, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new HallPiece(depth, random, boundingbox, direction) : null;
 		}
 
 		@Override
-		public void addChildren(@NotNull StructurePiece structurePiece, @NotNull StructurePieceAccessor pieces, @NotNull RandomSource random) {
+		public void addChildren(StructurePiece structurePiece, StructurePieceAccessor pieces, RandomSource random) {
 			this.generateChildForward((StartPiece)structurePiece, pieces, random, 5, 1);
 			if (this.left_low) {
 				this.generateChildLeft((StartPiece)structurePiece, pieces, random, 1, 1);
@@ -570,6 +574,7 @@ public class EntrenchmentPieces {
 		private static final int HEIGHT = 8;
 		private static final int LENGTH = 11;
 
+		@Nullable
 		public PieceWeight previousPiece;
 
 		public final List<StructurePiece> pendingChildren = Lists.newArrayList();
@@ -588,8 +593,8 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void postProcess(@NotNull WorldGenLevel level, @NotNull StructureManager manager, @NotNull ChunkGenerator chunk, @NotNull RandomSource random,
-								@NotNull BoundingBox bbox, @NotNull ChunkPos chunkPos, @NotNull BlockPos blockPos) {
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			super.postProcess(level, manager, chunk, random, bbox, chunkPos, blockPos);
 			this.createChest(level, bbox, random, 4, 1, 1, new ResourceLocation(MODID, "chests/entrenchment/start"));
 		}
@@ -623,15 +628,15 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void addChildren(@NotNull StructurePiece structurePiece, @NotNull StructurePieceAccessor pieces, @NotNull RandomSource random) {
+		public void addChildren(StructurePiece structurePiece, StructurePieceAccessor pieces, RandomSource random) {
 			this.generateChildForward((StartPiece) structurePiece, pieces, random, 1, 1);
 			this.generateChildLeft((StartPiece) structurePiece, pieces, random, 1, 1);
 			this.generateChildRight((StartPiece) structurePiece, pieces, random, 1, 1);
 		}
 
 		@Override
-		public void postProcess(@NotNull WorldGenLevel level, @NotNull StructureManager manager, @NotNull ChunkGenerator chunk, @NotNull RandomSource random,
-								@NotNull BoundingBox bbox, @NotNull ChunkPos chunkPos, @NotNull BlockPos blockPos) {
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			this.generateBox(level, bbox, 0, 0, 0, WIDTH - 1, HEIGHT - 1, LENGTH - 1, ECBlocks.Decoration.PURPLE_NETHER_BRICKS.defaultBlockState(), CAVE_AIR, true);
 
 			this.generateBox(level, bbox, 1, 1, LENGTH - 1, 3, 3, LENGTH - 1, CAVE_AIR, CAVE_AIR, false);
@@ -642,6 +647,7 @@ public class EntrenchmentPieces {
 			this.generateSmallDoor(level, bbox, this.entryDoor, OFF_X, OFF_Y, OFF_Z);
 		}
 
+		@Nullable
 		public static CrossingPiece createPiece(StructurePieceAccessor pieces, RandomSource random, int x, int y, int z, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new CrossingPiece(depth, random, boundingbox, direction) : null;
@@ -676,14 +682,14 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void addChildren(@NotNull StructurePiece structurePiece, @NotNull StructurePieceAccessor pieces, @NotNull RandomSource random) {
+		public void addChildren(StructurePiece structurePiece, StructurePieceAccessor pieces, RandomSource random) {
 			this.generateChildLeft((StartPiece) structurePiece, pieces, random, 1, 1);
 			this.generateChildRight((StartPiece) structurePiece, pieces, random, 1, 1);
 		}
 
 		@Override
-		public void postProcess(@NotNull WorldGenLevel level, @NotNull StructureManager manager, @NotNull ChunkGenerator chunk, @NotNull RandomSource random,
-								@NotNull BoundingBox bbox, @NotNull ChunkPos chunkPos, @NotNull BlockPos blockPos) {
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			BlockState PURPLE_NETHER_BRICKS = ECBlocks.Decoration.PURPLE_NETHER_BRICKS.defaultBlockState();
 			this.generateBox(level, bbox, 0, 0, 0, WIDTH - 1, 0, LENGTH - 1, PURPLE_NETHER_BRICKS, CAVE_AIR, true);
 			this.generateBox(level, bbox, 0, 1, LENGTH - 1, WIDTH - 1, HEIGHT - 1, LENGTH - 1, PURPLE_NETHER_BRICKS, CAVE_AIR, true);
@@ -697,6 +703,7 @@ public class EntrenchmentPieces {
 			this.generateSmallDoor(level, bbox, this.entryDoor, OFF_X, OFF_Y, OFF_Z);
 		}
 
+		@Nullable
 		public static TBridgePiece createPiece(StructurePieceAccessor pieces, RandomSource random, int x, int y, int z, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new TBridgePiece(depth, random, boundingbox, direction) : null;
@@ -714,7 +721,7 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void addChildren(@NotNull StructurePiece structurePiece, @NotNull StructurePieceAccessor pieces, @NotNull RandomSource random) {
+		public void addChildren(StructurePiece structurePiece, StructurePieceAccessor pieces, RandomSource random) {
 			this.generateChildForward((StartPiece) structurePiece, pieces, random, 1, 1);
 		}
 	}
@@ -737,8 +744,8 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void postProcess(@NotNull WorldGenLevel level, @NotNull StructureManager manager, @NotNull ChunkGenerator chunk, @NotNull RandomSource random,
-								@NotNull BoundingBox bbox, @NotNull ChunkPos chunkPos, @NotNull BlockPos blockPos) {
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			this.generateBox(level, bbox, 0, 0, 0, WIDTH - 1, HEIGHT - 1, LENGTH - 1, ECBlocks.Decoration.PURPLE_NETHER_BRICKS.defaultBlockState(), CAVE_AIR, true);
 
 			this.generateBox(level, bbox, 1, 1, LENGTH - 1, 3, 3, LENGTH - 1, CAVE_AIR, CAVE_AIR, false);
@@ -747,6 +754,7 @@ public class EntrenchmentPieces {
 			this.generateSmallDoor(level, bbox, this.entryDoor, OFF_X, OFF_Y, OFF_Z);
 		}
 
+		@Nullable
 		public static LongHallwayPiece createPiece(StructurePieceAccessor pieces, @SuppressWarnings("unused") RandomSource random, int x, int y, int z, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new LongHallwayPiece(depth, boundingbox, direction) : null;
@@ -779,8 +787,8 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void postProcess(@NotNull WorldGenLevel level, @NotNull StructureManager manager, @NotNull ChunkGenerator chunk, @NotNull RandomSource random,
-								@NotNull BoundingBox bbox, @NotNull ChunkPos chunkPos, @NotNull BlockPos blockPos) {
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			this.generateBox(level, bbox, 0, 0, 0, WIDTH - 1, HEIGHT - 1, LENGTH - 1, ECBlocks.Decoration.PURPLE_NETHER_BRICKS.defaultBlockState(), CAVE_AIR, true);
 
 			this.generateBox(level, bbox, 1, 1, LENGTH - 1, 3, 3, LENGTH - 1, CAVE_AIR, CAVE_AIR, false);
@@ -789,6 +797,7 @@ public class EntrenchmentPieces {
 			this.generateSmallDoor(level, bbox, this.entryDoor, OFF_X, OFF_Y, OFF_Z);
 		}
 
+		@Nullable
 		public static ShortHallwayPiece createPiece(StructurePieceAccessor pieces, @SuppressWarnings("unused") RandomSource random, int x, int y, int z, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new ShortHallwayPiece(depth, boundingbox, direction) : null;
@@ -813,8 +822,8 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void postProcess(@NotNull WorldGenLevel level, @NotNull StructureManager manager, @NotNull ChunkGenerator chunk, @NotNull RandomSource random,
-								@NotNull BoundingBox bbox, @NotNull ChunkPos chunkPos, @NotNull BlockPos blockPos) {
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			super.postProcess(level, manager, chunk, random, bbox, chunkPos, blockPos);
 
 			final BlockState PURPLE_NETHER_STAIRS = ECBlocks.TO_STAIRS.get(ECBlocks.Decoration.PURPLE_NETHER_BRICKS.getId()).defaultBlockState();
@@ -829,6 +838,7 @@ public class EntrenchmentPieces {
 			this.createChest(level, bbox, random, 3, 2, 3, new ResourceLocation(MODID, "chests/entrenchment/chest_hallway"));
 		}
 
+		@Nullable
 		public static ChestHallwayPiece createPiece(StructurePieceAccessor pieces, @SuppressWarnings("unused") RandomSource random, int x, int y, int z, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new ChestHallwayPiece(depth, boundingbox, direction) : null;
@@ -853,8 +863,8 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void postProcess(@NotNull WorldGenLevel level, @NotNull StructureManager manager, @NotNull ChunkGenerator chunk, @NotNull RandomSource random,
-								@NotNull BoundingBox bbox, @NotNull ChunkPos chunkPos, @NotNull BlockPos blockPos) {
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			BlockState PURPLE_NETHER_BRICKS = ECBlocks.Decoration.PURPLE_NETHER_BRICKS.defaultBlockState();
 			BlockState SOUL_TORCH = Blocks.SOUL_TORCH.defaultBlockState();
 			this.generateBox(level, bbox, 0, 0, 0, WIDTH - 1, 0, LENGTH - 1, PURPLE_NETHER_BRICKS, CAVE_AIR, true);
@@ -868,6 +878,7 @@ public class EntrenchmentPieces {
 			this.generateSmallDoor(level, bbox, this.entryDoor, OFF_X, OFF_Y, OFF_Z);
 		}
 
+		@Nullable
 		public static ShortBridgeHallwayPiece createPiece(StructurePieceAccessor pieces, @SuppressWarnings("unused") RandomSource random, int x, int y, int z, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new ShortBridgeHallwayPiece(depth, boundingbox, direction) : null;
@@ -904,8 +915,8 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void postProcess(@NotNull WorldGenLevel level, @NotNull StructureManager manager, @NotNull ChunkGenerator chunk, @NotNull RandomSource random,
-								@NotNull BoundingBox bbox, @NotNull ChunkPos chunkPos, @NotNull BlockPos blockPos) {
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			this.generateBox(level, bbox, 0, 0, 0, WIDTH - 1, HEIGHT - 1, LENGTH - 1, ECBlocks.Decoration.PURPLE_NETHER_BRICKS.defaultBlockState(), CAVE_AIR, true);
 
 			this.generateBox(level, bbox, 0, 1, 1, 0, 3, 3, CAVE_AIR, CAVE_AIR, false);
@@ -914,10 +925,11 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void addChildren(@NotNull StructurePiece structurePiece, @NotNull StructurePieceAccessor pieces, @NotNull RandomSource random) {
+		public void addChildren(StructurePiece structurePiece, StructurePieceAccessor pieces, RandomSource random) {
 			this.generateChildLeft((StartPiece) structurePiece, pieces, random, 1, 1);
 		}
 
+		@Nullable
 		public static LeftTurnPiece createPiece(StructurePieceAccessor pieces, RandomSource random, int x, int y, int z, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new LeftTurnPiece(depth, random, boundingbox, direction) : null;
@@ -942,8 +954,8 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void postProcess(@NotNull WorldGenLevel level, @NotNull StructureManager manager, @NotNull ChunkGenerator chunk, @NotNull RandomSource random,
-								@NotNull BoundingBox bbox, @NotNull ChunkPos chunkPos, @NotNull BlockPos blockPos) {
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			this.generateBox(level, bbox, 0, 0, 0, WIDTH - 1, HEIGHT - 1, LENGTH - 1, ECBlocks.Decoration.PURPLE_NETHER_BRICKS.defaultBlockState(), CAVE_AIR, true);
 
 			this.generateBox(level, bbox, WIDTH - 1, 1, 1, WIDTH - 1, 3, 3, CAVE_AIR, CAVE_AIR, false);
@@ -952,10 +964,11 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void addChildren(@NotNull StructurePiece structurePiece, @NotNull StructurePieceAccessor pieces, @NotNull RandomSource random) {
+		public void addChildren(StructurePiece structurePiece, StructurePieceAccessor pieces, RandomSource random) {
 			this.generateChildRight((StartPiece) structurePiece, pieces, random, 1, 1);
 		}
 
+		@Nullable
 		public static RightTurnPiece createPiece(StructurePieceAccessor pieces, RandomSource random, int x, int y, int z, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new RightTurnPiece(depth, random, boundingbox, direction) : null;
@@ -985,18 +998,18 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		protected void addAdditionalSaveData(@NotNull StructurePieceSerializationContext context, @NotNull CompoundTag nbt) {
+		protected void addAdditionalSaveData(StructurePieceSerializationContext context, CompoundTag nbt) {
 			super.addAdditionalSaveData(context, nbt);
 			nbt.putBoolean("Mob", this.hasPlacedSpawner);
 		}
 
 		@Override
-		public void addChildren(@NotNull StructurePiece structurePiece, @NotNull StructurePieceAccessor pieces, @NotNull RandomSource random) {
+		public void addChildren(StructurePiece structurePiece, StructurePieceAccessor pieces, RandomSource random) {
 		}
 
 		@Override
-		public void postProcess(@NotNull WorldGenLevel level, @NotNull StructureManager manager, @NotNull ChunkGenerator chunk, @NotNull RandomSource random,
-								@NotNull BoundingBox bbox, @NotNull ChunkPos chunkPos, @NotNull BlockPos blockPos) {
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			BlockState PURPLE_NETHER_BRICKS = ECBlocks.Decoration.PURPLE_NETHER_BRICKS.defaultBlockState();
 			BlockState PURPLE_NETHER_BRICK_STAIRS = ECBlocks.TO_STAIRS.get(ECBlocks.Decoration.PURPLE_NETHER_BRICKS.getId()).defaultBlockState();
 			BlockState IRON_SLAB = ECBlocks.TO_SLAB.get(getRegistryName(Blocks.IRON_BLOCK)).defaultBlockState();
@@ -1056,6 +1069,7 @@ public class EntrenchmentPieces {
 			this.generateSmallDoor(level, bbox, this.entryDoor, OFF_X, OFF_Y, OFF_Z);
 		}
 
+		@Nullable
 		public static MonsterRoomPiece createPiece(StructurePieceAccessor pieces, RandomSource random, int x, int y, int z, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new MonsterRoomPiece(depth, random, boundingbox, direction) : null;
@@ -1091,7 +1105,7 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		protected void addAdditionalSaveData(@NotNull StructurePieceSerializationContext context, @NotNull CompoundTag nbt) {
+		protected void addAdditionalSaveData(StructurePieceSerializationContext context, CompoundTag nbt) {
 			super.addAdditionalSaveData(context, nbt);
 			nbt.putBoolean("SpawnedPig", this.spawnedPig);
 			nbt.putBoolean("SpawnedPiglin", this.spawnedPiglin);
@@ -1100,12 +1114,12 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void addChildren(@NotNull StructurePiece structurePiece, @NotNull StructurePieceAccessor pieces, @NotNull RandomSource random) {
+		public void addChildren(StructurePiece structurePiece, StructurePieceAccessor pieces, RandomSource random) {
 		}
 
 		@Override
-		public void postProcess(@NotNull WorldGenLevel level, @NotNull StructureManager manager, @NotNull ChunkGenerator chunk, @NotNull RandomSource random,
-								@NotNull BoundingBox bbox, @NotNull ChunkPos chunkPos, @NotNull BlockPos blockPos) {
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			BlockState PURPLE_NETHER_BRICKS = ECBlocks.Decoration.PURPLE_NETHER_BRICKS.defaultBlockState();
 			BlockState PURPLE_NETHER_BRICK_STAIRS = ECBlocks.TO_STAIRS.get(ECBlocks.Decoration.PURPLE_NETHER_BRICKS.getId()).defaultBlockState();
 			BlockState IRON_BARS = Blocks.IRON_BARS.defaultBlockState();
@@ -1185,7 +1199,7 @@ public class EntrenchmentPieces {
 					}
 					mob.setPersistenceRequired();
 					mob.moveTo(blockpos.getX() + 0.5F, blockpos.getY(), blockpos.getZ() + 0.5F, 0.0F, 0.0F);
-					mob.finalizeSpawn(level, level.getCurrentDifficultyAt(blockpos), MobSpawnType.STRUCTURE, null, null);
+					ForgeEventFactory.onFinalizeSpawn(mob, level, level.getCurrentDifficultyAt(blockpos), MobSpawnType.STRUCTURE, null, null);
 					level.addFreshEntityWithPassengers(mob);
 				}
 			}
@@ -1213,6 +1227,7 @@ public class EntrenchmentPieces {
 			}
 		}
 
+		@Nullable
 		public static LaboratoryPiece createPiece(StructurePieceAccessor pieces, RandomSource random, int x, int y, int z, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new LaboratoryPiece(depth, random, boundingbox, direction) : null;
@@ -1239,12 +1254,12 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void addChildren(@NotNull StructurePiece structurePiece, @NotNull StructurePieceAccessor pieces, @NotNull RandomSource random) {
+		public void addChildren(StructurePiece structurePiece, StructurePieceAccessor pieces, RandomSource random) {
 		}
 
 		@Override
-		public void postProcess(@NotNull WorldGenLevel level, @NotNull StructureManager manager, @NotNull ChunkGenerator chunk, @NotNull RandomSource random,
-								@NotNull BoundingBox bbox, @NotNull ChunkPos chunkPos, @NotNull BlockPos blockPos) {
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			BlockState PURPLE_NETHER_BRICKS = ECBlocks.Decoration.PURPLE_NETHER_BRICKS.defaultBlockState();
 			BlockState PURPURACEUS_FENCE = ECBlocks.TO_FENCE.get(ECBlocks.Plant.PURPURACEUS_PLANKS.getId()).defaultBlockState();
 
@@ -1270,6 +1285,7 @@ public class EntrenchmentPieces {
 			this.generateSmallDoor(level, bbox, this.entryDoor, OFF_X, OFF_Y, OFF_Z);
 		}
 
+		@Nullable
 		public static BalconyPiece createPiece(StructurePieceAccessor pieces, @SuppressWarnings("unused") RandomSource random, int x, int y, int z, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new BalconyPiece(depth, boundingbox, direction) : null;
@@ -1296,12 +1312,12 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void addChildren(@NotNull StructurePiece structurePiece, @NotNull StructurePieceAccessor pieces, @NotNull RandomSource random) {
+		public void addChildren(StructurePiece structurePiece, StructurePieceAccessor pieces, RandomSource random) {
 		}
 
 		@Override
-		public void postProcess(@NotNull WorldGenLevel level, @NotNull StructureManager manager, @NotNull ChunkGenerator chunk, @NotNull RandomSource random,
-								@NotNull BoundingBox bbox, @NotNull ChunkPos chunkPos, @NotNull BlockPos blockPos) {
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			BlockState PURPLE_NETHER_BRICKS = ECBlocks.Decoration.PURPLE_NETHER_BRICKS.defaultBlockState();
 			BlockState LAVA = Blocks.LAVA.defaultBlockState();
 			BlockState NETHERRACK = Blocks.NETHERRACK.defaultBlockState();
@@ -1341,6 +1357,7 @@ public class EntrenchmentPieces {
 			this.generateSmallDoor(level, bbox, this.entryDoor, OFF_X, OFF_Y, OFF_Z);
 		}
 
+		@Nullable
 		public static PortalRoomPiece createPiece(StructurePieceAccessor pieces, RandomSource random, int x, int y, int z, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new PortalRoomPiece(depth, random, boundingbox, direction) : null;
@@ -1367,15 +1384,16 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void addChildren(@NotNull StructurePiece structurePiece, @NotNull StructurePieceAccessor pieces, @NotNull RandomSource random) {
+		public void addChildren(StructurePiece structurePiece, StructurePieceAccessor pieces, RandomSource random) {
 		}
 
 		@Override
-		public void postProcess(@NotNull WorldGenLevel level, @NotNull StructureManager manager, @NotNull ChunkGenerator chunk, @NotNull RandomSource random,
-								@NotNull BoundingBox bbox, @NotNull ChunkPos chunkPos, @NotNull BlockPos blockPos) {
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			this.generateSmallDoor(level, bbox, this.entryDoor, OFF_X, OFF_Y, OFF_Z);
 		}
 
+		@Nullable
 		public static WallPiece createPiece(StructurePieceAccessor pieces, @SuppressWarnings("unused") RandomSource random, int x, int y, int z, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new WallPiece(depth, boundingbox, direction) : null;
@@ -1416,13 +1434,13 @@ public class EntrenchmentPieces {
 		}
 
 		@Override
-		public void addChildren(@NotNull StructurePiece structurePiece, @NotNull StructurePieceAccessor pieces, @NotNull RandomSource random) {
+		public void addChildren(StructurePiece structurePiece, StructurePieceAccessor pieces, RandomSource random) {
 			this.generateChildForward((StartPiece) structurePiece, pieces, random, 1, 1);
 		}
 
 		@Override
-		public void postProcess(@NotNull WorldGenLevel level, @NotNull StructureManager manager, @NotNull ChunkGenerator chunk, @NotNull RandomSource random,
-								@NotNull BoundingBox bbox, @NotNull ChunkPos chunkPos, @NotNull BlockPos blockPos) {
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			BlockState PURPLE_NETHER_BRICKS = ECBlocks.Decoration.PURPLE_NETHER_BRICKS.defaultBlockState();
 			BlockState FIRE = Blocks.FIRE.defaultBlockState();
 			BlockState CHAIN = Blocks.CHAIN.defaultBlockState().setValue(ChainBlock.AXIS, Direction.Axis.Z);
@@ -1468,6 +1486,7 @@ public class EntrenchmentPieces {
 			this.generateSmallDoor(level, bbox, this.entryDoor, OFF_X, OFF_Y, OFF_Z);
 		}
 
+		@Nullable
 		public static KitchenPiece createPiece(StructurePieceAccessor pieces, RandomSource random, int x, int y, int z, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new KitchenPiece(depth, random, boundingbox, direction) : null;

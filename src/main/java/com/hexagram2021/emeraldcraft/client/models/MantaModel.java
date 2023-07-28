@@ -11,7 +11,6 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import org.jetbrains.annotations.NotNull;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -50,7 +49,7 @@ public class MantaModel<T extends MantaEntity> extends HierarchicalModel<T> {
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override @NotNull
+	@Override
 	public ModelPart root() {
 		return this.root;
 	}

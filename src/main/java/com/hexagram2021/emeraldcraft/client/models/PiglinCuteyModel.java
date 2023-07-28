@@ -1,6 +1,3 @@
-// Made with Blockbench 4.1.4
-// Exported for Minecraft version 1.17 with Mojang mappings
-// Paste this class into your mod and generate all required imports
 package com.hexagram2021.emeraldcraft.client.models;
 
 import com.hexagram2021.emeraldcraft.common.entities.mobs.PiglinCuteyEntity;
@@ -16,7 +13,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -109,7 +105,7 @@ public class PiglinCuteyModel<T extends PiglinCuteyEntity> extends HierarchicalM
 	}
 
 	@Override
-	public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.xRot = headPitch * ((float)Math.PI / 180F);
 
@@ -264,17 +260,17 @@ public class PiglinCuteyModel<T extends PiglinCuteyEntity> extends HierarchicalM
 		return pEntity.swingingArm == InteractionHand.MAIN_HAND ? humanoidarm : humanoidarm.getOpposite();
 	}
 
-	@Override @NotNull
+	@Override
 	public ModelPart root() {
 		return root;
 	}
 
 	@Override
-	public void translateToHand(@NotNull HumanoidArm side, @NotNull PoseStack matrixStack) {
+	public void translateToHand(HumanoidArm side, PoseStack matrixStack) {
 		this.getArm(side).translateAndRotate(matrixStack);
 	}
 
-	@Override @NotNull
+	@Override
 	public ModelPart getHead() {
 		return this.head;
 	}

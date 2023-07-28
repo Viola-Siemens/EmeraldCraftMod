@@ -9,7 +9,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
 
@@ -25,12 +24,12 @@ public class AboveHeightmapFilter extends PlacementModifier {
 	}
 
 
-	@Override @NotNull
-	public Stream<BlockPos> getPositions(PlacementContext placementContext, @NotNull RandomSource random, BlockPos blockPos) {
+	@Override
+	public Stream<BlockPos> getPositions(PlacementContext placementContext, RandomSource random, BlockPos blockPos) {
 		return blockPos.getY() >= placementContext.getHeight(this.heightmap, blockPos.getX(), blockPos.getZ()) ? Stream.of(blockPos) : Stream.empty();
 	}
 
-	@Override @NotNull
+	@Override
 	public PlacementModifierType<?> type() {
 		return ECPlacementModifierType.ABOVE_HEIGHTMAP_FILTER.get();
 	}

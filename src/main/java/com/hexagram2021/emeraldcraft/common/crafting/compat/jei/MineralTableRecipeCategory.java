@@ -2,7 +2,6 @@ package com.hexagram2021.emeraldcraft.common.crafting.compat.jei;
 
 import com.hexagram2021.emeraldcraft.common.crafting.MineralTableRecipe;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.ITickTimer;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -16,6 +15,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.library.util.RecipeUtil;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -34,21 +34,21 @@ public class MineralTableRecipeCategory implements IRecipeCategory<MineralTableR
 	private final IDrawableStatic blazeHeat;
 
 	public MineralTableRecipeCategory(IGuiHelper guiHelper) {
-		background = guiHelper.drawableBuilder(TEXTURE, 0, 0, 64, 60)
+		this.background = guiHelper.drawableBuilder(TEXTURE, 0, 0, 64, 60)
 				.addPadding(1, 0, 0, 50)
 				.build();
-		icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ECBlocks.WorkStation.MINERAL_TABLE));
+		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ECBlocks.WorkStation.MINERAL_TABLE));
 
-		arrow = guiHelper.drawableBuilder(TEXTURE, 64, 0, 9, 28)
+		this.arrow = guiHelper.drawableBuilder(TEXTURE, 64, 0, 9, 28)
 				.buildAnimated(400, IDrawableAnimated.StartDirection.TOP, false);
 
 		ITickTimer bubblesTickTimer = new BubblesTickTimer(guiHelper);
-		bubbles = guiHelper.drawableBuilder(TEXTURE, 73, 0, 12, 29)
+		this.bubbles = guiHelper.drawableBuilder(TEXTURE, 73, 0, 12, 29)
 				.buildAnimated(bubblesTickTimer, IDrawableAnimated.StartDirection.BOTTOM);
 
-		blazeHeat = guiHelper.createDrawable(TEXTURE, 64, 29, 18, 4);
+		this.blazeHeat = guiHelper.createDrawable(TEXTURE, 64, 29, 18, 4);
 
-		slotDrawable = guiHelper.getSlotDrawable();
+		this.slotDrawable = guiHelper.getSlotDrawable();
 	}
 
 	@Override
@@ -63,25 +63,25 @@ public class MineralTableRecipeCategory implements IRecipeCategory<MineralTableR
 
 	@Override
 	public IDrawable getBackground() {
-		return background;
+		return this.background;
 	}
 
 	@Override
 	public IDrawable getIcon() {
-		return icon;
+		return this.icon;
 	}
 
 	@Override
-	public void draw(MineralTableRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double mouseX, double mouseY) {
-		blazeHeat.draw(poseStack, 5, 30);
-		bubbles.draw(poseStack, 8, 0);
-		arrow.draw(poseStack, 42, 2);
+	public void draw(MineralTableRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics transform, double mouseX, double mouseY) {
+		this.blazeHeat.draw(transform, 5, 30);
+		this.bubbles.draw(transform, 8, 0);
+		this.arrow.draw(transform, 42, 2);
 	}
 
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, MineralTableRecipe recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 24, 3).addIngredients(recipe.getIngredients().get(0));
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 81, 3).addItemStack(RecipeUtil.getResultItem(recipe)).setBackground(slotDrawable, -1, -1);
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 81, 3).addItemStack(RecipeUtil.getResultItem(recipe)).setBackground(this.slotDrawable, -1, -1);
 	}
 
 	private static class BubblesTickTimer implements ITickTimer {

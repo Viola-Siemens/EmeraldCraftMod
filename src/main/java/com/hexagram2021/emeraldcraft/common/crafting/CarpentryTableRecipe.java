@@ -10,7 +10,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.SingleItemRecipe;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 public class CarpentryTableRecipe extends SingleItemRecipe {
 	public static final CachedRecipeList<CarpentryTableRecipe> recipeList = new CachedRecipeList<>(
@@ -23,11 +22,11 @@ public class CarpentryTableRecipe extends SingleItemRecipe {
 	}
 
 	@Override
-	public boolean matches(Container inv, @NotNull Level level) {
+	public boolean matches(Container inv, Level level) {
 		return this.ingredient.test(inv.getItem(0));
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack getToastSymbol() {
 		return new ItemStack(ECBlocks.WorkStation.CARPENTRY_TABLE);
 	}
@@ -36,7 +35,6 @@ public class CarpentryTableRecipe extends SingleItemRecipe {
 		return this.ingredient;
 	}
 
-	@NotNull
 	public ItemStack getResult() {
 		return this.result;
 	}

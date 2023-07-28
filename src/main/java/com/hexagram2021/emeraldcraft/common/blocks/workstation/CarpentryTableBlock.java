@@ -17,12 +17,11 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
@@ -33,9 +32,8 @@ public class CarpentryTableBlock extends Block {
 	protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 9.0D, 16.0D);
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-	public static final Supplier<Properties> PROPERTIES = () -> Block.Properties.of(Material.WOOD)
-			.sound(SoundType.WOOD)
-			.strength(2.5F);
+	public static final Supplier<Properties> PROPERTIES = () -> Block.Properties.of().instrument(NoteBlockInstrument.BASS)
+			.sound(SoundType.WOOD).strength(2.5F);
 
 	public CarpentryTableBlock(BlockBehaviour.Properties properties) {
 		super(properties);
@@ -46,9 +44,9 @@ public class CarpentryTableBlock extends Block {
 		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
 	}
 
-	@Override @NotNull
-	public InteractionResult use(@NotNull BlockState blockState, Level level, @NotNull BlockPos blockPos, @NotNull Player player,
-								 @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
+	@Override
+	public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player,
+								 InteractionHand interactionHand, BlockHitResult blockHitResult) {
 		if (level.isClientSide) {
 			return InteractionResult.SUCCESS;
 		}
@@ -57,32 +55,32 @@ public class CarpentryTableBlock extends Block {
 	}
 
 	@Override @Nullable
-	public MenuProvider getMenuProvider(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos) {
+	public MenuProvider getMenuProvider(BlockState blockState, Level level, BlockPos blockPos) {
 		return new SimpleMenuProvider((id, inventory, levelAccess) ->
 				new CarpentryTableMenu(id, inventory, ContainerLevelAccess.create(level, blockPos)), CONTAINER_TITLE);
 	}
 
-	@Override @NotNull
-	public VoxelShape getShape(@NotNull BlockState blockState, @NotNull BlockGetter level, @NotNull BlockPos blockPos, @NotNull CollisionContext context) {
+	@Override
+	public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos blockPos, CollisionContext context) {
 		return SHAPE;
 	}
 
 	@Override
-	public boolean useShapeForLightOcclusion(@NotNull BlockState blockState) {
+	public boolean useShapeForLightOcclusion(BlockState blockState) {
 		return true;
 	}
 
-	@Override @NotNull
-	public RenderShape getRenderShape(@NotNull BlockState blockState) {
+	@Override
+	public RenderShape getRenderShape(BlockState blockState) {
 		return RenderShape.MODEL;
 	}
 
-	@Override @NotNull
+	@Override
 	public BlockState rotate(BlockState blockState, Rotation rotation) {
 		return blockState.setValue(FACING, rotation.rotate(blockState.getValue(FACING)));
 	}
 
-	@Override @NotNull
+	@Override
 	public BlockState mirror(BlockState blockState, Mirror rotation) {
 		return blockState.rotate(rotation.getRotation(blockState.getValue(FACING)));
 	}
@@ -93,7 +91,7 @@ public class CarpentryTableBlock extends Block {
 	}
 
 	@Override
-	public boolean isPathfindable(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos blockPos, @NotNull PathComputationType type) {
+	public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos blockPos, PathComputationType type) {
 		return false;
 	}
 }

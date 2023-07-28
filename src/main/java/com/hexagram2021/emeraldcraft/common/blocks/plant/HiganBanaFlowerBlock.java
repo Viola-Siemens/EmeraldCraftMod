@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
@@ -37,7 +36,7 @@ public class HiganBanaFlowerBlock extends FlowerBlock {
 	}
 
 	@Override
-	public void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+	public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
 		if(level.dimension() == Level.OVERWORLD) {
 			level.setBlock(pos, state.setValue(LEAF, false), Block.UPDATE_ALL);
 			level.playSound(null, pos, ECSounds.HIGAN_BANA_DROP_LEAVES, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -45,7 +44,7 @@ public class HiganBanaFlowerBlock extends FlowerBlock {
 	}
 
 	@Override @Nullable
-	public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		if(context.getLevel().dimension() == Level.OVERWORLD) {
 			return this.defaultBlockState().setValue(LEAF, false);
 		}
@@ -58,7 +57,7 @@ public class HiganBanaFlowerBlock extends FlowerBlock {
 	}
 
 	@Override
-	protected boolean mayPlaceOn(@NotNull BlockState blockState, @NotNull BlockGetter level, @NotNull BlockPos blockPos) {
+	protected boolean mayPlaceOn(BlockState blockState, BlockGetter level, BlockPos blockPos) {
 		return blockState.is(BlockTags.DIRT) || blockState.is(Blocks.SOUL_SOIL);
 	}
 }

@@ -13,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -27,8 +26,8 @@ public class IceMakerRecipeSerializer<T extends IceMakerRecipe> implements Recip
 	}
 
 	@SuppressWarnings("deprecation")
-	@Override @NotNull
-	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
+	@Override
+	public T fromJson(ResourceLocation id, JsonObject json) {
 		String group = GsonHelper.getAsString(json, "group", "");
 
 		if (!json.has("ingredient")) throw new com.google.gson.JsonSyntaxException("Missing ingredient, expected to find an object");
@@ -58,7 +57,7 @@ public class IceMakerRecipeSerializer<T extends IceMakerRecipe> implements Recip
 	}
 
 	@Override @Nullable
-	public T fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
+	public T fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		FluidType fluidType = FluidTypes.getFluidTypeFromName(buf.readUtf());
 		int fluidAmount = buf.readVarInt();

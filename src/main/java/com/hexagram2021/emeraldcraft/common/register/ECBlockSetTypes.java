@@ -9,7 +9,7 @@ public class ECBlockSetTypes {
 	public static final BlockSetType PALM = new BlockSetType("ec_palm");
 	public static final BlockSetType PEACH = new BlockSetType("ec_peach");
 	public static final BlockSetType PURPURACEUS = new BlockSetType(
-			"ec_purpuraceus", SoundType.NETHER_WOOD,
+			"ec_purpuraceus", true, SoundType.NETHER_WOOD,
 			SoundEvents.NETHER_WOOD_DOOR_CLOSE, SoundEvents.NETHER_WOOD_DOOR_OPEN,
 			SoundEvents.NETHER_WOOD_TRAPDOOR_CLOSE, SoundEvents.NETHER_WOOD_TRAPDOOR_OPEN,
 			SoundEvents.NETHER_WOOD_PRESSURE_PLATE_CLICK_OFF, SoundEvents.NETHER_WOOD_PRESSURE_PLATE_CLICK_ON,

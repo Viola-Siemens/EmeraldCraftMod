@@ -10,7 +10,6 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import org.jetbrains.annotations.NotNull;
 
 public class GlassKilnRecipe extends AbstractCookingRecipe {
 	private final String category;
@@ -26,12 +25,12 @@ public class GlassKilnRecipe extends AbstractCookingRecipe {
 		this.category = category;
 	}
 
-	@Override @NotNull
+	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return ECRecipeSerializer.GLASS_KILN_SERIALIZER.get();
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack getToastSymbol() {
 		return new ItemStack(ECBlocks.WorkStation.GLASS_KILN);
 	}
@@ -40,7 +39,6 @@ public class GlassKilnRecipe extends AbstractCookingRecipe {
 		return this.ingredient;
 	}
 
-	@NotNull
 	public ItemStack getResult() {
 		return this.result;
 	}

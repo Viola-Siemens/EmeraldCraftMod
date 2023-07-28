@@ -15,7 +15,6 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -53,18 +52,18 @@ public class CarpentryTableMenu extends AbstractContainerMenu {
 	public CarpentryTableMenu(int id, Inventory inventory, final ContainerLevelAccess access) {
 		super(ECContainerTypes.CARPENTRY_TABLE_MENU.get(), id);
 		this.access = access;
-		this.level = inventory.player.level;
+		this.level = inventory.player.level();
 		this.inputSlot = this.addSlot(new Slot(this.container, 0, 20, 33));
 		this.resultSlot = this.addSlot(new Slot(this.resultContainer, 1, 143, 33) {
 			@Override
-			public boolean mayPlace(@NotNull ItemStack itemStack) {
+			public boolean mayPlace(ItemStack itemStack) {
 				return false;
 			}
 
 			@Override
-			public void onTake(@NotNull Player player, @NotNull ItemStack itemStack) {
-				itemStack.onCraftedBy(player.level, player, itemStack.getCount());
-				CarpentryTableMenu.this.resultContainer.awardUsedRecipes(player);
+			public void onTake(Player player, ItemStack itemStack) {
+				itemStack.onCraftedBy(player.level(), player, itemStack.getCount());
+				CarpentryTableMenu.this.resultContainer.awardUsedRecipes(player, this.getRelevantItems());
 				ItemStack itemstack = CarpentryTableMenu.this.inputSlot.remove(1);
 				if (!itemstack.isEmpty()) {
 					CarpentryTableMenu.this.setupResultSlot();
@@ -79,6 +78,10 @@ public class CarpentryTableMenu extends AbstractContainerMenu {
 
 				});
 				super.onTake(player, itemStack);
+			}
+
+			private List<ItemStack> getRelevantItems() {
+				return List.of(CarpentryTableMenu.this.inputSlot.getItem());
 			}
 		});
 
@@ -112,12 +115,12 @@ public class CarpentryTableMenu extends AbstractContainerMenu {
 	}
 
 	@Override
-	public boolean stillValid(@NotNull Player player) {
+	public boolean stillValid(Player player) {
 		return stillValid(this.access, player, ECBlocks.WorkStation.CARPENTRY_TABLE.get());
 	}
 
 	@Override
-	public boolean clickMenuButton(@NotNull Player player, int index) {
+	public boolean clickMenuButton(Player player, int index) {
 		if (this.isValidRecipeIndex(index)) {
 			this.selectedRecipeIndex.set(index);
 			this.setupResultSlot();
@@ -131,7 +134,7 @@ public class CarpentryTableMenu extends AbstractContainerMenu {
 	}
 
 	@Override
-	public void slotsChanged(@NotNull Container container) {
+	public void slotsChanged(Container container) {
 		ItemStack itemstack = this.inputSlot.getItem();
 		if (!itemstack.is(this.input.getItem())) {
 			this.input = itemstack.copy();
@@ -162,7 +165,7 @@ public class CarpentryTableMenu extends AbstractContainerMenu {
 		this.broadcastChanges();
 	}
 
-	@Override @NotNull
+	@Override
 	public MenuType<?> getType() {
 		return ECContainerTypes.CARPENTRY_TABLE_MENU.get();
 	}
@@ -172,12 +175,12 @@ public class CarpentryTableMenu extends AbstractContainerMenu {
 	}
 
 	@Override
-	public boolean canTakeItemForPickAll(@NotNull ItemStack itemStack, Slot slot) {
+	public boolean canTakeItemForPickAll(ItemStack itemStack, Slot slot) {
 		return slot.container != this.resultContainer && super.canTakeItemForPickAll(itemStack, slot);
 	}
 
-	@Override @NotNull
-	public ItemStack quickMoveStack(@NotNull Player player, int index) {
+	@Override
+	public ItemStack quickMoveStack(Player player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
 		if (slot.hasItem()) {
@@ -185,7 +188,7 @@ public class CarpentryTableMenu extends AbstractContainerMenu {
 			Item item = itemstack1.getItem();
 			itemstack = itemstack1.copy();
 			if (index == RESULT_SLOT) {
-				item.onCraftedBy(itemstack1, player.level, player);
+				item.onCraftedBy(itemstack1, player.level(), player);
 				if (!this.moveItemStackTo(itemstack1, INV_SLOT_START, USE_ROW_SLOT_END, true)) {
 					return ItemStack.EMPTY;
 				}
@@ -226,7 +229,7 @@ public class CarpentryTableMenu extends AbstractContainerMenu {
 	}
 
 	@Override
-	public void removed(@NotNull Player player) {
+	public void removed(Player player) {
 		super.removed(player);
 		this.resultContainer.removeItemNoUpdate(1);
 		this.access.execute((level, blockPos) -> this.clearContainer(player, this.container));

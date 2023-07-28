@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.NyliumBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import org.jetbrains.annotations.NotNull;
 
 import static com.hexagram2021.emeraldcraft.common.register.ECConfiguredFeatureKeys.VegetationConfiguredFeatures.PURPURACEUS_SWAMP_VEGETATION_BONEMEAL;
 
@@ -23,7 +22,7 @@ public class PurpuraceusNyliumBlock extends NyliumBlock {
 	}
 
 	@Override
-	public void performBonemeal(ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos blockPos, @NotNull BlockState blockState) {
+	public void performBonemeal(ServerLevel level, RandomSource random, BlockPos blockPos, BlockState blockState) {
 		BlockState current = level.getBlockState(blockPos);
 		BlockPos above = blockPos.above();
 		ChunkGenerator chunkgenerator = level.getChunkSource().getGenerator();

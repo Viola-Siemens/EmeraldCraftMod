@@ -12,7 +12,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
-import org.jetbrains.annotations.NotNull;
 
 public class ECBoatDispenseItemBehaviour extends DefaultDispenseItemBehavior {
 	private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
@@ -29,8 +28,8 @@ public class ECBoatDispenseItemBehaviour extends DefaultDispenseItemBehavior {
 		this.isChestBoat = withChest;
 	}
 
-	@Override @NotNull
-	public ItemStack execute(BlockSource block, @NotNull ItemStack itemStack) {
+	@Override
+	public ItemStack execute(BlockSource block, ItemStack itemStack) {
 		Direction direction = block.getBlockState().getValue(DispenserBlock.FACING);
 		Level level = block.getLevel();
 		double d0 = block.x() + (double)((float)direction.getStepX() * 1.125F);

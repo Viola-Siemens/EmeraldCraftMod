@@ -5,7 +5,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.hexagram2021.emeraldcraft.common.crafting.RabbleFurnaceRecipe;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -20,6 +19,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -84,30 +84,30 @@ public class RabbleFurnaceRecipeCategory implements IRecipeCategory<RabbleFurnac
 	}
 
 	@Override
-	public void draw(RabbleFurnaceRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double mouseX, double mouseY) {
-		this.animatedFlame.draw(poseStack, 39, 20);
+	public void draw(RabbleFurnaceRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics transform, double mouseX, double mouseY) {
+		this.animatedFlame.draw(transform, 39, 20);
 
-		IDrawableAnimated arrow = getArrow(recipe);
-		arrow.draw(poseStack, 62, 18);
+		IDrawableAnimated arrow = this.getArrow(recipe);
+		arrow.draw(transform, 62, 18);
 
-		drawExperience(recipe, poseStack, 0);
-		drawCookTime(recipe, poseStack, 45);
+		this.drawExperience(recipe, transform, 0);
+		this.drawCookTime(recipe, transform, 45);
 	}
 
 	@SuppressWarnings("SameParameterValue")
-	protected void drawExperience(RabbleFurnaceRecipe recipe, PoseStack poseStack, int y) {
+	protected void drawExperience(RabbleFurnaceRecipe recipe, GuiGraphics transform, int y) {
 		float experience = recipe.getExperience();
 		if (experience > 0) {
 			Component experienceString = Component.translatable("gui.emeraldcraft.rabble_furnace.experience", experience);
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(experienceString);
-			fontRenderer.draw(poseStack, experienceString, this.background.getWidth() - stringWidth, y, 0xFF808080);
+			transform.drawString(fontRenderer, experienceString, this.background.getWidth() - stringWidth, y, 0xFF808080);
 		}
 	}
 
 	@SuppressWarnings("SameParameterValue")
-	protected void drawCookTime(RabbleFurnaceRecipe recipe, PoseStack poseStack, int y) {
+	protected void drawCookTime(RabbleFurnaceRecipe recipe, GuiGraphics transform, int y) {
 		int cookTime = recipe.getRabblingTime();
 		if (cookTime > 0) {
 			int cookTimeSeconds = cookTime / 20;
@@ -115,7 +115,7 @@ public class RabbleFurnaceRecipeCategory implements IRecipeCategory<RabbleFurnac
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(timeString);
-			fontRenderer.draw(poseStack, timeString, this.background.getWidth() - stringWidth, y, 0xFF808080);
+			transform.drawString(fontRenderer, timeString, this.background.getWidth() - stringWidth, y, 0xFF808080);
 		}
 	}
 

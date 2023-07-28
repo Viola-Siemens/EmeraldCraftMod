@@ -7,7 +7,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.client.event.RegisterRecipeBookCategoriesEvent;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class ECRecipeBookTypes {

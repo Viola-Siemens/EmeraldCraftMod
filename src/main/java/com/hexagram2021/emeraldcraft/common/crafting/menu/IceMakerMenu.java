@@ -14,7 +14,6 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import org.jetbrains.annotations.NotNull;
 
 public class IceMakerMenu extends AbstractContainerMenu {
 	public static final int INGREDIENT_INPUT_SLOT = 0;
@@ -44,7 +43,7 @@ public class IceMakerMenu extends AbstractContainerMenu {
 		this.iceMakerData = data;
 		this.ingredientInputSlot = this.addSlot(new Slot(container, INGREDIENT_INPUT_SLOT, 50, 18) {
 			@Override
-			public boolean mayPlace(@NotNull ItemStack itemStack) {
+			public boolean mayPlace(ItemStack itemStack) {
 				return itemStack.is(Items.BUCKET) || isFluidBucket(itemStack);
 			}
 
@@ -55,7 +54,7 @@ public class IceMakerMenu extends AbstractContainerMenu {
 		});
 		this.addSlot(new Slot(container, INGREDIENT_OUTPUT_SLOT, 50, 52) {
 			@Override
-			public boolean mayPlace(@NotNull ItemStack itemStack) {
+			public boolean mayPlace(ItemStack itemStack) {
 				return itemStack.is(Items.BUCKET) || isFluidBucket(itemStack);
 			}
 
@@ -66,7 +65,7 @@ public class IceMakerMenu extends AbstractContainerMenu {
 		});
 		this.condensateSlot = this.addSlot(new Slot(container, CONDENSATE_SLOT, 16, 26) {
 			@Override
-			public boolean mayPlace(@NotNull ItemStack itemStack) {
+			public boolean mayPlace(ItemStack itemStack) {
 				return itemStack.is(Items.WATER_BUCKET);
 			}
 
@@ -101,12 +100,12 @@ public class IceMakerMenu extends AbstractContainerMenu {
 	}
 
 	@Override
-	public boolean stillValid(@NotNull Player player) {
+	public boolean stillValid(Player player) {
 		return this.iceMaker.stillValid(player);
 	}
 
-	@Override @NotNull
-	public ItemStack quickMoveStack(@NotNull Player player, int index) {
+	@Override
+	public ItemStack quickMoveStack(Player player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
 		if (slot.hasItem()) {
@@ -187,11 +186,11 @@ public class IceMakerMenu extends AbstractContainerMenu {
 		}
 
 		@Override
-		public boolean mayPlace(@NotNull ItemStack itemStack) {
+		public boolean mayPlace(ItemStack itemStack) {
 			return false;
 		}
 
-		@Override @NotNull
+		@Override
 		public ItemStack remove(int count) {
 			if (this.hasItem()) {
 				this.removeCount += Math.min(count, this.getItem().getCount());
@@ -201,20 +200,20 @@ public class IceMakerMenu extends AbstractContainerMenu {
 		}
 
 		@Override
-		public void onTake(@NotNull Player player, @NotNull ItemStack itemStack) {
+		public void onTake(Player player, ItemStack itemStack) {
 			this.checkTakeAchievements(itemStack);
 			super.onTake(player, itemStack);
 		}
 
 		@Override
-		protected void onQuickCraft(@NotNull ItemStack itemStack, int count) {
+		protected void onQuickCraft(ItemStack itemStack, int count) {
 			this.removeCount += count;
 			this.checkTakeAchievements(itemStack);
 		}
 
 		@Override
 		protected void checkTakeAchievements(ItemStack itemStack) {
-			itemStack.onCraftedBy(this.player.level, this.player, this.removeCount);
+			itemStack.onCraftedBy(this.player.level(), this.player, this.removeCount);
 
 			this.removeCount = 0;
 			net.minecraftforge.event.ForgeEventFactory.firePlayerSmeltedEvent(this.player, itemStack);

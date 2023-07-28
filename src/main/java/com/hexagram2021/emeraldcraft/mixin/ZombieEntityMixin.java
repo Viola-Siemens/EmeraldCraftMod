@@ -27,12 +27,12 @@ public class ZombieEntityMixin {
 
 		if(current instanceof ZombifiedPiglin zombifiedPiglin) {
 			Convertible convertible = (Convertible)zombifiedPiglin;
-			if (!zombifiedPiglin.level.isClientSide && zombifiedPiglin.isAlive() && convertible.isConverting()) {
+			if (!zombifiedPiglin.level().isClientSide && zombifiedPiglin.isAlive() && convertible.isConverting()) {
 				int i = convertible.getConversionProgress();
 				convertible.decreaseConversionRemainTime(i);
 				if (convertible.getConversionRemainTime() <= 0 &&
 						ForgeEventFactory.canLivingConvert(zombifiedPiglin, EntityType.PIGLIN, convertible::setConversionRemainTime)) {
-					convertible.finishConversion((ServerLevel) zombifiedPiglin.level);
+					convertible.finishConversion((ServerLevel) zombifiedPiglin.level());
 				}
 			}
 		}

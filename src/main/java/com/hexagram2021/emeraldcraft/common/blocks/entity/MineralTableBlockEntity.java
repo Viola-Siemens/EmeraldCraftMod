@@ -47,6 +47,8 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import static net.minecraft.world.item.ItemStack.isSameItem;
+
 public class MineralTableBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeHolder, StackedContentsCompatible {
 	protected static final int SLOT_INPUT = 0;
 	protected static final int SLOT_FUEL = 1;
@@ -99,7 +101,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 		this.recipeType = ECRecipes.MINERAL_TABLE_TYPE.get();
 	}
 
-	@Override @NotNull
+	@Override
 	protected Component getDefaultName() {
 		return Component.translatable("container.mineral_table");
 	}
@@ -110,7 +112,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 	}
 
 	@Override
-	public void load(@NotNull CompoundTag nbt) {
+	public void load(CompoundTag nbt) {
 		super.load(nbt);
 		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
 		ContainerHelper.loadAllItems(nbt, this.items);
@@ -126,7 +128,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 	}
 
 	@Override
-	protected void saveAdditional(@NotNull CompoundTag nbt) {
+	protected void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
 		nbt.putInt("BurnTime", this.litTime);
 		nbt.putInt("CookTime", this.cookingProgress);
@@ -195,7 +197,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 
 	}
 
-	private boolean canBurn(@NotNull RegistryAccess registryAccess, @Nullable MineralTableRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
+	private boolean canBurn(RegistryAccess registryAccess, @Nullable MineralTableRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
 		if (!container.get(SLOT_INPUT).isEmpty() && recipe != null) {
 			ItemStack itemstack = recipe.assemble(this, registryAccess);
 			if (itemstack.isEmpty()) {
@@ -205,7 +207,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 			if (itemstack1.isEmpty()) {
 				return true;
 			}
-			if (!itemstack1.sameItem(itemstack)) {
+			if (isSameItem(itemstack1, itemstack)) {
 				return false;
 			}
 			if (itemstack1.getCount() + itemstack.getCount() <= maxCount && itemstack1.getCount() + itemstack.getCount() <= itemstack1.getMaxStackSize()) {
@@ -216,7 +218,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 		return false;
 	}
 
-	private boolean burn(@NotNull RegistryAccess registryAccess, @Nullable MineralTableRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
+	private boolean burn(RegistryAccess registryAccess, @Nullable MineralTableRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
 		if (recipe != null && this.canBurn(registryAccess, recipe, container, maxCount)) {
 			ItemStack itemstack = container.get(SLOT_INPUT);
 			ItemStack itemstack1 = recipe.assemble(this, registryAccess);
@@ -240,8 +242,8 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 		return itemStack.is(Items.MAGMA_CREAM) ? MineralTableRecipe.BURN_TIME * 20 : 0;
 	}
 
-	@Override @NotNull
-	protected AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory) {
+	@Override
+	protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
 		return new MineralTableMenu(id, inventory, this, this.dataAccess);
 	}
 
@@ -250,7 +252,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 	}
 
 	@Override
-	public int[] getSlotsForFace(@NotNull Direction direction) {
+	public int[] getSlotsForFace(Direction direction) {
 		if (direction == Direction.DOWN) {
 			return SLOTS_FOR_DOWN;
 		} else {
@@ -259,12 +261,12 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 	}
 
 	@Override
-	public boolean canPlaceItemThroughFace(int index, @NotNull ItemStack itemStack, @Nullable Direction direction) {
+	public boolean canPlaceItemThroughFace(int index, ItemStack itemStack, @Nullable Direction direction) {
 		return this.canPlaceItem(index, itemStack);
 	}
 
 	@Override
-	public boolean canTakeItemThroughFace(int index, @NotNull ItemStack itemStack, @NotNull Direction direction) {
+	public boolean canTakeItemThroughFace(int index, ItemStack itemStack, Direction direction) {
 		if (direction == Direction.DOWN && index == SLOT_FUEL) {
 			return itemStack.is(Items.WATER_BUCKET) || itemStack.is(Items.BUCKET);
 		}
@@ -287,17 +289,17 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 		return true;
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack getItem(int index) {
 		return this.items.get(index);
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack removeItem(int index, int count) {
 		return ContainerHelper.removeItem(this.items, index, count);
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack removeItemNoUpdate(int index) {
 		return ContainerHelper.takeItem(this.items, index);
 	}
@@ -305,7 +307,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 	@Override
 	public void setItem(int index, ItemStack itemStack) {
 		ItemStack itemstack = this.items.get(index);
-		boolean flag = !itemStack.isEmpty() && itemStack.sameItem(itemstack) && ItemStack.tagMatches(itemStack, itemstack);
+		boolean flag = !itemStack.isEmpty() && ItemStack.isSameItemSameTags(itemStack, itemstack);
 		this.items.set(index, itemStack);
 		if (itemStack.getCount() > this.getMaxStackSize()) {
 			itemStack.setCount(this.getMaxStackSize());
@@ -320,7 +322,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 	}
 
 	@Override
-	public boolean stillValid(@NotNull Player player) {
+	public boolean stillValid(Player player) {
 		if (this.level.getBlockEntity(this.worldPosition) != this) {
 			return false;
 		}
@@ -328,7 +330,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 	}
 
 	@Override
-	public boolean canPlaceItem(int index, @NotNull ItemStack itemStack) {
+	public boolean canPlaceItem(int index, ItemStack itemStack) {
 		if (index == MineralTableMenu.RESULT_SLOT) {
 			return false;
 		}
@@ -358,11 +360,11 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 	}
 
 	@Override
-	public void awardUsedRecipes(@NotNull Player player) {
+	public void awardUsedRecipes(Player player, List<ItemStack> items) {
 	}
 
 	public void awardUsedRecipesAndPopExperience(ServerPlayer player) {
-		List<Recipe<?>> list = this.getRecipesToAwardAndPopExperience(player.getLevel(), player.position());
+		List<Recipe<?>> list = this.getRecipesToAwardAndPopExperience(player.serverLevel(), player.position());
 		player.awardRecipes(list);
 		this.recipesUsed.clear();
 	}
@@ -391,7 +393,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 	}
 
 	@Override
-	public void fillStackedContents(@NotNull StackedContents contents) {
+	public void fillStackedContents(StackedContents contents) {
 		for(ItemStack itemstack : this.items) {
 			contents.accountStack(itemstack);
 		}
@@ -402,7 +404,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 			SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 
 	@Override @NotNull
-	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
 		if (!this.remove && facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
 			if (facing == Direction.UP)
 				return handlers[0].cast();

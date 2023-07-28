@@ -6,13 +6,17 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.player.Player;
 
+import javax.annotation.Nullable;
 import java.util.EnumSet;
+import java.util.Objects;
 
 public class OfferFlowerToPlayerGoal extends Goal {
 	private static final TargetingConditions OFFER_TARGET_CONTEXT = TargetingConditions.forNonCombat().range(6.0D).selector(entity ->
 			entity.hasEffect(MobEffects.HERO_OF_THE_VILLAGE));
 	public static final int OFFER_TICKS = 400;
 	private final IronGolem golem;
+
+	@Nullable
 	private Player player;
 	private int tick;
 
@@ -22,13 +26,13 @@ public class OfferFlowerToPlayerGoal extends Goal {
 	}
 
 	public boolean canUse() {
-		if (!this.golem.level.isDay()) {
+		if (!this.golem.level().isDay()) {
 			return false;
 		}
 		if (this.golem.getRandom().nextInt(4000) != 0) {
 			return false;
 		}
-		this.player = this.golem.level.getNearestPlayer(OFFER_TARGET_CONTEXT, this.golem);
+		this.player = this.golem.level().getNearestPlayer(OFFER_TARGET_CONTEXT, this.golem);
 		return this.player != null && this.golem.closerThan(this.player, 6.0D);
 	}
 
@@ -47,7 +51,7 @@ public class OfferFlowerToPlayerGoal extends Goal {
 	}
 
 	public void tick() {
-		this.golem.getLookControl().setLookAt(this.player, 30.0F, 30.0F);
+		this.golem.getLookControl().setLookAt(Objects.requireNonNull(this.player), 30.0F, 30.0F);
 		--this.tick;
 	}
 }

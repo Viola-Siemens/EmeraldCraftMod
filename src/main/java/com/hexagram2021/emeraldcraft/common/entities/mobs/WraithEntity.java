@@ -19,7 +19,6 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -51,13 +50,13 @@ public class WraithEntity extends Monster {
 	}
 
 	@Override
-	public void readAdditionalSaveData(@NotNull CompoundTag nbt) {
+	public void readAdditionalSaveData(CompoundTag nbt) {
 		super.readAdditionalSaveData(nbt);
 		this.spellCastingTickCount = nbt.getInt("SpellTicks");
 	}
 
 	@Override
-	public void addAdditionalSaveData(@NotNull CompoundTag nbt) {
+	public void addAdditionalSaveData(CompoundTag nbt) {
 		super.addAdditionalSaveData(nbt);
 		nbt.putInt("SpellTicks", this.spellCastingTickCount);
 	}
@@ -73,7 +72,7 @@ public class WraithEntity extends Monster {
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
+	protected SoundEvent getHurtSound(DamageSource damageSource) {
 		return ECSounds.WRAITH_HURT;
 	}
 

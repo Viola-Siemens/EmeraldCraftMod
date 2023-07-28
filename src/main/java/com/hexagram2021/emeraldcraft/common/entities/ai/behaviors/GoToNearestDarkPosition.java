@@ -16,7 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.ForgeEventFactory;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -38,7 +37,7 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 	}
 
 	@Override
-	protected boolean checkExtraStartConditions(@NotNull ServerLevel level, @NotNull E entity) {
+	protected boolean checkExtraStartConditions(ServerLevel level, E entity) {
 		if(entity.getMainHandItem().isEmpty() || !(entity.getMainHandItem().getItem() instanceof BlockItem)) {
 			return false;
 		}
@@ -47,18 +46,18 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 	}
 
 	@Override
-	protected boolean canStillUse(@NotNull ServerLevel level, @NotNull E entity, long tick) {
+	protected boolean canStillUse(ServerLevel level, E entity, long tick) {
 		return this.checkExtraStartConditions(level, entity);
 	}
 
 	@Override
-	protected void start(@NotNull ServerLevel level, @NotNull E entity, long tick) {
+	protected void start(ServerLevel level, E entity, long tick) {
 		BehaviorUtils.setWalkAndLookTargetMemories(entity, Objects.requireNonNull(this.getClosestDarkLocation(level, entity)), this.speedModifier, 0);
 	}
 
 	@SuppressWarnings("ConstantConditions")
 	@Override
-	protected void tick(@NotNull ServerLevel level, @NotNull E entity, long tick) {
+	protected void tick(ServerLevel level, E entity, long tick) {
 		if(entity.getBrain().checkMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), MemoryStatus.VALUE_PRESENT)) {
 			return;
 		}
@@ -75,7 +74,7 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 				Block torch = ((BlockItem) (entity.getMainHandItem().getItem())).getBlock();
 				if (level.getBlockState(pos).isAir() && torch.canSurvive(torch.defaultBlockState(), level, pos) && !entity.getInventory().getItem(0).isEmpty()) {
 					level.setBlock(pos, torch.defaultBlockState(), Block.UPDATE_ALL);
-					if (entity.getInventory().getItem(0).sameItem(entity.getMainHandItem())) {
+					if (ItemStack.isSameItem(entity.getInventory().getItem(0), entity.getMainHandItem())) {
 						entity.getInventory().getItem(0).shrink(1);
 					} else {
 						entity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(entity.getInventory().getItem(0).getItem()));
@@ -89,7 +88,7 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 	}
 
 	@Override
-	protected void stop(@NotNull ServerLevel level, @NotNull E entity, long tick) {
+	protected void stop(ServerLevel level, E entity, long tick) {
 		if(entity.getBrain().checkMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), MemoryStatus.VALUE_ABSENT)) {
 			entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), 400);
 		}
@@ -99,7 +98,7 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 	}
 
 	@Nullable
-	private BlockPos getClosestDarkLocation(@NotNull ServerLevel level, @NotNull E entity) {
+	private BlockPos getClosestDarkLocation(ServerLevel level, E entity) {
 		return entity.getBrain().getMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get()).orElseGet(() -> {
 			BlockPos current = entity.blockPosition();
 			Block torch = ((BlockItem)(entity.getMainHandItem().getItem())).getBlock();
@@ -136,7 +135,7 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 	}
 
 	@Nullable
-	private BlockPos VerticalSearch(@NotNull BlockPos current, @NotNull Block torch, @NotNull ServerLevel level) {
+	private BlockPos VerticalSearch(BlockPos current, Block torch, ServerLevel level) {
 		for(int h = 0; h <= 3; ++h) {
 			BlockPos pos = current.below(h);
 			if(level.getBlockState(pos).isAir()) {

@@ -16,6 +16,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
@@ -69,17 +70,17 @@ public class VillagerTradeCategory implements IRecipeCategory<TradeShadowRecipe>
 	}
 
 	@Override
-	public void draw(TradeShadowRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-		renderEntityInCategory(stack, VILLAGER_X, VILLAGER_Y, VILLAGER_W, VILLAGER_H, mouseX, mouseY, recipe.getRenderVillager());
-		drawVillagerName(recipe.getRenderVillager().getName().getString(), stack, 30);
+	public void draw(TradeShadowRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics transform, double mouseX, double mouseY) {
+		renderEntityInCategory(transform.pose(), VILLAGER_X, VILLAGER_Y, VILLAGER_W, VILLAGER_H, mouseX, mouseY, recipe.getRenderVillager());
+		drawVillagerName(recipe.getRenderVillager().getName().getString(), transform, 30);
 	}
 
 	@SuppressWarnings("SameParameterValue")
-	protected void drawVillagerName(String name, PoseStack poseStack, int y) {
+	protected void drawVillagerName(String name, GuiGraphics transform, int y) {
 		Minecraft minecraft = Minecraft.getInstance();
 		Font fontRenderer = minecraft.font;
 		int stringWidth = fontRenderer.width(name);
-		fontRenderer.draw(poseStack, name, this.background.getWidth() - stringWidth, y, 0xFF808080);
+		transform.drawString(fontRenderer, name, this.background.getWidth() - stringWidth, y, 0xFF808080);
 	}
 
 	@Override

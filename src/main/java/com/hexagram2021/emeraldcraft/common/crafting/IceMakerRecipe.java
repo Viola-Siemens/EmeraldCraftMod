@@ -15,7 +15,6 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 public class IceMakerRecipe implements Recipe<Container> {
 	protected final ResourceLocation id;
@@ -47,17 +46,17 @@ public class IceMakerRecipe implements Recipe<Container> {
 		return true;
 	}
 
-	@Override @NotNull
+	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return ECRecipeSerializer.ICE_MAKER_SERIALIZER.get();
 	}
 
-	@Override @NotNull
+	@Override
 	public ItemStack getToastSymbol() {
 		return new ItemStack(ECBlocks.WorkStation.ICE_MAKER);
 	}
 
-	@Override @NotNull
+	@Override
 	public String getGroup() {
 		return this.group;
 	}
@@ -70,7 +69,6 @@ public class IceMakerRecipe implements Recipe<Container> {
 		return this.inputAmount;
 	}
 
-	@NotNull
 	public ItemStack getResult() {
 		return this.result;
 	}
@@ -79,27 +77,27 @@ public class IceMakerRecipe implements Recipe<Container> {
 		return this.freezingTime;
 	}
 
-	@Override @NotNull
-	public ItemStack assemble(@NotNull Container container, @NotNull RegistryAccess registryAccess) {
+	@Override
+	public ItemStack assemble(Container container, RegistryAccess registryAccess) {
 		return this.result.copy();
 	}
 
-	@Override @NotNull
-	public ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
+	@Override
+	public ItemStack getResultItem(RegistryAccess registryAccess) {
 		return this.result;
 	}
 
 	@Override
-	public boolean matches(@NotNull Container container, @NotNull Level level) {
+	public boolean matches(Container container, Level level) {
 		return FluidTypes.getID(this.inputFluid) == ((IceMakerBlockEntity)container).getInputFluidTypeIndex();
 	}
 
-	@Override @NotNull
+	@Override
 	public ResourceLocation getId() {
 		return this.id;
 	}
 
-	@Override @NotNull
+	@Override
 	public RecipeType<?> getType() {
 		return ECRecipes.ICE_MAKER_TYPE.get();
 	}

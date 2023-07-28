@@ -19,12 +19,11 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
@@ -33,16 +32,16 @@ public class CrystalballTableBlock extends Block {
 	public static final IntegerProperty EXP_COUNT = ECProperties.EXP_COUNT;
 
 	protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 14.0D, 14.0D);
-	public static final Supplier<Properties> PROPERTIES = () -> Block.Properties.of(Material.AMETHYST).sound(SoundType.AMETHYST).strength(3.5F).randomTicks().lightLevel((bs) -> 7);
+	public static final Supplier<Properties> PROPERTIES = () -> Block.Properties.of().mapColor(MapColor.COLOR_PURPLE).sound(SoundType.AMETHYST).strength(3.5F).randomTicks().lightLevel((bs) -> 7);
 
 	public CrystalballTableBlock(BlockBehaviour.Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any().setValue(EXP_COUNT, 0));
 	}
 
-	@Override @NotNull
-	public InteractionResult use(@NotNull BlockState blockState, Level level, @NotNull BlockPos blockPos, @NotNull Player player,
-								 @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
+	@Override
+	public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player,
+								 InteractionHand interactionHand, BlockHitResult blockHitResult) {
 		if (level.isClientSide) {
 			return InteractionResult.SUCCESS;
 		}
@@ -55,7 +54,7 @@ public class CrystalballTableBlock extends Block {
 	}
 
 	@Override
-	public void randomTick(@NotNull BlockState blockState, ServerLevel level, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
+	public void randomTick(BlockState blockState, ServerLevel level, BlockPos blockPos, RandomSource random) {
 		if(level.random.nextInt(250) == 0) {
 			int i = blockState.getValue(EXP_COUNT);
 			if(i < 15) {
@@ -65,23 +64,23 @@ public class CrystalballTableBlock extends Block {
 		}
 	}
 
-	@Override @NotNull
-	public VoxelShape getShape(@NotNull BlockState blockState, @NotNull BlockGetter level, @NotNull BlockPos blockPos, @NotNull CollisionContext context) {
+	@Override
+	public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos blockPos, CollisionContext context) {
 		return SHAPE;
 	}
 
 	@Override
-	public boolean useShapeForLightOcclusion(@NotNull BlockState blockState) {
+	public boolean useShapeForLightOcclusion(BlockState blockState) {
 		return true;
 	}
 
-	@Override @NotNull
-	public RenderShape getRenderShape(@NotNull BlockState blockState) {
+	@Override
+	public RenderShape getRenderShape(BlockState blockState) {
 		return RenderShape.MODEL;
 	}
 
 	@Override
-	public boolean isPathfindable(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos blockPos, @NotNull PathComputationType type) {
+	public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos blockPos, PathComputationType type) {
 		return false;
 	}
 

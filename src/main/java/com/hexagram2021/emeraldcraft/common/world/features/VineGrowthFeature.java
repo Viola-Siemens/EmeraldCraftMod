@@ -13,8 +13,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class VineGrowthFeature extends Feature<VineGrowthConfiguration> {
@@ -23,7 +23,7 @@ public class VineGrowthFeature extends Feature<VineGrowthConfiguration> {
 	}
 
 	@Override
-	public boolean place(@NotNull FeaturePlaceContext<VineGrowthConfiguration> context) {
+	public boolean place(FeaturePlaceContext<VineGrowthConfiguration> context) {
 		WorldGenLevel level = context.level();
 		BlockPos origin = context.origin();
 		RandomSource random = context.random();
@@ -84,6 +84,7 @@ public class VineGrowthFeature extends Feature<VineGrowthConfiguration> {
 		return !blockState.isAir() && !blockState.is(Blocks.WATER);
 	}
 
+	@Nullable
 	private static BlockState getStateForPlacement(Block block, BlockState blockState, Direction direction) {
 		BlockState ret = block.defaultBlockState().setValue(PipeBlock.PROPERTY_BY_DIRECTION.get(direction), Boolean.TRUE);
 		if(blockState.is(Blocks.WATER)) {

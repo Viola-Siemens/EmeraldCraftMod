@@ -33,7 +33,7 @@ public class LocalPlayerMixin {
 					++this.jumpRidingTicks;
 				}
 			} else {
-				if(current.getVehicle().isOnGround()) {
+				if(current.getVehicle().onGround()) {
 					if(this.jumpRidingTicks < 12) {
 						this.jumpRidingTicks = 12;
 					}

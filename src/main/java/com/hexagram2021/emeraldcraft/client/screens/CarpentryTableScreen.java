@@ -1,12 +1,10 @@
 package com.hexagram2021.emeraldcraft.client.screens;
 
-import com.hexagram2021.emeraldcraft.common.crafting.menu.CarpentryTableMenu;
 import com.hexagram2021.emeraldcraft.common.crafting.CarpentryTableRecipe;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.hexagram2021.emeraldcraft.common.crafting.menu.CarpentryTableMenu;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +13,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -36,22 +33,19 @@ public class CarpentryTableScreen extends AbstractContainerScreen<CarpentryTable
 	}
 
 	@Override
-	public void render(@NotNull PoseStack transform, int x, int y, float partialTicks) {
+	public void render(GuiGraphics transform, int x, int y, float partialTicks) {
 		super.render(transform, x, y, partialTicks);
 		this.renderTooltip(transform, x, y);
 	}
 
 	@Override
-	protected void renderBg(@NotNull PoseStack transform, float partialTicks, int x, int y) {
+	protected void renderBg(GuiGraphics transform, float partialTicks, int x, int y) {
 		this.renderBackground(transform);
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.setShaderTexture(0, BG_LOCATION);
 		int i = this.leftPos;
 		int j = this.topPos;
-		blit(transform, i, j, 0, 0, this.imageWidth, this.imageHeight);
+		transform.blit(BG_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
 		int k = (int)(41.0F * this.scrollOffs);
-		blit(transform, i + 119, j + 15 + k, 176 + (this.isScrollBarActive() ? 0 : 12), 0, 12, 15);
+		transform.blit(BG_LOCATION, i + 119, j + 15 + k, 176 + (this.isScrollBarActive() ? 0 : 12), 0, 12, 15);
 		int l = this.leftPos + 52;
 		int i1 = this.topPos + 14;
 		int j1 = this.startIndex + 12;
@@ -60,7 +54,7 @@ public class CarpentryTableScreen extends AbstractContainerScreen<CarpentryTable
 	}
 
 	@Override
-	protected void renderTooltip(@NotNull PoseStack transform, int x, int y) {
+	protected void renderTooltip(GuiGraphics transform, int x, int y) {
 		super.renderTooltip(transform, x, y);
 		if (this.displayRecipes) {
 			int i = this.leftPos + 52;
@@ -73,40 +67,40 @@ public class CarpentryTableScreen extends AbstractContainerScreen<CarpentryTable
 				int j1 = i + i1 % 4 * 16;
 				int k1 = j + i1 / 4 * 18 + 2;
 				if (x >= j1 && x < j1 + 16 && y >= k1 && y < k1 + 18) {
-					this.renderTooltip(transform, list.get(l).getResultItem(this.minecraft.level.registryAccess()), x, y);
+					transform.renderTooltip(this.font, list.get(l).getResultItem(this.minecraft.level.registryAccess()), x, y);
 				}
 			}
 		}
 
 	}
 
-	private void renderButtons(PoseStack transform, int x, int y, int recipeX, int recipeY, int endIndex) {
+	private void renderButtons(GuiGraphics transform, int x, int y, int recipeX, int recipeY, int endIndex) {
 		for(int i = this.startIndex; i < endIndex && i < this.menu.getNumRecipes(); ++i) {
-			int j = i - this.startIndex;
-			int k = recipeX + j % 4 * 16;
-			int l = j / 4;
-			int i1 = recipeY + l * 18 + 2;
-			int j1 = this.imageHeight;
+			int line = i - this.startIndex;
+			int buttonX = recipeX + line % 4 * 16;
+			int lineY = line / 4;
+			int buttonY = recipeY + lineY * 18 + 2;
+			int buttonHeight = this.imageHeight;
 			if (i == this.menu.getSelectedRecipeIndex()) {
-				j1 += 18;
-			} else if (x >= k && y >= i1 && x < k + 16 && y < i1 + 18) {
-				j1 += 36;
+				buttonHeight += 18;
+			} else if (x >= buttonX && y >= buttonY && x < buttonX + 16 && y < buttonY + 18) {
+				buttonHeight += 36;
 			}
 
-			blit(transform, k, i1 - 1, 0, j1, 16, 18);
+			transform.blit(BG_LOCATION, buttonX, buttonY - 1, 0, buttonHeight, 16, 18);
 		}
 
 	}
 
-	private void renderRecipes(@NotNull PoseStack transform, int x, int y, int endIndex) {
+	private void renderRecipes(GuiGraphics transform, int x, int y, int endIndex) {
 		List<CarpentryTableRecipe> list = this.menu.getRecipes();
 
 		for(int i = this.startIndex; i < endIndex && i < this.menu.getNumRecipes(); ++i) {
-			int j = i - this.startIndex;
-			int k = x + j % 4 * 16;
-			int l = j / 4;
-			int i1 = y + l * 18 + 2;
-			this.minecraft.getItemRenderer().renderAndDecorateItem(transform, list.get(i).getResultItem(this.minecraft.level.registryAccess()), k, i1);
+			int line = i - this.startIndex;
+			int itemX = x + line % 4 * 16;
+			int lineY = line / 4;
+			int itemY = y + lineY * 18 + 2;
+			transform.renderItem(list.get(i).getResultItem(this.minecraft.level.registryAccess()), itemX, itemY);
 		}
 	}
 

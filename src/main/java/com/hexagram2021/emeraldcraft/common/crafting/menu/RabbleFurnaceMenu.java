@@ -14,7 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeHooks;
-import org.jetbrains.annotations.NotNull;
 
 import static com.hexagram2021.emeraldcraft.common.blocks.entity.RabbleFurnaceBlockEntity.*;
 
@@ -38,7 +37,7 @@ public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 		super(ECContainerTypes.RABBLE_FURNACE_MENU.get(), id);
 		this.container = container;
 		this.data = data;
-		this.level = inventory.player.level;
+		this.level = inventory.player.level();
 
 		this.addSlot(new Slot(this.container, SLOT_INPUT, 56, 17));
 		this.addSlot(new Slot(this.container, SLOT_MIX1, 18, 21));
@@ -59,8 +58,8 @@ public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 		this.addDataSlots(this.data);
 	}
 
-	@Override @NotNull
-	public ItemStack quickMoveStack(@NotNull Player player, int index) {
+	@Override
+	public ItemStack quickMoveStack(Player player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
 		if (slot.hasItem()) {
@@ -118,12 +117,12 @@ public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 	}
 
 	@Override
-	public boolean stillValid(@NotNull Player player) {
+	public boolean stillValid(Player player) {
 		return this.container.stillValid(player);
 	}
 
 	@Override
-	public void fillCraftSlotsStackedContents(@NotNull StackedContents contents) {
+	public void fillCraftSlotsStackedContents(StackedContents contents) {
 		if (this.container instanceof StackedContentsCompatible) {
 			((StackedContentsCompatible)this.container).fillStackedContents(contents);
 		}
@@ -181,7 +180,7 @@ public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 		return SLOT_COUNT;
 	}
 
-	@Override @NotNull
+	@Override
 	public RecipeBookType getRecipeBookType() {
 		return ECRecipes.RABBLE_FURNACE;
 	}
@@ -199,11 +198,11 @@ public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 			this.menu = menu;
 		}
 
-		public boolean mayPlace(@NotNull ItemStack itemStack) {
+		public boolean mayPlace(ItemStack itemStack) {
 			return this.menu.isFuel(itemStack);
 		}
 
-		public int getMaxStackSize(@NotNull ItemStack itemStack) {
+		public int getMaxStackSize(ItemStack itemStack) {
 			return super.getMaxStackSize(itemStack);
 		}
 	}
@@ -217,11 +216,12 @@ public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 			this.player = player;
 		}
 
-		public boolean mayPlace(@NotNull ItemStack itemStack) {
+		@Override
+		public boolean mayPlace(ItemStack itemStack) {
 			return false;
 		}
 
-		@NotNull
+		@Override
 		public ItemStack remove(int count) {
 			if (this.hasItem()) {
 				this.removeCount += Math.min(count, this.getItem().getCount());
@@ -230,18 +230,18 @@ public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 			return super.remove(count);
 		}
 
-		public void onTake(@NotNull Player player, @NotNull ItemStack itemStack) {
+		public void onTake(Player player, ItemStack itemStack) {
 			this.checkTakeAchievements(itemStack);
 			super.onTake(player, itemStack);
 		}
 
-		protected void onQuickCraft(@NotNull ItemStack itemStack, int count) {
+		protected void onQuickCraft(ItemStack itemStack, int count) {
 			this.removeCount += count;
 			this.checkTakeAchievements(itemStack);
 		}
 
 		protected void checkTakeAchievements(ItemStack itemStack) {
-			itemStack.onCraftedBy(this.player.level, this.player, this.removeCount);
+			itemStack.onCraftedBy(this.player.level(), this.player, this.removeCount);
 			if (this.player instanceof ServerPlayer && this.container instanceof RabbleFurnaceBlockEntity rabbleFurnaceBlockEntity) {
 				rabbleFurnaceBlockEntity.awardUsedRecipesAndPopExperience((ServerPlayer)this.player);
 			}

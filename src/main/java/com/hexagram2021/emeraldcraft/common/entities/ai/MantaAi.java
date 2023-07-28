@@ -59,7 +59,7 @@ public class MantaAi {
 	}
 
 	private static Optional<ServerPlayer> getLikedPlayer(LivingEntity manta) {
-		Level level = manta.getLevel();
+		Level level = manta.level();
 		if (!level.isClientSide() && level instanceof ServerLevel serverlevel) {
 			Optional<UUID> optional = manta.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
 			if (optional.isPresent()) {

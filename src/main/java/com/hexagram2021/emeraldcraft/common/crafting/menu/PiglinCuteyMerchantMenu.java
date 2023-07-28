@@ -12,7 +12,6 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.Merchant;
 import net.minecraft.world.item.trading.MerchantOffers;
-import org.jetbrains.annotations.NotNull;
 
 public class PiglinCuteyMerchantMenu extends AbstractContainerMenu {
 	protected static final int PAYMENT1_SLOT = 0;
@@ -61,7 +60,7 @@ public class PiglinCuteyMerchantMenu extends AbstractContainerMenu {
 	}
 
 	@Override
-	public void slotsChanged(@NotNull Container container) {
+	public void slotsChanged(Container container) {
 		this.tradeContainer.updateSellItem();
 		super.slotsChanged(container);
 	}
@@ -71,7 +70,7 @@ public class PiglinCuteyMerchantMenu extends AbstractContainerMenu {
 	}
 
 	@Override
-	public boolean stillValid(@NotNull Player player) {
+	public boolean stillValid(Player player) {
 		return this.trader.getTradingPlayer() == player;
 	}
 
@@ -104,12 +103,12 @@ public class PiglinCuteyMerchantMenu extends AbstractContainerMenu {
 	}
 
 	@Override
-	public boolean canTakeItemForPickAll(@NotNull ItemStack itemStack, @NotNull Slot slot) {
+	public boolean canTakeItemForPickAll(ItemStack itemStack, Slot slot) {
 		return false;
 	}
 
-	@Override @NotNull
-	public ItemStack quickMoveStack(@NotNull Player player, int index) {
+	@Override
+	public ItemStack quickMoveStack(Player player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
 		if (slot.hasItem()) {
@@ -153,13 +152,12 @@ public class PiglinCuteyMerchantMenu extends AbstractContainerMenu {
 	private void playTradeSound() {
 		if (!this.trader.isClientSide()) {
 			Entity entity = (Entity)this.trader;
-			entity.getLevel().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), this.trader.getNotifyTradeSound(), SoundSource.NEUTRAL, 1.0F, 1.0F, false);
+			entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), this.trader.getNotifyTradeSound(), SoundSource.NEUTRAL, 1.0F, 1.0F, false);
 		}
-
 	}
 
 	@Override
-	public void removed(@NotNull Player player) {
+	public void removed(Player player) {
 		super.removed(player);
 		this.trader.setTradingPlayer(null);
 		if (!this.trader.isClientSide()) {

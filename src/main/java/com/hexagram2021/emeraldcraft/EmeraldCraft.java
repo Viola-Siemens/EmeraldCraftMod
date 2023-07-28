@@ -19,7 +19,6 @@ import com.hexagram2021.emeraldcraft.network.ClientboundTradeSyncPacket;
 import com.hexagram2021.emeraldcraft.network.IECPacket;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -27,9 +26,6 @@ import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.npc.VillagerType;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.StandingSignBlock;
@@ -37,7 +33,6 @@ import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
@@ -119,7 +114,6 @@ public class EmeraldCraft {
 
 		bus.addListener(this::setup);
 		bus.addListener(this::enqueueIMC);
-		bus.addListener(this::creativeTabEvent);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
@@ -233,34 +227,5 @@ public class EmeraldCraft {
 		signValidBlocks.add(tuple_purpuraceus.getB().get());
 
 		signBuilderAccess.ec_setValidBlocks(signValidBlocks);
-	}
-
-	public static CreativeModeTab BUILDING_BLOCKS;
-	public static CreativeModeTab FUNCTIONAL_BLOCKS_AND_MATERIALS;
-	public static CreativeModeTab TOOLS_AND_ARMORS;
-	public static CreativeModeTab FOODS_AND_DRINKS;
-	public static CreativeModeTab CREATIVE_ONLY;
-
-	public void creativeTabEvent(CreativeModeTabEvent.Register event) {
-		BUILDING_BLOCKS = event.registerCreativeModeTab(new ResourceLocation(MODID, "building_blocks"), builder -> builder
-				.icon(() -> new ItemStack(ECBlocks.TO_STAIRS.get(new ResourceLocation(ResourceLocation.DEFAULT_NAMESPACE, "emerald_block"))))
-				.title(Component.translatable("itemGroup.emeraldcraft.building_blocks")).displayItems(
-						(flags, output) -> ECItems.ItemEntry.BUILDING_BLOCKS.forEach(output::accept)
-				));
-		FUNCTIONAL_BLOCKS_AND_MATERIALS = event.registerCreativeModeTab(new ResourceLocation(MODID, "functional_blocks_and_materials"), builder -> builder
-				.icon(() -> new ItemStack(ECBlocks.WorkStation.CARPENTRY_TABLE))
-				.title(Component.translatable("itemGroup.emeraldcraft.functional_blocks_and_materials")).displayItems(
-						(flags, output) -> ECItems.ItemEntry.FUNCTIONAL_BLOCKS_AND_MATERIALS.forEach(output::accept)
-				));
-		TOOLS_AND_ARMORS = event.registerCreativeModeTab(new ResourceLocation(MODID, "tools_and_armors"), builder -> builder
-				.icon(() -> new ItemStack(ECItems.EMERALD_ARMOR.get(ArmorItem.Type.CHESTPLATE)))
-				.title(Component.translatable("itemGroup.emeraldcraft.tools_and_armors")).displayItems(
-						(flags, output) -> ECItems.ItemEntry.TOOLS_AND_ARMORS.forEach(output::accept)
-				));
-		FOODS_AND_DRINKS = event.registerCreativeModeTab(new ResourceLocation(MODID, "foods_and_drinks"), builder -> builder
-				.icon(() -> new ItemStack(ECItems.ROUGAMO))
-				.title(Component.translatable("itemGroup.emeraldcraft.foods_and_drinks")).displayItems(
-						(flags, output) -> ECItems.ItemEntry.FOODS_AND_DRINKS.forEach(output::accept)
-				));
 	}
 }

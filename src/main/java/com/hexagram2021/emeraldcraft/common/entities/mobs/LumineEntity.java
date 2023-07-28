@@ -47,7 +47,6 @@ import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -93,17 +92,17 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 		this.moveControl = new FlyingMoveControl(this, 20, true);
 	}
 
-	@Override @NotNull
+	@Override
 	protected Brain.Provider<LumineEntity> brainProvider() {
 		return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
 	}
 
-	@Override @NotNull
-	protected Brain<?> makeBrain(@NotNull Dynamic<?> dynamic) {
+	@Override
+	protected Brain<?> makeBrain(Dynamic<?> dynamic) {
 		return LumineAi.makeBrain(this.brainProvider().makeBrain(dynamic));
 	}
 
-	@Override @NotNull @SuppressWarnings("unchecked")
+	@Override @SuppressWarnings("unchecked")
 	public Brain<LumineEntity> getBrain() {
 		return (Brain<LumineEntity>)super.getBrain();
 	}
@@ -112,8 +111,8 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20.0D).add(Attributes.FLYING_SPEED, 0.1D).add(Attributes.MOVEMENT_SPEED, 0.1D).add(Attributes.ATTACK_DAMAGE, 0.5D).add(Attributes.FOLLOW_RANGE, 48.0D);
 	}
 
-	@Override @NotNull
-	protected PathNavigation createNavigation(@NotNull Level level) {
+	@Override
+	protected PathNavigation createNavigation(Level level) {
 		FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, level);
 		flyingpathnavigation.setCanOpenDoors(false);
 		flyingpathnavigation.setCanFloat(true);
@@ -129,7 +128,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	}
 
 	@Override
-	public void travel(@NotNull Vec3 vec) {
+	public void travel(Vec3 vec) {
 		if (this.isControlledByLocalInstance()) {
 			if (this.isInWater()) {
 				this.moveRelative(0.02F, vec);
@@ -150,12 +149,12 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	}
 
 	@Override
-	protected float getStandingEyeHeight(@NotNull Pose pose, EntityDimensions dimensions) {
+	protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
 		return dimensions.height * 0.6F;
 	}
 
 	@Override
-	public boolean causeFallDamage(float fallDistance, float modifier, @NotNull DamageSource damageSource) {
+	public boolean causeFallDamage(float fallDistance, float modifier, DamageSource damageSource) {
 		return false;
 	}
 
@@ -173,11 +172,11 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	}
 
 	@Override
-	protected void playStepSound(@NotNull BlockPos blockPos, @NotNull BlockState blockState) {
+	protected void playStepSound(BlockPos blockPos, BlockState blockState) {
 	}
 
 	@Override
-	protected void checkFallDamage(double fallDistance, boolean onGround, @NotNull BlockState blockState, @NotNull BlockPos blockPos) {
+	protected void checkFallDamage(double fallDistance, boolean onGround, BlockState blockState, BlockPos blockPos) {
 	}
 
 	@Override
@@ -186,7 +185,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
+	protected SoundEvent getHurtSound(DamageSource damageSource) {
 		return ECSounds.LUMINE_HURT;
 	}
 
@@ -202,19 +201,19 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 
 	@Override
 	protected void customServerAiStep() {
-		this.level.getProfiler().push("lumineBrain");
-		this.getBrain().tick((ServerLevel)this.level, this);
-		this.level.getProfiler().pop();
-		this.level.getProfiler().push("lumineActivityUpdate");
+		this.level().getProfiler().push("lumineBrain");
+		this.getBrain().tick((ServerLevel)this.level(), this);
+		this.level().getProfiler().pop();
+		this.level().getProfiler().push("lumineActivityUpdate");
 		LumineAi.updateActivity(this);
-		this.level.getProfiler().pop();
+		this.level().getProfiler().pop();
 		super.customServerAiStep();
 	}
 
 	@Override
 	public void aiStep() {
 		super.aiStep();
-		if (!this.level.isClientSide && this.isAlive() && this.tickCount % 20 == 0) {
+		if (!this.level().isClientSide && this.isAlive() && this.tickCount % 20 == 0) {
 			this.heal(1.0F);
 		}
 
@@ -234,7 +233,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	@Override
 	public void tick() {
 		super.tick();
-		if (this.level.isClientSide) {
+		if (this.level().isClientSide) {
 			this.holdingItemAnimationTicks0 = this.holdingItemAnimationTicks;
 			if (this.hasTorchInHand()) {
 				this.holdingItemAnimationTicks = Mth.clamp(this.holdingItemAnimationTicks + 1.0F, 0.0F, 5.0F);
@@ -262,14 +261,14 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 		}
 	}
 
-	@Override @NotNull
-	protected InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
+	@Override
+	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack playerItem = player.getItemInHand(hand);
 		ItemStack lumineItem = this.getItemInHand(InteractionHand.MAIN_HAND);
 		if (this.isDancing() && this.isDuplicationItem(playerItem) && this.canDuplicate()) {
 			this.duplicateLumine();
-			this.level.broadcastEntityEvent(this, EntityEvent.IN_LOVE_HEARTS);
-			this.level.playSound(player, this, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.NEUTRAL, 2.0F, 1.0F);
+			this.level().broadcastEntityEvent(this, EntityEvent.IN_LOVE_HEARTS);
+			this.level().playSound(player, this, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.NEUTRAL, 2.0F, 1.0F);
 			this.removeInteractionItem(player, playerItem);
 			return InteractionResult.SUCCESS;
 		}
@@ -278,14 +277,14 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 			itemstack3.setCount(1);
 			this.setItemInHand(InteractionHand.MAIN_HAND, itemstack3);
 			this.removeInteractionItem(player, playerItem);
-			this.level.playSound(player, this, ECSounds.LUMINE_ITEM_GIVEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
+			this.level().playSound(player, this, ECSounds.LUMINE_ITEM_GIVEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
 			this.getBrain().setMemory(MemoryModuleType.LIKED_PLAYER, player.getUUID());
 			return InteractionResult.SUCCESS;
 		}
 		if (!lumineItem.isEmpty() && hand == InteractionHand.MAIN_HAND && playerItem.isEmpty() &&
 				this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER).orElse(player.getUUID()).equals(player.getUUID())) {
 			this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-			this.level.playSound(player, this, ECSounds.LUMINE_ITEM_TAKEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
+			this.level().playSound(player, this, ECSounds.LUMINE_ITEM_TAKEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
 			this.swing(InteractionHand.MAIN_HAND);
 
 			for(ItemStack itemstack2 : this.getInventory().removeAllItems()) {
@@ -300,7 +299,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	}
 
 	@Override
-	public boolean canTakeItem(@NotNull ItemStack itemStack) {
+	public boolean canTakeItem(ItemStack itemStack) {
 		return false;
 	}
 
@@ -317,30 +316,30 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 		return this.getItemInHand(InteractionHand.MAIN_HAND).is(ECItemTags.TORCHES);
 	}
 
-	@Override @NotNull
+	@Override
 	public SimpleContainer getInventory() {
 		return this.inventory;
 	}
 
-	@Override @NotNull
+	@Override
 	protected Vec3i getPickupReach() {
 		return ITEM_PICKUP_REACH;
 	}
 
 	@Override
-	public boolean wantsToPickUp(@NotNull ItemStack itemStack) {
+	public boolean wantsToPickUp(ItemStack itemStack) {
 		ItemStack handItemStack = this.getItemInHand(InteractionHand.MAIN_HAND);
-		return itemStack.is(ECItemTags.TORCHES) && handItemStack.sameItem(itemStack) && this.inventory.canAddItem(itemStack) && ForgeEventFactory.getMobGriefingEvent(this.level, this);
+		return itemStack.is(ECItemTags.TORCHES) && ItemStack.isSameItem(handItemStack, itemStack) && this.inventory.canAddItem(itemStack) && ForgeEventFactory.getMobGriefingEvent(this.level(), this);
 	}
 
 	@Override
-	protected void pickUpItem(@NotNull ItemEntity itemStack) {
+	protected void pickUpItem(ItemEntity itemStack) {
 		InventoryCarrier.pickUpItem(this, this, itemStack);
 	}
 
 	@Override
 	public boolean isFlapping() {
-		return !this.isOnGround();
+		return !this.onGround();
 	}
 
 	public boolean isDancing() {
@@ -352,13 +351,13 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	}
 
 	public void setDancing(boolean dancing) {
-		if (!this.level.isClientSide && this.isEffectiveAi() && (!dancing || !this.isPanicking())) {
+		if (!this.level().isClientSide && this.isEffectiveAi() && (!dancing || !this.isPanicking())) {
 			this.entityData.set(DATA_DANCING, dancing);
 		}
 	}
 
 	private boolean shouldDance() {
-		return this.level.isNight() && this.level.getBrightness(LightLayer.BLOCK, this.blockPosition()) >= Mth.floor(14.25F - 4.0F * this.level.getMoonBrightness());
+		return this.level().isNight() && this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= Mth.floor(14.25F - 4.0F * this.level().getMoonBrightness());
 	}
 
 	public float getHoldingItemAnimationProgress(float progress) {
@@ -391,7 +390,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	}
 
 	@Override
-	public void addAdditionalSaveData(@NotNull CompoundTag nbt) {
+	public void addAdditionalSaveData(CompoundTag nbt) {
 		super.addAdditionalSaveData(nbt);
 		this.writeInventoryToTag(nbt);
 		nbt.putInt("DuplicationCooldown", this.duplicationCooldown);
@@ -399,7 +398,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	}
 
 	@Override
-	public void readAdditionalSaveData(@NotNull CompoundTag nbt) {
+	public void readAdditionalSaveData(CompoundTag nbt) {
 		super.readAdditionalSaveData(nbt);
 		this.readInventoryFromTag(nbt);
 		this.duplicationCooldown = nbt.getInt("DuplicationCooldown");
@@ -416,7 +415,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 			--this.duplicationCooldown;
 		}
 
-		if (!this.level.isClientSide() && this.duplicationCooldown == 0L && !this.canDuplicate()) {
+		if (!this.level().isClientSide() && this.duplicationCooldown == 0L && !this.canDuplicate()) {
 			this.entityData.set(DATA_CAN_DUPLICATE, true);
 		}
 	}
@@ -426,13 +425,13 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	}
 
 	private void duplicateLumine() {
-		LumineEntity lumine = ECEntities.LUMINE.create(this.level);
+		LumineEntity lumine = ECEntities.LUMINE.create(this.level());
 		if (lumine != null) {
 			lumine.moveTo(this.position());
 			lumine.setPersistenceRequired();
 			lumine.resetDuplicationCooldown();
 			this.resetDuplicationCooldown();
-			this.level.addFreshEntity(lumine);
+			this.level().addFreshEntity(lumine);
 		}
 	}
 
@@ -451,7 +450,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 		}
 	}
 
-	@Override @NotNull
+	@Override
 	public Vec3 getLeashOffset() {
 		return new Vec3(0.0D, (double)this.getEyeHeight() * 0.6D, (double)this.getBbWidth() * 0.1D);
 	}
@@ -476,6 +475,6 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 		double d0 = this.random.nextGaussian() * 0.02D;
 		double d1 = this.random.nextGaussian() * 0.02D;
 		double d2 = this.random.nextGaussian() * 0.02D;
-		this.level.addParticle(ParticleTypes.HEART, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), d0, d1, d2);
+		this.level().addParticle(ParticleTypes.HEART, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), d0, d1, d2);
 	}
 }

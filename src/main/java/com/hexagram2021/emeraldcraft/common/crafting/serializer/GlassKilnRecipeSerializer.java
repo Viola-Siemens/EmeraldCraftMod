@@ -9,7 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -23,8 +22,8 @@ public class GlassKilnRecipeSerializer<T extends GlassKilnRecipe> implements Rec
 	}
 
 	@SuppressWarnings("deprecation")
-	@Override @NotNull
-	public T fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
+	@Override
+	public T fromJson(ResourceLocation id, JsonObject json) {
 		String group = GsonHelper.getAsString(json, "group", "");
 		String category = GsonHelper.getAsString(json, "category", "");
 		JsonElement jsonelement =
@@ -50,7 +49,7 @@ public class GlassKilnRecipeSerializer<T extends GlassKilnRecipe> implements Rec
 	}
 
 	@Override @Nullable
-	public T fromNetwork(@NotNull ResourceLocation id, FriendlyByteBuf buf) {
+	public T fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		String category = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);

@@ -6,7 +6,6 @@ import com.google.common.cache.LoadingCache;
 import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
 import com.hexagram2021.emeraldcraft.common.crafting.MelterRecipe;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -20,6 +19,7 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -98,19 +98,19 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 	}
 
 	@Override
-	public void draw(MelterRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double mouseX, double mouseY) {
-		this.animatedFlame.draw(poseStack, 1, 20);
+	public void draw(MelterRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics transform, double mouseX, double mouseY) {
+		this.animatedFlame.draw(transform, 1, 20);
 
-		IDrawableAnimated arrow = getArrow(recipe);
-		arrow.draw(poseStack, 24, 18);
-		drawCookTime(recipe, poseStack, 22);
-		drawFluidAmount(recipe, poseStack, 48);
+		IDrawableAnimated arrow = this.getArrow(recipe);
+		arrow.draw(transform, 24, 18);
+		this.drawCookTime(recipe, transform, 22);
+		this.drawFluidAmount(recipe, transform, 48);
 
-		this.resultFluids[recipe.getFluidType().getGUIID()].draw(poseStack, 65, 2);
+		this.resultFluids[recipe.getFluidType().getGUIID()].draw(transform, 65, 2);
 	}
 
 	@SuppressWarnings("SameParameterValue")
-	protected void drawCookTime(MelterRecipe recipe, PoseStack poseStack, int y) {
+	protected void drawCookTime(MelterRecipe recipe, GuiGraphics transform, int y) {
 		int meltTime = recipe.getMeltingTime();
 		if (meltTime > 0) {
 			int cookTimeSeconds = meltTime / 20;
@@ -118,19 +118,19 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(timeString);
-			fontRenderer.draw(poseStack, timeString, this.background.getWidth() - stringWidth, y, 0xFF808080);
+			transform.drawString(fontRenderer, timeString, this.background.getWidth() - stringWidth, y, 0xFF808080);
 		}
 	}
 
 	@SuppressWarnings("SameParameterValue")
-	protected void drawFluidAmount(MelterRecipe recipe, PoseStack poseStack, int y) {
+	protected void drawFluidAmount(MelterRecipe recipe, GuiGraphics transform, int y) {
 		int fluidAmount = recipe.getFluidAmount();
 		if (fluidAmount > 0) {
 			Component amountString = Component.translatable("gui.emeraldcraft.melter.fluid.amount", String.format("%.2f", fluidAmount / 100.0F));
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(amountString);
-			fontRenderer.draw(poseStack, amountString, this.background.getWidth() - stringWidth, y, 0xFF808080);
+			transform.drawString(fontRenderer, amountString, this.background.getWidth() - stringWidth, y, 0xFF808080);
 		}
 	}
 

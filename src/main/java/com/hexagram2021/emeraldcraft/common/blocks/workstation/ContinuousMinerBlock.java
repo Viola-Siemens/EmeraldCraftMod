@@ -4,9 +4,12 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.hexagram2021.emeraldcraft.common.blocks.entity.ContinuousMinerBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
-import net.minecraft.core.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.*;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -21,13 +24,11 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -51,10 +52,8 @@ public class ContinuousMinerBlock extends BaseEntityBlock {
 			Direction.WEST, Block.box(-6, 2, 0, 3, 11, 16)
 	));
 
-	public static final Supplier<Properties> PROPERTIES = () -> Block.Properties.of(Material.METAL)
-			.sound(SoundType.METAL)
-			.requiresCorrectToolForDrops()
-			.strength(3.5F);
+	public static final Supplier<Properties> PROPERTIES = () -> Block.Properties.of()
+			.requiresCorrectToolForDrops().strength(3.5F).sound(SoundType.METAL);
 
 	public ContinuousMinerBlock(BlockBehaviour.Properties properties) {
 		super(properties);
@@ -63,23 +62,23 @@ public class ContinuousMinerBlock extends BaseEntityBlock {
 	}
 
 	@Override @Nullable
-	public BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState) {
+	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
 		return new ContinuousMinerBlockEntity(blockPos, blockState);
 	}
 
-	@Override @NotNull
-	public VoxelShape getShape(BlockState blockState, @NotNull BlockGetter level, @NotNull BlockPos blockPos, @NotNull CollisionContext context) {
+	@Override
+	public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos blockPos, CollisionContext context) {
 		return MINER_MAIN.get(blockState.getValue(FACING));
 	}
 
-	@Override @NotNull
-	public VoxelShape getCollisionShape(BlockState blockState, @NotNull BlockGetter level, @NotNull BlockPos blockPos, @NotNull CollisionContext context) {
+	@Override
+	public VoxelShape getCollisionShape(BlockState blockState, BlockGetter level, BlockPos blockPos, CollisionContext context) {
 		return Shapes.or(MINER_MAIN.get(blockState.getValue(FACING)), ROCK_BREAKER.get(blockState.getValue(FACING)));
 	}
 
-	@Override @NotNull
-	public InteractionResult use(@NotNull BlockState blockState, Level level, @NotNull BlockPos blockPos, @NotNull Player player,
-								 @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
+	@Override
+	public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player,
+								 InteractionHand interactionHand, BlockHitResult blockHitResult) {
 		if (level.isClientSide) {
 			return InteractionResult.SUCCESS;
 		}
@@ -89,22 +88,22 @@ public class ContinuousMinerBlock extends BaseEntityBlock {
 
 	@Nullable
 	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
 		return createContinuousMinerTicker(level, type, ECBlockEntity.CONTINUOUS_MINER.get());
 	}
 
 	@Override
-	public void onPlace(BlockState blockState, Level level, @NotNull BlockPos blockPos, @NotNull BlockState neighbor, boolean v) {
+	public void onPlace(BlockState blockState, Level level, BlockPos blockPos, BlockState neighbor, boolean v) {
 		level.setBlock(blockPos, blockState.setValue(TRIGGERED, level.hasNeighborSignal(blockPos) || level.hasNeighborSignal(blockPos.above())), Block.UPDATE_CLIENTS);
 	}
 
 	@Override
-	public void neighborChanged(BlockState blockState, Level level, @NotNull BlockPos blockPos, @NotNull Block block, @NotNull BlockPos neighbor, boolean v) {
+	public void neighborChanged(BlockState blockState, Level level, BlockPos blockPos, Block block, BlockPos neighbor, boolean v) {
 		level.setBlock(blockPos, blockState.setValue(TRIGGERED, level.hasNeighborSignal(blockPos) || level.hasNeighborSignal(blockPos.above())), Block.UPDATE_CLIENTS);
 	}
 
 	@Override
-	public void onRemove(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, BlockState newBlockState, boolean b) {
+	public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState newBlockState, boolean b) {
 		if (!blockState.is(newBlockState.getBlock())) {
 			BlockEntity blockentity = level.getBlockEntity(blockPos);
 			if (blockentity instanceof ContinuousMinerBlockEntity continuousMinerBlockEntity) {
@@ -124,18 +123,18 @@ public class ContinuousMinerBlock extends BaseEntityBlock {
 		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
 	}
 
-	@Override @NotNull
+	@Override
 	public BlockState rotate(BlockState blockState, Rotation rotation) {
 		return blockState.setValue(FACING, rotation.rotate(blockState.getValue(FACING)));
 	}
 
-	@Override @NotNull
+	@Override
 	public BlockState mirror(BlockState blockState, Mirror rotation) {
 		return blockState.rotate(rotation.getRotation(blockState.getValue(FACING)));
 	}
 
-	@Override @NotNull
-	public RenderShape getRenderShape(@NotNull BlockState blockState) {
+	@Override
+	public RenderShape getRenderShape(BlockState blockState) {
 		return RenderShape.MODEL;
 	}
 
@@ -145,7 +144,7 @@ public class ContinuousMinerBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	public boolean isPathfindable(@NotNull BlockState state, @NotNull BlockGetter getter, @NotNull BlockPos blockPos, @NotNull PathComputationType type) {
+	public boolean isPathfindable(BlockState state, BlockGetter getter, BlockPos blockPos, PathComputationType type) {
 		return false;
 	}
 

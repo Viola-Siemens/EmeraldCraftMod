@@ -6,15 +6,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 public class StickFoodItem extends Item {
 	public StickFoodItem(Properties props) {
 		super(props);
 	}
 
-	@Override @NotNull
-	public ItemStack finishUsingItem(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull LivingEntity entity) {
+	@Override
+	public ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity entity) {
 		super.finishUsingItem(itemStack, level, entity);
 		if(itemStack.isEmpty()) {
 			return new ItemStack(Items.STICK);
