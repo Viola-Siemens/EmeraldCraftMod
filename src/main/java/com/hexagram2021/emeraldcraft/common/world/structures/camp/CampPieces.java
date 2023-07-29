@@ -64,7 +64,7 @@ public class CampPieces {
 
 	public static class CampPiece extends TemplateStructurePiece {
 		public CampPiece(StructureTemplateManager structureManager, ResourceLocation location, BlockPos pos, Rotation rotation) {
-			super(ECStructurePieceTypes.CAMP_TYPE, 0, structureManager, location, location.toString(), makeSettings(rotation), pos);
+			super(ECStructurePieceTypes.CAMP_TYPE, 0, structureManager, location, location.toString(), makeSettings(rotation), pos.offset(-3, 0, -3));
 		}
 
 		public CampPiece(StructurePieceSerializationContext context, CompoundTag tag) {

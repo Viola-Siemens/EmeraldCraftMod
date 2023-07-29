@@ -2,5 +2,6 @@
   "type": "emeraldcraft:hollow_tree",
   "biomes": "#emeraldcraft:has_structure/hollow_tree",
   "spawn_overrides": {},
-  "step": "surface_structures"
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin"
 }

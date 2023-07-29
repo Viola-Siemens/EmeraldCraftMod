@@ -3,5 +3,6 @@
   "biomes": "#emeraldcraft:has_structure/camp_snow",
   "camp_type": "SNOW",
   "spawn_overrides": {},
-  "step": "surface_structures"
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin"
 }

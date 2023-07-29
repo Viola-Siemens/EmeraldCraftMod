@@ -27,7 +27,7 @@ public class ShelterPieces {
 
 	public static class ShelterPiece extends TemplateStructurePiece {
 		public ShelterPiece(StructureTemplateManager structureManager, ResourceLocation location, BlockPos pos, Rotation rotation) {
-			super(ECStructurePieceTypes.SHELTER_TYPE, 0, structureManager, location, location.toString(), makeSettings(rotation), pos);
+			super(ECStructurePieceTypes.SHELTER_TYPE, 0, structureManager, location, location.toString(), makeSettings(rotation), pos.offset(-5, -1, -5));
 		}
 
 		public ShelterPiece(StructurePieceSerializationContext context, CompoundTag tag) {

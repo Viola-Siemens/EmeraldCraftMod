@@ -27,7 +27,7 @@ public class HollowTreePieces {
 
 	public static class HollowTreePiece extends TemplateStructurePiece {
 		public HollowTreePiece(StructureTemplateManager structureManager, ResourceLocation location, BlockPos pos, Rotation rotation) {
-			super(ECStructurePieceTypes.HOLLOW_TREE_TYPE, 0, structureManager, location, location.toString(), makeSettings(rotation), pos);
+			super(ECStructurePieceTypes.HOLLOW_TREE_TYPE, 0, structureManager, location, location.toString(), makeSettings(rotation), pos.offset(-6, 0, -7));
 		}
 
 		public HollowTreePiece(StructurePieceSerializationContext context, CompoundTag tag) {

@@ -42,6 +42,7 @@ public class ECContent {
 		ECRecipeSerializer.init(bus);
 		ECContainerTypes.init(bus);
 		ECBlockEntity.init(bus);
+		ECCreativeModeTabs.init(bus);
 		ECPlacementModifierType.init(bus);
 		ECEnchantments.init(bus);
 		ECConfiguredFeatureKeys.init();
