@@ -60,7 +60,7 @@ public class ECFoods {
 					.build();
 
 	public static final FoodProperties BOILED_EGG =
-			new FoodProperties.Builder().nutrition(2).saturationMod(0.6F).build();
+			new FoodProperties.Builder().nutrition(2).saturationMod(0.6F).meat().build();
 
 	public static final FoodProperties CHORUS_FLOWER_EGGDROP_SOUP =
 			new FoodProperties.Builder().nutrition(3).saturationMod(1.2F).build();
@@ -89,9 +89,9 @@ public class ECFoods {
 	public static final FoodProperties COOKED_SNAKEHEAD =
 			new FoodProperties.Builder().nutrition(5).saturationMod(0.6F).build();
 	public static final FoodProperties SAUSAGE =
-			new FoodProperties.Builder().nutrition(4).saturationMod(0.6F).build();
+			new FoodProperties.Builder().nutrition(4).saturationMod(0.6F).meat().build();
 	public static final FoodProperties COOKED_SAUSAGE =
-			new FoodProperties.Builder().nutrition(8).saturationMod(1.2F).build();
+			new FoodProperties.Builder().nutrition(8).saturationMod(1.2F).meat().build();
 	public static final FoodProperties GLUTEN =
 			new FoodProperties.Builder().nutrition(4).saturationMod(0.8F).build();
 	public static final FoodProperties WARDEN_HEART =
