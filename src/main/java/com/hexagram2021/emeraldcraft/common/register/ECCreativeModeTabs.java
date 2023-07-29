@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -21,7 +22,7 @@ public class ECCreativeModeTabs {
 	public static RegistryObject<CreativeModeTab> BUILDING_BLOCKS = register(
 			"building_blocks",
 			Component.translatable("itemGroup.emeraldcraft.building_blocks"),
-			() -> new ItemStack(ECBlocks.TO_STAIRS.get(new ResourceLocation(ResourceLocation.DEFAULT_NAMESPACE, "emerald_block"))),
+			() -> new ItemStack(ECBlocks.TO_STAIRS.get(new ResourceLocation("emerald_block"))),
 			(flags, output) -> ECItems.ItemEntry.BUILDING_BLOCKS.forEach(output::accept)
 	);
 	public static RegistryObject<CreativeModeTab> FUNCTIONAL_BLOCKS_AND_MATERIALS = register(
@@ -44,7 +45,8 @@ public class ECCreativeModeTabs {
 	);
 
 	private static RegistryObject<CreativeModeTab> register(String name, Component title, Supplier<ItemStack> icon, CreativeModeTab.DisplayItemsGenerator generator) {
-		return REGISTER.register(name, () -> CreativeModeTab.builder().title(title).icon(icon).displayItems(generator).build());
+		return REGISTER.register(name, () -> CreativeModeTab.builder().withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
+				.title(title).icon(icon).displayItems(generator).build());
 	}
 
 	public static void init(IEventBus bus) {
