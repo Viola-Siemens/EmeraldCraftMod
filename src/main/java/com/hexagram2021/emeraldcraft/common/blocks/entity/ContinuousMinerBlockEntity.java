@@ -166,6 +166,8 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 			rl = new ResourceLocation(MODID, "continuous_miner/wood/mangrove_logs");
 		} else if (blockState.is(BlockTags.BAMBOO_BLOCKS)) {
 			rl = new ResourceLocation(MODID, "continuous_miner/wood/bamboo_blocks");
+		} else if (blockState.is(BlockTags.CHERRY_LOGS)) {
+			rl = new ResourceLocation(MODID, "continuous_miner/wood/cherry_logs");
 		} else if (blockState.is(BlockTags.CRIMSON_STEMS)) {
 			rl = new ResourceLocation(MODID, "continuous_miner/wood/crimson_stems");
 		} else if (blockState.is(BlockTags.WARPED_STEMS)) {

@@ -12,32 +12,37 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 36,
+          "weight": 37,
           "name": "minecraft:salmon"
         },
         {
           "type": "minecraft:item",
-          "weight": 18,
+          "weight": 17,
           "name": "minecraft:tropical_fish"
         },
         {
           "type": "minecraft:item",
-          "weight": 8,
+          "weight": 9,
+          "name": "emeraldcraft:snakehead"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 6,
           "name": "emeraldcraft:herring"
         },
         {
           "type": "minecraft:item",
-          "weight": 8,
+          "weight": 6,
           "name": "emeraldcraft:purple_spotted_bigeye"
         },
         {
           "type": "minecraft:item",
-          "weight": 19,
+          "weight": 18,
           "name": "minecraft:pufferfish"
         },
         {
           "type": "minecraft:item",
-          "weight": 17,
+          "weight": 15,
           "name": "minecraft:lily_pad"
         },
         {
@@ -52,12 +57,12 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 19,
+          "weight": 18,
           "name": "minecraft:rotten_flesh"
         },
         {
           "type": "minecraft:item",
-          "weight": 18,
+          "weight": 17,
           "name": "minecraft:ink_sac"
         },
         {
