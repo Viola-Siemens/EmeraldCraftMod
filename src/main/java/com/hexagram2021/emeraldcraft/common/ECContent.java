@@ -1,8 +1,12 @@
 package com.hexagram2021.emeraldcraft.common;
 
+import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
 import com.hexagram2021.emeraldcraft.common.crafting.compat.ModsLoadedEventSubscriber;
 import com.hexagram2021.emeraldcraft.common.register.*;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
+import com.hexagram2021.emeraldcraft.common.world.compat.ECNetherBiomeRegion;
+import com.hexagram2021.emeraldcraft.common.world.compat.ECOverworldBiomeRegion;
+import com.hexagram2021.emeraldcraft.common.world.surface.ECSurfaceRules;
 import com.hexagram2021.emeraldcraft.common.world.village.Villages;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.WaterAnimal;
@@ -13,6 +17,8 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.registries.RegisterEvent;
+import terrablender.api.Regions;
+import terrablender.api.SurfaceRuleManager;
 
 import java.util.function.Consumer;
 
@@ -46,11 +52,14 @@ public class ECContent {
 		ECStructureKeys.init();
 		ECStructureSetKeys.init();
 
-		runLater.accept(ModsLoadedEventSubscriber::solveCompat);
+		runLater.accept(ModsLoadedEventSubscriber::SolveCompat);
 	}
 
 	public static void init() {
-		ModsLoadedEventSubscriber.solveTerraBlender();
+		SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, ECSurfaceRules.overworld());
+		SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.NETHER, MODID, ECSurfaceRules.nether());
+		Regions.register(new ECOverworldBiomeRegion(ECCommonConfig.EMERALD_CRAFT_OVERWORLD_BIOMES_WEIGHT.get()));
+		Regions.register(new ECNetherBiomeRegion(ECCommonConfig.EMERALD_CRAFT_NETHER_BIOMES_WEIGHT.get()));
 	}
 
 	@SubscribeEvent
