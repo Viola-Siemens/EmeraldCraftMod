@@ -1,21 +1,16 @@
 package com.hexagram2021.emeraldcraft.common.crafting.compat.jei;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import com.hexagram2021.emeraldcraft.api.tradable.TradeListingUtils;
 import com.hexagram2021.emeraldcraft.client.screens.GlassKilnScreen;
 import com.hexagram2021.emeraldcraft.client.screens.IceMakerScreen;
 import com.hexagram2021.emeraldcraft.client.screens.MelterScreen;
 import com.hexagram2021.emeraldcraft.client.screens.MineralTableScreen;
 import com.hexagram2021.emeraldcraft.common.blocks.entity.RabbleFurnaceBlockEntity;
-import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
 import com.hexagram2021.emeraldcraft.common.crafting.*;
 import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.*;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
 import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
 import com.hexagram2021.emeraldcraft.common.util.ECLogger;
-import com.hexagram2021.emeraldcraft.common.util.TradeUtil;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -25,17 +20,13 @@ import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 

@@ -81,11 +81,13 @@ public class MelterRecipe implements Recipe<Container> {
 		return this.meltingTime;
 	}
 
+	@SuppressWarnings("NullableProblems")
 	@Override @Nullable
 	public ItemStack assemble(Container container, RegistryAccess registryAccess) {
 		return null;
 	}
-
+	
+	@SuppressWarnings("NullableProblems")
 	@Override @Nullable
 	public ItemStack getResultItem(RegistryAccess registryAccess) {
 		return null;

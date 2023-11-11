@@ -4,6 +4,7 @@ import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
 
 public class ECEntityActionPacketActions {
+	@SuppressWarnings("NotNullFieldNotInitialized")
 	public static ServerboundPlayerCommandPacket.Action RIDING_FLY;
 
 	static {

@@ -94,7 +94,7 @@ public enum FluidTypes implements FluidType {
 	public static int getID(FluidType fluidType) {
 		int ret = FLUID_TYPES.indexOf(fluidType);
 		if(ret == -1) {
-			throw new IllegalArgumentException("Cannot find fluid type [" + fluidType.toString() + "]");
+			throw new IllegalArgumentException("Cannot find fluid type [" + fluidType + "]");
 		}
 		return ret;
 	}
