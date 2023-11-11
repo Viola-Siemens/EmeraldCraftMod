@@ -50,7 +50,7 @@ public class ECCommonConfig {
 
 	static {
 		BUILDER.push("emeraldcraft-common-config");
-			BUILDER.comment("You can determine whether each biome can generate in the world or not.");
+			BUILDER.comment("You can determine whether each biome can generate in the world or not (enabled only if you install terrablender).");
 				BUILDER.push("biomes-generation");
 				EMERALD_CRAFT_OVERWORLD_BIOMES_WEIGHT = BUILDER.defineInRange("EMERALD_CRAFT_OVERWORLD_BIOMES_WEIGHT", 40, 0, 65536);
 				EMERALD_CRAFT_NETHER_BIOMES_WEIGHT = BUILDER.defineInRange("EMERALD_CRAFT_NETHER_BIOMES_WEIGHT", 40, 0, 65536);

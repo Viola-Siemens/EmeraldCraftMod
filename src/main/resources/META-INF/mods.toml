@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[46,)"
+loaderVersion="[47,)"
 license="MIT"
 issueTrackerURL="https://github.com/Viola-Siemens/EmeraldCraftMod/issues"
 
@@ -23,20 +23,20 @@ You can also do the emerald craft, the gold craft, and even craft some "trash" i
 [[dependencies.emeraldcraft]]
     modId="forge"
     mandatory=true
-    versionRange="[46,)"
+    versionRange="[47,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.emeraldcraft]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.20,1.21)"
+    versionRange="[1.20.1,1.21)"
     ordering="NONE"
     side="BOTH"
     
 [[dependencies.emeraldcraft]]
     modId="terrablender"
-    mandatory=true
-    versionRange="[3.0.0.163,)"
+    mandatory=false
+    versionRange="[3.0.0.164,)"
     ordering="NONE"
     side="BOTH"

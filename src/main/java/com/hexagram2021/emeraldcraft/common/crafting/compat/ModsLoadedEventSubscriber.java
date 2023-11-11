@@ -3,11 +3,13 @@ package com.hexagram2021.emeraldcraft.common.crafting.compat;
 import com.hexagram2021.emeraldcraft.common.crafting.compat.create.CreateFluidTypes;
 import com.hexagram2021.emeraldcraft.common.crafting.compat.example.EmeraldCraftContinuousMinerBlocks;
 import com.hexagram2021.emeraldcraft.common.crafting.compat.immersive_engineering.IEFluidTypes;
+import com.hexagram2021.emeraldcraft.common.world.compat.TerraBlenderUtils;
 import net.minecraftforge.fml.ModList;
 
 public class ModsLoadedEventSubscriber {
 	public static boolean CREATE = false;
 	public static boolean IE = false;
+	public static boolean TERRABLENDER = false;
 
 	public static void compatModLoaded() {
 		ModList modList = ModList.get();
@@ -17,9 +19,12 @@ public class ModsLoadedEventSubscriber {
 		if(modList.isLoaded( "immersiveengineering")) {
 			IE = true;
 		}
+		if(modList.isLoaded("terrablender")) {
+			TERRABLENDER = true;
+		}
 	}
 
-	public static void SolveCompat() {
+	public static void solveCompat() {
 		if(CREATE) {
 			CreateFluidTypes.init();
 		}
@@ -28,5 +33,11 @@ public class ModsLoadedEventSubscriber {
 		}
 
 		EmeraldCraftContinuousMinerBlocks.init();
+	}
+	
+	public static void solveTerraBlender() {
+		if(TERRABLENDER) {
+			TerraBlenderUtils.init();
+		}
 	}
 }
