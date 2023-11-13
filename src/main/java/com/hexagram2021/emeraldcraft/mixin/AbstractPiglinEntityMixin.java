@@ -3,11 +3,14 @@ package com.hexagram2021.emeraldcraft.mixin;
 import com.hexagram2021.emeraldcraft.common.entities.mobs.PlayerHealable;
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.piglin.AbstractPiglin;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,14 +21,19 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Mixin(AbstractPiglin.class)
-public class AbstractPiglinEntityMixin implements PlayerHealable {
+public class AbstractPiglinEntityMixin extends Monster implements PlayerHealable {
+	@SuppressWarnings("WrongEntityDataParameterClass")
 	private static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(AbstractPiglin.class, EntityDataSerializers.BYTE);
 
 	private UUID healedPlayer = Util.NIL_UUID;
 
+	protected AbstractPiglinEntityMixin(EntityType<? extends Monster> entityType, Level level) {
+		super(entityType, level);
+	}
+
 	@Inject(method = "defineSynchedData", at = @At(value = "TAIL"))
 	protected void defineFlagsData(CallbackInfo ci) {
-		((AbstractPiglin) (Object) this).getEntityData().define(DATA_FLAGS_ID, (byte)0);
+		this.getEntityData().define(DATA_FLAGS_ID, (byte)0);
 	}
 
 	@Inject(method = "addAdditionalSaveData", at = @At(value = "TAIL"))
@@ -36,22 +44,28 @@ public class AbstractPiglinEntityMixin implements PlayerHealable {
 
 	@Inject(method = "readAdditionalSaveData", at = @At(value = "TAIL"))
 	public void readPlayerHealed(CompoundTag nbt, CallbackInfo ci) {
-		if(nbt.contains("PlayerHealed", Tag.TAG_BYTE)) {
-			this.setPlayerHealed(nbt.getBoolean("PlayerHealed"));
-		}
-		if(nbt.hasUUID("PlayerHealed")) {
+		this.setPlayerHealed(nbt.getBoolean("PlayerHealed"));
+		if(nbt.hasUUID("HealedPlayer")) {
 			this.setHealedPlayer(nbt.getUUID("HealedPlayer"));
 		}
 	}
 
 	@Override
+	public boolean canAttack(LivingEntity livingEntity) {
+		if(this.isPlayerHealed() && livingEntity.getType() == EntityType.PLAYER && this.getHealedPlayer().equals(livingEntity.getUUID())) {
+			return false;
+		}
+		return super.canAttack(livingEntity);
+	}
+
+	@Override
 	public boolean isPlayerHealed() {
-		return (((AbstractPiglin) (Object) this).getEntityData().get(DATA_FLAGS_ID) & 1) != 0;
+		return (this.getEntityData().get(DATA_FLAGS_ID) & 1) != 0;
 	}
 
 	@Override
 	public void setPlayerHealed(boolean healed) {
-		SynchedEntityData entityData = ((AbstractPiglin) (Object) this).getEntityData();
+		SynchedEntityData entityData = this.getEntityData();
 		byte b0 = entityData.get(DATA_FLAGS_ID);
 		if (healed) {
 			entityData.set(DATA_FLAGS_ID, (byte)(b0 | 1));
