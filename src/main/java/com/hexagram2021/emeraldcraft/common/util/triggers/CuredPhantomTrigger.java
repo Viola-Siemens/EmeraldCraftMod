@@ -8,20 +8,17 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.level.storage.loot.LootContext;
 
+import java.util.Optional;
+
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public class CuredPhantomTrigger extends SimpleCriterionTrigger<CuredPhantomTrigger.TriggerInstance> {
-	static final ResourceLocation ID = new ResourceLocation(MODID, "cured_phantom");
+	public static final ResourceLocation ID = new ResourceLocation(MODID, "cured_phantom");
 
 	@Override
-	public ResourceLocation getId() {
-		return ID;
-	}
-
-	@Override
-	public CuredPhantomTrigger.TriggerInstance createInstance(JsonObject json, ContextAwarePredicate entity, DeserializationContext context) {
-		ContextAwarePredicate phantom = EntityPredicate.fromJson(json, "phantom", context);
-		ContextAwarePredicate manta = EntityPredicate.fromJson(json, "manta", context);
+	public CuredPhantomTrigger.TriggerInstance createInstance(JsonObject json, Optional<ContextAwarePredicate> entity, DeserializationContext context) {
+		Optional<ContextAwarePredicate> phantom = EntityPredicate.fromJson(json, "phantom", context);
+		Optional<ContextAwarePredicate> manta = EntityPredicate.fromJson(json, "manta", context);
 		return new CuredPhantomTrigger.TriggerInstance(entity, phantom, manta);
 	}
 
@@ -31,28 +28,29 @@ public class CuredPhantomTrigger extends SimpleCriterionTrigger<CuredPhantomTrig
 		this.trigger(player, instance -> instance.matches(phantomContext, mantaContext));
 	}
 
+	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	public static class TriggerInstance extends AbstractCriterionTriggerInstance {
-		private final ContextAwarePredicate phantom;
-		private final ContextAwarePredicate manta;
+		private final Optional<ContextAwarePredicate> phantom;
+		private final Optional<ContextAwarePredicate> manta;
 
-		public TriggerInstance(ContextAwarePredicate entity, ContextAwarePredicate phantom, ContextAwarePredicate manta) {
-			super(CuredPhantomTrigger.ID, entity);
+		public TriggerInstance(Optional<ContextAwarePredicate> entity, Optional<ContextAwarePredicate> phantom, Optional<ContextAwarePredicate> manta) {
+			super(entity);
 			this.phantom = phantom;
 			this.manta = manta;
 		}
 
 		public boolean matches(LootContext phantomContext, LootContext mantaContext) {
-			if (!this.phantom.matches(phantomContext)) {
+			if (this.phantom.isPresent() && !this.phantom.get().matches(phantomContext)) {
 				return false;
 			}
-			return this.manta.matches(mantaContext);
+			return this.manta.isPresent() && !this.manta.get().matches(mantaContext);
 		}
 
 		@Override
-		public JsonObject serializeToJson(SerializationContext context) {
-			JsonObject jsonobject = super.serializeToJson(context);
-			jsonobject.add("phantom", this.phantom.toJson(context));
-			jsonobject.add("manta", this.manta.toJson(context));
+		public JsonObject serializeToJson() {
+			JsonObject jsonobject = super.serializeToJson();
+			this.phantom.ifPresent(predicate -> jsonobject.add("phantom", predicate.toJson()));
+			this.manta.ifPresent(predicate -> jsonobject.add("manta", predicate.toJson()));
 			return jsonobject;
 		}
 	}

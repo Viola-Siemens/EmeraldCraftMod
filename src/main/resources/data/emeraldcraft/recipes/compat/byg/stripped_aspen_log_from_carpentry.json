@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:aspen_log"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:aspen_log"
+  },
   "result": "byg:stripped_aspen_log",
   "count": 1
 }

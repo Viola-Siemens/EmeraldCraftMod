@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_fence_gate",
-  "ingredients": [
-    {
-      "item": "emeraldcraft:ginkgo_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "emeraldcraft:ginkgo_planks"
+  },
   "result": "emeraldcraft:ginkgo_fence_gate",
   "count": 1
 }

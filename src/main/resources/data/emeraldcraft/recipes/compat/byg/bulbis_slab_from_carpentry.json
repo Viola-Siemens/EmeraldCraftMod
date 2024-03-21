@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_slab",
-  "ingredients": [
-    {
-      "item": "byg:bulbis_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:bulbis_planks"
+  },
   "result": "byg:bulbis_slab",
   "count": 2
 }

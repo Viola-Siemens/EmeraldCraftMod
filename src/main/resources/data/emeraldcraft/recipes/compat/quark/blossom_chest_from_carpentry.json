@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "chest",
-  "ingredients": [
-    {
-      "tag": "quark:blossom_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "quark:blossom_logs"
+  },
   "result": "quark:blossom_chest",
   "count": 1
 }

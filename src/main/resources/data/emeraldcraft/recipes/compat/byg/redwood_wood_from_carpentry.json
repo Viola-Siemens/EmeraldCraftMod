@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:redwood_log"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:redwood_log"
+  },
   "result": "byg:redwood_wood",
   "count": 1
 }

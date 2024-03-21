@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_slab",
-  "ingredients": [
-    {
-      "item": "byg:imparius_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:imparius_planks"
+  },
   "result": "byg:imparius_slab",
   "count": 2
 }

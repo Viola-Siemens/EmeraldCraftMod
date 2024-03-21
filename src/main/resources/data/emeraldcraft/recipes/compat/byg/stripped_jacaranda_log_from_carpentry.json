@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:jacaranda_log"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:jacaranda_log"
+  },
   "result": "byg:stripped_jacaranda_log",
   "count": 1
 }

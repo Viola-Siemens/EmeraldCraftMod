@@ -2,6 +2,7 @@ package com.hexagram2021.emeraldcraft.common.crafting.cache;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -28,15 +29,13 @@ public class CachedRecipeList<R extends Recipe<?>> {
 	private static int reloadCount = 0;
 
 	private final Supplier<RecipeType<R>> type;
-	private final Class<R> recipeClass;
 	@Nullable
-	private Map<ResourceLocation, R> recipes;
+	private Map<ResourceLocation, RecipeHolder<R>> recipes;
 	private boolean cachedDataIsClient;
 	private int cachedAtReloadCount = INVALID_RELOAD_COUNT;
 
-	public CachedRecipeList(Supplier<RecipeType<R>> type, Class<R> recipeClass) {
+	public CachedRecipeList(Supplier<RecipeType<R>> type) {
 		this.type = type;
-		this.recipeClass = recipeClass;
 	}
 
 	@SubscribeEvent
@@ -53,35 +52,36 @@ public class CachedRecipeList<R extends Recipe<?>> {
 		return reloadCount;
 	}
 
-	public Collection<R> getRecipes(Level level) {
-		updateCache(level.getRecipeManager(), level.isClientSide());
+	public Collection<RecipeHolder<R>> getRecipes(Level level) {
+		this.updateCache(level.getRecipeManager(), level.isClientSide());
 		return Objects.requireNonNull(this.recipes).values();
 	}
 
 	public Collection<ResourceLocation> getRecipeNames(Level level) {
-		updateCache(level.getRecipeManager(), level.isClientSide());
+		this.updateCache(level.getRecipeManager(), level.isClientSide());
 		return Objects.requireNonNull(this.recipes).keySet();
 	}
 
-	public R getById(Level level, ResourceLocation name) {
-		updateCache(level.getRecipeManager(), level.isClientSide());
+	public RecipeHolder<?> getById(Level level, ResourceLocation name) {
+		this.updateCache(level.getRecipeManager(), level.isClientSide());
 		return Objects.requireNonNull(this.recipes).get(name);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void updateCache(RecipeManager manager, boolean isClient) {
 		if(this.recipes != null && this.cachedAtReloadCount == reloadCount && (!this.cachedDataIsClient || isClient)) {
 			return;
 		}
 		this.recipes = manager.getRecipes().stream()
-				.filter(iRecipe -> iRecipe.getType()==type.get())
+				.filter(recipeHolder -> recipeHolder.value().getType().equals(this.type.get()))
 				.flatMap(r -> {
-					if(r instanceof IListRecipe listRecipe) {
+					if(r.value() instanceof IListRecipe listRecipe) {
 						return listRecipe.getSubRecipes().stream();
 					}
 					return Stream.of(r);
 				})
-				.map(this.recipeClass::cast)
-				.collect(Collectors.toMap(R::getId, Function.identity()));
+				.map(rh -> (RecipeHolder<R>)rh)
+				.collect(Collectors.toMap(RecipeHolder::id, Function.identity()));
 		this.cachedDataIsClient = isClient;
 		this.cachedAtReloadCount = reloadCount;
 	}

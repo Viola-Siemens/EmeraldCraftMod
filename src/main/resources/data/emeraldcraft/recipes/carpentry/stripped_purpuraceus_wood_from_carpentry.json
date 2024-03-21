@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "emeraldcraft:stripped_purpuraceus_stem"
-    }
-  ],
+  "ingredient": {
+    "item": "emeraldcraft:stripped_purpuraceus_stem"
+  },
   "result": "emeraldcraft:stripped_purpuraceus_hyphae",
   "count": 1
 }

@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:pine_log"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:pine_log"
+  },
   "result": "byg:pine_wood",
   "count": 1
 }

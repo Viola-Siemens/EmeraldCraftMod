@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:stripped_ebony_log"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:stripped_ebony_log"
+  },
   "result": "byg:stripped_ebony_wood",
   "count": 1
 }

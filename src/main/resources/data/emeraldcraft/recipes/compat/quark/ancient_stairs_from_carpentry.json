@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_stairs",
-  "ingredients": [
-    {
-      "item": "quark:ancient_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "quark:ancient_planks"
+  },
   "result": "quark:ancient_planks_stairs",
   "count": 1
 }

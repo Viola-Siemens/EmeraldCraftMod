@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "planks",
-  "ingredients": [
-    {
-      "tag": "minecraft:crimson_stems"
-    }
-  ],
+  "ingredient": {
+    "tag": "minecraft:crimson_stems"
+  },
   "result": "minecraft:crimson_planks",
   "count": 4
 }

@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_stairs",
-  "ingredients": [
-    {
-      "item": "quark:azalea_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "quark:azalea_planks"
+  },
   "result": "quark:azalea_planks_stairs",
   "count": 1
 }

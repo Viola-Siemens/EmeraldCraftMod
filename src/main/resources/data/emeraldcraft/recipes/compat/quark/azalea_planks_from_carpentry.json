@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "planks",
-  "ingredients": [
-    {
-      "tag": "quark:azalea_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "quark:azalea_logs"
+  },
   "result": "quark:azalea_planks",
   "count": 4
 }

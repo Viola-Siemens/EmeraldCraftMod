@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "planks",
-  "ingredients": [
-    {
-      "tag": "byg:bulbis_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:bulbis_logs"
+  },
   "result": "byg:bulbis_planks",
   "count": 4
 }

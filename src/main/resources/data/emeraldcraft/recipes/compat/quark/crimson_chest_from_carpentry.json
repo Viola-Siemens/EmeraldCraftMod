@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "chest",
-  "ingredients": [
-    {
-      "tag": "minecraft:crimson_stems"
-    }
-  ],
+  "ingredient": {
+    "tag": "minecraft:crimson_stems"
+  },
   "result": "quark:crimson_chest",
   "count": 1
 }

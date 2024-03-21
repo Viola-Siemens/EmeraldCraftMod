@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_slab",
-  "ingredients": [
-    {
-      "item": "immersiveengineering:treated_wood_horizontal"
-    }
-  ],
+  "ingredient": {
+    "item": "immersiveengineering:treated_wood_horizontal"
+  },
   "result": "immersiveengineering:slab_treated_wood_horizontal",
   "count": 2
 }

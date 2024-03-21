@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "chest",
-  "ingredients": [
-    {
-      "tag": "minecraft:spruce_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "minecraft:spruce_logs"
+  },
   "result": "quark:spruce_chest",
   "count": 1
 }

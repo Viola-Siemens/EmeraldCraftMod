@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "quark:ancient_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "quark:ancient_logs"
+  },
   "result": "quark:ancient_boat",
   "count": 1
 }

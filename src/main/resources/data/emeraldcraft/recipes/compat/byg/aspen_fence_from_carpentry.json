@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_fence",
-  "ingredients": [
-    {
-      "item": "byg:aspen_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:aspen_planks"
+  },
   "result": "byg:aspen_fence",
   "count": 1
 }

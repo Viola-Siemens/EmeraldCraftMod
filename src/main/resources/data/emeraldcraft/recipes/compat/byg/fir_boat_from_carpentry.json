@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "byg:fir_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:fir_logs"
+  },
   "result": "byg:fir_boat",
   "count": 1
 }

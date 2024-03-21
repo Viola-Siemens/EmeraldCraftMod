@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_slab",
-  "ingredients": [
-    {
-      "item": "minecraft:jungle_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "minecraft:jungle_planks"
+  },
   "result": "minecraft:jungle_slab",
   "count": 2
 }

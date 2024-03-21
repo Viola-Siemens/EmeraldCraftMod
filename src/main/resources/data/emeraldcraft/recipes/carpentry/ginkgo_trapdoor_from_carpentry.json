@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_trapdoor",
-  "ingredients": [
-    {
-      "tag": "emeraldcraft:ginkgo_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "emeraldcraft:ginkgo_logs"
+  },
   "result": "emeraldcraft:ginkgo_trapdoor",
   "count": 2
 }

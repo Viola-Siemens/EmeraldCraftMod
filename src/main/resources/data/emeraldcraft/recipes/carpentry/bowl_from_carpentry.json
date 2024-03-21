@@ -1,10 +1,8 @@
 {
   "type": "emeraldcraft:carpentry",
-  "ingredients": [
-    {
-      "tag": "minecraft:planks"
-    }
-  ],
+  "ingredient": {
+    "tag": "minecraft:planks"
+  },
   "result": "minecraft:bowl",
   "count": 2
 }

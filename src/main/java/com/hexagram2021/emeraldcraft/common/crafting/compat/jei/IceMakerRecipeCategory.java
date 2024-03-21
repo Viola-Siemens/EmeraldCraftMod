@@ -105,12 +105,12 @@ public class IceMakerRecipeCategory implements IRecipeCategory<IceMakerRecipe> {
 		arrow.draw(transform, 90, 16);
 		this.drawCookTime(recipe, transform, 49);
 
-		this.inputFluids[recipe.getFluidType().getGUIID()].draw(transform, 72, 1);
+		this.inputFluids[recipe.inputFluid().fluidType().getGuiId()].draw(transform, 72, 1);
 	}
 
 	@SuppressWarnings("SameParameterValue")
 	protected void drawCookTime(IceMakerRecipe recipe, GuiGraphics transform, int y) {
-		int freezeTime = recipe.getFreezingTime();
+		int freezeTime = recipe.freezingTime();
 		if (freezeTime > 0) {
 			int cookTimeSeconds = freezeTime / 20;
 			Component timeString = Component.translatable("gui.emeraldcraft.ice_maker.time.seconds", cookTimeSeconds);
@@ -127,7 +127,7 @@ public class IceMakerRecipeCategory implements IRecipeCategory<IceMakerRecipe> {
 	}
 
 	protected IDrawableAnimated getArrow(IceMakerRecipe recipe) {
-		int freezeTime = recipe.getFreezingTime();
+		int freezeTime = recipe.freezingTime();
 		if (freezeTime <= 0) {
 			freezeTime = FREEZETIME;
 		}

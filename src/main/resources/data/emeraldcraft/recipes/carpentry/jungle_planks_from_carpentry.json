@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "planks",
-  "ingredients": [
-    {
-      "tag": "minecraft:jungle_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "minecraft:jungle_logs"
+  },
   "result": "minecraft:jungle_planks",
   "count": 4
 }

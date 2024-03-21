@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:palo_verde_log"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:palo_verde_log"
+  },
   "result": "byg:palo_verde_wood",
   "count": 1
 }

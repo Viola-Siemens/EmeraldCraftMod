@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_door",
-  "ingredients": [
-    {
-      "tag": "byg:imparius_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:imparius_logs"
+  },
   "result": "byg:imparius_door",
   "count": 2
 }

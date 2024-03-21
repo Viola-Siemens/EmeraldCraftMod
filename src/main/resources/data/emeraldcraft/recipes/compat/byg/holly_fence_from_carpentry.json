@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_fence",
-  "ingredients": [
-    {
-      "item": "byg:holly_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:holly_planks"
+  },
   "result": "byg:holly_fence",
   "count": 1
 }

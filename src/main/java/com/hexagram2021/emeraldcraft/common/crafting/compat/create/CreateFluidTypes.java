@@ -4,15 +4,22 @@ import com.hexagram2021.emeraldcraft.api.fluid.FluidType;
 import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
 
+import java.util.Locale;
+
 public enum CreateFluidTypes implements FluidType {
-	melted_zinc {
+	MELTED_ZINC {
 		@Override
-		public int getGUIID() {
+		public int getGuiId() {
 			return 7;
 		}
 	};
 
 	public static void init() {
-		FluidTypes.addFluidType(melted_zinc, ECItems.CreateCompatItems.MELTED_ZINC_BUCKET, ECItems.CreateCompatItems.MELTED_ZINC_BUCKET.getId());
+		FluidTypes.addFluidType(MELTED_ZINC, ECItems.CreateCompatItems.MELTED_ZINC_BUCKET, ECItems.CreateCompatItems.MELTED_ZINC_BUCKET.getId());
+	}
+
+	@Override
+	public String toString() {
+		return super.toString().toLowerCase(Locale.ROOT);
 	}
 }

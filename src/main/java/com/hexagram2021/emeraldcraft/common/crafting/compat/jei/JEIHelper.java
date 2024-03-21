@@ -23,8 +23,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -86,7 +86,7 @@ public class JEIHelper implements IModPlugin {
 	}
 
 	private static <T extends Recipe<?>> List<T> getRecipes(CachedRecipeList<T> cachedList) {
-		return new ArrayList<>(cachedList.getRecipes(Objects.requireNonNull(Minecraft.getInstance().level)));
+		return cachedList.getRecipes(Objects.requireNonNull(Minecraft.getInstance().level)).stream().map(RecipeHolder::value).toList();
 	}
 
 	@Override

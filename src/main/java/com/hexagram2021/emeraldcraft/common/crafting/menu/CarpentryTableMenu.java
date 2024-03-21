@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class CarpentryTableMenu extends AbstractContainerMenu {
 	private final ContainerLevelAccess access;
 	private final DataSlot selectedRecipeIndex = DataSlot.standalone();
 	private final Level level;
-	private List<CarpentryTableRecipe> recipes = Lists.newArrayList();
+	private List<RecipeHolder<CarpentryTableRecipe>> recipes = Lists.newArrayList();
 	private ItemStack input = ItemStack.EMPTY;
 	long lastSoundTime;
 	final Slot inputSlot;
@@ -102,7 +103,7 @@ public class CarpentryTableMenu extends AbstractContainerMenu {
 		return this.selectedRecipeIndex.get();
 	}
 
-	public List<CarpentryTableRecipe> getRecipes() {
+	public List<RecipeHolder<CarpentryTableRecipe>> getRecipes() {
 		return this.recipes;
 	}
 
@@ -150,13 +151,13 @@ public class CarpentryTableMenu extends AbstractContainerMenu {
 		if (!itemStack.isEmpty()) {
 			this.recipes = this.level.getRecipeManager().getRecipesFor(ECRecipes.CARPENTRY_TABLE_TYPE.get(), container, this.level);
 		}
-
 	}
 
 	void setupResultSlot() {
 		if (!this.recipes.isEmpty() && this.isValidRecipeIndex(this.selectedRecipeIndex.get())) {
-			CarpentryTableRecipe carpentrytableRecipe = this.recipes.get(this.selectedRecipeIndex.get());
-			this.resultContainer.setRecipeUsed(carpentrytableRecipe);
+			RecipeHolder<CarpentryTableRecipe> recipeHolder = this.recipes.get(this.selectedRecipeIndex.get());
+			CarpentryTableRecipe carpentrytableRecipe = recipeHolder.value();
+			this.resultContainer.setRecipeUsed(recipeHolder);
 			this.resultSlot.set(carpentrytableRecipe.assemble(this.container, this.level.registryAccess()));
 		} else {
 			this.resultSlot.set(ItemStack.EMPTY);

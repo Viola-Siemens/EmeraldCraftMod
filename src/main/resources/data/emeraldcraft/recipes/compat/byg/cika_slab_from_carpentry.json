@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_slab",
-  "ingredients": [
-    {
-      "item": "byg:cika_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:cika_planks"
+  },
   "result": "byg:cika_slab",
   "count": 2
 }

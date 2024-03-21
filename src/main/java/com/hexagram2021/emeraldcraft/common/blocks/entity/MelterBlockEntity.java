@@ -24,27 +24,32 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.RecipeHolder;
+import net.minecraft.world.inventory.RecipeCraftingHolder;
 import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 import static com.hexagram2021.emeraldcraft.common.blocks.entity.ContinuousMinerBlockEntity.FLUID_LEVEL_BUCKET;
 
-public class MelterBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeHolder, StackedContentsCompatible {
+@SuppressWarnings("UnstableApiUsage")
+public class MelterBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeCraftingHolder, StackedContentsCompatible {
 	public static final int MAX_FLUID_LEVEL = 1000;
 
 	private static final int[] SLOTS_FOR_UP = new int[]{2, 0};
@@ -88,9 +93,11 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 		}
 	};
 	private final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
+	private final RecipeManager.CachedCheck<Container, MelterRecipe> quickCheck;
 
 	public MelterBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntity.MELTER.get(), pos, state);
+		this.quickCheck = RecipeManager.createCheck(ECRecipes.MELTER_TYPE.get());
 	}
 
 	private boolean isLit() {
@@ -98,22 +105,29 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState blockState, MelterBlockEntity blockEntity) {
-		boolean flag = blockEntity.isLit();
-		boolean flag1 = false;
+		boolean isBurning = blockEntity.isLit();
+		boolean changed = false;
 		if (blockEntity.isLit()) {
 			--blockEntity.litTime;
 		}
 
 		ItemStack fuelItemStack = blockEntity.items.get(MelterMenu.FUEL_SLOT);
-		if (blockEntity.isLit() || !fuelItemStack.isEmpty() && !blockEntity.items.get(MelterMenu.INGREDIENT_SLOT).isEmpty()) {
-			MelterRecipe recipe = level.getRecipeManager().getRecipeFor(ECRecipes.MELTER_TYPE.get(), blockEntity, level).orElse(null);
-			if (!blockEntity.isLit() && blockEntity.canBurn(recipe, blockEntity.items)) {
+		boolean inputExists = !blockEntity.items.get(MelterMenu.INGREDIENT_SLOT).isEmpty();
+		boolean fuelExists = !fuelItemStack.isEmpty();
+		if (blockEntity.isLit() || fuelExists && inputExists) {
+			RecipeHolder<MelterRecipe> recipeholder;
+			if (inputExists) {
+				recipeholder = blockEntity.quickCheck.getRecipeFor(blockEntity, level).orElse(null);
+			} else {
+				recipeholder = null;
+			}
+			if (!blockEntity.isLit() && blockEntity.canBurn(recipeholder, blockEntity.items)) {
 				blockEntity.litTime = blockEntity.getBurnDuration(fuelItemStack);
 				blockEntity.litDuration = blockEntity.litTime;
 				if (blockEntity.isLit()) {
-					flag1 = true;
+					changed = true;
 					if (fuelItemStack.hasCraftingRemainingItem()) {
-							blockEntity.items.set(MelterMenu.FUEL_SLOT, fuelItemStack.getCraftingRemainingItem());
+						blockEntity.items.set(MelterMenu.FUEL_SLOT, fuelItemStack.getCraftingRemainingItem());
 					} else if (!fuelItemStack.isEmpty()) {
 						fuelItemStack.shrink(1);
 						if (fuelItemStack.isEmpty()) {
@@ -123,14 +137,14 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 				}
 			}
 
-			if (blockEntity.isLit() && blockEntity.canBurn(recipe, blockEntity.items)) {
+			if (blockEntity.isLit() && blockEntity.canBurn(recipeholder, blockEntity.items)) {
 				++blockEntity.meltingProgress;
 				if (blockEntity.meltingProgress >= blockEntity.meltingTotalTime) {
 					blockEntity.meltingProgress = 0;
 					blockEntity.meltingTotalTime = getTotalMeltTime(level, blockEntity);
-					blockEntity.burn(recipe, blockEntity.items);
+					blockEntity.burn(recipeholder, blockEntity.items);
 
-					flag1 = true;
+					changed = true;
 				}
 			} else {
 				blockEntity.meltingProgress = 0;
@@ -139,13 +153,13 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 			blockEntity.meltingProgress = Mth.clamp(blockEntity.meltingProgress - 2, 0, blockEntity.meltingTotalTime);
 		}
 
-		if (flag != blockEntity.isLit()) {
-			flag1 = true;
+		if (isBurning != blockEntity.isLit()) {
+			changed = true;
 			blockState = blockState.setValue(MelterBlock.LIT, blockEntity.isLit());
 			level.setBlock(pos, blockState, 3);
 		}
 
-		if (flag1) {
+		if (changed) {
 			setChanged(level, pos, blockState);
 		}
 
@@ -194,21 +208,25 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 		}
 	}
 
-	private boolean canBurn(@Nullable MelterRecipe recipe, NonNullList<ItemStack> container) {
-		if (recipe == null || container.get(0).isEmpty()) {
+	@Contract("null,_->false")
+	private boolean canBurn(@Nullable RecipeHolder<MelterRecipe> recipeHolder, NonNullList<ItemStack> container) {
+		if (recipeHolder == null || container.get(0).isEmpty()) {
 			return false;
 		}
-		if (FluidTypes.getID(recipe.getFluidType()) != this.fluidTypeID) {
+		MelterRecipe recipe = recipeHolder.value();
+		if (FluidTypes.getID(recipe.resultFluid().fluidType()) != this.fluidTypeID) {
 			return this.fluidAmount == 0;
 		}
-		return recipe.getFluidAmount() + this.fluidAmount <= MAX_FLUID_LEVEL;
+		return recipe.resultFluid().amount() + this.fluidAmount <= MAX_FLUID_LEVEL;
 	}
 
-	private boolean burn(@Nullable MelterRecipe recipe, NonNullList<ItemStack> container) {
-		if (this.canBurn(recipe, container)) {
+	@SuppressWarnings("UnusedReturnValue")
+	private boolean burn(@Nullable RecipeHolder<MelterRecipe> recipeHolder, NonNullList<ItemStack> container) {
+		if (this.canBurn(recipeHolder, container)) {
 			ItemStack itemstack = container.get(0);
-			this.fluidTypeID = FluidTypes.getID(recipe.getFluidType());
-			this.fluidAmount += recipe.getFluidAmount();
+			MelterRecipe recipe = recipeHolder.value();
+			this.fluidTypeID = FluidTypes.getID(recipe.resultFluid().fluidType());
+			this.fluidAmount += recipe.resultFluid().amount();
 
 			itemstack.shrink(1);
 			return true;
@@ -218,7 +236,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 
 	@Override
 	public boolean stillValid(Player player) {
-		if (this.level.getBlockEntity(this.worldPosition) != this) {
+		if (Objects.requireNonNull(this.level).getBlockEntity(this.worldPosition) != this) {
 			return false;
 		}
 		return player.distanceToSqr((double)this.worldPosition.getX() + 0.5D, (double)this.worldPosition.getY() + 0.5D, (double)this.worldPosition.getZ() + 0.5D) <= 64.0D;
@@ -302,7 +320,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 		}
 
 		if (index == 0 && !flag) {
-			this.meltingTotalTime = getTotalMeltTime(this.level, this);
+			this.meltingTotalTime = getTotalMeltTime(Objects.requireNonNull(this.level), this);
 			this.meltingProgress = 0;
 			this.setChanged();
 		}
@@ -317,18 +335,18 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 			return true;
 		}
 		ItemStack fuelItemStack = this.items.get(MelterMenu.FUEL_SLOT);
-		return net.minecraftforge.common.ForgeHooks.getBurnTime(itemStack, null) > 0 || itemStack.is(Items.BUCKET) && !fuelItemStack.is(Items.BUCKET);
+		return ForgeHooks.getBurnTime(itemStack, null) > 0 || itemStack.is(Items.BUCKET) && !fuelItemStack.is(Items.BUCKET);
 	}
 
 	protected int getBurnDuration(ItemStack itemStack) {
 		if (itemStack.isEmpty()) {
 			return 0;
 		}
-		return net.minecraftforge.common.ForgeHooks.getBurnTime(itemStack, null);
+		return ForgeHooks.getBurnTime(itemStack, null);
 	}
 
-	private static int getTotalMeltTime(Level level, Container container) {
-		return level.getRecipeManager().getRecipeFor(ECRecipes.MELTER_TYPE.get(), container, level).map(MelterRecipe::getMeltingTime).orElse(MelterRecipe.MELTING_TIME);
+	private static int getTotalMeltTime(Level level, MelterBlockEntity blockEntity) {
+		return blockEntity.quickCheck.getRecipeFor(blockEntity, level).map(recipeHolder -> recipeHolder.value().meltingTime()).orElse(MelterRecipe.MELTING_TIME);
 	}
 
 	@Override
@@ -337,24 +355,24 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	}
 
 	@Override
-	public void setRecipeUsed(@Nullable Recipe<?> recipe) {
+	public void setRecipeUsed(@Nullable RecipeHolder<?> recipe) {
 		if (recipe != null) {
-			ResourceLocation resourcelocation = recipe.getId();
+			ResourceLocation resourcelocation = recipe.id();
 			this.recipesUsed.addTo(resourcelocation, 1);
 		}
 	}
 
 	@Override @Nullable
-	public Recipe<?> getRecipeUsed() {
+	public RecipeHolder<?> getRecipeUsed() {
 		return null;
 	}
 
 	@Override
 	public void awardUsedRecipes(Player player, List<ItemStack> items) {
-		List<Recipe<?>> list = Lists.newArrayList();
+		List<RecipeHolder<?>> list = Lists.newArrayList();
 
 		for(Object2IntMap.Entry<ResourceLocation> entry : this.recipesUsed.object2IntEntrySet()) {
-			this.level.getRecipeManager().byKey(entry.getKey()).ifPresent(list::add);
+			Objects.requireNonNull(this.level).getRecipeManager().byKey(entry.getKey()).ifPresent(list::add);
 		}
 		player.awardRecipes(list);
 

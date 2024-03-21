@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "planks",
-  "ingredients": [
-    {
-      "tag": "byg:holly_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:holly_logs"
+  },
   "result": "byg:holly_planks",
   "count": 4
 }

@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "planks",
-  "ingredients": [
-    {
-      "tag": "minecraft:oak_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "minecraft:oak_logs"
+  },
   "result": "minecraft:oak_planks",
   "count": 4
 }

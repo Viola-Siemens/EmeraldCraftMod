@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_door",
-  "ingredients": [
-    {
-      "tag": "byg:maple_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:maple_logs"
+  },
   "result": "byg:maple_door",
   "count": 2
 }

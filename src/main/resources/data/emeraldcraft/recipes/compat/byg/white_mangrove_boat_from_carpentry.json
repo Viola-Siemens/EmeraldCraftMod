@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "byg:white_mangrove_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:white_mangrove_logs"
+  },
   "result": "byg:white_mangrove_boat",
   "count": 1
 }

@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "byg:cypress_logs"
-    }
-  ],
+  "ingredients": {
+    "tag": "byg:cypress_logs"
+  },
   "result": "byg:cypress_boat",
   "count": 1
 }

@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_button",
-  "ingredients": [
-    {
-      "item": "minecraft:spruce_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "minecraft:spruce_planks"
+  },
   "result": "minecraft:spruce_button",
   "count": 2
 }

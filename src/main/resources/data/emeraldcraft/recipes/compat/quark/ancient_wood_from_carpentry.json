@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "quark:ancient_log"
-    }
-  ],
+  "ingredient": {
+    "item": "quark:ancient_log"
+  },
   "result": "quark:ancient_wood",
   "count": 1
 }

@@ -26,11 +26,13 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.SuspiciousEffectHolder;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Map;
 
 public class ECTrades {
@@ -142,8 +144,7 @@ public class ECTrades {
 			this.priceMultiplier = LOW_TIER_PRICE_MULTIPLIER;
 		}
 
-		@Nullable
-		@Override
+		@Override @Nullable
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
 			ItemStack itemstack = new ItemStack(Items.WRITTEN_BOOK);
 			CompoundTag compoundtag = new CompoundTag();
@@ -174,8 +175,7 @@ public class ECTrades {
 			this.priceMultiplier = LOW_TIER_PRICE_MULTIPLIER;
 		}
 
-		@Nullable
-		@Override
+		@Override @Nullable
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
 			ItemStack itemstack = new ItemStack(this.item, this.cost);
 			return new MerchantOffer(itemstack, new ItemStack(Items.EMERALD, numberOfEmerald), this.maxUses, this.Xp, this.priceMultiplier);
@@ -203,8 +203,7 @@ public class ECTrades {
 			this.priceMultiplier = LOW_TIER_PRICE_MULTIPLIER;
 		}
 
-		@Nullable
-		@Override
+		@Override @Nullable
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
 			return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldCost), new ItemStack(this.itemStack.getItem(), this.numberOfItems), this.maxUses, this.Xp, this.priceMultiplier);
 		}
@@ -223,8 +222,7 @@ public class ECTrades {
 			this.priceMultiplier = LOW_TIER_PRICE_MULTIPLIER;
 		}
 
-		@Nullable
-		@Override
+		@Override @Nullable
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
 			ItemStack itemstack = new ItemStack(Items.PLAYER_HEAD);
 			Player lastTradedPlayer = trader.level().getNearestPlayer(trader, 12.0D);
@@ -281,8 +279,7 @@ public class ECTrades {
 			this.priceMultiplier = LOW_TIER_PRICE_MULTIPLIER;
 		}
 
-		@Nullable
-		@Override
+		@Override @Nullable
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
 			return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldCost), new ItemStack(this.fromItem.getItem(), this.fromCount), new ItemStack(this.toItem.getItem(), this.toCount), this.maxUses, this.Xp, this.priceMultiplier);
 		}
@@ -303,11 +300,10 @@ public class ECTrades {
 			this.priceMultiplier = LOW_TIER_PRICE_MULTIPLIER;
 		}
 
-		@Nullable
-		@Override
+		@Override @Nullable
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
 			ItemStack itemstack = new ItemStack(Items.SUSPICIOUS_STEW, 1);
-			SuspiciousStewItem.saveMobEffect(itemstack, this.effect, this.duration);
+			SuspiciousStewItem.saveMobEffects(itemstack, List.of(new SuspiciousEffectHolder.EffectEntry(this.effect, this.duration)));
 			return new MerchantOffer(new ItemStack(Items.EMERALD, 1), itemstack, this.maxUses, this.xp, this.priceMultiplier);
 		}
 	}
@@ -400,8 +396,7 @@ public class ECTrades {
 		}
 
 
-		@Nullable
-		@Override
+		@Override @Nullable
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
 			ItemStack itemstack = new ItemStack(this.item, this.cost);
 			return new MerchantOffer(itemstack, new ItemStack(Items.GOLD_INGOT), this.maxUses, this.Xp, this.priceMultiplier);
@@ -427,8 +422,7 @@ public class ECTrades {
 		}
 
 
-		@Nullable
-		@Override
+		@Override @Nullable
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
 			return new MerchantOffer(
 					new ItemStack(Items.GOLD_INGOT, this.goldCost),
@@ -459,8 +453,7 @@ public class ECTrades {
 			this.priceMultiplier = LOW_TIER_PRICE_MULTIPLIER;
 		}
 
-		@Nullable
-		@Override
+		@Override @Nullable
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
 			return new MerchantOffer(new ItemStack(Items.GOLD_INGOT, this.goldCost), new ItemStack(this.fromItem.getItem(), this.fromCount), new ItemStack(this.toItem.getItem(), this.toCount), this.maxUses, this.Xp, this.priceMultiplier);
 		}
@@ -482,8 +475,7 @@ public class ECTrades {
 		}
 
 
-		@Nullable
-		@Override
+		@Override @Nullable
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
 			ItemStack itemstack = new ItemStack(this.item, this.cost);
 			return new MerchantOffer(itemstack, new ItemStack(Items.NETHERITE_SCRAP), this.maxUses, this.Xp, this.priceMultiplier);
@@ -506,8 +498,7 @@ public class ECTrades {
 		}
 
 
-		@Nullable
-		@Override
+		@Override @Nullable
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
 			ItemStack itemstack = new ItemStack(this.item, this.cost);
 			return new MerchantOffer(itemstack, new ItemStack(Items.ANCIENT_DEBRIS), this.maxUses, this.Xp, this.priceMultiplier);
@@ -533,8 +524,7 @@ public class ECTrades {
 		}
 
 
-		@Nullable
-		@Override
+		@Override @Nullable
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
 			return new MerchantOffer(
 					new ItemStack(Items.ANCIENT_DEBRIS, this.debrisCost),
@@ -560,8 +550,7 @@ public class ECTrades {
 		}
 
 
-		@Nullable
-		@Override
+		@Override @Nullable
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
 			ItemStack itemstack1 = new ItemStack(this.item1);
 			ItemStack itemstack2 = new ItemStack(this.item2);

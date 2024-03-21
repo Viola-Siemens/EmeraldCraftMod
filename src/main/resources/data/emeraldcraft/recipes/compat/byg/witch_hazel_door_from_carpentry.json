@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_door",
-  "ingredients": [
-    {
-      "tag": "byg:witch_hazel_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:witch_hazel_logs"
+  },
   "result": "byg:witch_hazel_door",
   "count": 2
 }

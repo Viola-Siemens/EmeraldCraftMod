@@ -21,7 +21,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCuteyMerchantMenu> {
-	private static final ResourceLocation VILLAGER_LOCATION = new ResourceLocation("textures/gui/container/villager2.png");
+	private static final ResourceLocation OUT_OF_STOCK_SPRITE = new ResourceLocation("container/villager/out_of_stock");
+	private static final ResourceLocation EXPERIENCE_BAR_BACKGROUND_SPRITE = new ResourceLocation("container/villager/experience_bar_background");
+	private static final ResourceLocation EXPERIENCE_BAR_CURRENT_SPRITE = new ResourceLocation("container/villager/experience_bar_current");
+	private static final ResourceLocation EXPERIENCE_BAR_RESULT_SPRITE = new ResourceLocation("container/villager/experience_bar_result");
+	private static final ResourceLocation SCROLLER_SPRITE = new ResourceLocation("container/villager/scroller");
+	private static final ResourceLocation SCROLLER_DISABLED_SPRITE = new ResourceLocation("container/villager/scroller_disabled");
+	private static final ResourceLocation TRADE_ARROW_OUT_OF_STOCK_SPRITE = new ResourceLocation("container/villager/trade_arrow_out_of_stock");
+	private static final ResourceLocation TRADE_ARROW_SPRITE = new ResourceLocation("container/villager/trade_arrow");
+	private static final ResourceLocation DISCOUNT_STRIKETHRUOGH_SPRITE = new ResourceLocation("container/villager/discount_strikethrough");
+	private static final ResourceLocation VILLAGER_LOCATION = new ResourceLocation("textures/gui/container/villager.png");
 	private static final int TEXTURE_WIDTH = 512;
 	private static final int TEXTURE_HEIGHT = 256;
 	private static final int MERCHANT_MENU_PART_X = 99;
@@ -54,6 +63,7 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 		this.inventoryLabelX = 107;
 	}
 
+	@SuppressWarnings("DataFlowIssue")
 	private void postButtonClick() {
 		this.menu.setSelectionHint(this.shopItem);
 		this.menu.tryMoveItems(this.shopItem);
@@ -110,7 +120,7 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 
 			MerchantOffer merchantoffer = merchantoffers.get(k);
 			if (merchantoffer.isOutOfStock()) {
-				transform.blit(VILLAGER_LOCATION, this.leftPos + 83 + MERCHANT_MENU_PART_X, this.topPos + 35, 0, 311.0F, 0.0F, 28, 21, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+				transform.blitSprite(OUT_OF_STOCK_SPRITE, this.leftPos + 83 + MERCHANT_MENU_PART_X, this.topPos + 35, 0, 28, 21);
 			}
 		}
 
@@ -120,16 +130,16 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 		int level = this.menu.getTraderLevel();
 		int xp = this.menu.getTraderXp();
 		if (level < 5) {
-			transform.blit(VILLAGER_LOCATION, x + PROGRESS_BAR_X, y + PROGRESS_BAR_Y, 0, 0.0F, 186.0F, 102, 5, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+			transform.blitSprite(EXPERIENCE_BAR_BACKGROUND_SPRITE, x + PROGRESS_BAR_X, y + PROGRESS_BAR_Y, 0, 102, 5);
 			int k = PiglinCuteyData.getMinXpPerLevel(level);
 			if (xp >= k && PiglinCuteyData.canLevelUp(level)) {
-				float f = 100.0F / (float)(PiglinCuteyData.getMaxXpPerLevel(level) - k);
-				int progress = Math.min(Mth.floor(f * (float)(xp - k)), 100);
-				transform.blit(VILLAGER_LOCATION, x + PROGRESS_BAR_X, y + PROGRESS_BAR_Y, 0, 0.0F, 191.0F, progress + 1, 5, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+				float f = 102.0F / (float)(PiglinCuteyData.getMaxXpPerLevel(level) - k);
+				int progress = Math.min(Mth.floor(f * (float)(xp - k)), 102);
+				transform.blitSprite(EXPERIENCE_BAR_CURRENT_SPRITE, 102, 5, 0, 0, x + PROGRESS_BAR_X, y + PROGRESS_BAR_Y, 0, progress, 5);
 				int addXp = this.menu.getFutureTraderXp();
 				if (addXp > 0) {
-					int addProgress = Math.min(Mth.floor((float)addXp * f), 100 - progress);
-					transform.blit(VILLAGER_LOCATION, x + PROGRESS_BAR_X + progress + 1, y + PROGRESS_BAR_Y + 1, 0, 2.0F, 182.0F, addProgress, 3, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+					int addProgress = Math.min(Mth.floor((float)addXp * f), 102 - progress);
+					transform.blitSprite(EXPERIENCE_BAR_RESULT_SPRITE, 102, 5, 0, 0, x + PROGRESS_BAR_X + progress, y + PROGRESS_BAR_Y, 0, addProgress, 3);
 				}
 
 			}
@@ -146,16 +156,15 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 				scrollY = 113;
 			}
 
-			transform.blit(VILLAGER_LOCATION, x + SCROLL_BAR_START_X, y + SCROLL_BAR_TOP_POS_Y + scrollY, 0, 0.0F, 199.0F, SCROLLER_WIDTH, SCROLLER_HEIGHT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+			transform.blitSprite(SCROLLER_SPRITE, x + SCROLL_BAR_START_X, y + SCROLL_BAR_TOP_POS_Y + scrollY, 0, SCROLLER_WIDTH, SCROLLER_HEIGHT);
 		} else {
-			transform.blit(VILLAGER_LOCATION, x + SCROLL_BAR_START_X, y + SCROLL_BAR_TOP_POS_Y, 0, 6.0F, 199.0F, SCROLLER_WIDTH, SCROLLER_HEIGHT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+			transform.blitSprite(SCROLLER_DISABLED_SPRITE, x + SCROLL_BAR_START_X, y + SCROLL_BAR_TOP_POS_Y, 0, SCROLLER_WIDTH, SCROLLER_HEIGHT);
 		}
 
 	}
 
 	@Override
 	public void render(GuiGraphics transform, int x, int y, float partialTicks) {
-		this.renderBackground(transform);
 		super.render(transform, x, y, partialTicks);
 		MerchantOffers merchantoffers = this.menu.getOffers();
 		if (!merchantoffers.isEmpty()) {
@@ -214,10 +223,11 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 	}
 
 	private void renderButtonArrows(GuiGraphics transform, MerchantOffer offer, int x, int y) {
+		RenderSystem.enableBlend();
 		if (offer.isOutOfStock()) {
-			transform.blit(VILLAGER_LOCATION, x + SELL_ITEM_1_X + SELL_ITEM_2_X + 20, y + 3, 0, 25.0F, 171.0F, 10, 9, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+			transform.blitSprite(TRADE_ARROW_OUT_OF_STOCK_SPRITE, x + SELL_ITEM_1_X + SELL_ITEM_2_X + 20, y + 3, 0, 10, 9);
 		} else {
-			transform.blit(VILLAGER_LOCATION, x + SELL_ITEM_1_X + SELL_ITEM_2_X + 20, y + 3, 0, 15.0F, 171.0F, 10, 9, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+			transform.blitSprite(TRADE_ARROW_SPRITE, x + SELL_ITEM_1_X + SELL_ITEM_2_X + 20, y + 3, 0, 10, 9);
 		}
 	}
 
@@ -239,7 +249,7 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 			transform.pose().popPose();
 			transform.pose().pushPose();
 			transform.pose().translate(0.0F, 0.0F, 300.0F);
-			transform.blit(VILLAGER_LOCATION, x + 7, y + 12, 0, 0.0F, 176.0F, 9, 2, 512, 256);
+			transform.blitSprite(DISCOUNT_STRIKETHRUOGH_SPRITE, x + 7, y + 12, 0, 9, 2);
 			transform.pose().popPose();
 		}
 	}
@@ -249,11 +259,11 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 	}
 
 	@Override
-	public boolean mouseScrolled(double x, double y, double delta) {
+	public boolean mouseScrolled(double x, double y, double deltaX, double deltaY) {
 		int size = this.menu.getOffers().size();
 		if (this.canScroll(size)) {
 			int overSize = size - NUMBER_OF_OFFER_BUTTONS;
-			this.scrollOff = Mth.clamp((int)((double)this.scrollOff - delta), 0, overSize);
+			this.scrollOff = Mth.clamp((int)((double)this.scrollOff - deltaY), 0, overSize);
 		}
 
 		return true;

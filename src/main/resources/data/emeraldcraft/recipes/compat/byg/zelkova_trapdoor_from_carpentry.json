@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_trapdoor",
-  "ingredients": [
-    {
-      "tag": "byg:zelkova_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:zelkova_logs"
+  },
   "result": "byg:zelkova_trapdoor",
   "count": 2
 }

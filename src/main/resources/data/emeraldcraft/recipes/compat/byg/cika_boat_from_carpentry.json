@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "byg:cika_logs"
-    }
-  ],
+  "ingredients": {
+    "tag": "byg:cika_logs"
+  },
   "result": "byg:cika_boat",
   "count": 1
 }

@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "minecraft:spruce_log"
-    }
-  ],
+  "ingredient": {
+    "item": "minecraft:spruce_log"
+  },
   "result": "minecraft:spruce_wood",
   "count": 1
 }

@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_trapdoor",
-  "ingredients": [
-    {
-      "tag": "minecraft:spruce_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "minecraft:spruce_logs"
+  },
   "result": "minecraft:spruce_trapdoor",
   "count": 2
 }

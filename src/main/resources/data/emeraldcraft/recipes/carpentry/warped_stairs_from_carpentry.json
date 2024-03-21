@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_stairs",
-  "ingredients": [
-    {
-      "item": "minecraft:warped_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "minecraft:warped_planks"
+  },
   "result": "minecraft:warped_stairs",
   "count": 1
 }

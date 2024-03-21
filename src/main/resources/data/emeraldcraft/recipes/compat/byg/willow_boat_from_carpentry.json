@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "byg:willow_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:willow_logs"
+  },
   "result": "byg:willow_boat",
   "count": 1
 }

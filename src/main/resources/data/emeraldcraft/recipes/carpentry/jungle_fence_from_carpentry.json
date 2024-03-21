@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_fence",
-  "ingredients": [
-    {
-      "item": "minecraft:jungle_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "minecraft:jungle_planks"
+  },
   "result": "minecraft:jungle_fence",
   "count": 1
 }

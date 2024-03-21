@@ -3,7 +3,6 @@ package com.hexagram2021.emeraldcraft.common.util;
 import com.hexagram2021.emeraldcraft.common.crafting.TradeShadowRecipe;
 import com.hexagram2021.emeraldcraft.common.world.village.ECTrades;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.VillagerProfession;
@@ -17,7 +16,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 
-import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 public class TradeUtil {
@@ -52,8 +50,8 @@ public class TradeUtil {
 				ECLogger.warn("Duplicated trade entry: " + name);
 			} else {
 				names.add(name);
-				ResourceLocation id = new ResourceLocation(MODID, "trade_shadow/" + name);
-				shadows.add(new TradeShadowRecipe(id, costAItem, costBItem, resultItem, trader.getType(), profession, level, offer.getXp()));
+				//ResourceLocation id = new ResourceLocation(MODID, "trade_shadow/" + name);
+				shadows.add(new TradeShadowRecipe(costAItem, costBItem, resultItem, trader.getType(), profession, level, offer.getXp()));
 			}
 		}
 	}

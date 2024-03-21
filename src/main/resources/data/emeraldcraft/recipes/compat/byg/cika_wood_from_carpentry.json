@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:cika_log"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:cika_log"
+  },
   "result": "byg:cika_wood",
   "count": 1
 }

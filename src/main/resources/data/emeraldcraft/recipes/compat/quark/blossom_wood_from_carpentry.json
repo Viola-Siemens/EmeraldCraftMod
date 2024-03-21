@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "quark:blossom_log"
-    }
-  ],
+  "ingredient": {
+    "item": "quark:blossom_log"
+  },
   "result": "quark:blossom_wood",
   "count": 1
 }

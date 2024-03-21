@@ -11,6 +11,9 @@ import net.minecraft.world.entity.player.Inventory;
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public class MineralTableScreen extends AbstractContainerScreen<MineralTableMenu> {
+	private static final ResourceLocation FUEL_LENGTH_SPRITE = new ResourceLocation(MODID, "container/mineral_table/fuel_length");
+	private static final ResourceLocation BREW_PROGRESS_SPRITE = new ResourceLocation(MODID, "container/mineral_table/brew_progress");
+	private static final ResourceLocation BUBBLES_SPRITE = new ResourceLocation(MODID, "container/mineral_table/bubbles");
 	private static final ResourceLocation BG_LOCATION = new ResourceLocation(MODID, "textures/gui/container/mineral_table.png");
 	private static final int[] BUBBLELENGTHS = new int[]{29, 24, 20, 16, 11, 6, 0};
 
@@ -26,34 +29,32 @@ public class MineralTableScreen extends AbstractContainerScreen<MineralTableMenu
 
 	@Override
 	public void render(GuiGraphics transform, int x, int y, float partialTicks) {
-		this.renderBackground(transform);
 		super.render(transform, x, y, partialTicks);
 		this.renderTooltip(transform, x, y);
 	}
 
 	@Override
 	protected void renderBg(GuiGraphics transform, float partialTicks, int x, int y) {
-		int i = (this.width - this.imageWidth) / 2;
-		int j = (this.height - this.imageHeight) / 2;
-		transform.blit(BG_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
-		int k = this.menu.getLitProgress();
-		int l = Mth.clamp((18 * k + 20 - 1) / 20, 0, 18);
-		if (l > 0) {
-			transform.blit(BG_LOCATION, i + 60, j + 44, 176, 29, l, 4);
+		int left = (this.width - this.imageWidth) / 2;
+		int top = (this.height - this.imageHeight) / 2;
+		transform.blit(BG_LOCATION, left, top, 0, 0, this.imageWidth, this.imageHeight);
+		int litProgress = this.menu.getLitProgress();
+		int length = Mth.clamp((18 * litProgress + 20 - 1) / 20, 0, 18);
+		if (length > 0) {
+			transform.blitSprite(FUEL_LENGTH_SPRITE, 18, 4, 0, 0, left + 60, top + 44, length, 4);
 		}
 
-		int i1 = this.menu.getBurnProgress();
-		if (i1 > 0) {
-			int j1 = (int)(28.0F * (1.0F - (float)i1 / 400.0F));
-			if (j1 > 0) {
-				transform.blit(BG_LOCATION, i + 97, j + 16, 176, 0, 9, j1);
+		int burnProgress = this.menu.getBurnProgress();
+		if (burnProgress > 0) {
+			int progress = (int)(28.0F * (1.0F - (float)burnProgress / 400.0F));
+			if (progress > 0) {
+				transform.blitSprite(BREW_PROGRESS_SPRITE, 9, 28, 0, 0, left + 97, top + 16, 9, progress);
 			}
 
-			j1 = BUBBLELENGTHS[i1 / 2 % 7];
-			if (j1 > 0) {
-				transform.blit(BG_LOCATION, i + 63, j + 14 + 29 - j1, 185, 29 - j1, 12, j1);
+			progress = BUBBLELENGTHS[burnProgress / 2 % 7];
+			if (progress > 0) {
+				transform.blitSprite(BUBBLES_SPRITE, 12, 29, 0, 29 - progress, left + 63, top + 14 + 29 - progress, 12, progress);
 			}
 		}
-
 	}
 }

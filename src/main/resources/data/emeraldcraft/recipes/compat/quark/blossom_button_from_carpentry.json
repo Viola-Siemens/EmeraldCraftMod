@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_button",
-  "ingredients": [
-    {
-      "item": "quark:blossom_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "quark:blossom_planks"
+  },
   "result": "quark:blossom_button",
   "count": 2
 }

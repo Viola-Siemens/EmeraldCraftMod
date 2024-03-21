@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_slab",
-  "ingredients": [
-    {
-      "item": "emeraldcraft:ginkgo_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "emeraldcraft:ginkgo_planks"
+  },
   "result": "emeraldcraft:ginkgo_slab",
   "count": 2
 }

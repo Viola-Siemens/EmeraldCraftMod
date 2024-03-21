@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_slab",
-  "ingredients": [
-    {
-      "item": "byg:nightshade_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:nightshade_planks"
+  },
   "result": "byg:nightshade_slab",
   "count": 2
 }

@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "minecraft:mangrove_log"
-    }
-  ],
+  "ingredient": {
+    "item": "minecraft:mangrove_log"
+  },
   "result": "minecraft:mangrove_wood",
   "count": 1
 }

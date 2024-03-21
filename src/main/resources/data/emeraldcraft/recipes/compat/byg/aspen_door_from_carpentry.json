@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_door",
-  "ingredients": [
-    {
-      "tag": "byg:aspen_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:aspen_logs"
+  },
   "result": "byg:aspen_door",
   "count": 2
 }

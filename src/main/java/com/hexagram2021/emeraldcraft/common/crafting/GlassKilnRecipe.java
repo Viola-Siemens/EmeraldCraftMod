@@ -4,7 +4,6 @@ import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipeSerializer;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.CookingBookCategory;
@@ -14,14 +13,10 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 public class GlassKilnRecipe extends AbstractCookingRecipe {
 	private final String category;
 
-	public static final CachedRecipeList<GlassKilnRecipe> recipeList = new CachedRecipeList<>(
-			ECRecipes.GLASS_KILN_TYPE,
-			GlassKilnRecipe.class
-	);
+	public static final CachedRecipeList<GlassKilnRecipe> recipeList = new CachedRecipeList<>(ECRecipes.GLASS_KILN_TYPE);
 
-	public GlassKilnRecipe(ResourceLocation id, String group, String category, Ingredient ingredient,
-						   ItemStack result, float experience, int cookingTime) {
-		super(ECRecipes.GLASS_KILN_TYPE.get(), id, group, CookingBookCategory.MISC, ingredient, result, experience, cookingTime);
+	public GlassKilnRecipe(String group, String category, Ingredient ingredient, ItemStack result, float experience, int cookingTime) {
+		super(ECRecipes.GLASS_KILN_TYPE.get(), group, CookingBookCategory.MISC, ingredient, result, experience, cookingTime);
 		this.category = category;
 	}
 

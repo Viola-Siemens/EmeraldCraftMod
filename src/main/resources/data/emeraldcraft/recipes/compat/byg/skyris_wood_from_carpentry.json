@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:skyris_log"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:skyris_log"
+  },
   "result": "byg:skyris_wood",
   "count": 1
 }

@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -18,8 +19,14 @@ import java.util.List;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
+@SuppressWarnings("DataFlowIssue")
 @OnlyIn(Dist.CLIENT)
 public class CarpentryTableScreen extends AbstractContainerScreen<CarpentryTableMenu> {
+	private static final ResourceLocation SCROLLER_SPRITE = new ResourceLocation(MODID, "container/carpentry/scroller");
+	private static final ResourceLocation SCROLLER_DISABLED_SPRITE = new ResourceLocation(MODID, "container/carpentry/scroller_disabled");
+	private static final ResourceLocation RECIPE_SELECTED_SPRITE = new ResourceLocation(MODID, "container/carpentry/recipe_selected");
+	private static final ResourceLocation RECIPE_HIGHLIGHTED_SPRITE = new ResourceLocation(MODID, "container/carpentry/recipe_highlighted");
+	private static final ResourceLocation RECIPE_SPRITE = new ResourceLocation(MODID, "container/carpentry/recipe");
 	private static final ResourceLocation BG_LOCATION = new ResourceLocation(MODID, "textures/gui/container/carpentry.png");
 	private float scrollOffs;
 	private boolean scrolling;
@@ -40,34 +47,32 @@ public class CarpentryTableScreen extends AbstractContainerScreen<CarpentryTable
 
 	@Override
 	protected void renderBg(GuiGraphics transform, float partialTicks, int x, int y) {
-		this.renderBackground(transform);
-		int i = this.leftPos;
-		int j = this.topPos;
-		transform.blit(BG_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
-		int k = (int)(41.0F * this.scrollOffs);
-		transform.blit(BG_LOCATION, i + 119, j + 15 + k, 176 + (this.isScrollBarActive() ? 0 : 12), 0, 12, 15);
-		int l = this.leftPos + 52;
-		int i1 = this.topPos + 14;
-		int j1 = this.startIndex + 12;
-		this.renderButtons(transform, x, y, l, i1, j1);
-		this.renderRecipes(transform, l, i1, j1);
+		transform.blit(BG_LOCATION, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+		int scrollBarY = (int)(41.0F * this.scrollOffs);
+		ResourceLocation resourcelocation = this.isScrollBarActive() ? SCROLLER_SPRITE : SCROLLER_DISABLED_SPRITE;
+		transform.blitSprite(resourcelocation, this.leftPos + 119, this.topPos + 15 + scrollBarY, 12, 15);
+		int buttonX = this.leftPos + 52;
+		int buttonY = this.topPos + 14;
+		int endIndex = this.startIndex + 12;
+		this.renderButtons(transform, x, y, buttonX, buttonY, endIndex);
+		this.renderRecipes(transform, buttonX, buttonY, endIndex);
 	}
 
 	@Override
 	protected void renderTooltip(GuiGraphics transform, int x, int y) {
 		super.renderTooltip(transform, x, y);
 		if (this.displayRecipes) {
-			int i = this.leftPos + 52;
-			int j = this.topPos + 14;
-			int k = this.startIndex + 12;
-			List<CarpentryTableRecipe> list = this.menu.getRecipes();
+			int left = this.leftPos + 52;
+			int top = this.topPos + 14;
+			int maxIndex = this.startIndex + 12;
+			List<RecipeHolder<CarpentryTableRecipe>> list = this.menu.getRecipes();
 
-			for(int l = this.startIndex; l < k && l < this.menu.getNumRecipes(); ++l) {
-				int i1 = l - this.startIndex;
-				int j1 = i + i1 % 4 * 16;
-				int k1 = j + i1 / 4 * 18 + 2;
-				if (x >= j1 && x < j1 + 16 && y >= k1 && y < k1 + 18) {
-					transform.renderTooltip(this.font, list.get(l).getResultItem(this.minecraft.level.registryAccess()), x, y);
+			for(int i = this.startIndex; i < maxIndex && i < this.menu.getNumRecipes(); ++i) {
+				int index = i - this.startIndex;
+				int buttonX = left + index % 4 * 16;
+				int buttonY = top + index / 4 * 18 + 2;
+				if (x >= buttonX && x < buttonX + 16 && y >= buttonY && y < buttonY + 18) {
+					transform.renderTooltip(this.font, list.get(i).value().getResultItem(this.minecraft.level.registryAccess()), x, y);
 				}
 			}
 		}
@@ -80,27 +85,29 @@ public class CarpentryTableScreen extends AbstractContainerScreen<CarpentryTable
 			int buttonX = recipeX + line % 4 * 16;
 			int lineY = line / 4;
 			int buttonY = recipeY + lineY * 18 + 2;
-			int buttonHeight = this.imageHeight;
+			ResourceLocation sprite;
 			if (i == this.menu.getSelectedRecipeIndex()) {
-				buttonHeight += 18;
+				sprite = RECIPE_SELECTED_SPRITE;
 			} else if (x >= buttonX && y >= buttonY && x < buttonX + 16 && y < buttonY + 18) {
-				buttonHeight += 36;
+				sprite = RECIPE_HIGHLIGHTED_SPRITE;
+			} else {
+				sprite = RECIPE_SPRITE;
 			}
 
-			transform.blit(BG_LOCATION, buttonX, buttonY - 1, 0, buttonHeight, 16, 18);
+			transform.blitSprite(sprite, buttonX, buttonY - 1, 16, 18);
 		}
 
 	}
 
 	private void renderRecipes(GuiGraphics transform, int x, int y, int endIndex) {
-		List<CarpentryTableRecipe> list = this.menu.getRecipes();
+		List<RecipeHolder<CarpentryTableRecipe>> list = this.menu.getRecipes();
 
 		for(int i = this.startIndex; i < endIndex && i < this.menu.getNumRecipes(); ++i) {
 			int line = i - this.startIndex;
 			int itemX = x + line % 4 * 16;
 			int lineY = line / 4;
 			int itemY = y + lineY * 18 + 2;
-			transform.renderItem(list.get(i).getResultItem(this.minecraft.level.registryAccess()), itemX, itemY);
+			transform.renderItem(list.get(i).value().getResultItem(this.minecraft.level.registryAccess()), itemX, itemY);
 		}
 	}
 
@@ -148,10 +155,10 @@ public class CarpentryTableScreen extends AbstractContainerScreen<CarpentryTable
 	}
 
 	@Override
-	public boolean mouseScrolled(double x, double y, double delta) {
+	public boolean mouseScrolled(double x, double y, double deltaX, double deltaY) {
 		if (this.isScrollBarActive()) {
 			int i = this.getOffscreenRows();
-			this.scrollOffs = (float)((double)this.scrollOffs - delta / (double)i);
+			this.scrollOffs = (float)((double)this.scrollOffs - deltaY / (double)i);
 			this.scrollOffs = Mth.clamp(this.scrollOffs, 0.0F, 1.0F);
 			this.startIndex = (int)((double)(this.scrollOffs * (float)i) + 0.5D) * 4;
 		}

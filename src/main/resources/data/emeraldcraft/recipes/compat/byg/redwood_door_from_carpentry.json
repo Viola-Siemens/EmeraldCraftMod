@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_door",
-  "ingredients": [
-    {
-      "tag": "byg:redwood_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:redwood_logs"
+  },
   "result": "byg:redwood_door",
   "count": 2
 }

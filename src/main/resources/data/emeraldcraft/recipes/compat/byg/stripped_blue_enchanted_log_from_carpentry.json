@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:blue_enchanted_log"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:blue_enchanted_log"
+  },
   "result": "byg:stripped_blue_enchanted_log",
   "count": 1
 }

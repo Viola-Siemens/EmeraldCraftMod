@@ -1,10 +1,8 @@
 {
   "type": "emeraldcraft:carpentry",
-  "ingredients": [
-    {
-      "tag": "minecraft:logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "minecraft:logs"
+  },
   "result": "minecraft:chest",
   "count": 1
 }

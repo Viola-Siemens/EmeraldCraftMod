@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "planks",
-  "ingredients": [
-    {
-      "tag": "emeraldcraft:ginkgo_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "emeraldcraft:ginkgo_logs"
+  },
   "result": "emeraldcraft:ginkgo_planks",
   "count": 4
 }

@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_trapdoor",
-  "ingredients": [
-    {
-      "tag": "byg:green_enchanted_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:green_enchanted_logs"
+  },
   "result": "byg:green_enchanted_trapdoor",
   "count": 2
 }

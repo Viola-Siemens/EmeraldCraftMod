@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_fence",
-  "ingredients": [
-    {
-      "item": "byg:zelkova_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:zelkova_planks"
+  },
   "result": "byg:zelkova_fence",
   "count": 1
 }

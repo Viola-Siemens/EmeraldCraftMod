@@ -8,9 +8,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.Structure;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public enum CampTypes implements CampType {
@@ -25,10 +25,11 @@ public enum CampTypes implements CampType {
 	SWAMP,
 	TAIGA;
 
-	static final List<CampType> ALL_CAMPS = Lists.newArrayList(Arrays.stream(CampTypes.values()).iterator());
-	static final Map<String, Integer> ALL_CAMP_IDS = Util.make(new HashMap<>(), map -> {
-		for(int i = 0; i < ALL_CAMPS.size(); ++i) {
-			map.put(ALL_CAMPS.get(i).toString(), i);
+	static final List<CampType> ALL_CAMPS = Lists.newArrayList(CampTypes.values());
+	public static final Map<String, Integer> ALL_CAMP_IDS = Util.make(new HashMap<>(), map -> {
+		CampType[] campTypes = CampTypes.values();
+		for(int i = 0; i < campTypes.length; ++i) {
+			map.put(campTypes[i].toString(), i);
 		}
 	});
 
@@ -54,5 +55,10 @@ public enum CampTypes implements CampType {
 	@Nullable
 	public static ResourceLocation getCampWithType(CampType type) {
 		return CUSTOM_CAMP.get(type.toString());
+	}
+
+	@Override
+	public String toString() {
+		return super.toString().toUpperCase(Locale.ROOT);
 	}
 }

@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_stairs",
-  "ingredients": [
-    {
-      "item": "byg:bulbis_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:bulbis_planks"
+  },
   "result": "byg:bulbis_stairs",
   "count": 1
 }

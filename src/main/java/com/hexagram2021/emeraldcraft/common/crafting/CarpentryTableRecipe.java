@@ -4,7 +4,6 @@ import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipeSerializer;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -12,13 +11,10 @@ import net.minecraft.world.item.crafting.SingleItemRecipe;
 import net.minecraft.world.level.Level;
 
 public class CarpentryTableRecipe extends SingleItemRecipe {
-	public static final CachedRecipeList<CarpentryTableRecipe> recipeList = new CachedRecipeList<>(
-			ECRecipes.CARPENTRY_TABLE_TYPE,
-			CarpentryTableRecipe.class
-	);
+	public static final CachedRecipeList<CarpentryTableRecipe> recipeList = new CachedRecipeList<>(ECRecipes.CARPENTRY_TABLE_TYPE);
 
-	public CarpentryTableRecipe(ResourceLocation id, String group, Ingredient ingredient, ItemStack result) {
-		super(ECRecipes.CARPENTRY_TABLE_TYPE.get(), ECRecipeSerializer.CARPENTRY_SERIALIZER.get(), id, group, ingredient, result);
+	public CarpentryTableRecipe(String group, Ingredient ingredient, ItemStack result) {
+		super(ECRecipes.CARPENTRY_TABLE_TYPE.get(), ECRecipeSerializer.CARPENTRY_SERIALIZER.get(), group, ingredient, result);
 	}
 
 	@Override

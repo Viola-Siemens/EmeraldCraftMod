@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "planks",
-  "ingredients": [
-    {
-      "tag": "byg:sythian_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:sythian_logs"
+  },
   "result": "byg:sythian_planks",
   "count": 4
 }

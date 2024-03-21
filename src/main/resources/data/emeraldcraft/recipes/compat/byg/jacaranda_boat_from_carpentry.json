@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "byg:jacaranda_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:jacaranda_logs"
+  },
   "result": "byg:jacaranda_boat",
   "count": 1
 }

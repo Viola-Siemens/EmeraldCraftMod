@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "planks",
-  "ingredients": [
-    {
-      "tag": "emeraldcraft:purpuraceus_stems"
-    }
-  ],
+  "ingredient": {
+    "tag": "emeraldcraft:purpuraceus_stems"
+  },
   "result": "emeraldcraft:purpuraceus_planks",
   "count": 4
 }

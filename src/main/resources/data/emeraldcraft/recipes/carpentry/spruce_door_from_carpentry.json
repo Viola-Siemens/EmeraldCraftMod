@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_door",
-  "ingredients": [
-    {
-      "tag": "minecraft:spruce_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "minecraft:spruce_logs"
+  },
   "result": "minecraft:spruce_door",
   "count": 2
 }

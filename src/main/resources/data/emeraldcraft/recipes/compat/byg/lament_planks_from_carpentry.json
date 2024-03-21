@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "planks",
-  "ingredients": [
-    {
-      "tag": "byg:lament_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:lament_logs"
+  },
   "result": "byg:lament_planks",
   "count": 4
 }

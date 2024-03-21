@@ -44,10 +44,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraftforge.network.*;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.Optional;
@@ -62,17 +59,18 @@ public class EmeraldCraft {
 	public static final String MODID = "emeraldcraft";
 	public static final String MODNAME = "Emerald Craft";
 	public static final String VERSION = ModList.get().getModFileById(MODID).versionString();
+	public static final int CHANNEL_VERSION = 1;
 
 	public static final CommonProxy proxy = DistExecutor.safeRunForDist(
 			bootstrapErrorToXCPInDev(() -> ClientProxy::new),
 			bootstrapErrorToXCPInDev(() -> CommonProxy::new)
 	);
 
-	public final SimpleChannel packetHandler = NetworkRegistry.ChannelBuilder
+	public final SimpleChannel packetHandler = ChannelBuilder
 			.named(new ResourceLocation(MODID, "main"))
-			.networkProtocolVersion(() -> VERSION)
-			.serverAcceptedVersions(VERSION::equals)
-			.clientAcceptedVersions(VERSION::equals)
+			.networkProtocolVersion(CHANNEL_VERSION)
+			.serverAcceptedVersions(Channel.VersionTest.exact(CHANNEL_VERSION))
+			.clientAcceptedVersions(Channel.VersionTest.exact(CHANNEL_VERSION))
 			.simpleChannel();
 
 	public static <T>
@@ -89,12 +87,15 @@ public class EmeraldCraft {
 		};
 	}
 
-	private int messageId = 0;
 	@SuppressWarnings("SameParameterValue")
 	private <T extends IECPacket> void registerMessage(Class<T> packetType,
 													   Function<FriendlyByteBuf, T> constructor,
 													   NetworkDirection direction) {
-		this.packetHandler.registerMessage(this.messageId++, packetType, IECPacket::write, constructor, (packet, ctx) -> packet.handle(), Optional.of(direction));
+		this.packetHandler.messageBuilder(packetType, direction)
+				.decoder(constructor)
+				.encoder(IECPacket::write)
+				.consumerMainThread((packet, ctx) -> packet.handle())
+				.add();
 	}
 
 	public EmeraldCraft() {
@@ -194,18 +195,18 @@ public class EmeraldCraft {
 		ServerLevel world = event.getServer().getLevel(Level.OVERWORLD);
 		assert world != null;
 		if(!world.isClientSide) {
-			ECSaveData worldData = world.getDataStorage().computeIfAbsent(ECSaveData::new, ECSaveData::new, ECSaveData.dataName);
+			ECSaveData worldData = world.getDataStorage().computeIfAbsent(ECSaveData.factory(), ECSaveData.dataName);
 			ECSaveData.setInstance(worldData);
 		}
 	}
 
 	public void datapackSync(OnDatapackSyncEvent event) {
 		ServerPlayer player = event.getPlayer();
-		IECPacket packet = new ClientboundTradeSyncPacket(TradeShadowRecipe.getTradeRecipes(event.getPlayerList().getServer().overworld()));
+		IECPacket packet = new ClientboundTradeSyncPacket(TradeShadowRecipe.getAllJobsites(), TradeShadowRecipe.getTradeRecipes(event.getPlayerList().getServer().overworld()));
 		if(player == null) {
-			this.packetHandler.send(PacketDistributor.ALL.noArg(), packet);
+			this.packetHandler.send(packet, PacketDistributor.ALL.noArg());
 		} else {
-			this.packetHandler.send(PacketDistributor.PLAYER.with(() -> player), packet);
+			this.packetHandler.send(packet, PacketDistributor.PLAYER.with(player));
 		}
 	}
 

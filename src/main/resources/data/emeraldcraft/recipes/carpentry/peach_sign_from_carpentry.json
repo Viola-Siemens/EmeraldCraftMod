@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_sign",
-  "ingredients": [
-    {
-      "item": "emeraldcraft:peach_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "emeraldcraft:peach_planks"
+  },
   "result": "emeraldcraft:peach_sign",
   "count": 1
 }

@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:white_mangrove_log"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:white_mangrove_log"
+  },
   "result": "byg:white_mangrove_wood",
   "count": 1
 }

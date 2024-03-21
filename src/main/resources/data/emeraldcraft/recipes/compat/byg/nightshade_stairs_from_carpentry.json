@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_stairs",
-  "ingredients": [
-    {
-      "item": "byg:nightshade_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:nightshade_planks"
+  },
   "result": "byg:nightshade_stairs",
   "count": 1
 }

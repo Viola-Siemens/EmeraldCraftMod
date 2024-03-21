@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_stairs",
-  "ingredients": [
-    {
-      "item": "quark:blossom_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "quark:blossom_planks"
+  },
   "result": "quark:blossom_planks_stairs",
   "count": 1
 }

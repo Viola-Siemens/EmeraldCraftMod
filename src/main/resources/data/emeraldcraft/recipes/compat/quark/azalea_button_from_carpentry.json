@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_button",
-  "ingredients": [
-    {
-      "item": "quark:azalea_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "quark:azalea_planks"
+  },
   "result": "quark:azalea_button",
   "count": 2
 }

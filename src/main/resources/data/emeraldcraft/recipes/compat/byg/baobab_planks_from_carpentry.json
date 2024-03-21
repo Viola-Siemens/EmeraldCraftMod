@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "planks",
-  "ingredients": [
-    {
-      "tag": "byg:baobab_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:baobab_logs"
+  },
   "result": "byg:baobab_planks",
   "count": 4
 }

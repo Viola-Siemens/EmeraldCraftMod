@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_fence",
-  "ingredients": [
-    {
-      "item": "byg:baobab_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:baobab_planks"
+  },
   "result": "byg:baobab_fence",
   "count": 1
 }

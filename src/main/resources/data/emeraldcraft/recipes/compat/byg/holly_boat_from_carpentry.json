@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "byg:holly_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:holly_logs"
+  },
   "result": "byg:holly_boat",
   "count": 1
 }

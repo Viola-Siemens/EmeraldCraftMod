@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "minecraft:stripped_acacia_log"
-    }
-  ],
+  "ingredient": {
+    "item": "minecraft:stripped_acacia_log"
+  },
   "result": "minecraft:stripped_acacia_wood",
   "count": 1
 }

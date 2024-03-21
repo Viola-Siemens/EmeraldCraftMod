@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_sign",
-  "ingredients": [
-    {
-      "item": "minecraft:jungle_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "minecraft:jungle_planks"
+  },
   "result": "minecraft:jungle_sign",
   "count": 1
 }

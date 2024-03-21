@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_button",
-  "ingredients": [
-    {
-      "item": "minecraft:crimson_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "minecraft:crimson_planks"
+  },
   "result": "minecraft:crimson_button",
   "count": 2
 }

@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "planks",
-  "ingredients": [
-    {
-      "tag": "emeraldcraft:palm_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "emeraldcraft:palm_logs"
+  },
   "result": "emeraldcraft:palm_planks",
   "count": 4
 }

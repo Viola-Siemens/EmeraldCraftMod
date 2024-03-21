@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "minecraft:spruce_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "minecraft:spruce_logs"
+  },
   "result": "minecraft:spruce_boat",
   "count": 1
 }

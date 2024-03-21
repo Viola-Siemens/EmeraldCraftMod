@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_stairs",
-  "ingredients": [
-    {
-      "item": "minecraft:birch_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "minecraft:birch_planks"
+  },
   "result": "minecraft:birch_stairs",
   "count": 1
 }

@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "byg:mahogany_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:mahogany_logs"
+  },
   "result": "byg:mahogany_boat",
   "count": 1
 }

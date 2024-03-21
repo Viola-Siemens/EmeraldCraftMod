@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "emeraldcraft:palm_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "emeraldcraft:palm_logs"
+  },
   "result": "emeraldcraft:palm_boat",
   "count": 1
 }

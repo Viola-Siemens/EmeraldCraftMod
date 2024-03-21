@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_fence_gate",
-  "ingredients": [
-    {
-      "item": "minecraft:acacia_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "minecraft:acacia_planks"
+  },
   "result": "minecraft:acacia_fence_gate",
   "count": 1
 }

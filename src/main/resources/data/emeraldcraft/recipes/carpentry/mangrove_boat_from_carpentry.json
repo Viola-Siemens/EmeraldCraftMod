@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "minecraft:mangrove_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "minecraft:mangrove_logs"
+  },
   "result": "minecraft:mangrove_boat",
   "count": 1
 }

@@ -11,7 +11,6 @@ import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import com.hexagram2021.emeraldcraft.common.util.TradeUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -22,38 +21,53 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class TradeShadowRecipe implements Recipe<Container> {
-	protected final ResourceLocation id;
-	protected final ItemStack costA;
-	protected final ItemStack costB;
-	protected final ItemStack result;
-	protected final EntityType<?> entityType;
+public record TradeShadowRecipe(ItemStack costA, ItemStack costB, ItemStack result, EntityType<?> entityType,
+								@Nullable VillagerProfession profession, int villagerLevel, int xp) implements Recipe<Container> {
+	private static final Map<VillagerProfession, Map<Integer, Villager>> LAZY_RENDER_VILLAGERS = Maps.newHashMap();
+	private static final Map<EntityType<?>, Map<Integer, LivingEntity>> LAZY_RENDER_TRADERS = Maps.newHashMap();
+
 	@Nullable
-	protected final VillagerProfession profession;
-	protected final int villagerLevel;
-	protected final int xp;
-
-	protected static final Map<VillagerProfession, Map<Integer, Villager>> LAZY_RENDER_VILLAGERS = Maps.newHashMap();
-	protected static final Map<EntityType<?>, Map<Integer, LivingEntity>> LAZY_RENDER_TRADERS = Maps.newHashMap();
-
+	private static Map<VillagerProfession, List<Block>> cachedJobsites = null;
 	@Nullable
 	private static List<TradeShadowRecipe> cachedList = null;
 
+	public static Map<VillagerProfession, List<Block>> getAllJobsites() {
+		if (cachedJobsites != null) {
+			return cachedJobsites;
+		}
+
+		Map<VillagerProfession, List<Block>> shadows = Maps.newIdentityHashMap();
+		if (ECCommonConfig.ENABLE_JEI_TRADING_SHADOW_RECIPE.get()) {
+			ForgeRegistries.VILLAGER_PROFESSIONS.forEach(villagerProfession -> {
+				Set<Block> blocks = Sets.newHashSet();
+				ForgeRegistries.POI_TYPES.forEach(poiType -> {
+					if(villagerProfession.heldJobSite().test(ForgeRegistries.POI_TYPES.getDelegateOrThrow(poiType))) {
+						poiType.matchingStates().forEach(blockState -> blocks.add(blockState.getBlock()));
+					}
+				});
+				shadows.putIfAbsent(villagerProfession, blocks.stream().toList());
+			});
+		}
+		return cachedJobsites = shadows;
+	}
+
 	public static List<TradeShadowRecipe> getTradeRecipes(Level world) {
-		if(cachedList != null) {
+		if (cachedList != null) {
 			return cachedList;
 		}
 
 		List<TradeShadowRecipe> shadows = Lists.newArrayList();
-		if(ECCommonConfig.ENABLE_JEI_TRADING_SHADOW_RECIPE.get()) {
+		if (ECCommonConfig.ENABLE_JEI_TRADING_SHADOW_RECIPE.get()) {
 			Set<String> names = Sets.newHashSet();
 
 			VillagerTrades.TRADES.forEach((profession, trades) ->
@@ -65,20 +79,18 @@ public class TradeShadowRecipe implements Recipe<Container> {
 		return cachedList = shadows;
 	}
 
+	public static List<Block> getJobsitesFromProfession(VillagerProfession profession) {
+		if(cachedJobsites == null) {
+			return List.of();
+		}
+		return cachedJobsites.get(profession);
+	}
+
 	public static void setTradeRecipes(List<TradeShadowRecipe> shadows) {
 		cachedList = shadows;
 	}
-
-	public TradeShadowRecipe(ResourceLocation id, ItemStack costA, ItemStack costB, ItemStack result, EntityType<?> entityType,
-							 @Nullable VillagerProfession profession, int villagerLevel, int xp) {
-		this.id = id;
-		this.costA = costA;
-		this.costB = costB;
-		this.result = result;
-		this.entityType = entityType;
-		this.profession = profession;
-		this.villagerLevel = villagerLevel;
-		this.xp = xp;
+	public static void setCachedJobsites(Map<VillagerProfession, List<Block>> shadows) {
+		cachedJobsites = shadows;
 	}
 
 	@Override
@@ -101,10 +113,6 @@ public class TradeShadowRecipe implements Recipe<Container> {
 		return this.result;
 	}
 
-	@Override
-	public ResourceLocation getId() {
-		return this.id;
-	}
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
@@ -116,46 +124,18 @@ public class TradeShadowRecipe implements Recipe<Container> {
 		return ECRecipes.TRADE_SHADOW_TYPE.get();
 	}
 
-	public ItemStack getCostA() {
-		return this.costA;
-	}
-
-	public ItemStack getCostB() {
-		return this.costB;
-	}
-
-	public ItemStack getResult() {
-		return this.result;
-	}
-
-	public EntityType<?> getEntityType() {
-		return this.entityType;
-	}
-
-	@Nullable
-	public VillagerProfession getProfession() {
-		return this.profession;
-	}
-
-	public int getVillagerLevel() {
-		return this.villagerLevel;
-	}
-
-	public int getXp() {
-		return this.xp;
-	}
 
 	@OnlyIn(Dist.CLIENT)
 	public LivingEntity getRenderVillager() {
 		assert Minecraft.getInstance().level != null;
-		if(this.entityType != EntityType.VILLAGER || this.profession == null) {
+		if (this.entityType != EntityType.VILLAGER || this.profession == null) {
 			return LAZY_RENDER_TRADERS.computeIfAbsent(this.entityType, entityType1 -> Maps.newHashMap())
 					.computeIfAbsent(this.villagerLevel, villagerLevel1 -> {
 						Entity trader = this.entityType.create(Minecraft.getInstance().level);
 						assert trader != null;
 
 						ITradableDataFactory.setTradableMobData(trader, this.profession, this.villagerLevel);
-						return (LivingEntity)trader;
+						return (LivingEntity) trader;
 					});
 		}
 		return LAZY_RENDER_VILLAGERS.computeIfAbsent(this.profession, profession1 -> Maps.newHashMap())

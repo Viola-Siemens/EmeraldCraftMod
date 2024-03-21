@@ -1,64 +1,48 @@
 package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.hexagram2021.emeraldcraft.common.crafting.MineralTableRecipe;
-import net.minecraft.core.registries.BuiltInRegistries;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 
 public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implements RecipeSerializer<T> {
-	private final int defaultCookingTime;
 	private final MineralTableRecipeSerializer.Creator<T> factory;
+	private final Codec<T> codec;
 
-	public MineralTableRecipeSerializer(MineralTableRecipeSerializer.Creator<T> creator, int cookingTime) {
-		this.defaultCookingTime = cookingTime;
+	public MineralTableRecipeSerializer(MineralTableRecipeSerializer.Creator<T> creator, int defaultCookingTime) {
 		this.factory = creator;
+		this.codec = RecordCodecBuilder.create(
+				instance -> instance.group(
+						ExtraCodecs.strictOptionalField(Codec.STRING, "group", "").forGetter(MineralTableRecipe::getGroup),
+						Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(MineralTableRecipe::getIngredient),
+						ForgeRegistries.ITEMS.getCodec().xmap(ItemStack::new, ItemStack::getItem).fieldOf("result").forGetter(MineralTableRecipe::getResult),
+						Codec.FLOAT.fieldOf("experience").orElse(0.0F).forGetter(MineralTableRecipe::getExperience),
+						Codec.INT.fieldOf("cookingtime").orElse(defaultCookingTime).forGetter(MineralTableRecipe::getCookingTime)
+				).apply(instance, creator::create)
+		);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public T fromJson(ResourceLocation id, JsonObject json) {
-		String group = GsonHelper.getAsString(json, "group", "");
-		JsonElement jsonelement =
-				GsonHelper.isArrayNode(json, "ingredient") ?
-						GsonHelper.getAsJsonArray(json, "ingredient") :
-						GsonHelper.getAsJsonObject(json, "ingredient");
-		Ingredient ingredient = Ingredient.fromJson(jsonelement);
-
-		if (!json.has("result")) throw new com.google.gson.JsonSyntaxException("Missing result, expected to find a string or object");
-		ItemStack itemstack;
-		if (json.get("result").isJsonObject()) {
-			itemstack = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
-		} else {
-			String result = GsonHelper.getAsString(json, "result");
-			ResourceLocation resourcelocation = new ResourceLocation(result);
-			itemstack = new ItemStack(BuiltInRegistries.ITEM.getOptional(resourcelocation).orElseThrow(
-					() -> new IllegalStateException("Item: " + result + " does not exist")
-			));
-		}
-		float f = GsonHelper.getAsFloat(json, "experience", 0.0F);
-		int i = GsonHelper.getAsInt(json, "cookingtime", this.defaultCookingTime);
-		return this.factory.create(id, group, ingredient, itemstack, f, i);
+	public Codec<T> codec() {
+		return this.codec;
 	}
 
-	@Nullable
-	@Override
-	public T fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+	@Override @Nullable
+	public T fromNetwork(FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);
 		ItemStack itemstack = buf.readItem();
 		float xp = buf.readFloat();
 		int time = buf.readVarInt();
-		return this.factory.create(id, group, ingredient, itemstack, xp, time);
+		return this.factory.create(group, ingredient, itemstack, xp, time);
 	}
 
 	@Override
@@ -71,6 +55,6 @@ public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implemen
 	}
 
 	public interface Creator<T extends AbstractCookingRecipe> {
-		T create(ResourceLocation id, String group, Ingredient ingredient, ItemStack result, float experience, int cookingtime);
+		T create(String group, Ingredient ingredient, ItemStack result, float experience, int cookingtime);
 	}
 }

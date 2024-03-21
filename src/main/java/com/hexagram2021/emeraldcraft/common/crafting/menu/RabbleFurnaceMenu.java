@@ -12,11 +12,13 @@ import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeHooks;
 
 import static com.hexagram2021.emeraldcraft.common.blocks.entity.RabbleFurnaceBlockEntity.*;
 
+@SuppressWarnings("UnstableApiUsage")
 public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 	private final Container container;
 	private final ContainerData data;
@@ -156,8 +158,8 @@ public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 	}
 
 	@Override
-	public boolean recipeMatches(Recipe<? super Container> recipe) {
-		return recipe.matches(this.container, this.level);
+	public boolean recipeMatches(RecipeHolder<? extends Recipe<Container>> recipeHolder) {
+		return recipeHolder.value().matches(this.container, this.level);
 	}
 
 	@Override

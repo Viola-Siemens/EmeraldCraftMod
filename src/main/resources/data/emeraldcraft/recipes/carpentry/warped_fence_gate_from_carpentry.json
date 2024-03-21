@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_fence_gate",
-  "ingredients": [
-    {
-      "item": "minecraft:warped_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "minecraft:warped_planks"
+  },
   "result": "minecraft:warped_fence_gate",
   "count": 1
 }

@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_fence_gate",
-  "ingredients": [
-    {
-      "item": "byg:palm_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:palm_planks"
+  },
   "result": "byg:palm_fence_gate",
   "count": 1
 }

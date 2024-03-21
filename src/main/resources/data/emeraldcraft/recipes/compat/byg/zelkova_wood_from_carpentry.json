@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:zelkova_log"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:zelkova_log"
+  },
   "result": "byg:zelkova_wood",
   "count": 1
 }

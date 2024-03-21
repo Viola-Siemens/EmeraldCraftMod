@@ -30,7 +30,6 @@ public class ContinuousMinerScreen extends AbstractContainerScreen<ContinuousMin
 
 	@Override
 	public void render(GuiGraphics transform, int x, int y, float partialTicks) {
-		this.renderBackground(transform);
 		super.render(transform, x, y, partialTicks);
 		this.renderTooltip(transform, x, y);
 	}
@@ -56,7 +55,7 @@ public class ContinuousMinerScreen extends AbstractContainerScreen<ContinuousMin
 	}
 
 	private List<Component> getFluidTypeToolTips(int fluidLevel) {
-		List<Component> ret = Lists.newArrayList(Component.translatable(FluidTypes.melted_emerald.getTranslationTag()));
+		List<Component> ret = Lists.newArrayList(Component.translatable(FluidTypes.MELTED_EMERALD.getTranslationTag()));
 		if(this.minecraft != null && this.minecraft.options.advancedItemTooltips) {
 			ret.add(Component.translatable("fluids.save.bucket", String.format("%.2f", fluidLevel / 100.0F), Component.translatable(ECItems.MELTED_EMERALD_BUCKET.get().getDescriptionId())));
 		}

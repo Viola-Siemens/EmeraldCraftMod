@@ -273,6 +273,7 @@ public class ECItems {
 			"copper_concentrate", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 	);
 
+	//TODO: fluid
 	public static final ItemEntry<Item> MELTED_EMERALD_BUCKET = ItemEntry.register(
 			"melted_emerald_bucket", () -> new Item(new Item.Properties().stacksTo(16)), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 	);
@@ -318,6 +319,22 @@ public class ECItems {
 	);
 	public static final ItemEntry<MobBucketItem> SNAKEHEAD_BUCKET = ItemEntry.register(
 			"snakehead_bucket", () -> new MobBucketItem(() -> ECEntities.SNAKEHEAD, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+	);
+
+	public static final ItemEntry<Item> MINCED_BEEF = ItemEntry.register(
+			"minced_beef", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
+	public static final ItemEntry<Item> MINCED_CHICKEN = ItemEntry.register(
+			"minced_chicken", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
+	public static final ItemEntry<Item> MINCED_MUTTON = ItemEntry.register(
+			"minced_mutton", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
+	public static final ItemEntry<Item> MINCED_PORK = ItemEntry.register(
+			"minced_pork", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
+	public static final ItemEntry<Item> MINCED_RABBIT = ItemEntry.register(
+			"minced_rabbit", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
 
 	public static class CreateCompatItems {

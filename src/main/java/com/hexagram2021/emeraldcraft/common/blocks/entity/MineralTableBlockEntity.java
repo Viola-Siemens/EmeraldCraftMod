@@ -27,12 +27,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.RecipeHolder;
+import net.minecraft.world.inventory.RecipeCraftingHolder;
 import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -42,14 +42,16 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 import static net.minecraft.world.item.ItemStack.isSameItem;
 
-public class MineralTableBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeHolder, StackedContentsCompatible {
+public class MineralTableBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeCraftingHolder, StackedContentsCompatible {
 	protected static final int SLOT_INPUT = 0;
 	protected static final int SLOT_FUEL = 1;
 	protected static final int SLOT_RESULT = 2;
@@ -94,11 +96,11 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 		}
 	};
 	private final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
-	private final RecipeType<MineralTableRecipe> recipeType;
+	private final RecipeManager.CachedCheck<Container, MineralTableRecipe> quickCheck;
 	
 	public MineralTableBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntity.MINERAL_TABLE.get(), pos, state);
-		this.recipeType = ECRecipes.MINERAL_TABLE_TYPE.get();
+		this.quickCheck = RecipeManager.createCheck(ECRecipes.MINERAL_TABLE_TYPE.get());
 	}
 
 	@Override
@@ -140,43 +142,49 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState blockState, MineralTableBlockEntity blockEntity) {
-		boolean flag = blockEntity.isLit();
-		boolean flag1 = false;
+		boolean isBurning = blockEntity.isLit();
+		boolean changed = false;
 		if (blockEntity.isLit()) {
 			--blockEntity.litTime;
 		}
 
-		ItemStack itemstack = blockEntity.items.get(SLOT_FUEL);
-		if (blockEntity.isLit() || !itemstack.isEmpty() && !blockEntity.items.get(SLOT_INPUT).isEmpty()) {
-			MineralTableRecipe recipe = level.getRecipeManager().getRecipeFor(blockEntity.recipeType, blockEntity, level).orElse(null);
-			int i = blockEntity.getMaxStackSize();
-			if (!blockEntity.isLit() && blockEntity.canBurn(level.registryAccess(), recipe, blockEntity.items, i)) {
-				blockEntity.litTime = blockEntity.getBurnDuration(itemstack);
+		ItemStack fuelItemStack = blockEntity.items.get(SLOT_FUEL);
+		boolean inputExists = !blockEntity.items.get(SLOT_INPUT).isEmpty();
+		boolean fuelExists = !fuelItemStack.isEmpty();
+		if (blockEntity.isLit() || fuelExists && inputExists) {
+			RecipeHolder<MineralTableRecipe> recipeholder;
+			if (inputExists) {
+				recipeholder = blockEntity.quickCheck.getRecipeFor(blockEntity, level).orElse(null);
+			} else {
+				recipeholder = null;
+			}
+			int maxStackSize = blockEntity.getMaxStackSize();
+			if (!blockEntity.isLit() && blockEntity.canBurn(level.registryAccess(), recipeholder, blockEntity.items, maxStackSize)) {
+				blockEntity.litTime = blockEntity.getBurnDuration(fuelItemStack);
 				blockEntity.litDuration = blockEntity.litTime;
 				if (blockEntity.isLit()) {
-					flag1 = true;
-					if (itemstack.hasCraftingRemainingItem())
-						blockEntity.items.set(SLOT_FUEL, itemstack.getCraftingRemainingItem());
-					else
-					if (!itemstack.isEmpty()) {
-						itemstack.shrink(1);
-						if (itemstack.isEmpty()) {
-							blockEntity.items.set(SLOT_FUEL, itemstack.getCraftingRemainingItem());
+					changed = true;
+					if (fuelItemStack.hasCraftingRemainingItem()) {
+						blockEntity.items.set(SLOT_FUEL, fuelItemStack.getCraftingRemainingItem());
+					} else if (fuelExists) {
+						fuelItemStack.shrink(1);
+						if (fuelItemStack.isEmpty()) {
+							blockEntity.items.set(SLOT_FUEL, fuelItemStack.getCraftingRemainingItem());
 						}
 					}
 				}
 			}
 
-			if (blockEntity.isLit() && blockEntity.canBurn(level.registryAccess(), recipe, blockEntity.items, i)) {
+			if (blockEntity.isLit() && blockEntity.canBurn(level.registryAccess(), recipeholder, blockEntity.items, maxStackSize)) {
 				++blockEntity.cookingProgress;
 				if (blockEntity.cookingProgress >= blockEntity.cookingTotalTime) {
 					blockEntity.cookingProgress = 0;
-					blockEntity.cookingTotalTime = getTotalCookTime(level, blockEntity.recipeType, blockEntity);
-					if (blockEntity.burn(level.registryAccess(), recipe, blockEntity.items, i)) {
-						blockEntity.setRecipeUsed(recipe);
+					blockEntity.cookingTotalTime = getTotalCookTime(level, blockEntity);
+					if (blockEntity.burn(level.registryAccess(), recipeholder, blockEntity.items, maxStackSize)) {
+						blockEntity.setRecipeUsed(recipeholder);
 					}
 
-					flag1 = true;
+					changed = true;
 				}
 			} else {
 				blockEntity.cookingProgress = 0;
@@ -185,51 +193,52 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 			blockEntity.cookingProgress = Mth.clamp(blockEntity.cookingProgress - BURN_COOL_SPEED, 0, blockEntity.cookingTotalTime);
 		}
 
-		if (flag != blockEntity.isLit()) {
-			flag1 = true;
+		if (isBurning != blockEntity.isLit()) {
+			changed = true;
 			blockState = blockState.setValue(MineralTableBlock.LIT, blockEntity.isLit());
 			level.setBlock(pos, blockState, 3);
 		}
 
-		if (flag1) {
+		if (changed) {
 			setChanged(level, pos, blockState);
 		}
 
 	}
 
-	private boolean canBurn(RegistryAccess registryAccess, @Nullable MineralTableRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
+	@Contract("_,null,_,_->false")
+	private boolean canBurn(RegistryAccess registryAccess, @Nullable RecipeHolder<MineralTableRecipe> recipe, NonNullList<ItemStack> container, int maxCount) {
 		if (!container.get(SLOT_INPUT).isEmpty() && recipe != null) {
-			ItemStack itemstack = recipe.assemble(this, registryAccess);
-			if (itemstack.isEmpty()) {
+			ItemStack result = recipe.value().assemble(this, registryAccess);
+			if (result.isEmpty()) {
 				return false;
 			}
-			ItemStack itemstack1 = container.get(SLOT_RESULT);
-			if (itemstack1.isEmpty()) {
+			ItemStack resultSlot = container.get(SLOT_RESULT);
+			if (resultSlot.isEmpty()) {
 				return true;
 			}
-			if (isSameItem(itemstack1, itemstack)) {
+			if (isSameItem(resultSlot, result)) {
 				return false;
 			}
-			if (itemstack1.getCount() + itemstack.getCount() <= maxCount && itemstack1.getCount() + itemstack.getCount() <= itemstack1.getMaxStackSize()) {
+			if (resultSlot.getCount() + result.getCount() <= maxCount && resultSlot.getCount() + result.getCount() <= resultSlot.getMaxStackSize()) {
 				return true;
 			}
-			return itemstack1.getCount() + itemstack.getCount() <= itemstack.getMaxStackSize();
+			return resultSlot.getCount() + result.getCount() <= result.getMaxStackSize();
 		}
 		return false;
 	}
 
-	private boolean burn(RegistryAccess registryAccess, @Nullable MineralTableRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
-		if (recipe != null && this.canBurn(registryAccess, recipe, container, maxCount)) {
-			ItemStack itemstack = container.get(SLOT_INPUT);
-			ItemStack itemstack1 = recipe.assemble(this, registryAccess);
-			ItemStack itemstack2 = container.get(SLOT_RESULT);
-			if (itemstack2.isEmpty()) {
-				container.set(SLOT_RESULT, itemstack1.copy());
-			} else if (itemstack2.is(itemstack1.getItem())) {
-				itemstack2.grow(itemstack1.getCount());
+	private boolean burn(RegistryAccess registryAccess, @Nullable RecipeHolder<MineralTableRecipe> recipe, NonNullList<ItemStack> container, int maxCount) {
+		if (this.canBurn(registryAccess, recipe, container, maxCount)) {
+			ItemStack inputSlot = container.get(SLOT_INPUT);
+			ItemStack result = recipe.value().assemble(this, registryAccess);
+			ItemStack resultSlot = container.get(SLOT_RESULT);
+			if (resultSlot.isEmpty()) {
+				container.set(SLOT_RESULT, result.copy());
+			} else if (resultSlot.is(result.getItem())) {
+				resultSlot.grow(result.getCount());
 			}
 
-			itemstack.shrink(1);
+			inputSlot.shrink(1);
 			return true;
 		}
 		return false;
@@ -242,13 +251,13 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 		return itemStack.is(Items.MAGMA_CREAM) ? MineralTableRecipe.BURN_TIME * 20 : 0;
 	}
 
+	private static int getTotalCookTime(Level level, MineralTableBlockEntity blockEntity) {
+		return blockEntity.quickCheck.getRecipeFor(blockEntity, level).map(recipeHolder -> recipeHolder.value().getCookingTime()).orElse(MineralTableRecipe.BURN_TIME);
+	}
+
 	@Override
 	protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
 		return new MineralTableMenu(id, inventory, this, this.dataAccess);
-	}
-
-	private static int getTotalCookTime(Level level, RecipeType<MineralTableRecipe> recipeType, Container container) {
-		return level.getRecipeManager().getRecipeFor(recipeType, container, level).map(MineralTableRecipe::getCookingTime).orElse(200);
 	}
 
 	@Override
@@ -314,7 +323,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 		}
 
 		if (index == SLOT_INPUT && !flag) {
-			this.cookingTotalTime = getTotalCookTime(this.level, this.recipeType, this);
+			this.cookingTotalTime = getTotalCookTime(Objects.requireNonNull(this.level), this);
 			this.cookingProgress = 0;
 			this.setChanged();
 		}
@@ -323,7 +332,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 
 	@Override
 	public boolean stillValid(Player player) {
-		if (this.level.getBlockEntity(this.worldPosition) != this) {
+		if (Objects.requireNonNull(this.level).getBlockEntity(this.worldPosition) != this) {
 			return false;
 		}
 		return player.distanceToSqr((double)this.worldPosition.getX() + 0.5D, (double)this.worldPosition.getY() + 0.5D, (double)this.worldPosition.getZ() + 0.5D) <= 64.0D;
@@ -346,16 +355,15 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 	}
 
 	@Override
-	public void setRecipeUsed(@Nullable Recipe<?> recipe) {
+	public void setRecipeUsed(@Nullable RecipeHolder<?> recipe) {
 		if (recipe != null) {
-			ResourceLocation resourcelocation = recipe.getId();
+			ResourceLocation resourcelocation = recipe.id();
 			this.recipesUsed.addTo(resourcelocation, 1);
 		}
-
 	}
 
 	@Override @Nullable
-	public Recipe<?> getRecipeUsed() {
+	public RecipeHolder<MineralTableRecipe> getRecipeUsed() {
 		return null;
 	}
 
@@ -364,18 +372,18 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 	}
 
 	public void awardUsedRecipesAndPopExperience(ServerPlayer player) {
-		List<Recipe<?>> list = this.getRecipesToAwardAndPopExperience(player.serverLevel(), player.position());
+		List<RecipeHolder<?>> list = this.getRecipesToAwardAndPopExperience(player.serverLevel(), player.position());
 		player.awardRecipes(list);
 		this.recipesUsed.clear();
 	}
 
-	public List<Recipe<?>> getRecipesToAwardAndPopExperience(ServerLevel level, Vec3 pos) {
-		List<Recipe<?>> list = Lists.newArrayList();
+	public List<RecipeHolder<?>> getRecipesToAwardAndPopExperience(ServerLevel level, Vec3 pos) {
+		List<RecipeHolder<?>> list = Lists.newArrayList();
 
 		for(Object2IntMap.Entry<ResourceLocation> entry : this.recipesUsed.object2IntEntrySet()) {
-			level.getRecipeManager().byKey(entry.getKey()).ifPresent((recipe) -> {
-				list.add(recipe);
-				createExperience(level, pos, entry.getIntValue(), ((MineralTableRecipe)recipe).getExperience());
+			level.getRecipeManager().byKey(entry.getKey()).ifPresent(recipeHolder -> {
+				list.add(recipeHolder);
+				createExperience(level, pos, entry.getIntValue(), ((MineralTableRecipe)recipeHolder.value()).getExperience());
 			});
 		}
 

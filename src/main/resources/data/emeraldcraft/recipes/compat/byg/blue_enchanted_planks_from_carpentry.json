@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "planks",
-  "ingredients": [
-    {
-      "tag": "byg:blue_enchanted_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:blue_enchanted_logs"
+  },
   "result": "byg:blue_enchanted_planks",
   "count": 4
 }

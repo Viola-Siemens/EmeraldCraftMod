@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_door",
-  "ingredients": [
-    {
-      "tag": "minecraft:dark_oak_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "minecraft:dark_oak_logs"
+  },
   "result": "minecraft:dark_oak_door",
   "count": 2
 }

@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "minecraft:crimson_stem"
-    }
-  ],
+  "ingredient": {
+    "item": "minecraft:crimson_stem"
+  },
   "result": "minecraft:stripped_crimson_stem",
   "count": 1
 }

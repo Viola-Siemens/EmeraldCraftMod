@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:withering_oak_log"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:withering_oak_log"
+  },
   "result": "byg:withering_oak_wood",
   "count": 1
 }

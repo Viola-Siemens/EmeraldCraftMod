@@ -21,6 +21,8 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 @OnlyIn(Dist.CLIENT)
 public class MelterScreen extends AbstractContainerScreen<MelterMenu> {
+	private static final ResourceLocation LIT_PROGRESS_SPRITE = new ResourceLocation(MODID, "container/melter/lit_progress");
+	private static final ResourceLocation BURN_PROGRESS_SPRITE = new ResourceLocation(MODID, "container/melter/burn_progress");
 	private static final ResourceLocation BG_LOCATION = new ResourceLocation(MODID, "textures/gui/container/melter.png");
 
 	public MelterScreen(MelterMenu menu, Inventory inventory, Component component) {
@@ -30,28 +32,27 @@ public class MelterScreen extends AbstractContainerScreen<MelterMenu> {
 
 	@Override
 	public void render(GuiGraphics transform, int x, int y, float partialTicks) {
-		this.renderBackground(transform);
 		super.render(transform, x, y, partialTicks);
 		this.renderTooltip(transform, x, y);
 	}
 
 	@Override
 	protected void renderBg(GuiGraphics transform, float partialTicks, int x, int y) {
-		int i = (this.width - this.imageWidth) / 2;
-		int j = (this.height - this.imageHeight) / 2;
-		transform.blit(BG_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
+		int left = (this.width - this.imageWidth) / 2;
+		int top = (this.height - this.imageHeight) / 2;
+		transform.blit(BG_LOCATION, left, top, 0, 0, this.imageWidth, this.imageHeight);
 		if (this.menu.isLit()) {
-			int k = this.menu.getLitProgress();
-			transform.blit(BG_LOCATION, i + 41, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
+			int litProgress = this.menu.getLitProgress();
+			transform.blitSprite(LIT_PROGRESS_SPRITE, 14, 14, 0, 12 - litProgress, left + 41, top + 36 + 12 - litProgress, 14, litProgress + 1);
 		}
 
-		int l = this.menu.getBurnProgress();
-		transform.blit(BG_LOCATION, i + 64, j + 34, 176, 14, l + 1, 16);
+		int progress = this.menu.getBurnProgress();
+		transform.blitSprite(BURN_PROGRESS_SPRITE, 24, 16, 0, 0, left + 64, top + 34, progress + 1, 16);
 
-		int energyLevel = this.menu.getFluidLevel();
-		if(energyLevel > 0) {
-			int k = Mth.clamp((MelterBlockEntity.MAX_FLUID_LEVEL - 1 - energyLevel) / 20, 0, 49);
-			transform.blit(BG_LOCATION, i + 105, j + 18 + k, 12 * FluidTypes.getFluidTypeWithID(this.menu.getFluidTypeIndex()).getGUIID(), 166 + k, 12, 49 - k);
+		int fluidLevel = this.menu.getFluidLevel();
+		if(fluidLevel > 0) {
+			int remaining = Mth.clamp((MelterBlockEntity.MAX_FLUID_LEVEL - 1 - fluidLevel) / 20, 0, 49);
+			transform.blit(BG_LOCATION, left + 105, top + 18 + remaining, 12 * FluidTypes.getFluidTypeWithID(this.menu.getFluidTypeIndex()).getGuiId(), 166 + remaining, 12, 49 - remaining);
 		}
 	}
 

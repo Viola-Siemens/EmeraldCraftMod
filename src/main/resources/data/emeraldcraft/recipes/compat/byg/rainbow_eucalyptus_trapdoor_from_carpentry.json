@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_trapdoor",
-  "ingredients": [
-    {
-      "tag": "byg:rainbow_eucalyptus_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:rainbow_eucalyptus_logs"
+  },
   "result": "byg:rainbow_eucalyptus_trapdoor",
   "count": 2
 }

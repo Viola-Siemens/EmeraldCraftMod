@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "sticks",
-  "ingredients": [
-    {
-      "item": "immersiveengineering:treated_wood_packaged"
-    }
-  ],
+  "ingredient": {
+    "item": "immersiveengineering:treated_wood_packaged"
+  },
   "result": "immersiveengineering:stick_treated",
   "count": 3
 }

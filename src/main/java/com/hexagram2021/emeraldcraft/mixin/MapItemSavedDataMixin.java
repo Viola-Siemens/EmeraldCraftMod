@@ -20,7 +20,7 @@ public class MapItemSavedDataMixin {
 	@Inject(method = "isExplorationMap", at = @At(value = "HEAD"), cancellable = true)
 	public void checkIsECMapDecoration(CallbackInfoReturnable<Boolean> cir) {
 		for(MapDecoration decoration : this.decorations.values()) {
-			if(ECMapDecorationTypes.SHELTER == decoration.getType() || ECMapDecorationTypes.ENTRENCHMENT == decoration.getType()) {
+			if(ECMapDecorationTypes.SHELTER == decoration.type() || ECMapDecorationTypes.ENTRENCHMENT == decoration.type()) {
 				cir.setReturnValue(Boolean.TRUE);
 				cir.cancel();
 				return;

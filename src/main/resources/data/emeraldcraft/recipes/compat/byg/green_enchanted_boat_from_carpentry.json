@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "byg:green_enchanted_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:green_enchanted_logs"
+  },
   "result": "byg:green_enchanted_boat",
   "count": 1
 }

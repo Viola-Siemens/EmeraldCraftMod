@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "quark:azalea_log"
-    }
-  ],
+  "ingredient": {
+    "item": "quark:azalea_log"
+  },
   "result": "quark:azalea_wood",
   "count": 1
 }

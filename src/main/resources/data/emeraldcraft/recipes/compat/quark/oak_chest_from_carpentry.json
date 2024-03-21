@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "chest",
-  "ingredients": [
-    {
-      "tag": "minecraft:oak_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "minecraft:oak_logs"
+  },
   "result": "quark:oak_chest",
   "count": 1
 }

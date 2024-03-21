@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "emeraldcraft:ginkgo_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "emeraldcraft:ginkgo_logs"
+  },
   "result": "emeraldcraft:ginkgo_boat",
   "count": 1
 }

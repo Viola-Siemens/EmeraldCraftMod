@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_door",
-  "ingredients": [
-    {
-      "tag": "quark:azalea_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "quark:azalea_logs"
+  },
   "result": "quark:azalea_door",
   "count": 2
 }

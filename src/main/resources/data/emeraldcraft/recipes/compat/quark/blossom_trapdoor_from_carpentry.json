@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_trapdoor",
-  "ingredients": [
-    {
-      "tag": "quark:blossom_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "quark:blossom_logs"
+  },
   "result": "quark:blossom_trapdoor",
   "count": 2
 }

@@ -394,6 +394,12 @@
   "item.emeraldcraft.melted_uranium_bucket": "熔融铀水桶",
   "item.emeraldcraft.uranium_concentrate": "铀精矿",
 
+  "item.emeraldcraft.minced_beef": "牛肉碎",
+  "item.emeraldcraft.minced_chicken": "鸡肉碎",
+  "item.emeraldcraft.minced_mutton": "羊肉碎",
+  "item.emeraldcraft.minced_pork": "猪肉碎",
+  "item.emeraldcraft.minced_rabbit": "兔肉碎",
+
   "item.minecraft.potion.effect.absorption": "伤害吸收药水",
   "item.minecraft.splash_potion.effect.absorption": "喷溅型伤害吸收药水",
   "item.minecraft.lingering_potion.effect.absorption": "滞留型伤害吸收药水",

@@ -326,6 +326,7 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 		return ITEM_PICKUP_REACH;
 	}
 
+	@SuppressWarnings("UnstableApiUsage")
 	@Override
 	public boolean wantsToPickUp(ItemStack itemStack) {
 		ItemStack handItemStack = this.getItemInHand(InteractionHand.MAIN_HAND);
@@ -456,8 +457,8 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 	}
 
 	@Override
-	public double getMyRidingOffset() {
-		return 0.4D;
+	protected float ridingOffset(Entity entity) {
+		return 0.04F;
 	}
 
 	@Override

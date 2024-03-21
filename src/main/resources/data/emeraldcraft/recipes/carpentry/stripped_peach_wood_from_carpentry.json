@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "emeraldcraft:stripped_peach_log"
-    }
-  ],
+  "ingredient": {
+    "item": "emeraldcraft:stripped_peach_log"
+  },
   "result": "emeraldcraft:stripped_peach_wood",
   "count": 1
 }

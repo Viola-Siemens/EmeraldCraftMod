@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_stairs",
-  "ingredients": [
-    {
-      "item": "minecraft:acacia_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "minecraft:acacia_planks"
+  },
   "result": "minecraft:acacia_stairs",
   "count": 1
 }

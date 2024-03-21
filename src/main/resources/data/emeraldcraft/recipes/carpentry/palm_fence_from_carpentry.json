@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_fence",
-  "ingredients": [
-    {
-      "item": "emeraldcraft:palm_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "emeraldcraft:palm_planks"
+  },
   "result": "emeraldcraft:palm_fence",
   "count": 1
 }

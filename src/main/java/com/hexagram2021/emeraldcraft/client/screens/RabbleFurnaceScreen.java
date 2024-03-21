@@ -19,7 +19,8 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 @OnlyIn(Dist.CLIENT)
 public class RabbleFurnaceScreen extends AbstractContainerScreen<RabbleFurnaceMenu> implements RecipeUpdateListener {
-	private static final ResourceLocation RECIPE_BUTTON_LOCATION = new ResourceLocation("textures/gui/recipe_button.png");
+	private static final ResourceLocation LIT_PROGRESS_SPRITE = new ResourceLocation(MODID, "container/rabble_furnace/lit_progress");
+	private static final ResourceLocation BURN_PROGRESS_SPRITE = new ResourceLocation(MODID, "container/rabble_furnace/burn_progress");
 	private static final ResourceLocation BG_LOCATION = new ResourceLocation(MODID, "textures/gui/container/rabble_furnace.png");
 	public final RabbleFurnaceRecipeBookComponent recipeBookComponent = new RabbleFurnaceRecipeBookComponent();
 
@@ -37,7 +38,7 @@ public class RabbleFurnaceScreen extends AbstractContainerScreen<RabbleFurnaceMe
 		this.widthTooNarrow = this.width < 379;
 		this.recipeBookComponent.init(this.width, this.height, this.minecraft, this.widthTooNarrow, this.menu);
 		this.leftPos = this.recipeBookComponent.updateScreenPosition(this.width, this.imageWidth);
-		this.addRenderableWidget(new ImageButton(this.leftPos + 84, this.height / 2 - 33, 20, 18, 0, 0, 19, RECIPE_BUTTON_LOCATION, button -> {
+		this.addRenderableWidget(new ImageButton(this.leftPos + 84, this.height / 2 - 33, 20, 18, RecipeBookComponent.RECIPE_BUTTON_SPRITES, button -> {
 			this.recipeBookComponent.toggleVisibility();
 			this.leftPos = this.recipeBookComponent.updateScreenPosition(this.width, this.imageWidth);
 			button.setPosition(this.leftPos + 84, this.height / 2 - 33);
@@ -53,7 +54,6 @@ public class RabbleFurnaceScreen extends AbstractContainerScreen<RabbleFurnaceMe
 
 	@Override
 	public void render(GuiGraphics transform, int x, int y, float partialTicks) {
-		this.renderBackground(transform);
 		if (this.recipeBookComponent.isVisible() && this.widthTooNarrow) {
 			this.renderBg(transform, partialTicks, x, y);
 			this.recipeBookComponent.render(transform, x, y, partialTicks);
@@ -69,16 +69,16 @@ public class RabbleFurnaceScreen extends AbstractContainerScreen<RabbleFurnaceMe
 
 	@Override
 	protected void renderBg(GuiGraphics transform, float partialTicks, int x, int y) {
-		int i = this.leftPos;
-		int j = this.topPos;
-		transform.blit(BG_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
+		int left = (this.width - this.imageWidth) / 2;
+		int top = (this.height - this.imageHeight) / 2;
+		transform.blit(BG_LOCATION, left, top, 0, 0, this.imageWidth, this.imageHeight);
 		if (this.menu.isLit()) {
-			int k = this.menu.getLitProgress();
-			transform.blit(BG_LOCATION, i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
+			int litProgress = this.menu.getLitProgress();
+			transform.blitSprite(LIT_PROGRESS_SPRITE, 14, 14, 0, 12 - litProgress, left + 56, top + 36 + 12 - litProgress, 14, litProgress + 1);
 		}
 
-		int l = this.menu.getBurnProgress();
-		transform.blit(BG_LOCATION, i + 79, j + 34, 176, 14, l + 1, 16);
+		int progress = this.menu.getBurnProgress();
+		transform.blitSprite(BURN_PROGRESS_SPRITE, 24, 16, 0, 0, left + 79, top + 34, progress + 1, 16);
 	}
 
 	@Override

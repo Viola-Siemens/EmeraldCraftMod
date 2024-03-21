@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_door",
-  "ingredients": [
-    {
-      "tag": "byg:white_mangrove_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:white_mangrove_logs"
+  },
   "result": "byg:white_mangrove_door",
   "count": 2
 }

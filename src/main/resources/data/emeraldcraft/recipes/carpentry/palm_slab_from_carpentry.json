@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_slab",
-  "ingredients": [
-    {
-      "item": "emeraldcraft:palm_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "emeraldcraft:palm_planks"
+  },
   "result": "emeraldcraft:palm_slab",
   "count": 2
 }

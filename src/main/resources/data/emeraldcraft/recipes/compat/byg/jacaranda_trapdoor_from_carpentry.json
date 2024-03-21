@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_trapdoor",
-  "ingredients": [
-    {
-      "tag": "byg:jacaranda_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:jacaranda_logs"
+  },
   "result": "byg:jacaranda_trapdoor",
   "count": 2
 }

@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_button",
-  "ingredients": [
-    {
-      "item": "byg:cypress_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:cypress_planks"
+  },
   "result": "byg:cypress_button",
   "count": 2
 }

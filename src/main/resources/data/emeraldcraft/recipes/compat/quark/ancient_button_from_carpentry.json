@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_button",
-  "ingredients": [
-    {
-      "item": "quark:ancient_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "quark:ancient_planks"
+  },
   "result": "quark:ancient_button",
   "count": 2
 }

@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_door",
-  "ingredients": [
-    {
-      "tag": "byg:baobab_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:baobab_logs"
+  },
   "result": "byg:baobab_door",
   "count": 2
 }

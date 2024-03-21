@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_door",
-  "ingredients": [
-    {
-      "tag": "emeraldcraft:palm_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "emeraldcraft:palm_logs"
+  },
   "result": "emeraldcraft:palm_door",
   "count": 2
 }

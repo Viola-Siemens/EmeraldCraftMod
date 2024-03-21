@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_fence_gate",
-  "ingredients": [
-    {
-      "item": "byg:bulbis_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:bulbis_planks"
+  },
   "result": "byg:bulbis_fence_gate",
   "count": 1
 }

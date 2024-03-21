@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "emeraldcraft:peach_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "emeraldcraft:peach_logs"
+  },
   "result": "emeraldcraft:peach_boat",
   "count": 1
 }

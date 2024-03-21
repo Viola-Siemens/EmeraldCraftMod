@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_fence_gate",
-  "ingredients": [
-    {
-      "item": "quark:ancient_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "quark:ancient_planks"
+  },
   "result": "quark:ancient_fence_gate",
   "count": 1
 }

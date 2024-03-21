@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "byg:redwood_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:redwood_logs"
+  },
   "result": "byg:redwood_boat",
   "count": 1
 }

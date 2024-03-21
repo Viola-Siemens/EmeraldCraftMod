@@ -394,6 +394,12 @@
   "item.emeraldcraft.melted_uranium_bucket": "Melted Uranium Bucket",
   "item.emeraldcraft.uranium_concentrate": "Uranium Concentrate",
 
+  "item.emeraldcraft.minced_beef": "Minced Beef",
+  "item.emeraldcraft.minced_chicken": "Minced Chicken",
+  "item.emeraldcraft.minced_mutton": "Minced Mutton",
+  "item.emeraldcraft.minced_pork": "Minced Pork",
+  "item.emeraldcraft.minced_rabbit": "Minced Rabbit",
+
   "item.minecraft.potion.effect.absorption": "Absorption Potion",
   "item.minecraft.splash_potion.effect.absorption": "Splash Absorption Potion",
   "item.minecraft.lingering_potion.effect.absorption": "Lingering Absorption Potion",

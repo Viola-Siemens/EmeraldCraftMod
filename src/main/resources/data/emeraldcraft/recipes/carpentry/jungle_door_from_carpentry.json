@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_door",
-  "ingredients": [
-    {
-      "tag": "minecraft:jungle_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "minecraft:jungle_logs"
+  },
   "result": "minecraft:jungle_door",
   "count": 2
 }

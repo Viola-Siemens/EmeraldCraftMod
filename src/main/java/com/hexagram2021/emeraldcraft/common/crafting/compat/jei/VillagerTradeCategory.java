@@ -85,8 +85,8 @@ public class VillagerTradeCategory implements IRecipeCategory<TradeShadowRecipe>
 
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, TradeShadowRecipe recipe, IFocusGroup focuses) {
-		builder.addSlot(RecipeIngredientRole.INPUT, 8, 15).addItemStack(recipe.getCostA());
-		builder.addSlot(RecipeIngredientRole.INPUT, 34, 15).addItemStack(recipe.getCostB());
+		builder.addSlot(RecipeIngredientRole.INPUT, 8, 15).addItemStack(recipe.costA());
+		builder.addSlot(RecipeIngredientRole.INPUT, 34, 15).addItemStack(recipe.costB());
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 94, 15).addItemStack(RecipeUtil.getResultItem(recipe));
 	}
 

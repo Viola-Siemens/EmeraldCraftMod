@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "emeraldcraft:stripped_palm_log"
-    }
-  ],
+  "ingredient": {
+    "item": "emeraldcraft:stripped_palm_log"
+  },
   "result": "emeraldcraft:stripped_palm_wood",
   "count": 1
 }

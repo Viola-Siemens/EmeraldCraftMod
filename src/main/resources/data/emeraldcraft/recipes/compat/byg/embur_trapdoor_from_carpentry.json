@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_trapdoor",
-  "ingredients": [
-    {
-      "tag": "byg:embur_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:embur_logs"
+  },
   "result": "byg:embur_trapdoor",
   "count": 2
 }

@@ -84,7 +84,7 @@ public class ClientProxy extends CommonProxy {
 				EntityType.VILLAGER, (entity, profession, level) -> {
 					Villager villager = (Villager) entity;
 					villager.setNoAi(true);
-					villager.setVillagerData(new VillagerData(VillagerType.PLAINS, profession, level));
+					villager.setVillagerData(new VillagerData(VillagerType.PLAINS, Objects.requireNonNull(profession), level));
 				}
 		);
 		ITradableDataFactory.registerDataFactory(

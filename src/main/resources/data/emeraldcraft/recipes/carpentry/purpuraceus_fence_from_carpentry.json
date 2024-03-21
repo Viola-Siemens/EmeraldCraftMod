@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_fence",
-  "ingredients": [
-    {
-      "item": "emeraldcraft:purpuraceus_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "emeraldcraft:purpuraceus_planks"
+  },
   "result": "emeraldcraft:purpuraceus_fence",
   "count": 1
 }

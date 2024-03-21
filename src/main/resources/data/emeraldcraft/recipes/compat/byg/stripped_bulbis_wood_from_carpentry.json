@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:stripped_bulbis_stem"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:stripped_bulbis_stem"
+  },
   "result": "byg:stripped_bulbis_wood",
   "count": 1
 }

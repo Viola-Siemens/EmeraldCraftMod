@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_stairs",
-  "ingredients": [
-    {
-      "item": "byg:jacaranda_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:jacaranda_planks"
+  },
   "result": "byg:jacaranda_stairs",
   "count": 1
 }

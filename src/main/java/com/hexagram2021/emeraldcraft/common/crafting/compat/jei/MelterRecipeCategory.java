@@ -106,12 +106,12 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 		this.drawCookTime(recipe, transform, 22);
 		this.drawFluidAmount(recipe, transform, 48);
 
-		this.resultFluids[recipe.getFluidType().getGUIID()].draw(transform, 65, 2);
+		this.resultFluids[recipe.resultFluid().fluidType().getGuiId()].draw(transform, 65, 2);
 	}
 
 	@SuppressWarnings("SameParameterValue")
 	protected void drawCookTime(MelterRecipe recipe, GuiGraphics transform, int y) {
-		int meltTime = recipe.getMeltingTime();
+		int meltTime = recipe.meltingTime();
 		if (meltTime > 0) {
 			int cookTimeSeconds = meltTime / 20;
 			Component timeString = Component.translatable("gui.emeraldcraft.melter.time.seconds", cookTimeSeconds);
@@ -124,7 +124,7 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 
 	@SuppressWarnings("SameParameterValue")
 	protected void drawFluidAmount(MelterRecipe recipe, GuiGraphics transform, int y) {
-		int fluidAmount = recipe.getFluidAmount();
+		int fluidAmount = recipe.resultFluid().amount();
 		if (fluidAmount > 0) {
 			Component amountString = Component.translatable("gui.emeraldcraft.melter.fluid.amount", String.format("%.2f", fluidAmount / 100.0F));
 			Minecraft minecraft = Minecraft.getInstance();
@@ -137,11 +137,11 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, MelterRecipe recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1).addIngredients(recipe.getIngredient());
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 92, 36).addItemStack(new ItemStack(FluidTypes.getFluidBucketItem(recipe.getFluidType())));
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 92, 36).addItemStack(new ItemStack(FluidTypes.getFluidBucketItem(recipe.resultFluid().fluidType())));
 	}
 
 	protected IDrawableAnimated getArrow(MelterRecipe recipe) {
-		int meltTime = recipe.getMeltingTime();
+		int meltTime = recipe.meltingTime();
 		if (meltTime <= 0) {
 			meltTime = MELTTIME;
 		}

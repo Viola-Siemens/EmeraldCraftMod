@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_stairs",
-  "ingredients": [
-    {
-      "item": "byg:rainbow_eucalyptus_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:rainbow_eucalyptus_planks"
+  },
   "result": "byg:rainbow_eucalyptus_stairs",
   "count": 1
 }

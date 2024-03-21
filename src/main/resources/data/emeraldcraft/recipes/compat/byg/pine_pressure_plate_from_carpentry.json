@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_pressure_plate",
-  "ingredients": [
-    {
-      "item": "byg:pine_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:pine_planks"
+  },
   "result": "byg:pine_pressure_plate",
   "count": 1
 }

@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "byg:maple_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:maple_logs"
+  },
   "result": "byg:maple_boat",
   "count": 1
 }

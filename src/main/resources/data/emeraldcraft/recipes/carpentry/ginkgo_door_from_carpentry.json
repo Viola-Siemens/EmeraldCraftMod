@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_door",
-  "ingredients": [
-    {
-      "tag": "emeraldcraft:ginkgo_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "emeraldcraft:ginkgo_logs"
+  },
   "result": "emeraldcraft:ginkgo_door",
   "count": 2
 }

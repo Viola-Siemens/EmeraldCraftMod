@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "minecraft:warped_stem"
-    }
-  ],
+  "ingredient": {
+    "item": "minecraft:warped_stem"
+  },
   "result": "minecraft:stripped_warped_stem",
   "count": 1
 }

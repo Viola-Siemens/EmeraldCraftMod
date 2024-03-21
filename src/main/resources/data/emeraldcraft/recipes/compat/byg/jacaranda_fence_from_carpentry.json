@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_fence",
-  "ingredients": [
-    {
-      "item": "byg:jacaranda_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:jacaranda_planks"
+  },
   "result": "byg:jacaranda_fence",
   "count": 1
 }

@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "boat",
-  "ingredients": [
-    {
-      "tag": "minecraft:jungle_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "minecraft:jungle_logs"
+  },
   "result": "minecraft:jungle_boat",
   "count": 1
 }

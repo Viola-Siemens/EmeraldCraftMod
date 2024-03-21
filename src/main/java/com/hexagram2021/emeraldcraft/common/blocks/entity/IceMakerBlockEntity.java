@@ -24,6 +24,8 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
@@ -33,9 +35,12 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+
+import java.util.Objects;
 
 import static com.hexagram2021.emeraldcraft.common.blocks.entity.ContinuousMinerBlockEntity.FLUID_LEVEL_BUCKET;
 
@@ -82,9 +87,11 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 			return IceMakerMenu.DATA_COUNT;
 		}
 	};
+	private final RecipeManager.CachedCheck<Container, IceMakerRecipe> quickCheck;
 
 	public IceMakerBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntity.ICE_MAKER.get(), pos, state);
+		this.quickCheck = RecipeManager.createCheck(ECRecipes.ICE_MAKER_TYPE.get());
 	}
 
 	@Override
@@ -111,16 +118,17 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 			blockEntity.items.set(IceMakerMenu.CONDENSATE_SLOT, new ItemStack(Items.BUCKET));
 		}
 
-		if (blockEntity.isLit() && blockEntity.inputFluidAmount > 0) {
-			IceMakerRecipe recipe = level.getRecipeManager().getRecipeFor(ECRecipes.ICE_MAKER_TYPE.get(), blockEntity, level).orElse(null);
+		boolean inputExists = blockEntity.inputFluidAmount > 0;
+		if (blockEntity.isLit() && inputExists) {
+			RecipeHolder<IceMakerRecipe> recipeHolder = blockEntity.quickCheck.getRecipeFor(blockEntity, level).orElse(null);
 
-			if (blockEntity.canFreeze(level.registryAccess(), recipe, blockEntity.items, blockEntity.getMaxStackSize())) {
+			if (blockEntity.canFreeze(level.registryAccess(), recipeHolder, blockEntity.items, blockEntity.getMaxStackSize())) {
 				++blockEntity.freezingProgress;
 				--blockEntity.condensateFluidAmount;
 				if (blockEntity.freezingProgress >= blockEntity.freezingTotalTime) {
 					blockEntity.freezingProgress = 0;
 					blockEntity.freezingTotalTime = getTotalFreezeTime(level, blockEntity);
-					blockEntity.freeze(level.registryAccess(), recipe, blockEntity.items, blockEntity.getMaxStackSize());
+					blockEntity.freeze(level.registryAccess(), recipeHolder, blockEntity.items, blockEntity.getMaxStackSize());
 
 					flag1 = true;
 				}
@@ -188,11 +196,12 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		}
 	}
 
-	private boolean canFreeze(RegistryAccess registryAccess, @Nullable IceMakerRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
-		if (recipe == null) {
+	@Contract("_,null,_,_->false")
+	private boolean canFreeze(RegistryAccess registryAccess, @Nullable RecipeHolder<IceMakerRecipe> recipeHolder, NonNullList<ItemStack> container, int maxCount) {
+		if (recipeHolder == null) {
 			return false;
 		}
-		ItemStack result = recipe.assemble(this, registryAccess);
+		ItemStack result = recipeHolder.value().assemble(this, registryAccess);
 		if (result.isEmpty()) {
 			return false;
 		}
@@ -209,8 +218,10 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		return itemstack.getCount() + result.getCount() <= result.getMaxStackSize();
 	}
 
-	private boolean freeze(RegistryAccess registryAccess, @Nullable IceMakerRecipe recipe, NonNullList<ItemStack> container, int maxCount) {
-		if (this.canFreeze(registryAccess, recipe, container, maxCount)) {
+	@SuppressWarnings("UnusedReturnValue")
+	private boolean freeze(RegistryAccess registryAccess, @Nullable RecipeHolder<IceMakerRecipe> recipeHolder, NonNullList<ItemStack> container, int maxCount) {
+		if (this.canFreeze(registryAccess, recipeHolder, container, maxCount)) {
+			IceMakerRecipe recipe = recipeHolder.value();
 			ItemStack result = recipe.assemble(this, registryAccess);
 			ItemStack itemstack = container.get(IceMakerMenu.RESULT_SLOT);
 			if(itemstack.isEmpty()) {
@@ -219,7 +230,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 				itemstack.grow(result.getCount());
 			}
 
-			this.inputFluidAmount -= recipe.getFluidAmount();
+			this.inputFluidAmount -= recipe.inputFluid().amount();
 			return true;
 		}
 		return false;
@@ -227,7 +238,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 
 	@Override
 	public boolean stillValid(Player player) {
-		if (this.level.getBlockEntity(this.worldPosition) != this) {
+		if (Objects.requireNonNull(this.level).getBlockEntity(this.worldPosition) != this) {
 			return false;
 		}
 		return player.distanceToSqr((double)this.worldPosition.getX() + 0.5D, (double)this.worldPosition.getY() + 0.5D, (double)this.worldPosition.getZ() + 0.5D) <= 64.0D;
@@ -305,8 +316,8 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		return itemStack.is(Items.BUCKET) || IceMakerMenu.isFluidBucket(itemStack);
 	}
 
-	private static int getTotalFreezeTime(Level level, Container container) {
-		return level.getRecipeManager().getRecipeFor(ECRecipes.ICE_MAKER_TYPE.get(), container, level).map(IceMakerRecipe::getFreezingTime).orElse(IceMakerRecipe.FREEZING_TIME);
+	private static int getTotalFreezeTime(Level level, IceMakerBlockEntity blockEntity) {
+		return blockEntity.quickCheck.getRecipeFor(blockEntity, level).map(recipeHolder -> recipeHolder.value().freezingTime()).orElse(IceMakerRecipe.FREEZING_TIME);
 	}
 
 	@Override

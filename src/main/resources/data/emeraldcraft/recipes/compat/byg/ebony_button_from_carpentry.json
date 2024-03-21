@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_button",
-  "ingredients": [
-    {
-      "item": "byg:ebony_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:ebony_planks"
+  },
   "result": "byg:ebony_button",
   "count": 2
 }

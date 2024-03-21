@@ -394,6 +394,12 @@
   "item.emeraldcraft.melted_uranium_bucket": "溶けたウラン入りバケツ",
   "item.emeraldcraft.uranium_concentrate": "ウラン精鉱",
 
+  "item.emeraldcraft.minced_beef": "牛ひき肉",
+  "item.emeraldcraft.minced_chicken": "鶏ひき肉",
+  "item.emeraldcraft.minced_mutton": "羊肉ミンチ",
+  "item.emeraldcraft.minced_pork": "豚ひき肉",
+  "item.emeraldcraft.minced_rabbit": "兎肉ミンチ",
+
   "item.minecraft.potion.effect.absorption": "衝撃吸収のポーション",
   "item.minecraft.splash_potion.effect.absorption": "スプラッシュ 衝撃吸収のポーション",
   "item.minecraft.lingering_potion.effect.absorption": "衝撃吸収の残留ポーション",

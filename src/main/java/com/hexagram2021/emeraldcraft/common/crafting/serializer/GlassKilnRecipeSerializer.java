@@ -1,62 +1,50 @@
 package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.hexagram2021.emeraldcraft.common.crafting.GlassKilnRecipe;
-import net.minecraft.core.registries.BuiltInRegistries;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 
 public class GlassKilnRecipeSerializer<T extends GlassKilnRecipe> implements RecipeSerializer<T> {
-	private final int defaultCookingTime;
 	private final GlassKilnRecipeSerializer.Creator<T> factory;
+	private final Codec<T> codec;
 
-	public GlassKilnRecipeSerializer(GlassKilnRecipeSerializer.Creator<T> creator, int cookingTime) {
-		this.defaultCookingTime = cookingTime;
+	public GlassKilnRecipeSerializer(GlassKilnRecipeSerializer.Creator<T> creator, int defaultCookingTime) {
 		this.factory = creator;
+		this.codec = RecordCodecBuilder.create(
+				instance -> instance.group(
+						ExtraCodecs.strictOptionalField(Codec.STRING, "group", "").forGetter(GlassKilnRecipe::getGroup),
+						ExtraCodecs.strictOptionalField(Codec.STRING, "category", "").forGetter(GlassKilnRecipe::getCategory),
+						Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(GlassKilnRecipe::getIngredient),
+						ForgeRegistries.ITEMS.getCodec().xmap(ItemStack::new, ItemStack::getItem).fieldOf("result").forGetter(GlassKilnRecipe::getResult),
+						Codec.FLOAT.fieldOf("experience").orElse(0.0F).forGetter(GlassKilnRecipe::getExperience),
+						Codec.INT.fieldOf("cookingtime").orElse(defaultCookingTime).forGetter(GlassKilnRecipe::getCookingTime)
+				).apply(instance, creator::create)
+		);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public T fromJson(ResourceLocation id, JsonObject json) {
-		String group = GsonHelper.getAsString(json, "group", "");
-		String category = GsonHelper.getAsString(json, "category", "");
-		JsonElement jsonelement =
-				GsonHelper.isArrayNode(json, "ingredient") ?
-						GsonHelper.getAsJsonArray(json, "ingredient") :
-						GsonHelper.getAsJsonObject(json, "ingredient");
-		Ingredient ingredient = Ingredient.fromJson(jsonelement);
-
-		if (!json.has("result")) throw new com.google.gson.JsonSyntaxException("Missing result, expected to find a string or object");
-		ItemStack itemstack;
-		if (json.get("result").isJsonObject()) {
-			itemstack = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
-		} else {
-			String result = GsonHelper.getAsString(json, "result");
-			ResourceLocation resourcelocation = new ResourceLocation(result);
-			itemstack = new ItemStack(BuiltInRegistries.ITEM.getOptional(resourcelocation).orElseThrow(
-					() -> new IllegalStateException("Item: " + result + " does not exist")
-			));
-		}
-		float f = GsonHelper.getAsFloat(json, "experience", 0.0F);
-		int i = GsonHelper.getAsInt(json, "cookingtime", this.defaultCookingTime);
-		return this.factory.create(id, group, category, ingredient, itemstack, f, i);
+	public Codec<T> codec() {
+		return this.codec;
 	}
 
 	@Override @Nullable
-	public T fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+	public T fromNetwork(FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		String category = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);
 		ItemStack itemstack = buf.readItem();
 		float xp = buf.readFloat();
 		int time = buf.readVarInt();
-		return this.factory.create(id, group, category, ingredient, itemstack, xp, time);
+		return this.factory.create(group, category, ingredient, itemstack, xp, time);
 	}
 
 	@Override
@@ -70,6 +58,6 @@ public class GlassKilnRecipeSerializer<T extends GlassKilnRecipe> implements Rec
 	}
 
 	public interface Creator<T extends AbstractCookingRecipe> {
-		T create(ResourceLocation id, String group, String category, Ingredient ingredient, ItemStack result, float experience, int cookingtime);
+		T create(String group, String category, Ingredient ingredient, ItemStack result, float experience, int cookingtime);
 	}
 }

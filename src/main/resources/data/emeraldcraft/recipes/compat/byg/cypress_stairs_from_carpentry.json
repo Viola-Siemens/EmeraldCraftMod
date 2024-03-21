@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_stairs",
-  "ingredients": [
-    {
-      "item": "byg:cypress_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:cypress_planks"
+  },
   "result": "byg:cypress_stairs",
   "count": 1
 }

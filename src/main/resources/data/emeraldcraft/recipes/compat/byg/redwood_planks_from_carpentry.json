@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "planks",
-  "ingredients": [
-    {
-      "tag": "byg:redwood_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:redwood_logs"
+  },
   "result": "byg:redwood_planks",
   "count": 4
 }

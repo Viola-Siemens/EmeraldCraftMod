@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:baobab_log"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:baobab_log"
+  },
   "result": "byg:stripped_baobab_log",
   "count": 1
 }

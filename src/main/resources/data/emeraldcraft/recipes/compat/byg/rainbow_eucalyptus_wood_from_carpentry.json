@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:rainbow_eucalyptus_log"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:rainbow_eucalyptus_log"
+  },
   "result": "byg:rainbow_eucalyptus_wood",
   "count": 1
 }

@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "planks",
-  "ingredients": [
-    {
-      "tag": "byg:aspen_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:aspen_logs"
+  },
   "result": "byg:aspen_planks",
   "count": 4
 }

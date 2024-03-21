@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "wooden_sign",
-  "ingredients": [
-    {
-      "item": "minecraft:dark_oak_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "minecraft:dark_oak_planks"
+  },
   "result": "minecraft:dark_oak_sign",
   "count": 1
 }

@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_button",
-  "ingredients": [
-    {
-      "item": "byg:cika_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:cika_planks"
+  },
   "result": "byg:cika_button",
   "count": 2
 }

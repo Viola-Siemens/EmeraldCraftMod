@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_fence",
-  "ingredients": [
-    {
-      "item": "immersiveengineering:treated_wood_vertical"
-    }
-  ],
+  "ingredient": {
+    "item": "immersiveengineering:treated_wood_vertical"
+  },
   "result": "immersiveengineering:treated_fence",
   "count": 1
 }

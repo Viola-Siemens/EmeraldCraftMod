@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:embur_pedu"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:embur_pedu"
+  },
   "result": "byg:stripped_embur_pedu",
   "count": 1
 }

@@ -8,20 +8,17 @@ import net.minecraft.world.entity.monster.ZombifiedPiglin;
 import net.minecraft.world.entity.monster.piglin.AbstractPiglin;
 import net.minecraft.world.level.storage.loot.LootContext;
 
+import java.util.Optional;
+
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public class CuredZombifiedPiglinTrigger extends SimpleCriterionTrigger<CuredZombifiedPiglinTrigger.TriggerInstance> {
-	static final ResourceLocation ID = new ResourceLocation(MODID, "cured_zombified_piglin");
+	public static final ResourceLocation ID = new ResourceLocation(MODID, "cured_zombified_piglin");
 
 	@Override
-	public ResourceLocation getId() {
-		return ID;
-	}
-
-	@Override
-	public CuredZombifiedPiglinTrigger.TriggerInstance createInstance(JsonObject json, ContextAwarePredicate entity, DeserializationContext context) {
-		ContextAwarePredicate zombifiedPiglin = EntityPredicate.fromJson(json, "zombified_piglin", context);
-		ContextAwarePredicate piglin = EntityPredicate.fromJson(json, "piglin", context);
+	public CuredZombifiedPiglinTrigger.TriggerInstance createInstance(JsonObject json, Optional<ContextAwarePredicate> entity, DeserializationContext context) {
+		Optional<ContextAwarePredicate> zombifiedPiglin = EntityPredicate.fromJson(json, "zombified_piglin", context);
+		Optional<ContextAwarePredicate> piglin = EntityPredicate.fromJson(json, "piglin", context);
 		return new CuredZombifiedPiglinTrigger.TriggerInstance(entity, zombifiedPiglin, piglin);
 	}
 
@@ -31,28 +28,29 @@ public class CuredZombifiedPiglinTrigger extends SimpleCriterionTrigger<CuredZom
 		this.trigger(player, instance -> instance.matches(zombifiedPiglinContext, piglinContext));
 	}
 
+	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	public static class TriggerInstance extends AbstractCriterionTriggerInstance {
-		private final ContextAwarePredicate zombifiedPiglin;
-		private final ContextAwarePredicate piglin;
+		private final Optional<ContextAwarePredicate> zombifiedPiglin;
+		private final Optional<ContextAwarePredicate> piglin;
 
-		public TriggerInstance(ContextAwarePredicate entity, ContextAwarePredicate zombifiedPiglin, ContextAwarePredicate piglin) {
-			super(CuredZombifiedPiglinTrigger.ID, entity);
+		public TriggerInstance(Optional<ContextAwarePredicate> entity, Optional<ContextAwarePredicate> zombifiedPiglin, Optional<ContextAwarePredicate> piglin) {
+			super(entity);
 			this.zombifiedPiglin = zombifiedPiglin;
 			this.piglin = piglin;
 		}
 
 		public boolean matches(LootContext zombifiedPiglinContext, LootContext piglinContext) {
-			if (!this.zombifiedPiglin.matches(zombifiedPiglinContext)) {
+			if (this.zombifiedPiglin.isPresent() && !this.zombifiedPiglin.get().matches(zombifiedPiglinContext)) {
 				return false;
 			}
-			return this.piglin.matches(piglinContext);
+			return this.piglin.isPresent() && !this.piglin.get().matches(piglinContext);
 		}
 
 		@Override
-		public JsonObject serializeToJson(SerializationContext context) {
-			JsonObject jsonobject = super.serializeToJson(context);
-			jsonobject.add("zombified_piglin", this.zombifiedPiglin.toJson(context));
-			jsonobject.add("piglin", this.piglin.toJson(context));
+		public JsonObject serializeToJson() {
+			JsonObject jsonobject = super.serializeToJson();
+			this.zombifiedPiglin.ifPresent(predicate -> jsonobject.add("zombified_piglin", predicate.toJson()));
+			this.piglin.ifPresent(predicate -> jsonobject.add("piglin", predicate.toJson()));
 			return jsonobject;
 		}
 	}

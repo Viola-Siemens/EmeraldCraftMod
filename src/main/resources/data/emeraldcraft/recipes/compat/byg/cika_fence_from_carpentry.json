@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "wooden_fence",
-  "ingredients": [
-    {
-      "item": "byg:cika_planks"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:cika_planks"
+  },
   "result": "byg:cika_fence",
   "count": 1
 }

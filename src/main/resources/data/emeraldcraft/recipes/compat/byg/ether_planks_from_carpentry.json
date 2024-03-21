@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "planks",
-  "ingredients": [
-    {
-      "tag": "byg:ether_logs"
-    }
-  ],
+  "ingredient": {
+    "tag": "byg:ether_logs"
+  },
   "result": "byg:ether_planks",
   "count": 4
 }

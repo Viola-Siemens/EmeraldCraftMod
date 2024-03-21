@@ -1,11 +1,9 @@
 {
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "emeraldcraft:ginkgo_log"
-    }
-  ],
+  "ingredient": {
+    "item": "emeraldcraft:ginkgo_log"
+  },
   "result": "emeraldcraft:ginkgo_wood",
   "count": 1
 }

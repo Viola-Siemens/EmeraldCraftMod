@@ -7,11 +7,9 @@
   ],
   "type": "emeraldcraft:carpentry",
   "group": "bark",
-  "ingredients": [
-    {
-      "item": "byg:willow_log"
-    }
-  ],
+  "ingredient": {
+    "item": "byg:willow_log"
+  },
   "result": "byg:stripped_willow_log",
   "count": 1
 }
