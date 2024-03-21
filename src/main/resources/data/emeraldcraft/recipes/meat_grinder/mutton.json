@@ -1,0 +1,9 @@
+{
+  "type": "emeraldcraft:meat_grinder",
+  "ingredient": {
+    "item": "minecraft:mutton"
+  },
+  "result": "emeraldcraft:minced_mutton",
+  "count": 3,
+  "cookingtime": 120
+}

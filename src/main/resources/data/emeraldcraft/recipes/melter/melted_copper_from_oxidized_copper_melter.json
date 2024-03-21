@@ -4,8 +4,8 @@
     "item": "minecraft:oxidized_copper"
   },
   "result": {
-    "fluid": "melted_copper",
-    "amount": 100
+    "FluidName": "emeraldcraft:melted_copper",
+    "Amount": 1000
   },
   "meltingtime": 200
 }

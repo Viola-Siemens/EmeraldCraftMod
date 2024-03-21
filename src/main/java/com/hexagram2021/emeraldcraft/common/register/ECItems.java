@@ -3,13 +3,11 @@ package com.hexagram2021.emeraldcraft.common.register;
 import com.google.common.collect.Lists;
 import com.hexagram2021.emeraldcraft.common.crafting.compat.ModsLoadedEventSubscriber;
 import com.hexagram2021.emeraldcraft.common.entities.ECBoat;
+import com.hexagram2021.emeraldcraft.common.items.foods.*;
 import com.hexagram2021.emeraldcraft.common.items.ECBoatItem;
 import com.hexagram2021.emeraldcraft.common.items.armors.EmeraldArmorItem;
 import com.hexagram2021.emeraldcraft.common.items.armors.LapisArmorItem;
 import com.hexagram2021.emeraldcraft.common.items.armors.WoodenArmorItem;
-import com.hexagram2021.emeraldcraft.common.items.foods.BottleFoodItem;
-import com.hexagram2021.emeraldcraft.common.items.foods.ChorusFlowerEggdropSoupItem;
-import com.hexagram2021.emeraldcraft.common.items.foods.StickFoodItem;
 import com.hexagram2021.emeraldcraft.common.util.ECFoods;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
@@ -18,6 +16,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluids;
@@ -48,6 +47,14 @@ public class ECItems {
 
 	public static final ItemEntry<ItemNameBlockItem> WARPED_WART = ItemEntry.register(
 			"warped_wart", () -> new ItemNameBlockItem(ECBlocks.Plant.WARPED_WART.get(), new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+	);
+	public static final ItemEntry<Item> BARK = ItemEntry.register(
+			"bark", () -> new Item(new Item.Properties()) {
+				@Override
+				public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
+					return 50;
+				}
+			}, ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 	);
 	public static final ItemEntry<Item> CHILI = ItemEntry.register(
 			"chili", () -> new Item(new Item.Properties().food(ECFoods.CHILI)) {
@@ -112,6 +119,11 @@ public class ECItems {
 	public static final ItemEntry<SpawnEggItem> LUMINE_SPAWN_EGG = ItemEntry.register(
 			"lumine_spawn_egg", () -> new ForgeSpawnEggItem(
 					() -> ECEntities.LUMINE, 0xF7FF55, 0xF9FFAA, new Item.Properties()
+			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+	);
+	public static final ItemEntry<SpawnEggItem> WOMBAT_SPAWN_EGG = ItemEntry.register(
+			"wombat_spawn_egg", () -> new ForgeSpawnEggItem(
+					() -> ECEntities.WOMBAT, 0x7A6347, 0xC89681, new Item.Properties()
 			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
 	);
 
@@ -243,9 +255,6 @@ public class ECItems {
 	public static final ItemEntry<Item> RESIN_BOTTLE = ItemEntry.register(
 			"resin_bottle", () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16)), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 	);
-	public static final ItemEntry<Item> RESIN_BUCKET = ItemEntry.register(
-			"resin_bucket", () -> new Item(new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(16)), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
 	public static final ItemEntry<Item> WINDOW_FILM = ItemEntry.register(
 			"window_film", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 	);
@@ -271,19 +280,6 @@ public class ECItems {
 	);
 	public static final ItemEntry<Item> COPPER_CONCENTRATE = ItemEntry.register(
 			"copper_concentrate", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-
-	public static final ItemEntry<Item> MELTED_EMERALD_BUCKET = ItemEntry.register(
-			"melted_emerald_bucket", () -> new Item(new Item.Properties().stacksTo(16)), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-	public static final ItemEntry<Item> MELTED_IRON_BUCKET = ItemEntry.register(
-			"melted_iron_bucket", () -> new Item(new Item.Properties().stacksTo(16)), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-	public static final ItemEntry<Item> MELTED_GOLD_BUCKET = ItemEntry.register(
-			"melted_gold_bucket", () -> new Item(new Item.Properties().stacksTo(16)), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-	public static final ItemEntry<Item> MELTED_COPPER_BUCKET = ItemEntry.register(
-			"melted_copper_bucket", () -> new Item(new Item.Properties().stacksTo(16)), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 	);
 
 	public static final ItemEntry<Item> ROCK_BREAKER = ItemEntry.register(
@@ -320,13 +316,82 @@ public class ECItems {
 			"snakehead_bucket", () -> new MobBucketItem(() -> ECEntities.SNAKEHEAD, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
 	);
 
+	public static final ItemEntry<Item> MINCED_BEEF = ItemEntry.register(
+			"minced_beef", () -> new AbstractMincedMeatItem(new Item.Properties()) {
+				@Override
+				public Item rawMeatItem() {
+					return Items.BEEF;
+				}
+				@Override
+				public Item cookedMeatItem() {
+					return Items.COOKED_BEEF;
+				}
+			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
+	public static final ItemEntry<Item> MINCED_CHICKEN = ItemEntry.register(
+			"minced_chicken", () -> new AbstractMincedMeatItem(new Item.Properties()) {
+				@Override
+				public Item rawMeatItem() {
+					return Items.CHICKEN;
+				}
+				@Override
+				public Item cookedMeatItem() {
+					return Items.COOKED_CHICKEN;
+				}
+			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
+	public static final ItemEntry<Item> MINCED_MUTTON = ItemEntry.register(
+			"minced_mutton", () -> new AbstractMincedMeatItem(new Item.Properties()) {
+				@Override
+				public Item rawMeatItem() {
+					return Items.MUTTON;
+				}
+				@Override
+				public Item cookedMeatItem() {
+					return Items.COOKED_MUTTON;
+				}
+			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
+	public static final ItemEntry<Item> MINCED_PORK = ItemEntry.register(
+			"minced_pork", () -> new AbstractMincedMeatItem(new Item.Properties()) {
+				@Override
+				public Item rawMeatItem() {
+					return Items.PORKCHOP;
+				}
+				@Override
+				public Item cookedMeatItem() {
+					return Items.COOKED_PORKCHOP;
+				}
+			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
+	public static final ItemEntry<Item> MINCED_RABBIT = ItemEntry.register(
+			"minced_rabbit", () -> new AbstractMincedMeatItem(new Item.Properties()) {
+				@Override
+				public Item rawMeatItem() {
+					return Items.RABBIT;
+				}
+				@Override
+				public Item cookedMeatItem() {
+					return Items.COOKED_RABBIT;
+				}
+			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
+	public static final ItemEntry<Item> WHEAT_DOUGH = ItemEntry.register(
+			"wheat_dough", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
+	public static final ItemEntry<Item> WHEAT_FLOUR = ItemEntry.register(
+			"wheat_flour", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
+	public static final ItemEntry<FarciFoodItem> RAW_DUMPLING = ItemEntry.register(
+			"raw_dumpling", () -> new FarciFoodItem(new Item.Properties(), 1, 0.3F, false, Lists.newArrayList()), null
+	);
+	public static final ItemEntry<FarciFoodItem> COOKED_DUMPLING = ItemEntry.register(
+			"cooked_dumpling", () -> new FarciFoodItem(new Item.Properties(), 2, 1.0F, true, Lists.newArrayList()), null
+	);
+
 	public static class CreateCompatItems {
 		public static final ItemEntry<Item> ZINC_CONCENTRATE = ItemEntry.register(
 				"zinc_concentrate", () -> new Item(new Item.Properties()),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.CREATE
-		);
-		public static final ItemEntry<Item> MELTED_ZINC_BUCKET = ItemEntry.register(
-				"melted_zinc_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
 				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.CREATE
 		);
 
@@ -338,40 +403,20 @@ public class ECItems {
 				"aluminum_concentrate", () -> new Item(new Item.Properties()),
 				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
-		public static final ItemEntry<Item> MELTED_ALUMINUM_BUCKET = ItemEntry.register(
-				"melted_aluminum_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
-		);
 		public static final ItemEntry<Item> LEAD_CONCENTRATE = ItemEntry.register(
 				"lead_concentrate", () -> new Item(new Item.Properties()),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
-		);
-		public static final ItemEntry<Item> MELTED_LEAD_BUCKET = ItemEntry.register(
-				"melted_lead_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
 				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
 		public static final ItemEntry<Item> SILVER_CONCENTRATE = ItemEntry.register(
 				"silver_concentrate", () -> new Item(new Item.Properties()),
 				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
-		public static final ItemEntry<Item> MELTED_SILVER_BUCKET = ItemEntry.register(
-				"melted_silver_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
-		);
 		public static final ItemEntry<Item> NICKEL_CONCENTRATE = ItemEntry.register(
 				"nickel_concentrate", () -> new Item(new Item.Properties()),
 				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
-		public static final ItemEntry<Item> MELTED_NICKEL_BUCKET = ItemEntry.register(
-				"melted_nickel_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
-		);
 		public static final ItemEntry<Item> URANIUM_CONCENTRATE = ItemEntry.register(
 				"uranium_concentrate", () -> new Item(new Item.Properties()),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
-		);
-		public static final ItemEntry<Item> MELTED_URANIUM_BUCKET = ItemEntry.register(
-				"melted_uranium_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
 				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
 
@@ -422,7 +467,7 @@ public class ECItems {
 			return register(name, () -> Util.make(new Item(Util.make(new Item.Properties(), makeProps)), processItem), type);
 		}
 
-		static <T extends Item> ItemEntry<T> register(String name, Supplier<? extends T> make, ItemGroupType type) {
+		static <T extends Item> ItemEntry<T> register(String name, Supplier<? extends T> make, @Nullable ItemGroupType type) {
 			return new ItemEntry<>(REGISTER.register(name, make), type);
 		}
 

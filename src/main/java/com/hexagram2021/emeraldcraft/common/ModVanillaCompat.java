@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
+import com.hexagram2021.emeraldcraft.common.world.village.Villages;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.level.block.*;
 
@@ -100,6 +101,9 @@ public class ModVanillaCompat {
 		registerFlowerPot(ECBlocks.Plant.PEACH_SAPLING.get(), ECBlocks.Plant.POTTED_PEACH_SAPLING::get);
 		registerFlowerPot(ECBlocks.Plant.PURPURACEUS_FUNGUS.get(), ECBlocks.Plant.POTTED_PURPURACEUS_FUNGUS::get);
 		registerFlowerPot(ECBlocks.Plant.PURPURACEUS_ROOTS.get(), ECBlocks.Plant.POTTED_PURPURACEUS_ROOTS::get);
+
+		//Villages
+		Villages.setup();
 	}
 
 	private static final FireBlock fireblock = (FireBlock)Blocks.FIRE;

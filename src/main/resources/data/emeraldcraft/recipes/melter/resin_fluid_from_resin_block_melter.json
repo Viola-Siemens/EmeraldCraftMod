@@ -4,8 +4,8 @@
     "item": "emeraldcraft:resin_block"
   },
   "result": {
-    "fluid": "resin",
-    "amount": 100
+    "FluidName": "emeraldcraft:resin",
+    "Amount": 1000
   },
   "meltingtime": 20
 }

@@ -1,0 +1,39 @@
+{
+  "type": "emeraldcraft:cookstove",
+  "ingredients": [
+    {
+      "tag": "forge:crops/potato"
+    },
+    {
+      "item": "minecraft:rabbit"
+    },
+    {
+      "tag": "forge:crops/carrot"
+    },
+    {
+      "tag": "forge:mushrooms"
+    }
+  ],
+  "container": {
+    "item": "minecraft:bowl"
+  },
+  "result": {
+    "item": "minecraft:rabbit_stew",
+    "count": 2
+  },
+  "display": {
+    "type": "emeraldcraft:items",
+    "background": {
+      "color": 11039836,
+      "shape": "emeraldcraft:oil"
+    },
+    "ingredient": [
+      {
+        "item": "minecraft:baked_potato"
+      },
+      {
+        "item": "minecraft:cooked_rabbit"
+      }
+    ]
+  }
+}

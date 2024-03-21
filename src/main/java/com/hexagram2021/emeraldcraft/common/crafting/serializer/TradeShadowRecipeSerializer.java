@@ -2,7 +2,6 @@ package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 
 import com.google.gson.JsonObject;
 import com.hexagram2021.emeraldcraft.common.crafting.TradeShadowRecipe;
-import com.hexagram2021.emeraldcraft.common.world.village.Villages;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -11,9 +10,13 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 
+import java.util.Objects;
+
+import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryEntry;
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 public class TradeShadowRecipeSerializer<T extends TradeShadowRecipe> implements RecipeSerializer<T> {
@@ -51,34 +54,29 @@ public class TradeShadowRecipeSerializer<T extends TradeShadowRecipe> implements
 		return this.factory.create(id, costA, costB, result, entityType, profession, villagerLevel, xp);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override @Nullable
 	public T fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
 		ItemStack costA = buf.readItem();
 		ItemStack costB = buf.readItem();
 		ItemStack result = buf.readItem();
-		EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.get(buf.readResourceLocation());
-		VillagerProfession profession = BuiltInRegistries.VILLAGER_PROFESSION.get(buf.readResourceLocation());
-		int villagerLevel = buf.readInt();
-		int xp = buf.readInt();
+		EntityType<?> entityType = getRegistryEntry(ForgeRegistries.ENTITY_TYPES, buf.readResourceLocation());
+		VillagerProfession profession = getRegistryEntry(ForgeRegistries.VILLAGER_PROFESSIONS, buf.readResourceLocation(), VillagerProfession.NONE);
+		int villagerLevel = buf.readVarInt();
+		int xp = buf.readVarInt();
 
 		return this.factory.create(id, costA, costB, result, entityType, profession, villagerLevel, xp);
 	}
 
 	@Override
 	public void toNetwork(FriendlyByteBuf buf, T recipe) {
-		buf.writeItem(recipe.getCostA());
-		buf.writeItem(recipe.getCostB());
-		buf.writeItem(recipe.getResult());
-		buf.writeResourceLocation(getRegistryName(recipe.getEntityType()));
-		VillagerProfession profession = recipe.getProfession();
-		if(profession == null) {
-			buf.writeResourceLocation(Villages.CARPENTER);
-		} else {
-			buf.writeResourceLocation(getRegistryName(profession));
-		}
-		buf.writeInt(recipe.getVillagerLevel());
-		buf.writeInt(recipe.getXp());
+		buf.writeItem(recipe.costA());
+		buf.writeItem(recipe.costB());
+		buf.writeItem(recipe.result());
+		buf.writeResourceLocation(getRegistryName(recipe.entityType()));
+		VillagerProfession profession = recipe.profession();
+		buf.writeResourceLocation(getRegistryName(Objects.requireNonNullElse(profession, VillagerProfession.NONE)));
+		buf.writeVarInt(recipe.villagerLevel());
+		buf.writeVarInt(recipe.xp());
 	}
 
 

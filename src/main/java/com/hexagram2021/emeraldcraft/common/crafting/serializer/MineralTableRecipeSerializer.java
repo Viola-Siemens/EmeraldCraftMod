@@ -3,15 +3,15 @@ package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.hexagram2021.emeraldcraft.common.crafting.MineralTableRecipe;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 
@@ -24,7 +24,6 @@ public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implemen
 		this.factory = creator;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public T fromJson(ResourceLocation id, JsonObject json) {
 		String group = GsonHelper.getAsString(json, "group", "");
@@ -40,10 +39,11 @@ public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implemen
 			itemstack = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
 		} else {
 			String result = GsonHelper.getAsString(json, "result");
-			ResourceLocation resourcelocation = new ResourceLocation(result);
-			itemstack = new ItemStack(BuiltInRegistries.ITEM.getOptional(resourcelocation).orElseThrow(
-					() -> new IllegalStateException("Item: " + result + " does not exist")
-			));
+			Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(result));
+			if(item == null) {
+				throw new IllegalStateException("Item: " + result + " does not exist");
+			}
+			itemstack = new ItemStack(item);
 		}
 		float f = GsonHelper.getAsFloat(json, "experience", 0.0F);
 		int i = GsonHelper.getAsInt(json, "cookingtime", this.defaultCookingTime);
@@ -70,7 +70,7 @@ public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implemen
 		buf.writeVarInt(recipe.getCookingTime());
 	}
 
-	public interface Creator<T extends AbstractCookingRecipe> {
+	public interface Creator<T extends MineralTableRecipe> {
 		T create(ResourceLocation id, String group, Ingredient ingredient, ItemStack result, float experience, int cookingtime);
 	}
 }

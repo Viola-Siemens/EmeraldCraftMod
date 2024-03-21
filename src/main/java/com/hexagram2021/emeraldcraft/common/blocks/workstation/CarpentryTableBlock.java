@@ -71,11 +71,6 @@ public class CarpentryTableBlock extends Block {
 	}
 
 	@Override
-	public RenderShape getRenderShape(BlockState blockState) {
-		return RenderShape.MODEL;
-	}
-
-	@Override
 	public BlockState rotate(BlockState blockState, Rotation rotation) {
 		return blockState.setValue(FACING, rotation.rotate(blockState.getValue(FACING)));
 	}

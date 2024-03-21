@@ -1,0 +1,9 @@
+{
+  "type": "emeraldcraft:meat_grinder",
+  "ingredient": {
+    "item": "minecraft:chicken"
+  },
+  "result": "emeraldcraft:minced_chicken",
+  "count": 3,
+  "cookingtime": 120
+}

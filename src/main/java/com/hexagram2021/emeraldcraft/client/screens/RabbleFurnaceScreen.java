@@ -69,16 +69,16 @@ public class RabbleFurnaceScreen extends AbstractContainerScreen<RabbleFurnaceMe
 
 	@Override
 	protected void renderBg(GuiGraphics transform, float partialTicks, int x, int y) {
-		int i = this.leftPos;
-		int j = this.topPos;
-		transform.blit(BG_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
+		int left = this.leftPos;
+		int top = this.topPos;
+		transform.blit(BG_LOCATION, left, top, 0, 0, this.imageWidth, this.imageHeight);
 		if (this.menu.isLit()) {
-			int k = this.menu.getLitProgress();
-			transform.blit(BG_LOCATION, i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
+			int litProgress = this.menu.getLitProgress();
+			transform.blit(BG_LOCATION, left + 56, top + 36 + 12 - litProgress, 176, 12 - litProgress, 14, litProgress + 1);
 		}
 
-		int l = this.menu.getBurnProgress();
-		transform.blit(BG_LOCATION, i + 79, j + 34, 176, 14, l + 1, 16);
+		int progress = this.menu.getBurnProgress();
+		transform.blit(BG_LOCATION, left + 79, top + 34, 176, 14, progress + 1, 16);
 	}
 
 	@Override

@@ -1,11 +1,10 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
-import net.minecraft.core.registries.Registries;
+import com.hexagram2021.emeraldcraft.common.ECContent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.alchemy.Potion;
-import net.minecraftforge.registries.RegisterEvent;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -29,23 +28,21 @@ public class ECPotions {
 
 	private ECPotions() {}
 
-	public static void init(RegisterEvent event) {
-		event.register(Registries.POTION, helper -> {
-			helper.register(new ResourceLocation(MODID, "hunger"), HUNGER);
-			helper.register(new ResourceLocation(MODID, "long_hunger"), LONG_HUNGER);
-			helper.register(new ResourceLocation(MODID, "strong_hunger"), STRONG_HUNGER);
-			helper.register(new ResourceLocation(MODID, "saturation"), SATURATION);
-			helper.register(new ResourceLocation(MODID, "strong_saturation"), STRONG_SATURATION);
-			helper.register(new ResourceLocation(MODID, "wither"), WITHER);
-			helper.register(new ResourceLocation(MODID, "long_wither"), LONG_WITHER);
-			helper.register(new ResourceLocation(MODID, "strong_wither"), STRONG_WITHER);
-			helper.register(new ResourceLocation(MODID, "blindness"), BLINDNESS);
-			helper.register(new ResourceLocation(MODID, "long_blindness"), LONG_BLINDNESS);
-			helper.register(new ResourceLocation(MODID, "absorption"), ABSORPTION);
-			helper.register(new ResourceLocation(MODID, "long_absorption"), LONG_ABSORPTION);
-			helper.register(new ResourceLocation(MODID, "strong_absorption"), STRONG_ABSORPTION);
-			helper.register(new ResourceLocation(MODID, "glowing"), GLOWING);
-			helper.register(new ResourceLocation(MODID, "long_glowing"), LONG_GLOWING);
-		});
+	public static void init(ECContent.RegisterConsumer<Potion> register) {
+		register.accept(new ResourceLocation(MODID, "hunger"), HUNGER);
+		register.accept(new ResourceLocation(MODID, "long_hunger"), LONG_HUNGER);
+		register.accept(new ResourceLocation(MODID, "strong_hunger"), STRONG_HUNGER);
+		register.accept(new ResourceLocation(MODID, "saturation"), SATURATION);
+		register.accept(new ResourceLocation(MODID, "strong_saturation"), STRONG_SATURATION);
+		register.accept(new ResourceLocation(MODID, "wither"), WITHER);
+		register.accept(new ResourceLocation(MODID, "long_wither"), LONG_WITHER);
+		register.accept(new ResourceLocation(MODID, "strong_wither"), STRONG_WITHER);
+		register.accept(new ResourceLocation(MODID, "blindness"), BLINDNESS);
+		register.accept(new ResourceLocation(MODID, "long_blindness"), LONG_BLINDNESS);
+		register.accept(new ResourceLocation(MODID, "absorption"), ABSORPTION);
+		register.accept(new ResourceLocation(MODID, "long_absorption"), LONG_ABSORPTION);
+		register.accept(new ResourceLocation(MODID, "strong_absorption"), STRONG_ABSORPTION);
+		register.accept(new ResourceLocation(MODID, "glowing"), GLOWING);
+		register.accept(new ResourceLocation(MODID, "long_glowing"), LONG_GLOWING);
 	}
 }

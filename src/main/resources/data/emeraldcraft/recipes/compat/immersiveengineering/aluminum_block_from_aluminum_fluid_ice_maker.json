@@ -7,8 +7,8 @@
   ],
   "type": "emeraldcraft:ice_maker",
   "ingredient": {
-    "fluid": "melted_aluminum",
-    "amount": 100
+    "FluidName": "emeraldcraft:melted_aluminum",
+    "Amount": 1000
   },
   "result": "immersiveengineering:storage_aluminum",
   "freezingtime": 50

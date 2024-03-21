@@ -19,13 +19,12 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 @SuppressWarnings("deprecation")
 public class HiganBanaFlowerBlock extends FlowerBlock {
 	public static final BooleanProperty LEAF = ECProperties.LEAF;
 
-	public HiganBanaFlowerBlock(Supplier<MobEffect> effect, int duration, Properties props) {
+	public HiganBanaFlowerBlock(MobEffect effect, int duration, Properties props) {
 		super(effect, duration, props);
 		this.registerDefaultState(this.stateDefinition.any().setValue(LEAF, true));
 	}

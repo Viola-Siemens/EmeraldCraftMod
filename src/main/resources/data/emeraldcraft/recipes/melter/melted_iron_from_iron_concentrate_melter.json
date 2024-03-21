@@ -4,8 +4,8 @@
     "item": "emeraldcraft:iron_concentrate"
   },
   "result": {
-    "fluid": "melted_iron",
-    "amount": 50
+    "FluidName": "emeraldcraft:melted_iron",
+    "Amount": 500
   },
   "meltingtime": 200
 }

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "emeraldcraft:ginkgo_forest",
+    "minecraft:forest",
+    "minecraft:flower_forest",
+    "minecraft:birch_forest"
+  ]
+}

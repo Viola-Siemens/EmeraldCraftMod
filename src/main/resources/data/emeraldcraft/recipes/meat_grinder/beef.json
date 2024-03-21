@@ -1,0 +1,9 @@
+{
+  "type": "emeraldcraft:meat_grinder",
+  "ingredient": {
+    "item": "minecraft:beef"
+  },
+  "result": "emeraldcraft:minced_beef",
+  "count": 3,
+  "cookingtime": 120
+}

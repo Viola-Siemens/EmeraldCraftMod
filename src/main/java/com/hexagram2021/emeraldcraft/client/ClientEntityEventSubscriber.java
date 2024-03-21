@@ -2,7 +2,10 @@ package com.hexagram2021.emeraldcraft.client;
 
 import com.hexagram2021.emeraldcraft.client.models.*;
 import com.hexagram2021.emeraldcraft.client.renderers.*;
+import com.hexagram2021.emeraldcraft.client.renderers.block.CookstoveRenderer;
+import com.hexagram2021.emeraldcraft.client.renderers.block.MeatGrinderRenderer;
 import com.hexagram2021.emeraldcraft.common.entities.ECBoat;
+import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECEntities;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.ChestBoatModel;
@@ -26,6 +29,8 @@ public class ClientEntityEventSubscriber {
 		event.registerLayerDefinition(WraithModel.LAYER_LOCATION, WraithModel::createBodyLayer);
 		event.registerLayerDefinition(MantaModel.LAYER_LOCATION, MantaModel::createBodyLayer);
 		event.registerLayerDefinition(LumineModel.LAYER_LOCATION, LumineModel::createBodyLayer);
+		event.registerLayerDefinition(WombatModel.LAYER_LOCATION, WombatModel::createBodyLayer);
+		event.registerLayerDefinition(CookstoveDisplayModel.LAYER_LOCATION, CookstoveDisplayModel::createBodyLayer);
 
 		for(ECBoat.ECBoatType type: ECBoat.ECBoatType.values()) {
 			event.registerLayerDefinition(ECBoatRenderer.createBoatModelName(type), BoatModel::createBodyModel);
@@ -44,7 +49,11 @@ public class ClientEntityEventSubscriber {
 		event.registerEntityRenderer(ECEntities.WRAITH, WraithRenderer::new);
 		event.registerEntityRenderer(ECEntities.MANTA, MantaRenderer::new);
 		event.registerEntityRenderer(ECEntities.LUMINE, LumineRenderer::new);
+		event.registerEntityRenderer(ECEntities.WOMBAT, WombatRenderer::new);
 		event.registerEntityRenderer(ECEntities.BOAT, (context) -> new ECBoatRenderer(context, false));
 		event.registerEntityRenderer(ECEntities.CHEST_BOAT, (context) -> new ECBoatRenderer(context, true));
+
+		event.registerBlockEntityRenderer(ECBlockEntity.MEAT_GRINDER.get(), MeatGrinderRenderer::new);
+		event.registerBlockEntityRenderer(ECBlockEntity.COOKSTOVE.get(), CookstoveRenderer::new);
 	}
 }

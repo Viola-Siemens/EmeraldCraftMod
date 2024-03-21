@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:gift",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "emeraldcraft:dumplings_random_fillings"
+            }
+          ],
+          "name": "emeraldcraft:cooked_dumpling",
+          "weight": 7
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:coal",
+          "weight": 1
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

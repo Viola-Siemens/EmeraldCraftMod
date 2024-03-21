@@ -1,11 +1,15 @@
 package com.hexagram2021.emeraldcraft.common.crafting.menu;
 
-import com.hexagram2021.emeraldcraft.api.fluid.FluidType;
-import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
+import com.google.common.collect.Sets;
+import com.hexagram2021.emeraldcraft.EmeraldCraft;
+import com.hexagram2021.emeraldcraft.common.blocks.entity.ISynchronizableContainer;
+import com.hexagram2021.emeraldcraft.common.blocks.entity.MelterBlockEntity;
 import com.hexagram2021.emeraldcraft.common.crafting.MelterRecipe;
 import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
-import com.hexagram2021.emeraldcraft.common.register.ECItems;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
+import com.hexagram2021.emeraldcraft.common.util.SimpleContainerWithTank;
+import com.hexagram2021.emeraldcraft.network.ClientboundFluidSyncPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -15,12 +19,14 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+
+import java.util.Set;
 
 import static net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity.isFuel;
 
-public class MelterMenu extends AbstractContainerMenu {
+public class MelterMenu extends AbstractContainerMenu implements IFluidSyncMenu {
 	public static final int INGREDIENT_SLOT = 0;
 	public static final int FUEL_SLOT = 1;
 	public static final int RESULT_INPUT_SLOT = 2;
@@ -30,7 +36,8 @@ public class MelterMenu extends AbstractContainerMenu {
 	public static final int INV_SLOT_END = 31;
 	public static final int USE_ROW_SLOT_START = 31;
 	public static final int USE_ROW_SLOT_END = 40;
-	public static final int DATA_COUNT = 6;
+	public static final int DATA_COUNT = 4;
+
 	private final Container melter;
 	private final ContainerData melterData;
 	private final Slot ingredientSlot;
@@ -38,7 +45,7 @@ public class MelterMenu extends AbstractContainerMenu {
 	protected final Level level;
 
 	public MelterMenu(int id, Inventory inventory) {
-		this(id, inventory, new SimpleContainer(SLOT_COUNT), new SimpleContainerData(DATA_COUNT));
+		this(id, inventory, new SimpleContainerWithTank(SLOT_COUNT, MelterBlockEntity.MAX_FLUID_LEVEL), new SimpleContainerData(DATA_COUNT));
 	}
 
 	public MelterMenu(int id, Inventory inventory, Container container, ContainerData data) {
@@ -54,7 +61,7 @@ public class MelterMenu extends AbstractContainerMenu {
 		this.resultInputSlot = this.addSlot(new Slot(container, RESULT_INPUT_SLOT, 132, 18) {
 			@Override
 			public boolean mayPlace(ItemStack itemStack) {
-				return itemStack.is(Items.BUCKET) || isFluidBucket(itemStack);
+				return itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
 			}
 
 			@Override
@@ -65,7 +72,7 @@ public class MelterMenu extends AbstractContainerMenu {
 		this.addSlot(new Slot(container, RESULT_OUTPUT_SLOT, 132, 52) {
 			@Override
 			public boolean mayPlace(ItemStack itemStack) {
-				return itemStack.is(Items.BUCKET) || isFluidBucket(itemStack);
+				return itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
 			}
 
 			@Override
@@ -84,16 +91,6 @@ public class MelterMenu extends AbstractContainerMenu {
 		for(int k = 0; k < 9; ++k) {
 			this.addSlot(new Slot(inventory, k, 8 + k * 18, 142));
 		}
-	}
-
-	public static boolean isFluidBucket(ItemStack itemStack) {
-		return	itemStack.is(Items.WATER_BUCKET) || itemStack.is(Items.LAVA_BUCKET) ||
-				itemStack.is(ECItems.MELTED_EMERALD_BUCKET.get()) ||
-				itemStack.is(ECItems.MELTED_IRON_BUCKET.get()) ||
-				itemStack.is(ECItems.MELTED_GOLD_BUCKET.get()) ||
-				itemStack.is(ECItems.MELTED_COPPER_BUCKET.get()) ||
-				itemStack.is(ECItems.RESIN_BUCKET.get()) ||
-				FluidTypes.isExtraFluidBucket(itemStack);
 	}
 
 	public boolean isLit() {
@@ -163,6 +160,41 @@ public class MelterMenu extends AbstractContainerMenu {
 		return itemstack;
 	}
 
+	@Override
+	public void broadcastChanges() {
+		super.broadcastChanges();
+		if(this.melter instanceof ISynchronizableContainer synchronizableContainer && synchronizableContainer.isDirty()) {
+			synchronizableContainer.clearDirty();
+			for(ServerPlayer serverPlayer: this.usingPlayers) {
+				EmeraldCraft.sendMessageToPlayer(synchronizableContainer.getSyncPacket(), serverPlayer);
+			}
+		}
+	}
+
+	private final Set<ServerPlayer> usingPlayers = Sets.newIdentityHashSet();
+	@Override
+	public void addUsingPlayer(ServerPlayer serverPlayer) {
+		this.usingPlayers.add(serverPlayer);
+	}
+
+	@Override
+	public void removeUsingPlayer(ServerPlayer serverPlayer) {
+		this.usingPlayers.remove(serverPlayer);
+	}
+
+	@Override
+	public ClientboundFluidSyncPacket getSyncPacket() {
+		if(this.melter instanceof ISynchronizableContainer synchronizableContainer) {
+			return synchronizableContainer.getSyncPacket();
+		}
+		throw new IllegalStateException("Caught getSyncPacket() called from a wrong thread. Container = " + this.melter);
+	}
+
+	@Override
+	public Container getContainer() {
+		return this.melter;
+	}
+
 	public int getBurnProgress() {
 		int i = this.melterData.get(2);
 		int j = this.melterData.get(3);
@@ -176,18 +208,6 @@ public class MelterMenu extends AbstractContainerMenu {
 		}
 
 		return this.melterData.get(0) * 13 / i;
-	}
-
-	public int getFluidTypeIndex() {
-		return this.melterData.get(4);
-	}
-
-	public FluidType getFluidType() {
-		return FluidTypes.getFluidTypeWithID(this.melterData.get(4));
-	}
-
-	public int getFluidLevel() {
-		return this.melterData.get(5);
 	}
 
 	static class IngredientSlot extends Slot {

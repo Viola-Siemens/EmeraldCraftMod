@@ -1,8 +1,10 @@
 package com.hexagram2021.emeraldcraft.common.crafting.menu;
 
 import com.hexagram2021.emeraldcraft.common.blocks.entity.RabbleFurnaceBlockEntity;
+import com.hexagram2021.emeraldcraft.common.crafting.RabbleFurnaceRecipe;
 import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
+import com.hexagram2021.emeraldcraft.common.util.PartialRecipeCachedCheck;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -18,10 +20,6 @@ import net.minecraftforge.common.ForgeHooks;
 import static com.hexagram2021.emeraldcraft.common.blocks.entity.RabbleFurnaceBlockEntity.*;
 
 public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
-	private final Container container;
-	private final ContainerData data;
-	protected final Level level;
-
 	public static final int INV_SLOT_START = 5;
 	private static final int INV_SLOT_END = 32;
 	private static final int USE_ROW_SLOT_START = 32;
@@ -29,15 +27,22 @@ public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 	public static final int SLOT_COUNT = 5;
 	public static final int DATA_COUNT = 4;
 
+	private final Container container;
+	private final ContainerData data;
+	protected final Level level;
+
+	private final PartialRecipeCachedCheck<Container, RabbleFurnaceRecipe> partialQuickCheck;
+
 	public RabbleFurnaceMenu(int id, Inventory inventory) {
-		this(id, inventory, new SimpleContainer(SLOT_COUNT), new SimpleContainerData(DATA_COUNT));
+		this(id, inventory, new SimpleContainer(SLOT_COUNT), new SimpleContainerData(DATA_COUNT), PartialRecipeCachedCheck.createDummy());
 	}
 
-	public RabbleFurnaceMenu(int id, Inventory inventory, Container container, ContainerData data) {
+	public RabbleFurnaceMenu(int id, Inventory inventory, Container container, ContainerData data, PartialRecipeCachedCheck<Container, RabbleFurnaceRecipe> partialQuickCheck) {
 		super(ECContainerTypes.RABBLE_FURNACE_MENU.get(), id);
 		this.container = container;
 		this.data = data;
 		this.level = inventory.player.level();
+		this.partialQuickCheck = partialQuickCheck;
 
 		this.addSlot(new Slot(this.container, SLOT_INPUT, 56, 17));
 		this.addSlot(new Slot(this.container, SLOT_MIX1, 18, 21));
@@ -63,53 +68,71 @@ public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
 		if (slot.hasItem()) {
-			ItemStack itemstack1 = slot.getItem();
-			itemstack = itemstack1.copy();
+			ItemStack origin = slot.getItem();
+			itemstack = origin.copy();
 			if (index == SLOT_RESULT) {
-				if (!this.moveItemStackTo(itemstack1, INV_SLOT_START, USE_ROW_SLOT_END, true)) {
+				if (!this.moveItemStackTo(origin, INV_SLOT_START, USE_ROW_SLOT_END, true)) {
 					return ItemStack.EMPTY;
 				}
 
-				slot.onQuickCraft(itemstack1, itemstack);
+				slot.onQuickCraft(origin, itemstack);
 			} else if (index != SLOT_FUEL && index != SLOT_INPUT && index != SLOT_MIX1 && index != SLOT_MIX2) {
-				if (this.canSmelt(itemstack1)) {
-					if (!this.moveItemStackTo(itemstack1, SLOT_INPUT, SLOT_FUEL, false)) {
+				if (this.canSmelt(origin, SLOT_INPUT)) {
+					if (!this.moveItemStackTo(origin, SLOT_INPUT, SLOT_INPUT + 1, false)) {
 						return ItemStack.EMPTY;
 					}
-				} else if (this.isFuel(itemstack1)) {
-					if (!this.moveItemStackTo(itemstack1, SLOT_FUEL, SLOT_RESULT, false)) {
+				} else if (this.canSmelt(origin, SLOT_MIX1)) {
+					if (!this.moveItemStackTo(origin, SLOT_MIX1, SLOT_MIX1 + 1, false)) {
+						return ItemStack.EMPTY;
+					}
+				} else if (this.canSmelt(origin, SLOT_MIX2)) {
+					if (!this.moveItemStackTo(origin, SLOT_MIX2, SLOT_MIX2 + 1, false)) {
+						return ItemStack.EMPTY;
+					}
+				} else if (this.isFuel(origin)) {
+					if (!this.moveItemStackTo(origin, SLOT_FUEL, SLOT_RESULT, false)) {
 						return ItemStack.EMPTY;
 					}
 				} else if (index >= INV_SLOT_START && index < INV_SLOT_END) {
-					if (!this.moveItemStackTo(itemstack1, USE_ROW_SLOT_START, USE_ROW_SLOT_END, false)) {
+					if (!this.moveItemStackTo(origin, USE_ROW_SLOT_START, USE_ROW_SLOT_END, false)) {
 						return ItemStack.EMPTY;
 					}
 				} else if (index >= USE_ROW_SLOT_START && index < USE_ROW_SLOT_END &&
-						!this.moveItemStackTo(itemstack1, INV_SLOT_START, INV_SLOT_END, false)) {
+						!this.moveItemStackTo(origin, INV_SLOT_START, INV_SLOT_END, false)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (!this.moveItemStackTo(itemstack1, INV_SLOT_START, USE_ROW_SLOT_END, false)) {
+			} else if (!this.moveItemStackTo(origin, INV_SLOT_START, USE_ROW_SLOT_END, false)) {
 				return ItemStack.EMPTY;
 			}
 
-			if (itemstack1.isEmpty()) {
+			if (origin.isEmpty()) {
 				slot.set(ItemStack.EMPTY);
 			} else {
 				slot.setChanged();
 			}
 
-			if (itemstack1.getCount() == itemstack.getCount()) {
+			if (origin.getCount() == itemstack.getCount()) {
 				return ItemStack.EMPTY;
 			}
 
-			slot.onTake(player, itemstack1);
+			slot.onTake(player, origin);
 		}
 
 		return itemstack;
 	}
 
-	protected boolean canSmelt(ItemStack itemStack) {
-		return this.level.getRecipeManager().getRecipeFor(ECRecipes.RABBLE_FURNACE_TYPE.get(), new SimpleContainer(itemStack), this.level).isPresent();
+	protected boolean canSmelt(ItemStack itemStack, int index) {
+		Container simple = new SimpleContainer(
+				this.slots.get(0).getItem(),
+				this.slots.get(1).getItem(),
+				this.slots.get(2).getItem()
+		);
+		ItemStack exist = simple.getItem(index);
+		if(!exist.isEmpty() && !ItemStack.isSameItemSameTags(exist, itemStack)) {
+			return false;
+		}
+		simple.setItem(index, itemStack);
+		return this.partialQuickCheck.getRecipeFor(simple, this.level).isPresent();
 	}
 
 	public boolean isFuel(ItemStack itemStack) {

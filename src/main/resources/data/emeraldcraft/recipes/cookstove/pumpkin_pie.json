@@ -1,0 +1,30 @@
+{
+  "type": "emeraldcraft:cookstove",
+  "ingredients": [
+    {
+      "item": "minecraft:pumpkin"
+    },
+    {
+      "item": "minecraft:egg"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "result": {
+    "item": "minecraft:pumpkin_pie",
+    "count": 2
+  },
+  "display": {
+    "type": "emeraldcraft:items",
+    "background": {
+      "color": 16777215,
+      "shape": "emeraldcraft:empty"
+    },
+    "ingredient": [
+      {
+        "item": "minecraft:pumpkin_pie"
+      }
+    ]
+  }
+}

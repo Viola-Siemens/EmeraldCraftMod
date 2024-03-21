@@ -77,7 +77,7 @@ public class SqueezerBlock extends Block {
 					player.drop(new ItemStack(Items.HONEY_BOTTLE), false);
 				}
 				level.gameEvent(player, GameEvent.FLUID_PICKUP, blockPos);
-				resetHoneyCount(level, blockState, blockPos);
+				this.resetHoneyCount(level, blockState, blockPos);
 
 				return InteractionResult.sidedSuccess(level.isClientSide);
 			}
@@ -94,7 +94,7 @@ public class SqueezerBlock extends Block {
 				dropHoneycomb(level, blockPos);
 				itemstack.hurtAndBreak(1, player, (player2) -> player2.broadcastBreakEvent(interactionHand));
 				level.gameEvent(player, GameEvent.SHEAR, blockPos);
-				resetHoneyCount(level, blockState, blockPos);
+				this.resetHoneyCount(level, blockState, blockPos);
 
 				return InteractionResult.sidedSuccess(level.isClientSide);
 			}

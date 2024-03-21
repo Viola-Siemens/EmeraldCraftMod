@@ -523,6 +523,12 @@ public final class ECBlocks {
 		public static final BlockEntry<RabbleFurnaceBlock> RABBLE_FURNACE = new BlockEntry<>(
 				"rabble_furnace", RabbleFurnaceBlock.PROPERTIES, RabbleFurnaceBlock::new
 		);
+		public static final BlockEntry<CookstoveBlock> COOKSTOVE = new BlockEntry<>(
+				"cookstove", CookstoveBlock.PROPERTIES, CookstoveBlock::new
+		);
+		public static final BlockEntry<MeatGrinderBlock> MEAT_GRINDER = new BlockEntry<>(
+				"meat_grinder", MeatGrinderBlock.PROPERTIES, MeatGrinderBlock::new
+		);
 
 		private static void init() {
 			ECItems.ItemEntry.register(
@@ -600,6 +606,16 @@ public final class ECBlocks {
 			ECItems.ItemEntry.register(
 					RABBLE_FURNACE.getId().getPath(),
 					() -> new BlockItem(RABBLE_FURNACE.get(), new Item.Properties()),
+					ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+			);
+			ECItems.ItemEntry.register(
+					COOKSTOVE.getId().getPath(),
+					() -> new BlockItem(COOKSTOVE.get(), new Item.Properties()),
+					ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+			);
+			ECItems.ItemEntry.register(
+					MEAT_GRINDER.getId().getPath(),
+					() -> new BlockItem(MEAT_GRINDER.get(), new Item.Properties()),
 					ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 			);
 		}
@@ -1023,7 +1039,7 @@ public final class ECBlocks {
 				"magenta_petunia", FLOWER_PROPERTIES, (props) -> new FlowerBlock(() -> MobEffects.WATER_BREATHING, 8, props)
 		);
 		public static final BlockEntry<HiganBanaFlowerBlock> HIGAN_BANA = new BlockEntry<>(
-				"higan_bana", HIGAN_BANA_PROPERTIES, (props) -> new HiganBanaFlowerBlock(() -> MobEffects.LEVITATION, 12, props)
+				"higan_bana", HIGAN_BANA_PROPERTIES, (props) -> new HiganBanaFlowerBlock(MobEffects.LEVITATION, 12, props)
 		);
 		public static final BlockEntry<FlowerPotBlock> POTTED_CYAN_PETUNIA = new BlockEntry<>(
 				"potted_cyan_petunia", POTTED_FLOWER_PROPERTIES,

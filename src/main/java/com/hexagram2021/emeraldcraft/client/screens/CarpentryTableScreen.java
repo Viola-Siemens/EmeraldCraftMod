@@ -41,33 +41,31 @@ public class CarpentryTableScreen extends AbstractContainerScreen<CarpentryTable
 	@Override
 	protected void renderBg(GuiGraphics transform, float partialTicks, int x, int y) {
 		this.renderBackground(transform);
-		int i = this.leftPos;
-		int j = this.topPos;
-		transform.blit(BG_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
+		transform.blit(BG_LOCATION, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 		int k = (int)(41.0F * this.scrollOffs);
-		transform.blit(BG_LOCATION, i + 119, j + 15 + k, 176 + (this.isScrollBarActive() ? 0 : 12), 0, 12, 15);
-		int l = this.leftPos + 52;
-		int i1 = this.topPos + 14;
-		int j1 = this.startIndex + 12;
-		this.renderButtons(transform, x, y, l, i1, j1);
-		this.renderRecipes(transform, l, i1, j1);
+		transform.blit(BG_LOCATION, this.leftPos + 119, this.topPos + 15 + k, 176 + (this.isScrollBarActive() ? 0 : 12), 0, 12, 15);
+		int buttonX = this.leftPos + 52;
+		int buttonY = this.topPos + 14;
+		int endIndex = this.startIndex + 12;
+		this.renderButtons(transform, x, y, buttonX, buttonY, endIndex);
+		this.renderRecipes(transform, buttonX, buttonY, endIndex);
 	}
 
 	@Override
 	protected void renderTooltip(GuiGraphics transform, int x, int y) {
 		super.renderTooltip(transform, x, y);
 		if (this.displayRecipes) {
-			int i = this.leftPos + 52;
-			int j = this.topPos + 14;
-			int k = this.startIndex + 12;
+			int left = this.leftPos + 52;
+			int top = this.topPos + 14;
+			int maxIndex = this.startIndex + 12;
 			List<CarpentryTableRecipe> list = this.menu.getRecipes();
 
-			for(int l = this.startIndex; l < k && l < this.menu.getNumRecipes(); ++l) {
-				int i1 = l - this.startIndex;
-				int j1 = i + i1 % 4 * 16;
-				int k1 = j + i1 / 4 * 18 + 2;
-				if (x >= j1 && x < j1 + 16 && y >= k1 && y < k1 + 18) {
-					transform.renderTooltip(this.font, list.get(l).getResultItem(this.minecraft.level.registryAccess()), x, y);
+			for(int i = this.startIndex; i < maxIndex && i < this.menu.getNumRecipes(); ++i) {
+				int index = i - this.startIndex;
+				int buttonX = left + index % 4 * 16;
+				int buttonY = top + index / 4 * 18 + 2;
+				if (x >= buttonX && x < buttonX + 16 && y >= buttonY && y < buttonY + 18) {
+					transform.renderTooltip(this.font, list.get(i).getResultItem(this.minecraft.level.registryAccess()), x, y);
 				}
 			}
 		}

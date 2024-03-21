@@ -1,13 +1,15 @@
 package com.hexagram2021.emeraldcraft.common.util;
 
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 @SuppressWarnings("unused")
 public class ECLogger {
 	public static boolean debugMode = true;
-	@SuppressWarnings("NotNullFieldNotInitialized")
-	public static Logger logger;
+	public static Logger logger = LogManager.getLogger(MODID);
 
 	public static void log(Level logLevel, Object object) {
 		logger.log(logLevel, String.valueOf(object));

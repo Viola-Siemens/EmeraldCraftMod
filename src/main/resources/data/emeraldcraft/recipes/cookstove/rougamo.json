@@ -1,0 +1,30 @@
+{
+  "type": "emeraldcraft:cookstove",
+  "ingredients": [
+    {
+      "tag": "forge:crops/chili"
+    },
+    {
+      "item": "minecraft:bread"
+    },
+    {
+      "item": "minecraft:porkchop"
+    }
+  ],
+  "result": {
+    "item": "emeraldcraft:rougamo",
+    "count": 2
+  },
+  "display": {
+    "type": "emeraldcraft:items",
+    "background": {
+      "color": 16777215,
+      "shape": "emeraldcraft:empty"
+    },
+    "ingredient": [
+      {
+        "item": "emeraldcraft:rougamo"
+      }
+    ]
+  }
+}

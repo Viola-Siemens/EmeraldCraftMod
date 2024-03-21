@@ -424,6 +424,10 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 		return DUPLICATION_ITEM.test(itemStack);
 	}
 
+	public int getDuplicationCooldown() {
+		return this.duplicationCooldown;
+	}
+
 	private void duplicateLumine() {
 		LumineEntity lumine = ECEntities.LUMINE.create(this.level());
 		if (lumine != null) {

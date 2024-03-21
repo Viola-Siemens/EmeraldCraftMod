@@ -216,6 +216,20 @@
     ],
     "subtitle": "subtitles.entity.villager.work_paperhanger"
   },
+  "villager.work_hunter": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:villager/work_hunter"
+    ],
+    "subtitle": "subtitles.entity.villager.work_hunter"
+  },
+  "villager.work_chef": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:villager/work_glazier"
+    ],
+    "subtitle": "subtitles.entity.villager.work_chef"
+  },
   "flower.drop_leaves": {
     "category": "block",
     "sounds": [
@@ -494,5 +508,37 @@
       }
     ],
     "subtitle": "subtitles.entity.lumine.item_taken"
+  },
+  "wombat.ambient": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:wombat/ambient1",
+      "emeraldcraft:wombat/ambient2",
+      "emeraldcraft:wombat/ambient3"
+    ],
+    "subtitle": "subtitles.entity.wombat.ambient"
+  },
+  "wombat.death": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:wombat/hurt1",
+      "emeraldcraft:wombat/hurt2"
+    ],
+    "subtitle": "subtitles.entity.wombat.death"
+  },
+  "wombat.hurt": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:wombat/hurt1",
+      "emeraldcraft:wombat/hurt2"
+    ],
+    "subtitle": "subtitles.entity.wombat.hurt"
+  },
+  "wombat.step": {
+    "category": "entity",
+    "sounds": [
+      "emeraldcraft:wombat/step"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
   }
 }

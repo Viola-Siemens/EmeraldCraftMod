@@ -1,7 +1,6 @@
 package com.hexagram2021.emeraldcraft.common;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.world.level.saveddata.SavedData;
 
 import javax.annotation.Nullable;
@@ -21,16 +20,13 @@ public class ECSaveData extends SavedData {
 
 	@Override
 	public CompoundTag save(CompoundTag nbt) {
-		ListTag dimensionList = new ListTag();
-
-		//nbt.put("", dimensionList);
-
 		return nbt;
 	}
 
 	public static void markInstanceDirty() {
-		if(INSTANCE!=null)
+		if(INSTANCE != null) {
 			INSTANCE.setDirty();
+		}
 	}
 
 	public static void setInstance(ECSaveData in) {

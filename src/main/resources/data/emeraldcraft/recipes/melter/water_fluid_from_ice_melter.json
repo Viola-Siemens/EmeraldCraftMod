@@ -4,8 +4,8 @@
     "item": "minecraft:ice"
   },
   "result": {
-    "fluid": "water",
-    "amount": 100
+    "FluidName": "minecraft:water",
+    "Amount": 1000
   },
   "meltingtime": 20
 }

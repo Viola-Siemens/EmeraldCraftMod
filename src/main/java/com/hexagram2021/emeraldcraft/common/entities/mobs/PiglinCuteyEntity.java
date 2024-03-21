@@ -14,6 +14,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
@@ -137,15 +138,24 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		if (!this.isNoAi() && this.random.nextInt(100) == 0) {
 			Raid raid = ((ServerLevel)this.level()).getRaidAt(this.blockPosition());
 			if (raid != null && raid.isActive() && !raid.isOver()) {
-				this.level().broadcastEntityEvent(this, (byte)42);
+				this.level().broadcastEntityEvent(this, EntityEvent.VILLAGER_SWEAT);
 			}
 		}
 
 		if (!this.hasRestriction()) {
-			this.restrictTo(this.findNearestAnchor(), 12);
+			this.restrictTo(this.findNearestAnchor(), 16);
 		}
 
 		super.customServerAiStep();
+	}
+
+	@Override
+	public void handleEntityEvent(byte event) {
+		if (event == EntityEvent.VILLAGER_SWEAT) {
+			this.addParticlesAroundSelf(ParticleTypes.SPLASH);
+		} else {
+			super.handleEntityEvent(event);
+		}
 	}
 
 	@Override
@@ -162,8 +172,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		}
 	}
 
-	@Nullable
-	@Override
+	@Override @Nullable
 	public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob mob) { return null; }
 
 	@Override
@@ -391,7 +400,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 
 	@SuppressWarnings("unused")
 	public int getPlayerReputation(Player player) {
-		return (int)Math.floor(foodLevel / (MULTIPLIER_FOOD_THRESHOLD * 0.025D));
+		return (int)Math.floor(this.foodLevel / (MULTIPLIER_FOOD_THRESHOLD * 0.025D));
 	}
 
 	private static final int SearchRange = 30;
@@ -438,11 +447,11 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 			dataResult.resultOrPartial(ECLogger::error).ifPresent(this::setPiglinCuteyData);
 		}
 
-		if (nbt.contains("FoodLevel", Tag.TAG_INT)) {
+		if (nbt.contains("FoodLevel", Tag.TAG_ANY_NUMERIC)) {
 			this.foodLevel = nbt.getInt("FoodLevel");
 		}
 
-		if (nbt.contains("Xp", Tag.TAG_INT)) {
+		if (nbt.contains("Xp", Tag.TAG_ANY_NUMERIC)) {
 			this.cuteyXp = nbt.getInt("Xp");
 		}
 

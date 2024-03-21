@@ -1,6 +1,5 @@
 package com.hexagram2021.emeraldcraft.common.crafting;
 
-import com.hexagram2021.emeraldcraft.api.fluid.FluidType;
 import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.MelterMenu;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
@@ -16,30 +15,15 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.fluids.FluidStack;
 
-public class MelterRecipe implements Recipe<Container> {
-	protected final ResourceLocation id;
-	protected final String group;
-	protected final Ingredient ingredient;
-	protected final FluidType resultFluid;
-	protected final int resultAmount;
-	protected final int meltingTime;
-
+public record MelterRecipe(ResourceLocation id, String group, Ingredient ingredient, FluidStack resultFluid, int meltingTime) implements Recipe<Container> {
 	public static final CachedRecipeList<MelterRecipe> recipeList = new CachedRecipeList<>(
 			ECRecipes.MELTER_TYPE,
 			MelterRecipe.class
 	);
 
 	public static final int MELTING_TIME = 200;
-
-	public MelterRecipe(ResourceLocation id, String group, Ingredient ingredient, FluidType resultFluid, int resultAmount, int meltingTime) {
-		this.id = id;
-		this.group = group;
-		this.ingredient = ingredient;
-		this.resultFluid = resultFluid;
-		this.resultAmount = resultAmount;
-		this.meltingTime = meltingTime;
-	}
 
 	@Override
 	public boolean canCraftInDimensions(int wid, int hgt) {
@@ -68,18 +52,6 @@ public class MelterRecipe implements Recipe<Container> {
 	@Override
 	public String getGroup() {
 		return this.group;
-	}
-
-	public FluidType getFluidType() {
-		return this.resultFluid;
-	}
-
-	public int getFluidAmount() {
-		return this.resultAmount;
-	}
-
-	public int getMeltingTime() {
-		return this.meltingTime;
 	}
 
 	@Override

@@ -91,13 +91,13 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 		try {
 			UUID uuid = this.getOwnerUUID();
 			return uuid == null ? null : this.level().getPlayerByUUID(uuid);
-		} catch (IllegalArgumentException illegalargumentexception) {
+		} catch (IllegalArgumentException ignored) {
 			return null;
 		}
 	}
 
 	public void cureFrom(Phantom phantom, Player player) {
-		this.setHealedPlayer(player.getUUID());
+		this.emeraldcraft$setHealedPlayer(player.getUUID());
 		if (player instanceof ServerPlayer serverPlayer) {
 			ECTriggers.CURED_PHANTOM.trigger(serverPlayer, phantom, this);
 		}
@@ -127,11 +127,6 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	@Override
 	protected float getStandingEyeHeight(Pose pose, EntityDimensions dim) {
 		return dim.height * 0.6F;
-	}
-
-	@Override
-	public boolean isBaby() {
-		return false;
 	}
 
 	@Override
@@ -320,22 +315,22 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	}
 
 	@Override
-	public boolean isPlayerHealed() {
+	public boolean emeraldcraft$isPlayerHealed() {
 		return this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER).isPresent();
 	}
 
 	@Deprecated
 	@Override
-	public void setPlayerHealed(boolean healed) {}
+	public void emeraldcraft$setPlayerHealed(boolean healed) {}
 
 	@Override
-	public UUID getHealedPlayer() {
+	public UUID emeraldcraft$getHealedPlayer() {
 		Optional<UUID> player = this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
 		return player.orElse(Util.NIL_UUID);
 	}
 
 	@Override
-	public void setHealedPlayer(@Nullable UUID player) {
+	public void emeraldcraft$setHealedPlayer(@Nullable UUID player) {
 		this.getBrain().setMemory(MemoryModuleType.LIKED_PLAYER, player);
 	}
 }

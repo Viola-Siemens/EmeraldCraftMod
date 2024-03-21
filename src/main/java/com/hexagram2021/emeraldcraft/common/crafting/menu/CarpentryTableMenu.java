@@ -150,7 +150,6 @@ public class CarpentryTableMenu extends AbstractContainerMenu {
 		if (!itemStack.isEmpty()) {
 			this.recipes = this.level.getRecipeManager().getRecipesFor(ECRecipes.CARPENTRY_TABLE_TYPE.get(), container, this.level);
 		}
-
 	}
 
 	void setupResultSlot() {

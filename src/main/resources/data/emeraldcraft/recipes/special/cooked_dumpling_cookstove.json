@@ -1,0 +1,19 @@
+{
+  "type": "emeraldcraft:cooked_dumpling_cookstove",
+  "fluid": {
+    "FluidName": "minecraft:water",
+    "Amount": 1000
+  },
+  "display": {
+    "type": "emeraldcraft:items",
+    "background": {
+      "color": 16579836,
+      "shape": "emeraldcraft:soup"
+    },
+    "ingredient": [
+      {
+        "item": "emeraldcraft:cooked_dumpling"
+      }
+    ]
+  }
+}

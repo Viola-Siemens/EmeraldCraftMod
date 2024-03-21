@@ -56,7 +56,7 @@ public class RabbleFurnaceRecipeCategory implements IRecipeCategory<RabbleFurnac
 	}
 
 	protected IDrawableAnimated getArrow(RabbleFurnaceRecipe recipe) {
-		int cookTime = recipe.getRabblingTime();
+		int cookTime = recipe.rabblingTime();
 		if (cookTime <= 0) {
 			cookTime = COOKTIME;
 		}
@@ -96,7 +96,7 @@ public class RabbleFurnaceRecipeCategory implements IRecipeCategory<RabbleFurnac
 
 	@SuppressWarnings("SameParameterValue")
 	protected void drawExperience(RabbleFurnaceRecipe recipe, GuiGraphics transform, int y) {
-		float experience = recipe.getExperience();
+		float experience = recipe.experience();
 		if (experience > 0) {
 			Component experienceString = Component.translatable("gui.emeraldcraft.rabble_furnace.experience", experience);
 			Minecraft minecraft = Minecraft.getInstance();
@@ -108,7 +108,7 @@ public class RabbleFurnaceRecipeCategory implements IRecipeCategory<RabbleFurnac
 
 	@SuppressWarnings("SameParameterValue")
 	protected void drawCookTime(RabbleFurnaceRecipe recipe, GuiGraphics transform, int y) {
-		int cookTime = recipe.getRabblingTime();
+		int cookTime = recipe.rabblingTime();
 		if (cookTime > 0) {
 			int cookTimeSeconds = cookTime / 20;
 			Component timeString = Component.translatable("gui.emeraldcraft.rabble_furnace.time.seconds", cookTimeSeconds);

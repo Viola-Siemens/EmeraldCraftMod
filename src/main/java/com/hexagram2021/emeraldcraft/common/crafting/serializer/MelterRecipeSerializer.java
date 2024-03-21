@@ -2,14 +2,17 @@ package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.hexagram2021.emeraldcraft.api.fluid.FluidType;
-import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
 import com.hexagram2021.emeraldcraft.common.crafting.MelterRecipe;
+import com.hexagram2021.emeraldcraft.common.util.ECLogger;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 
@@ -32,39 +35,34 @@ public class MelterRecipeSerializer<T extends MelterRecipe> implements RecipeSer
 		Ingredient ingredient = Ingredient.fromJson(jsonelement);
 
 		if (!json.has("result")) throw new com.google.gson.JsonSyntaxException("Missing result, expected to find an object");
-		FluidType fluidType;
-		int fluidAmount;
+		FluidStack fluidStack;
 		if (json.get("result").isJsonObject()) {
-			JsonObject result = GsonHelper.getAsJsonObject(json, "result");
-			fluidType = FluidTypes.getFluidTypeFromName(GsonHelper.getAsString(result, "fluid"));
-			fluidAmount = GsonHelper.getAsInt(result, "amount");
+			fluidStack = FluidStack.CODEC.parse(JsonOps.INSTANCE, GsonHelper.getAsJsonObject(json, "result")).getOrThrow(false, ECLogger::error);
 		} else {
 			throw new IllegalStateException("result is not a Json object");
 		}
 		int time = GsonHelper.getAsInt(json, "meltingtime", this.defaultMeltingTime);
-		return this.factory.create(id, group, ingredient, fluidType, fluidAmount, time);
+		return this.factory.create(id, group, ingredient, fluidStack, time);
 	}
 
 	@Override @Nullable
 	public T fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);
-		FluidType fluidType = FluidTypes.getFluidTypeFromName(buf.readUtf());
-		int fluidAmount = buf.readVarInt();
+		FluidStack result = FluidStack.readFromPacket(buf);
 		int time = buf.readVarInt();
-		return this.factory.create(id, group, ingredient, fluidType, fluidAmount, time);
+		return this.factory.create(id, group, ingredient, result, time);
 	}
 
 	@Override
 	public void toNetwork(FriendlyByteBuf buf, T recipe) {
 		buf.writeUtf(recipe.getGroup());
 		recipe.getIngredient().toNetwork(buf);
-		buf.writeUtf(recipe.getFluidType().toString());
-		buf.writeVarInt(recipe.getFluidAmount());
-		buf.writeVarInt(recipe.getMeltingTime());
+		recipe.resultFluid().writeToPacket(buf);
+		buf.writeVarInt(recipe.meltingTime());
 	}
 
 	public interface Creator<T extends Recipe<Container>> {
-		T create(ResourceLocation id, String group, Ingredient ingredient, FluidType resultFluid, int resultAmount, int meltingTime);
+		T create(ResourceLocation id, String group, Ingredient ingredient, FluidStack resultFluid, int meltingTime);
 	}
 }

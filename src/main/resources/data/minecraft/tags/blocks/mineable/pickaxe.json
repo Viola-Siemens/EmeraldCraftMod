@@ -70,11 +70,13 @@
     "emeraldcraft:jadeite_sandstone_wall",
     "emeraldcraft:quartz_sandstone_wall",
     
-    "emeraldcraft:glass_kiln",
-    "emeraldcraft:mineral_table",
     "emeraldcraft:continuous_miner",
+    "emeraldcraft:cookstove",
+    "emeraldcraft:glass_kiln",
     "emeraldcraft:ice_maker",
+    "emeraldcraft:meat_grinder",
     "emeraldcraft:melter",
+    "emeraldcraft:mineral_table",
     "emeraldcraft:rabble_furnace",
     
     "emeraldcraft:blue_nether_bricks",

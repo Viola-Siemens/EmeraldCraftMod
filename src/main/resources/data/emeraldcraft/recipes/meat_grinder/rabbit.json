@@ -1,0 +1,9 @@
+{
+  "type": "emeraldcraft:meat_grinder",
+  "ingredient": {
+    "item": "minecraft:rabbit"
+  },
+  "result": "emeraldcraft:minced_rabbit",
+  "count": 3,
+  "cookingtime": 120
+}

@@ -3,10 +3,7 @@ package com.hexagram2021.emeraldcraft.client;
 import com.hexagram2021.emeraldcraft.api.tradable.ITradableDataFactory;
 import com.hexagram2021.emeraldcraft.client.screens.*;
 import com.hexagram2021.emeraldcraft.common.CommonProxy;
-import com.hexagram2021.emeraldcraft.common.entities.mobs.NetherLambmanEntity;
-import com.hexagram2021.emeraldcraft.common.entities.mobs.NetherPigmanEntity;
 import com.hexagram2021.emeraldcraft.common.entities.mobs.PiglinCuteyData;
-import com.hexagram2021.emeraldcraft.common.entities.mobs.PiglinCuteyEntity;
 import com.hexagram2021.emeraldcraft.common.register.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -16,10 +13,8 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.npc.VillagerData;
 import net.minecraft.world.entity.npc.VillagerType;
-import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.block.entity.BannerPattern;
@@ -37,10 +32,14 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientProxy extends CommonProxy {
+	@SuppressWarnings("ConstantValue")
 	public static void modConstruction() {
-		ReloadableResourceManager reloadableManager = (ReloadableResourceManager)Minecraft.getInstance().getResourceManager();
-		ClientEventHandler handler = new ClientEventHandler();
-		reloadableManager.registerReloadListener(handler);
+		Minecraft minecraft = Minecraft.getInstance();
+		if(minecraft != null) {
+			ReloadableResourceManager reloadableManager = (ReloadableResourceManager) minecraft.getResourceManager();
+			ClientEventHandler handler = new ClientEventHandler();
+			reloadableManager.registerReloadListener(handler);
+		}
 	}
 
 	@SubscribeEvent
@@ -81,36 +80,25 @@ public class ClientProxy extends CommonProxy {
 
 	private static void registerTradableMobDataFactories() {
 		ITradableDataFactory.registerDataFactory(
-				EntityType.VILLAGER, (entity, profession, level) -> {
-					Villager villager = (Villager) entity;
+				EntityType.VILLAGER, (villager, profession, level) -> {
 					villager.setNoAi(true);
-					villager.setVillagerData(new VillagerData(VillagerType.PLAINS, profession, level));
+					villager.setVillagerData(new VillagerData(VillagerType.PLAINS, Objects.requireNonNull(profession), level));
 				}
 		);
 		ITradableDataFactory.registerDataFactory(
-				EntityType.WANDERING_TRADER, (entity, profession, level) -> {
-					WanderingTrader wanderingTrader = (WanderingTrader) entity;
-					wanderingTrader.setNoAi(true);
-				}
+				EntityType.WANDERING_TRADER, (wanderingTrader, profession, level) -> wanderingTrader.setNoAi(true)
 		);
 		ITradableDataFactory.registerDataFactory(
-				ECEntities.PIGLIN_CUTEY, (entity, profession, level) -> {
-					PiglinCuteyEntity piglinCutey = (PiglinCuteyEntity) entity;
+				ECEntities.PIGLIN_CUTEY, (piglinCutey, profession, level) -> {
 					piglinCutey.setNoAi(true);
 					piglinCutey.setPiglinCuteyData(new PiglinCuteyData(level));
 				}
 		);
 		ITradableDataFactory.registerDataFactory(
-				ECEntities.NETHER_LAMBMAN, (entity, profession, level) -> {
-					NetherLambmanEntity netherLambman = (NetherLambmanEntity) entity;
-					netherLambman.setNoAi(true);
-				}
+				ECEntities.NETHER_LAMBMAN, (netherLambman, profession, level) -> netherLambman.setNoAi(true)
 		);
 		ITradableDataFactory.registerDataFactory(
-				ECEntities.NETHER_PIGMAN, (entity, profession, level) -> {
-					NetherPigmanEntity netherPigman = (NetherPigmanEntity) entity;
-					netherPigman.setNoAi(true);
-				}
+				ECEntities.NETHER_PIGMAN, (netherPigman, profession, level) -> netherPigman.setNoAi(true)
 		);
 	}
 

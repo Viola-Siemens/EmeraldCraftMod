@@ -3,6 +3,7 @@ package com.hexagram2021.emeraldcraft.common.register;
 import com.hexagram2021.emeraldcraft.common.crafting.*;
 import com.hexagram2021.emeraldcraft.common.crafting.serializer.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -30,6 +31,21 @@ public class ECRecipeSerializer {
 	);
 	public static final RegistryObject<RabbleFurnaceRecipeSerializer<RabbleFurnaceRecipe>> RABBLE_FURNACE_SERIALIZER = REGISTER.register(
 			"rabble_furnace", () -> new RabbleFurnaceRecipeSerializer<>(RabbleFurnaceRecipe::new, RabbleFurnaceRecipe.RABBLING_TIME)
+	);
+	public static final RegistryObject<MeatGrinderRecipeSerializer<MeatGrinderRecipe>> MEAT_GRINDER_SERIALIZER = REGISTER.register(
+			"meat_grinder", () -> new MeatGrinderRecipeSerializer<>(MeatGrinderRecipe::new, MeatGrinderRecipe.GRIND_TIME)
+	);
+	public static final RegistryObject<CookstoveRecipeSerializer<CookstoveRecipe>> COOKSTOVE_SERIALIZER = REGISTER.register(
+			"cookstove", () -> new CookstoveRecipeSerializer<>(CookstoveRecipe::new, CookstoveRecipe.COOK_TIME)
+	);
+	public static final RegistryObject<SuspiciousStewCookstoveRecipeSerializer<SuspiciousStewCookstoveRecipe>> SUSPICIOUS_STEW_COOKSTOVE_SERIALIZER = REGISTER.register(
+			"suspicious_stew_cookstove", () -> new SuspiciousStewCookstoveRecipeSerializer<>(SuspiciousStewCookstoveRecipe::new, SuspiciousStewCookstoveRecipe.COOK_TIME)
+	);
+	public static final RegistryObject<CookedDumplingCookstoveRecipeSerializer<CookedDumplingCookstoveRecipe>> COOKED_DUMPLING_COOKSTOVE_SERIALIZER = REGISTER.register(
+			"cooked_dumpling_cookstove", () -> new CookedDumplingCookstoveRecipeSerializer<>(CookedDumplingCookstoveRecipe::new, CookedDumplingCookstoveRecipe.COOK_TIME)
+	);
+	public static final RegistryObject<SimpleCraftingRecipeSerializer<DumplingRecipe>> CRAFTING_DUMPLING_SERIALIZER = REGISTER.register(
+			"crafting_dumpling", () -> new SimpleCraftingRecipeSerializer<>(DumplingRecipe::new)
 	);
 	public static final RegistryObject<TradeShadowRecipeSerializer<TradeShadowRecipe>> TRADE_SHADOW_SERIALIZER = REGISTER.register(
 			"trade_shadow", () -> new TradeShadowRecipeSerializer<>(TradeShadowRecipe::new)

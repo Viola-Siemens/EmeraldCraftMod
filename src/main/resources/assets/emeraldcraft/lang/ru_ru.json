@@ -499,16 +499,16 @@
   "advancements.emeraldcraft.ice_cream_please.description": "Получите льдогенератор.",
 
   "fluids.save.bucket": "Может заполнить %s %s",
-  "fluids.name.water": "Вода",
-  "fluids.name.lava": "Лава",
-  "fluids.name.melted_emerald": "Расплавленный изумруд",
-  "fluids.name.melted_iron": "Расплавленное железо",
-  "fluids.name.melted_gold": "Расплавленное золото",
-  "fluids.name.melted_copper": "Расплавленная медь",
-  "fluids.name.melted_zinc": "Расплавленный цинк",
-  "fluids.name.melted_aluminum": "Расплавленный алюминий",
-  "fluids.name.melted_lead": "Расплавленный свинец",
-  "fluids.name.melted_silver": "Расплавленное серебро",
-  "fluids.name.melted_nickel": "Расплавленный никель",
-  "fluids.name.melted_uranium": "Расплавленный уран"
+  "fluid.minecraft.water": "Вода",
+  "fluid.minecraft.lava": "Лава",
+  "fluid.emeraldcraft.melted_emerald": "Расплавленный изумруд",
+  "fluid.emeraldcraft.melted_iron": "Расплавленное железо",
+  "fluid.emeraldcraft.melted_gold": "Расплавленное золото",
+  "fluid.emeraldcraft.melted_copper": "Расплавленная медь",
+  "fluid.emeraldcraft.melted_zinc": "Расплавленный цинк",
+  "fluid.emeraldcraft.melted_aluminum": "Расплавленный алюминий",
+  "fluid.emeraldcraft.melted_lead": "Расплавленный свинец",
+  "fluid.emeraldcraft.melted_silver": "Расплавленное серебро",
+  "fluid.emeraldcraft.melted_nickel": "Расплавленный никель",
+  "fluid.emeraldcraft.melted_uranium": "Расплавленный уран"
 }

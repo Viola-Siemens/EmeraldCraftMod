@@ -4,8 +4,8 @@
     "item": "emeraldcraft:copper_concentrate"
   },
   "result": {
-    "fluid": "melted_copper",
-    "amount": 50
+    "FluidName": "emeraldcraft:melted_copper",
+    "Amount": 500
   },
   "meltingtime": 200
 }

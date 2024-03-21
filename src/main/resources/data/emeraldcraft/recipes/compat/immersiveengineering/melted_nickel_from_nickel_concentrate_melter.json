@@ -10,8 +10,8 @@
     "item": "emeraldcraft:nickel_concentrate"
   },
   "result": {
-    "fluid": "melted_nickel",
-    "amount": 50
+    "FluidName": "emeraldcraft:melted_nickel",
+    "Amount": 500
   },
   "meltingtime": 200
 }

@@ -1,6 +1,8 @@
 package com.hexagram2021.emeraldcraft.common.world.structures.camp;
 
 import com.hexagram2021.emeraldcraft.api.camp.CampType;
+import com.hexagram2021.emeraldcraft.api.camp.CampTypes;
+import com.hexagram2021.emeraldcraft.api.codec.APIEnumCodec;
 import com.hexagram2021.emeraldcraft.common.register.ECStructureTypes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -16,7 +18,7 @@ import java.util.Optional;
 public class CampFeature extends Structure {
 	public static final Codec<CampFeature> CODEC = RecordCodecBuilder.create(
 			builder -> builder.group(
-				settingsCodec(builder), CampType.CODEC.fieldOf("camp_type").forGetter(structure -> structure.type)
+				settingsCodec(builder), APIEnumCodec.instance(CampType::values, CampTypes.ALL_CAMP_IDS).fieldOf("camp_type").forGetter(structure -> structure.type)
 			).apply(builder, CampFeature::new));
 
 	private final CampType type;

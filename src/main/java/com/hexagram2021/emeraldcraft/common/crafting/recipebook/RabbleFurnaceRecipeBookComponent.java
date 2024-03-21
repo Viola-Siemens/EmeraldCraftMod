@@ -1,7 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.crafting.recipebook;
 
-
-import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.client.gui.screens.recipebook.AbstractFurnaceRecipeBookComponent;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.Slot;
@@ -13,34 +12,18 @@ import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
-public class RabbleFurnaceRecipeBookComponent extends RecipeBookComponent {
+public class RabbleFurnaceRecipeBookComponent extends AbstractFurnaceRecipeBookComponent {
 	private static final Component FILTER_NAME = Component.translatable("gui.recipebook.toggleRecipes.boilable");
-
-	@Nullable
-	private Ingredient fuels;
-
-	@Override
-	protected void initFilterButtonTextures() {
-		this.filterButton.initTextureValues(152, 182, 28, 18, RECIPE_BOOK_LOCATION);
-	}
-
-	@Override
-	public void slotClicked(@Nullable Slot slot) {
-		super.slotClicked(slot);
-		if (slot != null && slot.index < this.menu.getSize()) {
-			this.ghostRecipe.clear();
-		}
-	}
 
 	@Override
 	public void setupGhostRecipe(Recipe<?> recipe, List<Slot> slots) {
-		ItemStack itemstack = recipe.getResultItem(this.minecraft.level.registryAccess());
+		ItemStack itemstack = recipe.getResultItem(Objects.requireNonNull(this.minecraft.level).registryAccess());
 		this.ghostRecipe.setRecipe(recipe);
 		this.ghostRecipe.addIngredient(Ingredient.of(itemstack), (slots.get(4)).x, (slots.get(4)).y);
 		NonNullList<Ingredient> ingredients = recipe.getIngredients();

@@ -24,6 +24,10 @@ public class ECRecipes {
 	public static final RegistryObject<RecipeType<IceMakerRecipe>> ICE_MAKER_TYPE = register("ice_maker");
 	public static final RegistryObject<RecipeType<MelterRecipe>> MELTER_TYPE = register("melter");
 	public static final RegistryObject<RecipeType<RabbleFurnaceRecipe>> RABBLE_FURNACE_TYPE = register("rabble_furnace");
+	public static final RegistryObject<RecipeType<MeatGrinderRecipe>> MEAT_GRINDER_TYPE = register("meat_grinder");
+	public static final RegistryObject<RecipeType<CookstoveRecipe>> COOKSTOVE_TYPE = register("cookstove");
+	public static final RegistryObject<RecipeType<SuspiciousStewCookstoveRecipe>> SUSPICIOUS_STEW_COOKSTOVE_TYPE = register("suspicious_stew_cookstove");
+	public static final RegistryObject<RecipeType<CookedDumplingCookstoveRecipe>> COOKED_DUMPLING_COOKSTOVE_TYPE = register("cooked_dumpling_cookstove");
 	public static final RegistryObject<RecipeType<TradeShadowRecipe>> TRADE_SHADOW_TYPE = register("trade_shadow");
 
 	public static void init(IEventBus bus) {

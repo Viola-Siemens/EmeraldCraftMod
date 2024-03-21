@@ -26,34 +26,32 @@ public class MineralTableScreen extends AbstractContainerScreen<MineralTableMenu
 
 	@Override
 	public void render(GuiGraphics transform, int x, int y, float partialTicks) {
-		this.renderBackground(transform);
 		super.render(transform, x, y, partialTicks);
 		this.renderTooltip(transform, x, y);
 	}
 
 	@Override
 	protected void renderBg(GuiGraphics transform, float partialTicks, int x, int y) {
-		int i = (this.width - this.imageWidth) / 2;
-		int j = (this.height - this.imageHeight) / 2;
-		transform.blit(BG_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
-		int k = this.menu.getLitProgress();
-		int l = Mth.clamp((18 * k + 20 - 1) / 20, 0, 18);
-		if (l > 0) {
-			transform.blit(BG_LOCATION, i + 60, j + 44, 176, 29, l, 4);
+		int left = (this.width - this.imageWidth) / 2;
+		int top = (this.height - this.imageHeight) / 2;
+		transform.blit(BG_LOCATION, left, top, 0, 0, this.imageWidth, this.imageHeight);
+		int litProgress = this.menu.getLitProgress();
+		int length = Mth.clamp((18 * litProgress + 20 - 1) / 20, 0, 18);
+		if (length > 0) {
+			transform.blit(BG_LOCATION, left + 60, top + 44, 176, 29, length, 4);
 		}
 
-		int i1 = this.menu.getBurnProgress();
-		if (i1 > 0) {
-			int j1 = (int)(28.0F * (1.0F - (float)i1 / 400.0F));
-			if (j1 > 0) {
-				transform.blit(BG_LOCATION, i + 97, j + 16, 176, 0, 9, j1);
+		int burnProgress = this.menu.getBurnProgress();
+		if (burnProgress > 0) {
+			int progress = (int)(28.0F * (1.0F - (float)burnProgress / 400.0F));
+			if (progress > 0) {
+				transform.blit(BG_LOCATION, left + 97, top + 16, 176, 0, 9, progress);
 			}
 
-			j1 = BUBBLELENGTHS[i1 / 2 % 7];
-			if (j1 > 0) {
-				transform.blit(BG_LOCATION, i + 63, j + 14 + 29 - j1, 185, 29 - j1, 12, j1);
+			progress = BUBBLELENGTHS[burnProgress / 2 % 7];
+			if (progress > 0) {
+				transform.blit(BG_LOCATION, left + 63, top + 14 + 29 - progress, 185, 29 - progress, 12, progress);
 			}
 		}
-
 	}
 }

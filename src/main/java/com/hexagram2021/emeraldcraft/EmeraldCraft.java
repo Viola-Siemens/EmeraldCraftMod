@@ -11,10 +11,10 @@ import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
 import com.hexagram2021.emeraldcraft.common.crafting.TradeShadowRecipe;
 import com.hexagram2021.emeraldcraft.common.register.*;
 import com.hexagram2021.emeraldcraft.common.util.ECFoods;
-import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.world.village.ECTrades;
 import com.hexagram2021.emeraldcraft.common.world.village.Villages;
-import com.hexagram2021.emeraldcraft.mixin.BlockEntityTypeAccess;
+import com.hexagram2021.emeraldcraft.mixin.accessor.BlockEntityTypeAccess;
+import com.hexagram2021.emeraldcraft.network.ClientboundFluidSyncPacket;
 import com.hexagram2021.emeraldcraft.network.ClientboundTradeSyncPacket;
 import com.hexagram2021.emeraldcraft.network.IECPacket;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -32,6 +32,7 @@ import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
@@ -48,7 +49,6 @@ import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.Optional;
 import java.util.Set;
@@ -62,13 +62,14 @@ public class EmeraldCraft {
 	public static final String MODID = "emeraldcraft";
 	public static final String MODNAME = "Emerald Craft";
 	public static final String VERSION = ModList.get().getModFileById(MODID).versionString();
+	public static final int CHANNEL_VERSION = 1;
 
 	public static final CommonProxy proxy = DistExecutor.safeRunForDist(
 			bootstrapErrorToXCPInDev(() -> ClientProxy::new),
 			bootstrapErrorToXCPInDev(() -> CommonProxy::new)
 	);
 
-	public final SimpleChannel packetHandler = NetworkRegistry.ChannelBuilder
+	public static final SimpleChannel packetHandler = NetworkRegistry.ChannelBuilder
 			.named(new ResourceLocation(MODID, "main"))
 			.networkProtocolVersion(() -> VERSION)
 			.serverAcceptedVersions(VERSION::equals)
@@ -94,11 +95,15 @@ public class EmeraldCraft {
 	private <T extends IECPacket> void registerMessage(Class<T> packetType,
 													   Function<FriendlyByteBuf, T> constructor,
 													   NetworkDirection direction) {
-		this.packetHandler.registerMessage(this.messageId++, packetType, IECPacket::write, constructor, (packet, ctx) -> packet.handle(), Optional.of(direction));
+		packetHandler.registerMessage(this.messageId++, packetType, IECPacket::write, constructor, (packet, ctx) -> packet.handle(), Optional.of(direction));
+	}
+
+	public static void sendMessageToPlayer(IECPacket packet, ServerPlayer player) {
+		packetHandler.send(PacketDistributor.PLAYER.with(() -> player), packet);
 	}
 
 	public EmeraldCraft() {
-		ECLogger.logger = LogManager.getLogger(MODID);
+		ForgeMod.enableMilkFluid();
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 		MinecraftForge.EVENT_BUS.addListener(this::tagsUpdated);
 		MinecraftForge.EVENT_BUS.addListener(this::serverStarted);
@@ -128,7 +133,6 @@ public class EmeraldCraft {
 					ECBiomeKeys.XANADU.key(), VillagerType.SWAMP
 			));
 			appendBlocksToBlockEntities();
-			Villages.init();
 			ECContent.init();
 			ModVanillaCompat.setup();
 		});
@@ -139,6 +143,7 @@ public class EmeraldCraft {
 		TradeListingUtils.registerTradeListing(ECTrades.NETHER_PIGMAN_TRADES, ECEntities.NETHER_PIGMAN, null);
 
 		registerMessage(ClientboundTradeSyncPacket.class, ClientboundTradeSyncPacket::new, NetworkDirection.PLAY_TO_CLIENT);
+		registerMessage(ClientboundFluidSyncPacket.class, ClientboundFluidSyncPacket::new, NetworkDirection.PLAY_TO_CLIENT);
 	}
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {
@@ -197,15 +202,18 @@ public class EmeraldCraft {
 			ECSaveData worldData = world.getDataStorage().computeIfAbsent(ECSaveData::new, ECSaveData::new, ECSaveData.dataName);
 			ECSaveData.setInstance(worldData);
 		}
+		// // Run these checks when debugging:
+		// com.hexagram2021.emeraldcraft.common.util.RegistryChecker.registryCheck(event.getServer().getLootData());
+		// com.hexagram2021.emeraldcraft.common.util.RegistryChecker.recipeCheck(event.getServer().getLootData(), event.getServer().getRecipeManager(), event.getServer().registryAccess());
 	}
 
 	public void datapackSync(OnDatapackSyncEvent event) {
 		ServerPlayer player = event.getPlayer();
-		IECPacket packet = new ClientboundTradeSyncPacket(TradeShadowRecipe.getTradeRecipes(event.getPlayerList().getServer().overworld()));
+		IECPacket packet = new ClientboundTradeSyncPacket(TradeShadowRecipe.getAllJobsites(), TradeShadowRecipe.getTradeRecipes(event.getPlayerList().getServer().overworld()));
 		if(player == null) {
-			this.packetHandler.send(PacketDistributor.ALL.noArg(), packet);
+			packetHandler.send(PacketDistributor.ALL.noArg(), packet);
 		} else {
-			this.packetHandler.send(PacketDistributor.PLAYER.with(() -> player), packet);
+			packetHandler.send(PacketDistributor.PLAYER.with(() -> player), packet);
 		}
 	}
 

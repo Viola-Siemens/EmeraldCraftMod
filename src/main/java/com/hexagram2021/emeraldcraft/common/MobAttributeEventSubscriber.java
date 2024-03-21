@@ -22,5 +22,6 @@ public class MobAttributeEventSubscriber {
 		event.put(ECEntities.WRAITH, WraithEntity.createAttributes().build());
 		event.put(ECEntities.MANTA, MantaEntity.createAttributes().build());
 		event.put(ECEntities.LUMINE, LumineEntity.createAttributes().build());
+		event.put(ECEntities.WOMBAT, WombatEntity.createAttributes().build());
 	}
 }

@@ -54,6 +54,7 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 		this.inventoryLabelX = 107;
 	}
 
+	@SuppressWarnings("DataFlowIssue")
 	private void postButtonClick() {
 		this.menu.setSelectionHint(this.shopItem);
 		this.menu.tryMoveItems(this.shopItem);
@@ -113,7 +114,6 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 				transform.blit(VILLAGER_LOCATION, this.leftPos + 83 + MERCHANT_MENU_PART_X, this.topPos + 35, 0, 311.0F, 0.0F, 28, 21, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 			}
 		}
-
 	}
 
 	private void renderProgressBar(GuiGraphics transform, int x, int y) {
@@ -131,7 +131,6 @@ public class PiglinCuteyMerchantScreen extends AbstractContainerScreen<PiglinCut
 					int addProgress = Math.min(Mth.floor((float)addXp * f), 100 - progress);
 					transform.blit(VILLAGER_LOCATION, x + PROGRESS_BAR_X + progress + 1, y + PROGRESS_BAR_Y + 1, 0, 2.0F, 182.0F, addProgress, 3, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 				}
-
 			}
 		}
 	}

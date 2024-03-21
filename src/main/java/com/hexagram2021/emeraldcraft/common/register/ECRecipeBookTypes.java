@@ -37,7 +37,7 @@ public class ECRecipeBookTypes {
 		event.registerAggregateCategory(RABBLE_FURNACE_SEARCH, List.of(RABBLE_FURNACE_RESIN, RABBLE_FURNACE_PAPER));
 		event.registerRecipeCategoryFinder(ECRecipes.RABBLE_FURNACE_TYPE.get(), recipe -> {
 			if(recipe instanceof RabbleFurnaceRecipe rabbleFurnaceRecipe) {
-				if (rabbleFurnaceRecipe.getCategory().equals("resin")) {
+				if (rabbleFurnaceRecipe.category().equals("resin")) {
 					return RABBLE_FURNACE_RESIN;
 				}
 			}

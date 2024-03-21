@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:mushrooms",
+    "#forge:crops/beetroot",
+    "#forge:crops/cabbage",
+    "#forge:crops/carrot",
+    "#forge:crops/chili",
+    "#forge:crops/potato",
+    "#forge:crops/wheat",
+    "#forge:eggs",
+    "minecraft:poisonous_potato"
+  ]
+}

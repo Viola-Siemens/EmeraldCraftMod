@@ -1,0 +1,9 @@
+{
+  "type": "emeraldcraft:meat_grinder",
+  "ingredient": {
+    "item": "minecraft:porkchop"
+  },
+  "result": "emeraldcraft:minced_pork",
+  "count": 3,
+  "cookingtime": 120
+}

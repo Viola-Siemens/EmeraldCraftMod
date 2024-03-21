@@ -5,9 +5,9 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public interface PlayerHealable {
-	boolean isPlayerHealed();
-	void setPlayerHealed(boolean healed);
+	boolean emeraldcraft$isPlayerHealed();
+	void emeraldcraft$setPlayerHealed(boolean healed);
 
-	UUID getHealedPlayer();
-	void setHealedPlayer(@Nullable UUID player);
+	UUID emeraldcraft$getHealedPlayer();
+	void emeraldcraft$setHealedPlayer(@Nullable UUID player);
 }

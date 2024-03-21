@@ -6,6 +6,7 @@ import com.hexagram2021.emeraldcraft.common.crafting.RabbleFurnaceRecipe;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.RabbleFurnaceMenu;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
+import com.hexagram2021.emeraldcraft.common.util.PartialRecipeCachedCheck;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
@@ -32,7 +33,7 @@ import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
@@ -48,6 +49,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeHolder, StackedContentsCompatible {
 	public static final int SLOT_INPUT = 0;
@@ -96,12 +98,13 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 		}
 	};
 	private final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
-	private final RecipeType<RabbleFurnaceRecipe> recipeType;
-
+	private final RecipeManager.CachedCheck<Container, RabbleFurnaceRecipe> quickCheck;
+	private final PartialRecipeCachedCheck<Container, RabbleFurnaceRecipe> partialQuickCheck;
 
 	public RabbleFurnaceBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntity.RABBLE_FURNACE.get(), pos, state);
-		this.recipeType = ECRecipes.RABBLE_FURNACE_TYPE.get();
+		this.quickCheck = RecipeManager.createCheck(ECRecipes.RABBLE_FURNACE_TYPE.get());
+		this.partialQuickCheck = PartialRecipeCachedCheck.createCheck(ECRecipes.RABBLE_FURNACE_TYPE.get());
 	}
 
 	@Override
@@ -112,7 +115,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 
 	@Override
 	protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
-		return new RabbleFurnaceMenu(id, inventory, this, this.dataAccess);
+		return new RabbleFurnaceMenu(id, inventory, this, this.dataAccess, this.partialQuickCheck);
 	}
 
 	private boolean isLit() {
@@ -148,27 +151,34 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState blockState, RabbleFurnaceBlockEntity blockEntity) {
-		boolean flag = blockEntity.isLit();
-		boolean flag1 = false;
+		boolean isBurning = blockEntity.isLit();
+		boolean changed = false;
 		if (blockEntity.isLit()) {
 			--blockEntity.litTime;
 		}
 
-		ItemStack itemstack = blockEntity.items.get(SLOT_FUEL);
-		if (blockEntity.isLit() || !itemstack.isEmpty() && !blockEntity.items.get(SLOT_INPUT).isEmpty()) {
-			RabbleFurnaceRecipe recipe = level.getRecipeManager().getRecipeFor(blockEntity.recipeType, blockEntity, level).orElse(null);
+		ItemStack fuelItemStack = blockEntity.items.get(SLOT_FUEL);
+		boolean inputExists = !blockEntity.items.get(SLOT_INPUT).isEmpty();
+		boolean fuelExists = !fuelItemStack.isEmpty();
+		if (blockEntity.isLit() || fuelExists && inputExists) {
+			RabbleFurnaceRecipe recipe;
+			if (inputExists) {
+				recipe = blockEntity.quickCheck.getRecipeFor(blockEntity, level).orElse(null);
+			} else {
+				recipe = null;
+			}
 			int i = blockEntity.getMaxStackSize();
 			if (!blockEntity.isLit() && blockEntity.canBurn(level.registryAccess(), recipe, blockEntity.items, i)) {
-				blockEntity.litTime = blockEntity.getBurnDuration(itemstack);
+				blockEntity.litTime = blockEntity.getBurnDuration(fuelItemStack);
 				blockEntity.litDuration = blockEntity.litTime;
 				if (blockEntity.isLit()) {
-					flag1 = true;
-					if (itemstack.hasCraftingRemainingItem()) {
-						blockEntity.items.set(SLOT_FUEL, itemstack.getCraftingRemainingItem());
-					} else if (!itemstack.isEmpty()) {
-						itemstack.shrink(1);
-						if (itemstack.isEmpty()) {
-							blockEntity.items.set(SLOT_FUEL, itemstack.getCraftingRemainingItem());
+					changed = true;
+					if (fuelItemStack.hasCraftingRemainingItem()) {
+						blockEntity.items.set(SLOT_FUEL, fuelItemStack.getCraftingRemainingItem());
+					} else if (!fuelItemStack.isEmpty()) {
+						fuelItemStack.shrink(1);
+						if (fuelItemStack.isEmpty()) {
+							blockEntity.items.set(SLOT_FUEL, fuelItemStack.getCraftingRemainingItem());
 						}
 					}
 				}
@@ -178,12 +188,12 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 				++blockEntity.cookingProgress;
 				if (blockEntity.cookingProgress >= blockEntity.cookingTotalTime) {
 					blockEntity.cookingProgress = 0;
-					blockEntity.cookingTotalTime = getTotalCookTime(level, blockEntity.recipeType, blockEntity);
+					blockEntity.cookingTotalTime = getTotalCookTime(level, blockEntity);
 					if (blockEntity.burn(level.registryAccess(), recipe, blockEntity.items, i)) {
 						blockEntity.setRecipeUsed(recipe);
 					}
 
-					flag1 = true;
+					changed = true;
 				}
 			} else {
 				blockEntity.cookingProgress = 0;
@@ -192,13 +202,13 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 			blockEntity.cookingProgress = Mth.clamp(blockEntity.cookingProgress - BURN_COOL_SPEED, 0, blockEntity.cookingTotalTime);
 		}
 
-		if (flag != blockEntity.isLit()) {
-			flag1 = true;
+		if (isBurning != blockEntity.isLit()) {
+			changed = true;
 			blockState = blockState.setValue(RabbleFurnaceBlock.LIT, blockEntity.isLit());
 			level.setBlock(pos, blockState, Block.UPDATE_ALL);
 		}
 
-		if (flag1) {
+		if (changed) {
 			setChanged(level, pos, blockState);
 		}
 
@@ -230,12 +240,12 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 			ItemStack input = container.get(SLOT_INPUT);
 			ItemStack mix1 = container.get(SLOT_MIX1);
 			ItemStack mix2 = container.get(SLOT_MIX2);
-			ItemStack itemstack1 = recipe.assemble(this, registryAccess);
+			ItemStack result = recipe.assemble(this, registryAccess);
 			ItemStack resultSlot = container.get(SLOT_RESULT);
 			if (resultSlot.isEmpty()) {
-				container.set(SLOT_RESULT, itemstack1.copy());
-			} else if (resultSlot.is(itemstack1.getItem())) {
-				resultSlot.grow(itemstack1.getCount());
+				container.set(SLOT_RESULT, result.copy());
+			} else if (resultSlot.is(result.getItem())) {
+				resultSlot.grow(result.getCount());
 			}
 
 			input.shrink(1);
@@ -254,11 +264,11 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 		if (itemStack.isEmpty()) {
 			return 0;
 		}
-		return ForgeHooks.getBurnTime(itemStack, this.recipeType) / 2;
+		return ForgeHooks.getBurnTime(itemStack, null) / 2;
 	}
 
-	private static int getTotalCookTime(Level level, RecipeType<RabbleFurnaceRecipe> recipeType, Container container) {
-		return level.getRecipeManager().getRecipeFor(recipeType, container, level).map(RabbleFurnaceRecipe::getRabblingTime).orElse(200);
+	private static int getTotalCookTime(Level level, RabbleFurnaceBlockEntity blockEntity) {
+		return blockEntity.quickCheck.getRecipeFor(blockEntity, level).map(RabbleFurnaceRecipe::rabblingTime).orElse(RabbleFurnaceRecipe.RABBLING_TIME);
 	}
 
 	@Override
@@ -324,7 +334,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 		}
 
 		if ((index == SLOT_INPUT || index == SLOT_MIX1 || index == SLOT_MIX2) && !flag) {
-			this.cookingTotalTime = getTotalCookTime(this.level, this.recipeType, this);
+			this.cookingTotalTime = getTotalCookTime(Objects.requireNonNull(this.level), this);
 			this.cookingProgress = 0;
 			this.setChanged();
 		}
@@ -333,10 +343,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 
 	@Override
 	public boolean stillValid(Player player) {
-		if (this.level.getBlockEntity(this.worldPosition) != this) {
-			return false;
-		}
-		return player.distanceToSqr((double)this.worldPosition.getX() + 0.5D, (double)this.worldPosition.getY() + 0.5D, (double)this.worldPosition.getZ() + 0.5D) <= 64.0D;
+		return Container.stillValidBlockEntity(this, player);
 	}
 
 	@Override
@@ -348,7 +355,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 			return true;
 		}
 		ItemStack fuelItemStack = this.items.get(SLOT_FUEL);
-		return ForgeHooks.getBurnTime(itemStack, this.recipeType) > 0 || itemStack.is(Items.BUCKET) && !fuelItemStack.is(Items.BUCKET);
+		return ForgeHooks.getBurnTime(itemStack, null) > 0 || itemStack.is(Items.BUCKET) && !fuelItemStack.is(Items.BUCKET);
 	}
 
 	@Override
@@ -362,7 +369,6 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 			ResourceLocation resourcelocation = recipe.getId();
 			this.recipesUsed.addTo(resourcelocation, 1);
 		}
-
 	}
 
 	@Override @Nullable
@@ -384,9 +390,9 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 		List<Recipe<?>> list = Lists.newArrayList();
 
 		for(Object2IntMap.Entry<ResourceLocation> entry : this.recipesUsed.object2IntEntrySet()) {
-			this.level.getRecipeManager().byKey(entry.getKey()).ifPresent((recipe) -> {
+			this.level.getRecipeManager().byKey(entry.getKey()).ifPresent(recipe -> {
 				list.add(recipe);
-				createExperience(level, pos, entry.getIntValue(), ((RabbleFurnaceRecipe)recipe).getExperience());
+				createExperience(level, pos, entry.getIntValue(), ((RabbleFurnaceRecipe)recipe).experience());
 			});
 		}
 
@@ -411,6 +417,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 
 	}
 
+	//Forge Compat
 	LazyOptional<? extends IItemHandler>[] handlers =
 			SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 

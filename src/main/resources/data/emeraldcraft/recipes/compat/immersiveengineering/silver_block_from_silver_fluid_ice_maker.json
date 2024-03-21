@@ -7,8 +7,8 @@
   ],
   "type": "emeraldcraft:ice_maker",
   "ingredient": {
-    "fluid": "melted_silver",
-    "amount": 100
+    "FluidName": "emeraldcraft:melted_silver",
+    "Amount": 1000
   },
   "result": "immersiveengineering:storage_silver",
   "freezingtime": 50

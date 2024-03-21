@@ -1,13 +1,8 @@
 package com.hexagram2021.emeraldcraft.common.util;
 
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import com.hexagram2021.emeraldcraft.common.ECContent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.Entity;
-import net.minecraftforge.registries.RegisterEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,6 +44,8 @@ public class ECSounds {
 	public static final SoundEvent VILLAGER_WORK_ICER = registerSound("villager.work_icer");
 	public static final SoundEvent VILLAGER_WORK_MINER = registerSound("villager.work_miner");
 	public static final SoundEvent VILLAGER_WORK_PAPERHANGER = registerSound("villager.work_paperhanger");
+	public static final SoundEvent VILLAGER_WORK_HUNTER = registerSound("villager.work_hunter");
+	public static final SoundEvent VILLAGER_WORK_CHEF = registerSound("villager.work_chef");
 
 	public static final SoundEvent HIGAN_BANA_DROP_LEAVES = registerSound("flower.drop_leaves");
 
@@ -80,6 +77,11 @@ public class ECSounds {
 	public static final SoundEvent LUMINE_ITEM_GIVEN = registerSound("lumine.item_given");
 	public static final SoundEvent LUMINE_ITEM_TAKEN = registerSound("lumine.item_taken");
 
+	public static final SoundEvent WOMBAT_AMBIENT = registerSound("wombat.ambient");
+	public static final SoundEvent WOMBAT_HURT = registerSound("wombat.hurt");
+	public static final SoundEvent WOMBAT_DEATH = registerSound("wombat.death");
+	public static final SoundEvent WOMBAT_STEP = registerSound("wombat.step");
+
 	private static SoundEvent registerSound(String name) {
 		ResourceLocation location = new ResourceLocation(MODID, name);
 		SoundEvent event = SoundEvent.createVariableRangeEvent(location);
@@ -87,19 +89,7 @@ public class ECSounds {
 		return event;
 	}
 
-	public static void init(RegisterEvent event) {
-		event.register(Registries.SOUND_EVENT, helper -> registeredEvents.forEach(helper::register));
-	}
-
-	@SuppressWarnings({ "unused", "deprecation" })
-	public static void PlaySoundForPlayer(Entity player, SoundEvent sound, float volume, float pitch) {
-		if(player instanceof ServerPlayer serverPlayer)
-			serverPlayer.connection.send(new ClientboundSoundPacket(
-					BuiltInRegistries.SOUND_EVENT.wrapAsHolder(sound),
-					player.getSoundSource(),
-					player.getX(), player.getY(), player.getZ(),
-					volume, pitch,
-					serverPlayer.getRandom().nextLong()
-			));
+	public static void init(ECContent.RegisterConsumer<SoundEvent> register) {
+		registeredEvents.forEach(register);
 	}
 }

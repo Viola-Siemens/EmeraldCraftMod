@@ -1,12 +1,11 @@
 package com.hexagram2021.emeraldcraft.common.world.village;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.hexagram2021.emeraldcraft.common.register.*;
 import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
-import com.hexagram2021.emeraldcraft.mixin.HeroGiftsTaskAccess;
-import com.hexagram2021.emeraldcraft.mixin.StructureTemplatePoolAccess;
+import com.hexagram2021.emeraldcraft.mixin.accessor.HeroGiftsTaskAccess;
+import com.hexagram2021.emeraldcraft.mixin.accessor.StructureTemplatePoolAccess;
 import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.Registry;
@@ -19,8 +18,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
-import net.minecraft.world.entity.npc.VillagerType;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -39,10 +36,12 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
+import static com.hexagram2021.emeraldcraft.common.world.village.TradingConstants.*;
 
 public class Villages {
 	public static final ResourceLocation CARPENTER = new ResourceLocation(MODID, "carpenter");
@@ -55,31 +54,41 @@ public class Villages {
 	public static final ResourceLocation ICER = new ResourceLocation(MODID, "icer");
 	public static final ResourceLocation CHEMICAL_ENGINEER = new ResourceLocation(MODID, "chemical_engineer");
 	public static final ResourceLocation PAPERHANGER = new ResourceLocation(MODID, "paperhanger");
+	public static final ResourceLocation HUNTER = new ResourceLocation(MODID, "hunter");
+	public static final ResourceLocation CHEF = new ResourceLocation(MODID, "chef");
 
-	public static void init() {
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_CARPENTER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/carpenter_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_GLAZIER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/glazier_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_MINER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/miner_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_ASTROLOGIST.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/astrologist_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_GROWER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/grower_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_BEEKEEPER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/beekeeper_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_GEOLOGIST.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/geologist_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_ICER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/icer_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_CHEMICAL_ENGINEER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/chemical_engineer_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_PAPERHANGER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/paperhanger_gift"));
+	public static void setup() {
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_CARPENTER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/carpenter_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_GLAZIER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/glazier_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_MINER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/miner_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_ASTROLOGIST.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/astrologist_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_GROWER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/grower_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_BEEKEEPER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/beekeeper_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_GEOLOGIST.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/geologist_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_ICER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/icer_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_CHEMICAL_ENGINEER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/chemical_engineer_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_PAPERHANGER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/paperhanger_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_HUNTER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/hunter_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_CHEF.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/chef_gift"));
 	}
 
 	public static void addAllStructuresToPool(RegistryAccess registryAccess) {
-		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_beekeeper_1"), 4, registryAccess);
-		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_carpenter_1"), 4, registryAccess);
-		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_paperhanger_1"), 2, registryAccess);
-		addToPool(new ResourceLocation("village/snowy/houses"), new ResourceLocation(MODID, "village/snowy/houses/snowy_astrologist_1"), 3, registryAccess);
-		addToPool(new ResourceLocation("village/snowy/houses"), new ResourceLocation(MODID, "village/snowy/houses/snowy_icer_1"), 4, registryAccess);
-		addToPool(new ResourceLocation("village/savanna/houses"), new ResourceLocation(MODID, "village/savanna/houses/savanna_glazier_1"), 4, registryAccess);
-		addToPool(new ResourceLocation("village/savanna/houses"), new ResourceLocation(MODID, "village/savanna/houses/savanna_miner_1"), 3, registryAccess);
+		addToPool(new ResourceLocation("village/plains/houses"), registryAccess, builder -> {
+			builder.add(new ResourceLocation(MODID, "village/plains/houses/plains_beekeeper_1"), 4);
+			builder.add(new ResourceLocation(MODID, "village/plains/houses/plains_carpenter_1"), 4);
+			builder.add(new ResourceLocation(MODID, "village/plains/houses/plains_paperhanger_1"), 2);
+		});
+		addToPool(new ResourceLocation("village/snowy/houses"), registryAccess, builder -> {
+			builder.add(new ResourceLocation(MODID, "village/snowy/houses/snowy_astrologist_1"), 3);
+			builder.add(new ResourceLocation(MODID, "village/snowy/houses/snowy_icer_1"), 4);
+		});
+		addToPool(new ResourceLocation("village/savanna/houses"), registryAccess, builder -> {
+			builder.add(new ResourceLocation(MODID, "village/savanna/houses/savanna_glazier_1"), 4);
+			builder.add(new ResourceLocation(MODID, "village/savanna/houses/savanna_miner_1"), 3);
+		});
 	}
 
-	private static void addToPool(ResourceLocation poolName, ResourceLocation toAdd, int weight, RegistryAccess registryAccess) {
+	private static void addToPool(ResourceLocation poolName, RegistryAccess registryAccess, Consumer<PoolBuilder> consumer) {
 		Registry<StructureTemplatePool> registry = registryAccess.registryOrThrow(Registries.TEMPLATE_POOL);
 		StructureTemplatePool structureTemplatePool = registry.get(poolName);
 		if(structureTemplatePool == null) {
@@ -87,14 +96,29 @@ public class Villages {
 			return;
 		}
 		StructureTemplatePoolAccess pool = (StructureTemplatePoolAccess)structureTemplatePool;
-		List<Pair<StructurePoolElement, Integer>> rawTemplates = pool.getRawTemplates() instanceof ArrayList ?
-				pool.getRawTemplates() : new ArrayList<>(pool.getRawTemplates());
+		List<Pair<StructurePoolElement, Integer>> rawTemplates = pool.emeraldcraft$getRawTemplates() instanceof ArrayList ?
+				pool.emeraldcraft$getRawTemplates() : new ArrayList<>(pool.emeraldcraft$getRawTemplates());
 
-		SinglePoolElement addedElement = SinglePoolElement.single(toAdd.toString()).apply(StructureTemplatePool.Projection.RIGID);
-		rawTemplates.add(Pair.of(addedElement, weight));
-		pool.getTemplates().add(addedElement);
+		PoolBuilder poolBuilder = new PoolBuilder(pool, rawTemplates);
+		consumer.accept(poolBuilder);
 
-		pool.setRawTemplates(rawTemplates);
+		pool.emeraldcraft$setRawTemplates(rawTemplates);
+	}
+
+	private static final class PoolBuilder {
+		StructureTemplatePoolAccess pool;
+		List<Pair<StructurePoolElement, Integer>> rawTemplates;
+
+		public PoolBuilder(StructureTemplatePoolAccess pool, List<Pair<StructurePoolElement, Integer>> rawTemplates) {
+			this.pool = pool;
+			this.rawTemplates = rawTemplates;
+		}
+
+		public void add(ResourceLocation toAdd, int weight) {
+			SinglePoolElement addedElement = SinglePoolElement.single(toAdd.toString()).apply(StructureTemplatePool.Projection.RIGID);
+			this.rawTemplates.add(Pair.of(addedElement, weight));
+			this.pool.emeraldcraft$getTemplates().add(addedElement);
+		}
 	}
 
 	@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -132,6 +156,12 @@ public class Villages {
 		public static final RegistryObject<PoiType> POI_RABBLE_FURNACE = POINTS_OF_INTEREST.register(
 				"rabble_furnace", () -> createPOI(assembleStates(ECBlocks.WorkStation.RABBLE_FURNACE.get()))
 		);
+		public static final RegistryObject<PoiType> POI_MEAT_GRINDER = POINTS_OF_INTEREST.register(
+				"meat_grinder", () -> createPOI(assembleStates(ECBlocks.WorkStation.MEAT_GRINDER.get()))
+		);
+		public static final RegistryObject<PoiType> POI_COOKSTOVE = POINTS_OF_INTEREST.register(
+				"cookstove", () -> createPOI(assembleStates(ECBlocks.WorkStation.COOKSTOVE.get()))
+		);
 
 		public static final RegistryObject<VillagerProfession> PROF_CARPENTER = PROFESSIONS.register(
 				CARPENTER.getPath(), () -> createProf(CARPENTER, POI_CARPENTRY_TABLE::getKey, ECSounds.VILLAGER_WORK_CARPENTER)
@@ -162,6 +192,12 @@ public class Villages {
 		);
 		public static final RegistryObject<VillagerProfession> PROF_PAPERHANGER = PROFESSIONS.register(
 				PAPERHANGER.getPath(), () -> createProf(PAPERHANGER, POI_RABBLE_FURNACE::getKey, ECSounds.VILLAGER_WORK_PAPERHANGER)
+		);
+		public static final RegistryObject<VillagerProfession> PROF_HUNTER = PROFESSIONS.register(
+				HUNTER.getPath(), () -> createProf(HUNTER, POI_MEAT_GRINDER::getKey, ECSounds.VILLAGER_WORK_HUNTER)
+		);
+		public static final RegistryObject<VillagerProfession> PROF_CHEF = PROFESSIONS.register(
+				CHEF.getPath(), () -> createProf(CHEF, POI_COOKSTOVE::getKey, ECSounds.VILLAGER_WORK_CHEF)
 		);
 
 		private static Collection<BlockState> assembleStates(Block block) {
@@ -195,29 +231,9 @@ public class Villages {
 			if(CARPENTER.equals(currentVillagerProfession)) {
 				trades.get(1).add(new ECTrades.EmeraldForItems(Items.STICK, 32, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
 				trades.get(1).add(new ECTrades.EmeraldsForVillagerTypeItem(8, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_SELL,
-						ImmutableMap.<VillagerType, Item>builder()
-								.put(VillagerType.PLAINS, Items.OAK_SAPLING)
-								.put(VillagerType.TAIGA, Items.SPRUCE_SAPLING)
-								.put(VillagerType.SNOW, Items.SPRUCE_SAPLING)
-								.put(VillagerType.DESERT, Items.JUNGLE_SAPLING)
-								.put(VillagerType.JUNGLE, Items.JUNGLE_SAPLING)
-								.put(VillagerType.SAVANNA, Items.ACACIA_SAPLING)
-								.put(VillagerType.SWAMP, Items.DARK_OAK_SAPLING)
-								.build(),
-						Items.OAK_SAPLING
-				));
+						CARPENTER_LEVEL_1_SAPLINGS.build(), Items.OAK_SAPLING));
 				trades.get(1).add(new ECTrades.VillagerTypeItemForEmeralds(2, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_BUY,
-						ImmutableMap.<VillagerType, Item>builder()
-								.put(VillagerType.PLAINS, Items.OAK_LOG)
-								.put(VillagerType.TAIGA, Items.SPRUCE_LOG)
-								.put(VillagerType.SNOW, Items.SPRUCE_LOG)
-								.put(VillagerType.DESERT, Items.JUNGLE_LOG)
-								.put(VillagerType.JUNGLE, Items.JUNGLE_LOG)
-								.put(VillagerType.SAVANNA, Items.ACACIA_LOG)
-								.put(VillagerType.SWAMP, Items.DARK_OAK_LOG)
-								.build(),
-						Items.OAK_LOG
-				));
+						CARPENTER_LEVEL_1_LOGS.build(), Items.OAK_LOG));
 				trades.get(2).add(new ECTrades.ItemsAndEmeraldsToItems(Items.NETHER_WART_BLOCK, 1, 4, Items.NETHER_WART, 8, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
 				trades.get(2).add(new ECTrades.ItemsForEmeralds(Items.IRON_AXE, 3, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
 				trades.get(2).add(new ECTrades.EmeraldForItems(Items.BOOKSHELF, 1, 2, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
@@ -228,17 +244,7 @@ public class Villages {
 				trades.get(4).add(new ECTrades.ItemsForEmeralds(Items.BEEHIVE, 3, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
 				trades.get(4).add(new ECTrades.ItemsForEmeralds(Items.JUKEBOX, 3, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
 				trades.get(4).add(new ECTrades.EmeraldsForVillagerTypeItem(4, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_4_BUY,
-						ImmutableMap.<VillagerType, Item>builder()
-								.put(VillagerType.PLAINS, Items.OAK_SIGN)
-								.put(VillagerType.TAIGA, Items.SPRUCE_SIGN)
-								.put(VillagerType.SNOW, Items.SPRUCE_SIGN)
-								.put(VillagerType.DESERT, Items.JUNGLE_SIGN)
-								.put(VillagerType.JUNGLE, Items.JUNGLE_SIGN)
-								.put(VillagerType.SAVANNA, Items.ACACIA_SIGN)
-								.put(VillagerType.SWAMP, Items.DARK_OAK_SIGN)
-								.build(),
-						Items.OAK_SIGN
-				));
+						CARPENTER_LEVEL_4_SIGNS.build(), Items.OAK_SIGN));
 				trades.get(5).add(new ECTrades.EnchantedItemForEmeralds(Items.DIAMOND_AXE, 12, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(Items.NOTE_BLOCK, 4, 4, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.ItemsAndEmeraldsToItems(Items.SHULKER_SHELL, 1, 12, Items.SHULKER_BOX, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
@@ -362,13 +368,13 @@ public class Villages {
 				trades.get(5).add(new ECTrades.ItemsAndEmeraldsToItems(Items.SNOWBALL, 4, 1, Items.SNOW, 4, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(ECBannerPatterns.SNOW, 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 			} else if(CHEMICAL_ENGINEER.equals(currentVillagerProfession)) {
-				trades.get(1).add(new ECTrades.ItemsForEmeralds(ECItems.MELTED_EMERALD_BUCKET, 12, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
-				trades.get(1).add(new ECTrades.EmeraldForItems(Items.BUCKET, 4, 3, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
-				trades.get(2).add(new ECTrades.ItemsForEmeralds(ECItems.MELTED_IRON_BUCKET, 4, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
-				trades.get(2).add(new ECTrades.ItemsForEmeralds(ECItems.MELTED_COPPER_BUCKET, 3, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
+				trades.get(1).add(new ECTrades.ItemsForEmeralds(ECFluids.MELTED_EMERALD.getBucket(), 12, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
+				trades.get(1).add(new ECTrades.EmeraldForItems(Items.BUCKET, 4, 2, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
+				trades.get(2).add(new ECTrades.ItemsForEmeralds(ECFluids.MELTED_IRON.getBucket(), 4, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
+				trades.get(2).add(new ECTrades.ItemsForEmeralds(ECFluids.MELTED_COPPER.getBucket(), 3, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
 				trades.get(3).add(new ECTrades.NetheriteScrapForItems(Items.EMERALD_BLOCK, 10, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
 				trades.get(4).add(new ECTrades.ItemsAndEmeraldsToItems(Items.FLINT, 4, 2, Items.GUNPOWDER, 4, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
-				trades.get(4).add(new ECTrades.ItemsForEmeralds(ECItems.MELTED_GOLD_BUCKET, 4, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
+				trades.get(4).add(new ECTrades.ItemsForEmeralds(ECFluids.MELTED_GOLD.getBucket(), 4, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(ECBannerPatterns.BOTTLE.item(), 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(ECBannerPatterns.POTION.item(), 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 			} else if(PAPERHANGER.equals(currentVillagerProfession)) {
@@ -379,20 +385,41 @@ public class Villages {
 				trades.get(3).add(new ECTrades.EmeraldForItems(ECBlocks.Decoration.REINFORCED_RESIN_BLOCK, 1, 2, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_3_BUY));
 				trades.get(3).add(new ECTrades.ItemsForEmeralds(ECBlocks.Decoration.PAPER_BLOCK, 3, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
 				trades.get(4).add(new ECTrades.EmeraldsForVillagerTypeItem(15, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_BUY,
-						ImmutableMap.<VillagerType, Item>builder()
-								.put(VillagerType.PLAINS, Items.OAK_PLANKS)
-								.put(VillagerType.TAIGA, Items.SPRUCE_PLANKS)
-								.put(VillagerType.SNOW, Items.SPRUCE_PLANKS)
-								.put(VillagerType.DESERT, Items.JUNGLE_PLANKS)
-								.put(VillagerType.JUNGLE, Items.JUNGLE_PLANKS)
-								.put(VillagerType.SAVANNA, Items.ACACIA_PLANKS)
-								.put(VillagerType.SWAMP, Items.DARK_OAK_PLANKS)
-								.build(),
-						Items.OAK_PLANKS
-				));
+						PAPERHANGER_LEVEL_4_PLANKS.build(), Items.OAK_PLANKS));
 				trades.get(4).add(new ECTrades.ItemsForEmeralds(Items.PAINTING, 2, 3, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
 				trades.get(5).add(new ECTrades.EmeraldForItems(Items.GLOW_INK_SAC, 5, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(Items.COBWEB, 6, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+			} else if(HUNTER.equals(currentVillagerProfession)) {
+				trades.get(1).add(new ECTrades.EmeraldForItems(Items.IRON_INGOT, 4, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
+				trades.get(1).add(new ECTrades.ItemsForEmeralds(Items.PORKCHOP, 1, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
+				trades.get(1).add(new ECTrades.ItemsForEmeralds(Items.BEEF, 1, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
+				trades.get(2).add(new ECTrades.EmeraldForItems(Items.ARROW, 56, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
+				trades.get(2).add(new ECTrades.EmeraldForItems(Items.STRING, 20, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
+				trades.get(2).add(new ECTrades.EmeraldForItems(Items.TRIPWIRE_HOOK, 8, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
+				trades.get(2).add(new ECTrades.ItemsForEmeralds(Items.MUTTON, 1, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
+				trades.get(3).add(new ECTrades.EmeraldForItems(Items.LEATHER, 6, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_3_BUY));
+				trades.get(3).add(new ECTrades.ItemsForEmeralds(Items.CHICKEN, 1, 2, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
+				trades.get(4).add(new ECTrades.EmeraldForItems(Items.SPYGLASS, 1, 1, ECTrades.ONLY_SUPPLY_ONCE, ECTrades.XP_LEVEL_4_BUY));
+				trades.get(4).add(new ECTrades.ItemsForEmeralds(Items.RABBIT, 2, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
+				trades.get(5).add(new ECTrades.EmeraldForItems(ECItems.WARDEN_HEART, 1, 5, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+				trades.get(5).add(new ECTrades.ItemsForEmeralds(Items.EXPERIENCE_BOTTLE, 3, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+			} else if(CHEF.equals(currentVillagerProfession)) {
+				trades.get(1).add(new ECTrades.EmeraldForItems(Items.CHARCOAL, 12, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
+				trades.get(1).add(new ECTrades.ItemsForEmeralds(Items.BREAD, 1, 6, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
+				trades.get(1).add(new ECTrades.ItemsForEmeralds(Items.BEETROOT_SOUP, 1, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
+				trades.get(2).add(new ECTrades.EmeraldForItems(Items.BAKED_POTATO, 14, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
+				trades.get(2).add(new ECTrades.EmeraldForRandomItems(CHEF_LEVEL_2_MUSHROOMS.build(), 16, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
+				trades.get(2).add(new ECTrades.ItemsForEmeralds(Items.MUSHROOM_STEW, 1, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
+				trades.get(3).add(new ECTrades.EmeraldForItems(Items.CHORUS_FRUIT, 22, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_3_BUY));
+				trades.get(3).add(new ECTrades.ItemsForEmeralds(ECItems.BEEF_AND_POTATO_STEW, 1, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
+				trades.get(3).add(new ECTrades.ItemsForEmeralds(ECItems.BRAISED_CHICKEN, 1, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
+				trades.get(4).add(new ECTrades.EmeraldForItems(Items.COOKED_BEEF, 7, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_BUY));
+				trades.get(4).add(new ECTrades.EmeraldForItems(Items.COOKED_CHICKEN, 10, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_BUY));
+				trades.get(4).add(new ECTrades.ItemsForEmeralds(ECItems.CHORUS_FLOWER_EGGDROP_SOUP, 1, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
+				trades.get(5).add(new ECTrades.EmeraldForItems(ECItems.WHEAT_DOUGH, 8, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+				trades.get(5).add(new ECTrades.EmeraldForRandomItems(CHEF_LEVEL_5_MINCES.build(), 15, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+				trades.get(5).add(new ECTrades.DumplingsForEmeralds(ECItems.COOKED_DUMPLING, 20, 30, 45, 15, 1, 9, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+				trades.get(5).add(new ECTrades.DumplingsForEmeralds(ECItems.COOKED_DUMPLING, 45, 45, 15, 30, 1, 9, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 			} else if(new ResourceLocation(VillagerProfession.FARMER.name()).equals(currentVillagerProfession)) {
 				trades.get(1).add(new ECTrades.ItemsForEmeralds(ECItems.CHILI_SEED, 1, 2, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
 				trades.get(2).add(new ECTrades.ItemsForEmeralds(ECItems.PEACH, 3, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
@@ -401,7 +428,6 @@ public class Villages {
 				trades.get(5).add(new ECTrades.NetherStructureMapForEmeralds(14, 2, ECStructureTags.ON_GEOCENTER_EXPLORER_MAPS, "filled_map.entrenchment", ECMapDecorationTypes.ENTRENCHMENT, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 			}
 		}
-
 
 		@SubscribeEvent
 		public static void registerWandererTrades(WandererTradesEvent event) {
