@@ -1,10 +1,8 @@
 {
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "immersiveengineering"
-    }
-  ],
+  "forge:condition": {
+    "type": "forge:mod_loaded",
+    "modid": "immersiveengineering"
+  },
   "type": "emeraldcraft:ice_maker",
   "ingredient": {
     "fluid": "melted_silver",

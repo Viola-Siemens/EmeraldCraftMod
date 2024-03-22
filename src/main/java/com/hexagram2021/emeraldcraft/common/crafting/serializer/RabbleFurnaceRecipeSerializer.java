@@ -24,8 +24,8 @@ public class RabbleFurnaceRecipeSerializer<T extends RabbleFurnaceRecipe> implem
 						ExtraCodecs.strictOptionalField(Codec.STRING, "group", "").forGetter(RabbleFurnaceRecipe::getGroup),
 						ExtraCodecs.strictOptionalField(Codec.STRING, "category", "").forGetter(RabbleFurnaceRecipe::category),
 						Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(RabbleFurnaceRecipe::ingredient),
-						Ingredient.CODEC.fieldOf("mix1").forGetter(RabbleFurnaceRecipe::mix1),
-						Ingredient.CODEC.fieldOf("mix2").forGetter(RabbleFurnaceRecipe::mix2),
+						ExtraCodecs.strictOptionalField(Ingredient.CODEC, "mix1", Ingredient.EMPTY).forGetter(RabbleFurnaceRecipe::mix1),
+						ExtraCodecs.strictOptionalField(Ingredient.CODEC, "mix2", Ingredient.EMPTY).forGetter(RabbleFurnaceRecipe::mix2),
 						ForgeRegistries.ITEMS.getCodec().xmap(ItemStack::new, ItemStack::getItem).fieldOf("result").forGetter(RabbleFurnaceRecipe::result),
 						Codec.FLOAT.fieldOf("experience").orElse(0.0F).forGetter(RabbleFurnaceRecipe::experience),
 						Codec.INT.fieldOf("cookingtime").orElse(defaultCookingTime).forGetter(RabbleFurnaceRecipe::rabblingTime)

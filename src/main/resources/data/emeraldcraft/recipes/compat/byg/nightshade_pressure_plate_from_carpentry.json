@@ -1,10 +1,8 @@
 {
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "byg"
-    }
-  ],
+  "forge:condition": {
+    "type": "forge:mod_loaded",
+    "modid": "byg"
+  },
   "type": "emeraldcraft:carpentry",
   "group": "wooden_pressure_plate",
   "ingredient": {

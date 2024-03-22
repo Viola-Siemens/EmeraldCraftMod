@@ -1,10 +1,8 @@
 {
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "create"
-    }
-  ],
+  "forge:condition": {
+    "type": "forge:mod_loaded",
+    "modid": "create"
+  },
   "type": "emeraldcraft:melter",
   "ingredient": {
     "item": "emeraldcraft:zinc_concentrate"

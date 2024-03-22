@@ -1,10 +1,8 @@
 {
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "quark"
-    }
-  ],
+  "forge:condition": {
+    "type": "forge:mod_loaded",
+    "modid": "quark"
+  },
   "type": "emeraldcraft:carpentry",
   "group": "wooden_stairs",
   "ingredient": {

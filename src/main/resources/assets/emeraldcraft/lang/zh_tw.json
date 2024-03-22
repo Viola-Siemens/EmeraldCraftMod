@@ -596,5 +596,6 @@
   "fluids.name.melted_nickel": "熔融鎳水",
   "fluids.name.melted_uranium": "熔融鈾水",
 
-  "jei.emeraldcraft.villager_trade": "和村民交易"
+  "jei.emeraldcraft.villager_trade": "和村民交易",
+  "jei.emeraldcraft.villager_trade.jobsites": "工作站點方塊：%s"
 }

@@ -596,5 +596,6 @@
   "fluids.name.melted_nickel": "Melted Nickel",
   "fluids.name.melted_uranium": "Melted Uranium",
 
-  "jei.emeraldcraft.villager_trade": "Trade with Villagers"
+  "jei.emeraldcraft.villager_trade": "Trade with Villagers",
+  "jei.emeraldcraft.villager_trade.jobsites": "Jobsites: %s"
 }
