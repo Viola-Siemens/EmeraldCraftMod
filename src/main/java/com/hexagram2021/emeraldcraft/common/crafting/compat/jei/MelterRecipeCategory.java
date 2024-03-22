@@ -118,7 +118,7 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(timeString);
-			transform.drawString(fontRenderer, timeString, this.background.getWidth() - stringWidth, y, 0xFF808080);
+			transform.drawString(fontRenderer, timeString, this.background.getWidth() - stringWidth, y, 0xFF808080, false);
 		}
 	}
 
@@ -130,7 +130,7 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(amountString);
-			transform.drawString(fontRenderer, amountString, this.background.getWidth() - stringWidth, y, 0xFF808080);
+			transform.drawString(fontRenderer, amountString, this.background.getWidth() - stringWidth, y, 0xFF808080, false);
 		}
 	}
 

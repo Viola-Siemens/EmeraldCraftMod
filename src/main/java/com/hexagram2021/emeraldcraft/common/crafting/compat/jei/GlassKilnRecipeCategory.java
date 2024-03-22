@@ -99,7 +99,7 @@ public class GlassKilnRecipeCategory implements IRecipeCategory<GlassKilnRecipe>
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(experienceString);
-			transform.drawString(fontRenderer, experienceString, this.background.getWidth() - stringWidth, y, 0xFF808080);
+			transform.drawString(fontRenderer, experienceString, this.background.getWidth() - stringWidth, y, 0xFF808080, false);
 		}
 	}
 
@@ -112,7 +112,7 @@ public class GlassKilnRecipeCategory implements IRecipeCategory<GlassKilnRecipe>
 			Minecraft minecraft = Minecraft.getInstance();
 			Font fontRenderer = minecraft.font;
 			int stringWidth = fontRenderer.width(timeString);
-			transform.drawString(fontRenderer, timeString, background.getWidth() - stringWidth, y, 0xFF808080);
+			transform.drawString(fontRenderer, timeString, background.getWidth() - stringWidth, y, 0xFF808080, false);
 		}
 	}
 

@@ -38,7 +38,7 @@ public class VillagerTradeCategory implements IRecipeCategory<TradeShadowRecipe>
 	public static final ResourceLocation TEXTURE = new ResourceLocation(MODID, "textures/gui/villager_trade.png");
 
 	protected static final int VILLAGER_X = 116 + 24;
-	protected static final int VILLAGER_Y = 46 + 36;
+	protected static final int VILLAGER_Y = 46 + 64;
 
 	private final IDrawable background;
 	private final IDrawable icon;
@@ -68,14 +68,14 @@ public class VillagerTradeCategory implements IRecipeCategory<TradeShadowRecipe>
 		return JEIHelper.ECJEIRecipeTypes.TRADES;
 	}
 
-	private static final int VILLAGER_NAME_Y = 30;
+	private static final int VILLAGER_NAME_Y = 34;
 	private static final int JOBSITE_Y = 48;
 	@Override
 	public void draw(TradeShadowRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics transform, double mouseX, double mouseY) {
 		final float headYaw = (float) Math.atan((VILLAGER_X - mouseX) / 40.0F) * 40.0F;
 		final float yaw = (float) Math.atan((VILLAGER_X - mouseX) / 40.0F) * 20.0F;
-		final float pitch = (float) Math.atan((VILLAGER_Y - mouseY) / 40.0F) * 20.0F;
-		renderEntityInCategory(transform.pose(), VILLAGER_X, VILLAGER_Y, 40.0D, headYaw, yaw, pitch, recipe.getRenderVillager());
+		final float pitch = (float) Math.atan((VILLAGER_Y - 32 - mouseY) / 40.0F) * 20.0F;
+		renderEntityInCategory(transform.pose(), VILLAGER_X, VILLAGER_Y, 32.0D, headYaw, yaw, pitch, recipe.getRenderVillager());
 		this.drawName(recipe.getRenderVillager().getName().getString(), transform, VILLAGER_NAME_Y, false);	//Villager name
 		if(recipe.profession() != null && !recipe.profession().equals(VillagerProfession.NONE)) {
 			List<Block> jobsites = TradeShadowRecipe.getJobsitesFromProfession(recipe.profession());
