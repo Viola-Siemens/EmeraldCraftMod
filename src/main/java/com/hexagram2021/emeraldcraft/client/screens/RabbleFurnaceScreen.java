@@ -34,7 +34,6 @@ public class RabbleFurnaceScreen extends AbstractContainerScreen<RabbleFurnaceMe
 	public void init() {
 		super.init();
 		assert this.minecraft != null;
-
 		this.widthTooNarrow = this.width < 379;
 		this.recipeBookComponent.init(this.width, this.height, this.minecraft, this.widthTooNarrow, this.menu);
 		this.leftPos = this.recipeBookComponent.updateScreenPosition(this.width, this.imageWidth);
@@ -55,11 +54,11 @@ public class RabbleFurnaceScreen extends AbstractContainerScreen<RabbleFurnaceMe
 	@Override
 	public void render(GuiGraphics transform, int x, int y, float partialTicks) {
 		if (this.recipeBookComponent.isVisible() && this.widthTooNarrow) {
-			this.renderBg(transform, partialTicks, x, y);
+			this.renderBackground(transform, x, y, partialTicks);
 			this.recipeBookComponent.render(transform, x, y, partialTicks);
 		} else {
-			this.recipeBookComponent.render(transform, x, y, partialTicks);
 			super.render(transform, x, y, partialTicks);
+			this.recipeBookComponent.render(transform, x, y, partialTicks);
 			this.recipeBookComponent.renderGhostRecipe(transform, this.leftPos, this.topPos, true, partialTicks);
 		}
 
@@ -69,8 +68,8 @@ public class RabbleFurnaceScreen extends AbstractContainerScreen<RabbleFurnaceMe
 
 	@Override
 	protected void renderBg(GuiGraphics transform, float partialTicks, int x, int y) {
-		int left = (this.width - this.imageWidth) / 2;
-		int top = (this.height - this.imageHeight) / 2;
+		int left = this.leftPos;
+		int top = this.topPos;
 		transform.blit(BG_LOCATION, left, top, 0, 0, this.imageWidth, this.imageHeight);
 		if (this.menu.isLit()) {
 			int litProgress = this.menu.getLitProgress();

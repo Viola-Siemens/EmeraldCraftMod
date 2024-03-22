@@ -49,8 +49,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-import static net.minecraft.world.item.ItemStack.isSameItem;
-
 public class MineralTableBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeCraftingHolder, StackedContentsCompatible {
 	protected static final int SLOT_INPUT = 0;
 	protected static final int SLOT_FUEL = 1;
@@ -216,7 +214,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 			if (resultSlot.isEmpty()) {
 				return true;
 			}
-			if (isSameItem(resultSlot, result)) {
+			if (!ItemStack.isSameItem(resultSlot, result)) {
 				return false;
 			}
 			if (resultSlot.getCount() + result.getCount() <= maxCount && resultSlot.getCount() + result.getCount() <= resultSlot.getMaxStackSize()) {

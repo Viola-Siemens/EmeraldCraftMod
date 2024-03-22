@@ -1,9 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.crafting.compat.jei;
 
-import com.hexagram2021.emeraldcraft.client.screens.GlassKilnScreen;
-import com.hexagram2021.emeraldcraft.client.screens.IceMakerScreen;
-import com.hexagram2021.emeraldcraft.client.screens.MelterScreen;
-import com.hexagram2021.emeraldcraft.client.screens.MineralTableScreen;
+import com.hexagram2021.emeraldcraft.client.screens.*;
 import com.hexagram2021.emeraldcraft.common.blocks.entity.RabbleFurnaceBlockEntity;
 import com.hexagram2021.emeraldcraft.common.crafting.*;
 import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
@@ -173,6 +170,7 @@ public class JEIHelper implements IModPlugin {
 		registration.addRecipeClickArea(MineralTableScreen.class, 97, 16, 14, 30, ECJEIRecipeTypes.MINERAL_TABLE);
 		registration.addRecipeClickArea(MelterScreen.class, 63, 32, 28, 23, ECJEIRecipeTypes.MELTER, RecipeTypes.FUELING);
 		registration.addRecipeClickArea(IceMakerScreen.class, 96, 32, 28, 23, ECJEIRecipeTypes.ICE_MAKER);
+		registration.addRecipeClickArea(RabbleFurnaceScreen.class, 78, 32, 28, 23, ECJEIRecipeTypes.RABBLE_FURNACE);
 	}
 
 	@Override
