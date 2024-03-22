@@ -336,6 +336,9 @@ public class ECItems {
 	public static final ItemEntry<Item> MINCED_RABBIT = ItemEntry.register(
 			"minced_rabbit", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
+	public static final ItemEntry<Item> WHEAT_DOUGH = ItemEntry.register(
+			"wheat_dough", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
 
 	public static class CreateCompatItems {
 		public static final ItemEntry<Item> ZINC_CONCENTRATE = ItemEntry.register(
