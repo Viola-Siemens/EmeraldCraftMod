@@ -401,6 +401,11 @@
   "item.emeraldcraft.minced_rabbit": "兎肉ミンチ",
   "item.emeraldcraft.wheat_dough": "小麦粉生地",
 
+  "item.emeraldcraft.raw_dumpling": "生餃子",
+  "item.emeraldcraft.cooked_dumpling": "水餃子",
+  "item.emeraldcraft.dumpling.filling": "詰め物：%s",
+  "item.emeraldcraft.dumpling.filling_combination": "%s・%s",
+
   "item.minecraft.potion.effect.absorption": "衝撃吸収のポーション",
   "item.minecraft.splash_potion.effect.absorption": "スプラッシュ 衝撃吸収のポーション",
   "item.minecraft.lingering_potion.effect.absorption": "衝撃吸収の残留ポーション",

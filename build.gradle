@@ -142,6 +142,9 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     
     compileOnly fg.deobf("com.github.glitchfiend:TerraBlender-forge:1.20.2-3.0.0.170")
+
+    runtimeOnly fg.deobf("curse.maven:appleskin-248787:4770831")
+    runtimeOnly fg.deobf("curse.maven:jade-324717:4938952")
 }
 
 jar {

@@ -1,6 +1,9 @@
 package com.hexagram2021.emeraldcraft.common;
 
 import com.hexagram2021.emeraldcraft.common.enchantments.VeinMiningEnchantment;
+import com.hexagram2021.emeraldcraft.common.items.capabilities.ItemStackFoodHandler;
+import com.hexagram2021.emeraldcraft.common.items.foods.FarciFoodItem;
+import com.hexagram2021.emeraldcraft.common.register.ECCapabilities;
 import com.hexagram2021.emeraldcraft.common.register.ECEnchantments;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
 import com.hexagram2021.emeraldcraft.common.util.BlockUtil;
@@ -12,6 +15,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -22,6 +26,13 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid = MODID)
 public class ForgeServerEventHandler {
+	@SubscribeEvent
+	public static void onAttackItemStackCapability(AttachCapabilitiesEvent<ItemStack> event) {
+		if(event.getObject().getItem() instanceof FarciFoodItem farciFoodItem) {
+			event.addCapability(ECCapabilities.FOOD_CAPABILITY_ID, new ItemStackFoodHandler(event.getObject(), farciFoodItem));
+		}
+	}
+
 	@SubscribeEvent
 	public static void playerTickEvent(TickEvent.PlayerTickEvent event) {
 		if(event.phase == TickEvent.Phase.END && event.side.isServer() && !event.player.getAbilities().instabuild && event.player.isOnFire()) {

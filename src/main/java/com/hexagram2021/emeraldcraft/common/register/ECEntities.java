@@ -41,6 +41,11 @@ public class ECEntities {
 					.clientTrackingRange(8)
 					.build(new ResourceLocation(MODID, "wraith").toString());
 
+	public static final EntityType<WombatEntity> WOMBAT = EntityType.Builder.of(WombatEntity::new, MobCategory.CREATURE)
+			.sized(1.0F, 0.5F)
+			.clientTrackingRange(8)
+			.build(new ResourceLocation(MODID, "wombat").toString());
+
 	public static final EntityType<MantaEntity> MANTA = EntityType.Builder.of(MantaEntity::new, MobCategory.CREATURE)
 					.sized(1.0F, 0.5F)
 					.clientTrackingRange(8)
@@ -72,6 +77,7 @@ public class ECEntities {
 			helper.register(new ResourceLocation(MODID, "purple_spotted_bigeye"), PURPLE_SPOTTED_BIGEYE);
 			helper.register(new ResourceLocation(MODID, "snakehead"), SNAKEHEAD);
 			helper.register(new ResourceLocation(MODID, "wraith"), WRAITH);
+			helper.register(new ResourceLocation(MODID, "wombat"), WOMBAT);
 			helper.register(new ResourceLocation(MODID, "manta"), MANTA);
 			helper.register(new ResourceLocation(MODID, "lumine"), LUMINE);
 			helper.register(new ResourceLocation(MODID, "boat"), BOAT);

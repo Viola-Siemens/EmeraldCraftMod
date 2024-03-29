@@ -80,6 +80,11 @@ public class ECSounds {
 	public static final SoundEvent LUMINE_ITEM_GIVEN = registerSound("lumine.item_given");
 	public static final SoundEvent LUMINE_ITEM_TAKEN = registerSound("lumine.item_taken");
 
+	public static final SoundEvent WOMBAT_AMBIENT = registerSound("wombat.ambient");
+	public static final SoundEvent WOMBAT_HURT = registerSound("wombat.hurt");
+	public static final SoundEvent WOMBAT_DEATH = registerSound("wombat.death");
+	public static final SoundEvent WOMBAT_STEP = registerSound("wombat.step");
+
 	private static SoundEvent registerSound(String name) {
 		ResourceLocation location = new ResourceLocation(MODID, name);
 		SoundEvent event = SoundEvent.createVariableRangeEvent(location);

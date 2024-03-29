@@ -16,7 +16,13 @@ public class ECItemTags {
 
 	public static final TagKey<Item> TORCHES = create("torches");
 
+	public static final TagKey<Item> MINCE = create("forge", "mince");
+	public static final TagKey<Item> WHEAT_DOUGH = create("forge", "dough/wheat");
+
 	private static TagKey<Item> create(String name) {
-		return TagKey.create(Registries.ITEM, new ResourceLocation(MODID, name));
+		return create(MODID, name);
+	}
+	private static TagKey<Item> create(String namespace, String name) {
+		return TagKey.create(Registries.ITEM, new ResourceLocation(namespace, name));
 	}
 }

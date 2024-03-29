@@ -3,13 +3,11 @@ package com.hexagram2021.emeraldcraft.common.register;
 import com.google.common.collect.Lists;
 import com.hexagram2021.emeraldcraft.common.crafting.compat.ModsLoadedEventSubscriber;
 import com.hexagram2021.emeraldcraft.common.entities.ECBoat;
+import com.hexagram2021.emeraldcraft.common.items.foods.*;
 import com.hexagram2021.emeraldcraft.common.items.ECBoatItem;
 import com.hexagram2021.emeraldcraft.common.items.armors.EmeraldArmorItem;
 import com.hexagram2021.emeraldcraft.common.items.armors.LapisArmorItem;
 import com.hexagram2021.emeraldcraft.common.items.armors.WoodenArmorItem;
-import com.hexagram2021.emeraldcraft.common.items.foods.BottleFoodItem;
-import com.hexagram2021.emeraldcraft.common.items.foods.ChorusFlowerEggdropSoupItem;
-import com.hexagram2021.emeraldcraft.common.items.foods.StickFoodItem;
 import com.hexagram2021.emeraldcraft.common.util.ECFoods;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
@@ -322,22 +320,73 @@ public class ECItems {
 	);
 
 	public static final ItemEntry<Item> MINCED_BEEF = ItemEntry.register(
-			"minced_beef", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+			"minced_beef", () -> new AbstractMincedMeatItem(new Item.Properties()) {
+				@Override
+				public Item rawMeatItem() {
+					return Items.BEEF;
+				}
+				@Override
+				public Item cookedMeatItem() {
+					return Items.COOKED_BEEF;
+				}
+			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
 	public static final ItemEntry<Item> MINCED_CHICKEN = ItemEntry.register(
-			"minced_chicken", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+			"minced_chicken", () -> new AbstractMincedMeatItem(new Item.Properties()) {
+				@Override
+				public Item rawMeatItem() {
+					return Items.CHICKEN;
+				}
+				@Override
+				public Item cookedMeatItem() {
+					return Items.COOKED_CHICKEN;
+				}
+			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
 	public static final ItemEntry<Item> MINCED_MUTTON = ItemEntry.register(
-			"minced_mutton", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+			"minced_mutton", () -> new AbstractMincedMeatItem(new Item.Properties()) {
+				@Override
+				public Item rawMeatItem() {
+					return Items.MUTTON;
+				}
+				@Override
+				public Item cookedMeatItem() {
+					return Items.COOKED_MUTTON;
+				}
+			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
 	public static final ItemEntry<Item> MINCED_PORK = ItemEntry.register(
-			"minced_pork", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+			"minced_pork", () -> new AbstractMincedMeatItem(new Item.Properties()) {
+				@Override
+				public Item rawMeatItem() {
+					return Items.PORKCHOP;
+				}
+				@Override
+				public Item cookedMeatItem() {
+					return Items.COOKED_PORKCHOP;
+				}
+			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
 	public static final ItemEntry<Item> MINCED_RABBIT = ItemEntry.register(
-			"minced_rabbit", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+			"minced_rabbit", () -> new AbstractMincedMeatItem(new Item.Properties()) {
+				@Override
+				public Item rawMeatItem() {
+					return Items.RABBIT;
+				}
+				@Override
+				public Item cookedMeatItem() {
+					return Items.COOKED_RABBIT;
+				}
+			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
 	public static final ItemEntry<Item> WHEAT_DOUGH = ItemEntry.register(
 			"wheat_dough", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
+	public static final ItemEntry<FarciFoodItem> RAW_DUMPLING = ItemEntry.register(
+			"raw_dumpling", () -> new FarciFoodItem(new Item.Properties(), 1, 0.3F, false, Lists.newArrayList()), null
+	);
+	public static final ItemEntry<FarciFoodItem> COOKED_DUMPLING = ItemEntry.register(
+			"cooked_dumpling", () -> new FarciFoodItem(new Item.Properties(), 2, 1.0F, true, Lists.newArrayList()), null
 	);
 
 	public static class CreateCompatItems {
@@ -442,7 +491,7 @@ public class ECItems {
 			return register(name, () -> Util.make(new Item(Util.make(new Item.Properties(), makeProps)), processItem), type);
 		}
 
-		static <T extends Item> ItemEntry<T> register(String name, Supplier<? extends T> make, ItemGroupType type) {
+		static <T extends Item> ItemEntry<T> register(String name, Supplier<? extends T> make, @Nullable ItemGroupType type) {
 			return new ItemEntry<>(REGISTER.register(name, make), type);
 		}
 

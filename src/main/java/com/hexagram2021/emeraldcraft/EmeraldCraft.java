@@ -10,7 +10,6 @@ import com.hexagram2021.emeraldcraft.common.ModVanillaCompat;
 import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
 import com.hexagram2021.emeraldcraft.common.crafting.TradeShadowRecipe;
 import com.hexagram2021.emeraldcraft.common.register.*;
-import com.hexagram2021.emeraldcraft.common.util.ECFoods;
 import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.world.village.ECTrades;
 import com.hexagram2021.emeraldcraft.common.world.village.Villages;
@@ -143,43 +142,7 @@ public class EmeraldCraft {
 	}
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {
-		if(ModList.get().isLoaded("diet")) {
-			//I'm waiting for your migration!
-			ECFoods.compatDiet(ECItems.CHILI.get(), ECFoods.CHILI);
-			ECFoods.compatDiet(ECItems.CABBAGE.get(), ECFoods.CABBAGE);
-			ECFoods.compatDiet(ECItems.AGATE_APPLE.get(), ECFoods.AGATE_APPLE);
-			ECFoods.compatDiet(ECItems.JADE_APPLE.get(), ECFoods.JADE_APPLE);
-			ECFoods.compatDiet(ECItems.GINKGO_NUT.get(), ECFoods.GINKGO_NUT);
-			ECFoods.compatDiet(ECItems.PEACH.get(), ECFoods.PEACH);
-			ECFoods.compatDiet(ECItems.GOLDEN_PEACH.get(), ECFoods.GOLDEN_PEACH);
-			ECFoods.compatDiet(ECItems.COOKED_TROPICAL_FISH.get(), ECFoods.COOKED_TROPICAL_FISH);
-			ECFoods.compatDiet(ECItems.POTION_COOKIE.get(), ECFoods.POTION_COOKIE);
-			ECFoods.compatDiet(ECItems.COOKED_PURPURACEUS_FUNGUS.get(), ECFoods.COOKED_PURPURACEUS_FUNGUS);
-			ECFoods.compatDiet(ECItems.BOILED_EGG.get(), ECFoods.BOILED_EGG);
-			ECFoods.compatDiet(ECItems.CHORUS_FLOWER_EGGDROP_SOUP.get(), ECFoods.CHORUS_FLOWER_EGGDROP_SOUP);
-			ECFoods.compatDiet(ECItems.CARAMELIZED_POTATO.get(), ECFoods.CARAMELIZED_POTATO);
-			ECFoods.compatDiet(ECItems.ROUGAMO.get(), ECFoods.ROUGAMO);
-			ECFoods.compatDiet(ECItems.BEEF_AND_POTATO_STEW.get(), ECFoods.BEEF_AND_POTATO_STEW);
-			ECFoods.compatDiet(ECItems.BRAISED_CHICKEN.get(), ECFoods.BRAISED_CHICKEN);
-			ECFoods.compatDiet(ECItems.SAUERKRAUT_FISH.get(), ECFoods.SAUERKRAUT_FISH);
-			ECFoods.compatDiet(ECItems.HERRING.get(), ECFoods.HERRING);
-			ECFoods.compatDiet(ECItems.PURPLE_SPOTTED_BIGEYE.get(), ECFoods.PURPLE_SPOTTED_BIGEYE);
-			ECFoods.compatDiet(ECItems.SNAKEHEAD.get(), ECFoods.SNAKEHEAD);
-			ECFoods.compatDiet(ECItems.COOKED_HERRING.get(), ECFoods.COOKED_HERRING);
-			ECFoods.compatDiet(ECItems.COOKED_PURPLE_SPOTTED_BIGEYE.get(), ECFoods.COOKED_PURPLE_SPOTTED_BIGEYE);
-			ECFoods.compatDiet(ECItems.COOKED_SNAKEHEAD.get(), ECFoods.COOKED_SNAKEHEAD);
-			ECFoods.compatDiet(ECItems.SAUSAGE.get(), ECFoods.SAUSAGE);
-			ECFoods.compatDiet(ECItems.COOKED_SAUSAGE.get(), ECFoods.COOKED_SAUSAGE);
-			ECFoods.compatDiet(ECItems.GLUTEN.get(), ECFoods.GLUTEN);
-			ECFoods.compatDiet(ECItems.WARDEN_HEART.get(), ECFoods.WARDEN_HEART);
-			ECFoods.compatDiet(ECItems.STIR_FRIED_WARDEN_HEART.get(), ECFoods.STIR_FRIED_WARDEN_HEART);
-			ECFoods.compatDiet(ECItems.APPLE_JUICE.get(), ECFoods.APPLE_JUICE);
-			ECFoods.compatDiet(ECItems.BEETROOT_JUICE.get(), ECFoods.BEETROOT_JUICE);
-			ECFoods.compatDiet(ECItems.CARROT_JUICE.get(), ECFoods.CARROT_JUICE);
-			ECFoods.compatDiet(ECItems.MELON_JUICE.get(), ECFoods.MELON_JUICE);
-			ECFoods.compatDiet(ECItems.PEACH_JUICE.get(), ECFoods.PEACH_JUICE);
-			ECFoods.compatDiet(ECItems.PUMPKIN_JUICE.get(), ECFoods.PUMPKIN_JUICE);
-		}
+		//Do we still need this?
 	}
 
 	public void tagsUpdated(TagsUpdatedEvent event) {

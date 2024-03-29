@@ -401,6 +401,11 @@
   "item.emeraldcraft.minced_rabbit": "ʇᴉqqɐɹ pǝɔuᴉW",
   "item.emeraldcraft.wheat_dough": "ɥƃnop ʇɐǝɥM",
 
+  "item.emeraldcraft.raw_dumpling": "ƃuᴉldɯnp ʍɐɹ",
+  "item.emeraldcraft.cooked_dumpling": "ƃuᴉldɯnp pǝʞooƆ",
+  "item.emeraldcraft.dumpling.filling": "%s :ƃuᴉllᴉℲ",
+  "item.emeraldcraft.dumpling.filling_combination": "%s '%s",
+
   "item.minecraft.potion.effect.absorption": "uoᴉʇoԀ uoᴉʇdɹosq∀",
   "item.minecraft.splash_potion.effect.absorption": "uoᴉʇoԀ uoᴉʇdɹosq∀ ɥsɐldS",
   "item.minecraft.lingering_potion.effect.absorption": "uoᴉʇoԀ uoᴉʇdɹosq∀ ƃuᴉɹǝƃuᴉ˥",

@@ -388,6 +388,11 @@
   "item.emeraldcraft.minced_rabbit": "Minced Rabbit",
   "item.emeraldcraft.wheat_dough": "Wheat Dough",
 
+  "item.emeraldcraft.raw_dumpling": "Raw Dumpling",
+  "item.emeraldcraft.cooked_dumpling": "Cooked Dumpling",
+  "item.emeraldcraft.dumpling.filling": "Filling: %s",
+  "item.emeraldcraft.dumpling.filling_combination": "%s, %s",
+
   "item.emeraldcraft.melted_zinc_bucket": "Melted Zinc Bucket",
   "item.emeraldcraft.zinc_concentrate": "Zinc Concentrate",
   "item.emeraldcraft.melted_aluminum_bucket": "Melted Aluminum Bucket",
@@ -502,6 +507,9 @@
   "subtitles.entity.lumine.ambient_without_item": "Lumine yearns",
   "subtitles.entity.lumine.item_given": "Lumine chortles",
   "subtitles.entity.lumine.item_taken": "Lumine allays",
+  "subtitles.entity.wombat.ambient": "Wombat yells",
+  "subtitles.entity.wombat.hurt": "Wombat hurts",
+  "subtitles.entity.wombat.death": "Wombat dies",
 
   "subtitles.block.flower.drop_leaves": "Higan Bana Drops Leaves",
 

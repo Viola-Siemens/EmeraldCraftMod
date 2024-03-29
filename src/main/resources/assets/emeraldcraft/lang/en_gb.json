@@ -401,6 +401,11 @@
   "item.emeraldcraft.minced_rabbit": "Minced Rabbit",
   "item.emeraldcraft.wheat_dough": "Wheat Dough",
 
+  "item.emeraldcraft.raw_dumpling": "Raw Dumpling",
+  "item.emeraldcraft.cooked_dumpling": "Cooked Dumpling",
+  "item.emeraldcraft.dumpling.filling": "Filling: %s",
+  "item.emeraldcraft.dumpling.filling_combination": "%s, %s",
+
   "item.minecraft.potion.effect.absorption": "Absorption Potion",
   "item.minecraft.splash_potion.effect.absorption": "Splash Absorption Potion",
   "item.minecraft.lingering_potion.effect.absorption": "Lingering Absorption Potion",

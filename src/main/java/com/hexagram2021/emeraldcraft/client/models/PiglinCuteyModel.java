@@ -17,15 +17,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 @OnlyIn(Dist.CLIENT)
-@SuppressWarnings({"unused", "FieldCanBeLocal"})
+@SuppressWarnings("unused")
 public class PiglinCuteyModel<T extends PiglinCuteyEntity> extends HierarchicalModel<T> implements ArmedModel, HeadedModel {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(MODID, "piglin_cutey"), "main");
 	private final ModelPart root;
 	private final ModelPart body;
 	private final ModelPart head;
-	private final ModelPart LeftEar;
-	private final ModelPart RightEar;
 	private final ModelPart LeftArm;
 	private final ModelPart RightArm;
 	private final ModelPart LeftLeg;
@@ -38,8 +35,6 @@ public class PiglinCuteyModel<T extends PiglinCuteyEntity> extends HierarchicalM
 		this.root = root;
 		this.body = root.getChild("body");
 		this.head = root.getChild("head");
-		this.LeftEar = this.head.getChild("left_ear");
-		this.RightEar = this.head.getChild("right_ear");
 		this.LeftArm = root.getChild("left_arm");
 		this.RightArm = root.getChild("right_arm");
 		this.LeftLeg = root.getChild("left_leg");

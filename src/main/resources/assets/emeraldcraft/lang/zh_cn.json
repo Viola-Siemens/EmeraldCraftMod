@@ -401,6 +401,11 @@
   "item.emeraldcraft.minced_rabbit": "兔肉碎",
   "item.emeraldcraft.wheat_dough": "小麦面团",
 
+  "item.emeraldcraft.raw_dumpling": "生饺子",
+  "item.emeraldcraft.cooked_dumpling": "熟饺子",
+  "item.emeraldcraft.dumpling.filling": "馅料：%s",
+  "item.emeraldcraft.dumpling.filling_combination": "%s、%s",
+
   "item.minecraft.potion.effect.absorption": "伤害吸收药水",
   "item.minecraft.splash_potion.effect.absorption": "喷溅型伤害吸收药水",
   "item.minecraft.lingering_potion.effect.absorption": "滞留型伤害吸收药水",
