@@ -441,6 +441,7 @@
   "entity.emeraldcraft.wraith": "死灵",
   "entity.emeraldcraft.manta": "鳐鲲",
   "entity.emeraldcraft.lumine": "荧灵",
+  "entity.emeraldcraft.wombat": "袋熊",
   "entity.emeraldcraft.boat": "船",
   "entity.emeraldcraft.chest_boat": "运输船",
   "entity.minecraft.villager.emeraldcraft.carpenter": "木匠",
@@ -507,6 +508,9 @@
   "subtitles.entity.lumine.ambient_without_item": "荧灵：渴求",
   "subtitles.entity.lumine.item_given": "荧灵：嬉笑",
   "subtitles.entity.lumine.item_taken": "荧灵：愉悦",
+  "subtitles.entity.wombat.ambient": "袋熊：尖叫",
+  "subtitles.entity.wombat.hurt": "袋熊：受伤",
+  "subtitles.entity.wombat.death": "袋熊：死亡",
 
   "subtitles.block.flower.drop_leaves": "彼岸花：落叶",
 

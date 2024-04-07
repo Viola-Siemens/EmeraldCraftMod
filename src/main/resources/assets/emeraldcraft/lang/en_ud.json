@@ -441,6 +441,7 @@
   "entity.emeraldcraft.wraith": "ɥʇᴉɐɹM",
   "entity.emeraldcraft.manta": "ɐʇuɐW",
   "entity.emeraldcraft.lumine": "ɐɹoɹn∀",
+  "entity.emeraldcraft.wombat": "ʇɐqɯoM",
   "entity.emeraldcraft.boat": "ʇɐoq",
   "entity.emeraldcraft.chest_boat": "ʇɐoq ʇsǝɥƆ",
   "entity.minecraft.villager.emeraldcraft.carpenter": "ɹǝʇuǝdɹɐƆ",
@@ -507,6 +508,9 @@
   "subtitles.entity.lumine.ambient_without_item": "suɹɐǝʎ ǝuᴉɯn˥",
   "subtitles.entity.lumine.item_given": "sǝlʇɹoɥɔ ǝuᴉɯn˥",
   "subtitles.entity.lumine.item_taken": "sʎɐllɐ ǝuᴉɯn˥",
+  "subtitles.entity.wombat.ambient": "sllǝʎ ʇɐqɯoM",
+  "subtitles.entity.wombat.hurt": "sʇɹnɥ ʇɐqɯoM",
+  "subtitles.entity.wombat.death": "sǝᴉp ʇɐqɯoM",
 
   "subtitles.block.flower.drop_leaves": "sǝʌɐǝ˥ sdoɹp ɐuɐq uɐƃᴉH",
 

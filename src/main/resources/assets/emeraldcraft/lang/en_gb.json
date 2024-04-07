@@ -441,6 +441,7 @@
   "entity.emeraldcraft.wraith": "Wraith",
   "entity.emeraldcraft.manta": "Manta",
   "entity.emeraldcraft.lumine": "Lumine",
+  "entity.emeraldcraft.wombat": "Wombat",
   "entity.emeraldcraft.boat": "Boat",
   "entity.emeraldcraft.chest_boat": "Chest Boat",
   "entity.minecraft.villager.emeraldcraft.carpenter": "Carpenter",
@@ -507,6 +508,9 @@
   "subtitles.entity.lumine.ambient_without_item": "Lumine yearns",
   "subtitles.entity.lumine.item_given": "Lumine chortles",
   "subtitles.entity.lumine.item_taken": "Lumine allays",
+  "subtitles.entity.wombat.ambient": "Wombat yells",
+  "subtitles.entity.wombat.hurt": "Wombat hurts",
+  "subtitles.entity.wombat.death": "Wombat dies",
 
   "subtitles.block.flower.drop_leaves": "Higan Bana Drops Leaves",
 

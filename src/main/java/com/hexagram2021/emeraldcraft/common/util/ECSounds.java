@@ -1,12 +1,8 @@
 package com.hexagram2021.emeraldcraft.common.util;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.Entity;
 import net.minecraftforge.registries.RegisterEvent;
 
 import java.util.HashMap;
@@ -94,17 +90,5 @@ public class ECSounds {
 
 	public static void init(RegisterEvent event) {
 		event.register(Registries.SOUND_EVENT, helper -> registeredEvents.forEach(helper::register));
-	}
-
-	@SuppressWarnings({ "unused", "deprecation" })
-	public static void PlaySoundForPlayer(Entity player, SoundEvent sound, float volume, float pitch) {
-		if(player instanceof ServerPlayer serverPlayer)
-			serverPlayer.connection.send(new ClientboundSoundPacket(
-					BuiltInRegistries.SOUND_EVENT.wrapAsHolder(sound),
-					player.getSoundSource(),
-					player.getX(), player.getY(), player.getZ(),
-					volume, pitch,
-					serverPlayer.getRandom().nextLong()
-			));
 	}
 }

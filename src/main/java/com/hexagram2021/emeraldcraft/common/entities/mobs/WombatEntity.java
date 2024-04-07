@@ -1,5 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.entities.mobs;
 
+import com.hexagram2021.emeraldcraft.common.register.ECBlockTags;
 import com.hexagram2021.emeraldcraft.common.register.ECEntities;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import net.minecraft.core.BlockPos;
@@ -9,6 +10,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.damagesource.DamageSource;
@@ -22,9 +24,12 @@ import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.animal.Wolf;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
@@ -170,6 +175,22 @@ public class WombatEntity extends TamableAnimal implements NeutralMob {
 	}
 
 	@Override
+	public boolean wantsToAttack(LivingEntity target, LivingEntity owner) {
+		if(target instanceof Creeper || target instanceof Ghast) {
+			return false;
+		}
+		if(target instanceof OwnableEntity ownable && ownable.getOwner() == owner) {
+			return false;
+		}
+		return super.wantsToAttack(target, owner);
+	}
+
+	@Override
+	public boolean canBeLeashed(Player player) {
+		return !this.isAngry() && super.canBeLeashed(player);
+	}
+
+	@Override
 	public Vec3 getLeashOffset() {
 		return new Vec3(0.0D, 0.6D * this.getEyeHeight(), 0.4D * this.getBbWidth());
 	}
@@ -202,6 +223,11 @@ public class WombatEntity extends TamableAnimal implements NeutralMob {
 
 	public void setPersistentAngerTarget(@Nullable UUID uuid) {
 		this.persistentAngerTarget = uuid;
+	}
+
+	public static boolean checkWombatSpawnRules(EntityType<? extends WombatEntity> entityType, LevelAccessor level, MobSpawnType spawnType,
+											  BlockPos blockPos, RandomSource random) {
+		return random.nextInt(4) == 0 && level.getBlockState(blockPos.below()).is(ECBlockTags.WOMBATS_SPAWNABLE_ON) && isBrightEnoughToSpawn(level, blockPos);
 	}
 
 	private class WombatPanicGoal extends PanicGoal {

@@ -1,6 +1,7 @@
 package com.hexagram2021.emeraldcraft.common;
 
 import com.hexagram2021.emeraldcraft.common.crafting.compat.ModsLoadedEventSubscriber;
+import com.hexagram2021.emeraldcraft.common.entities.mobs.WombatEntity;
 import com.hexagram2021.emeraldcraft.common.register.*;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import com.hexagram2021.emeraldcraft.common.world.village.Villages;
@@ -70,6 +71,8 @@ public class ECContent {
 				WaterAnimal::checkSurfaceWaterAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
 		event.register(ECEntities.SNAKEHEAD, SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
 				WaterAnimal::checkSurfaceWaterAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+		event.register(ECEntities.WOMBAT, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+				WombatEntity::checkWombatSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
 		event.register(ECEntities.WRAITH, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
 				Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
 	}

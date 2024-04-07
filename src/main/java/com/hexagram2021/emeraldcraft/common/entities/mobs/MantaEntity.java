@@ -91,7 +91,7 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 		try {
 			UUID uuid = this.getOwnerUUID();
 			return uuid == null ? null : this.level().getPlayerByUUID(uuid);
-		} catch (IllegalArgumentException illegalargumentexception) {
+		} catch (IllegalArgumentException ignored) {
 			return null;
 		}
 	}
@@ -127,11 +127,6 @@ public class MantaEntity extends PathfinderMob implements PlayerRideableFlying, 
 	@Override
 	protected float getStandingEyeHeight(Pose pose, EntityDimensions dim) {
 		return dim.height * 0.6F;
-	}
-
-	@Override
-	public boolean isBaby() {
-		return false;
 	}
 
 	@Override

@@ -18,6 +18,8 @@ public class ECBlockTags {
 
 	public static final TagKey<Block> VOLCANIC_CAVES_LAVA_POOL_REPLACEABLE = create("volcanic_caves_lava_pool_replaceable");
 
+	public static final TagKey<Block> WOMBATS_SPAWNABLE_ON = create("wombats_spawnable_on");
+
 	private static TagKey<Block> create(String name) {
 		return TagKey.create(Registries.BLOCK, new ResourceLocation(MODID, name));
 	}
