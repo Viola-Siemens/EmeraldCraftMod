@@ -15,7 +15,7 @@ public class WombatModel<T extends WombatEntity> extends QuadrupedModel<T> {
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(MODID, "wombat"), "main");
 
 	public WombatModel(ModelPart root) {
-		super(root, true, 5.0F, 2.0F, 2.0F, 2.0F, 24);
+		super(root, true, 10.0F, 3.0F, 2.0F, 2.0F, 24);
 	}
 
 	public static LayerDefinition createBodyLayer() {

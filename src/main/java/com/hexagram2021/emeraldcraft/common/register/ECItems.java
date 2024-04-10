@@ -47,6 +47,9 @@ public class ECItems {
 	public static final ItemEntry<ItemNameBlockItem> WARPED_WART = ItemEntry.register(
 			"warped_wart", () -> new ItemNameBlockItem(ECBlocks.Plant.WARPED_WART.get(), new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 	);
+	public static final ItemEntry<Item> BARK = ItemEntry.register(
+			"bark", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+	);
 	public static final ItemEntry<Item> CHILI = ItemEntry.register(
 			"chili", () -> new Item(new Item.Properties().food(ECFoods.CHILI)) {
 				@Override

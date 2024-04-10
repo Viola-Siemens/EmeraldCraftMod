@@ -2,6 +2,7 @@ package com.hexagram2021.emeraldcraft.common.entities.mobs;
 
 import com.hexagram2021.emeraldcraft.common.register.ECBlockTags;
 import com.hexagram2021.emeraldcraft.common.register.ECEntities;
+import com.hexagram2021.emeraldcraft.common.register.ECItemTags;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -13,6 +14,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -28,11 +31,14 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.ForgeEventFactory;
 import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
@@ -70,7 +76,7 @@ public class WombatEntity extends TamableAnimal implements NeutralMob {
 			}
 		});
 		this.goalSelector.addGoal(5, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
-		this.goalSelector.addGoal(6, new BreedGoal(this, 1.0D));
+		this.goalSelector.addGoal(6, new BreedGoal(this, 0.75D));
 		this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 0.5D));
 		this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
 		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
@@ -130,6 +136,14 @@ public class WombatEntity extends TamableAnimal implements NeutralMob {
 		return 0.5F;
 	}
 
+	public void aiStep() {
+		super.aiStep();
+
+		if (!this.level().isClientSide) {
+			this.updatePersistentAnger((ServerLevel)this.level(), true);
+		}
+	}
+
 	@Override
 	public boolean hurt(DamageSource damageSource, float value) {
 		Entity entity = damageSource.getEntity();
@@ -159,6 +173,42 @@ public class WombatEntity extends TamableAnimal implements NeutralMob {
 		} else {
 			attribute.setBaseValue(12.0D);
 		}
+	}
+
+	@SuppressWarnings("UnstableApiUsage")
+	@Override
+	public InteractionResult mobInteract(Player player, InteractionHand hand) {
+		ItemStack itemstack = player.getItemInHand(hand);
+		if (this.level().isClientSide) {
+			return this.isFood(itemstack) ? InteractionResult.CONSUME : InteractionResult.PASS;
+		}
+		if(this.isFood(itemstack)) {
+			if (this.isTame()) {
+				if (this.getHealth() < this.getMaxHealth()) {
+					this.heal(1.0F);
+					if (!player.getAbilities().instabuild) {
+						itemstack.shrink(1);
+					}
+					this.gameEvent(GameEvent.EAT, this);
+					return InteractionResult.SUCCESS;
+				}
+			} else {
+				if (!player.getAbilities().instabuild) {
+					itemstack.shrink(1);
+				}
+				if (this.random.nextInt(4) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
+					this.tame(player);
+					this.navigation.stop();
+					this.setTarget(null);
+					this.setOrderedToSit(true);
+					this.level().broadcastEntityEvent(this, EntityEvent.TAMING_SUCCEEDED);
+				} else {
+					this.level().broadcastEntityEvent(this, EntityEvent.TAMING_FAILED);
+				}
+				return InteractionResult.SUCCESS;
+			}
+		}
+		return super.mobInteract(player, hand);
 	}
 
 	@Override @Nullable
@@ -200,6 +250,10 @@ public class WombatEntity extends TamableAnimal implements NeutralMob {
 		return new Vector3f(0.0F, entityDimensions.height - 0.03125F * scale, -0.0625F * scale);
 	}
 
+	public boolean isFood(ItemStack itemStack) {
+		return itemStack.is(ECItemTags.WOMBAT_FOOD);
+	}
+
 	public int getMaxSpawnClusterSize() {
 		return 2;
 	}
@@ -225,8 +279,9 @@ public class WombatEntity extends TamableAnimal implements NeutralMob {
 		this.persistentAngerTarget = uuid;
 	}
 
+	@SuppressWarnings("unused")
 	public static boolean checkWombatSpawnRules(EntityType<? extends WombatEntity> entityType, LevelAccessor level, MobSpawnType spawnType,
-											  BlockPos blockPos, RandomSource random) {
+												BlockPos blockPos, RandomSource random) {
 		return random.nextInt(4) == 0 && level.getBlockState(blockPos.below()).is(ECBlockTags.WOMBATS_SPAWNABLE_ON) && isBrightEnoughToSpawn(level, blockPos);
 	}
 

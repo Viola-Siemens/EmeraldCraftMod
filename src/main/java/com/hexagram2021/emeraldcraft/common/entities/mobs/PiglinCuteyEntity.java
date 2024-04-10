@@ -14,6 +14,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
@@ -137,7 +138,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		if (!this.isNoAi() && this.random.nextInt(100) == 0) {
 			Raid raid = ((ServerLevel)this.level()).getRaidAt(this.blockPosition());
 			if (raid != null && raid.isActive() && !raid.isOver()) {
-				this.level().broadcastEntityEvent(this, (byte)42);
+				this.level().broadcastEntityEvent(this, EntityEvent.VILLAGER_SWEAT);
 			}
 		}
 
@@ -146,6 +147,15 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		}
 
 		super.customServerAiStep();
+	}
+
+	@Override
+	public void handleEntityEvent(byte event) {
+		if (event == EntityEvent.VILLAGER_SWEAT) {
+			this.addParticlesAroundSelf(ParticleTypes.SPLASH);
+		} else {
+			super.handleEntityEvent(event);
+		}
 	}
 
 	@Override

@@ -16,6 +16,8 @@ public class ECItemTags {
 
 	public static final TagKey<Item> TORCHES = create("torches");
 
+	public static final TagKey<Item> WOMBAT_FOOD = create("wombat_food");
+
 	public static final TagKey<Item> MINCE = create("forge", "mince");
 	public static final TagKey<Item> WHEAT_DOUGH = create("forge", "dough/wheat");
 

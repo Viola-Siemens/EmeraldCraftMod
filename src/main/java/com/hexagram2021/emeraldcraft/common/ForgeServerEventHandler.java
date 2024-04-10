@@ -8,16 +8,23 @@ import com.hexagram2021.emeraldcraft.common.register.ECEnchantments;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
 import com.hexagram2021.emeraldcraft.common.util.BlockUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.util.TriConsumer;
@@ -30,6 +37,30 @@ public class ForgeServerEventHandler {
 	public static void onAttackItemStackCapability(AttachCapabilitiesEvent<ItemStack> event) {
 		if(event.getObject().getItem() instanceof FarciFoodItem farciFoodItem) {
 			event.addCapability(ECCapabilities.FOOD_CAPABILITY_ID, new ItemStackFoodHandler(event.getObject(), farciFoodItem));
+		}
+	}
+
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public static void onToolUse(BlockEvent.BlockToolModificationEvent event) {
+		if(event.isSimulated() || event.getLevel().isClientSide()) {
+			return;
+		}
+		if (event.getToolAction().equals(ToolActions.AXE_STRIP)) {
+			Level level = event.getContext().getLevel();
+			BlockPos pos = event.getPos();
+			Direction direction = event.getContext().getClickedFace();
+			BlockState original = level.getBlockState(pos);
+			if(AxeItem.STRIPPABLES.containsKey(original.getBlock()) && original.is(BlockTags.LOGS)) {
+				if(level.getRandom().nextInt(4) == 0) {
+					level.addFreshEntity(new ItemEntity(
+							level,
+							pos.getX() + 0.5D + 0.6D * direction.getStepX(),
+							pos.getY() + 0.5D + 0.6D * direction.getStepY(),
+							pos.getZ() + 0.5D + 0.6D * direction.getStepZ(),
+							new ItemStack(ECItems.BARK, level.getRandom().nextInt(2) + 1)
+					));
+				}
+			}
 		}
 	}
 
