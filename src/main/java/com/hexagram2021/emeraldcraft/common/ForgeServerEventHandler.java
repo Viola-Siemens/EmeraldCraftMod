@@ -52,13 +52,19 @@ public class ForgeServerEventHandler {
 			BlockState original = level.getBlockState(pos);
 			if(AxeItem.STRIPPABLES.containsKey(original.getBlock()) && original.is(BlockTags.LOGS)) {
 				if(level.getRandom().nextInt(4) == 0) {
-					level.addFreshEntity(new ItemEntity(
+					ItemEntity itemEntity = new ItemEntity(
 							level,
 							pos.getX() + 0.5D + 0.6D * direction.getStepX(),
 							pos.getY() + 0.5D + 0.6D * direction.getStepY(),
 							pos.getZ() + 0.5D + 0.6D * direction.getStepZ(),
 							new ItemStack(ECItems.BARK, level.getRandom().nextInt(2) + 1)
-					));
+					);
+					itemEntity.setDeltaMovement(
+							direction.getStepX() * 0.2D + (level.getRandom().nextDouble() - 0.5D) * 0.15D,
+							direction.getStepY() * 0.2D + (level.getRandom().nextDouble() - 0.5D) * 0.15D,
+							direction.getStepZ() * 0.2D + (level.getRandom().nextDouble() - 0.5D) * 0.15D
+					);
+					level.addFreshEntity(itemEntity);
 				}
 			}
 		}

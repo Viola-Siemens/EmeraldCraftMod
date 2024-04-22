@@ -22,7 +22,18 @@ public record RabbleFurnaceRecipe(String group, String category, Ingredient ingr
 
 	@Override
 	public boolean matches(Container container, Level level) {
-		return this.ingredient.test(container.getItem(0)) && this.mix1.test(container.getItem(1)) && this.mix2.test(container.getItem(2));
+		return this.ingredient.test(container.getItem(0)) && (
+				(this.mix1.test(container.getItem(1)) && this.mix2.test(container.getItem(2))) ||
+						(this.mix1.test(container.getItem(2)) && this.mix2.test(container.getItem(1)))
+		);
+	}
+
+	public boolean matchesAllowEmpty(Container container) {
+		boolean empty1 = container.getItem(1).isEmpty();
+		boolean empty2 = container.getItem(2).isEmpty();
+		boolean mix1 = (empty1 || this.mix1.test(container.getItem(1))) && (empty2 || this.mix2.test(container.getItem(2)));
+		boolean mix2 = (empty1 || this.mix2.test(container.getItem(1))) && (empty2 || this.mix1.test(container.getItem(2)));
+		return (container.getItem(0).isEmpty() || this.ingredient.test(container.getItem(0))) && (mix1 || mix2);
 	}
 
 	@Override

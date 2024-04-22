@@ -45,6 +45,8 @@ public class ECSounds {
 	public static final SoundEvent VILLAGER_WORK_ICER = registerSound("villager.work_icer");
 	public static final SoundEvent VILLAGER_WORK_MINER = registerSound("villager.work_miner");
 	public static final SoundEvent VILLAGER_WORK_PAPERHANGER = registerSound("villager.work_paperhanger");
+	public static final SoundEvent VILLAGER_WORK_HUNTER = registerSound("villager.work_hunter");
+	public static final SoundEvent VILLAGER_WORK_CHEF = registerSound("villager.work_chef");
 
 	public static final SoundEvent HIGAN_BANA_DROP_LEAVES = registerSound("flower.drop_leaves");
 

@@ -311,10 +311,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 
 	@Override
 	public boolean stillValid(Player player) {
-		if (this.level.getBlockEntity(this.worldPosition) != this) {
-			return false;
-		}
-		return player.distanceToSqr((double)this.worldPosition.getX() + 0.5D, (double)this.worldPosition.getY() + 0.5D, (double)this.worldPosition.getZ() + 0.5D) <= 64.0D;
+		return Container.stillValidBlockEntity(this, player);
 	}
 
 	@Override
@@ -355,6 +352,12 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 		return true;
 	}
 
+	@Override
+	protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
+		return new ContinuousMinerMenu(id, inventory, this, this.dataAccess);
+	}
+
+	//Forge Compat
 	LazyOptional<? extends IItemHandler>[] handlers =
 			SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 
@@ -384,10 +387,5 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 	public void reviveCaps() {
 		super.reviveCaps();
 		this.handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
-	}
-
-	@Override
-	protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
-		return new ContinuousMinerMenu(id, inventory, this, this.dataAccess);
 	}
 }

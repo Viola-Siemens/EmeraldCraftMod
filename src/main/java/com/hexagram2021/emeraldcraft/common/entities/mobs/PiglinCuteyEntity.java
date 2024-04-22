@@ -401,7 +401,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 
 	@SuppressWarnings("unused")
 	public int getPlayerReputation(Player player) {
-		return (int)Math.floor(foodLevel / (MULTIPLIER_FOOD_THRESHOLD * 0.025D));
+		return (int)Math.floor(this.foodLevel / (MULTIPLIER_FOOD_THRESHOLD * 0.025D));
 	}
 
 	private static final int SearchRange = 30;
@@ -448,11 +448,11 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 			dataResult.resultOrPartial(ECLogger::error).ifPresent(this::setPiglinCuteyData);
 		}
 
-		if (nbt.contains("FoodLevel", Tag.TAG_INT)) {
+		if (nbt.contains("FoodLevel", Tag.TAG_ANY_NUMERIC)) {
 			this.foodLevel = nbt.getInt("FoodLevel");
 		}
 
-		if (nbt.contains("Xp", Tag.TAG_INT)) {
+		if (nbt.contains("Xp", Tag.TAG_ANY_NUMERIC)) {
 			this.cuteyXp = nbt.getInt("Xp");
 		}
 

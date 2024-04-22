@@ -523,6 +523,9 @@ public final class ECBlocks {
 		public static final BlockEntry<RabbleFurnaceBlock> RABBLE_FURNACE = new BlockEntry<>(
 				"rabble_furnace", RabbleFurnaceBlock.PROPERTIES, RabbleFurnaceBlock::new
 		);
+		public static final BlockEntry<MeatGrinderBlock> MEAT_GRINDER = new BlockEntry<>(
+				"meat_grinder", MeatGrinderBlock.PROPERTIES, MeatGrinderBlock::new
+		);
 
 		private static void init() {
 			ECItems.ItemEntry.register(

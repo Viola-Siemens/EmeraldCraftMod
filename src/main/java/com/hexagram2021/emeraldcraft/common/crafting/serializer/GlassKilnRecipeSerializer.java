@@ -6,7 +6,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -57,7 +56,7 @@ public class GlassKilnRecipeSerializer<T extends GlassKilnRecipe> implements Rec
 		buf.writeVarInt(recipe.getCookingTime());
 	}
 
-	public interface Creator<T extends AbstractCookingRecipe> {
+	public interface Creator<T extends GlassKilnRecipe> {
 		T create(String group, String category, Ingredient ingredient, ItemStack result, float experience, int cookingtime);
 	}
 }

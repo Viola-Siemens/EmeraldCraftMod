@@ -2,7 +2,9 @@ package com.hexagram2021.emeraldcraft.client;
 
 import com.hexagram2021.emeraldcraft.client.models.*;
 import com.hexagram2021.emeraldcraft.client.renderers.*;
+import com.hexagram2021.emeraldcraft.client.renderers.block.MeatGrinderRenderer;
 import com.hexagram2021.emeraldcraft.common.entities.ECBoat;
+import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECEntities;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.ChestBoatModel;
@@ -48,5 +50,7 @@ public class ClientEntityEventSubscriber {
 		event.registerEntityRenderer(ECEntities.WOMBAT, WombatRenderer::new);
 		event.registerEntityRenderer(ECEntities.BOAT, (context) -> new ECBoatRenderer(context, false));
 		event.registerEntityRenderer(ECEntities.CHEST_BOAT, (context) -> new ECBoatRenderer(context, true));
+
+		event.registerBlockEntityRenderer(ECBlockEntity.MEAT_GRINDER.get(), MeatGrinderRenderer::new);
 	}
 }

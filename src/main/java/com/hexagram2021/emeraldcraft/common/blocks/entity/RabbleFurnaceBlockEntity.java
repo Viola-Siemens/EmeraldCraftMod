@@ -341,10 +341,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 
 	@Override
 	public boolean stillValid(Player player) {
-		if (Objects.requireNonNull(this.level).getBlockEntity(this.worldPosition) != this) {
-			return false;
-		}
-		return player.distanceToSqr((double)this.worldPosition.getX() + 0.5D, (double)this.worldPosition.getY() + 0.5D, (double)this.worldPosition.getZ() + 0.5D) <= 64.0D;
+		return Container.stillValidBlockEntity(this, player);
 	}
 
 	@Override
@@ -418,6 +415,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 
 	}
 
+	//Forge Compat
 	LazyOptional<? extends IItemHandler>[] handlers =
 			SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 

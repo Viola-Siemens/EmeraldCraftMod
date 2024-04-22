@@ -16,6 +16,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluids;
@@ -48,7 +49,12 @@ public class ECItems {
 			"warped_wart", () -> new ItemNameBlockItem(ECBlocks.Plant.WARPED_WART.get(), new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 	);
 	public static final ItemEntry<Item> BARK = ItemEntry.register(
-			"bark", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+			"bark", () -> new Item(new Item.Properties()) {
+				@Override
+				public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
+					return 50;
+				}
+			}, ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 	);
 	public static final ItemEntry<Item> CHILI = ItemEntry.register(
 			"chili", () -> new Item(new Item.Properties().food(ECFoods.CHILI)) {

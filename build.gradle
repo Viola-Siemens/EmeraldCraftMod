@@ -7,6 +7,7 @@ buildscript {
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '[6.0,6.2)', changing: true
+        classpath group: 'org.parchmentmc.librarian.forgegradle', name: 'org.parchmentmc.librarian.forgegradle.gradle.plugin', version: '1.+'
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
@@ -17,6 +18,7 @@ plugins {
     id 'maven-publish'
 }
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'org.spongepowered.mixin'
 
 version = '9.2.0'
@@ -31,7 +33,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-    mappings channel: 'official', version: '1.20.2'
+    mappings channel: 'parchment', version: '2023.12.10-1.20.2'
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 

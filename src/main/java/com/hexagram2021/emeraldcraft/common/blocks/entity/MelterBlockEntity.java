@@ -236,10 +236,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 
 	@Override
 	public boolean stillValid(Player player) {
-		if (Objects.requireNonNull(this.level).getBlockEntity(this.worldPosition) != this) {
-			return false;
-		}
-		return player.distanceToSqr((double)this.worldPosition.getX() + 0.5D, (double)this.worldPosition.getY() + 0.5D, (double)this.worldPosition.getZ() + 0.5D) <= 64.0D;
+		return Container.stillValidBlockEntity(this, player);
 	}
 
 	@Override
@@ -410,6 +407,12 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 		return true;
 	}
 
+	@Override
+	protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
+		return new MelterMenu(id, inventory, this, this.dataAccess);
+	}
+
+	//Forge Compat
 	LazyOptional<? extends IItemHandler>[] handlers =
 			SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 
@@ -439,10 +442,5 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	public void reviveCaps() {
 		super.reviveCaps();
 		this.handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
-	}
-
-	@Override
-	protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
-		return new MelterMenu(id, inventory, this, this.dataAccess);
 	}
 }

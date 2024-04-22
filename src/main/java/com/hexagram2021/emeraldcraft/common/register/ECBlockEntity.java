@@ -10,6 +10,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
+@SuppressWarnings("DataFlowIssue")
 public final class ECBlockEntity {
 	public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
 
@@ -41,6 +42,11 @@ public final class ECBlockEntity {
 	public static final RegistryObject<BlockEntityType<RabbleFurnaceBlockEntity>> RABBLE_FURNACE = REGISTER.register(
 			"rabble_furnace", () -> new BlockEntityType<>(
 					RabbleFurnaceBlockEntity::new, ImmutableSet.of(ECBlocks.WorkStation.RABBLE_FURNACE.get()), null
+			)
+	);
+	public static final RegistryObject<BlockEntityType<MeatGrinderBlockEntity>> MEAT_GRINDER = REGISTER.register(
+			"meat_grinder", () -> new BlockEntityType<>(
+					MeatGrinderBlockEntity::new, ImmutableSet.of(ECBlocks.WorkStation.MEAT_GRINDER.get()), null
 			)
 	);
 

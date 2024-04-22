@@ -1,7 +1,8 @@
 package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 
-import com.hexagram2021.emeraldcraft.common.crafting.MineralTableRecipe;
+import com.hexagram2021.emeraldcraft.common.crafting.MeatGrinderRecipe;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.ExtraCodecs;
@@ -12,19 +13,26 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 
-public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implements RecipeSerializer<T> {
-	private final MineralTableRecipeSerializer.Creator<T> factory;
+public class MeatGrinderRecipeSerializer<T extends MeatGrinderRecipe> implements RecipeSerializer<T> {
+	private final MeatGrinderRecipeSerializer.Creator<T> factory;
 	private final Codec<T> codec;
 
-	public MineralTableRecipeSerializer(MineralTableRecipeSerializer.Creator<T> creator, int defaultCookingTime) {
+	private static final MapCodec<ItemStack> ITEM_STACK_CODEC = RecordCodecBuilder.mapCodec(
+			instance -> instance.group(
+					ForgeRegistries.ITEMS.getCodec().fieldOf("item").forGetter(ItemStack::getItem),
+					Codec.INT.fieldOf("count").forGetter(ItemStack::getCount)
+			).apply(instance, ItemStack::new)
+	);
+
+	public MeatGrinderRecipeSerializer(MeatGrinderRecipeSerializer.Creator<T> creator, int defaultCookingTime) {
 		this.factory = creator;
 		this.codec = RecordCodecBuilder.create(
 				instance -> instance.group(
-						ExtraCodecs.strictOptionalField(Codec.STRING, "group", "").forGetter(MineralTableRecipe::getGroup),
-						Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(MineralTableRecipe::getIngredient),
-						ForgeRegistries.ITEMS.getCodec().xmap(ItemStack::new, ItemStack::getItem).fieldOf("result").forGetter(MineralTableRecipe::getResult),
-						Codec.FLOAT.fieldOf("experience").orElse(0.0F).forGetter(MineralTableRecipe::getExperience),
-						Codec.INT.fieldOf("cookingtime").orElse(defaultCookingTime).forGetter(MineralTableRecipe::getCookingTime)
+						ExtraCodecs.strictOptionalField(Codec.STRING, "group", "").forGetter(MeatGrinderRecipe::getGroup),
+						Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(MeatGrinderRecipe::getIngredient),
+						ITEM_STACK_CODEC.fieldOf("result").forGetter(MeatGrinderRecipe::getResult),
+						Codec.FLOAT.fieldOf("experience").orElse(0.0F).forGetter(MeatGrinderRecipe::getExperience),
+						Codec.INT.fieldOf("cookingtime").orElse(defaultCookingTime).forGetter(MeatGrinderRecipe::getCookingTime)
 				).apply(instance, creator::create)
 		);
 	}
@@ -53,7 +61,7 @@ public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implemen
 		buf.writeVarInt(recipe.getCookingTime());
 	}
 
-	public interface Creator<T extends MineralTableRecipe> {
+	public interface Creator<T extends MeatGrinderRecipe> {
 		T create(String group, Ingredient ingredient, ItemStack result, float experience, int cookingtime);
 	}
 }

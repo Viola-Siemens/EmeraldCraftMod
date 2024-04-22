@@ -9,6 +9,8 @@ import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipeSerializer;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import com.hexagram2021.emeraldcraft.common.util.TradeUtil;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.Container;
@@ -33,8 +35,8 @@ import java.util.Set;
 
 public record TradeShadowRecipe(ItemStack costA, ItemStack costB, ItemStack result, EntityType<?> entityType,
 								@Nullable VillagerProfession profession, int villagerLevel, int xp) implements Recipe<Container> {
-	private static final Map<VillagerProfession, Map<Integer, Villager>> LAZY_RENDER_VILLAGERS = Maps.newHashMap();
-	private static final Map<EntityType<?>, Map<Integer, LivingEntity>> LAZY_RENDER_TRADERS = Maps.newHashMap();
+	private static final Map<VillagerProfession, Int2ObjectMap<Villager>> LAZY_RENDER_VILLAGERS = Maps.newHashMap();
+	private static final Map<EntityType<?>, Int2ObjectMap<LivingEntity>> LAZY_RENDER_TRADERS = Maps.newHashMap();
 
 	@Nullable
 	private static Map<VillagerProfession, List<Block>> cachedJobsites = null;
@@ -129,7 +131,7 @@ public record TradeShadowRecipe(ItemStack costA, ItemStack costB, ItemStack resu
 	public LivingEntity getRenderVillager() {
 		assert Minecraft.getInstance().level != null;
 		if (this.entityType != EntityType.VILLAGER || this.profession == null) {
-			return LAZY_RENDER_TRADERS.computeIfAbsent(this.entityType, entityType1 -> Maps.newHashMap())
+			return LAZY_RENDER_TRADERS.computeIfAbsent(this.entityType, entityType1 -> new Int2ObjectOpenHashMap<>())
 					.computeIfAbsent(this.villagerLevel, villagerLevel1 -> {
 						Entity trader = this.entityType.create(Minecraft.getInstance().level);
 						assert trader != null;
@@ -138,7 +140,7 @@ public record TradeShadowRecipe(ItemStack costA, ItemStack costB, ItemStack resu
 						return (LivingEntity) trader;
 					});
 		}
-		return LAZY_RENDER_VILLAGERS.computeIfAbsent(this.profession, profession1 -> Maps.newHashMap())
+		return LAZY_RENDER_VILLAGERS.computeIfAbsent(this.profession, profession1 -> new Int2ObjectOpenHashMap<>())
 				.computeIfAbsent(this.villagerLevel, villagerLevel1 -> {
 					Villager villager = EntityType.VILLAGER.create(Minecraft.getInstance().level);
 					assert villager != null;

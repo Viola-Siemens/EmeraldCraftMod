@@ -330,10 +330,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 
 	@Override
 	public boolean stillValid(Player player) {
-		if (Objects.requireNonNull(this.level).getBlockEntity(this.worldPosition) != this) {
-			return false;
-		}
-		return player.distanceToSqr((double)this.worldPosition.getX() + 0.5D, (double)this.worldPosition.getY() + 0.5D, (double)this.worldPosition.getZ() + 0.5D) <= 64.0D;
+		return Container.stillValidBlockEntity(this, player);
 	}
 
 	@Override
@@ -403,9 +400,10 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 		for(ItemStack itemstack : this.items) {
 			contents.accountStack(itemstack);
 		}
-
 	}
 
+
+	//Forge Compat
 	LazyOptional<? extends IItemHandler>[] handlers =
 			SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 
