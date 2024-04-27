@@ -1,13 +1,12 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
+import com.hexagram2021.emeraldcraft.common.ECContent;
 import com.hexagram2021.emeraldcraft.common.entities.ECBoat;
 import com.hexagram2021.emeraldcraft.common.entities.ECChestBoat;
 import com.hexagram2021.emeraldcraft.common.entities.mobs.*;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraftforge.registries.RegisterEvent;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -68,20 +67,18 @@ public class ECEntities {
 
 	private ECEntities() { }
 
-	public static void init(RegisterEvent event) {
-		event.register(Registries.ENTITY_TYPE, helper -> {
-			helper.register(new ResourceLocation(MODID, "piglin_cutey"), PIGLIN_CUTEY);
-			helper.register(new ResourceLocation(MODID, "nether_pigman"), NETHER_PIGMAN);
-			helper.register(new ResourceLocation(MODID, "nether_lambman"), NETHER_LAMBMAN);
-			helper.register(new ResourceLocation(MODID, "herring"), HERRING);
-			helper.register(new ResourceLocation(MODID, "purple_spotted_bigeye"), PURPLE_SPOTTED_BIGEYE);
-			helper.register(new ResourceLocation(MODID, "snakehead"), SNAKEHEAD);
-			helper.register(new ResourceLocation(MODID, "wraith"), WRAITH);
-			helper.register(new ResourceLocation(MODID, "wombat"), WOMBAT);
-			helper.register(new ResourceLocation(MODID, "manta"), MANTA);
-			helper.register(new ResourceLocation(MODID, "lumine"), LUMINE);
-			helper.register(new ResourceLocation(MODID, "boat"), BOAT);
-			helper.register(new ResourceLocation(MODID, "chest_boat"), CHEST_BOAT);
-		});
+	public static void init(ECContent.RegisterConsumer<EntityType<?>> register) {
+		register.accept(new ResourceLocation(MODID, "piglin_cutey"), PIGLIN_CUTEY);
+		register.accept(new ResourceLocation(MODID, "nether_pigman"), NETHER_PIGMAN);
+		register.accept(new ResourceLocation(MODID, "nether_lambman"), NETHER_LAMBMAN);
+		register.accept(new ResourceLocation(MODID, "herring"), HERRING);
+		register.accept(new ResourceLocation(MODID, "purple_spotted_bigeye"), PURPLE_SPOTTED_BIGEYE);
+		register.accept(new ResourceLocation(MODID, "snakehead"), SNAKEHEAD);
+		register.accept(new ResourceLocation(MODID, "wraith"), WRAITH);
+		register.accept(new ResourceLocation(MODID, "wombat"), WOMBAT);
+		register.accept(new ResourceLocation(MODID, "manta"), MANTA);
+		register.accept(new ResourceLocation(MODID, "lumine"), LUMINE);
+		register.accept(new ResourceLocation(MODID, "boat"), BOAT);
+		register.accept(new ResourceLocation(MODID, "chest_boat"), CHEST_BOAT);
 	}
 }

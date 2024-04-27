@@ -128,7 +128,6 @@ public class EmeraldCraft {
 					ECBiomeKeys.XANADU.key(), VillagerType.SWAMP
 			));
 			appendBlocksToBlockEntities();
-			Villages.init();
 			ECContent.init();
 			ModVanillaCompat.setup();
 		});

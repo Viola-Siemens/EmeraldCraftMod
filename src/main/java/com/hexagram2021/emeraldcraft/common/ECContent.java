@@ -5,6 +5,8 @@ import com.hexagram2021.emeraldcraft.common.entities.mobs.WombatEntity;
 import com.hexagram2021.emeraldcraft.common.register.*;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import com.hexagram2021.emeraldcraft.common.world.village.Villages;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
@@ -15,6 +17,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.registries.RegisterEvent;
 
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
@@ -56,11 +59,12 @@ public class ECContent {
 
 	@SubscribeEvent
 	public static void onRegister(RegisterEvent event) {
-		ECSounds.init(event);
-		ECEntities.init(event);
-		ECFeatures.init(event);
-		ECPotions.init(event);
-		ECStructurePieceTypes.init();
+		event.register(Registries.SOUND_EVENT, helper -> ECSounds.init(helper::register));
+		event.register(Registries.ENTITY_TYPE, helper -> ECEntities.init(helper::register));
+		event.register(Registries.FEATURE, helper -> ECFeatures.init(helper::register));
+		event.register(Registries.POTION, helper -> ECPotions.init(helper::register));
+		event.register(Registries.STRUCTURE_PIECE, helper -> ECStructurePieceTypes.init(helper::register));
+		event.register(Registries.LOOT_FUNCTION_TYPE, helper -> ECLootItemFunctions.init(helper::register));
 	}
 
 	@SubscribeEvent
@@ -75,5 +79,8 @@ public class ECContent {
 				WombatEntity::checkWombatSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
 		event.register(ECEntities.WRAITH, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
 				Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+	}
+
+	public interface RegisterConsumer<T> extends BiConsumer<ResourceLocation, T> {
 	}
 }

@@ -1,9 +1,8 @@
 package com.hexagram2021.emeraldcraft.common.util;
 
-import net.minecraft.core.registries.Registries;
+import com.hexagram2021.emeraldcraft.common.ECContent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.registries.RegisterEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -90,7 +89,7 @@ public class ECSounds {
 		return event;
 	}
 
-	public static void init(RegisterEvent event) {
-		event.register(Registries.SOUND_EVENT, helper -> registeredEvents.forEach(helper::register));
+	public static void init(ECContent.RegisterConsumer<SoundEvent> register) {
+		registeredEvents.forEach(register);
 	}
 }
