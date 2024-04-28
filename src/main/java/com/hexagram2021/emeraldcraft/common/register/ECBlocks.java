@@ -523,6 +523,9 @@ public final class ECBlocks {
 		public static final BlockEntry<RabbleFurnaceBlock> RABBLE_FURNACE = new BlockEntry<>(
 				"rabble_furnace", RabbleFurnaceBlock.PROPERTIES, RabbleFurnaceBlock::new
 		);
+		public static final BlockEntry<CookstoveBlock> COOKSTOVE = new BlockEntry<>(
+				"cookstove", CookstoveBlock.PROPERTIES, CookstoveBlock::new
+		);
 		public static final BlockEntry<MeatGrinderBlock> MEAT_GRINDER = new BlockEntry<>(
 				"meat_grinder", MeatGrinderBlock.PROPERTIES, MeatGrinderBlock::new
 		);
@@ -603,6 +606,16 @@ public final class ECBlocks {
 			ECItems.ItemEntry.register(
 					RABBLE_FURNACE.getId().getPath(),
 					() -> new BlockItem(RABBLE_FURNACE.get(), new Item.Properties()),
+					ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+			);
+			ECItems.ItemEntry.register(
+					COOKSTOVE.getId().getPath(),
+					() -> new BlockItem(COOKSTOVE.get(), new Item.Properties()),
+					ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+			);
+			ECItems.ItemEntry.register(
+					MEAT_GRINDER.getId().getPath(),
+					() -> new BlockItem(MEAT_GRINDER.get(), new Item.Properties()),
 					ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 			);
 		}

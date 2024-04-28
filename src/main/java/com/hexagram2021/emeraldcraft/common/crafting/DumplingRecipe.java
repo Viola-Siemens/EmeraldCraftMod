@@ -1,6 +1,5 @@
 package com.hexagram2021.emeraldcraft.common.crafting;
 
-import com.google.common.collect.Lists;
 import com.hexagram2021.emeraldcraft.common.items.capabilities.FarciFoodStorage;
 import com.hexagram2021.emeraldcraft.common.register.ECItemTags;
 import com.hexagram2021.emeraldcraft.common.register.ECItems;
@@ -9,29 +8,16 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.Tags;
-
-import java.util.List;
 
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 public class DumplingRecipe extends CustomRecipe {
-	// Mixin this field in <clinit> if you need.
-	private static final List<TagKey<Item>> AVAILABLE_FILLINGS = Lists.newArrayList(
-			//ECItemTags.MINCE,
-			Tags.Items.MUSHROOMS,
-			Tags.Items.CROPS,
-			Tags.Items.EGGS
-	);
-
 	public DumplingRecipe(CraftingBookCategory category) {
 		super(category);
 	}
@@ -50,7 +36,7 @@ public class DumplingRecipe extends CustomRecipe {
 				dough = true;
 			} else if(itemstack.is(ECItemTags.MINCE) && !mince) {
 				mince = true;
-			} else if(count < 2 && AVAILABLE_FILLINGS.stream().anyMatch(itemstack::is)) {
+			} else if(count < 2 && itemstack.is(ECItemTags.VEGETABLE_FILLINGS)) {
 				count += 1;
 			} else {
 				return false;
@@ -66,7 +52,7 @@ public class DumplingRecipe extends CustomRecipe {
 		ListTag listTag = new ListTag();
 		for(int i = 0; i < craftingContainer.getContainerSize(); ++i) {
 			ItemStack itemstack = craftingContainer.getItem(i);
-			if(itemstack.is(ECItemTags.MINCE) || AVAILABLE_FILLINGS.stream().anyMatch(itemstack::is)) {
+			if(itemstack.is(ECItemTags.MINCE) || itemstack.is(ECItemTags.VEGETABLE_FILLINGS)) {
 				listTag.add(StringTag.valueOf(getRegistryName(itemstack.getItem()).toString()));
 			}
 		}

@@ -29,6 +29,6 @@ public class MeatGrinderRenderer implements BlockEntityRenderer<MeatGrinderBlock
 
 	@Override
 	public int getViewDistance() {
-		return 32;
+		return 48;
 	}
 }

@@ -18,6 +18,8 @@ public class ECItemTags {
 
 	public static final TagKey<Item> WOMBAT_FOOD = create("wombat_food");
 
+	public static final TagKey<Item> VEGETABLE_FILLINGS = create("vegetable_fillings");
+
 	public static final TagKey<Item> MINCE = create("forge", "mince");
 	public static final TagKey<Item> WHEAT_DOUGH = create("forge", "dough/wheat");
 

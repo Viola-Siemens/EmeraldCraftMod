@@ -39,6 +39,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
@@ -55,8 +56,10 @@ public class Villages {
 	public static final ResourceLocation ICER = new ResourceLocation(MODID, "icer");
 	public static final ResourceLocation CHEMICAL_ENGINEER = new ResourceLocation(MODID, "chemical_engineer");
 	public static final ResourceLocation PAPERHANGER = new ResourceLocation(MODID, "paperhanger");
+	public static final ResourceLocation HUNTER = new ResourceLocation(MODID, "hunter");
+	public static final ResourceLocation CHEF = new ResourceLocation(MODID, "chef");
 
-	public static void init() {
+	public static void setup() {
 		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_CARPENTER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/carpenter_gift"));
 		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_GLAZIER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/glazier_gift"));
 		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_MINER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/miner_gift"));
@@ -67,19 +70,27 @@ public class Villages {
 		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_ICER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/icer_gift"));
 		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_CHEMICAL_ENGINEER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/chemical_engineer_gift"));
 		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_PAPERHANGER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/paperhanger_gift"));
+		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_HUNTER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/hunter_gift"));
+		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_CHEF.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/chef_gift"));
 	}
 
 	public static void addAllStructuresToPool(RegistryAccess registryAccess) {
-		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_beekeeper_1"), 4, registryAccess);
-		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_carpenter_1"), 4, registryAccess);
-		addToPool(new ResourceLocation("village/plains/houses"), new ResourceLocation(MODID, "village/plains/houses/plains_paperhanger_1"), 2, registryAccess);
-		addToPool(new ResourceLocation("village/snowy/houses"), new ResourceLocation(MODID, "village/snowy/houses/snowy_astrologist_1"), 3, registryAccess);
-		addToPool(new ResourceLocation("village/snowy/houses"), new ResourceLocation(MODID, "village/snowy/houses/snowy_icer_1"), 4, registryAccess);
-		addToPool(new ResourceLocation("village/savanna/houses"), new ResourceLocation(MODID, "village/savanna/houses/savanna_glazier_1"), 4, registryAccess);
-		addToPool(new ResourceLocation("village/savanna/houses"), new ResourceLocation(MODID, "village/savanna/houses/savanna_miner_1"), 3, registryAccess);
+		addToPool(new ResourceLocation("village/plains/houses"), registryAccess, builder -> {
+			builder.add(new ResourceLocation(MODID, "village/plains/houses/plains_beekeeper_1"), 4);
+			builder.add(new ResourceLocation(MODID, "village/plains/houses/plains_carpenter_1"), 4);
+			builder.add(new ResourceLocation(MODID, "village/plains/houses/plains_paperhanger_1"), 2);
+		});
+		addToPool(new ResourceLocation("village/snowy/houses"), registryAccess, builder -> {
+			builder.add(new ResourceLocation(MODID, "village/snowy/houses/snowy_astrologist_1"), 3);
+			builder.add(new ResourceLocation(MODID, "village/snowy/houses/snowy_icer_1"), 4);
+		});
+		addToPool(new ResourceLocation("village/savanna/houses"), registryAccess, builder -> {
+			builder.add(new ResourceLocation(MODID, "village/savanna/houses/savanna_glazier_1"), 4);
+			builder.add(new ResourceLocation(MODID, "village/savanna/houses/savanna_miner_1"), 3);
+		});
 	}
 
-	private static void addToPool(ResourceLocation poolName, ResourceLocation toAdd, int weight, RegistryAccess registryAccess) {
+	private static void addToPool(ResourceLocation poolName, RegistryAccess registryAccess, Consumer<PoolBuilder> consumer) {
 		Registry<StructureTemplatePool> registry = registryAccess.registryOrThrow(Registries.TEMPLATE_POOL);
 		StructureTemplatePool structureTemplatePool = registry.get(poolName);
 		if(structureTemplatePool == null) {
@@ -90,11 +101,26 @@ public class Villages {
 		List<Pair<StructurePoolElement, Integer>> rawTemplates = pool.getRawTemplates() instanceof ArrayList ?
 				pool.getRawTemplates() : new ArrayList<>(pool.getRawTemplates());
 
-		SinglePoolElement addedElement = SinglePoolElement.single(toAdd.toString()).apply(StructureTemplatePool.Projection.RIGID);
-		rawTemplates.add(Pair.of(addedElement, weight));
-		pool.getTemplates().add(addedElement);
+		PoolBuilder poolBuilder = new PoolBuilder(pool, rawTemplates);
+		consumer.accept(poolBuilder);
 
 		pool.setRawTemplates(rawTemplates);
+	}
+
+	private static final class PoolBuilder {
+		StructureTemplatePoolAccess pool;
+		List<Pair<StructurePoolElement, Integer>> rawTemplates;
+
+		public PoolBuilder(StructureTemplatePoolAccess pool, List<Pair<StructurePoolElement, Integer>> rawTemplates) {
+			this.pool = pool;
+			this.rawTemplates = rawTemplates;
+		}
+
+		public void add(ResourceLocation toAdd, int weight) {
+			SinglePoolElement addedElement = SinglePoolElement.single(toAdd.toString()).apply(StructureTemplatePool.Projection.RIGID);
+			this.rawTemplates.add(Pair.of(addedElement, weight));
+			this.pool.getTemplates().add(addedElement);
+		}
 	}
 
 	@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -132,6 +158,12 @@ public class Villages {
 		public static final RegistryObject<PoiType> POI_RABBLE_FURNACE = POINTS_OF_INTEREST.register(
 				"rabble_furnace", () -> createPOI(assembleStates(ECBlocks.WorkStation.RABBLE_FURNACE.get()))
 		);
+		public static final RegistryObject<PoiType> POI_MEAT_GRINDER = POINTS_OF_INTEREST.register(
+				"meat_grinder", () -> createPOI(assembleStates(ECBlocks.WorkStation.MEAT_GRINDER.get()))
+		);
+		public static final RegistryObject<PoiType> POI_COOKSTOVE = POINTS_OF_INTEREST.register(
+				"cookstove", () -> createPOI(assembleStates(ECBlocks.WorkStation.COOKSTOVE.get()))
+		);
 
 		public static final RegistryObject<VillagerProfession> PROF_CARPENTER = PROFESSIONS.register(
 				CARPENTER.getPath(), () -> createProf(CARPENTER, POI_CARPENTRY_TABLE::getKey, ECSounds.VILLAGER_WORK_CARPENTER)
@@ -162,6 +194,12 @@ public class Villages {
 		);
 		public static final RegistryObject<VillagerProfession> PROF_PAPERHANGER = PROFESSIONS.register(
 				PAPERHANGER.getPath(), () -> createProf(PAPERHANGER, POI_RABBLE_FURNACE::getKey, ECSounds.VILLAGER_WORK_PAPERHANGER)
+		);
+		public static final RegistryObject<VillagerProfession> PROF_HUNTER = PROFESSIONS.register(
+				HUNTER.getPath(), () -> createProf(HUNTER, POI_MEAT_GRINDER::getKey, ECSounds.VILLAGER_WORK_HUNTER)
+		);
+		public static final RegistryObject<VillagerProfession> PROF_CHEF = PROFESSIONS.register(
+				CHEF.getPath(), () -> createProf(CHEF, POI_COOKSTOVE::getKey, ECSounds.VILLAGER_WORK_CHEF)
 		);
 
 		private static Collection<BlockState> assembleStates(Block block) {

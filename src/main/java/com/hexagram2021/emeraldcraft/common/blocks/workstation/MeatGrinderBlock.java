@@ -31,7 +31,8 @@ public class MeatGrinderBlock extends BaseEntityBlock {
 	protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 9.0D, 16.0D);
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-	public static final Supplier<Properties> PROPERTIES = () -> Properties.of().sound(SoundType.METAL).strength(5.0F, 6.0F);
+	public static final Supplier<Properties> PROPERTIES = () -> Properties.of()
+			.requiresCorrectToolForDrops().sound(SoundType.METAL).strength(5.0F, 6.0F);
 
 	public MeatGrinderBlock(Properties properties) {
 		super(properties);
@@ -65,25 +66,28 @@ public class MeatGrinderBlock extends BaseEntityBlock {
 					meatGrinderBlockEntity.setItem(MeatGrinderBlockEntity.SLOT_RESULT, ItemStack.EMPTY);
 				}
 				meatGrinderBlockEntity.setChanged();
-			} else if(ItemStack.isSameItemSameTags(result, handItem)) {
+				return InteractionResult.CONSUME;
+			}
+			if(ItemStack.isSameItemSameTags(result, handItem)) {
 				int grow = Math.min(handItem.getMaxStackSize() - handItem.getCount(), result.getCount());
 				handItem.grow(grow);
 				result.shrink(grow);
 				if(result.isEmpty()) {
 					meatGrinderBlockEntity.setItem(MeatGrinderBlockEntity.SLOT_RESULT, ItemStack.EMPTY);
 				}
-			} else {
-				if (input.isEmpty() && meatGrinderBlockEntity.canPlaceItem(MeatGrinderBlockEntity.SLOT_INPUT, handItem)) {
-					meatGrinderBlockEntity.setItem(MeatGrinderBlockEntity.SLOT_INPUT, handItem.split(1));
-					meatGrinderBlockEntity.setChanged();
-					return InteractionResult.CONSUME;
-				}
-				if (ItemStack.isSameItemSameTags(input, handItem)) {
-					input.grow(1);
-					handItem.shrink(1);
-					meatGrinderBlockEntity.setChanged();
-					return InteractionResult.CONSUME;
-				}
+				meatGrinderBlockEntity.setChanged();
+				return InteractionResult.CONSUME;
+			}
+			if (input.isEmpty() && meatGrinderBlockEntity.canPlaceItem(MeatGrinderBlockEntity.SLOT_INPUT, handItem)) {
+				meatGrinderBlockEntity.setItem(MeatGrinderBlockEntity.SLOT_INPUT, handItem.split(1));
+				meatGrinderBlockEntity.setChanged();
+				return InteractionResult.CONSUME;
+			}
+			if (ItemStack.isSameItemSameTags(input, handItem)) {
+				input.grow(1);
+				handItem.shrink(1);
+				meatGrinderBlockEntity.setChanged();
+				return InteractionResult.CONSUME;
 			}
 		}
 		return InteractionResult.PASS;

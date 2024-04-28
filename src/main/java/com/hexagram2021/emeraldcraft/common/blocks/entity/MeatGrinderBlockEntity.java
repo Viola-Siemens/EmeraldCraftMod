@@ -6,6 +6,8 @@ import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
@@ -18,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -75,10 +78,30 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 		});
 	}
 	public static void animationTick(Level level, BlockPos blockPos, BlockState blockState, MeatGrinderBlockEntity blockEntity) {
+		if(blockEntity.isWorking()) {
+			ItemStack input = blockEntity.getItem(SLOT_INPUT);
+			blockEntity.spawnItemParticles(input, blockPos);
+		}
+	}
+
+	private static final int ITEM_PARTICLE_AMOUNT = 4;
+	private void spawnItemParticles(ItemStack itemStack, BlockPos blockPos) {
+		if(this.level != null) {
+			for (int i = 0; i < ITEM_PARTICLE_AMOUNT; ++i) {
+				Vec3 speed = new Vec3(((double) this.level.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.2D + 0.2D, 0.0D);
+				double y = (double) (-this.level.random.nextFloat()) * 0.6D + 0.3D;
+				Vec3 position = new Vec3(
+						((double) this.level.random.nextFloat() - 0.5D) * 0.3D + blockPos.getX(),
+						y + blockPos.getY(),
+						((double) this.level.random.nextFloat() - 0.5D) * 0.3D + blockPos.getZ()
+				);
+				this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, itemStack), position.x, position.y, position.z, speed.x, speed.y + 0.05D, speed.z);
+			}
+		}
 	}
 
 	public boolean isWorking() {
-		return this.totalTicks > 0;
+		return this.totalTicks > 0 && !this.getItem(SLOT_INPUT).isEmpty();
 	}
 
 	public float getProgress() {
