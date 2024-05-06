@@ -49,6 +49,11 @@ public final class ECBlockEntity {
 					MeatGrinderBlockEntity::new, ImmutableSet.of(ECBlocks.WorkStation.MEAT_GRINDER.get()), null
 			)
 	);
+	public static final RegistryObject<BlockEntityType<CookstoveBlockEntity>> COOKSTOVE = REGISTER.register(
+			"cookstove", () -> new BlockEntityType<>(
+					CookstoveBlockEntity::new, ImmutableSet.of(ECBlocks.WorkStation.COOKSTOVE.get()), null
+			)
+	);
 
 	public static void init(IEventBus bus) {
 		REGISTER.register(bus);

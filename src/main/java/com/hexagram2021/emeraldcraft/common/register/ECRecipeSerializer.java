@@ -35,6 +35,9 @@ public class ECRecipeSerializer {
 	public static final RegistryObject<MeatGrinderRecipeSerializer<MeatGrinderRecipe>> MEAT_GRINDER_SERIALIZER = REGISTER.register(
 			"meat_grinder", () -> new MeatGrinderRecipeSerializer<>(MeatGrinderRecipe::new, MeatGrinderRecipe.GRIND_TIME)
 	);
+	public static final RegistryObject<CookstoveRecipeSerializer<CookstoveRecipe>> COOKSTOVE_SERIALIZER = REGISTER.register(
+			"cookstove", () -> new CookstoveRecipeSerializer<>(CookstoveRecipe::new, CookstoveRecipe.COOK_TIME)
+	);
 	public static final RegistryObject<SimpleCraftingRecipeSerializer<DumplingRecipe>> CRAFTING_DUMPLING_SERIALIZER = REGISTER.register(
 			"crafting_dumpling", () -> new SimpleCraftingRecipeSerializer<>(DumplingRecipe::new)
 	);

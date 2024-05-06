@@ -14,7 +14,6 @@ import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.*;
-import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -36,6 +35,8 @@ public class JEIHelper implements IModPlugin {
 		RecipeType<IceMakerRecipe> ICE_MAKER = new RecipeType<>(IceMakerRecipeCategory.UID, IceMakerRecipe.class);
 		RecipeType<MelterRecipe> MELTER = new RecipeType<>(MelterRecipeCategory.UID, MelterRecipe.class);
 		RecipeType<RabbleFurnaceRecipe> RABBLE_FURNACE = new RecipeType<>(RabbleFurnaceRecipeCategory.UID, RabbleFurnaceRecipe.class);
+		RecipeType<MeatGrinderRecipe> MEAT_GRINDER = new RecipeType<>(MeatGrinderRecipeCategory.UID, MeatGrinderRecipe.class);
+		RecipeType<CookstoveRecipe> COOKSTOVE = new RecipeType<>(CookstoveRecipeCategory.UID, CookstoveRecipe.class);
 		RecipeType<TradeShadowRecipe> TRADES = new RecipeType<>(VillagerTradeCategory.UID,  TradeShadowRecipe.class);
 	}
 
@@ -45,12 +46,6 @@ public class JEIHelper implements IModPlugin {
 	public ResourceLocation getPluginUid() {
 		return UID;
 	}
-
-	@Override
-	public void registerItemSubtypes(ISubtypeRegistration subtypeRegistry) { }
-
-	@Override
-	public void registerIngredients(IModIngredientRegistration registry) { }
 
 	@Override
 	public void registerCategories(IRecipeCategoryRegistration registry) {
@@ -68,9 +63,6 @@ public class JEIHelper implements IModPlugin {
 	}
 
 	@Override
-	public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) { }
-
-	@Override
 	public void registerRecipes(IRecipeRegistration registration) {
 		ECLogger.info("Adding EC recipes to JEI!!");
 		registration.addRecipes(ECJEIRecipeTypes.CARPENTRY_TABLE, getRecipes(CarpentryTableRecipe.recipeList));
@@ -79,6 +71,8 @@ public class JEIHelper implements IModPlugin {
 		registration.addRecipes(ECJEIRecipeTypes.MELTER, getRecipes(MelterRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.ICE_MAKER, getRecipes(IceMakerRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.RABBLE_FURNACE, getRecipes(RabbleFurnaceRecipe.recipeList));
+		registration.addRecipes(ECJEIRecipeTypes.MEAT_GRINDER, getRecipes(MeatGrinderRecipe.recipeList));
+		registration.addRecipes(ECJEIRecipeTypes.COOKSTOVE, getRecipes(CookstoveRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.TRADES, TradeShadowRecipe.getTradeRecipes(Objects.requireNonNull(Minecraft.getInstance().level)));
 	}
 
@@ -161,6 +155,8 @@ public class JEIHelper implements IModPlugin {
 		registration.addRecipeCatalyst(new ItemStack(ECBlocks.WorkStation.MELTER), ECJEIRecipeTypes.MELTER);
 		registration.addRecipeCatalyst(new ItemStack(ECBlocks.WorkStation.ICE_MAKER), ECJEIRecipeTypes.ICE_MAKER);
 		registration.addRecipeCatalyst(new ItemStack(ECBlocks.WorkStation.RABBLE_FURNACE), ECJEIRecipeTypes.RABBLE_FURNACE);
+		registration.addRecipeCatalyst(new ItemStack(ECBlocks.WorkStation.MEAT_GRINDER), ECJEIRecipeTypes.MEAT_GRINDER);
+		registration.addRecipeCatalyst(new ItemStack(ECBlocks.WorkStation.COOKSTOVE), ECJEIRecipeTypes.COOKSTOVE);
 		registration.addRecipeCatalyst(new ItemStack(Items.EMERALD), ECJEIRecipeTypes.TRADES);
 	}
 
@@ -172,10 +168,4 @@ public class JEIHelper implements IModPlugin {
 		registration.addRecipeClickArea(IceMakerScreen.class, 96, 32, 28, 23, ECJEIRecipeTypes.ICE_MAKER);
 		registration.addRecipeClickArea(RabbleFurnaceScreen.class, 78, 32, 28, 23, ECJEIRecipeTypes.RABBLE_FURNACE);
 	}
-
-	@Override
-	public void registerAdvanced(IAdvancedRegistration registration) { }
-
-	@Override
-	public void onRuntimeAvailable(IJeiRuntime jeiRuntime) { }
 }

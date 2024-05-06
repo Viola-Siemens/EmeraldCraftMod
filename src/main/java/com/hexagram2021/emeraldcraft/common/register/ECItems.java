@@ -121,6 +121,11 @@ public class ECItems {
 					() -> ECEntities.LUMINE, 0xF7FF55, 0xF9FFAA, new Item.Properties()
 			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
 	);
+	public static final ItemEntry<SpawnEggItem> WOMBAT_SPAWN_EGG = ItemEntry.register(
+			"wombat_spawn_egg", () -> new ForgeSpawnEggItem(
+					() -> ECEntities.WOMBAT, 0x7A6347, 0xC89681, new Item.Properties()
+			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+	);
 
 	public static final ItemEntry<Item> AGATE_APPLE = ItemEntry.register(
 			"agate_apple", () -> new Item(new Item.Properties().rarity(Rarity.RARE).food(ECFoods.AGATE_APPLE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS

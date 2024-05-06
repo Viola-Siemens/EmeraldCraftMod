@@ -3,12 +3,14 @@ package com.hexagram2021.emeraldcraft.common.blocks.entity;
 import com.hexagram2021.emeraldcraft.common.crafting.MeatGrinderRecipe;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
+import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.SimpleContainer;
@@ -17,6 +19,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -41,46 +45,60 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 	private static final int[] SLOTS_FOR_DOWN = new int[]{1};
 
 	int progressTicks = 0;
-	int totalTicks = 120;
+	int totalTicks = 0;
+
+	private final RecipeManager.CachedCheck<Container, MeatGrinderRecipe> quickCheck;
 
 	public MeatGrinderBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntity.MEAT_GRINDER.get(), pos, state);
+		this.quickCheck = RecipeManager.createCheck(ECRecipes.MEAT_GRINDER_TYPE.get());
 	}
 
-	public static void serverTick(Level level, BlockPos blockPos, BlockState blockState, MeatGrinderBlockEntity blockEntity) {
+	public static void tick(Level level, BlockPos blockPos, BlockState blockState, MeatGrinderBlockEntity blockEntity) {
 		ItemStack input = blockEntity.getItem(SLOT_INPUT);
 		ItemStack result = blockEntity.getItem(SLOT_RESULT);
-		level.getRecipeManager().getRecipeFor(ECRecipes.MEAT_GRINDER_TYPE.get(), blockEntity, level).ifPresentOrElse(recipeHolder -> {
-			MeatGrinderRecipe recipe = recipeHolder.value();
-			ItemStack target = recipe.assemble(blockEntity, level.registryAccess());
-			blockEntity.totalTicks = recipe.getCookingTime();
-			boolean emptyResult = result.isEmpty();
-			boolean sameResult = ItemStack.isSameItemSameTags(target, result) && target.getCount() + result.getCount() <= blockEntity.getMaxStackSize();
-			if(emptyResult || sameResult) {
-				blockEntity.progressTicks += 1;
-				if(blockEntity.progressTicks >= blockEntity.totalTicks) {
-					if(sameResult) {
+		RecipeHolder<MeatGrinderRecipe> recipeHolder = blockEntity.quickCheck.getRecipeFor(blockEntity, level).orElse(null);
+		if (recipeHolder == null || blockEntity.getItem(0).isEmpty()) {
+			if(blockEntity.progressTicks != 0 || blockEntity.totalTicks != 0) {
+				blockEntity.progressTicks = 0;
+				blockEntity.totalTicks = 0;
+				if(!level.isClientSide) {
+					blockEntity.setChanged();
+				}
+			}
+			return;
+		}
+		MeatGrinderRecipe recipe = recipeHolder.value();
+		ItemStack target = recipe.assemble(blockEntity, level.registryAccess());
+		boolean emptyResult = result.isEmpty();
+		boolean sameResult = ItemStack.isSameItemSameTags(target, result) && target.getCount() + result.getCount() <= blockEntity.getMaxStackSize();
+		if(emptyResult || sameResult) {
+			if(blockEntity.totalTicks != recipe.getCookingTime()) {
+				blockEntity.totalTicks = recipe.getCookingTime();
+				blockEntity.progressTicks = 0;
+				if(!level.isClientSide) {
+					level.playSound(null, blockPos, ECSounds.VILLAGER_WORK_HUNTER, SoundSource.BLOCKS, 1.0F, 1.0F);
+				}
+			}
+			blockEntity.progressTicks += 1;
+			if(level.isClientSide) {
+				blockEntity.spawnItemParticles(input, blockPos);
+			}
+			if(blockEntity.progressTicks >= blockEntity.totalTicks) {
+				if(!level.isClientSide) {
+					if (sameResult) {
 						result.grow(target.getCount());
 					} else {
 						blockEntity.setItem(SLOT_RESULT, target);
 					}
 					input.shrink(1);
-					blockEntity.progressTicks = 0;
 				}
-			}
-			blockEntity.setChanged();
-		}, () -> {
-			if(blockEntity.totalTicks != 0) {
 				blockEntity.progressTicks = 0;
 				blockEntity.totalTicks = 0;
+			}
+			if(!level.isClientSide) {
 				blockEntity.setChanged();
 			}
-		});
-	}
-	public static void animationTick(Level level, BlockPos blockPos, BlockState blockState, MeatGrinderBlockEntity blockEntity) {
-		if(blockEntity.isWorking()) {
-			ItemStack input = blockEntity.getItem(SLOT_INPUT);
-			blockEntity.spawnItemParticles(input, blockPos);
 		}
 	}
 
@@ -177,8 +195,7 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 
 	@Override
 	public boolean canPlaceItem(int index, ItemStack itemStack) {
-		return index == SLOT_INPUT && this.level != null &&
-				this.level.getRecipeManager().getRecipeFor(ECRecipes.MEAT_GRINDER_TYPE.get(), new SimpleContainer(itemStack), this.level).isPresent();
+		return index == SLOT_INPUT && this.level != null && this.quickCheck.getRecipeFor(new SimpleContainer(itemStack), this.level).isPresent();
 	}
 
 	@Override

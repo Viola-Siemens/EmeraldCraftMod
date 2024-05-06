@@ -137,9 +137,9 @@ public class MeatGrinderBlock extends BaseEntityBlock {
 	public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState newBlockState, boolean b) {
 		if (!blockState.is(newBlockState.getBlock())) {
 			BlockEntity blockentity = level.getBlockEntity(blockPos);
-			if (blockentity instanceof MeatGrinderBlockEntity iceMakerBlockEntity) {
+			if (blockentity instanceof MeatGrinderBlockEntity meatGrinderBlockEntity) {
 				if (level instanceof ServerLevel serverLevel) {
-					Containers.dropContents(serverLevel, blockPos, iceMakerBlockEntity);
+					Containers.dropContents(serverLevel, blockPos, meatGrinderBlockEntity);
 				}
 
 				level.updateNeighbourForOutputSignal(blockPos, this);
@@ -151,6 +151,6 @@ public class MeatGrinderBlock extends BaseEntityBlock {
 
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-		return createTickerHelper(blockEntityType, ECBlockEntity.MEAT_GRINDER.get(), level.isClientSide ? MeatGrinderBlockEntity::animationTick : MeatGrinderBlockEntity::serverTick);
+		return createTickerHelper(blockEntityType, ECBlockEntity.MEAT_GRINDER.get(), MeatGrinderBlockEntity::tick);
 	}
 }

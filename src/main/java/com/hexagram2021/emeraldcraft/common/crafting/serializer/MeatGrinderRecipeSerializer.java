@@ -11,8 +11,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import javax.annotation.Nullable;
-
 public class MeatGrinderRecipeSerializer<T extends MeatGrinderRecipe> implements RecipeSerializer<T> {
 	private final MeatGrinderRecipeSerializer.Creator<T> factory;
 	private final Codec<T> codec;
@@ -42,7 +40,7 @@ public class MeatGrinderRecipeSerializer<T extends MeatGrinderRecipe> implements
 		return this.codec;
 	}
 
-	@Override @Nullable
+	@Override
 	public T fromNetwork(FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);

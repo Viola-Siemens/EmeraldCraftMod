@@ -566,6 +566,7 @@
   "gui.emeraldcraft.ice_maker.time.seconds": "%ss",
   "gui.emeraldcraft.rabble_furnace.experience": "%s XP",
   "gui.emeraldcraft.rabble_furnace.time.seconds": "%ss",
+  "gui.emeraldcraft.cookstove.time.seconds": "%ss",
 
   "book.emeraldcraft.piglin_cutey.title": "One Last Thing I Need",
   "book.emeraldcraft.piglin_cutey.content": "I was trapped in the nether for days. A ghast broke my portal, so I have no choice but to act like a piglin and to trade with them. Still I don't have enough obsidian to activate a portal. Would you mind help me back to the overworld?",

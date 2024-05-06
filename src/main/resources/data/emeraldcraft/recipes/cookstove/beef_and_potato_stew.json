@@ -1,0 +1,17 @@
+{
+  "type": "emeraldcraft:cookstove",
+  "ingredients": [
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:beef"
+    }
+  ],
+  "container": {
+    "item": "minecraft:bowl"
+  },
+  "result": {
+    "item": "emeraldcraft:beef_and_potato_stew"
+  }
+}

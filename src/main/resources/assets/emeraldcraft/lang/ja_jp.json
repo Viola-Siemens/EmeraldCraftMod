@@ -566,6 +566,7 @@
   "gui.emeraldcraft.melter.fluid.amount": "バケツ%s杯",
   "gui.emeraldcraft.rabble_furnace.experience": "%s EXP",
   "gui.emeraldcraft.rabble_furnace.time.seconds": "%s s",
+  "gui.emeraldcraft.cookstove.time.seconds": "%s s",
 
   "book.emeraldcraft.piglin_cutey.title": "最後の望み",
   "book.emeraldcraft.piglin_cutey.content": "何日も私はネザーに閉じ込められていました。ポータルがガストに壊されましたから、ピグリンのように振る舞い、彼らと取引するしかありません。まだ、ポータルを起動するのに十分な黒曜石が手に入れません。私がオーバーワールドに戻ることを手伝ってくれませんか？",
