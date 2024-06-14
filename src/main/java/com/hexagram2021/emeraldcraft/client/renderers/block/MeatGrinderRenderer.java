@@ -21,8 +21,8 @@ public class MeatGrinderRenderer implements BlockEntityRenderer<MeatGrinderBlock
 			return;
 		}
 		transform.pushPose();
-		transform.scale(0.375F, 0.375F, 0.375F);
-		transform.translate(0.0F, 1.0F - blockEntity.getProgress() * 0.5F, 0.0F);
+		transform.scale(0.5F, 0.5F, 0.5F);
+		transform.translate(0.5F, blockEntity.getProgress() * 0.25F, 0.5F);
 		this.itemRenderer.renderStatic(blockEntity.getItem(0), ItemDisplayContext.FIXED, rgb, overlay, transform, buffer, blockEntity.getLevel(), 0);
 		transform.popPose();
 	}

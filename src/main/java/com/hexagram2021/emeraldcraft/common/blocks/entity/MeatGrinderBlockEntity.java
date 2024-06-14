@@ -10,6 +10,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
@@ -58,7 +59,7 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 		ItemStack input = blockEntity.getItem(SLOT_INPUT);
 		ItemStack result = blockEntity.getItem(SLOT_RESULT);
 		RecipeHolder<MeatGrinderRecipe> recipeHolder = blockEntity.quickCheck.getRecipeFor(blockEntity, level).orElse(null);
-		if (recipeHolder == null || blockEntity.getItem(0).isEmpty()) {
+		if (recipeHolder == null || input.isEmpty()) {
 			if(blockEntity.progressTicks != 0 || blockEntity.totalTicks != 0) {
 				blockEntity.progressTicks = 0;
 				blockEntity.totalTicks = 0;
@@ -92,12 +93,10 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 						blockEntity.setItem(SLOT_RESULT, target);
 					}
 					input.shrink(1);
+					blockEntity.setChanged();
 				}
 				blockEntity.progressTicks = 0;
 				blockEntity.totalTicks = 0;
-			}
-			if(!level.isClientSide) {
-				blockEntity.setChanged();
 			}
 		}
 	}
@@ -107,11 +106,11 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 		if(this.level != null) {
 			for (int i = 0; i < ITEM_PARTICLE_AMOUNT; ++i) {
 				Vec3 speed = new Vec3(((double) this.level.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.2D + 0.2D, 0.0D);
-				double y = (double) (-this.level.random.nextFloat()) * 0.6D + 0.3D;
+				double y = (double)this.level.random.nextFloat() * 0.4D + 0.1D;
 				Vec3 position = new Vec3(
-						((double) this.level.random.nextFloat() - 0.5D) * 0.3D + blockPos.getX(),
+						((double) this.level.random.nextFloat() - 0.5D) * 0.3D + blockPos.getX() + 0.5D,
 						y + blockPos.getY(),
-						((double) this.level.random.nextFloat() - 0.5D) * 0.3D + blockPos.getZ()
+						((double) this.level.random.nextFloat() - 0.5D) * 0.3D + blockPos.getZ() + 0.5D
 				);
 				this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, itemStack), position.x, position.y, position.z, speed.x, speed.y + 0.05D, speed.z);
 			}
@@ -128,6 +127,7 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 
 	@Override
 	public void load(CompoundTag nbt) {
+		super.load(nbt);
 		this.items.clear();
 		ContainerHelper.loadAllItems(nbt, this.items);
 		this.progressTicks = nbt.getInt("progressTicks");
@@ -136,9 +136,23 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 
 	@Override
 	protected void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
 		ContainerHelper.saveAllItems(nbt, this.items, true);
 		nbt.putInt("progressTicks", this.progressTicks);
 		nbt.putInt("totalTicks", this.totalTicks);
+	}
+
+	@Override
+	public CompoundTag getUpdateTag() {
+		return this.saveWithoutMetadata();
+	}
+
+	@Override
+	public void setChanged() {
+		super.setChanged();
+		if (this.level != null) {
+			this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
+		}
 	}
 
 	@Override
@@ -191,6 +205,11 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 	@Override
 	public boolean stillValid(Player player) {
 		return Container.stillValidBlockEntity(this, player);
+	}
+
+	@Override
+	public ClientboundBlockEntityDataPacket getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	@Override
