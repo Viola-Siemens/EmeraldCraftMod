@@ -91,7 +91,7 @@ public class CookstoveRecipe implements Recipe<CookstoveBlockEntity> {
 		return this.fluidStack;
 	}
 
-	public int getCookTime() {
+	public int getCookingTime() {
 		return this.cookTime;
 	}
 

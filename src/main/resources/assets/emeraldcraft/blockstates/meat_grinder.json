@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "emeraldcraft:block/meat_grinder",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "emeraldcraft:block/meat_grinder"
+    },
+    "facing=south": {
+      "model": "emeraldcraft:block/meat_grinder",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "emeraldcraft:block/meat_grinder",
+      "y": 270
+    }
+  }
+}

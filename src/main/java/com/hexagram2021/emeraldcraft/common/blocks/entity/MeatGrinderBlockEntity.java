@@ -72,7 +72,7 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 		MeatGrinderRecipe recipe = recipeHolder.value();
 		ItemStack target = recipe.assemble(blockEntity, level.registryAccess());
 		boolean emptyResult = result.isEmpty();
-		boolean sameResult = ItemStack.isSameItemSameTags(target, result) && target.getCount() + result.getCount() <= blockEntity.getMaxStackSize();
+		boolean sameResult = ItemStack.isSameItemSameTags(target, result) && target.getCount() + result.getCount() <= Math.min(target.getMaxStackSize(), blockEntity.getMaxStackSize());
 		if(emptyResult || sameResult) {
 			if(blockEntity.totalTicks != recipe.getCookingTime()) {
 				blockEntity.totalTicks = recipe.getCookingTime();
@@ -105,7 +105,11 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 	private void spawnItemParticles(ItemStack itemStack, BlockPos blockPos) {
 		if(this.level != null) {
 			for (int i = 0; i < ITEM_PARTICLE_AMOUNT; ++i) {
-				Vec3 speed = new Vec3(((double) this.level.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.2D + 0.2D, 0.0D);
+				Vec3 speed = new Vec3(
+						((double) this.level.random.nextFloat() - 0.5D) * 0.1D,
+						Math.random() * 0.2D + 0.2D,
+						((double) this.level.random.nextFloat() - 0.5D) * 0.1D
+				);
 				double y = (double)this.level.random.nextFloat() * 0.4D + 0.1D;
 				Vec3 position = new Vec3(
 						((double) this.level.random.nextFloat() - 0.5D) * 0.3D + blockPos.getX() + 0.5D,

@@ -5,13 +5,16 @@ import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Containers;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 
 import java.util.function.Supplier;
 
@@ -22,6 +25,16 @@ public class CookstoveBlock extends BaseEntityBlock {
 
 	public CookstoveBlock(Properties properties) {
 		super(properties);
+	}
+
+	@Override
+	public RenderShape getRenderShape(BlockState blockState) {
+		return RenderShape.MODEL;
+	}
+
+	@Override
+	public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos blockPos, PathComputationType type) {
+		return false;
 	}
 
 	@Override
