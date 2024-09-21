@@ -6,6 +6,7 @@ import com.hexagram2021.emeraldcraft.common.crafting.RabbleFurnaceRecipe;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.RabbleFurnaceMenu;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
+import com.hexagram2021.emeraldcraft.common.util.PartialRecipeCachedCheck;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
@@ -99,10 +100,12 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 	};
 	private final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
 	private final RecipeManager.CachedCheck<Container, RabbleFurnaceRecipe> quickCheck;
+	private final PartialRecipeCachedCheck<Container, RabbleFurnaceRecipe> partialQuickCheck;
 
 	public RabbleFurnaceBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntity.RABBLE_FURNACE.get(), pos, state);
 		this.quickCheck = RecipeManager.createCheck(ECRecipes.RABBLE_FURNACE_TYPE.get());
+		this.partialQuickCheck = PartialRecipeCachedCheck.createCheck(ECRecipes.RABBLE_FURNACE_TYPE.get());
 	}
 
 	@Override
@@ -113,7 +116,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 
 	@Override
 	protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
-		return new RabbleFurnaceMenu(id, inventory, this, this.dataAccess);
+		return new RabbleFurnaceMenu(id, inventory, this, this.dataAccess, this.partialQuickCheck);
 	}
 
 	private boolean isLit() {

@@ -124,14 +124,19 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven { // TOP
-        url "https://cursemaven.com"
+        name = "Curse Maven"
+        url = "https://cursemaven.com"
     }
     maven { // JEI
-        name 'DVS1 Maven FS'
-        url 'https://dvs1.progwml6.com/files/maven'
+        name = "Progwml6's maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven { // JEI
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
     }
     maven { //mirror
-        name = "ModMaven"
+        name = "Mod Maven"
         url = "https://modmaven.dev"
     }
 }

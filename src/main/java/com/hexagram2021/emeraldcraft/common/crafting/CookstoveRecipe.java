@@ -8,6 +8,7 @@ import com.hexagram2021.emeraldcraft.common.register.ECRecipeSerializer;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -19,7 +20,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
-public class CookstoveRecipe implements Recipe<CookstoveBlockEntity> {
+public class CookstoveRecipe implements Recipe<CookstoveBlockEntity>, IPartialMatchRecipe<Container> {
 	final NonNullList<Ingredient> ingredients;
 	final FluidStack fluidStack;
 	final Ingredient container;
@@ -29,7 +30,7 @@ public class CookstoveRecipe implements Recipe<CookstoveBlockEntity> {
 
 	public static final CachedRecipeList<CookstoveRecipe> recipeList = new CachedRecipeList<>(ECRecipes.COOKSTOVE_TYPE);
 
-	public static final int COOK_TIME = 40;
+	public static final int COOK_TIME = 100;
 
 	public CookstoveRecipe(NonNullList<Ingredient> ingredients, FluidStack fluidStack, Ingredient container, ItemStack result, int cookTime) {
 		this.ingredients = ingredients;
@@ -46,7 +47,7 @@ public class CookstoveRecipe implements Recipe<CookstoveBlockEntity> {
 		List<ItemStack> inputs = Lists.newArrayList();
 		int count = 0;
 		FluidStack inputFluid = container.getFluidStack(CookstoveBlockEntity.TANK_INPUT);
-		if(!inputFluid.isFluidEqual(this.fluidStack)) {
+		if(!inputFluid.containsFluid(this.fluidStack)) {
 			return false;
 		}
 		for(int i = 0; i < container.getContainerSize(); ++i) {
@@ -61,7 +62,19 @@ public class CookstoveRecipe implements Recipe<CookstoveBlockEntity> {
 			}
 		}
 
-		return count == this.ingredients.size() && (this.isSimple ? stackedcontents.canCraft(this, null) : RecipeMatcher.findMatches(inputs,  this.ingredients) != null);
+		return count == this.ingredients.size() && (this.isSimple ? stackedcontents.canCraft(this, null) : RecipeMatcher.findMatches(inputs, this.ingredients) != null);
+	}
+
+	@Override
+	public boolean matchesAllowEmpty(Container container) {
+		int count = 0;
+		for(int i = 0; i < container.getContainerSize(); ++i) {
+			ItemStack itemStack = container.getItem(i);
+			if(itemStack.isEmpty() || this.ingredients.stream().anyMatch(ingredient -> ingredient.test(itemStack))) {
+				count += 1;
+			}
+		}
+		return count == this.ingredients.size();
 	}
 
 	@Override

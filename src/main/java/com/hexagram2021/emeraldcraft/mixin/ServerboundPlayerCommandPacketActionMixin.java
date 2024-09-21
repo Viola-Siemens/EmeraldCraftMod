@@ -29,6 +29,6 @@ public class ServerboundPlayerCommandPacketActionMixin {
 	private static void ec_injectEnum(CallbackInfo ci) {
 		int ordinal = $VALUES.length;
 		$VALUES = Arrays.copyOf($VALUES, ordinal + 1);
-		RIDING_FLY = $VALUES[ordinal] = (ServerboundPlayerCommandPacket.Action)(Object)new ServerboundPlayerCommandPacketActionMixin("RIDING_FLY", ordinal);
+		RIDING_FLY = $VALUES[ordinal] = (ServerboundPlayerCommandPacket.Action)(Object)new ServerboundPlayerCommandPacketActionMixin("EMERALDCRAFT$RIDING_FLY", ordinal);
 	}
 }

@@ -33,7 +33,7 @@ public class MapDecorationTypeMixin {
 		int ordinal = $VALUES.length;
 		$VALUES = Arrays.copyOf($VALUES, ordinal + 2);
 
-		SHELTER = $VALUES[ordinal] = (MapDecoration.Type)(Object)new MapDecorationTypeMixin("EMERALDCRAFT:SHELTER", ordinal, "emeraldcraft:shelter", true, 0xa81228, false, true);
-		ENTRENCHMENT = $VALUES[ordinal + 1] = (MapDecoration.Type)(Object)new MapDecorationTypeMixin("EMERALDCRAFT:ENTRENCHMENT", ordinal + 1, "emeraldcraft:entrenchment", true, 0xd606d6, false, true);
+		SHELTER = $VALUES[ordinal] = (MapDecoration.Type)(Object)new MapDecorationTypeMixin("EMERALDCRAFT$SHELTER", ordinal, "emeraldcraft:shelter", true, 0xa81228, false, true);
+		ENTRENCHMENT = $VALUES[ordinal + 1] = (MapDecoration.Type)(Object)new MapDecorationTypeMixin("EMERALDCRAFT$ENTRENCHMENT", ordinal + 1, "emeraldcraft:entrenchment", true, 0xd606d6, false, true);
 	}
 }

@@ -42,19 +42,19 @@ import static com.hexagram2021.emeraldcraft.common.register.ECStructurePieceType
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 public class EntrenchmentPieces {
-	static class PieceWeight {
-		public final Class<? extends EntrenchmentPiece> pieceClass;
-		private final Function<Integer, Integer> weight;
-		public int placeCount;
-		public final int maxPlaceCount;
+	protected static class PieceWeight {
+		final Class<? extends EntrenchmentPiece> pieceClass;
+		final Function<Integer, Integer> weight;
+		int placeCount;
+		final int maxPlaceCount;
 
-		public PieceWeight(Class<? extends EntrenchmentPiece> clazz, Function<Integer, Integer> weight, int maxCount) {
+		PieceWeight(Class<? extends EntrenchmentPiece> clazz, Function<Integer, Integer> weight, int maxCount) {
 			this.pieceClass = clazz;
 			this.weight = weight;
 			this.maxPlaceCount = maxCount;
 		}
 
-		public PieceWeight(Class<? extends EntrenchmentPiece> clazz, int weight, int maxCount) {
+		PieceWeight(Class<? extends EntrenchmentPiece> clazz, int weight, int maxCount) {
 			this.pieceClass = clazz;
 			this.weight = count -> weight;
 			this.maxPlaceCount = maxCount;
@@ -575,7 +575,7 @@ public class EntrenchmentPieces {
 		private static final int LENGTH = 11;
 
 		@Nullable
-		public PieceWeight previousPiece;
+		PieceWeight previousPiece;
 
 		public final List<StructurePiece> pendingChildren = Lists.newArrayList();
 
@@ -1175,6 +1175,7 @@ public class EntrenchmentPieces {
 			this.generateSmallDoor(level, bbox, this.entryDoor, OFF_X, OFF_Y, OFF_Z);
 		}
 
+		@SuppressWarnings("UnstableApiUsage")
 		private void spawnMobs(WorldGenLevel level, BoundingBox bbox) {
 			if(!this.spawnedZombifiedPiglin) {
 				BlockPos blockpos = this.getWorldPos(2, 1, 6);

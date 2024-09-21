@@ -15,7 +15,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
 public record RabbleFurnaceRecipe(String group, String category, Ingredient ingredient, Ingredient mix1, Ingredient mix2,
-								  ItemStack result, float experience, int rabblingTime) implements Recipe<Container> {
+								  ItemStack result, float experience, int rabblingTime) implements Recipe<Container>, IPartialMatchRecipe<Container> {
 	public static final CachedRecipeList<RabbleFurnaceRecipe> recipeList = new CachedRecipeList<>(ECRecipes.RABBLE_FURNACE_TYPE);
 
 	public static final int RABBLING_TIME = 100;
@@ -28,6 +28,7 @@ public record RabbleFurnaceRecipe(String group, String category, Ingredient ingr
 		);
 	}
 
+	@Override
 	public boolean matchesAllowEmpty(Container container) {
 		boolean empty1 = container.getItem(1).isEmpty();
 		boolean empty2 = container.getItem(2).isEmpty();

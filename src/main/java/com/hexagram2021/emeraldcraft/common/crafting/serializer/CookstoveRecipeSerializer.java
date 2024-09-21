@@ -32,7 +32,7 @@ public class CookstoveRecipeSerializer<T extends CookstoveRecipe> implements Rec
 						ExtraCodecs.strictOptionalField(FluidStack.CODEC, "fluid", FluidStack.EMPTY).forGetter(CookstoveRecipe::getFluidStack),
 						ExtraCodecs.strictOptionalField(Ingredient.CODEC, "container", Ingredient.EMPTY).forGetter(CookstoveRecipe::getContainer),
 						CraftingRecipeCodecs.ITEMSTACK_OBJECT_CODEC.fieldOf("result").forGetter(CookstoveRecipe::getResult),
-						Codec.INT.fieldOf("cookTime").orElse(defaultCookingTime).forGetter(CookstoveRecipe::getCookTime)
+						Codec.INT.fieldOf("cookTime").orElse(defaultCookingTime).forGetter(CookstoveRecipe::getCookingTime)
 				).apply(instance, factory::create)
 		);
 	}
@@ -65,7 +65,7 @@ public class CookstoveRecipeSerializer<T extends CookstoveRecipe> implements Rec
 		recipe.getFluidStack().writeToPacket(buf);
 		recipe.getContainer().toNetwork(buf);
 		buf.writeItem(recipe.getResult());
-		buf.writeVarInt(recipe.getCookTime());
+		buf.writeVarInt(recipe.getCookingTime());
 	}
 
 	public interface Creator<T extends CookstoveRecipe> {

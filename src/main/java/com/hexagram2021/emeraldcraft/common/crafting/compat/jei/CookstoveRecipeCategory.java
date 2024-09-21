@@ -60,7 +60,7 @@ public class CookstoveRecipeCategory implements IRecipeCategory<CookstoveRecipe>
 	}
 
 	protected IDrawableAnimated getArrow(CookstoveRecipe recipe) {
-		int cookTime = recipe.getCookTime();
+		int cookTime = recipe.getCookingTime();
 		if (cookTime <= 0) {
 			cookTime = COOKTIME;
 		}
@@ -99,7 +99,7 @@ public class CookstoveRecipeCategory implements IRecipeCategory<CookstoveRecipe>
 
 	@SuppressWarnings("SameParameterValue")
 	protected void drawCookTime(CookstoveRecipe recipe, GuiGraphics transform, int y) {
-		int cookTime = recipe.getCookTime();
+		int cookTime = recipe.getCookingTime();
 		if (cookTime > 0) {
 			int cookTimeSeconds = cookTime / 20;
 			Component timeString = Component.translatable("gui.emeraldcraft.cookstove.time.seconds", cookTimeSeconds);

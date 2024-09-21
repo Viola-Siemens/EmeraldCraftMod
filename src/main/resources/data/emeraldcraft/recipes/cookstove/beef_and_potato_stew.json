@@ -12,6 +12,7 @@
     "item": "minecraft:bowl"
   },
   "result": {
-    "item": "emeraldcraft:beef_and_potato_stew"
+    "item": "emeraldcraft:beef_and_potato_stew",
+    "count": 2
   }
 }

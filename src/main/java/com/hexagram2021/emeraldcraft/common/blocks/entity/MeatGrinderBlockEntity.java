@@ -31,6 +31,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -171,6 +172,7 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 		}
 	}
 
+	@Contract(pure = true)
 	@Override
 	public int getContainerSize() {
 		return COUNT_SLOTS;

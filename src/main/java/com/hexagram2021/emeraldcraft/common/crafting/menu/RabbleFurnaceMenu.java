@@ -4,6 +4,7 @@ import com.hexagram2021.emeraldcraft.common.blocks.entity.RabbleFurnaceBlockEnti
 import com.hexagram2021.emeraldcraft.common.crafting.RabbleFurnaceRecipe;
 import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
+import com.hexagram2021.emeraldcraft.common.util.PartialRecipeCachedCheck;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -21,10 +22,6 @@ import static com.hexagram2021.emeraldcraft.common.blocks.entity.RabbleFurnaceBl
 
 @SuppressWarnings("UnstableApiUsage")
 public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
-	private final Container container;
-	private final ContainerData data;
-	protected final Level level;
-
 	public static final int INV_SLOT_START = 5;
 	private static final int INV_SLOT_END = 32;
 	private static final int USE_ROW_SLOT_START = 32;
@@ -32,15 +29,22 @@ public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 	public static final int SLOT_COUNT = 5;
 	public static final int DATA_COUNT = 4;
 
+	private final Container container;
+	private final ContainerData data;
+	protected final Level level;
+
+	private final PartialRecipeCachedCheck<Container, RabbleFurnaceRecipe> partialQuickCheck;
+
 	public RabbleFurnaceMenu(int id, Inventory inventory) {
-		this(id, inventory, new SimpleContainer(SLOT_COUNT), new SimpleContainerData(DATA_COUNT));
+		this(id, inventory, new SimpleContainer(SLOT_COUNT), new SimpleContainerData(DATA_COUNT), PartialRecipeCachedCheck.createDummy());
 	}
 
-	public RabbleFurnaceMenu(int id, Inventory inventory, Container container, ContainerData data) {
+	public RabbleFurnaceMenu(int id, Inventory inventory, Container container, ContainerData data, PartialRecipeCachedCheck<Container, RabbleFurnaceRecipe> partialQuickCheck) {
 		super(ECContainerTypes.RABBLE_FURNACE_MENU.get(), id);
 		this.container = container;
 		this.data = data;
 		this.level = inventory.player.level();
+		this.partialQuickCheck = partialQuickCheck;
 
 		this.addSlot(new Slot(this.container, SLOT_INPUT, 56, 17));
 		this.addSlot(new Slot(this.container, SLOT_MIX1, 18, 21));
@@ -120,13 +124,9 @@ public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 	}
 
 	protected boolean canSmelt(ItemStack itemStack, int index) {
-		return this.level.getRecipeManager().getAllRecipesFor(ECRecipes.RABBLE_FURNACE_TYPE.get()).stream()
-				.anyMatch(recipeHolder -> {
-					RabbleFurnaceRecipe recipe = recipeHolder.value();
-					Container simple = new SimpleContainer(this.slots.stream().map(Slot::getItem).toArray(ItemStack[]::new));
-					simple.setItem(index, itemStack);
-					return recipe.matchesAllowEmpty(simple);
-				});
+		Container simple = new SimpleContainer(this.slots.stream().map(Slot::getItem).toArray(ItemStack[]::new));
+		simple.setItem(index, itemStack);
+		return this.partialQuickCheck.getRecipeFor(simple, this.level).isPresent();
 	}
 
 	public boolean isFuel(ItemStack itemStack) {
