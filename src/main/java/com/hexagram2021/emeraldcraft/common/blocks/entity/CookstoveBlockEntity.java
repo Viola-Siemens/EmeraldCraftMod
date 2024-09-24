@@ -149,30 +149,33 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 		}
 	}
 
+	public static final int ADD_FUEL_INDEX = -2;
+	public static final int DONT_ADD_INGREDIENT_INDEX = -1;
+
 	@SuppressWarnings("UnstableApiUsage")
 	public boolean interact(Player player, ItemStack item, int index) {
-		if(this.currentRecipe == null || this.getResult().isEmpty()) {
-			return false;
-		}
-		int itemBurnTime = ForgeHooks.getBurnTime(item, ECRecipes.COOKSTOVE_TYPE.get());
-		if(itemBurnTime > 0 && this.fuel < MAX_FUEL) {
-			this.fuel += itemBurnTime;
-			if(this.fuel > MAX_FUEL) {
-				this.fuel = MAX_FUEL;
-			}
-			this.setChanged();
-			return true;
-		}
-		if(index >= 0) {
-			if(item.isEmpty() && !this.getItem(index).isEmpty()) {
-				player.addItem(this.getItem(index));
-				this.setItem(index, ItemStack.EMPTY);
+		if(index == ADD_FUEL_INDEX) {
+			int itemBurnTime = ForgeHooks.getBurnTime(item, ECRecipes.COOKSTOVE_TYPE.get());
+			if (itemBurnTime > 0 && this.fuel < MAX_FUEL) {
+				this.fuel += itemBurnTime;
+				if (this.fuel > MAX_FUEL) {
+					this.fuel = MAX_FUEL;
+				}
 				this.setChanged();
 				return true;
 			}
-			if(!item.isEmpty()) {
+		}
+		if(index >= 0) {
+			if(item.isEmpty()) {
+				if(!this.getItem(index).isEmpty()) {
+					player.addItem(this.getItem(index));
+					this.setItem(index, ItemStack.EMPTY);
+					this.setChanged();
+					return true;
+				}
+			} else {
 				ItemStack shadowItem = item.copy();
-				item.setCount(1);
+				shadowItem.setCount(1);
 				if(!this.getItem(index).isEmpty()) {
 					index = placeItemInOrder(this.shadowedContainer, shadowItem);
 				}
@@ -187,6 +190,9 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 					}
 				}
 			}
+		}
+		if(this.currentRecipe == null || this.getResult().isEmpty()) {
+			return false;
 		}
 		Ingredient container = this.currentRecipe.getContainer();
 		if(container.isEmpty() || container.test(item)) {

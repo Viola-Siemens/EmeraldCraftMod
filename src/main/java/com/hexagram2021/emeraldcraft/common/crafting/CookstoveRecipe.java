@@ -74,7 +74,7 @@ public class CookstoveRecipe implements Recipe<CookstoveBlockEntity>, IPartialMa
 				count += 1;
 			}
 		}
-		return count == this.ingredients.size();
+		return count == container.getContainerSize();
 	}
 
 	@Override

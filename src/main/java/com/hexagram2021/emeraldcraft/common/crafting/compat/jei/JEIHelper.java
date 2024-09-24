@@ -58,6 +58,8 @@ public class JEIHelper implements IModPlugin {
 				new MelterRecipeCategory(guiHelper),
 				new IceMakerRecipeCategory(guiHelper),
 				new RabbleFurnaceRecipeCategory(guiHelper),
+				new MeatGrinderRecipeCategory(guiHelper),
+				new CookstoveRecipeCategory(guiHelper),
 				new VillagerTradeCategory(guiHelper)
 		);
 	}

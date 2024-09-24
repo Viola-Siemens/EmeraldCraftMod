@@ -44,12 +44,12 @@ public class CarpentryTableRecipeCategory implements IRecipeCategory<CarpentryTa
 
 	@Override
 	public IDrawable getBackground() {
-		return background;
+		return this.background;
 	}
 
 	@Override
 	public IDrawable getIcon() {
-		return icon;
+		return this.icon;
 	}
 
 	@Override
