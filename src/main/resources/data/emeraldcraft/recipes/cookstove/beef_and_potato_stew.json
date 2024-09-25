@@ -14,5 +14,19 @@
   "result": {
     "item": "emeraldcraft:beef_and_potato_stew",
     "count": 2
+  },
+  "display": {
+    "background": {
+      "color": 11039836,
+      "shape": "emeraldcraft:oil"
+    },
+    "ingredients": [
+      {
+        "item": "minecraft:baked_potato"
+      },
+      {
+        "item": "minecraft:cooked_beef"
+      }
+    ]
   }
 }

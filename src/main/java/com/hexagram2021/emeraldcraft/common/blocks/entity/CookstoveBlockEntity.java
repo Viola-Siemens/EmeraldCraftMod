@@ -1,5 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.blocks.entity;
 
+import com.hexagram2021.emeraldcraft.common.blocks.workstation.CookstoveBlock;
 import com.hexagram2021.emeraldcraft.common.crafting.CookstoveRecipe;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
@@ -24,6 +25,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -47,13 +49,16 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 	public static final int MAX_TANK_CAPABILITY = 100;
 	public static final int TANK_INPUT = 0;
 	public static final int COUNT_TANKS = 1;
-	public static final int MAX_FUEL = 1000;
+	public static final int MAX_FUEL = 2000;
 	public static final int[] DEFAULT_PLACE_ORDER = {0, 3, 6, 1, 4, 7, 2, 5};
 
 	private final NonNullList<ItemStack> items = NonNullList.withSize(COUNT_SLOTS, ItemStack.EMPTY);
 	private final SimpleContainer shadowedContainer = new SimpleContainer(COUNT_SLOTS);
+	@Nullable
+	private Ingredient container = null;
 	private ItemStack result = ItemStack.EMPTY;
 	private int fuel = 0;
+	public int animateTick = 0;
 	private final FluidTank tank = new FluidTank(MAX_TANK_CAPABILITY);
 
 	int progressTicks = 0;
@@ -74,41 +79,62 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 	public static void tick(Level level, BlockPos blockPos, BlockState blockState, CookstoveBlockEntity blockEntity) {
 		ItemStack result = blockEntity.getResult();
 		if(blockEntity.currentRecipe == null) {
-			RecipeHolder<CookstoveRecipe> recipeHolder = blockEntity.quickCheck.getRecipeFor(blockEntity, level).orElse(null);
-			if (recipeHolder == null) {
-				return;
-			}
-			blockEntity.currentRecipe = recipeHolder.value();
-		} else {
-			if(!blockEntity.currentRecipe.matches(blockEntity, level)) {
-				if (blockEntity.progressTicks != 0 || blockEntity.totalTicks != 0) {
-					blockEntity.progressTicks = 0;
-					blockEntity.totalTicks = 0;
-					if (!level.isClientSide) {
-						blockEntity.setChanged();
-					}
+			if(blockEntity.result.isEmpty()) {
+				RecipeHolder<CookstoveRecipe> recipeHolder = blockEntity.quickCheck.getRecipeFor(blockEntity, level).orElse(null);
+				if (recipeHolder == null) {
+					return;
 				}
-				blockEntity.currentRecipe = null;
-				return;
+				blockEntity.container = null;
+				blockEntity.currentRecipe = recipeHolder.value();
 			}
+		} else if(!blockEntity.currentRecipe.matches(blockEntity, level)) {
+			if (blockEntity.progressTicks != 0 || blockEntity.totalTicks != 0) {
+				blockEntity.progressTicks = 0;
+				blockEntity.totalTicks = 0;
+				if (!level.isClientSide) {
+					blockEntity.setChanged();
+				}
+			}
+			blockEntity.container = blockEntity.currentRecipe.getContainer();
+			blockEntity.currentRecipe = null;
+			if (!level.isClientSide) {
+				level.setBlock(blockPos, blockState.setValue(CookstoveBlock.LIT, false), Block.UPDATE_ALL);
+			}
+			return;
 		}
-		ItemStack target = blockEntity.currentRecipe.assemble(blockEntity, level.registryAccess());
+		boolean lit = blockState.getValue(CookstoveBlock.LIT);
 		if(result.isEmpty()) {
 			if(blockEntity.totalTicks != blockEntity.currentRecipe.getCookingTime()) {
 				blockEntity.totalTicks = blockEntity.currentRecipe.getCookingTime();
 				blockEntity.progressTicks = 0;
-				if(!level.isClientSide) {
+				if(level.isClientSide) {
+					blockEntity.animateTick = 0;
+				} else {
 					level.playSound(null, blockPos, ECSounds.VILLAGER_WORK_CHEF, SoundSource.BLOCKS, 1.0F, 1.0F);
 				}
 			}
-			if(blockEntity.fuel > 0) {
+			if(!lit && blockEntity.fuel > 0) {
+				level.setBlock(blockPos, blockState.setValue(CookstoveBlock.LIT, true), Block.UPDATE_ALL);
+				lit = true;
+			}
+			if(lit) {
 				blockEntity.fuel -= 1;
 				blockEntity.progressTicks += 1;
 				if (level.isClientSide) {
-					blockEntity.spawnItemParticles(blockPos);
+					blockEntity.animateTick += 1;
+					if(blockEntity.animateTick % 10 == 0) {
+						blockEntity.spawnItemParticles(blockPos);
+					}
+				}
+				if(blockEntity.fuel <= 0) {
+					blockEntity.fuel = 0;
+					level.setBlock(blockPos, blockState.setValue(CookstoveBlock.LIT, false), Block.UPDATE_ALL);
 				}
 				if (blockEntity.progressTicks >= blockEntity.totalTicks) {
-					if (!level.isClientSide) {
+					if (level.isClientSide) {
+						blockEntity.animateTick = 0;
+					} else {
+						ItemStack target = blockEntity.currentRecipe.assemble(blockEntity, level.registryAccess());
 						blockEntity.setResult(target);
 						for (int i = SLOT_INPUT_START; i < COUNT_SLOTS; ++i) {
 							ItemStack input = blockEntity.getItem(i);
@@ -121,6 +147,9 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 					}
 					blockEntity.progressTicks = 0;
 					blockEntity.totalTicks = 0;
+					if (!level.isClientSide) {
+						level.setBlock(blockPos, blockState.setValue(CookstoveBlock.LIT, false), Block.UPDATE_ALL);
+					}
 				}
 			}
 		}
@@ -128,9 +157,8 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 
 	private static final int PARTICLE_MIN_AMOUNT = 1;
 	private static final int PARTICLE_MAX_AMOUNT = 3;
-	private static final int PARTICLE_POSSIBILITY_INV = 20;
 	private void spawnItemParticles(BlockPos blockPos) {
-		if(this.level != null && this.level.random.nextInt(PARTICLE_POSSIBILITY_INV) == 0) {
+		if(this.level != null) {
 			int bound = this.level.random.nextInt(PARTICLE_MAX_AMOUNT - PARTICLE_MIN_AMOUNT) + PARTICLE_MIN_AMOUNT;
 			for (int i = 0; i < bound; ++i) {
 				Vec3 speed = new Vec3(
@@ -154,17 +182,16 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 
 	@SuppressWarnings("UnstableApiUsage")
 	public boolean interact(Player player, ItemStack item, int index) {
+		//add fuel
 		if(index == ADD_FUEL_INDEX) {
 			int itemBurnTime = ForgeHooks.getBurnTime(item, ECRecipes.COOKSTOVE_TYPE.get());
 			if (itemBurnTime > 0 && this.fuel < MAX_FUEL) {
 				this.fuel += itemBurnTime;
-				if (this.fuel > MAX_FUEL) {
-					this.fuel = MAX_FUEL;
-				}
 				this.setChanged();
 				return true;
 			}
 		}
+		//add/take ingredient
 		if(index >= 0) {
 			if(item.isEmpty()) {
 				if(!this.getItem(index).isEmpty()) {
@@ -176,7 +203,9 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 			} else {
 				ItemStack shadowItem = item.copy();
 				shadowItem.setCount(1);
-				if(!this.getItem(index).isEmpty()) {
+				if(this.getItem(index).isEmpty()) {
+					this.shadowedContainer.setItem(index, shadowItem);
+				} else {
 					index = placeItemInOrder(this.shadowedContainer, shadowItem);
 				}
 				if(index >= 0) {
@@ -191,11 +220,13 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 				}
 			}
 		}
-		if(this.currentRecipe == null || this.getResult().isEmpty()) {
+		//add fluid
+		//TODO
+		//take result
+		if(this.container == null || this.getResult().isEmpty()) {
 			return false;
 		}
-		Ingredient container = this.currentRecipe.getContainer();
-		if(container.isEmpty() || container.test(item)) {
+		if(this.container.isEmpty() || this.container.test(item)) {
 			player.addItem(this.getResult().split(1));
 			this.setChanged();
 			return true;
@@ -294,6 +325,7 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 	public void setItem(int index, ItemStack itemStack) {
 		if (index >= 0 && index < this.items.size()) {
 			this.items.set(index, itemStack);
+			this.shadowedContainer.setItem(index, itemStack);
 			if (itemStack.getCount() > this.getMaxStackSize()) {
 				itemStack.setCount(this.getMaxStackSize());
 			}

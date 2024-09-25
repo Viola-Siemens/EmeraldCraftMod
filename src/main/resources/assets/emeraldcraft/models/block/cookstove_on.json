@@ -1,9 +1,9 @@
 {
     "parent": "minecraft:block/block",
     "textures": {
-        "particle": "emeraldcraft:block/cookstove_side_lit",
+        "particle": "emeraldcraft:block/cookstove_side",
         "bottom": "emeraldcraft:block/cookstove_bottom",
-        "front": "emeraldcraft:block/cookstove_front",
+        "front": "emeraldcraft:block/cookstove_front_lit",
         "top": "emeraldcraft:block/cookstove_top",
         "side": "emeraldcraft:block/cookstove_side"
     },

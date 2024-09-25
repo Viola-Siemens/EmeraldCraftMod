@@ -38,7 +38,7 @@ public class CookstoveBlock extends BaseEntityBlock {
 
 	protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D);
 	public static final Supplier<Properties> PROPERTIES = () -> Properties.of()
-			.requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion().strength(5.0F, 6.0F);
+			.requiresCorrectToolForDrops().sound(SoundType.METAL).strength(5.0F, 6.0F);
 
 	public CookstoveBlock(Properties properties) {
 		super(properties);
@@ -107,10 +107,8 @@ public class CookstoveBlock extends BaseEntityBlock {
 			} else if(diff.length() < 0.05D) {
 				index = CookstoveBlockEntity.DONT_ADD_INGREDIENT_INDEX;
 			} else {
-				index = Mth.floor(Math.atan2(diff.z(), diff.x()) * 4.0D / Math.PI) + 4;
-				if(index < 0) {
-					index += 8;
-				} else if(index >= 8) {
+				index = Mth.floor(Math.atan2(diff.z(), diff.x()) * 4.0D / Math.PI + 0.5D) + 4;
+				if(index >= 8) {
 					index -= 8;
 				}
 			}
