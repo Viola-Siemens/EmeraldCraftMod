@@ -26,7 +26,7 @@ import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegist
 @Mixin(WorkAtPoi.class)
 public class WorkAtPoiMixin {
 	@Inject(method = "useWorkstation", at = @At(value = "HEAD"), cancellable = true)
-	protected void specialProfessionUseWorkstation(ServerLevel level, Villager villagerWithProfession, CallbackInfo ci) {
+	protected void emeraldcraft$specialProfessionUseWorkstation(ServerLevel level, Villager villagerWithProfession, CallbackInfo ci) {
 		ResourceLocation professionID = getRegistryName(villagerWithProfession.getVillagerData().getProfession());
 		if(Villages.ASTROLOGIST.equals(professionID)) {
 			if(villagerWithProfession.getRandom().nextInt(4) == 0) {

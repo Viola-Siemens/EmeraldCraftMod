@@ -20,25 +20,15 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
-public class CookstoveRecipe implements Recipe<CookstoveBlockEntity>, IPartialMatchRecipe<Container> {
-	final NonNullList<Ingredient> ingredients;
-	final FluidStack fluidStack;
-	final Ingredient container;
-	final ItemStack result;
-	private final int cookTime;
-	private final boolean isSimple;
-
+public record CookstoveRecipe(NonNullList<Ingredient> ingredients, FluidStack fluidStack,
+							  Ingredient container, ItemStack result, CookstoveBlockEntity.CookstoveDisplay display,
+							  int cookTime, boolean isSimple) implements Recipe<CookstoveBlockEntity>, IPartialMatchRecipe<Container> {
 	public static final CachedRecipeList<CookstoveRecipe> recipeList = new CachedRecipeList<>(ECRecipes.COOKSTOVE_TYPE);
 
 	public static final int COOK_TIME = 100;
 
-	public CookstoveRecipe(NonNullList<Ingredient> ingredients, FluidStack fluidStack, Ingredient container, ItemStack result, int cookTime) {
-		this.ingredients = ingredients;
-		this.fluidStack = fluidStack;
-		this.container = container;
-		this.result = result;
-		this.cookTime = cookTime;
-		this.isSimple = ingredients.stream().allMatch(Ingredient::isSimple);
+	public CookstoveRecipe(NonNullList<Ingredient> ingredients, FluidStack fluidStack, Ingredient container, ItemStack result, CookstoveBlockEntity.CookstoveDisplay display, int cookTime) {
+		this(ingredients, fluidStack, container, result, display, cookTime, ingredients.stream().allMatch(Ingredient::isSimple));
 	}
 
 	@Override
@@ -90,22 +80,6 @@ public class CookstoveRecipe implements Recipe<CookstoveBlockEntity>, IPartialMa
 	@Override
 	public ItemStack getResultItem(RegistryAccess registryAccess) {
 		return this.result;
-	}
-
-	public Ingredient getContainer() {
-		return this.container;
-	}
-
-	public ItemStack getResult() {
-		return this.result;
-	}
-
-	public FluidStack getFluidStack() {
-		return this.fluidStack;
-	}
-
-	public int getCookingTime() {
-		return this.cookTime;
 	}
 
 	@Override

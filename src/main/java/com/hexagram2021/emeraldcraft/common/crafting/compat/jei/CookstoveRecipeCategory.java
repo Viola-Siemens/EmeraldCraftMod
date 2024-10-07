@@ -60,7 +60,7 @@ public class CookstoveRecipeCategory implements IRecipeCategory<CookstoveRecipe>
 	}
 
 	protected IDrawableAnimated getArrow(CookstoveRecipe recipe) {
-		int cookTime = recipe.getCookingTime();
+		int cookTime = recipe.cookTime();
 		if (cookTime <= 0) {
 			cookTime = COOKTIME;
 		}
@@ -99,7 +99,7 @@ public class CookstoveRecipeCategory implements IRecipeCategory<CookstoveRecipe>
 
 	@SuppressWarnings("SameParameterValue")
 	protected void drawCookTime(CookstoveRecipe recipe, GuiGraphics transform, int y) {
-		int cookTime = recipe.getCookingTime();
+		int cookTime = recipe.cookTime();
 		if (cookTime > 0) {
 			int cookTimeSeconds = cookTime / 20;
 			Component timeString = Component.translatable("gui.emeraldcraft.cookstove.time.seconds", cookTimeSeconds);
@@ -119,14 +119,14 @@ public class CookstoveRecipeCategory implements IRecipeCategory<CookstoveRecipe>
 			int yOff = 5 + 18 * (i / 4);
 			builder.addSlot(RecipeIngredientRole.INPUT, xOff, yOff).addIngredients(list.get(i));
 		}
-		FluidStack fluidStack = recipe.getFluidStack();
+		FluidStack fluidStack = recipe.fluidStack();
 		if(!fluidStack.isEmpty()) {
 			builder.addSlot(RecipeIngredientRole.INPUT, 74, 8)
 					.setFluidRenderer(CookstoveBlockEntity.MAX_TANK_CAPABILITY * 2, false, 16, 28)
 					.addFluidStack(fluidStack.getFluid(), fluidStack.getAmount())
 					.setOverlay(this.tankOverlay, 0, 0);
 		}
-		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 97, 37).addIngredients(recipe.getContainer());
+		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 97, 37).addIngredients(recipe.container());
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 125, 14).addItemStack(RecipeUtil.getResultItem(recipe));
 	}
 

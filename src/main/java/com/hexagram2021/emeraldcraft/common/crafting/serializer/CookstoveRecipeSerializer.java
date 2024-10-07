@@ -29,10 +29,11 @@ public class CookstoveRecipeSerializer<T extends CookstoveRecipe> implements Rec
 									DataResult.error(() -> "Too many ingredients for cookstove recipe") :
 									DataResult.success(NonNullList.of(Ingredient.EMPTY, array));
 						}, DataResult::success).forGetter(CookstoveRecipe::getIngredients),
-						ExtraCodecs.strictOptionalField(FluidStack.CODEC, "fluid", FluidStack.EMPTY).forGetter(CookstoveRecipe::getFluidStack),
-						ExtraCodecs.strictOptionalField(Ingredient.CODEC, "container", Ingredient.EMPTY).forGetter(CookstoveRecipe::getContainer),
-						CraftingRecipeCodecs.ITEMSTACK_OBJECT_CODEC.fieldOf("result").forGetter(CookstoveRecipe::getResult),
-						Codec.INT.fieldOf("cookTime").orElse(defaultCookingTime).forGetter(CookstoveRecipe::getCookingTime)
+						ExtraCodecs.strictOptionalField(FluidStack.CODEC, "fluid", FluidStack.EMPTY).forGetter(CookstoveRecipe::fluidStack),
+						ExtraCodecs.strictOptionalField(Ingredient.CODEC, "container", Ingredient.EMPTY).forGetter(CookstoveRecipe::container),
+						CraftingRecipeCodecs.ITEMSTACK_OBJECT_CODEC.fieldOf("result").forGetter(CookstoveRecipe::result),
+						CookstoveBlockEntity.CookstoveDisplay.CODEC.fieldOf("display").forGetter(CookstoveRecipe::display),
+						Codec.INT.fieldOf("cookTime").orElse(defaultCookingTime).forGetter(CookstoveRecipe::cookTime)
 				).apply(instance, factory::create)
 		);
 	}
@@ -51,8 +52,9 @@ public class CookstoveRecipeSerializer<T extends CookstoveRecipe> implements Rec
 		FluidStack fluidStack = FluidStack.readFromPacket(buf);
 		Ingredient container = Ingredient.fromNetwork(buf);
 		ItemStack result = buf.readItem();
+		CookstoveBlockEntity.CookstoveDisplay display = CookstoveBlockEntity.CookstoveDisplay.fromNetwork(buf);
 		int cookTime = buf.readVarInt();
-		return this.factory.create(ingredients, fluidStack, container, result, cookTime);
+		return this.factory.create(ingredients, fluidStack, container, result, display, cookTime);
 	}
 
 	@Override
@@ -62,13 +64,14 @@ public class CookstoveRecipeSerializer<T extends CookstoveRecipe> implements Rec
 			ingredient.toNetwork(buf);
 		}
 
-		recipe.getFluidStack().writeToPacket(buf);
-		recipe.getContainer().toNetwork(buf);
-		buf.writeItem(recipe.getResult());
-		buf.writeVarInt(recipe.getCookingTime());
+		recipe.fluidStack().writeToPacket(buf);
+		recipe.container().toNetwork(buf);
+		buf.writeItem(recipe.result());
+		recipe.display().toNetwork(buf);
+		buf.writeVarInt(recipe.cookTime());
 	}
 
 	public interface Creator<T extends CookstoveRecipe> {
-		T create(NonNullList<Ingredient> ingredients, FluidStack fluidStack, Ingredient container, ItemStack result, int cookTime);
+		T create(NonNullList<Ingredient> ingredients, FluidStack fluidStack, Ingredient container, ItemStack result, CookstoveBlockEntity.CookstoveDisplay display, int cookTime);
 	}
 }

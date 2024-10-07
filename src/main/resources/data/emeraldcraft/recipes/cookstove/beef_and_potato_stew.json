@@ -20,7 +20,7 @@
       "color": 11039836,
       "shape": "emeraldcraft:oil"
     },
-    "ingredients": [
+    "ingredient": [
       {
         "item": "minecraft:baked_potato"
       },

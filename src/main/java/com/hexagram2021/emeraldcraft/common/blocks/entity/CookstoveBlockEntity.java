@@ -4,15 +4,21 @@ import com.hexagram2021.emeraldcraft.common.blocks.workstation.CookstoveBlock;
 import com.hexagram2021.emeraldcraft.common.crafting.CookstoveRecipe;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
+import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import com.hexagram2021.emeraldcraft.common.util.PartialRecipeCachedCheck;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
@@ -29,6 +35,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -57,6 +65,8 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 	@Nullable
 	private Ingredient container = null;
 	private ItemStack result = ItemStack.EMPTY;
+	@Nullable
+	private CookstoveDisplay display;
 	private int fuel = 0;
 	public int animateTick = 0;
 	private final FluidTank tank = new FluidTank(MAX_TANK_CAPABILITY);
@@ -85,6 +95,7 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 					return;
 				}
 				blockEntity.container = null;
+				blockEntity.display = null;
 				blockEntity.currentRecipe = recipeHolder.value();
 			}
 		} else if(!blockEntity.currentRecipe.matches(blockEntity, level)) {
@@ -95,7 +106,8 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 					blockEntity.setChanged();
 				}
 			}
-			blockEntity.container = blockEntity.currentRecipe.getContainer();
+			blockEntity.container = blockEntity.currentRecipe.container();
+			blockEntity.display = blockEntity.currentRecipe.display();
 			blockEntity.currentRecipe = null;
 			if (!level.isClientSide) {
 				level.setBlock(blockPos, blockState.setValue(CookstoveBlock.LIT, false), Block.UPDATE_ALL);
@@ -104,8 +116,8 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 		}
 		boolean lit = blockState.getValue(CookstoveBlock.LIT);
 		if(result.isEmpty()) {
-			if(blockEntity.totalTicks != blockEntity.currentRecipe.getCookingTime()) {
-				blockEntity.totalTicks = blockEntity.currentRecipe.getCookingTime();
+			if(blockEntity.totalTicks != blockEntity.currentRecipe.cookTime()) {
+				blockEntity.totalTicks = blockEntity.currentRecipe.cookTime();
 				blockEntity.progressTicks = 0;
 				if(level.isClientSide) {
 					blockEntity.animateTick = 0;
@@ -142,7 +154,7 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 								input.shrink(1);
 							}
 						}
-						blockEntity.tank.drain(blockEntity.currentRecipe.getFluidStack(), IFluidHandler.FluidAction.EXECUTE);
+						blockEntity.tank.drain(blockEntity.currentRecipe.fluidStack(), IFluidHandler.FluidAction.EXECUTE);
 						blockEntity.setChanged();
 					}
 					blockEntity.progressTicks = 0;
@@ -191,43 +203,47 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 				return true;
 			}
 		}
-		//add/take ingredient
-		if(index >= 0) {
-			if(item.isEmpty()) {
-				if(!this.getItem(index).isEmpty()) {
-					player.addItem(this.getItem(index));
-					this.setItem(index, ItemStack.EMPTY);
-					this.setChanged();
-					return true;
-				}
-			} else {
-				ItemStack shadowItem = item.copy();
-				shadowItem.setCount(1);
-				if(this.getItem(index).isEmpty()) {
-					this.shadowedContainer.setItem(index, shadowItem);
-				} else {
-					index = placeItemInOrder(this.shadowedContainer, shadowItem);
-				}
-				if(index >= 0) {
-					boolean flag = this.partialQuickCheck.getRecipeFor(this.shadowedContainer, player.level()).isPresent();
-					this.shadowedContainer.setItem(index, ItemStack.EMPTY);
-
-					if(flag) {
-						this.setItem(index, item.split(1));
+		if(this.container == null) {
+			//add/take ingredient
+			if(index >= 0) {
+				if(item.isEmpty()) {
+					if(!this.getItem(index).isEmpty()) {
+						player.addItem(this.getItem(index));
+						this.setItem(index, ItemStack.EMPTY);
 						this.setChanged();
 						return true;
 					}
+				} else {
+					ItemStack shadowItem = item.copy();
+					shadowItem.setCount(1);
+					if(this.getItem(index).isEmpty()) {
+						this.shadowedContainer.setItem(index, shadowItem);
+					} else {
+						index = placeItemInOrder(this.shadowedContainer, shadowItem);
+					}
+					if(index >= 0) {
+						boolean flag = this.partialQuickCheck.getRecipeFor(this.shadowedContainer, player.level()).isPresent();
+						this.shadowedContainer.setItem(index, ItemStack.EMPTY);
+
+						if(flag) {
+							this.setItem(index, item.split(1));
+							this.setChanged();
+							return true;
+						}
+					}
 				}
 			}
-		}
-		//add fluid
-		//TODO
-		//take result
-		if(this.container == null || this.getResult().isEmpty()) {
+			//add fluid
+			//TODO
 			return false;
 		}
+		//take result
 		if(this.container.isEmpty() || this.container.test(item)) {
 			player.addItem(this.getResult().split(1));
+			if(this.getResult().isEmpty()) {
+				this.container = null;
+				this.display = null;
+			}
 			this.setChanged();
 			return true;
 		}
@@ -240,8 +256,20 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 		this.items.clear();
 		ContainerHelper.loadAllItems(nbt, this.items);
 		this.copyItemsToShadowedContainer();
+		if(nbt.contains("container", Tag.TAG_COMPOUND)) {
+			this.container = Ingredient.CODEC.parse(NbtOps.INSTANCE, nbt.getCompound("container")).getOrThrow(false, ECLogger::error);
+		} else {
+			this.container = null;
+		}
+		if(nbt.contains("display", Tag.TAG_COMPOUND)) {
+			this.display = CookstoveDisplay.CODEC.parse(NbtOps.INSTANCE, nbt.getCompound("display")).getOrThrow(false, ECLogger::error);
+		} else {
+			this.display = null;
+		}
 		if(nbt.contains("result", Tag.TAG_COMPOUND)) {
 			this.result = ItemStack.of(nbt.getCompound("result"));
+		} else {
+			this.result = ItemStack.EMPTY;
 		}
 		this.fuel = nbt.getInt("fuel");
 		this.tank.readFromNBT(nbt);
@@ -253,6 +281,16 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 	protected void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
 		ContainerHelper.saveAllItems(nbt, this.items, true);
+		if(this.container != null) {
+			Ingredient.CODEC.encodeStart(NbtOps.INSTANCE, this.container)
+					.resultOrPartial(ECLogger::error)
+					.ifPresent(tag -> nbt.put("container", tag));
+		}
+		if(this.display != null) {
+			CookstoveDisplay.CODEC.encodeStart(NbtOps.INSTANCE, this.display)
+					.resultOrPartial(ECLogger::error)
+					.ifPresent(tag -> nbt.put("display", tag));
+		}
 		CompoundTag resultTag = new CompoundTag();
 		nbt.put("result", this.result.save(resultTag));
 		nbt.putInt("fuel", this.fuel);
@@ -272,6 +310,11 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 		if (this.level != null) {
 			this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
 		}
+	}
+
+	@Override
+	public int getMaxStackSize() {
+		return 1;
 	}
 
 	@Override
@@ -324,11 +367,11 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 	@Override
 	public void setItem(int index, ItemStack itemStack) {
 		if (index >= 0 && index < this.items.size()) {
-			this.items.set(index, itemStack);
-			this.shadowedContainer.setItem(index, itemStack);
 			if (itemStack.getCount() > this.getMaxStackSize()) {
 				itemStack.setCount(this.getMaxStackSize());
 			}
+			this.items.set(index, itemStack);
+			this.shadowedContainer.setItem(index, itemStack.copy());
 		}
 	}
 
@@ -372,6 +415,12 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 		return -1;
 	}
 
+	@OnlyIn(Dist.CLIENT)
+	@Nullable
+	public CookstoveDisplay getDisplay() {
+		return this.display;
+	}
+
 	//Forge Compat
 	IItemHandlerModifiable itemHandler = new InvWrapper(this);
 	LazyOptional<? extends IItemHandler> itemHandlerWrapper = LazyOptional.of(() -> this.itemHandler);
@@ -403,5 +452,41 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 		super.reviveCaps();
 		this.itemHandler = new InvWrapper(this);
 		this.itemHandlerWrapper = LazyOptional.of(() -> this.itemHandler);
+	}
+
+	public record CookstoveDisplay(Background background, Ingredient ingredient) {
+		public static final Codec<CookstoveDisplay> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+				Background.CODEC.fieldOf("background").forGetter(CookstoveDisplay::background),
+				Ingredient.CODEC.fieldOf("ingredient").forGetter(CookstoveDisplay::ingredient)
+		).apply(instance, CookstoveDisplay::new));
+
+		public static CookstoveDisplay fromNetwork(FriendlyByteBuf buf) {
+			Background background = Background.fromNetwork(buf);
+			Ingredient ingredient = Ingredient.fromNetwork(buf);
+			return new CookstoveDisplay(background, ingredient);
+		}
+
+		public void toNetwork(FriendlyByteBuf buf) {
+			this.background.toNetwork(buf);
+			this.ingredient.toNetwork(buf);
+		}
+
+		public record Background(int color, ResourceLocation shape) {
+			public static final Codec<Background> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+					Codec.INT.fieldOf("color").forGetter(Background::color),
+					ResourceLocation.CODEC.fieldOf("shape").forGetter(Background::shape)
+			).apply(instance, Background::new));
+
+			public static Background fromNetwork(FriendlyByteBuf buf) {
+				int color = buf.readVarInt();
+				ResourceLocation shape = buf.readResourceLocation();
+				return new Background(color, shape);
+			}
+
+			public void toNetwork(FriendlyByteBuf buf) {
+				buf.writeVarInt(this.color);
+				buf.writeResourceLocation(this.shape);
+			}
+		}
 	}
 }

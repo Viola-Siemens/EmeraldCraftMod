@@ -27,6 +27,7 @@
   ],
   "minVersion": "0.8",
   "client": [
+    "ModelManagerMixin",
     "ClientPacketListenerMixin",
     "LocalPlayerMixin",
     "MapInstanceMixin"

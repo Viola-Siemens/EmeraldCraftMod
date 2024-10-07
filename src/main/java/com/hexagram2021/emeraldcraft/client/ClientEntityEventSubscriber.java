@@ -30,6 +30,7 @@ public class ClientEntityEventSubscriber {
 		event.registerLayerDefinition(MantaModel.LAYER_LOCATION, MantaModel::createBodyLayer);
 		event.registerLayerDefinition(LumineModel.LAYER_LOCATION, LumineModel::createBodyLayer);
 		event.registerLayerDefinition(WombatModel.LAYER_LOCATION, WombatModel::createBodyLayer);
+		event.registerLayerDefinition(CookstoveDisplayModel.LAYER_LOCATION, CookstoveDisplayModel::createBodyLayer);
 
 		for(ECBoat.ECBoatType type: ECBoat.ECBoatType.values()) {
 			event.registerLayerDefinition(ECBoatRenderer.createBoatModelName(type), BoatModel::createBodyModel);
