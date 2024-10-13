@@ -8,8 +8,8 @@
     "item": "immersiveengineering:storage_nickel"
   },
   "result": {
-    "fluid": "melted_nickel",
-    "amount": 100
+    "FluidName": "emeraldcraft:melted_nickel",
+    "Amount": 100
   },
   "meltingtime": 200
 }

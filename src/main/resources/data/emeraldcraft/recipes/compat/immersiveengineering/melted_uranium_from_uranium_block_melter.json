@@ -8,8 +8,8 @@
     "item": "immersiveengineering:storage_uranium"
   },
   "result": {
-    "fluid": "melted_uranium",
-    "amount": 100
+    "FluidName": "emeraldcraft:melted_uranium",
+    "Amount": 100
   },
   "meltingtime": 200
 }

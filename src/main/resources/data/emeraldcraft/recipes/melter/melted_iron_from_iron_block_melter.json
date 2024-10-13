@@ -4,8 +4,8 @@
     "item": "minecraft:iron_block"
   },
   "result": {
-    "fluid": "melted_iron",
-    "amount": 100
+    "FluidName": "emeraldcraft:melted_iron",
+    "Amount": 100
   },
   "meltingtime": 200
 }

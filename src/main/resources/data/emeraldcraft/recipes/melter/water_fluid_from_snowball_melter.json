@@ -4,8 +4,8 @@
     "item": "minecraft:snowball"
   },
   "result": {
-    "fluid": "water",
-    "amount": 25
+    "FluidName": "minecraft:water",
+    "Amount": 25
   },
   "meltingtime": 10
 }

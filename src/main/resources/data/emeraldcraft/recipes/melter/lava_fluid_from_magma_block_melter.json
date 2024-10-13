@@ -4,8 +4,8 @@
     "item": "minecraft:magma_block"
   },
   "result": {
-    "fluid": "lava",
-    "amount": 100
+    "FluidName": "minecraft:lava",
+    "Amount": 100
   },
   "meltingtime": 40
 }

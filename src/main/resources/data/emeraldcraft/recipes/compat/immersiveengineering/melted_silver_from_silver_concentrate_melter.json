@@ -8,8 +8,8 @@
     "item": "emeraldcraft:silver_concentrate"
   },
   "result": {
-    "fluid": "melted_silver",
-    "amount": 50
+    "FluidName": "emeraldcraft:melted_silver",
+    "Amount": 50
   },
   "meltingtime": 200
 }

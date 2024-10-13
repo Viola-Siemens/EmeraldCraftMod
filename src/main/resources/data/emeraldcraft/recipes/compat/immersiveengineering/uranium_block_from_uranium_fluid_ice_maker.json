@@ -5,8 +5,8 @@
   },
   "type": "emeraldcraft:ice_maker",
   "ingredient": {
-    "fluid": "melted_uranium",
-    "amount": 100
+    "FluidName": "emeraldcraft:melted_uranium",
+    "Amount": 100
   },
   "result": "immersiveengineering:storage_uranium",
   "freezingtime": 50

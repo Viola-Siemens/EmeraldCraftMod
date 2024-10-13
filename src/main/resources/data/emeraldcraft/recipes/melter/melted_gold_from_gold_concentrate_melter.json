@@ -4,8 +4,8 @@
     "item": "emeraldcraft:gold_concentrate"
   },
   "result": {
-    "fluid": "melted_gold",
-    "amount": 50
+    "FluidName": "emeraldcraft:melted_gold",
+    "Amount": 50
   },
   "meltingtime": 200
 }

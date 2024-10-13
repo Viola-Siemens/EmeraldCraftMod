@@ -4,8 +4,8 @@
     "item": "minecraft:exposed_copper"
   },
   "result": {
-    "fluid": "melted_copper",
-    "amount": 100
+    "FluidName": "emeraldcraft:melted_copper",
+    "Amount": 100
   },
   "meltingtime": 200
 }

@@ -4,8 +4,8 @@
     "item": "emeraldcraft:resin_shard"
   },
   "result": {
-    "fluid": "resin",
-    "amount": 25
+    "FluidName": "emeraldcraft:resin",
+    "Amount": 25
   },
   "meltingtime": 10
 }

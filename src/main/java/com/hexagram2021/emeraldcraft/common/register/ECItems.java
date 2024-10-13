@@ -255,9 +255,6 @@ public class ECItems {
 	public static final ItemEntry<Item> RESIN_BOTTLE = ItemEntry.register(
 			"resin_bottle", () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16)), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 	);
-	public static final ItemEntry<Item> RESIN_BUCKET = ItemEntry.register(
-			"resin_bucket", () -> new Item(new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(16)), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
 	public static final ItemEntry<Item> WINDOW_FILM = ItemEntry.register(
 			"window_film", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 	);
@@ -283,20 +280,6 @@ public class ECItems {
 	);
 	public static final ItemEntry<Item> COPPER_CONCENTRATE = ItemEntry.register(
 			"copper_concentrate", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-
-	//TODO: fluid
-	public static final ItemEntry<Item> MELTED_EMERALD_BUCKET = ItemEntry.register(
-			"melted_emerald_bucket", () -> new Item(new Item.Properties().stacksTo(16)), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-	public static final ItemEntry<Item> MELTED_IRON_BUCKET = ItemEntry.register(
-			"melted_iron_bucket", () -> new Item(new Item.Properties().stacksTo(16)), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-	public static final ItemEntry<Item> MELTED_GOLD_BUCKET = ItemEntry.register(
-			"melted_gold_bucket", () -> new Item(new Item.Properties().stacksTo(16)), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-	public static final ItemEntry<Item> MELTED_COPPER_BUCKET = ItemEntry.register(
-			"melted_copper_bucket", () -> new Item(new Item.Properties().stacksTo(16)), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
 	);
 
 	public static final ItemEntry<Item> ROCK_BREAKER = ItemEntry.register(
@@ -408,10 +391,6 @@ public class ECItems {
 				"zinc_concentrate", () -> new Item(new Item.Properties()),
 				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.CREATE
 		);
-		public static final ItemEntry<Item> MELTED_ZINC_BUCKET = ItemEntry.register(
-				"melted_zinc_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.CREATE
-		);
 
 		private static void init() {}
 	}
@@ -421,40 +400,20 @@ public class ECItems {
 				"aluminum_concentrate", () -> new Item(new Item.Properties()),
 				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
-		public static final ItemEntry<Item> MELTED_ALUMINUM_BUCKET = ItemEntry.register(
-				"melted_aluminum_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
-		);
 		public static final ItemEntry<Item> LEAD_CONCENTRATE = ItemEntry.register(
 				"lead_concentrate", () -> new Item(new Item.Properties()),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
-		);
-		public static final ItemEntry<Item> MELTED_LEAD_BUCKET = ItemEntry.register(
-				"melted_lead_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
 				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
 		public static final ItemEntry<Item> SILVER_CONCENTRATE = ItemEntry.register(
 				"silver_concentrate", () -> new Item(new Item.Properties()),
 				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
-		public static final ItemEntry<Item> MELTED_SILVER_BUCKET = ItemEntry.register(
-				"melted_silver_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
-		);
 		public static final ItemEntry<Item> NICKEL_CONCENTRATE = ItemEntry.register(
 				"nickel_concentrate", () -> new Item(new Item.Properties()),
 				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
-		public static final ItemEntry<Item> MELTED_NICKEL_BUCKET = ItemEntry.register(
-				"melted_nickel_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
-		);
 		public static final ItemEntry<Item> URANIUM_CONCENTRATE = ItemEntry.register(
 				"uranium_concentrate", () -> new Item(new Item.Properties()),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
-		);
-		public static final ItemEntry<Item> MELTED_URANIUM_BUCKET = ItemEntry.register(
-				"melted_uranium_bucket", () -> new Item(new Item.Properties().stacksTo(16)),
 				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
 		);
 

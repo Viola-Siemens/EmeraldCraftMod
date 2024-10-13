@@ -1,6 +1,5 @@
 package com.hexagram2021.emeraldcraft.common.crafting;
 
-import com.hexagram2021.emeraldcraft.api.fluid.FluidWithAmount;
 import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.MelterMenu;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
@@ -15,8 +14,9 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.fluids.FluidStack;
 
-public record MelterRecipe(String group, Ingredient ingredient, FluidWithAmount resultFluid, int meltingTime) implements Recipe<Container> {
+public record MelterRecipe(String group, Ingredient ingredient, FluidStack resultFluid, int meltingTime) implements Recipe<Container> {
 	public static final CachedRecipeList<MelterRecipe> recipeList = new CachedRecipeList<>(ECRecipes.MELTER_TYPE);
 
 	public static final int MELTING_TIME = 200;

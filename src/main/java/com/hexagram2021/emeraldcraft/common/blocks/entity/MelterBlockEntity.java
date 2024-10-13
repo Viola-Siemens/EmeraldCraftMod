@@ -1,7 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.blocks.entity;
 
 import com.google.common.collect.Lists;
-import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
 import com.hexagram2021.emeraldcraft.common.blocks.workstation.MelterBlock;
 import com.hexagram2021.emeraldcraft.common.crafting.MelterRecipe;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.MelterMenu;
@@ -14,6 +13,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
@@ -26,6 +26,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.RecipeCraftingHolder;
 import net.minecraft.world.inventory.StackedContentsCompatible;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -37,6 +38,10 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.Contract;
@@ -46,11 +51,12 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-import static com.hexagram2021.emeraldcraft.common.blocks.entity.ContinuousMinerBlockEntity.FLUID_LEVEL_BUCKET;
-
 @SuppressWarnings("UnstableApiUsage")
-public class MelterBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeCraftingHolder, StackedContentsCompatible {
+public class MelterBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeCraftingHolder, StackedContentsCompatible, Tank {
 	public static final int MAX_FLUID_LEVEL = 1000;
+	public static final int FLUID_LEVEL_BUCKET = 100;
+	public static final int TANK_OUTPUT = 0;
+	public static final int COUNT_TANKS = 1;
 
 	private static final int[] SLOTS_FOR_UP = new int[]{2, 0};
 	private static final int[] SLOTS_FOR_DOWN = new int[]{3, 1};
@@ -61,8 +67,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	int litDuration;
 	int meltingProgress;
 	int meltingTotalTime;
-	int fluidTypeID;
-	int fluidAmount;
+	final FluidTank tank = new FluidTank(MAX_FLUID_LEVEL);
 	protected final ContainerData dataAccess = new ContainerData() {
 		public int get(int index) {
 			return switch (index) {
@@ -70,8 +75,6 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 				case 1 -> MelterBlockEntity.this.litDuration;
 				case 2 -> MelterBlockEntity.this.meltingProgress;
 				case 3 -> MelterBlockEntity.this.meltingTotalTime;
-				case 4 -> MelterBlockEntity.this.fluidTypeID;
-				case 5 -> MelterBlockEntity.this.fluidAmount;
 				default -> 0;
 			};
 		}
@@ -82,10 +85,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 				case 1 -> MelterBlockEntity.this.litDuration = value;
 				case 2 -> MelterBlockEntity.this.meltingProgress = value;
 				case 3 -> MelterBlockEntity.this.meltingTotalTime = value;
-				case 4 -> MelterBlockEntity.this.fluidTypeID = value;
-				case 5 -> MelterBlockEntity.this.fluidAmount = value;
 			}
-
 		}
 
 		public int getCount() {
@@ -104,6 +104,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 		return this.litTime > 0;
 	}
 
+	@SuppressWarnings({"DataFlowIssue", "ConstantValue"})
 	public static void serverTick(Level level, BlockPos pos, BlockState blockState, MelterBlockEntity blockEntity) {
 		boolean isBurning = blockEntity.isLit();
 		boolean changed = false;
@@ -159,51 +160,55 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 			level.setBlock(pos, blockState, 3);
 		}
 
-		if (changed) {
-			setChanged(level, pos, blockState);
-		}
-
 		ItemStack resultInput = blockEntity.items.get(MelterMenu.RESULT_INPUT_SLOT);
 		ItemStack resultOutput = blockEntity.items.get(MelterMenu.RESULT_OUTPUT_SLOT);
+		FluidStack fluidStack = blockEntity.tank.getFluid();
+		Item bucket = fluidStack.getFluid().getBucket();
 		if(!resultInput.isEmpty()) {
-			if(resultInput.is(FluidTypes.getFluidBucketItemWithID(blockEntity.fluidTypeID))) {
-				if(blockEntity.fluidAmount <= MAX_FLUID_LEVEL - FLUID_LEVEL_BUCKET) {
+			if(resultInput.is(bucket)) {
+				if(fluidStack.getAmount() <= MAX_FLUID_LEVEL - FLUID_LEVEL_BUCKET) {
 					if(resultOutput.isEmpty()) {
-						resultInput.shrink(1);
 						blockEntity.items.set(MelterMenu.RESULT_OUTPUT_SLOT, new ItemStack(Items.BUCKET));
 					} else if(resultOutput.is(Items.BUCKET) && resultOutput.getCount() < resultOutput.getMaxStackSize()) {
-						resultInput.shrink(1);
 						resultOutput.grow(1);
 					} else {
 						return;
 					}
-					blockEntity.fluidAmount += FLUID_LEVEL_BUCKET;
+					resultInput.shrink(1);
+					fluidStack.grow(FLUID_LEVEL_BUCKET);
+					changed = true;
 				}
 			} else if(resultInput.is(Items.BUCKET)) {
-				if(blockEntity.fluidAmount >= FLUID_LEVEL_BUCKET) {
+				if(fluidStack.getAmount() >= FLUID_LEVEL_BUCKET) {
 					if(resultOutput.isEmpty()) {
-						resultInput.shrink(1);
-						blockEntity.items.set(MelterMenu.RESULT_OUTPUT_SLOT, new ItemStack(FluidTypes.getFluidBucketItemWithID(blockEntity.fluidTypeID)));
-					} else if(resultOutput.is(FluidTypes.getFluidBucketItemWithID(blockEntity.fluidTypeID)) && resultOutput.getCount() < resultOutput.getMaxStackSize()) {
-						resultInput.shrink(1);
+						blockEntity.items.set(MelterMenu.RESULT_OUTPUT_SLOT, new ItemStack(bucket));
+					} else if(resultOutput.is(bucket) && resultOutput.getCount() < resultOutput.getMaxStackSize()) {
 						resultOutput.grow(1);
 					} else {
 						return;
 					}
-					blockEntity.fluidAmount -= FLUID_LEVEL_BUCKET;
-				}
-			} else if(blockEntity.fluidAmount <= 0 && MelterMenu.isFluidBucket(resultInput)) {
-				blockEntity.fluidTypeID = FluidTypes.getIDFromBucketItem(resultInput.getItem());
-				if(resultOutput.isEmpty()) {
 					resultInput.shrink(1);
-					blockEntity.items.set(MelterMenu.RESULT_OUTPUT_SLOT, new ItemStack(Items.BUCKET));
-				} else if(resultOutput.is(Items.BUCKET) && resultOutput.getCount() < resultOutput.getMaxStackSize()) {
-					resultInput.shrink(1);
-					resultOutput.grow(1);
-				} else {
-					return;
+					fluidStack.shrink(FLUID_LEVEL_BUCKET);
+					changed = true;
 				}
-				blockEntity.fluidAmount = FLUID_LEVEL_BUCKET;
+			} else if(fluidStack.isEmpty()) {
+				IFluidHandlerItem c = resultInput.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
+				if(c != null) {
+					if(resultOutput.isEmpty()) {
+						blockEntity.items.set(MelterMenu.RESULT_OUTPUT_SLOT, new ItemStack(Items.BUCKET));
+					} else if(resultOutput.is(Items.BUCKET) && resultOutput.getCount() < resultOutput.getMaxStackSize()) {
+						resultOutput.grow(1);
+					} else {
+						return;
+					}
+					blockEntity.tank.setFluid(new FluidStack(c.getFluidInTank(0), FLUID_LEVEL_BUCKET));
+					resultInput.shrink(1);
+					changed = true;
+				}
+			}
+
+			if (changed) {
+				setChanged(level, pos, blockState);
 			}
 		}
 	}
@@ -214,19 +219,20 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 			return false;
 		}
 		MelterRecipe recipe = recipeHolder.value();
-		if (FluidTypes.getID(recipe.resultFluid().fluidType()) != this.fluidTypeID) {
-			return this.fluidAmount == 0;
+		FluidStack fluidStack = this.tank.getFluid();
+		if (!recipe.resultFluid().isFluidEqual(fluidStack)) {
+			return fluidStack.isEmpty();
 		}
-		return recipe.resultFluid().amount() + this.fluidAmount <= MAX_FLUID_LEVEL;
+		return recipe.resultFluid().getAmount() + fluidStack.getAmount() <= MAX_FLUID_LEVEL;
 	}
 
 	@SuppressWarnings("UnusedReturnValue")
+	@Contract("null,_->false")
 	private boolean burn(@Nullable RecipeHolder<MelterRecipe> recipeHolder, NonNullList<ItemStack> container) {
 		if (this.canBurn(recipeHolder, container)) {
 			ItemStack itemstack = container.get(0);
 			MelterRecipe recipe = recipeHolder.value();
-			this.fluidTypeID = FluidTypes.getID(recipe.resultFluid().fluidType());
-			this.fluidAmount += recipe.resultFluid().amount();
+			this.tank.fill(recipe.resultFluid(), IFluidHandler.FluidAction.EXECUTE);
 
 			itemstack.shrink(1);
 			return true;
@@ -248,28 +254,43 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 		this.litDuration = this.getBurnDuration(this.items.get(1));
 		this.meltingProgress = nbt.getInt("MeltTime");
 		this.meltingTotalTime = nbt.getInt("MeltTimeTotal");
-		this.fluidTypeID = nbt.getInt("FluidType");
-		this.fluidAmount = nbt.getInt("FluidAmount");
+		this.tank.readFromNBT(nbt);
 		CompoundTag compoundtag = nbt.getCompound("RecipesUsed");
 
 		for(String s : compoundtag.getAllKeys()) {
 			this.recipesUsed.put(new ResourceLocation(s), compoundtag.getInt(s));
 		}
-
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
 		nbt.putInt("BurnTime", this.litTime);
-		nbt.putInt("CookTime", this.meltingProgress);
-		nbt.putInt("CookTimeTotal", this.meltingTotalTime);
-		nbt.putInt("FluidType", this.fluidTypeID);
-		nbt.putInt("FluidAmount", this.fluidAmount);
+		nbt.putInt("MeltTime", this.meltingProgress);
+		nbt.putInt("MeltTimeTotal", this.meltingTotalTime);
+		this.tank.writeToNBT(nbt);
 		ContainerHelper.saveAllItems(nbt, this.items);
 		CompoundTag compoundtag = new CompoundTag();
 		this.recipesUsed.forEach((id, value) -> compoundtag.putInt(id.toString(), value));
 		nbt.put("RecipesUsed", compoundtag);
+	}
+
+	@Override
+	public CompoundTag getUpdateTag() {
+		return this.saveWithoutMetadata();
+	}
+
+	@Override
+	public ClientboundBlockEntityDataPacket getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
+	}
+
+	@Override
+	public void setChanged() {
+		super.setChanged();
+		if (this.level != null) {
+			this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
+		}
 	}
 
 	@Override
@@ -326,7 +347,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	@Override
 	public boolean canPlaceItem(int index, ItemStack itemStack) {
 		if (index == MelterMenu.RESULT_INPUT_SLOT || index == MelterMenu.RESULT_OUTPUT_SLOT) {
-			return itemStack.is(Items.BUCKET) || MelterMenu.isFluidBucket(itemStack);
+			return itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
 		}
 		if (index != MelterMenu.FUEL_SLOT) {
 			return true;
@@ -412,19 +433,38 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 		return new MelterMenu(id, inventory, this, this.dataAccess);
 	}
 
+	@Override
+	public FluidStack getFluidStack(int tank) {
+		if(tank >= COUNT_TANKS) {
+			throw new IndexOutOfBoundsException(tank);
+		}
+		return this.tank.getFluid();
+	}
+
+	@Override
+	public int getTankSize() {
+		return COUNT_TANKS;
+	}
+
 	//Forge Compat
 	LazyOptional<? extends IItemHandler>[] handlers =
 			SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
+	private final LazyOptional<IFluidHandler> fluidHandlerWrapper = LazyOptional.of(() -> this.tank);
 
 	@Override @NotNull
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (!this.remove && facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
-			if (facing == Direction.UP) {
-				return handlers[0].cast();
-			} else if (facing == Direction.DOWN) {
-				return handlers[1].cast();
-			} else {
+		if (!this.remove) {
+			if(facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
+				if (facing == Direction.UP) {
+					return handlers[0].cast();
+				}
+				if (facing == Direction.DOWN) {
+					return handlers[1].cast();
+				}
 				return handlers[2].cast();
+			}
+			if (capability == ForgeCapabilities.FLUID_HANDLER) {
+				return this.fluidHandlerWrapper.cast();
 			}
 		}
 		return super.getCapability(capability, facing);
@@ -436,6 +476,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 		for (LazyOptional<? extends IItemHandler> handler : handlers) {
 			handler.invalidate();
 		}
+		this.fluidHandlerWrapper.invalidate();
 	}
 
 	@Override

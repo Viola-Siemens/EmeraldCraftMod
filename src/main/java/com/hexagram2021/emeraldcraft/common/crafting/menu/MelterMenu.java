@@ -1,10 +1,7 @@
 package com.hexagram2021.emeraldcraft.common.crafting.menu;
 
-import com.hexagram2021.emeraldcraft.api.fluid.FluidType;
-import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
 import com.hexagram2021.emeraldcraft.common.crafting.MelterRecipe;
 import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
-import com.hexagram2021.emeraldcraft.common.register.ECItems;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -15,8 +12,8 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 import static net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity.isFuel;
 
@@ -30,7 +27,8 @@ public class MelterMenu extends AbstractContainerMenu {
 	public static final int INV_SLOT_END = 31;
 	public static final int USE_ROW_SLOT_START = 31;
 	public static final int USE_ROW_SLOT_END = 40;
-	public static final int DATA_COUNT = 6;
+	public static final int DATA_COUNT = 4;
+
 	private final Container melter;
 	private final ContainerData melterData;
 	private final Slot ingredientSlot;
@@ -54,7 +52,7 @@ public class MelterMenu extends AbstractContainerMenu {
 		this.resultInputSlot = this.addSlot(new Slot(container, RESULT_INPUT_SLOT, 132, 18) {
 			@Override
 			public boolean mayPlace(ItemStack itemStack) {
-				return itemStack.is(Items.BUCKET) || isFluidBucket(itemStack);
+				return itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
 			}
 
 			@Override
@@ -65,7 +63,7 @@ public class MelterMenu extends AbstractContainerMenu {
 		this.addSlot(new Slot(container, RESULT_OUTPUT_SLOT, 132, 52) {
 			@Override
 			public boolean mayPlace(ItemStack itemStack) {
-				return itemStack.is(Items.BUCKET) || isFluidBucket(itemStack);
+				return itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
 			}
 
 			@Override
@@ -84,16 +82,6 @@ public class MelterMenu extends AbstractContainerMenu {
 		for(int k = 0; k < 9; ++k) {
 			this.addSlot(new Slot(inventory, k, 8 + k * 18, 142));
 		}
-	}
-
-	public static boolean isFluidBucket(ItemStack itemStack) {
-		return	itemStack.is(Items.WATER_BUCKET) || itemStack.is(Items.LAVA_BUCKET) ||
-				itemStack.is(ECItems.MELTED_EMERALD_BUCKET.get()) ||
-				itemStack.is(ECItems.MELTED_IRON_BUCKET.get()) ||
-				itemStack.is(ECItems.MELTED_GOLD_BUCKET.get()) ||
-				itemStack.is(ECItems.MELTED_COPPER_BUCKET.get()) ||
-				itemStack.is(ECItems.RESIN_BUCKET.get()) ||
-				FluidTypes.isExtraFluidBucket(itemStack);
 	}
 
 	public boolean isLit() {
@@ -178,16 +166,8 @@ public class MelterMenu extends AbstractContainerMenu {
 		return this.melterData.get(0) * 13 / i;
 	}
 
-	public int getFluidTypeIndex() {
-		return this.melterData.get(4);
-	}
-
-	public FluidType getFluidType() {
-		return FluidTypes.getFluidTypeWithID(this.melterData.get(4));
-	}
-
-	public int getFluidLevel() {
-		return this.melterData.get(5);
+	public Container getContainer() {
+		return this.melter;
 	}
 
 	static class IngredientSlot extends Slot {

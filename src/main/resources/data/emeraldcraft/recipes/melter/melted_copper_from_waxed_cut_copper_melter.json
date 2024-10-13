@@ -4,8 +4,8 @@
     "item": "minecraft:waxed_cut_copper"
   },
   "result": {
-    "fluid": "melted_copper",
-    "amount": 25
+    "FluidName": "emeraldcraft:melted_copper",
+    "Amount": 25
   },
   "meltingtime": 100
 }

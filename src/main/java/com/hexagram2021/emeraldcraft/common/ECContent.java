@@ -29,6 +29,7 @@ public class ECContent {
 
 		ECBlockSetTypes.init();
 		ECWoodType.init();
+		ECFluids.init(bus);
 		ECBlocks.init(bus);
 		ECItems.init(bus);
 		ECMemoryModuleTypes.init(bus);

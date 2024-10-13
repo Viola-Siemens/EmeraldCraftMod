@@ -8,8 +8,8 @@
     "item": "create:zinc_block"
   },
   "result": {
-    "fluid": "melted_zinc",
-    "amount": 100
+    "FluidName": "emeraldcraft:melted_zinc",
+    "Amount": 100
   },
   "meltingtime": 200
 }

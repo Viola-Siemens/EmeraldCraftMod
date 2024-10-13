@@ -3,6 +3,7 @@ package com.hexagram2021.emeraldcraft.common.crafting.compat.jei;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.hexagram2021.emeraldcraft.common.blocks.entity.IceMakerBlockEntity;
 import com.hexagram2021.emeraldcraft.common.crafting.IceMakerRecipe;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
 import mezz.jei.api.constants.VanillaTypes;
@@ -23,6 +24,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -36,7 +38,6 @@ public class IceMakerRecipeCategory implements IRecipeCategory<IceMakerRecipe> {
 	private final IDrawable icon;
 	private final LoadingCache<Integer, IDrawableAnimated> cachedArrows;
 	private final IDrawableAnimated animatedFlame;
-	private final IDrawableStatic[] inputFluids;
 
 	public IceMakerRecipeCategory(IGuiHelper guiHelper) {
 		this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 148, 56);
@@ -54,27 +55,6 @@ public class IceMakerRecipeCategory implements IRecipeCategory<IceMakerRecipe> {
 
 		IDrawableStatic staticFlame = guiHelper.createDrawable(TEXTURE, 148, 0, 32, 8);
 		this.animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.LEFT, true);
-
-		this.inputFluids = new IDrawableStatic[] {
-				guiHelper.createDrawable(TEXTURE, 0, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 12, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 24, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 36, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 48, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 60, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 72, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 84, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 96, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 108, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 120, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 132, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 144, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 156, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 168, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 180, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 192, 56, 12, 49),
-				guiHelper.createDrawable(TEXTURE, 204, 56, 12, 49)
-		};
 	}
 
 	@Override
@@ -104,8 +84,6 @@ public class IceMakerRecipeCategory implements IRecipeCategory<IceMakerRecipe> {
 		IDrawableAnimated arrow = this.getArrow(recipe);
 		arrow.draw(transform, 90, 16);
 		this.drawCookTime(recipe, transform, 49);
-
-		this.inputFluids[recipe.inputFluid().fluidType().getGuiId()].draw(transform, 72, 1);
 	}
 
 	@SuppressWarnings("SameParameterValue")
@@ -123,7 +101,11 @@ public class IceMakerRecipeCategory implements IRecipeCategory<IceMakerRecipe> {
 
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, IceMakerRecipe recipe, IFocusGroup focuses) {
+		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 9, 9).addItemStack(new ItemStack(Items.WATER_BUCKET));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 128, 19).addItemStack(RecipeUtil.getResultItem(recipe));
+		builder.addSlot(RecipeIngredientRole.INPUT, 72, 1)
+				.setFluidRenderer(IceMakerBlockEntity.MAX_INGREDIENT_FLUID_LEVEL, false, 12, 50)
+				.addFluidStack(recipe.inputFluid().getFluid(), recipe.inputFluid().getAmount());
 	}
 
 	protected IDrawableAnimated getArrow(IceMakerRecipe recipe) {

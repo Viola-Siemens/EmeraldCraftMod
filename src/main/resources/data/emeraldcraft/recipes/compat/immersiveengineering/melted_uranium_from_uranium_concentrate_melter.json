@@ -8,8 +8,8 @@
     "item": "emeraldcraft:uranium_concentrate"
   },
   "result": {
-    "fluid": "melted_uranium",
-    "amount": 50
+    "FluidName": "emeraldcraft:melted_uranium",
+    "Amount": 50
   },
   "meltingtime": 200
 }

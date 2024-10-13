@@ -1,15 +1,13 @@
 package com.hexagram2021.emeraldcraft.client.screens;
 
 import com.google.common.collect.Lists;
-import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
 import com.hexagram2021.emeraldcraft.common.blocks.entity.ContinuousMinerBlockEntity;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.ContinuousMinerMenu;
-import com.hexagram2021.emeraldcraft.common.register.ECItems;
+import com.hexagram2021.emeraldcraft.common.register.ECFluids;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -36,14 +34,10 @@ public class ContinuousMinerScreen extends AbstractContainerScreen<ContinuousMin
 
 	@Override
 	protected void renderBg(GuiGraphics transform, float partialTicks, int x, int y) {
-		int i = (this.width - this.imageWidth) / 2;
-		int j = (this.height - this.imageHeight) / 2;
-		transform.blit(BG_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
-		int energyLevel = this.menu.getFluidLevel();
-		if(energyLevel > 0) {
-			int k = Mth.clamp((ContinuousMinerBlockEntity.MAX_FLUID_LEVEL - 1 - energyLevel) / 5, 0, 49);
-			transform.blit(BG_LOCATION, i + 119, j + 20 + k, 176, k, 12, 49 - k);
-		}
+		int left = (this.width - this.imageWidth) / 2;
+		int top = (this.height - this.imageHeight) / 2;
+		transform.blit(BG_LOCATION, left, top, 0, 0, this.imageWidth, this.imageHeight);
+		ScreenUtils.renderFluidFromContainer(transform, this.menu.getContainer(), 0, left + 119, top + 20, 12, 50, ContinuousMinerBlockEntity.MAX_FLUID_LEVEL);
 	}
 
 	@Override
@@ -55,9 +49,9 @@ public class ContinuousMinerScreen extends AbstractContainerScreen<ContinuousMin
 	}
 
 	private List<Component> getFluidTypeToolTips(int fluidLevel) {
-		List<Component> ret = Lists.newArrayList(Component.translatable(FluidTypes.MELTED_EMERALD.getTranslationTag()));
+		List<Component> ret = Lists.newArrayList(ECFluids.MELTED_EMERALD.getStill().getFluidType().getDescription());
 		if(this.minecraft != null && this.minecraft.options.advancedItemTooltips) {
-			ret.add(Component.translatable("fluids.save.bucket", String.format("%.2f", fluidLevel / 100.0F), Component.translatable(ECItems.MELTED_EMERALD_BUCKET.get().getDescriptionId())));
+			ret.add(Component.translatable("fluids.save.bucket", String.format("%.2f", fluidLevel / 100.0F), ECFluids.MELTED_EMERALD.getBucket().getDescription()));
 		}
 		return ret;
 	}

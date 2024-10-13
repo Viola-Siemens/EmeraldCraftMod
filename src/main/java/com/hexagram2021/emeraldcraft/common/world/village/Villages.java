@@ -400,13 +400,13 @@ public class Villages {
 				trades.get(5).add(new ECTrades.ItemsAndEmeraldsToItems(Items.SNOWBALL, 4, 1, Items.SNOW, 4, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(ECBannerPatterns.SNOW, 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 			} else if(CHEMICAL_ENGINEER.equals(currentVillagerProfession)) {
-				trades.get(1).add(new ECTrades.ItemsForEmeralds(ECItems.MELTED_EMERALD_BUCKET, 12, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
+				trades.get(1).add(new ECTrades.ItemsForEmeralds(ECFluids.MELTED_EMERALD.getBucket(), 12, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
 				trades.get(1).add(new ECTrades.EmeraldForItems(Items.BUCKET, 4, 3, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
-				trades.get(2).add(new ECTrades.ItemsForEmeralds(ECItems.MELTED_IRON_BUCKET, 4, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
-				trades.get(2).add(new ECTrades.ItemsForEmeralds(ECItems.MELTED_COPPER_BUCKET, 3, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
+				trades.get(2).add(new ECTrades.ItemsForEmeralds(ECFluids.MELTED_IRON.getBucket(), 4, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
+				trades.get(2).add(new ECTrades.ItemsForEmeralds(ECFluids.MELTED_COPPER.getBucket(), 3, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
 				trades.get(3).add(new ECTrades.NetheriteScrapForItems(Items.EMERALD_BLOCK, 10, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
 				trades.get(4).add(new ECTrades.ItemsAndEmeraldsToItems(Items.FLINT, 4, 2, Items.GUNPOWDER, 4, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
-				trades.get(4).add(new ECTrades.ItemsForEmeralds(ECItems.MELTED_GOLD_BUCKET, 4, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
+				trades.get(4).add(new ECTrades.ItemsForEmeralds(ECFluids.MELTED_GOLD.getBucket(), 4, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(ECBannerPatterns.BOTTLE.item(), 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(ECBannerPatterns.POTION.item(), 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 			} else if(PAPERHANGER.equals(currentVillagerProfession)) {

@@ -8,8 +8,8 @@
     "item": "immersiveengineering:storage_silver"
   },
   "result": {
-    "fluid": "melted_silver",
-    "amount": 100
+    "FluidName": "emeraldcraft:melted_silver",
+    "Amount": 100
   },
   "meltingtime": 200
 }

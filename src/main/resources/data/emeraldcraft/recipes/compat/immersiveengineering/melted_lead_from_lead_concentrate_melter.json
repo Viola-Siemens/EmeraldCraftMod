@@ -8,8 +8,8 @@
     "item": "emeraldcraft:lead_concentrate"
   },
   "result": {
-    "fluid": "melted_lead",
-    "amount": 50
+    "FluidName": "emeraldcraft:melted_lead",
+    "Amount": 50
   },
   "meltingtime": 200
 }

@@ -1,8 +1,8 @@
 {
   "type": "emeraldcraft:ice_maker",
   "ingredient": {
-    "fluid": "lava",
-    "amount": 100
+    "FluidName": "minecraft:lava",
+    "Amount": 100
   },
   "result": "minecraft:obsidian",
   "freezingtime": 50

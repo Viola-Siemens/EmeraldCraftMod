@@ -1,8 +1,5 @@
 package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 
-import com.hexagram2021.emeraldcraft.api.fluid.FluidType;
-import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
-import com.hexagram2021.emeraldcraft.api.fluid.FluidWithAmount;
 import com.hexagram2021.emeraldcraft.common.crafting.MelterRecipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -12,6 +9,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 
@@ -25,7 +23,7 @@ public class MelterRecipeSerializer<T extends MelterRecipe> implements RecipeSer
 				instance -> instance.group(
 						ExtraCodecs.strictOptionalField(Codec.STRING, "group", "").forGetter(MelterRecipe::group),
 						Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(MelterRecipe::ingredient),
-						FluidWithAmount.CODEC.fieldOf("result").forGetter(MelterRecipe::resultFluid),
+						FluidStack.CODEC.fieldOf("result").forGetter(MelterRecipe::resultFluid),
 						Codec.INT.fieldOf("meltingtime").orElse(defaultMeltingTime).forGetter(MelterRecipe::meltingTime)
 				).apply(instance, creator::create)
 		);
@@ -40,23 +38,20 @@ public class MelterRecipeSerializer<T extends MelterRecipe> implements RecipeSer
 	public T fromNetwork(FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);
-		FluidType fluidType = FluidTypes.getFluidTypeFromName(buf.readUtf());
-		int fluidAmount = buf.readVarInt();
+		FluidStack result = FluidStack.readFromPacket(buf);
 		int time = buf.readVarInt();
-		return this.factory.create(group, ingredient, new FluidWithAmount(fluidType, fluidAmount), time);
+		return this.factory.create(group, ingredient, result, time);
 	}
 
 	@Override
 	public void toNetwork(FriendlyByteBuf buf, T recipe) {
 		buf.writeUtf(recipe.group());
 		recipe.getIngredient().toNetwork(buf);
-		FluidWithAmount result = recipe.resultFluid();
-		buf.writeUtf(result.fluidType().toString());
-		buf.writeVarInt(result.amount());
+		recipe.resultFluid().writeToPacket(buf);
 		buf.writeVarInt(recipe.meltingTime());
 	}
 
 	public interface Creator<T extends Recipe<Container>> {
-		T create(String group, Ingredient ingredient, FluidWithAmount resultFluid, int meltingTime);
+		T create(String group, Ingredient ingredient, FluidStack resultFluid, int meltingTime);
 	}
 }

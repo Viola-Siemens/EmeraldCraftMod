@@ -5,8 +5,8 @@
   },
   "type": "emeraldcraft:ice_maker",
   "ingredient": {
-    "fluid": "melted_lead",
-    "amount": 100
+    "FluidName": "emeraldcraft:melted_lead",
+    "Amount": 100
   },
   "result": "immersiveengineering:storage_lead",
   "freezingtime": 50

@@ -8,8 +8,8 @@
     "item": "immersiveengineering:storage_aluminum"
   },
   "result": {
-    "fluid": "melted_aluminum",
-    "amount": 100
+    "FluidName": "emeraldcraft:melted_aluminum",
+    "Amount": 100
   },
   "meltingtime": 200
 }

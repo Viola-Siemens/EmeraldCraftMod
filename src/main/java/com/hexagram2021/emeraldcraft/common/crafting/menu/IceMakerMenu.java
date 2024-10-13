@@ -1,9 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.crafting.menu;
 
-import com.hexagram2021.emeraldcraft.api.fluid.FluidType;
-import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
 import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
-import com.hexagram2021.emeraldcraft.common.register.ECItems;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -14,6 +11,8 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.event.ForgeEventFactory;
 
 public class IceMakerMenu extends AbstractContainerMenu {
 	public static final int INGREDIENT_INPUT_SLOT = 0;
@@ -25,7 +24,8 @@ public class IceMakerMenu extends AbstractContainerMenu {
 	public static final int INV_SLOT_END = 31;
 	public static final int USE_ROW_SLOT_START = 31;
 	public static final int USE_ROW_SLOT_END = 40;
-	public static final int DATA_COUNT = 5;
+	public static final int DATA_COUNT = 2;
+
 	private final Container iceMaker;
 	private final ContainerData iceMakerData;
 	private final Slot ingredientInputSlot;
@@ -44,7 +44,7 @@ public class IceMakerMenu extends AbstractContainerMenu {
 		this.ingredientInputSlot = this.addSlot(new Slot(container, INGREDIENT_INPUT_SLOT, 50, 18) {
 			@Override
 			public boolean mayPlace(ItemStack itemStack) {
-				return itemStack.is(Items.BUCKET) || isFluidBucket(itemStack);
+				return itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
 			}
 
 			@Override
@@ -55,7 +55,7 @@ public class IceMakerMenu extends AbstractContainerMenu {
 		this.addSlot(new Slot(container, INGREDIENT_OUTPUT_SLOT, 50, 52) {
 			@Override
 			public boolean mayPlace(ItemStack itemStack) {
-				return itemStack.is(Items.BUCKET) || isFluidBucket(itemStack);
+				return itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
 			}
 
 			@Override
@@ -86,17 +86,6 @@ public class IceMakerMenu extends AbstractContainerMenu {
 		for(int k = 0; k < 9; ++k) {
 			this.addSlot(new Slot(inventory, k, 8 + k * 18, 142));
 		}
-	}
-
-	public static boolean isFluidBucket(ItemStack itemStack) {
-		return	itemStack.is(Items.WATER_BUCKET) ||
-				itemStack.is(Items.LAVA_BUCKET) ||
-				itemStack.is(ECItems.MELTED_EMERALD_BUCKET.get()) ||
-				itemStack.is(ECItems.MELTED_IRON_BUCKET.get()) ||
-				itemStack.is(ECItems.MELTED_GOLD_BUCKET.get()) ||
-				itemStack.is(ECItems.MELTED_COPPER_BUCKET.get()) ||
-				itemStack.is(ECItems.RESIN_BUCKET.get()) ||
-				FluidTypes.isExtraFluidBucket(itemStack);
 	}
 
 	@Override
@@ -154,26 +143,14 @@ public class IceMakerMenu extends AbstractContainerMenu {
 		return itemstack;
 	}
 
-	public int getFluidTypeIndex() {
-		return this.iceMakerData.get(0);
-	}
-
-	public FluidType getFluidType() {
-		return FluidTypes.getFluidTypeWithID(this.iceMakerData.get(0));
-	}
-
-	public int getIngredientFluidLevel() {
-		return this.iceMakerData.get(1);
-	}
-
-	public int getCondensateFluidLevel() {
-		return this.iceMakerData.get(4);
-	}
-
 	public int getFreezeProgress() {
-		int i = this.iceMakerData.get(2);
-		int j = this.iceMakerData.get(3);
+		int i = this.iceMakerData.get(0);
+		int j = this.iceMakerData.get(1);
 		return j != 0 && i != 0 ? (i * 24 / j) : 0;
+	}
+
+	public Container getContainer() {
+		return this.iceMaker;
 	}
 
 	static class IceMakerResultSlot extends Slot {
@@ -211,12 +188,13 @@ public class IceMakerMenu extends AbstractContainerMenu {
 			this.checkTakeAchievements(itemStack);
 		}
 
+		@SuppressWarnings("UnstableApiUsage")
 		@Override
 		protected void checkTakeAchievements(ItemStack itemStack) {
 			itemStack.onCraftedBy(this.player.level(), this.player, this.removeCount);
 
 			this.removeCount = 0;
-			net.minecraftforge.event.ForgeEventFactory.firePlayerSmeltedEvent(this.player, itemStack);
+			ForgeEventFactory.firePlayerSmeltedEvent(this.player, itemStack);
 		}
 
 		@Override

@@ -2,7 +2,7 @@ package com.hexagram2021.emeraldcraft.common.crafting.menu;
 
 import com.hexagram2021.emeraldcraft.common.blocks.entity.ContinuousMinerBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
-import com.hexagram2021.emeraldcraft.common.register.ECItems;
+import com.hexagram2021.emeraldcraft.common.register.ECFluids;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -39,7 +39,7 @@ public class ContinuousMinerMenu extends AbstractContainerMenu {
 		this.inputSlot = this.addSlot(new Slot(container, INPUT_SLOT, 43, 19) {
 			@Override
 			public boolean mayPlace(ItemStack itemStack) {
-				return itemStack.is(Items.BUCKET) || itemStack.is(ECItems.MELTED_EMERALD_BUCKET.get());
+				return itemStack.is(Items.BUCKET) || itemStack.is(ECFluids.MELTED_EMERALD.getBucket());
 			}
 
 			@Override
@@ -50,7 +50,7 @@ public class ContinuousMinerMenu extends AbstractContainerMenu {
 		this.addSlot(new Slot(container, RESULT_SLOT, 43, 53) {
 			@Override
 			public boolean mayPlace(ItemStack itemStack) {
-				return itemStack.is(Items.BUCKET) || itemStack.is(ECItems.MELTED_EMERALD_BUCKET.get());
+				return itemStack.is(Items.BUCKET) || itemStack.is(ECFluids.MELTED_EMERALD.getBucket());
 			}
 
 			@Override
@@ -134,5 +134,9 @@ public class ContinuousMinerMenu extends AbstractContainerMenu {
 
 	public int getFluidLevel() {
 		return this.continuousMinerData.get(ContinuousMinerBlockEntity.DATA_FLUID);
+	}
+
+	public Container getContainer() {
+		return this.continuousMiner;
 	}
 }

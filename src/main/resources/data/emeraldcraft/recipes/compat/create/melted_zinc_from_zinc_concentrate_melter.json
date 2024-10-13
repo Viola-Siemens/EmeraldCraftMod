@@ -8,8 +8,8 @@
     "item": "emeraldcraft:zinc_concentrate"
   },
   "result": {
-    "fluid": "melted_zinc",
-    "amount": 50
+    "FluidName": "emeraldcraft:melted_zinc",
+    "Amount": 50
   },
   "meltingtime": 200
 }

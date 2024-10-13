@@ -1,8 +1,8 @@
 {
   "type": "emeraldcraft:ice_maker",
   "ingredient": {
-    "fluid": "melted_emerald",
-    "amount": 100
+    "FluidName": "emeraldcraft:melted_emerald",
+    "Amount": 100
   },
   "result": "minecraft:emerald_block",
   "freezingtime": 50

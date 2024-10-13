@@ -8,8 +8,8 @@
     "item": "emeraldcraft:aluminum_concentrate"
   },
   "result": {
-    "fluid": "melted_aluminum",
-    "amount": 50
+    "FluidName": "emeraldcraft:melted_aluminum",
+    "Amount": 50
   },
   "meltingtime": 200
 }

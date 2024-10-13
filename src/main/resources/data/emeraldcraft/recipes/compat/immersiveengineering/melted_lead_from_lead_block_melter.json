@@ -8,8 +8,8 @@
     "item": "immersiveengineering:storage_lead"
   },
   "result": {
-    "fluid": "melted_lead",
-    "amount": 100
+    "FluidName": "emeraldcraft:melted_lead",
+    "Amount": 100
   },
   "meltingtime": 200
 }

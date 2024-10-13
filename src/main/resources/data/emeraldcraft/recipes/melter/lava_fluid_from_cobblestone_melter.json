@@ -4,8 +4,8 @@
     "item": "minecraft:cobblestone"
   },
   "result": {
-    "fluid": "lava",
-    "amount": 50
+    "FluidName": "minecraft:lava",
+    "Amount": 50
   },
   "meltingtime": 200
 }

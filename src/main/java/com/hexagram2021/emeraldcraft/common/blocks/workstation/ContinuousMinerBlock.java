@@ -62,7 +62,7 @@ public class ContinuousMinerBlock extends BaseEntityBlock {
 	}
 
 	@Override @Nullable
-	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+	public ContinuousMinerBlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
 		return new ContinuousMinerBlockEntity(blockPos, blockState);
 	}
 

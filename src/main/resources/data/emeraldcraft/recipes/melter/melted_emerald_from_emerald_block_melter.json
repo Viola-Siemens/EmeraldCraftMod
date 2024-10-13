@@ -4,8 +4,8 @@
     "item": "minecraft:emerald_block"
   },
   "result": {
-    "fluid": "melted_emerald",
-    "amount": 100
+    "FluidName": "emeraldcraft:melted_emerald",
+    "Amount": 100
   },
   "meltingtime": 200
 }

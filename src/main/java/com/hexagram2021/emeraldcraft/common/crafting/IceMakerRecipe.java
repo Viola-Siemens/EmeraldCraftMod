@@ -1,7 +1,5 @@
 package com.hexagram2021.emeraldcraft.common.crafting;
 
-import com.hexagram2021.emeraldcraft.api.fluid.FluidTypes;
-import com.hexagram2021.emeraldcraft.api.fluid.FluidWithAmount;
 import com.hexagram2021.emeraldcraft.common.blocks.entity.IceMakerBlockEntity;
 import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
@@ -14,8 +12,9 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.fluids.FluidStack;
 
-public record IceMakerRecipe(String group, FluidWithAmount inputFluid, ItemStack result, int freezingTime) implements Recipe<Container> {
+public record IceMakerRecipe(String group, FluidStack inputFluid, ItemStack result, int freezingTime) implements Recipe<Container> {
 	public static final CachedRecipeList<IceMakerRecipe> recipeList = new CachedRecipeList<>(ECRecipes.ICE_MAKER_TYPE);
 
 	public static final int FREEZING_TIME = 50;
@@ -52,7 +51,7 @@ public record IceMakerRecipe(String group, FluidWithAmount inputFluid, ItemStack
 
 	@Override
 	public boolean matches(Container container, Level level) {
-		return FluidTypes.getID(this.inputFluid.fluidType()) == ((IceMakerBlockEntity)container).getInputFluidTypeIndex();
+		return ((IceMakerBlockEntity)container).getFluidStack(IceMakerBlockEntity.TANK_INPUT).containsFluid(this.inputFluid);
 	}
 
 	@Override

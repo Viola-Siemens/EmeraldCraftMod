@@ -1,8 +1,8 @@
 {
   "type": "emeraldcraft:ice_maker",
   "ingredient": {
-    "fluid": "melted_copper",
-    "amount": 100
+    "FluidName": "emeraldcraft:melted_copper",
+    "Amount": 100
   },
   "result": "minecraft:copper_block",
   "freezingtime": 50
