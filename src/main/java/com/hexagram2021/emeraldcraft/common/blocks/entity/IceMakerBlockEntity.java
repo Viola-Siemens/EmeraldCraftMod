@@ -5,6 +5,7 @@ import com.hexagram2021.emeraldcraft.common.crafting.IceMakerRecipe;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.IceMakerMenu;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
+import com.hexagram2021.emeraldcraft.network.ClientboundFluidSyncPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -45,8 +46,9 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
-public class IceMakerBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, StackedContentsCompatible, Tank {
+public class IceMakerBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, StackedContentsCompatible, Tank, ISynchronizableContainer {
 	public static final int MAX_INGREDIENT_FLUID_LEVEL = 1000;
 	public static final int MAX_CONDENSATE_FLUID_LEVEL = 800;
 	public static final int WATER_BUCKET_CONDENSATE_LEVEL = 100;
@@ -60,8 +62,20 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	private static final int[] SLOTS_FOR_SIDES = new int[]{2, 0};
 
 	protected NonNullList<ItemStack> items = NonNullList.withSize(IceMakerMenu.SLOT_COUNT, ItemStack.EMPTY);
-	final FluidTank tank = new FluidTank(MAX_INGREDIENT_FLUID_LEVEL);
-	final FluidTank tankCondensate = new FluidTank(MAX_CONDENSATE_FLUID_LEVEL);
+	final FluidTank tank = new FluidTank(MAX_INGREDIENT_FLUID_LEVEL) {
+		@Override
+		protected void onContentsChanged() {
+			super.onContentsChanged();
+			IceMakerBlockEntity.this.markDirty();
+		}
+	};
+	final FluidTank tankCondensate = new FluidTank(MAX_CONDENSATE_FLUID_LEVEL) {
+		@Override
+		protected void onContentsChanged() {
+			super.onContentsChanged();
+			IceMakerBlockEntity.this.markDirty();
+		}
+	};
 	int freezingProgress;
 	int freezingTotalTime;
 
@@ -113,7 +127,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		if(blockEntity.tankCondensate.getFluidAmount() <= MAX_CONDENSATE_FLUID_LEVEL - WATER_BUCKET_CONDENSATE_LEVEL * 2 && condensateItemStack.getCount() == 1) {
 			condensateItemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(c -> {
 				FluidStack itemFluid = c.getFluidInTank(0);
-				if(blockEntity.tankCondensate.isEmpty() || blockEntity.tankCondensate.getFluid().isFluidEqual(itemFluid)) {
+				if(!itemFluid.isEmpty() && (blockEntity.tankCondensate.isEmpty() || blockEntity.tankCondensate.getFluid().isFluidEqual(itemFluid))) {
 					blockEntity.tankCondensate.fill(new FluidStack(itemFluid, WATER_BUCKET_CONDENSATE_LEVEL * 2), IFluidHandler.FluidAction.EXECUTE);
 					blockEntity.items.set(IceMakerMenu.CONDENSATE_SLOT, new ItemStack(Items.BUCKET));
 				}
@@ -198,6 +212,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		}
 
 		if (changed) {
+			blockEntity.markDirty();
 			setChanged(level, pos, blockState);
 		}
 	}
@@ -396,8 +411,38 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	}
 
 	@Override
+	public void setFluidStack(int tank, FluidStack fluidStack) {
+		switch(tank) {
+			case TANK_INPUT -> this.tank.setFluid(fluidStack);
+			case TANK_CONDENSATE -> this.tankCondensate.setFluid(fluidStack);
+			default -> throw new IndexOutOfBoundsException(tank);
+		}
+	}
+
+	@Override
 	public int getTankSize() {
 		return COUNT_TANKS;
+	}
+
+	private boolean dirty = false;
+	@Override
+	public void markDirty() {
+		this.dirty = true;
+	}
+
+	@Override
+	public void clearDirty() {
+		this.dirty = false;
+	}
+
+	@Override
+	public boolean isDirty() {
+		return this.dirty;
+	}
+
+	@Override
+	public ClientboundFluidSyncPacket getSyncPacket() {
+		return new ClientboundFluidSyncPacket(List.of(this.tank.getFluid(), this.tankCondensate.getFluid()));
 	}
 
 	//Forge Compat

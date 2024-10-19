@@ -359,6 +359,15 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 		}
 		return this.tank.getFluid();
 	}
+
+	@Override
+	public void setFluidStack(int tank, FluidStack fluidStack) {
+		if(tank >= COUNT_TANKS) {
+			throw new IndexOutOfBoundsException(tank);
+		}
+		this.tank.setFluid(fluidStack);
+	}
+
 	@Override
 	public int getTankSize() {
 		return COUNT_TANKS;

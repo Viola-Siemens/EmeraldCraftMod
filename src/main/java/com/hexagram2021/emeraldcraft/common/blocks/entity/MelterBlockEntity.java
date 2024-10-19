@@ -6,6 +6,7 @@ import com.hexagram2021.emeraldcraft.common.crafting.MelterRecipe;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.MelterMenu;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
+import com.hexagram2021.emeraldcraft.network.ClientboundFluidSyncPacket;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
@@ -52,7 +53,7 @@ import java.util.List;
 import java.util.Objects;
 
 @SuppressWarnings("UnstableApiUsage")
-public class MelterBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeCraftingHolder, StackedContentsCompatible, Tank {
+public class MelterBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeCraftingHolder, StackedContentsCompatible, Tank, ISynchronizableContainer {
 	public static final int MAX_FLUID_LEVEL = 1000;
 	public static final int FLUID_LEVEL_BUCKET = 100;
 	public static final int TANK_OUTPUT = 0;
@@ -67,7 +68,13 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	int litDuration;
 	int meltingProgress;
 	int meltingTotalTime;
-	final FluidTank tank = new FluidTank(MAX_FLUID_LEVEL);
+	final FluidTank tank = new FluidTank(MAX_FLUID_LEVEL) {
+		@Override
+		protected void onContentsChanged() {
+			super.onContentsChanged();
+			MelterBlockEntity.this.markDirty();
+		}
+	};
 	protected final ContainerData dataAccess = new ContainerData() {
 		public int get(int index) {
 			return switch (index) {
@@ -208,6 +215,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 			}
 
 			if (changed) {
+				blockEntity.markDirty();
 				setChanged(level, pos, blockState);
 			}
 		}
@@ -442,8 +450,37 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	}
 
 	@Override
+	public void setFluidStack(int tank, FluidStack fluidStack) {
+		if(tank >= COUNT_TANKS) {
+			throw new IndexOutOfBoundsException(tank);
+		}
+		this.tank.setFluid(fluidStack);
+	}
+
+	@Override
 	public int getTankSize() {
 		return COUNT_TANKS;
+	}
+
+	private boolean dirty = false;
+	@Override
+	public void markDirty() {
+		this.dirty = true;
+	}
+
+	@Override
+	public void clearDirty() {
+		this.dirty = false;
+	}
+
+	@Override
+	public boolean isDirty() {
+		return this.dirty;
+	}
+
+	@Override
+	public ClientboundFluidSyncPacket getSyncPacket() {
+		return new ClientboundFluidSyncPacket(List.of(this.tank.getFluid()));
 	}
 
 	//Forge Compat

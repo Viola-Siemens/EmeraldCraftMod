@@ -1,17 +1,24 @@
 package com.hexagram2021.emeraldcraft.common.crafting.menu;
 
+import com.google.common.collect.Sets;
+import com.hexagram2021.emeraldcraft.EmeraldCraft;
 import com.hexagram2021.emeraldcraft.common.blocks.entity.ContinuousMinerBlockEntity;
+import com.hexagram2021.emeraldcraft.common.blocks.entity.ISynchronizableContainer;
 import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
 import com.hexagram2021.emeraldcraft.common.register.ECFluids;
+import com.hexagram2021.emeraldcraft.common.util.SimpleContainerWithTank;
+import com.hexagram2021.emeraldcraft.network.ClientboundFluidSyncPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-public class ContinuousMinerMenu extends AbstractContainerMenu {
+import java.util.Set;
+
+public class ContinuousMinerMenu extends AbstractContainerMenu implements IFluidSyncMenu {
 	public static final int INPUT_SLOT = 0;
 	public static final int RESULT_SLOT = 1;
 	private static final int INV_SLOT_START = 2;
@@ -26,7 +33,7 @@ public class ContinuousMinerMenu extends AbstractContainerMenu {
 	final Slot inputSlot;
 
 	public ContinuousMinerMenu(int id, Inventory inventory) {
-		this(id, inventory, new SimpleContainer(SLOT_COUNT), new SimpleContainerData(DATA_COUNT));
+		this(id, inventory, new SimpleContainerWithTank(SLOT_COUNT, ContinuousMinerBlockEntity.MAX_FLUID_LEVEL), new SimpleContainerData(DATA_COUNT));
 	}
 
 	public ContinuousMinerMenu(int id, Inventory inventory, Container container, ContainerData data) {
@@ -132,10 +139,37 @@ public class ContinuousMinerMenu extends AbstractContainerMenu {
 		return itemstack;
 	}
 
-	public int getFluidLevel() {
-		return this.continuousMinerData.get(ContinuousMinerBlockEntity.DATA_FLUID);
+	@Override
+	public void broadcastChanges() {
+		super.broadcastChanges();
+		if(this.continuousMiner instanceof ISynchronizableContainer synchronizableContainer && synchronizableContainer.isDirty()) {
+			synchronizableContainer.clearDirty();
+			for(ServerPlayer serverPlayer: this.usingPlayers) {
+				EmeraldCraft.sendMessageToPlayer(synchronizableContainer.getSyncPacket(), serverPlayer.connection.getConnection());
+			}
+		}
 	}
 
+	private final Set<ServerPlayer> usingPlayers = Sets.newIdentityHashSet();
+	@Override
+	public void addUsingPlayer(ServerPlayer serverPlayer) {
+		this.usingPlayers.add(serverPlayer);
+	}
+
+	@Override
+	public void removeUsingPlayer(ServerPlayer serverPlayer) {
+		this.usingPlayers.remove(serverPlayer);
+	}
+
+	@Override
+	public ClientboundFluidSyncPacket getSyncPacket() {
+		if(this.continuousMiner instanceof ISynchronizableContainer synchronizableContainer) {
+			return synchronizableContainer.getSyncPacket();
+		}
+		throw new IllegalStateException("Caught getSyncPacket() called from a wrong thread. Container = " + this.continuousMiner);
+	}
+
+	@Override
 	public Container getContainer() {
 		return this.continuousMiner;
 	}

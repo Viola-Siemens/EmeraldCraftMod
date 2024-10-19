@@ -8,6 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Objects;
@@ -18,6 +19,9 @@ public interface RegistryHelper {
 	}
 	static ResourceLocation getRegistryName(Block block) {
 		return Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block));
+	}
+	static ResourceLocation getRegistryName(Fluid fluid) {
+		return Objects.requireNonNull(ForgeRegistries.FLUIDS.getKey(fluid));
 	}
 	static ResourceLocation getRegistryName(VillagerProfession profession) {
 		return Objects.requireNonNull(ForgeRegistries.VILLAGER_PROFESSIONS.getKey(profession));

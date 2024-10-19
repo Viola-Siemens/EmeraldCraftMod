@@ -1,5 +1,7 @@
 package com.hexagram2021.emeraldcraft.common;
 
+import com.hexagram2021.emeraldcraft.EmeraldCraft;
+import com.hexagram2021.emeraldcraft.common.crafting.menu.IFluidSyncMenu;
 import com.hexagram2021.emeraldcraft.common.enchantments.VeinMiningEnchantment;
 import com.hexagram2021.emeraldcraft.common.items.capabilities.ItemStackFoodHandler;
 import com.hexagram2021.emeraldcraft.common.items.foods.FarciFoodItem;
@@ -23,6 +25,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,6 +36,20 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid = MODID)
 public class ForgeServerEventHandler {
+	@SubscribeEvent
+	public static void onContainerOpened(PlayerContainerEvent.Open event) {
+		if(event.getContainer() instanceof IFluidSyncMenu fluidSyncMenu && event.getEntity() instanceof ServerPlayer serverPlayer) {
+			fluidSyncMenu.addUsingPlayer(serverPlayer);
+			EmeraldCraft.sendMessageToPlayer(fluidSyncMenu.getSyncPacket(), serverPlayer.connection.getConnection());
+		}
+	}
+	@SubscribeEvent
+	public static void onContainerClosed(PlayerContainerEvent.Close event) {
+		if(event.getContainer() instanceof IFluidSyncMenu fluidSyncMenu && event.getEntity() instanceof ServerPlayer serverPlayer) {
+			fluidSyncMenu.removeUsingPlayer(serverPlayer);
+		}
+	}
+
 	@SubscribeEvent
 	public static void onAttackItemStackCapability(AttachCapabilitiesEvent<ItemStack> event) {
 		if(event.getObject().getItem() instanceof FarciFoodItem farciFoodItem) {

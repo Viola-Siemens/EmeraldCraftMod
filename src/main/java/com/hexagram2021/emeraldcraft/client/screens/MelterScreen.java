@@ -57,7 +57,7 @@ public class MelterScreen extends AbstractContainerScreen<MelterMenu> {
 		if(this.menu.getCarried().isEmpty() && this.hoveredSlot == null && this.isHovering(105, 18, 12, 49, x, y)) {
 			if(this.menu.getContainer() instanceof Tank tank) {
 				FluidStack fluidStack = tank.getFluidStack(0);
-				if(fluidStack.isEmpty()) {
+				if(!fluidStack.isEmpty()) {
 					transform.renderTooltip(this.font, this.getFluidTypeToolTips(fluidStack), Optional.empty(), x, y);
 				}
 			}

@@ -14,9 +14,11 @@ import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.world.village.ECTrades;
 import com.hexagram2021.emeraldcraft.common.world.village.Villages;
 import com.hexagram2021.emeraldcraft.mixin.BlockEntityTypeAccess;
+import com.hexagram2021.emeraldcraft.network.ClientboundFluidSyncPacket;
 import com.hexagram2021.emeraldcraft.network.ClientboundTradeSyncPacket;
 import com.hexagram2021.emeraldcraft.network.IECPacket;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import net.minecraft.network.Connection;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -65,7 +67,7 @@ public class EmeraldCraft {
 			bootstrapErrorToXCPInDev(() -> CommonProxy::new)
 	);
 
-	public final SimpleChannel packetHandler = ChannelBuilder
+	public static final SimpleChannel packetHandler = ChannelBuilder
 			.named(new ResourceLocation(MODID, "main"))
 			.networkProtocolVersion(CHANNEL_VERSION)
 			.serverAcceptedVersions(Channel.VersionTest.exact(CHANNEL_VERSION))
@@ -87,14 +89,18 @@ public class EmeraldCraft {
 	}
 
 	@SuppressWarnings("SameParameterValue")
-	private <T extends IECPacket> void registerMessage(Class<T> packetType,
-													   Function<FriendlyByteBuf, T> constructor,
-													   NetworkDirection direction) {
-		this.packetHandler.messageBuilder(packetType, direction)
+	private static <T extends IECPacket> void registerMessage(Class<T> packetType,
+															  Function<FriendlyByteBuf, T> constructor,
+															  NetworkDirection direction) {
+		packetHandler.messageBuilder(packetType, direction)
 				.decoder(constructor)
 				.encoder(IECPacket::write)
 				.consumerMainThread((packet, ctx) -> packet.handle())
 				.add();
+	}
+
+	public static void sendMessageToPlayer(IECPacket packet, Connection connection) {
+		packetHandler.send(packet, connection);
 	}
 
 	public EmeraldCraft() {
@@ -138,6 +144,7 @@ public class EmeraldCraft {
 		TradeListingUtils.registerTradeListing(ECTrades.NETHER_PIGMAN_TRADES, ECEntities.NETHER_PIGMAN, null);
 
 		registerMessage(ClientboundTradeSyncPacket.class, ClientboundTradeSyncPacket::new, NetworkDirection.PLAY_TO_CLIENT);
+		registerMessage(ClientboundFluidSyncPacket.class, ClientboundFluidSyncPacket::new, NetworkDirection.PLAY_TO_CLIENT);
 	}
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {
@@ -166,9 +173,9 @@ public class EmeraldCraft {
 		ServerPlayer player = event.getPlayer();
 		IECPacket packet = new ClientboundTradeSyncPacket(TradeShadowRecipe.getAllJobsites(), TradeShadowRecipe.getTradeRecipes(event.getPlayerList().getServer().overworld()));
 		if(player == null) {
-			this.packetHandler.send(packet, PacketDistributor.ALL.noArg());
+			packetHandler.send(packet, PacketDistributor.ALL.noArg());
 		} else {
-			this.packetHandler.send(packet, PacketDistributor.PLAYER.with(player));
+			packetHandler.send(packet, PacketDistributor.PLAYER.with(player));
 		}
 	}
 
