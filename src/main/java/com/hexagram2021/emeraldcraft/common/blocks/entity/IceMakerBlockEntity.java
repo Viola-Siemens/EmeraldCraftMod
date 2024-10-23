@@ -37,6 +37,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
@@ -49,10 +50,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class IceMakerBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, StackedContentsCompatible, Tank, ISynchronizableContainer {
-	public static final int MAX_INGREDIENT_FLUID_LEVEL = 1000;
-	public static final int MAX_CONDENSATE_FLUID_LEVEL = 800;
-	public static final int WATER_BUCKET_CONDENSATE_LEVEL = 100;
-	public static final int FLUID_LEVEL_BUCKET = 100;
+	public static final int MAX_INGREDIENT_FLUID_LEVEL = FluidType.BUCKET_VOLUME * 10;
+	public static final int MAX_CONDENSATE_FLUID_LEVEL = FluidType.BUCKET_VOLUME * 4;
 	public static final int TANK_INPUT = 0;
 	public static final int TANK_CONDENSATE = 1;
 	public static final int COUNT_TANKS = 2;
@@ -124,11 +123,11 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 		boolean changed = false;
 
 		ItemStack condensateItemStack = blockEntity.items.get(IceMakerMenu.CONDENSATE_SLOT);
-		if(blockEntity.tankCondensate.getFluidAmount() <= MAX_CONDENSATE_FLUID_LEVEL - WATER_BUCKET_CONDENSATE_LEVEL * 2 && condensateItemStack.getCount() == 1) {
+		if(blockEntity.tankCondensate.getFluidAmount() <= MAX_CONDENSATE_FLUID_LEVEL - FluidType.BUCKET_VOLUME && condensateItemStack.getCount() == 1) {
 			condensateItemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(c -> {
 				FluidStack itemFluid = c.getFluidInTank(0);
 				if(!itemFluid.isEmpty() && (blockEntity.tankCondensate.isEmpty() || blockEntity.tankCondensate.getFluid().isFluidEqual(itemFluid))) {
-					blockEntity.tankCondensate.fill(new FluidStack(itemFluid, WATER_BUCKET_CONDENSATE_LEVEL * 2), IFluidHandler.FluidAction.EXECUTE);
+					blockEntity.tankCondensate.fill(itemFluid, IFluidHandler.FluidAction.EXECUTE);
 					blockEntity.items.set(IceMakerMenu.CONDENSATE_SLOT, new ItemStack(Items.BUCKET));
 				}
 			});
@@ -140,7 +139,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 
 			if (blockEntity.canFreeze(level.registryAccess(), recipeHolder, blockEntity.items, blockEntity.getMaxStackSize())) {
 				++blockEntity.freezingProgress;
-				blockEntity.tankCondensate.drain(1, IFluidHandler.FluidAction.EXECUTE);
+				blockEntity.tankCondensate.drain(5, IFluidHandler.FluidAction.EXECUTE);
 				if (blockEntity.freezingProgress >= blockEntity.freezingTotalTime) {
 					blockEntity.freezingProgress = 0;
 					blockEntity.freezingTotalTime = getTotalFreezeTime(level, blockEntity);
@@ -168,7 +167,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 			FluidStack inputFluidStack = blockEntity.tank.getFluid();
 			Item inputBucketItem = inputFluidStack.getFluid().getBucket();
 			if(ingredientInput.is(inputBucketItem)) {
-				if(inputFluidStack.getAmount() <= MAX_INGREDIENT_FLUID_LEVEL - FLUID_LEVEL_BUCKET) {
+				if(inputFluidStack.getAmount() <= MAX_INGREDIENT_FLUID_LEVEL - FluidType.BUCKET_VOLUME) {
 					if(ingredientOutput.isEmpty()) {
 						blockEntity.items.set(IceMakerMenu.INGREDIENT_OUTPUT_SLOT, new ItemStack(Items.BUCKET));
 					} else if(ingredientOutput.is(Items.BUCKET) && ingredientOutput.getCount() < ingredientOutput.getMaxStackSize()) {
@@ -177,11 +176,11 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 						return;
 					}
 					ingredientInput.shrink(1);
-					inputFluidStack.grow(FLUID_LEVEL_BUCKET);
+					inputFluidStack.grow(FluidType.BUCKET_VOLUME);
 					changed = true;
 				}
 			} else if(ingredientInput.is(Items.BUCKET)) {
-				if(inputFluidStack.getAmount() >= FLUID_LEVEL_BUCKET) {
+				if(inputFluidStack.getAmount() >= FluidType.BUCKET_VOLUME) {
 					if(ingredientOutput.isEmpty()) {
 						blockEntity.items.set(IceMakerMenu.INGREDIENT_OUTPUT_SLOT, new ItemStack(inputBucketItem));
 					} else if(ingredientOutput.is(inputBucketItem) && ingredientOutput.getCount() < ingredientOutput.getMaxStackSize()) {
@@ -190,7 +189,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 						return;
 					}
 					ingredientInput.shrink(1);
-					inputFluidStack.shrink(FLUID_LEVEL_BUCKET);
+					inputFluidStack.shrink(FluidType.BUCKET_VOLUME);
 					changed = true;
 				}
 			} else if(inputFluidStack.getAmount() <= 0) {
@@ -204,7 +203,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 					} else {
 						return;
 					}
-					blockEntity.tank.fill(new FluidStack(c.getFluidInTank(0), FLUID_LEVEL_BUCKET), IFluidHandler.FluidAction.EXECUTE);
+					blockEntity.tank.fill(c.getFluidInTank(0), IFluidHandler.FluidAction.EXECUTE);
 					ingredientInput.shrink(1);
 					changed = true;
 				}

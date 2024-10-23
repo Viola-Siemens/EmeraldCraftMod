@@ -40,6 +40,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
@@ -55,7 +56,6 @@ import java.util.Objects;
 @SuppressWarnings("UnstableApiUsage")
 public class MelterBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeCraftingHolder, StackedContentsCompatible, Tank, ISynchronizableContainer {
 	public static final int MAX_FLUID_LEVEL = 1000;
-	public static final int FLUID_LEVEL_BUCKET = 100;
 	public static final int TANK_OUTPUT = 0;
 	public static final int COUNT_TANKS = 1;
 
@@ -173,7 +173,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 		Item bucket = fluidStack.getFluid().getBucket();
 		if(!resultInput.isEmpty()) {
 			if(resultInput.is(bucket)) {
-				if(fluidStack.getAmount() <= MAX_FLUID_LEVEL - FLUID_LEVEL_BUCKET) {
+				if(fluidStack.getAmount() <= MAX_FLUID_LEVEL - FluidType.BUCKET_VOLUME) {
 					if(resultOutput.isEmpty()) {
 						blockEntity.items.set(MelterMenu.RESULT_OUTPUT_SLOT, new ItemStack(Items.BUCKET));
 					} else if(resultOutput.is(Items.BUCKET) && resultOutput.getCount() < resultOutput.getMaxStackSize()) {
@@ -182,11 +182,11 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 						return;
 					}
 					resultInput.shrink(1);
-					fluidStack.grow(FLUID_LEVEL_BUCKET);
+					fluidStack.grow(FluidType.BUCKET_VOLUME);
 					changed = true;
 				}
 			} else if(resultInput.is(Items.BUCKET)) {
-				if(fluidStack.getAmount() >= FLUID_LEVEL_BUCKET) {
+				if(fluidStack.getAmount() >= FluidType.BUCKET_VOLUME) {
 					if(resultOutput.isEmpty()) {
 						blockEntity.items.set(MelterMenu.RESULT_OUTPUT_SLOT, new ItemStack(bucket));
 					} else if(resultOutput.is(bucket) && resultOutput.getCount() < resultOutput.getMaxStackSize()) {
@@ -195,7 +195,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 						return;
 					}
 					resultInput.shrink(1);
-					fluidStack.shrink(FLUID_LEVEL_BUCKET);
+					fluidStack.shrink(FluidType.BUCKET_VOLUME);
 					changed = true;
 				}
 			} else if(fluidStack.isEmpty()) {
@@ -208,7 +208,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 					} else {
 						return;
 					}
-					blockEntity.tank.setFluid(new FluidStack(c.getFluidInTank(0), FLUID_LEVEL_BUCKET));
+					blockEntity.tank.setFluid(c.getFluidInTank(0));
 					resultInput.shrink(1);
 					changed = true;
 				}

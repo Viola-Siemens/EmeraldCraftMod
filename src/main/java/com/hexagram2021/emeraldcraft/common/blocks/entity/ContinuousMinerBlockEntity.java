@@ -45,6 +45,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -62,10 +63,9 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 	protected static final int SLOT_RESULT = 1;
 	public static final int DATA_MINE_TIME = 0;
 	public static final int TOTAL_MINE_TIME = 120;
-	public static final int FLUID_LEVEL_BUCKET = 100;
 	public static final int TANK_INPUT = 0;
 	public static final int COUNT_TANKS = 1;
-	public static final int MAX_FLUID_LEVEL = 250;
+	public static final int MAX_FLUID_LEVEL = FluidType.BUCKET_VOLUME * 5 / 2;
 	private static final int[] SLOTS_FOR_UP = new int[]{0};
 	private static final int[] SLOTS_FOR_SIDES = new int[]{0};
 	private static final int[] SLOTS_FOR_DOWN = new int[]{1};
@@ -217,7 +217,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 			return;
 		}
 		if (needFluid) {
-			this.tank.drain(1, IFluidHandler.FluidAction.EXECUTE);
+			this.tank.drain(10, IFluidHandler.FluidAction.EXECUTE);
 			this.markDirty();
 		}
 		this.mineTime = TOTAL_MINE_TIME;
@@ -258,7 +258,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 		ItemStack result = blockEntity.items.get(1);
 		if(!ingredient.isEmpty()) {
 			if(ingredient.is(ECFluids.MELTED_EMERALD.getBucket())) {
-				if(blockEntity.tank.amount <= MAX_FLUID_LEVEL - FLUID_LEVEL_BUCKET) {
+				if(blockEntity.tank.amount <= MAX_FLUID_LEVEL - FluidType.BUCKET_VOLUME) {
 					if(result.isEmpty()) {
 						ingredient.shrink(1);
 						blockEntity.items.set(1, new ItemStack(Items.BUCKET));
@@ -268,11 +268,11 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 					} else {
 						return;
 					}
-					blockEntity.tank.fill(FLUID_LEVEL_BUCKET, IFluidHandler.FluidAction.EXECUTE);
+					blockEntity.tank.fill(FluidType.BUCKET_VOLUME, IFluidHandler.FluidAction.EXECUTE);
 					blockEntity.markDirty();
 				}
 			} else if(ingredient.is(Items.BUCKET)) {
-				if(blockEntity.tank.amount >= FLUID_LEVEL_BUCKET) {
+				if(blockEntity.tank.amount >= FluidType.BUCKET_VOLUME) {
 					if(result.isEmpty()) {
 						ingredient.shrink(1);
 						blockEntity.items.set(1, new ItemStack(ECFluids.MELTED_EMERALD.getBucket()));
@@ -282,7 +282,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 					} else {
 						return;
 					}
-					blockEntity.tank.drain(FLUID_LEVEL_BUCKET, IFluidHandler.FluidAction.EXECUTE);
+					blockEntity.tank.drain(FluidType.BUCKET_VOLUME, IFluidHandler.FluidAction.EXECUTE);
 					blockEntity.markDirty();
 				}
 			}
@@ -519,6 +519,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 			return filled;
 		}
 
+		@SuppressWarnings("UnusedReturnValue")
 		public int fill(int maxFill, FluidAction action) {
 			int filled = this.capacity - this.amount;
 			if (maxFill < filled) {

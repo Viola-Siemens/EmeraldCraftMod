@@ -2,7 +2,7 @@
   "type": "emeraldcraft:ice_maker",
   "ingredient": {
     "FluidName": "emeraldcraft:resin",
-    "Amount": 100
+    "Amount": 1000
   },
   "result": "emeraldcraft:resin_block",
   "freezingtime": 50

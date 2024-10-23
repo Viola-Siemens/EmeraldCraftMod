@@ -12,6 +12,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.SimpleContainer;
@@ -84,7 +85,7 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 			}
 			blockEntity.progressTicks += 1;
 			if(level.isClientSide) {
-				blockEntity.spawnItemParticles(input, blockPos);
+				blockEntity.spawnItemParticles(input, blockPos, level.random);
 			}
 			if(blockEntity.progressTicks >= blockEntity.totalTicks) {
 				if(!level.isClientSide) {
@@ -103,9 +104,10 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 	}
 
 	private static final int ITEM_PARTICLE_AMOUNT = 4;
-	private void spawnItemParticles(ItemStack itemStack, BlockPos blockPos) {
+	private void spawnItemParticles(ItemStack itemStack, BlockPos blockPos, RandomSource random) {
 		if(this.level != null) {
-			for (int i = 0; i < ITEM_PARTICLE_AMOUNT; ++i) {
+			int bound = random.nextInt(ITEM_PARTICLE_AMOUNT) + 1;
+			for (int i = 0; i < bound; ++i) {
 				Vec3 speed = new Vec3(
 						((double) this.level.random.nextFloat() - 0.5D) * 0.1D,
 						Math.random() * 0.2D + 0.2D,

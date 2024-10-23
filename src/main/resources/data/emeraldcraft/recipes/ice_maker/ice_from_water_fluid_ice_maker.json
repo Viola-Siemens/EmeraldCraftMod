@@ -2,7 +2,7 @@
   "type": "emeraldcraft:ice_maker",
   "ingredient": {
     "FluidName": "minecraft:water",
-    "Amount": 100
+    "Amount": 1000
   },
   "result": "minecraft:ice",
   "freezingtime": 100

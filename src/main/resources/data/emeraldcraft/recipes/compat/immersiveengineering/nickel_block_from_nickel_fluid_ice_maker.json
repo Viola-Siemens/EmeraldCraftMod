@@ -6,7 +6,7 @@
   "type": "emeraldcraft:ice_maker",
   "ingredient": {
     "FluidName": "emeraldcraft:melted_nickel",
-    "Amount": 100
+    "Amount": 1000
   },
   "result": "immersiveengineering:storage_nickel",
   "freezingtime": 50

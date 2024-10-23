@@ -2,7 +2,7 @@
   "type": "emeraldcraft:ice_maker",
   "ingredient": {
     "FluidName": "minecraft:lava",
-    "Amount": 100
+    "Amount": 1000
   },
   "result": "minecraft:obsidian",
   "freezingtime": 50

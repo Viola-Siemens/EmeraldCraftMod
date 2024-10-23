@@ -42,6 +42,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
@@ -54,7 +55,7 @@ import javax.annotation.Nullable;
 public class CookstoveBlockEntity extends BlockEntity implements Container, StackedContentsCompatible, Tank {
 	public static final int SLOT_INPUT_START = 0;
 	public static final int COUNT_SLOTS = 8;
-	public static final int MAX_TANK_CAPABILITY = 100;
+	public static final int MAX_TANK_CAPABILITY = FluidType.BUCKET_VOLUME;
 	public static final int TANK_INPUT = 0;
 	public static final int COUNT_TANKS = 1;
 	public static final int MAX_FUEL = 2000;
