@@ -72,6 +72,7 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 	protected NonNullList<ItemStack> items = NonNullList.withSize(2, ItemStack.EMPTY);
 
 	final ContinuousMinerTank tank = new ContinuousMinerTank(MAX_FLUID_LEVEL);
+
 	int mineTime;
 
 	protected final ContainerData dataAccess = new ContainerData() {
@@ -117,6 +118,10 @@ public class ContinuousMinerBlockEntity extends BaseContainerBlockEntity impleme
 
 	private boolean isMining() {
 		return this.mineTime > 0;
+	}
+
+	public int getMineTime() {
+		return this.mineTime;
 	}
 
 	public int getFluidLevel() {

@@ -615,5 +615,8 @@
   "fluid.emeraldcraft.melted_uranium": "溶けたウラン",
 
   "jei.emeraldcraft.villager_trade": "村人と取引する",
-  "jei.emeraldcraft.villager_trade.jobsites": "職業ブロック：%s"
+  "jei.emeraldcraft.villager_trade.jobsites": "職業ブロック：%s",
+
+  "jade.emeraldcraft.cookstove.result": "料理レンジの産物",
+  "jade.emeraldcraft.continuous_miner.time": "採掘まで：%s"
 }

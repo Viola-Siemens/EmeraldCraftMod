@@ -34,6 +34,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -194,7 +195,7 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 		if (isBurning != blockEntity.isLit()) {
 			changed = true;
 			blockState = blockState.setValue(MineralTableBlock.LIT, blockEntity.isLit());
-			level.setBlock(pos, blockState, 3);
+			level.setBlock(pos, blockState, Block.UPDATE_ALL);
 		}
 
 		if (changed) {
@@ -410,12 +411,13 @@ public class MineralTableBlockEntity extends BaseContainerBlockEntity implements
 	@Override @NotNull
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
 		if (!this.remove && facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
-			if (facing == Direction.UP)
+			if (facing == Direction.UP) {
 				return handlers[0].cast();
-			else if (facing == Direction.DOWN)
+			}
+			if (facing == Direction.DOWN) {
 				return handlers[1].cast();
-			else
-				return handlers[2].cast();
+			}
+			return handlers[2].cast();
 		}
 		return super.getCapability(capability, facing);
 	}

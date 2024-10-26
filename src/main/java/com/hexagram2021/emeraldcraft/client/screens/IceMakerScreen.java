@@ -50,10 +50,15 @@ public class IceMakerScreen extends AbstractContainerScreen<IceMakerMenu> {
 	@Override
 	protected void renderTooltip(GuiGraphics transform, int x, int y) {
 		super.renderTooltip(transform, x, y);
-		if(this.menu.getCarried().isEmpty() && this.hoveredSlot == null && this.isHovering(79, 18, 12, 49, x, y)) {
-			if(this.menu.getContainer() instanceof Tank tank) {
+		if(this.menu.getCarried().isEmpty() && this.hoveredSlot == null && this.menu.getContainer() instanceof Tank tank) {
+			if(this.isHovering(79, 18, 12, 49, x, y)) {
 				FluidStack fluidStack = tank.getFluidStack(0);
-				if(!fluidStack.isEmpty()) {
+				if (!fluidStack.isEmpty()) {
+					transform.renderTooltip(this.font, this.getFluidTypeToolTips(fluidStack), Optional.empty(), x, y);
+				}
+			} else if(this.isHovering(8, 64, 32, 8, x, y)) {
+				FluidStack fluidStack = tank.getFluidStack(1);
+				if (!fluidStack.isEmpty()) {
 					transform.renderTooltip(this.font, this.getFluidTypeToolTips(fluidStack), Optional.empty(), x, y);
 				}
 			}

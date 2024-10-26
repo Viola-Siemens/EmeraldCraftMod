@@ -615,5 +615,8 @@
   "fluid.emeraldcraft.melted_uranium": "熔融鈾水",
 
   "jei.emeraldcraft.villager_trade": "和村民交易",
-  "jei.emeraldcraft.villager_trade.jobsites": "工作站點方塊：%s"
+  "jei.emeraldcraft.villager_trade.jobsites": "工作站點方塊：%s",
+
+  "jade.emeraldcraft.cookstove.result": "爐灶產物",
+  "jade.emeraldcraft.continuous_miner.time": "采礦冷卻：%s"
 }

@@ -110,7 +110,7 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 			for (int i = 0; i < bound; ++i) {
 				Vec3 speed = new Vec3(
 						((double) this.level.random.nextFloat() - 0.5D) * 0.1D,
-						Math.random() * 0.2D + 0.2D,
+						Math.random() * 0.15D + 0.1D,
 						((double) this.level.random.nextFloat() - 0.5D) * 0.1D
 				);
 				double y = (double)this.level.random.nextFloat() * 0.4D + 0.1D;
@@ -255,11 +255,11 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 		if (!this.remove && facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
 			if (facing == Direction.UP) {
 				return handlers[0].cast();
-			} else if (facing == Direction.DOWN) {
-				return handlers[1].cast();
-			} else {
-				return handlers[2].cast();
 			}
+			if (facing == Direction.DOWN) {
+				return handlers[1].cast();
+			}
+			return handlers[2].cast();
 		}
 		return super.getCapability(capability, facing);
 	}

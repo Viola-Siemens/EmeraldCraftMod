@@ -33,6 +33,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
@@ -55,7 +56,7 @@ import java.util.Objects;
 
 @SuppressWarnings("UnstableApiUsage")
 public class MelterBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeCraftingHolder, StackedContentsCompatible, Tank, ISynchronizableContainer {
-	public static final int MAX_FLUID_LEVEL = 1000;
+	public static final int MAX_FLUID_LEVEL = FluidType.BUCKET_VOLUME * 10;
 	public static final int TANK_OUTPUT = 0;
 	public static final int COUNT_TANKS = 1;
 
@@ -164,7 +165,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 		if (isBurning != blockEntity.isLit()) {
 			changed = true;
 			blockState = blockState.setValue(MelterBlock.LIT, blockEntity.isLit());
-			level.setBlock(pos, blockState, 3);
+			level.setBlock(pos, blockState, Block.UPDATE_ALL);
 		}
 
 		ItemStack resultInput = blockEntity.items.get(MelterMenu.RESULT_INPUT_SLOT);

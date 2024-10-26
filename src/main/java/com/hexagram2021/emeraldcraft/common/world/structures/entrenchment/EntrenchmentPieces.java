@@ -1058,7 +1058,7 @@ public class EntrenchmentPieces {
 				BlockPos blockpos = this.getWorldPos(4, 2, 4);
 				if (bbox.isInside(blockpos)) {
 					this.hasPlacedSpawner = true;
-					level.setBlock(blockpos, Blocks.SPAWNER.defaultBlockState(), 2);
+					level.setBlock(blockpos, Blocks.SPAWNER.defaultBlockState(), Block.UPDATE_CLIENTS);
 					BlockEntity blockentity = level.getBlockEntity(blockpos);
 					if (blockentity instanceof SpawnerBlockEntity) {
 						((SpawnerBlockEntity)blockentity).setEntityId(ECEntities.WRAITH, random);
