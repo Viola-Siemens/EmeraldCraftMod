@@ -141,9 +141,9 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 				++blockEntity.freezingProgress;
 				blockEntity.tankCondensate.drain(5, IFluidHandler.FluidAction.EXECUTE);
 				if (blockEntity.freezingProgress >= blockEntity.freezingTotalTime) {
-					blockEntity.freeze(level.registryAccess(), recipeHolder, blockEntity.items, blockEntity.getMaxStackSize());
 					blockEntity.freezingProgress = 0;
 					blockEntity.freezingTotalTime = getTotalFreezeTime(level, blockEntity);
+					blockEntity.freeze(level.registryAccess(), recipeHolder, blockEntity.items, blockEntity.getMaxStackSize());
 
 					changed = true;
 				}
