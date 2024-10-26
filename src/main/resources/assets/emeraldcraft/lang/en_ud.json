@@ -618,5 +618,8 @@
   "jei.emeraldcraft.villager_trade.jobsites": "%s :sǝʇᴉsqoſ",
 
   "jade.emeraldcraft.cookstove.result": "ʇlnsǝɹ ǝʌoʇsʞooƆ",
-  "jade.emeraldcraft.continuous_miner.time": "%s :pƆ ƃuᴉuᴉW"
+  "jade.emeraldcraft.continuous_miner.time": "%s :pƆ ƃuᴉuᴉW",
+  "config.jade.plugin_emeraldcraft.jade/continuous_miner": "ɹǝuᴉW snonuᴉʇuoƆ",
+  "config.jade.plugin_emeraldcraft.jade/lumine_duplication": "uoᴉʇɐɔᴉldnp ǝuᴉɯn˥",
+  "config.jade.plugin_emeraldcraft.jade/cookstove": "ǝʌoʇsʞooƆ"
 }

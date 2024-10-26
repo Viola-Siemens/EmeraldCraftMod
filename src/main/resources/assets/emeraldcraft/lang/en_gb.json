@@ -618,5 +618,8 @@
   "jei.emeraldcraft.villager_trade.jobsites": "Jobsites: %s",
 
   "jade.emeraldcraft.cookstove.result": "Cookstove Result",
-  "jade.emeraldcraft.continuous_miner.time": "Mining CD: %s"
+  "jade.emeraldcraft.continuous_miner.time": "Mining CD: %s",
+  "config.jade.plugin_emeraldcraft.jade/continuous_miner": "Continuous Miner",
+  "config.jade.plugin_emeraldcraft.jade/lumine_duplication": "Lumine Duplication",
+  "config.jade.plugin_emeraldcraft.jade/cookstove": "Cookstove"
 }

@@ -618,5 +618,8 @@
   "jei.emeraldcraft.villager_trade.jobsites": "工作站点方块：%s",
 
   "jade.emeraldcraft.cookstove.result": "炉灶产物",
-  "jade.emeraldcraft.continuous_miner.time": "采矿冷却：%s"
+  "jade.emeraldcraft.continuous_miner.time": "采矿冷却：%s",
+  "config.jade.plugin_emeraldcraft.jade/continuous_miner": "连续采矿机",
+  "config.jade.plugin_emeraldcraft.jade/lumine_duplication": "荧灵复制",
+  "config.jade.plugin_emeraldcraft.jade/cookstove": "炉灶"
 }

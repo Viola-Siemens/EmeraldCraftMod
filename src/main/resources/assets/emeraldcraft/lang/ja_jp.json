@@ -618,5 +618,8 @@
   "jei.emeraldcraft.villager_trade.jobsites": "職業ブロック：%s",
 
   "jade.emeraldcraft.cookstove.result": "料理レンジの産物",
-  "jade.emeraldcraft.continuous_miner.time": "採掘まで：%s"
+  "jade.emeraldcraft.continuous_miner.time": "採掘まで：%s",
+  "config.jade.plugin_emeraldcraft.jade/continuous_miner": "連続採掘機",
+  "config.jade.plugin_emeraldcraft.jade/lumine_duplication": "ルミネの複製",
+  "config.jade.plugin_emeraldcraft.jade/cookstove": "料理レンジ"
 }
