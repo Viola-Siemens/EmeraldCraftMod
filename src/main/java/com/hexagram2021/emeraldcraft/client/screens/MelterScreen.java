@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidType;
 
 import java.util.List;
 import java.util.Optional;
@@ -67,7 +68,7 @@ public class MelterScreen extends AbstractContainerScreen<MelterMenu> {
 	private List<Component> getFluidTypeToolTips(FluidStack fluidStack) {
 		List<Component> ret = Lists.newArrayList(fluidStack.getFluid().getFluidType().getDescription());
 		if(this.minecraft != null && this.minecraft.options.advancedItemTooltips) {
-			ret.add(Component.translatable("fluids.save.bucket", String.format("%.2f", fluidStack.getAmount() / 100.0F), fluidStack.getFluid().getBucket().getDescription()));
+			ret.add(Component.translatable("fluids.save.bucket", String.format("%.2f", fluidStack.getAmount() / (float)FluidType.BUCKET_VOLUME), fluidStack.getFluid().getBucket().getDescription()));
 		}
 		return ret;
 	}

@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "#forge:crops/cabbage",
-    "#forge:crops/chili"
+    "#forge:crops/chili",
+    "#forge:crops/warped_wart"
   ]
 }

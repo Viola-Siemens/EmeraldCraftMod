@@ -141,9 +141,9 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 				++blockEntity.freezingProgress;
 				blockEntity.tankCondensate.drain(5, IFluidHandler.FluidAction.EXECUTE);
 				if (blockEntity.freezingProgress >= blockEntity.freezingTotalTime) {
+					blockEntity.freeze(level.registryAccess(), recipeHolder, blockEntity.items, blockEntity.getMaxStackSize());
 					blockEntity.freezingProgress = 0;
 					blockEntity.freezingTotalTime = getTotalFreezeTime(level, blockEntity);
-					blockEntity.freeze(level.registryAccess(), recipeHolder, blockEntity.items, blockEntity.getMaxStackSize());
 
 					changed = true;
 				}
@@ -195,7 +195,6 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 			} else if(inputFluidStack.getAmount() <= 0) {
 				IFluidHandlerItem c = ingredientInput.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
 				if(c != null) {
-					blockEntity.freezingTotalTime = getTotalFreezeTime(level, blockEntity);
 					if(ingredientOutput.isEmpty()) {
 						blockEntity.items.set(IceMakerMenu.INGREDIENT_OUTPUT_SLOT, new ItemStack(Items.BUCKET));
 					} else if(ingredientOutput.is(Items.BUCKET) && ingredientOutput.getCount() < ingredientOutput.getMaxStackSize()) {
@@ -205,6 +204,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 					}
 					blockEntity.tank.fill(c.getFluidInTank(0), IFluidHandler.FluidAction.EXECUTE);
 					ingredientInput.shrink(1);
+					blockEntity.freezingTotalTime = getTotalFreezeTime(level, blockEntity);
 					changed = true;
 				}
 			}

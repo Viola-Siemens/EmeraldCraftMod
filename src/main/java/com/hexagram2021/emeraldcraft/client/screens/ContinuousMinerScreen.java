@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidType;
 
 import java.util.List;
 import java.util.Optional;
@@ -58,7 +59,7 @@ public class ContinuousMinerScreen extends AbstractContainerScreen<ContinuousMin
 	private List<Component> getFluidTypeToolTips(int fluidLevel) {
 		List<Component> ret = Lists.newArrayList(ECFluids.MELTED_EMERALD.getStill().getFluidType().getDescription());
 		if(this.minecraft != null && this.minecraft.options.advancedItemTooltips) {
-			ret.add(Component.translatable("fluids.save.bucket", String.format("%.2f", fluidLevel / 100.0F), ECFluids.MELTED_EMERALD.getBucket().getDescription()));
+			ret.add(Component.translatable("fluids.save.bucket", String.format("%.2f", fluidLevel / (float)FluidType.BUCKET_VOLUME), ECFluids.MELTED_EMERALD.getBucket().getDescription()));
 		}
 		return ret;
 	}
