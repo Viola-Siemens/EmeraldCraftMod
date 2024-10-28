@@ -23,6 +23,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidType;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -102,7 +103,7 @@ public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
 	protected void drawFluidAmount(MelterRecipe recipe, GuiGraphics transform, int y) {
 		int fluidAmount = recipe.resultFluid().getAmount();
 		if (fluidAmount > 0) {
-			Component amountString = Component.translatable("gui.emeraldcraft.melter.fluid.amount", String.format("%.2f", fluidAmount / 100.0F));
+			Component amountString = Component.translatable("gui.emeraldcraft.melter.fluid.amount", String.format("%.2f", fluidAmount / (float)FluidType.BUCKET_VOLUME));
 			Font fontRenderer = Minecraft.getInstance().font;
 			int stringWidth = fontRenderer.width(amountString);
 			transform.drawString(fontRenderer, amountString, this.background.getWidth() - stringWidth, y, 0xFF808080, false);
