@@ -1,5 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.world.village;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.hexagram2021.emeraldcraft.common.register.*;
@@ -225,6 +226,48 @@ public class Villages {
 
 	@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 	public static class Events {
+		public static final ImmutableMap.Builder<VillagerType, Item> CARPENTER_LEVEL_1_SAPLINGS = ImmutableMap.<VillagerType, Item>builder()
+				.put(VillagerType.PLAINS, Items.OAK_SAPLING)
+				.put(VillagerType.TAIGA, Items.SPRUCE_SAPLING)
+				.put(VillagerType.SNOW, Items.SPRUCE_SAPLING)
+				.put(VillagerType.DESERT, Items.JUNGLE_SAPLING)
+				.put(VillagerType.JUNGLE, Items.JUNGLE_SAPLING)
+				.put(VillagerType.SAVANNA, Items.ACACIA_SAPLING)
+				.put(VillagerType.SWAMP, Items.DARK_OAK_SAPLING);
+		public static final ImmutableMap.Builder<VillagerType, Item> CARPENTER_LEVEL_1_LOGS = ImmutableMap.<VillagerType, Item>builder()
+				.put(VillagerType.PLAINS, Items.OAK_LOG)
+				.put(VillagerType.TAIGA, Items.SPRUCE_LOG)
+				.put(VillagerType.SNOW, Items.SPRUCE_LOG)
+				.put(VillagerType.DESERT, Items.JUNGLE_LOG)
+				.put(VillagerType.JUNGLE, Items.JUNGLE_LOG)
+				.put(VillagerType.SAVANNA, Items.ACACIA_LOG)
+				.put(VillagerType.SWAMP, Items.DARK_OAK_LOG);
+		public static final ImmutableMap.Builder<VillagerType, Item> CARPENTER_LEVEL_4_SIGNS = ImmutableMap.<VillagerType, Item>builder()
+				.put(VillagerType.PLAINS, Items.OAK_SIGN)
+				.put(VillagerType.TAIGA, Items.SPRUCE_SIGN)
+				.put(VillagerType.SNOW, Items.SPRUCE_SIGN)
+				.put(VillagerType.DESERT, Items.JUNGLE_SIGN)
+				.put(VillagerType.JUNGLE, Items.JUNGLE_SIGN)
+				.put(VillagerType.SAVANNA, Items.ACACIA_SIGN)
+				.put(VillagerType.SWAMP, Items.DARK_OAK_SIGN);
+		public static final ImmutableMap.Builder<VillagerType, Item> PAPERHANGER_LEVEL_4_PLANKS = ImmutableMap.<VillagerType, Item>builder()
+				.put(VillagerType.PLAINS, Items.OAK_PLANKS)
+				.put(VillagerType.TAIGA, Items.SPRUCE_PLANKS)
+				.put(VillagerType.SNOW, Items.SPRUCE_PLANKS)
+				.put(VillagerType.DESERT, Items.JUNGLE_PLANKS)
+				.put(VillagerType.JUNGLE, Items.JUNGLE_PLANKS)
+				.put(VillagerType.SAVANNA, Items.ACACIA_PLANKS)
+				.put(VillagerType.SWAMP, Items.DARK_OAK_PLANKS);
+		public static final ImmutableList.Builder<Item> CHEF_LEVEL_2_MUSHROOMS = ImmutableList.<Item>builder()
+				.add(Items.RED_MUSHROOM)
+				.add(Items.BROWN_MUSHROOM);
+		public static final ImmutableList.Builder<Item> CHEF_LEVEL_5_MINCES = ImmutableList.<Item>builder()
+				.add(ECItems.MINCED_BEEF.get())
+				.add(ECItems.MINCED_CHICKEN.get())
+				.add(ECItems.MINCED_MUTTON.get())
+				.add(ECItems.MINCED_PORK.get())
+				.add(ECItems.MINCED_RABBIT.get());
+
 		@SubscribeEvent
 		public static void registerTrades(VillagerTradesEvent event) {
 			Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
@@ -233,29 +276,9 @@ public class Villages {
 			if(CARPENTER.equals(currentVillagerProfession)) {
 				trades.get(1).add(new ECTrades.EmeraldForItems(Items.STICK, 32, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
 				trades.get(1).add(new ECTrades.EmeraldsForVillagerTypeItem(8, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_SELL,
-						ImmutableMap.<VillagerType, Item>builder()
-								.put(VillagerType.PLAINS, Items.OAK_SAPLING)
-								.put(VillagerType.TAIGA, Items.SPRUCE_SAPLING)
-								.put(VillagerType.SNOW, Items.SPRUCE_SAPLING)
-								.put(VillagerType.DESERT, Items.JUNGLE_SAPLING)
-								.put(VillagerType.JUNGLE, Items.JUNGLE_SAPLING)
-								.put(VillagerType.SAVANNA, Items.ACACIA_SAPLING)
-								.put(VillagerType.SWAMP, Items.DARK_OAK_SAPLING)
-								.build(),
-						Items.OAK_SAPLING
-				));
+						CARPENTER_LEVEL_1_SAPLINGS.build(), Items.OAK_SAPLING));
 				trades.get(1).add(new ECTrades.VillagerTypeItemForEmeralds(2, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_BUY,
-						ImmutableMap.<VillagerType, Item>builder()
-								.put(VillagerType.PLAINS, Items.OAK_LOG)
-								.put(VillagerType.TAIGA, Items.SPRUCE_LOG)
-								.put(VillagerType.SNOW, Items.SPRUCE_LOG)
-								.put(VillagerType.DESERT, Items.JUNGLE_LOG)
-								.put(VillagerType.JUNGLE, Items.JUNGLE_LOG)
-								.put(VillagerType.SAVANNA, Items.ACACIA_LOG)
-								.put(VillagerType.SWAMP, Items.DARK_OAK_LOG)
-								.build(),
-						Items.OAK_LOG
-				));
+						CARPENTER_LEVEL_1_LOGS.build(), Items.OAK_LOG));
 				trades.get(2).add(new ECTrades.ItemsAndEmeraldsToItems(Items.NETHER_WART_BLOCK, 1, 4, Items.NETHER_WART, 8, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
 				trades.get(2).add(new ECTrades.ItemsForEmeralds(Items.IRON_AXE, 3, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
 				trades.get(2).add(new ECTrades.EmeraldForItems(Items.BOOKSHELF, 1, 2, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
@@ -266,17 +289,7 @@ public class Villages {
 				trades.get(4).add(new ECTrades.ItemsForEmeralds(Items.BEEHIVE, 3, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
 				trades.get(4).add(new ECTrades.ItemsForEmeralds(Items.JUKEBOX, 3, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
 				trades.get(4).add(new ECTrades.EmeraldsForVillagerTypeItem(4, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_4_BUY,
-						ImmutableMap.<VillagerType, Item>builder()
-								.put(VillagerType.PLAINS, Items.OAK_SIGN)
-								.put(VillagerType.TAIGA, Items.SPRUCE_SIGN)
-								.put(VillagerType.SNOW, Items.SPRUCE_SIGN)
-								.put(VillagerType.DESERT, Items.JUNGLE_SIGN)
-								.put(VillagerType.JUNGLE, Items.JUNGLE_SIGN)
-								.put(VillagerType.SAVANNA, Items.ACACIA_SIGN)
-								.put(VillagerType.SWAMP, Items.DARK_OAK_SIGN)
-								.build(),
-						Items.OAK_SIGN
-				));
+						CARPENTER_LEVEL_4_SIGNS.build(), Items.OAK_SIGN));
 				trades.get(5).add(new ECTrades.EnchantedItemForEmeralds(Items.DIAMOND_AXE, 12, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(Items.NOTE_BLOCK, 4, 4, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.ItemsAndEmeraldsToItems(Items.SHULKER_SHELL, 1, 12, Items.SHULKER_BOX, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
@@ -401,7 +414,7 @@ public class Villages {
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(ECBannerPatterns.SNOW, 8, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 			} else if(CHEMICAL_ENGINEER.equals(currentVillagerProfession)) {
 				trades.get(1).add(new ECTrades.ItemsForEmeralds(ECFluids.MELTED_EMERALD.getBucket(), 12, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
-				trades.get(1).add(new ECTrades.EmeraldForItems(Items.BUCKET, 4, 3, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
+				trades.get(1).add(new ECTrades.EmeraldForItems(Items.BUCKET, 4, 2, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
 				trades.get(2).add(new ECTrades.ItemsForEmeralds(ECFluids.MELTED_IRON.getBucket(), 4, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
 				trades.get(2).add(new ECTrades.ItemsForEmeralds(ECFluids.MELTED_COPPER.getBucket(), 3, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
 				trades.get(3).add(new ECTrades.NetheriteScrapForItems(Items.EMERALD_BLOCK, 10, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
@@ -417,20 +430,41 @@ public class Villages {
 				trades.get(3).add(new ECTrades.EmeraldForItems(ECBlocks.Decoration.REINFORCED_RESIN_BLOCK, 1, 2, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_3_BUY));
 				trades.get(3).add(new ECTrades.ItemsForEmeralds(ECBlocks.Decoration.PAPER_BLOCK, 3, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
 				trades.get(4).add(new ECTrades.EmeraldsForVillagerTypeItem(15, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_BUY,
-						ImmutableMap.<VillagerType, Item>builder()
-								.put(VillagerType.PLAINS, Items.OAK_PLANKS)
-								.put(VillagerType.TAIGA, Items.SPRUCE_PLANKS)
-								.put(VillagerType.SNOW, Items.SPRUCE_PLANKS)
-								.put(VillagerType.DESERT, Items.JUNGLE_PLANKS)
-								.put(VillagerType.JUNGLE, Items.JUNGLE_PLANKS)
-								.put(VillagerType.SAVANNA, Items.ACACIA_PLANKS)
-								.put(VillagerType.SWAMP, Items.DARK_OAK_PLANKS)
-								.build(),
-						Items.OAK_PLANKS
-				));
+						PAPERHANGER_LEVEL_4_PLANKS.build(), Items.OAK_PLANKS));
 				trades.get(4).add(new ECTrades.ItemsForEmeralds(Items.PAINTING, 2, 3, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
 				trades.get(5).add(new ECTrades.EmeraldForItems(Items.GLOW_INK_SAC, 5, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(Items.COBWEB, 6, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+			} else if(HUNTER.equals(currentVillagerProfession)) {
+				trades.get(1).add(new ECTrades.EmeraldForItems(Items.IRON_INGOT, 4, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
+				trades.get(1).add(new ECTrades.ItemsForEmeralds(Items.PORKCHOP, 1, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
+				trades.get(1).add(new ECTrades.ItemsForEmeralds(Items.BEEF, 1, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
+				trades.get(2).add(new ECTrades.EmeraldForItems(Items.ARROW, 56, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
+				trades.get(2).add(new ECTrades.EmeraldForItems(Items.STRING, 20, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
+				trades.get(2).add(new ECTrades.EmeraldForItems(Items.TRIPWIRE_HOOK, 8, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
+				trades.get(2).add(new ECTrades.ItemsForEmeralds(Items.MUTTON, 1, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
+				trades.get(3).add(new ECTrades.EmeraldForItems(Items.LEATHER, 6, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_3_BUY));
+				trades.get(3).add(new ECTrades.ItemsForEmeralds(Items.CHICKEN, 1, 2, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
+				trades.get(4).add(new ECTrades.EmeraldForItems(Items.SPYGLASS, 1, 1, ECTrades.ONLY_SUPPLY_ONCE, ECTrades.XP_LEVEL_4_BUY));
+				trades.get(4).add(new ECTrades.ItemsForEmeralds(Items.RABBIT, 2, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
+				trades.get(5).add(new ECTrades.EmeraldForItems(ECItems.WARDEN_HEART, 1, 8, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+				trades.get(5).add(new ECTrades.ItemsForEmeralds(Items.EXPERIENCE_BOTTLE, 3, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+			} else if(CHEF.equals(currentVillagerProfession)) {
+				trades.get(1).add(new ECTrades.EmeraldForItems(Items.CHARCOAL, 12, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_BUY));
+				trades.get(1).add(new ECTrades.ItemsForEmeralds(Items.BREAD, 1, 6, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
+				trades.get(1).add(new ECTrades.ItemsForEmeralds(Items.BEETROOT_SOUP, 1, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
+				trades.get(2).add(new ECTrades.EmeraldForItems(Items.BAKED_POTATO, 14, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
+				trades.get(2).add(new ECTrades.EmeraldForRandomItems(CHEF_LEVEL_2_MUSHROOMS.build(), 16, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_BUY));
+				trades.get(2).add(new ECTrades.ItemsForEmeralds(Items.MUSHROOM_STEW, 1, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
+				trades.get(3).add(new ECTrades.EmeraldForItems(Items.CHORUS_FRUIT, 22, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_3_BUY));
+				trades.get(3).add(new ECTrades.ItemsForEmeralds(ECItems.BEEF_AND_POTATO_STEW, 1, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
+				trades.get(3).add(new ECTrades.ItemsForEmeralds(ECItems.BRAISED_CHICKEN, 1, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
+				trades.get(4).add(new ECTrades.EmeraldForItems(Items.COOKED_BEEF, 7, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_BUY));
+				trades.get(4).add(new ECTrades.EmeraldForItems(Items.COOKED_CHICKEN, 10, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_BUY));
+				trades.get(4).add(new ECTrades.ItemsForEmeralds(ECItems.CHORUS_FLOWER_EGGDROP_SOUP, 1, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
+				trades.get(5).add(new ECTrades.EmeraldForItems(ECItems.WHEAT_DOUGH, 8, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+				trades.get(5).add(new ECTrades.EmeraldForRandomItems(CHEF_LEVEL_5_MINCES.build(), 15, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+				trades.get(5).add(new ECTrades.DumplingsForEmeralds(ECItems.COOKED_DUMPLING, 20, 30, 45, 15, 1, 9, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+				trades.get(5).add(new ECTrades.DumplingsForEmeralds(ECItems.COOKED_DUMPLING, 45, 45, 15, 30, 1, 9, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 			} else if(new ResourceLocation(VillagerProfession.FARMER.name()).equals(currentVillagerProfession)) {
 				trades.get(1).add(new ECTrades.ItemsForEmeralds(ECItems.CHILI_SEED, 1, 2, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_SELL));
 				trades.get(2).add(new ECTrades.ItemsForEmeralds(ECItems.PEACH, 3, 1, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_2_SELL));
@@ -439,7 +473,6 @@ public class Villages {
 				trades.get(5).add(new ECTrades.NetherStructureMapForEmeralds(14, 2, ECStructureTags.ON_GEOCENTER_EXPLORER_MAPS, "filled_map.entrenchment", ECMapDecorationTypes.ENTRENCHMENT, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 			}
 		}
-
 
 		@SubscribeEvent
 		public static void registerWandererTrades(WandererTradesEvent event) {

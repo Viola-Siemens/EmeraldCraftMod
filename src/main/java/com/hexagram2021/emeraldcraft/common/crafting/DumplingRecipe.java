@@ -18,6 +18,8 @@ import net.minecraft.world.level.Level;
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 public class DumplingRecipe extends CustomRecipe {
+	private static final int MAX_VEGETABLE_FILLINGS = 3;
+
 	public DumplingRecipe(CraftingBookCategory category) {
 		super(category);
 	}
@@ -36,7 +38,7 @@ public class DumplingRecipe extends CustomRecipe {
 				dough = true;
 			} else if(itemstack.is(ECItemTags.MINCE) && !mince) {
 				mince = true;
-			} else if(count < 2 && itemstack.is(ECItemTags.VEGETABLE_FILLINGS)) {
+			} else if(count < MAX_VEGETABLE_FILLINGS && itemstack.is(ECItemTags.VEGETABLE_FILLINGS)) {
 				count += 1;
 			} else {
 				return false;
