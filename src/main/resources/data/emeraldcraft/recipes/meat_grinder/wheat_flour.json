@@ -1,0 +1,12 @@
+{
+  "type": "emeraldcraft:meat_grinder",
+  "ingredient": {
+    "item": "minecraft:wheat"
+  },
+  "result": {
+    "item": "emeraldcraft:wheat_flour",
+    "count": 1
+  },
+  "bonus": 0.15,
+  "cookingtime": 120
+}

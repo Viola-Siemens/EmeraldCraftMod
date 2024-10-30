@@ -167,6 +167,9 @@ public class EmeraldCraft {
 			ECSaveData worldData = world.getDataStorage().computeIfAbsent(ECSaveData.factory(), ECSaveData.dataName);
 			ECSaveData.setInstance(worldData);
 		}
+		// // Run these checks when debugging:
+		// com.hexagram2021.emeraldcraft.common.util.RegistryChecker.registryCheck(event.getServer().getLootData());
+		// com.hexagram2021.emeraldcraft.common.util.RegistryChecker.recipeCheck(event.getServer().getLootData(), event.getServer().getRecipeManager(), event.getServer().registryAccess());
 	}
 
 	public void datapackSync(OnDatapackSyncEvent event) {

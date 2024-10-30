@@ -12,6 +12,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
@@ -73,8 +74,9 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 		}
 		MeatGrinderRecipe recipe = recipeHolder.value();
 		ItemStack target = recipe.assemble(blockEntity, level.registryAccess());
+		int maxBound = target.getCount() + Mth.ceil(recipe.getBonusChance());
 		boolean emptyResult = result.isEmpty();
-		boolean sameResult = ItemStack.isSameItemSameTags(target, result) && target.getCount() + result.getCount() <= Math.min(target.getMaxStackSize(), blockEntity.getMaxStackSize());
+		boolean sameResult = ItemStack.isSameItemSameTags(target, result) && maxBound + result.getCount() <= Math.min(target.getMaxStackSize(), blockEntity.getMaxStackSize());
 		if(emptyResult || sameResult) {
 			if(blockEntity.totalTicks != recipe.getCookingTime()) {
 				blockEntity.totalTicks = recipe.getCookingTime();
@@ -89,6 +91,12 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 			}
 			if(blockEntity.progressTicks >= blockEntity.totalTicks) {
 				if(!level.isClientSide) {
+					int additionalCount = Mth.floor(recipe.getBonusChance());
+					float chance = recipe.getBonusChance() - (float)additionalCount;
+					if(level.random.nextFloat() < chance) {
+						additionalCount += 1;
+					}
+					target.setCount(target.getCount() + additionalCount);
 					if (sameResult) {
 						result.grow(target.getCount());
 					} else {

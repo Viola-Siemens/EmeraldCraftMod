@@ -11,13 +11,15 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 public class MeatGrinderRecipe extends AbstractCookingRecipe {
+	private final float bonusChance;
 
 	public static final CachedRecipeList<MeatGrinderRecipe> recipeList = new CachedRecipeList<>(ECRecipes.MEAT_GRINDER_TYPE);
 
 	public static final int GRIND_TIME = 120;
 
-	public MeatGrinderRecipe(String group, Ingredient ingredient, ItemStack result, float experience, int cookingTime) {
+	public MeatGrinderRecipe(String group, Ingredient ingredient, ItemStack result, float experience, int cookingTime, float bonusChance) {
 		super(ECRecipes.MEAT_GRINDER_TYPE.get(), group, CookingBookCategory.MISC, ingredient, result, experience, cookingTime);
+		this.bonusChance = bonusChance;
 	}
 
 	@Override
@@ -36,5 +38,9 @@ public class MeatGrinderRecipe extends AbstractCookingRecipe {
 
 	public ItemStack getResult() {
 		return this.result;
+	}
+
+	public float getBonusChance() {
+		return this.bonusChance;
 	}
 }

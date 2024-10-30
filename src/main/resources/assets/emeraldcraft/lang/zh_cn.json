@@ -403,6 +403,7 @@
   "item.emeraldcraft.minced_pork": "猪肉碎",
   "item.emeraldcraft.minced_rabbit": "兔肉碎",
   "item.emeraldcraft.wheat_dough": "小麦面团",
+  "item.emeraldcraft.wheat_flour": "小麦粉",
 
   "item.emeraldcraft.raw_dumpling": "生饺子",
   "item.emeraldcraft.cooked_dumpling": "熟饺子",
@@ -567,6 +568,7 @@
   "gui.emeraldcraft.rabble_furnace.experience": "%s 点经验",
   "gui.emeraldcraft.rabble_furnace.time.seconds": "%s 秒",
   "gui.emeraldcraft.cookstove.time.seconds": "%s 秒",
+  "gui.emeraldcraft.meat_grinder.bonus": "额外产出机会：%s",
 
   "book.emeraldcraft.piglin_cutey.title": "最后一个请求",
   "book.emeraldcraft.piglin_cutey.content": "数天来，我一直被困在地狱。一只恶魂摧毁了我的传送门，所以我别无选择，只能装扮成猪灵并与他们交易——但迄今为止我仍然没有找到足够的黑曜石。你可以帮我返回主世界吗？",

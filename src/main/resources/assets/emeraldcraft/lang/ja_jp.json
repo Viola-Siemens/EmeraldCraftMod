@@ -403,6 +403,7 @@
   "item.emeraldcraft.minced_pork": "豚ひき肉",
   "item.emeraldcraft.minced_rabbit": "兎肉ミンチ",
   "item.emeraldcraft.wheat_dough": "小麦粉生地",
+  "item.emeraldcraft.wheat_flour": "小麦粉",
 
   "item.emeraldcraft.raw_dumpling": "生餃子",
   "item.emeraldcraft.cooked_dumpling": "水餃子",
@@ -567,6 +568,7 @@
   "gui.emeraldcraft.rabble_furnace.experience": "%s EXP",
   "gui.emeraldcraft.rabble_furnace.time.seconds": "%s s",
   "gui.emeraldcraft.cookstove.time.seconds": "%s s",
+  "gui.emeraldcraft.meat_grinder.bonus": "ボーナス機会：%s",
 
   "book.emeraldcraft.piglin_cutey.title": "最後の望み",
   "book.emeraldcraft.piglin_cutey.content": "何日も私はネザーに閉じ込められていました。ポータルがガストに壊されましたから、ピグリンのように振る舞い、彼らと取引するしかありません。まだ、ポータルを起動するのに十分な黒曜石が手に入れません。私がオーバーワールドに戻ることを手伝ってくれませんか？",

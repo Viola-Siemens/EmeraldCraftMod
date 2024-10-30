@@ -30,7 +30,8 @@ public class MeatGrinderRecipeSerializer<T extends MeatGrinderRecipe> implements
 						Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(MeatGrinderRecipe::getIngredient),
 						ITEM_STACK_CODEC.fieldOf("result").forGetter(MeatGrinderRecipe::getResult),
 						Codec.FLOAT.fieldOf("experience").orElse(0.0F).forGetter(MeatGrinderRecipe::getExperience),
-						Codec.INT.fieldOf("cookingtime").orElse(defaultCookingTime).forGetter(MeatGrinderRecipe::getCookingTime)
+						Codec.INT.fieldOf("cookingtime").orElse(defaultCookingTime).forGetter(MeatGrinderRecipe::getCookingTime),
+						Codec.FLOAT.fieldOf("bonus").orElse(0.0F).forGetter(MeatGrinderRecipe::getBonusChance)
 				).apply(instance, creator::create)
 		);
 	}
@@ -47,7 +48,8 @@ public class MeatGrinderRecipeSerializer<T extends MeatGrinderRecipe> implements
 		ItemStack itemstack = buf.readItem();
 		float xp = buf.readFloat();
 		int time = buf.readVarInt();
-		return this.factory.create(group, ingredient, itemstack, xp, time);
+		float bonusChance = buf.readFloat();
+		return this.factory.create(group, ingredient, itemstack, xp, time, bonusChance);
 	}
 
 	@Override
@@ -57,9 +59,10 @@ public class MeatGrinderRecipeSerializer<T extends MeatGrinderRecipe> implements
 		buf.writeItem(recipe.getResult());
 		buf.writeFloat(recipe.getExperience());
 		buf.writeVarInt(recipe.getCookingTime());
+		buf.writeFloat(recipe.getBonusChance());
 	}
 
 	public interface Creator<T extends MeatGrinderRecipe> {
-		T create(String group, Ingredient ingredient, ItemStack result, float experience, int cookingtime);
+		T create(String group, Ingredient ingredient, ItemStack result, float experience, int cookingtime, float bonusChance);
 	}
 }
