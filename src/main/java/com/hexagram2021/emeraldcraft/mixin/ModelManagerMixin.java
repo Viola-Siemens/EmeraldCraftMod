@@ -1,7 +1,7 @@
 package com.hexagram2021.emeraldcraft.mixin;
 
 import com.google.common.collect.ImmutableMap;
-import com.hexagram2021.emeraldcraft.client.renderers.block.CookstoveRenderer;
+import com.hexagram2021.emeraldcraft.common.crafting.display.CookstoveItemsDisplay;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
@@ -25,11 +25,11 @@ public class ModelManagerMixin {
 	@Inject(method = "<clinit>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/resources/model/ModelManager;VANILLA_ATLASES:Ljava/util/Map;", shift = At.Shift.AFTER))
 	private static void emeraldcraft$registerAtlases(CallbackInfo ci) {
 		if(VANILLA_ATLASES instanceof HashMap<ResourceLocation, ResourceLocation>) {
-			VANILLA_ATLASES.put(CookstoveRenderer.COOKSTOVE_ATLAS, new ResourceLocation(MODID, "cookstove_shapes"));
+			VANILLA_ATLASES.put(CookstoveItemsDisplay.COOKSTOVE_ATLAS, new ResourceLocation(MODID, "cookstove_shapes"));
 		} else {
 			ImmutableMap.Builder<ResourceLocation, ResourceLocation> builder = ImmutableMap.builder();
 			builder.putAll(VANILLA_ATLASES);
-			builder.put(CookstoveRenderer.COOKSTOVE_ATLAS, new ResourceLocation(MODID, "cookstove_shapes"));
+			builder.put(CookstoveItemsDisplay.COOKSTOVE_ATLAS, new ResourceLocation(MODID, "cookstove_shapes"));
 			VANILLA_ATLASES = builder.build();
 		}
 	}

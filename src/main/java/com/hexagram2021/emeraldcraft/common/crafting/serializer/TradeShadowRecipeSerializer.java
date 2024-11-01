@@ -14,6 +14,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
+import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryEntry;
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 public class TradeShadowRecipeSerializer<T extends TradeShadowRecipe> implements RecipeSerializer<T> {
@@ -53,8 +54,8 @@ public class TradeShadowRecipeSerializer<T extends TradeShadowRecipe> implements
 		ItemStack costA = buf.readItem();
 		ItemStack costB = buf.readItem();
 		ItemStack result = buf.readItem();
-		EntityType<?> entityType = Objects.requireNonNull(ForgeRegistries.ENTITY_TYPES.getValue(buf.readResourceLocation()));
-		VillagerProfession profession = Objects.requireNonNullElse(ForgeRegistries.VILLAGER_PROFESSIONS.getValue(buf.readResourceLocation()), VillagerProfession.NONE);
+		EntityType<?> entityType = getRegistryEntry(ForgeRegistries.ENTITY_TYPES, buf.readResourceLocation());
+		VillagerProfession profession = getRegistryEntry(ForgeRegistries.VILLAGER_PROFESSIONS, buf.readResourceLocation(), VillagerProfession.NONE);
 		int villagerLevel = buf.readVarInt();
 		int xp = buf.readVarInt();
 

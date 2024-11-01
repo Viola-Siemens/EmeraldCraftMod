@@ -199,6 +199,7 @@ public class MineralTableMenu extends AbstractContainerMenu {
 			this.checkTakeAchievements(itemStack);
 		}
 
+		@SuppressWarnings("UnstableApiUsage")
 		@Override
 		protected void checkTakeAchievements(ItemStack itemStack) {
 			itemStack.onCraftedBy(this.player.level(), this.player, this.removeCount);

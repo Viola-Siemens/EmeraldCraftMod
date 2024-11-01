@@ -2,13 +2,12 @@ package com.hexagram2021.emeraldcraft.common.blocks.entity;
 
 import com.hexagram2021.emeraldcraft.common.blocks.workstation.CookstoveBlock;
 import com.hexagram2021.emeraldcraft.common.crafting.CookstoveRecipe;
+import com.hexagram2021.emeraldcraft.common.crafting.display.ICookstoveDisplay;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
 import com.hexagram2021.emeraldcraft.common.util.PartialRecipeCachedCheck;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -16,9 +15,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
@@ -58,7 +55,7 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 	public static final int MAX_TANK_CAPABILITY = FluidType.BUCKET_VOLUME;
 	public static final int TANK_INPUT = 0;
 	public static final int COUNT_TANKS = 1;
-	public static final int MAX_FUEL = 2000;
+	public static final int MAX_FUEL = 4 * FluidType.BUCKET_VOLUME;
 	public static final int[] DEFAULT_PLACE_ORDER = {0, 3, 6, 1, 4, 7, 2, 5};
 
 	private final NonNullList<ItemStack> items = NonNullList.withSize(COUNT_SLOTS, ItemStack.EMPTY);
@@ -67,7 +64,7 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 	private Ingredient container = null;
 	private ItemStack result = ItemStack.EMPTY;
 	@Nullable
-	private CookstoveDisplay display;
+	private ICookstoveDisplay display;
 	private int fuel = 0;
 	public int animateTick = 0;
 	private final FluidTank tank = new FluidTank(MAX_TANK_CAPABILITY);
@@ -263,7 +260,7 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 			this.container = null;
 		}
 		if(nbt.contains("display", Tag.TAG_COMPOUND)) {
-			this.display = CookstoveDisplay.CODEC.parse(NbtOps.INSTANCE, nbt.getCompound("display")).getOrThrow(false, ECLogger::error);
+			this.display = ICookstoveDisplay.CODEC.parse(NbtOps.INSTANCE, nbt.getCompound("display")).getOrThrow(false, ECLogger::error);
 		} else {
 			this.display = null;
 		}
@@ -288,7 +285,7 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 					.ifPresent(tag -> nbt.put("container", tag));
 		}
 		if(this.display != null) {
-			CookstoveDisplay.CODEC.encodeStart(NbtOps.INSTANCE, this.display)
+			ICookstoveDisplay.CODEC.encodeStart(NbtOps.INSTANCE, this.display)
 					.resultOrPartial(ECLogger::error)
 					.ifPresent(tag -> nbt.put("display", tag));
 		}
@@ -427,7 +424,7 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 
 	@OnlyIn(Dist.CLIENT)
 	@Nullable
-	public CookstoveDisplay getDisplay() {
+	public ICookstoveDisplay getDisplay() {
 		return this.display;
 	}
 
@@ -462,41 +459,5 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 		super.reviveCaps();
 		this.itemHandler = new InvWrapper(this);
 		this.itemHandlerWrapper = LazyOptional.of(() -> this.itemHandler);
-	}
-
-	public record CookstoveDisplay(Background background, Ingredient ingredient) {
-		public static final Codec<CookstoveDisplay> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-				Background.CODEC.fieldOf("background").forGetter(CookstoveDisplay::background),
-				Ingredient.CODEC.fieldOf("ingredient").forGetter(CookstoveDisplay::ingredient)
-		).apply(instance, CookstoveDisplay::new));
-
-		public static CookstoveDisplay fromNetwork(FriendlyByteBuf buf) {
-			Background background = Background.fromNetwork(buf);
-			Ingredient ingredient = Ingredient.fromNetwork(buf);
-			return new CookstoveDisplay(background, ingredient);
-		}
-
-		public void toNetwork(FriendlyByteBuf buf) {
-			this.background.toNetwork(buf);
-			this.ingredient.toNetwork(buf);
-		}
-
-		public record Background(int color, ResourceLocation shape) {
-			public static final Codec<Background> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-					Codec.INT.fieldOf("color").forGetter(Background::color),
-					ResourceLocation.CODEC.fieldOf("shape").forGetter(Background::shape)
-			).apply(instance, Background::new));
-
-			public static Background fromNetwork(FriendlyByteBuf buf) {
-				int color = buf.readVarInt();
-				ResourceLocation shape = buf.readResourceLocation();
-				return new Background(color, shape);
-			}
-
-			public void toNetwork(FriendlyByteBuf buf) {
-				buf.writeVarInt(this.color);
-				buf.writeResourceLocation(this.shape);
-			}
-		}
 	}
 }

@@ -5,13 +5,13 @@
       "item": "minecraft:water_bucket"
     },
     {
-      "item": "emeraldcraft:wheat_flour"
+      "tag": "forge:flour/wheat"
     },
     {
-      "item": "emeraldcraft:wheat_flour"
+      "tag": "forge:flour/wheat"
     },
     {
-      "item": "emeraldcraft:wheat_flour"
+      "tag": "forge:flour/wheat"
     }
   ],
   "result": {

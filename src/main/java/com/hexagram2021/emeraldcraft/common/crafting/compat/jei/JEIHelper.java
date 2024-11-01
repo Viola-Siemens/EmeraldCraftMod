@@ -4,6 +4,7 @@ import com.hexagram2021.emeraldcraft.client.screens.*;
 import com.hexagram2021.emeraldcraft.common.blocks.entity.RabbleFurnaceBlockEntity;
 import com.hexagram2021.emeraldcraft.common.crafting.*;
 import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
+import com.hexagram2021.emeraldcraft.common.crafting.compat.jei.replacers.SuspiciousStewCookstoveRecipeMaker;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.*;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
 import com.hexagram2021.emeraldcraft.common.register.ECContainerTypes;
@@ -23,6 +24,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -74,12 +76,15 @@ public class JEIHelper implements IModPlugin {
 		registration.addRecipes(ECJEIRecipeTypes.ICE_MAKER, getRecipes(IceMakerRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.RABBLE_FURNACE, getRecipes(RabbleFurnaceRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.MEAT_GRINDER, getRecipes(MeatGrinderRecipe.recipeList));
-		registration.addRecipes(ECJEIRecipeTypes.COOKSTOVE, getRecipes(CookstoveRecipe.recipeList));
+		registration.addRecipes(ECJEIRecipeTypes.COOKSTOVE, Stream.concat(getRecipesStream(CookstoveRecipe.recipeList), SuspiciousStewCookstoveRecipeMaker.createRecipesStream()).toList());
 		registration.addRecipes(ECJEIRecipeTypes.TRADES, TradeShadowRecipe.getTradeRecipes(Objects.requireNonNull(Minecraft.getInstance().level)));
 	}
 
+	private static <T extends Recipe<?>> Stream<T> getRecipesStream(CachedRecipeList<T> cachedList) {
+		return cachedList.getRecipes(Objects.requireNonNull(Minecraft.getInstance().level)).stream().map(RecipeHolder::value);
+	}
 	private static <T extends Recipe<?>> List<T> getRecipes(CachedRecipeList<T> cachedList) {
-		return cachedList.getRecipes(Objects.requireNonNull(Minecraft.getInstance().level)).stream().map(RecipeHolder::value).toList();
+		return getRecipesStream(cachedList).toList();
 	}
 
 	@Override

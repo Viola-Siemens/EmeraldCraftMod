@@ -20,8 +20,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Supplier;
+
+import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryEntry;
 
 public class FarciFoodItem extends Item {
 	private final int nutrition;
@@ -73,10 +74,10 @@ public class FarciFoodItem extends Item {
 		if(nbt != null && nbt.contains(FarciFoodStorage.TAG_FILLINGS, Tag.TAG_LIST)) {
 			ListTag listTag = nbt.getList(FarciFoodStorage.TAG_FILLINGS, Tag.TAG_STRING);
 			if(!listTag.isEmpty()) {
-				Item item = Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(listTag.getString(0))));
+				Item item = getRegistryEntry(ForgeRegistries.ITEMS, new ResourceLocation(listTag.getString(0)));
 				Component filling = Component.translatable(item.getDescriptionId());
 				for(int i = 1; i < listTag.size(); ++i) {
-					item = Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(listTag.getString(i))));
+					item = getRegistryEntry(ForgeRegistries.ITEMS, new ResourceLocation(listTag.getString(i)));
 					filling = Component.translatable("item.emeraldcraft.dumpling.filling_combination", filling, Component.translatable(item.getDescriptionId()));
 				}
 				components.add(Component.translatable("item.emeraldcraft.dumpling.filling", filling));

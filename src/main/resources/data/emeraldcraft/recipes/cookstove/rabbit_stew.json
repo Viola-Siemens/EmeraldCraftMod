@@ -5,14 +5,20 @@
       "tag": "forge:crops/potato"
     },
     {
-      "item": "minecraft:beef"
+      "item": "minecraft:rabbit"
+    },
+    {
+      "tag": "forge:crops/carrot"
+    },
+    {
+      "tag": "forge:mushrooms"
     }
   ],
   "container": {
     "item": "minecraft:bowl"
   },
   "result": {
-    "item": "emeraldcraft:beef_and_potato_stew",
+    "item": "minecraft:rabbit_stew",
     "count": 2
   },
   "display": {

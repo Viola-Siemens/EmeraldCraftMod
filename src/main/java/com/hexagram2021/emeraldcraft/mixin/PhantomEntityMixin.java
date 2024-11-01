@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -24,9 +25,11 @@ import java.util.UUID;
 
 @Mixin(Phantom.class)
 public class PhantomEntityMixin implements Convertible {
-	private int phantomConversionTime;
+	@Unique
+	private int emeraldcraft$phantomConversionTime;
+	@Unique
 	@Nullable
-	private UUID conversionStarter;
+	private UUID emeraldcraft$conversionStarter;
 
 	@Inject(method = "defineSynchedData", at = @At(value = "TAIL"))
 	public void definePhantomCureData(CallbackInfo ci) {
@@ -65,23 +68,23 @@ public class PhantomEntityMixin implements Convertible {
 
 	@Override
 	public int getConversionRemainTime() {
-		return this.phantomConversionTime;
+		return this.emeraldcraft$phantomConversionTime;
 	}
 
 	@Override
 	public void setConversionRemainTime(int time) {
-		this.phantomConversionTime = time;
+		this.emeraldcraft$phantomConversionTime = time;
 	}
 
 	@Override
 	public void decreaseConversionRemainTime(int dec) {
-		this.phantomConversionTime -= dec;
+		this.emeraldcraft$phantomConversionTime -= dec;
 	}
 
 	@Override
 	public void startConverting(@Nullable UUID player, int time) {
-		this.conversionStarter = player;
-		this.phantomConversionTime = time;
+		this.emeraldcraft$conversionStarter = player;
+		this.emeraldcraft$phantomConversionTime = time;
 
 		Phantom current = (Phantom)(Object)this;
 		current.getEntityData().set(DATA_PHANTOM_CONVERTING_ID, true);
@@ -90,6 +93,7 @@ public class PhantomEntityMixin implements Convertible {
 		current.playSound(SoundEvents.ZOMBIE_VILLAGER_CURE);
 	}
 
+	@SuppressWarnings("UnstableApiUsage")
 	@Override
 	public void finishConversion(ServerLevel level) {
 		Phantom current = (Phantom)(Object)this;
@@ -98,8 +102,8 @@ public class PhantomEntityMixin implements Convertible {
 			return;
 		}
 
-		if (this.conversionStarter != null) {
-			Player player = level.getPlayerByUUID(this.conversionStarter);
+		if (this.emeraldcraft$conversionStarter != null) {
+			Player player = level.getPlayerByUUID(this.emeraldcraft$conversionStarter);
 			if(player != null) {
 				manta.cureFrom(current, player);
 			}
@@ -115,6 +119,7 @@ public class PhantomEntityMixin implements Convertible {
 		return ((Phantom)(Object)this).getEntityData().get(DATA_PHANTOM_CONVERTING_ID);
 	}
 
+	@SuppressWarnings("UnstableApiUsage")
 	@Inject(method = "tick", at = @At(value = "HEAD"))
 	public void tickConverting(CallbackInfo ci) {
 		Phantom current = (Phantom)(Object)this;
@@ -130,9 +135,9 @@ public class PhantomEntityMixin implements Convertible {
 
 	@Inject(method = "addAdditionalSaveData", at = @At(value = "TAIL"))
 	public void addConversionData(CompoundTag nbt, CallbackInfo ci) {
-		nbt.putInt("ConversionTime", this.isConverting() ? this.phantomConversionTime : -1);
-		if (this.conversionStarter != null) {
-			nbt.putUUID("ConversionPlayer", this.conversionStarter);
+		nbt.putInt("ConversionTime", this.isConverting() ? this.emeraldcraft$phantomConversionTime : -1);
+		if (this.emeraldcraft$conversionStarter != null) {
+			nbt.putUUID("ConversionPlayer", this.emeraldcraft$conversionStarter);
 		}
 	}
 

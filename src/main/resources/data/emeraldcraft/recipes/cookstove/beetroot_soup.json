@@ -1,0 +1,48 @@
+{
+  "type": "emeraldcraft:cookstove",
+  "ingredients": [
+    {
+      "tag": "forge:crops/beetroot"
+    },
+    {
+      "tag": "forge:crops/beetroot"
+    },
+    {
+      "tag": "forge:crops/beetroot"
+    },
+    {
+      "tag": "forge:crops/beetroot"
+    },
+    {
+      "tag": "forge:crops/beetroot"
+    },
+    {
+      "tag": "forge:crops/beetroot"
+    }
+  ],
+  "container": {
+    "item": "minecraft:bowl"
+  },
+  "result": {
+    "item": "minecraft:beetroot_soup",
+    "count": 2
+  },
+  "display": {
+    "type": "emeraldcraft:items",
+    "background": {
+      "color": 12069424,
+      "shape": "emeraldcraft:soup"
+    },
+    "ingredient": [
+      {
+        "item": "minecraft:beetroot"
+      },
+      {
+        "item": "minecraft:beetroot"
+      },
+      {
+        "item": "minecraft:beetroot"
+      }
+    ]
+  }
+}

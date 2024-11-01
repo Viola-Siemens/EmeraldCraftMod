@@ -10,7 +10,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.IForgeRegistry;
+import org.jetbrains.annotations.Contract;
 
+import javax.annotation.Nullable;
 import java.util.Objects;
 
 public interface RegistryHelper {
@@ -34,5 +37,15 @@ public interface RegistryHelper {
 	}
 	static ResourceLocation getRegistryName(StructureType<?> structureType) {
 		return Objects.requireNonNull(BuiltInRegistries.STRUCTURE_TYPE.getKey(structureType));
+	}
+
+	static <T> T getRegistryEntry(IForgeRegistry<T> registry, ResourceLocation registryName) {
+		return Objects.requireNonNull(registry.getValue(registryName));
+	}
+	@Contract("_,_,!null->!null;_,_,null->_")
+	@Nullable
+	static <T> T getRegistryEntry(IForgeRegistry<T> registry, ResourceLocation registryName, @Nullable T e) {
+		T ret = registry.getValue(registryName);
+		return ret == null ? e : ret;
 	}
 }

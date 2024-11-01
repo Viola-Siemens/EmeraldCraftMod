@@ -14,6 +14,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.List;
 import java.util.Map;
 
+import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryEntry;
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 public class ClientboundTradeSyncPacket implements IECPacket {
@@ -29,10 +30,10 @@ public class ClientboundTradeSyncPacket implements IECPacket {
 		this.jobsites = Maps.newIdentityHashMap();
 		int professionSize = buf.readVarInt();
 		for(int i = 0; i < professionSize; ++i) {
-			VillagerProfession profession = ForgeRegistries.VILLAGER_PROFESSIONS.getValue(buf.readResourceLocation());
+			VillagerProfession profession = getRegistryEntry(ForgeRegistries.VILLAGER_PROFESSIONS, buf.readResourceLocation());
 			List<Block> blocks = buf.readCollection(Lists::newArrayListWithCapacity, friendlyByteBuf -> {
 				ResourceLocation id = friendlyByteBuf.readResourceLocation();
-				return ForgeRegistries.BLOCKS.getValue(id);
+				return getRegistryEntry(ForgeRegistries.BLOCKS, id);
 			});
 			this.jobsites.put(profession, blocks);
 		}

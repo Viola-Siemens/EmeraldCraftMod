@@ -55,7 +55,7 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 		BehaviorUtils.setWalkAndLookTargetMemories(entity, Objects.requireNonNull(this.getClosestDarkLocation(level, entity)), this.speedModifier, 0);
 	}
 
-	@SuppressWarnings("ConstantConditions")
+	@SuppressWarnings({"ConstantConditions", "UnstableApiUsage"})
 	@Override
 	protected void tick(ServerLevel level, E entity, long tick) {
 		if(entity.getBrain().checkMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), MemoryStatus.VALUE_PRESENT)) {

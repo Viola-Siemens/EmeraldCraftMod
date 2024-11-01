@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractSkeleton.class)
 public class AbstractSkeletonMixin {
+	@SuppressWarnings("DataFlowIssue")
 	@Inject(method = "registerGoals", at = @At(value = "TAIL"))
 	protected void registerNetherVillagerGoals(CallbackInfo info) {
 		((AbstractSkeleton)(Object)this).targetSelector.addGoal(4, new NearestAttackableTargetGoal<>((AbstractSkeleton)(Object)this, NetherPigmanEntity.class, true));

@@ -379,6 +379,9 @@ public class ECItems {
 	public static final ItemEntry<Item> WHEAT_DOUGH = ItemEntry.register(
 			"wheat_dough", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
+	public static final ItemEntry<Item> WHEAT_FLOUR = ItemEntry.register(
+			"wheat_flour", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+	);
 	public static final ItemEntry<FarciFoodItem> RAW_DUMPLING = ItemEntry.register(
 			"raw_dumpling", () -> new FarciFoodItem(new Item.Properties(), 1, 0.3F, false, Lists.newArrayList()), null
 	);

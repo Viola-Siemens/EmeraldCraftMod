@@ -2,6 +2,7 @@ package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 
 import com.hexagram2021.emeraldcraft.common.blocks.entity.CookstoveBlockEntity;
 import com.hexagram2021.emeraldcraft.common.crafting.CookstoveRecipe;
+import com.hexagram2021.emeraldcraft.common.crafting.display.ICookstoveDisplay;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -32,7 +33,7 @@ public class CookstoveRecipeSerializer<T extends CookstoveRecipe> implements Rec
 						ExtraCodecs.strictOptionalField(FluidStack.CODEC, "fluid", FluidStack.EMPTY).forGetter(CookstoveRecipe::fluidStack),
 						ExtraCodecs.strictOptionalField(Ingredient.CODEC, "container", Ingredient.EMPTY).forGetter(CookstoveRecipe::container),
 						CraftingRecipeCodecs.ITEMSTACK_OBJECT_CODEC.fieldOf("result").forGetter(CookstoveRecipe::result),
-						CookstoveBlockEntity.CookstoveDisplay.CODEC.fieldOf("display").forGetter(CookstoveRecipe::display),
+						ICookstoveDisplay.CODEC.fieldOf("display").forGetter(CookstoveRecipe::display),
 						Codec.INT.fieldOf("cookTime").orElse(defaultCookingTime).forGetter(CookstoveRecipe::cookTime)
 				).apply(instance, factory::create)
 		);
@@ -52,7 +53,7 @@ public class CookstoveRecipeSerializer<T extends CookstoveRecipe> implements Rec
 		FluidStack fluidStack = FluidStack.readFromPacket(buf);
 		Ingredient container = Ingredient.fromNetwork(buf);
 		ItemStack result = buf.readItem();
-		CookstoveBlockEntity.CookstoveDisplay display = CookstoveBlockEntity.CookstoveDisplay.fromNetwork(buf);
+		ICookstoveDisplay display = ICookstoveDisplay.fromNetwork(buf);
 		int cookTime = buf.readVarInt();
 		return this.factory.create(ingredients, fluidStack, container, result, display, cookTime);
 	}
@@ -72,6 +73,6 @@ public class CookstoveRecipeSerializer<T extends CookstoveRecipe> implements Rec
 	}
 
 	public interface Creator<T extends CookstoveRecipe> {
-		T create(NonNullList<Ingredient> ingredients, FluidStack fluidStack, Ingredient container, ItemStack result, CookstoveBlockEntity.CookstoveDisplay display, int cookTime);
+		T create(NonNullList<Ingredient> ingredients, FluidStack fluidStack, Ingredient container, ItemStack result, ICookstoveDisplay display, int cookTime);
 	}
 }

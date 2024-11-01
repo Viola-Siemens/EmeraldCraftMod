@@ -15,6 +15,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 
 import javax.annotation.Nullable;
 
+@SuppressWarnings("UnstableApiUsage")
 public class BlockUtil {
 	@SuppressWarnings("UnusedReturnValue")
 	public static boolean breakBlock(ServerPlayer player, BlockState blockState, @Nullable BlockEntity blockEntity, BlockPos pos, int exp) {

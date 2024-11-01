@@ -21,6 +21,7 @@ public class ZombieEntityMixin {
 		}
 	}
 
+	@SuppressWarnings("UnstableApiUsage")
 	@Inject(method = "tick", at = @At(value = "HEAD"))
 	public void tickConverting(CallbackInfo ci) {
 		Zombie current = (Zombie)(Object)this;

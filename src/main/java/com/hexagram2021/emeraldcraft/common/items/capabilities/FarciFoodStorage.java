@@ -23,6 +23,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
+import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryEntry;
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 //Read-only capability.
@@ -71,7 +72,7 @@ public class FarciFoodStorage implements IFoodStorage, INBTSerializable<ListTag>
 		List<Item> fillingFoods = Lists.newArrayList();
 		if(nbt != null && nbt.contains(TAG_FILLINGS, Tag.TAG_LIST)) {
 			for(Tag tag: nbt.getList(TAG_FILLINGS, Tag.TAG_STRING)) {
-				fillingFoods.add(ForgeRegistries.ITEMS.getValue(new ResourceLocation(tag.getAsString())));
+				fillingFoods.add(getRegistryEntry(ForgeRegistries.ITEMS, new ResourceLocation(tag.getAsString())));
 			}
 		}
 		return fillingFoods;
@@ -102,7 +103,7 @@ public class FarciFoodStorage implements IFoodStorage, INBTSerializable<ListTag>
 	public void setFoodTag(ListTag listTag) {
 		List<Item> fillingFoods = Lists.newArrayList();
 		for(Tag tag: listTag) {
-			fillingFoods.add(ForgeRegistries.ITEMS.getValue(new ResourceLocation(tag.getAsString())));
+			fillingFoods.add(getRegistryEntry(ForgeRegistries.ITEMS, new ResourceLocation(tag.getAsString())));
 		}
 		this.foodProperties = buildFoodProperties(
 				fillingFoods, this.item.isCooked(),

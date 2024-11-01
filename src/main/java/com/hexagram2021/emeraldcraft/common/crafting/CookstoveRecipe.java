@@ -3,6 +3,7 @@ package com.hexagram2021.emeraldcraft.common.crafting;
 import com.google.common.collect.Lists;
 import com.hexagram2021.emeraldcraft.common.blocks.entity.CookstoveBlockEntity;
 import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
+import com.hexagram2021.emeraldcraft.common.crafting.display.ICookstoveDisplay;
 import com.hexagram2021.emeraldcraft.common.crafting.serializer.CookstoveRecipeSerializer;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipeSerializer;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
@@ -21,13 +22,13 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.List;
 
 public record CookstoveRecipe(NonNullList<Ingredient> ingredients, FluidStack fluidStack,
-							  Ingredient container, ItemStack result, CookstoveBlockEntity.CookstoveDisplay display,
+							  Ingredient container, ItemStack result, ICookstoveDisplay display,
 							  int cookTime, boolean isSimple) implements Recipe<CookstoveBlockEntity>, IPartialMatchRecipe<Container> {
 	public static final CachedRecipeList<CookstoveRecipe> recipeList = new CachedRecipeList<>(ECRecipes.COOKSTOVE_TYPE);
 
 	public static final int COOK_TIME = 100;
 
-	public CookstoveRecipe(NonNullList<Ingredient> ingredients, FluidStack fluidStack, Ingredient container, ItemStack result, CookstoveBlockEntity.CookstoveDisplay display, int cookTime) {
+	public CookstoveRecipe(NonNullList<Ingredient> ingredients, FluidStack fluidStack, Ingredient container, ItemStack result, ICookstoveDisplay display, int cookTime) {
 		this(ingredients, fluidStack, container, result, display, cookTime, ingredients.stream().allMatch(Ingredient::isSimple));
 	}
 

@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
+import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryEntry;
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 @SuppressWarnings("unused")
@@ -51,7 +52,7 @@ public class BiomeUtil {
 		if (biome == null) {
 			throw new RuntimeException("Cannot get registry key for null biome");
 		} else {
-			ResourceLocation name = getRegistryName(biome);
+			ResourceLocation name = ForgeRegistries.BIOMES.getKey(biome);
 			if (name == null) {
 				if (FMLEnvironment.dist == Dist.CLIENT) {
 					return getClientKey(biome);
@@ -66,7 +67,7 @@ public class BiomeUtil {
 
 	@Nullable
 	public static Biome getBiome(ResourceKey<Biome> key) {
-		Biome biome = ForgeRegistries.BIOMES.getValue(key.location());
+		Biome biome = getRegistryEntry(ForgeRegistries.BIOMES, key.location(), null);
 		if (biome == null) {
 			if (FMLEnvironment.dist == Dist.CLIENT) {
 				try {

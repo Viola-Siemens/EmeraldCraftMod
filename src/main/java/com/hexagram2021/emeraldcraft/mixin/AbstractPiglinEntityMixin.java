@@ -12,6 +12,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.piglin.AbstractPiglin;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -23,9 +24,11 @@ import java.util.UUID;
 @Mixin(AbstractPiglin.class)
 public class AbstractPiglinEntityMixin extends Monster implements PlayerHealable {
 	@SuppressWarnings("WrongEntityDataParameterClass")
+	@Unique
 	private static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(AbstractPiglin.class, EntityDataSerializers.BYTE);
 
-	private UUID healedPlayer = Util.NIL_UUID;
+	@Unique
+	private UUID emeraldcraft$healedPlayer = Util.NIL_UUID;
 
 	protected AbstractPiglinEntityMixin(EntityType<? extends Monster> entityType, Level level) {
 		super(entityType, level);
@@ -39,7 +42,7 @@ public class AbstractPiglinEntityMixin extends Monster implements PlayerHealable
 	@Inject(method = "addAdditionalSaveData", at = @At(value = "TAIL"))
 	public void addPlayerHealed(CompoundTag nbt, CallbackInfo ci) {
 		nbt.putBoolean("PlayerHealed", this.isPlayerHealed());
-		nbt.putUUID("HealedPlayer", this.healedPlayer);
+		nbt.putUUID("HealedPlayer", this.emeraldcraft$healedPlayer);
 	}
 
 	@Inject(method = "readAdditionalSaveData", at = @At(value = "TAIL"))
@@ -76,11 +79,11 @@ public class AbstractPiglinEntityMixin extends Monster implements PlayerHealable
 
 	@Override
 	public UUID getHealedPlayer() {
-		return this.healedPlayer;
+		return this.emeraldcraft$healedPlayer;
 	}
 
 	@Override
 	public void setHealedPlayer(@Nullable UUID player) {
-		this.healedPlayer = Objects.requireNonNullElse(player, Util.NIL_UUID);
+		this.emeraldcraft$healedPlayer = Objects.requireNonNullElse(player, Util.NIL_UUID);
 	}
 }

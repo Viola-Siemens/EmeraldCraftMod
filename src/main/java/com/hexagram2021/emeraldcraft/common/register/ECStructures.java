@@ -25,7 +25,7 @@ public class ECStructures {
 			ECStructureKeys.VILLAGE_SWAMP
 	);
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "DataFlowIssue"})
 	public static void init(RegistryAccess registryAccess) {
 		((ListAppendable<StructureSet.StructureSelectionEntry>)(Object)
 				registryAccess.lookupOrThrow(Registries.STRUCTURE_SET).get(BuiltinStructureSets.VILLAGES).orElseThrow().get())

@@ -1,6 +1,7 @@
 package com.hexagram2021.emeraldcraft.common;
 
 import com.hexagram2021.emeraldcraft.common.crafting.compat.ModsLoadedEventSubscriber;
+import com.hexagram2021.emeraldcraft.common.crafting.display.CookstoveDisplayTypes;
 import com.hexagram2021.emeraldcraft.common.entities.mobs.WombatEntity;
 import com.hexagram2021.emeraldcraft.common.register.*;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
@@ -26,6 +27,8 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 public class ECContent {
 	public static void modConstruction(IEventBus bus, Consumer<Runnable> runLater) {
 		ModsLoadedEventSubscriber.compatModLoaded();
+
+		CookstoveDisplayTypes.init();
 
 		ECBlockSetTypes.init();
 		ECWoodType.init();

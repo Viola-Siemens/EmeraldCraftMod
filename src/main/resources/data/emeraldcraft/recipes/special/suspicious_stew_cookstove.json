@@ -1,0 +1,25 @@
+{
+  "type": "emeraldcraft:suspicious_stew_cookstove",
+  "container": {
+    "item": "minecraft:bowl"
+  },
+  "result": {
+    "item": "minecraft:suspicious_stew",
+    "count": 2
+  },
+  "display": {
+    "type": "emeraldcraft:items",
+    "background": {
+      "color": 13408376,
+      "shape": "emeraldcraft:soup"
+    },
+    "ingredient": [
+      {
+        "item": "minecraft:red_mushroom"
+      },
+      {
+        "item": "minecraft:brown_mushroom"
+      }
+    ]
+  }
+}
