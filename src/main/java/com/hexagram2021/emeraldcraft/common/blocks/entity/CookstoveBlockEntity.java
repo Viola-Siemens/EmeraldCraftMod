@@ -104,8 +104,10 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 					blockEntity.setChanged();
 				}
 			}
-			blockEntity.container = blockEntity.currentRecipe.container();
-			blockEntity.display = blockEntity.currentRecipe.display();
+			if(!blockEntity.result.isEmpty()) {
+				blockEntity.container = blockEntity.currentRecipe.container();
+				blockEntity.display = blockEntity.currentRecipe.display();
+			}
 			blockEntity.currentRecipe = null;
 			if (!level.isClientSide) {
 				level.setBlock(blockPos, blockState.setValue(CookstoveBlock.LIT, false), Block.UPDATE_ALL);
@@ -237,6 +239,9 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 		}
 		//take result
 		if(this.container.isEmpty() || this.container.test(item)) {
+			if(!this.container.isEmpty() && !item.isEmpty()) {
+				item.shrink(1);
+			}
 			player.addItem(this.getResult().split(1));
 			if(this.getResult().isEmpty()) {
 				this.container = null;

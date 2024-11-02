@@ -9,7 +9,6 @@ import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.IElementHelper;
-import snownee.jade.impl.ui.HorizontalLineElement;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
@@ -26,9 +25,7 @@ public enum CookstoveProvider implements IBlockComponentProvider {
 		if(blockAccessor.getBlockEntity() instanceof CookstoveBlockEntity cookstoveBlockEntity) {
 			ItemStack result = cookstoveBlockEntity.getResult();
 			if(!result.isEmpty()) {
-				iTooltip.add(new HorizontalLineElement());
 				iTooltip.add(helper.textElement(Component.translatable("jade.emeraldcraft.cookstove.result")).scale(0.5F));
-				iTooltip.add(new HorizontalLineElement());
 				iTooltip.add(helper.item(result));
 			}
 		}

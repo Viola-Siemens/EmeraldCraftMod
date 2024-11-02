@@ -38,7 +38,7 @@ public record CookstoveBlockDisplay(Block block) implements ICookstoveDisplay {
 	@Override
 	public void render(PoseStack transform, CookstoveRenderer renderer, CookstoveBlockEntity blockEntity, MultiBufferSource buffer, int color, int overlay) {
 		transform.pushPose();
-		transform.translate(0.5D, 0.575F, 0.5D);
+		transform.translate(0.0D, 0.575F, 0.0D);
 		renderer.getBlockRenderer().renderSingleBlock(this.block.defaultBlockState(), transform, buffer, color, overlay, ModelData.EMPTY, null);
 		transform.popPose();
 	}

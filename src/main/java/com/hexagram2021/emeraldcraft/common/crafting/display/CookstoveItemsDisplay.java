@@ -50,8 +50,8 @@ public record CookstoveItemsDisplay(Background background, Ingredient ingredient
 		int length = displayItems.length * blockEntity.getResult().getCount();
 		for(int i = 0; i < length; ++i) {
 			double angle = i * Math.PI * 2.0D / length;
-			double dz = Math.cos(angle) * 0.125D;
-			double dx = Math.sin(angle) * 0.125D;
+			double dz = Math.cos(angle) * 0.25D;
+			double dx = Math.sin(angle) * 0.25D;
 			transform.pushPose();
 			transform.translate(dx + 0.5D, 0.6F, dz + 0.5D);
 			transform.mulPose(Axis.YP.rotationDegrees(Mth.RAD_TO_DEG * (float) angle));

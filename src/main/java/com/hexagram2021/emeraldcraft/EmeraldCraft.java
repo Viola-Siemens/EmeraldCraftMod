@@ -10,7 +10,6 @@ import com.hexagram2021.emeraldcraft.common.ModVanillaCompat;
 import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
 import com.hexagram2021.emeraldcraft.common.crafting.TradeShadowRecipe;
 import com.hexagram2021.emeraldcraft.common.register.*;
-import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.world.village.ECTrades;
 import com.hexagram2021.emeraldcraft.common.world.village.Villages;
 import com.hexagram2021.emeraldcraft.mixin.BlockEntityTypeAccess;
@@ -33,6 +32,7 @@ import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
@@ -46,7 +46,6 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.network.*;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.Optional;
 import java.util.Set;
@@ -104,7 +103,7 @@ public class EmeraldCraft {
 	}
 
 	public EmeraldCraft() {
-		ECLogger.logger = LogManager.getLogger(MODID);
+		ForgeMod.enableMilkFluid();
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 		MinecraftForge.EVENT_BUS.addListener(this::tagsUpdated);
 		MinecraftForge.EVENT_BUS.addListener(this::serverStarted);
