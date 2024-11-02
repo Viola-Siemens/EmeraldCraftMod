@@ -114,9 +114,6 @@ public class CookstoveBlock extends BaseEntityBlock {
 			}
 			ItemStack item = player.getItemInHand(hand);
 			if(cookstove.interact(player, item, index)) {
-				if(!item.isEmpty()) {
-					item.shrink(1);
-				}
 				return InteractionResult.CONSUME;
 			}
 		}

@@ -122,7 +122,7 @@ public class CookstoveRecipeCategory implements IRecipeCategory<CookstoveRecipe>
 		FluidStack fluidStack = recipe.fluidStack();
 		if(!fluidStack.isEmpty()) {
 			builder.addSlot(RecipeIngredientRole.INPUT, 74, 8)
-					.setFluidRenderer(CookstoveBlockEntity.MAX_TANK_CAPABILITY * 2, false, 16, 28)
+					.setFluidRenderer(CookstoveBlockEntity.MAX_TANK_CAPABILITY, false, 16, 28)
 					.addFluidStack(fluidStack.getFluid(), fluidStack.getAmount())
 					.setOverlay(this.tankOverlay, 0, 0);
 		}

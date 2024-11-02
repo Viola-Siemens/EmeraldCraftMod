@@ -52,10 +52,10 @@ import javax.annotation.Nullable;
 public class CookstoveBlockEntity extends BlockEntity implements Container, StackedContentsCompatible, Tank {
 	public static final int SLOT_INPUT_START = 0;
 	public static final int COUNT_SLOTS = 8;
-	public static final int MAX_TANK_CAPABILITY = FluidType.BUCKET_VOLUME;
+	public static final int MAX_TANK_CAPABILITY = FluidType.BUCKET_VOLUME * 4;
 	public static final int TANK_INPUT = 0;
 	public static final int COUNT_TANKS = 1;
-	public static final int MAX_FUEL = 4 * FluidType.BUCKET_VOLUME;
+	public static final int MAX_FUEL = 2000;
 	public static final int[] DEFAULT_PLACE_ORDER = {0, 3, 6, 1, 4, 7, 2, 5};
 
 	private final NonNullList<ItemStack> items = NonNullList.withSize(COUNT_SLOTS, ItemStack.EMPTY);
