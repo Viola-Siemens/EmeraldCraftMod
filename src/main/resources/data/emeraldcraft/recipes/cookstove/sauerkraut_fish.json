@@ -1,0 +1,36 @@
+{
+  "type": "emeraldcraft:cookstove",
+  "ingredients": [
+    {
+      "tag": "forge:crops/chili"
+    },
+    {
+      "tag": "forge:crops/cabbage"
+    },
+    {
+      "item": "emeraldcraft:snakehead"
+    }
+  ],
+  "container": {
+    "item": "minecraft:bowl"
+  },
+  "result": {
+    "item": "emeraldcraft:sauerkraut_fish",
+    "count": 2
+  },
+  "display": {
+    "type": "emeraldcraft:items",
+    "background": {
+      "color": 11039836,
+      "shape": "emeraldcraft:oil"
+    },
+    "ingredient": [
+      {
+        "item": "emeraldcraft:cabbage"
+      },
+      {
+        "item": "emeraldcraft:cooked_snakehead"
+      }
+    ]
+  }
+}

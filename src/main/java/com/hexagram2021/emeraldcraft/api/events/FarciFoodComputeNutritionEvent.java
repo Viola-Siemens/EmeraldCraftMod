@@ -13,18 +13,22 @@ import java.util.function.Supplier;
  */
 public class FarciFoodComputeNutritionEvent extends Event {
 	private final Item item;
+	private final boolean cooked;
 	private int nutritionAdder;
 	private final List<Pair<Supplier<MobEffectInstance>, Float>> newEffects;
 
-
-	public FarciFoodComputeNutritionEvent(Item item, int nutritionAdder, List<Pair<Supplier<MobEffectInstance>, Float>> newEffects) {
+	public FarciFoodComputeNutritionEvent(Item item, boolean cooked, int nutritionAdder, List<Pair<Supplier<MobEffectInstance>, Float>> newEffects) {
 		this.item = item;
+		this.cooked = cooked;
 		this.nutritionAdder = nutritionAdder;
 		this.newEffects = newEffects;
 	}
 
 	public Item getItem() {
 		return this.item;
+	}
+	public boolean isCooked() {
+		return this.cooked;
 	}
 	public void addNutrition(int adder) {
 		this.nutritionAdder += adder;

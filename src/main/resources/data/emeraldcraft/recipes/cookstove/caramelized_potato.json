@@ -1,0 +1,27 @@
+{
+  "type": "emeraldcraft:cookstove",
+  "ingredients": [
+    {
+      "tag": "forge:crops/potato"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "result": {
+    "item": "emeraldcraft:caramelized_potato",
+    "count": 2
+  },
+  "display": {
+    "type": "emeraldcraft:items",
+    "background": {
+      "color": 16777215,
+      "shape": "emeraldcraft:empty"
+    },
+    "ingredient": [
+      {
+        "item": "emeraldcraft:caramelized_potato"
+      }
+    ]
+  }
+}

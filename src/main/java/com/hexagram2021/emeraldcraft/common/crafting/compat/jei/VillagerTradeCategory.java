@@ -38,7 +38,7 @@ public class VillagerTradeCategory implements IRecipeCategory<TradeShadowRecipe>
 	public static final ResourceLocation TEXTURE = new ResourceLocation(MODID, "textures/gui/villager_trade.png");
 
 	protected static final int VILLAGER_X = 116 + 24;
-	protected static final int VILLAGER_Y = 46 + 64;
+	protected static final int VILLAGER_Y = 50 + 64;
 
 	private final IDrawable background;
 	private final IDrawable icon;

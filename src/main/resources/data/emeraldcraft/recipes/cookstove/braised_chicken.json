@@ -1,0 +1,36 @@
+{
+  "type": "emeraldcraft:cookstove",
+  "ingredients": [
+    {
+      "tag": "forge:crops/potato"
+    },
+    {
+      "tag": "forge:crops/chili"
+    },
+    {
+      "item": "minecraft:chicken"
+    }
+  ],
+  "container": {
+    "item": "minecraft:bowl"
+  },
+  "result": {
+    "item": "emeraldcraft:braised_chicken",
+    "count": 2
+  },
+  "display": {
+    "type": "emeraldcraft:items",
+    "background": {
+      "color": 11039836,
+      "shape": "emeraldcraft:oil"
+    },
+    "ingredient": [
+      {
+        "item": "minecraft:baked_potato"
+      },
+      {
+        "item": "minecraft:cooked_chicken"
+      }
+    ]
+  }
+}

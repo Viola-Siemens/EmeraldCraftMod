@@ -56,7 +56,7 @@ public class FarciFoodStorage implements IFoodStorage, INBTSerializable<ListTag>
 						meatFoodProperties.getEffects().forEach(pair -> newEffects.add(Pair.of(pair::getFirst, pair.getSecond())));
 					}
 				}
-				FarciFoodComputeNutritionEvent event = new FarciFoodComputeNutritionEvent(item, nutritionAdder, newEffects);
+				FarciFoodComputeNutritionEvent event = new FarciFoodComputeNutritionEvent(item, cooked, nutritionAdder, newEffects);
 				MinecraftForge.EVENT_BUS.post(event);
 				nutrition += event.getNutritionAdder();
 			}

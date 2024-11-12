@@ -1,0 +1,30 @@
+{
+  "type": "emeraldcraft:cookstove",
+  "ingredients": [
+    {
+      "tag": "forge:flour/wheat"
+    },
+    {
+      "tag": "forge:flour/wheat"
+    },
+    {
+      "item": "emeraldcraft:warped_wart"
+    }
+  ],
+  "result": {
+    "item": "emeraldcraft:potion_cookie",
+    "count": 16
+  },
+  "display": {
+    "type": "emeraldcraft:items",
+    "background": {
+      "color": 16777215,
+      "shape": "emeraldcraft:empty"
+    },
+    "ingredient": [
+      {
+        "item": "emeraldcraft:potion_cookie"
+      }
+    ]
+  }
+}

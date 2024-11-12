@@ -1,6 +1,7 @@
 package com.hexagram2021.emeraldcraft.common;
 
 import com.hexagram2021.emeraldcraft.EmeraldCraft;
+import com.hexagram2021.emeraldcraft.api.events.FarciFoodComputeNutritionEvent;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.IFluidSyncMenu;
 import com.hexagram2021.emeraldcraft.common.enchantments.VeinMiningEnchantment;
 import com.hexagram2021.emeraldcraft.common.items.capabilities.ItemStackFoodHandler;
@@ -17,8 +18,10 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -54,6 +57,13 @@ public class ForgeServerEventHandler {
 	public static void onAttackItemStackCapability(AttachCapabilitiesEvent<ItemStack> event) {
 		if(event.getObject().getItem() instanceof FarciFoodItem farciFoodItem) {
 			event.addCapability(ECCapabilities.FOOD_CAPABILITY_ID, new ItemStackFoodHandler(event.getObject(), farciFoodItem));
+		}
+	}
+
+	@SubscribeEvent
+	public static void onBuildFarciFood(FarciFoodComputeNutritionEvent event) {
+		if(event.getItem() == Items.POTATO && event.isCooked()) {
+			event.addNutrition((Foods.BAKED_POTATO.getNutrition() + 1) / 2 - (Foods.POTATO.getNutrition() + 1) / 2);
 		}
 	}
 

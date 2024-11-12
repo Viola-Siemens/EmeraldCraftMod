@@ -8,6 +8,7 @@
     "#forge:crops/chili",
     "#forge:crops/potato",
     "#forge:crops/wheat",
-    "#forge:eggs"
+    "#forge:eggs",
+    "minecraft:poisonous_potato"
   ]
 }

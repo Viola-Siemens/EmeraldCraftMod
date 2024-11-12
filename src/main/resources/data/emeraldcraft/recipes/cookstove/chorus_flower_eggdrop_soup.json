@@ -1,0 +1,30 @@
+{
+  "type": "emeraldcraft:cookstove",
+  "ingredients": [
+    {
+      "item": "minecraft:chorus_flower"
+    },
+    {
+      "item": "minecraft:egg"
+    }
+  ],
+  "container": {
+    "item": "minecraft:bowl"
+  },
+  "result": {
+    "item": "emeraldcraft:chorus_flower_eggdrop_soup",
+    "count": 2
+  },
+  "display": {
+    "type": "emeraldcraft:items",
+    "background": {
+      "color": 12094652,
+      "shape": "emeraldcraft:soup"
+    },
+    "ingredient": [
+      {
+        "item": "minecraft:egg"
+      }
+    ]
+  }
+}
