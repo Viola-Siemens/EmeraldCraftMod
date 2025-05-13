@@ -28,7 +28,7 @@ public class CookstoveDisplayModel extends Model {
 		MeshDefinition meshDefinition = new MeshDefinition();
 		PartDefinition root = meshDefinition.getRoot();
 		root.addOrReplaceChild("main", CubeListBuilder.create().texOffs(0, 0).addBox(-8.0F, 0.0F, -8.0F, 16.0F, 0.01F, 16.0F), PartPose.ZERO);
-		return LayerDefinition.create(meshDefinition, 32, 16);
+		return LayerDefinition.create(meshDefinition, 64, 16);
 	}
 
 	@Override

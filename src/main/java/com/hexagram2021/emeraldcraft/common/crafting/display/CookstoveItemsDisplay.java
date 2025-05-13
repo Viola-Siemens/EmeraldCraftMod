@@ -62,7 +62,7 @@ public record CookstoveItemsDisplay(Background background, Ingredient ingredient
 		}
 		transform.pushPose();
 		transform.translate(0.5D, 0.575F, 0.5D);
-		Material shape = new Material(COOKSTOVE_ATLAS, this.background().shape().withPrefix("cookstove_shapes/"));
+		Material shape = new Material(COOKSTOVE_ATLAS, this.background().shape());
 		int backgroundColor = this.background().color();
 		int r = (backgroundColor >> 16) & 0xff;
 		int g = (backgroundColor >> 8) & 0xff;

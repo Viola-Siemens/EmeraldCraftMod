@@ -19,10 +19,8 @@ public class ServerboundPlayerCommandPacketActionMixin {
 	ServerboundPlayerCommandPacketActionMixin(String name, int ord) {
 		throw new UnsupportedOperationException("Replaced by Mixin");
 	}
-	
-	@Final
-	@Shadow
-	@Mutable
+
+	@Shadow @Final @Mutable
 	private static ServerboundPlayerCommandPacket.Action[] $VALUES;
 	
 	@Inject(method = "<clinit>()V", at = @At(value = "FIELD", shift = At.Shift.AFTER, target = "Lnet/minecraft/network/protocol/game/ServerboundPlayerCommandPacket$Action;$VALUES:[Lnet/minecraft/network/protocol/game/ServerboundPlayerCommandPacket$Action;"))
