@@ -61,7 +61,7 @@ public class MeatGrinderBlockEntity extends BlockEntity implements Container, Wo
 	public static void tick(Level level, BlockPos blockPos, BlockState blockState, MeatGrinderBlockEntity blockEntity) {
 		ItemStack input = blockEntity.getItem(SLOT_INPUT);
 		ItemStack result = blockEntity.getItem(SLOT_RESULT);
-		RecipeHolder<MeatGrinderRecipe> recipeHolder = blockEntity.quickCheck.getRecipeFor(blockEntity, level).orElse(null);
+		RecipeHolder<MeatGrinderRecipe> recipeHolder = input.isEmpty() ? null : blockEntity.quickCheck.getRecipeFor(blockEntity, level).orElse(null);
 		if (recipeHolder == null || input.isEmpty()) {
 			if(blockEntity.progressTicks != 0 || blockEntity.totalTicks != 0) {
 				blockEntity.progressTicks = 0;
