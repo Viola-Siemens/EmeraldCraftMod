@@ -7,6 +7,7 @@ import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
 import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
+import com.hexagram2021.emeraldcraft.common.util.FluidUtil;
 import com.hexagram2021.emeraldcraft.common.util.PartialRecipeCachedCheck;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -154,7 +155,7 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 								input.shrink(1);
 							}
 						}
-						blockEntity.tank.drain(blockEntity.currentRecipe.fluidStack(), IFluidHandler.FluidAction.EXECUTE);
+						blockEntity.tank.setFluid(FluidStack.EMPTY);
 						blockEntity.setChanged();
 					}
 					blockEntity.progressTicks = 0;
@@ -233,8 +234,11 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 					}
 				}
 			}
-			//add fluid
-			//TODO
+			//add/take fluid
+			if(FluidUtil.drainFromItemToTank(player, this.tank, item) || FluidUtil.fillFromTankToItem(player, this.tank, item)) {
+				this.setChanged();
+				return true;
+			}
 			return false;
 		}
 		//take result

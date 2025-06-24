@@ -46,6 +46,7 @@ public record CookstoveItemsDisplay(Background background, Ingredient ingredient
 
 	@Override
 	public void render(PoseStack transform, CookstoveRenderer renderer, CookstoveBlockEntity blockEntity, MultiBufferSource buffer, int color, int overlay) {
+		// items
 		ItemStack[] displayItems = this.ingredient().getItems();
 		int length = displayItems.length * blockEntity.getResult().getCount();
 		for(int i = 0; i < length; ++i) {
@@ -60,6 +61,7 @@ public record CookstoveItemsDisplay(Background background, Ingredient ingredient
 			renderer.getItemRenderer().renderStatic(displayItems[i % displayItems.length], ItemDisplayContext.FIXED, color, overlay, transform, buffer, blockEntity.getLevel(), 0);
 			transform.popPose();
 		}
+		// shape
 		transform.pushPose();
 		transform.translate(0.5D, 0.575F, 0.5D);
 		Material shape = new Material(COOKSTOVE_ATLAS, this.background().shape());

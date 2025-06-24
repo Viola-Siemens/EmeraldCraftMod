@@ -9,9 +9,12 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -26,7 +29,9 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.function.Supplier;
@@ -36,7 +41,11 @@ public class CookstoveBlock extends BaseEntityBlock {
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
-	protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D);
+	protected static final VoxelShape SHAPE = Shapes.join(
+			Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D),
+			Block.box(1.0D, 9.0D, 1.0D, 15.0D, 12.0D, 15.0D),
+			BooleanOp.ONLY_FIRST
+	);
 	public static final Supplier<Properties> PROPERTIES = () -> Properties.of()
 			.requiresCorrectToolForDrops().sound(SoundType.METAL).strength(5.0F, 6.0F);
 
@@ -133,6 +142,13 @@ public class CookstoveBlock extends BaseEntityBlock {
 			}
 
 			super.onRemove(blockState, level, blockPos, newBlockState, piston);
+		}
+	}
+
+	@Override
+	public void stepOn(Level level, BlockPos pos, BlockState blockState, Entity entity) {
+		if(blockState.getValue(LIT) && entity instanceof LivingEntity livingEntity && !EnchantmentHelper.hasFrostWalker(livingEntity)) {
+			entity.hurt(level.damageSources().hotFloor(), 1.0F);
 		}
 	}
 
