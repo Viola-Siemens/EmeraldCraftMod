@@ -4,6 +4,7 @@ import com.hexagram2021.emeraldcraft.client.screens.*;
 import com.hexagram2021.emeraldcraft.common.blocks.entity.RabbleFurnaceBlockEntity;
 import com.hexagram2021.emeraldcraft.common.crafting.*;
 import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
+import com.hexagram2021.emeraldcraft.common.crafting.compat.jei.replacers.CookedDumplingCookstoveRecipeMaker;
 import com.hexagram2021.emeraldcraft.common.crafting.compat.jei.replacers.SuspiciousStewCookstoveRecipeMaker;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.*;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
@@ -76,7 +77,10 @@ public class JEIHelper implements IModPlugin {
 		registration.addRecipes(ECJEIRecipeTypes.ICE_MAKER, getRecipes(IceMakerRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.RABBLE_FURNACE, getRecipes(RabbleFurnaceRecipe.recipeList));
 		registration.addRecipes(ECJEIRecipeTypes.MEAT_GRINDER, getRecipes(MeatGrinderRecipe.recipeList));
-		registration.addRecipes(ECJEIRecipeTypes.COOKSTOVE, Stream.concat(getRecipesStream(CookstoveRecipe.recipeList), SuspiciousStewCookstoveRecipeMaker.createRecipesStream()).toList());
+		registration.addRecipes(ECJEIRecipeTypes.COOKSTOVE, Stream.concat(
+				Stream.concat(getRecipesStream(CookstoveRecipe.recipeList), SuspiciousStewCookstoveRecipeMaker.createRecipesStream()),
+				CookedDumplingCookstoveRecipeMaker.createRecipesStream()
+		).toList());
 		registration.addRecipes(ECJEIRecipeTypes.TRADES, TradeShadowRecipe.getTradeRecipes(Objects.requireNonNull(Minecraft.getInstance().level)));
 	}
 
