@@ -41,6 +41,9 @@ public class ECRecipeSerializer {
 	public static final RegistryObject<SuspiciousStewCookstoveRecipeSerializer<SuspiciousStewCookstoveRecipe>> SUSPICIOUS_STEW_COOKSTOVE_SERIALIZER = REGISTER.register(
 			"suspicious_stew_cookstove", () -> new SuspiciousStewCookstoveRecipeSerializer<>(SuspiciousStewCookstoveRecipe::new, SuspiciousStewCookstoveRecipe.COOK_TIME)
 	);
+	public static final RegistryObject<CookedDumplingCookstoveRecipeSerializer<CookedDumplingCookstoveRecipe>> COOKED_DUMPLING_COOKSTOVE_SERIALIZER = REGISTER.register(
+			"cooked_dumpling_cookstove", () -> new CookedDumplingCookstoveRecipeSerializer<>(CookedDumplingCookstoveRecipe::new, CookedDumplingCookstoveRecipe.COOK_TIME)
+	);
 	public static final RegistryObject<SimpleCraftingRecipeSerializer<DumplingRecipe>> CRAFTING_DUMPLING_SERIALIZER = REGISTER.register(
 			"crafting_dumpling", () -> new SimpleCraftingRecipeSerializer<>(DumplingRecipe::new)
 	);

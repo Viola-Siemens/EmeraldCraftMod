@@ -13,14 +13,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SuspiciousStewItem;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SuspiciousEffectHolder;
 import net.minecraftforge.fluids.FluidStack;
 
 public record SuspiciousStewCookstoveRecipe(FluidStack fluidStack, Ingredient container, ItemStack result, ICookstoveDisplay display,
-											int cookTime) implements Recipe<CookstoveBlockEntity>, IPartialMatchRecipe<Container> {
+											int cookTime) implements ICookstoveRecipe {
 	public static final int COOK_TIME = 100;
 
 	private static final Ingredient BROWN_MUSHROOM = Ingredient.of(Items.BROWN_MUSHROOM);
@@ -30,6 +29,11 @@ public record SuspiciousStewCookstoveRecipe(FluidStack fluidStack, Ingredient co
 
 	@Override
 	public boolean matches(CookstoveBlockEntity container, Level level) {
+		FluidStack inputFluid = container.getFluidStack(CookstoveBlockEntity.TANK_INPUT);
+		if(!inputFluid.containsFluid(this.fluidStack)) {
+			return false;
+		}
+
 		boolean brown = false;
 		boolean red = false;
 		boolean flower = false;

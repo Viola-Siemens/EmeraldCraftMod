@@ -1,14 +1,11 @@
 package com.hexagram2021.emeraldcraft.common.blocks.entity;
 
 import com.hexagram2021.emeraldcraft.common.blocks.workstation.CookstoveBlock;
-import com.hexagram2021.emeraldcraft.common.crafting.CookstoveRecipe;
+import com.hexagram2021.emeraldcraft.common.crafting.ICookstoveRecipe;
 import com.hexagram2021.emeraldcraft.common.crafting.display.ICookstoveDisplay;
 import com.hexagram2021.emeraldcraft.common.register.ECBlockEntity;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipes;
-import com.hexagram2021.emeraldcraft.common.util.ECLogger;
-import com.hexagram2021.emeraldcraft.common.util.ECSounds;
-import com.hexagram2021.emeraldcraft.common.util.FluidUtil;
-import com.hexagram2021.emeraldcraft.common.util.PartialRecipeCachedCheck;
+import com.hexagram2021.emeraldcraft.common.util.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -27,7 +24,6 @@ import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -73,23 +69,23 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 	int progressTicks = 0;
 	int totalTicks = 0;
 
-	private final RecipeManager.CachedCheck<CookstoveBlockEntity, CookstoveRecipe> quickCheck;
-	private final PartialRecipeCachedCheck<Container, CookstoveRecipe> partialQuickCheck;
+	private final MultipleRecipeCachedCheck<CookstoveBlockEntity, ICookstoveRecipe> quickCheck;
+	private final MultiplePartialRecipeCachedCheck<Container, ICookstoveRecipe> partialQuickCheck;
 
 	@Nullable
-	private CookstoveRecipe currentRecipe = null;
+	private ICookstoveRecipe currentRecipe = null;
 
 	public CookstoveBlockEntity(BlockPos blockPos, BlockState blockState) {
 		super(ECBlockEntity.COOKSTOVE.get(), blockPos, blockState);
-		this.quickCheck = RecipeManager.createCheck(ECRecipes.COOKSTOVE_TYPE.get());
-		this.partialQuickCheck = PartialRecipeCachedCheck.createCheck(ECRecipes.COOKSTOVE_TYPE.get());
+		this.quickCheck = MultipleRecipeCachedCheck.createCheck(ECRecipes.COOKSTOVE_TYPE.get(), ECRecipes.COOKED_DUMPLING_COOKSTOVE_TYPE.get(), ECRecipes.SUSPICIOUS_STEW_COOKSTOVE_TYPE.get());
+		this.partialQuickCheck = MultiplePartialRecipeCachedCheck.createCheck(ECRecipes.COOKSTOVE_TYPE.get(), ECRecipes.COOKED_DUMPLING_COOKSTOVE_TYPE.get(), ECRecipes.SUSPICIOUS_STEW_COOKSTOVE_TYPE.get());
 	}
 
 	public static void tick(Level level, BlockPos blockPos, BlockState blockState, CookstoveBlockEntity blockEntity) {
 		ItemStack result = blockEntity.getResult();
 		if(blockEntity.currentRecipe == null) {
 			if(blockEntity.result.isEmpty()) {
-				RecipeHolder<CookstoveRecipe> recipeHolder = blockEntity.quickCheck.getRecipeFor(blockEntity, level).orElse(null);
+				RecipeHolder<ICookstoveRecipe> recipeHolder = blockEntity.quickCheck.getRecipeFor(blockEntity, level).orElse(null);
 				if (recipeHolder == null) {
 					return;
 				}

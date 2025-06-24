@@ -13,7 +13,6 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.RecipeMatcher;
@@ -23,7 +22,7 @@ import java.util.List;
 
 public record CookstoveRecipe(NonNullList<Ingredient> ingredients, FluidStack fluidStack,
 							  Ingredient container, ItemStack result, ICookstoveDisplay display,
-							  int cookTime, boolean isSimple) implements Recipe<CookstoveBlockEntity>, IPartialMatchRecipe<Container> {
+							  int cookTime, boolean isSimple) implements ICookstoveRecipe {
 	public static final CachedRecipeList<CookstoveRecipe> recipeList = new CachedRecipeList<>(ECRecipes.COOKSTOVE_TYPE);
 
 	public static final int COOK_TIME = 100;

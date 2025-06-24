@@ -34,6 +34,7 @@ public interface PartialRecipeCachedCheck<CP extends Container, T extends Recipe
 			@Nullable
 			private ResourceLocation lastRecipe;
 
+			@Override
 			public Optional<RecipeHolder<T>> getRecipeFor(CP container, Level level) {
 				RecipeManager recipeManager = level.getRecipeManager();
 				Optional<Pair<ResourceLocation, RecipeHolder<T>>> optional = PartialRecipeCachedCheck.getRecipeFor(recipeManager, recipeType, container, this.lastRecipe);
