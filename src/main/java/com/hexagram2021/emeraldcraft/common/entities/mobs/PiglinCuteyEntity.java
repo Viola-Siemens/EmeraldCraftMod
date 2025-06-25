@@ -143,7 +143,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		}
 
 		if (!this.hasRestriction()) {
-			this.restrictTo(this.findNearestAnchor(), 12);
+			this.restrictTo(this.findNearestAnchor(), 16);
 		}
 
 		super.customServerAiStep();
@@ -172,8 +172,7 @@ public class PiglinCuteyEntity extends AbstractVillager implements PiglinCuteyDa
 		}
 	}
 
-	@Nullable
-	@Override
+	@Override @Nullable
 	public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob mob) { return null; }
 
 	@Override
