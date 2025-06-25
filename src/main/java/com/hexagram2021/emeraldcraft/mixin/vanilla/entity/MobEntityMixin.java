@@ -6,6 +6,8 @@ import com.hexagram2021.emeraldcraft.common.register.ECItems;
 import com.hexagram2021.emeraldcraft.common.entities.mobs.Convertible;
 import com.hexagram2021.emeraldcraft.common.entities.mobs.PlayerHealable;
 import com.hexagram2021.emeraldcraft.common.register.ECMobTypes;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffects;
@@ -21,7 +23,6 @@ import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Mob.class)
@@ -84,11 +85,11 @@ public class MobEntityMixin {
 		}
 	}
 
-	@Redirect(method = "doHurtTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getMobType()Lnet/minecraft/world/entity/MobType;"))
-	private MobType emeraldcraft$checkIfMammals(LivingEntity instance) {
+	@WrapOperation(method = "doHurtTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getMobType()Lnet/minecraft/world/entity/MobType;"))
+	private MobType emeraldcraft$checkIfMammals(LivingEntity instance, Operation<MobType> original) {
 		if(instance.getType().is(ECEntityTypeTags.MAMMALS)) {
 			return ECMobTypes.MAMMAL;
 		}
-		return instance.getMobType();
+		return original.call(instance);
 	}
 }

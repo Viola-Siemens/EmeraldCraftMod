@@ -151,6 +151,11 @@ dependencies {
     
     compileOnly fg.deobf("com.github.glitchfiend:TerraBlender-forge:1.20.2-3.0.0.170")
 
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.1")) {
+        jarJar.ranged(it, "[0.4.1,)")
+    }
+
     runtimeOnly fg.deobf("curse.maven:appleskin-248787:4770831")
 }
 
