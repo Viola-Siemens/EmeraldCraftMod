@@ -32,10 +32,14 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientProxy extends CommonProxy {
+	@SuppressWarnings("ConstantValue")
 	public static void modConstruction() {
-		ReloadableResourceManager reloadableManager = (ReloadableResourceManager)Minecraft.getInstance().getResourceManager();
-		ClientEventHandler handler = new ClientEventHandler();
-		reloadableManager.registerReloadListener(handler);
+		Minecraft minecraft = Minecraft.getInstance();
+		if(minecraft != null) {
+			ReloadableResourceManager reloadableManager = (ReloadableResourceManager) minecraft.getResourceManager();
+			ClientEventHandler handler = new ClientEventHandler();
+			reloadableManager.registerReloadListener(handler);
+		}
 	}
 
 	@SubscribeEvent
