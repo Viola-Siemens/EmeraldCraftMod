@@ -29,7 +29,7 @@ public class ECStructures {
 	public static void init(RegistryAccess registryAccess) {
 		((ListAppendable<StructureSet.StructureSelectionEntry>)(Object)
 				registryAccess.lookupOrThrow(Registries.STRUCTURE_SET).get(BuiltinStructureSets.VILLAGES).orElseThrow().get())
-				.appendAll(
+				.emeraldcraft$appendAll(
 						ALL_VILLAGES.stream().map(rk ->
 								StructureSet.entry(
 										registryAccess.lookupOrThrow(Registries.STRUCTURE).get(rk).orElseThrow()
@@ -38,7 +38,7 @@ public class ECStructures {
 				);
 		((ListAppendable<StructureSet.StructureSelectionEntry>)(Object)
 				registryAccess.lookupOrThrow(Registries.STRUCTURE_SET).get(ECStructureSetKeys.CAMP).orElseThrow().get())
-				.appendAll(
+				.emeraldcraft$appendAll(
 						ALL_CAMPS.stream().map(rk ->
 								StructureSet.entry(
 										registryAccess.lookupOrThrow(Registries.STRUCTURE).get(rk).orElseThrow()

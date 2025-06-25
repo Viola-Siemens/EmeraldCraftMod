@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableSet;
 import com.hexagram2021.emeraldcraft.common.register.*;
 import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import com.hexagram2021.emeraldcraft.common.util.ECSounds;
-import com.hexagram2021.emeraldcraft.mixin.HeroGiftsTaskAccess;
-import com.hexagram2021.emeraldcraft.mixin.StructureTemplatePoolAccess;
+import com.hexagram2021.emeraldcraft.mixin.accessor.HeroGiftsTaskAccess;
+import com.hexagram2021.emeraldcraft.mixin.accessor.StructureTemplatePoolAccess;
 import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.Registry;
@@ -58,18 +58,18 @@ public class Villages {
 	public static final ResourceLocation CHEF = new ResourceLocation(MODID, "chef");
 
 	public static void setup() {
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_CARPENTER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/carpenter_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_GLAZIER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/glazier_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_MINER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/miner_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_ASTROLOGIST.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/astrologist_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_GROWER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/grower_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_BEEKEEPER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/beekeeper_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_GEOLOGIST.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/geologist_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_ICER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/icer_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_CHEMICAL_ENGINEER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/chemical_engineer_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_PAPERHANGER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/paperhanger_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_HUNTER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/hunter_gift"));
-		HeroGiftsTaskAccess.getGifts().put(Registers.PROF_CHEF.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/chef_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_CARPENTER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/carpenter_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_GLAZIER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/glazier_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_MINER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/miner_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_ASTROLOGIST.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/astrologist_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_GROWER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/grower_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_BEEKEEPER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/beekeeper_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_GEOLOGIST.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/geologist_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_ICER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/icer_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_CHEMICAL_ENGINEER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/chemical_engineer_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_PAPERHANGER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/paperhanger_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_HUNTER.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/hunter_gift"));
+		HeroGiftsTaskAccess.emeraldcraft$getGifts().put(Registers.PROF_CHEF.get(), new ResourceLocation(MODID, "gameplay/hero_of_the_village/chef_gift"));
 	}
 
 	public static void addAllStructuresToPool(RegistryAccess registryAccess) {
@@ -96,13 +96,13 @@ public class Villages {
 			return;
 		}
 		StructureTemplatePoolAccess pool = (StructureTemplatePoolAccess)structureTemplatePool;
-		List<Pair<StructurePoolElement, Integer>> rawTemplates = pool.getRawTemplates() instanceof ArrayList ?
-				pool.getRawTemplates() : new ArrayList<>(pool.getRawTemplates());
+		List<Pair<StructurePoolElement, Integer>> rawTemplates = pool.emeraldcraft$getRawTemplates() instanceof ArrayList ?
+				pool.emeraldcraft$getRawTemplates() : new ArrayList<>(pool.emeraldcraft$getRawTemplates());
 
 		PoolBuilder poolBuilder = new PoolBuilder(pool, rawTemplates);
 		consumer.accept(poolBuilder);
 
-		pool.setRawTemplates(rawTemplates);
+		pool.emeraldcraft$setRawTemplates(rawTemplates);
 	}
 
 	private static final class PoolBuilder {
@@ -117,7 +117,7 @@ public class Villages {
 		public void add(ResourceLocation toAdd, int weight) {
 			SinglePoolElement addedElement = SinglePoolElement.single(toAdd.toString()).apply(StructureTemplatePool.Projection.RIGID);
 			this.rawTemplates.add(Pair.of(addedElement, weight));
-			this.pool.getTemplates().add(addedElement);
+			this.pool.emeraldcraft$getTemplates().add(addedElement);
 		}
 	}
 

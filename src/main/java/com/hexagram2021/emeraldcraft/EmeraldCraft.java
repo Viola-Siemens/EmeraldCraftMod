@@ -12,7 +12,7 @@ import com.hexagram2021.emeraldcraft.common.crafting.TradeShadowRecipe;
 import com.hexagram2021.emeraldcraft.common.register.*;
 import com.hexagram2021.emeraldcraft.common.world.village.ECTrades;
 import com.hexagram2021.emeraldcraft.common.world.village.Villages;
-import com.hexagram2021.emeraldcraft.mixin.BlockEntityTypeAccess;
+import com.hexagram2021.emeraldcraft.mixin.accessor.BlockEntityTypeAccess;
 import com.hexagram2021.emeraldcraft.network.ClientboundFluidSyncPacket;
 import com.hexagram2021.emeraldcraft.network.ClientboundTradeSyncPacket;
 import com.hexagram2021.emeraldcraft.network.IECPacket;
