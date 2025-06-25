@@ -402,7 +402,7 @@ public class Villages {
 				trades.get(3).add(new ECTrades.ItemsForEmeralds(Items.CHICKEN, 1, 2, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_3_SELL));
 				trades.get(4).add(new ECTrades.EmeraldForItems(Items.SPYGLASS, 1, 1, ECTrades.ONLY_SUPPLY_ONCE, ECTrades.XP_LEVEL_4_BUY));
 				trades.get(4).add(new ECTrades.ItemsForEmeralds(Items.RABBIT, 2, 1, ECTrades.COMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_4_SELL));
-				trades.get(5).add(new ECTrades.EmeraldForItems(ECItems.WARDEN_HEART, 1, 8, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
+				trades.get(5).add(new ECTrades.EmeraldForItems(ECItems.WARDEN_HEART, 1, 5, ECTrades.UNCOMMON_ITEMS_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 				trades.get(5).add(new ECTrades.ItemsForEmeralds(Items.EXPERIENCE_BOTTLE, 3, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_5_TRADE));
 			} else if(CHEF.equals(currentVillagerProfession)) {
 				trades.get(1).add(new ECTrades.EmeraldForItems(Items.CHARCOAL, 12, 1, ECTrades.DEFAULT_SUPPLY, ECTrades.XP_LEVEL_1_BUY));

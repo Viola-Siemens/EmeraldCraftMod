@@ -124,7 +124,15 @@ public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 	}
 
 	protected boolean canSmelt(ItemStack itemStack, int index) {
-		Container simple = new SimpleContainer(this.slots.stream().map(Slot::getItem).toArray(ItemStack[]::new));
+		Container simple = new SimpleContainer(
+				this.slots.get(0).getItem(),
+				this.slots.get(1).getItem(),
+				this.slots.get(2).getItem()
+		);
+		ItemStack exist = simple.getItem(index);
+		if(!exist.isEmpty() && !ItemStack.isSameItemSameTags(exist, itemStack)) {
+			return false;
+		}
 		simple.setItem(index, itemStack);
 		return this.partialQuickCheck.getRecipeFor(simple, this.level).isPresent();
 	}
