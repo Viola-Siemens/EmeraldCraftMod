@@ -5,11 +5,11 @@ import com.google.common.collect.Maps;
 import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
 import com.hexagram2021.emeraldcraft.common.crafting.TradeShadowRecipe;
 import com.hexagram2021.emeraldcraft.common.register.ECRecipeSerializer;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 import java.util.Map;
@@ -30,10 +30,10 @@ public class ClientboundTradeSyncPacket implements IECPacket {
 		this.jobsites = Maps.newIdentityHashMap();
 		int professionSize = buf.readVarInt();
 		for(int i = 0; i < professionSize; ++i) {
-			VillagerProfession profession = getRegistryEntry(ForgeRegistries.VILLAGER_PROFESSIONS, buf.readResourceLocation());
+			VillagerProfession profession = getRegistryEntry(BuiltInRegistries.VILLAGER_PROFESSION, buf.readResourceLocation());
 			List<Block> blocks = buf.readCollection(Lists::newArrayListWithCapacity, friendlyByteBuf -> {
 				ResourceLocation id = friendlyByteBuf.readResourceLocation();
-				return getRegistryEntry(ForgeRegistries.BLOCKS, id);
+				return getRegistryEntry(BuiltInRegistries.BLOCK, id);
 			});
 			this.jobsites.put(profession, blocks);
 		}

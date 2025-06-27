@@ -9,9 +9,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.fluids.FluidStack;
-
-import javax.annotation.Nullable;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public class MelterRecipeSerializer<T extends MelterRecipe> implements RecipeSerializer<T> {
 	private final MelterRecipeSerializer.Creator<T> factory;
@@ -34,7 +32,7 @@ public class MelterRecipeSerializer<T extends MelterRecipe> implements RecipeSer
 		return this.codec;
 	}
 
-	@Override @Nullable
+	@Override
 	public T fromNetwork(FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);

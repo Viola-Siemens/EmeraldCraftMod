@@ -2,8 +2,6 @@ package com.hexagram2021.emeraldcraft;
 
 import com.google.common.collect.ImmutableMap;
 import com.hexagram2021.emeraldcraft.api.tradable.TradeListingUtils;
-import com.hexagram2021.emeraldcraft.client.ClientProxy;
-import com.hexagram2021.emeraldcraft.common.CommonProxy;
 import com.hexagram2021.emeraldcraft.common.ECContent;
 import com.hexagram2021.emeraldcraft.common.ECSaveData;
 import com.hexagram2021.emeraldcraft.common.ModVanillaCompat;
@@ -17,8 +15,6 @@ import com.hexagram2021.emeraldcraft.network.ClientboundFluidSyncPacket;
 import com.hexagram2021.emeraldcraft.network.ClientboundTradeSyncPacket;
 import com.hexagram2021.emeraldcraft.network.IECPacket;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import net.minecraft.network.Connection;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -31,26 +27,28 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.OnDatapackSyncEvent;
-import net.minecraftforge.event.TagsUpdatedEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.*;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.network.*;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.*;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
+import net.neoforged.neoforge.event.TagsUpdatedEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.network.NetworkRegistry;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.PlayNetworkDirection;
+import net.neoforged.neoforge.network.simple.MessageFunctions;
+import net.neoforged.neoforge.network.simple.SimpleChannel;
 
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
@@ -59,18 +57,12 @@ public class EmeraldCraft {
 	public static final String MODID = "emeraldcraft";
 	public static final String MODNAME = "Emerald Craft";
 	public static final String VERSION = ModList.get().getModFileById(MODID).versionString();
-	public static final int CHANNEL_VERSION = 1;
 
-	public static final CommonProxy proxy = DistExecutor.safeRunForDist(
-			bootstrapErrorToXCPInDev(() -> ClientProxy::new),
-			bootstrapErrorToXCPInDev(() -> CommonProxy::new)
-	);
-
-	public static final SimpleChannel packetHandler = ChannelBuilder
+	public static final SimpleChannel packetHandler = NetworkRegistry.ChannelBuilder
 			.named(new ResourceLocation(MODID, "main"))
-			.networkProtocolVersion(CHANNEL_VERSION)
-			.serverAcceptedVersions(Channel.VersionTest.exact(CHANNEL_VERSION))
-			.clientAcceptedVersions(Channel.VersionTest.exact(CHANNEL_VERSION))
+			.networkProtocolVersion(() -> VERSION)
+			.serverAcceptedVersions(VERSION::equals)
+			.clientAcceptedVersions(VERSION::equals)
 			.simpleChannel();
 
 	public static <T>
@@ -87,39 +79,38 @@ public class EmeraldCraft {
 		};
 	}
 
+	private static int messageId = 0;
 	@SuppressWarnings("SameParameterValue")
 	private static <T extends IECPacket> void registerMessage(Class<T> packetType,
-															  Function<FriendlyByteBuf, T> constructor,
-															  NetworkDirection direction) {
-		packetHandler.messageBuilder(packetType, direction)
+															  MessageFunctions.MessageDecoder<T> constructor,
+															  PlayNetworkDirection direction) {
+		packetHandler.messageBuilder(packetType, messageId++, direction)
 				.decoder(constructor)
 				.encoder(IECPacket::write)
 				.consumerMainThread((packet, ctx) -> packet.handle())
 				.add();
 	}
 
-	public static void sendMessageToPlayer(IECPacket packet, Connection connection) {
-		packetHandler.send(packet, connection);
+	public static void sendMessageToPlayer(IECPacket packet, ServerPlayer serverPlayer) {
+		packetHandler.send(PacketDistributor.PLAYER.with(() -> serverPlayer), packet);
 	}
 
 	public EmeraldCraft() {
-		ForgeMod.enableMilkFluid();
+		NeoForgeMod.enableMilkFluid();
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-		MinecraftForge.EVENT_BUS.addListener(this::tagsUpdated);
-		MinecraftForge.EVENT_BUS.addListener(this::serverStarted);
-		MinecraftForge.EVENT_BUS.addListener(this::datapackSync);
+		NeoForge.EVENT_BUS.addListener(this::tagsUpdated);
+		NeoForge.EVENT_BUS.addListener(this::serverStarted);
+		NeoForge.EVENT_BUS.addListener(this::datapackSync);
 		DeferredWorkQueue queue = DeferredWorkQueue.lookup(Optional.of(ModLoadingStage.CONSTRUCT)).orElseThrow();
 		Consumer<Runnable> runLater = job -> queue.enqueueWork(
 				ModLoadingContext.get().getActiveContainer(), job
 		);
 		ECContent.modConstruction(bus, runLater);
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, bootstrapErrorToXCPInDev(() -> ClientProxy::modConstruction));
 
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ECCommonConfig.SPEC);
 
 		bus.addListener(this::setup);
 		bus.addListener(this::enqueueIMC);
-		MinecraftForge.EVENT_BUS.register(this);
 	}
 
 	public void setup(FMLCommonSetupEvent event) {
@@ -142,8 +133,8 @@ public class EmeraldCraft {
 		TradeListingUtils.registerTradeListing(ECTrades.NETHER_LAMBMAN_TRADES, ECEntities.NETHER_LAMBMAN, null);
 		TradeListingUtils.registerTradeListing(ECTrades.NETHER_PIGMAN_TRADES, ECEntities.NETHER_PIGMAN, null);
 
-		registerMessage(ClientboundTradeSyncPacket.class, ClientboundTradeSyncPacket::new, NetworkDirection.PLAY_TO_CLIENT);
-		registerMessage(ClientboundFluidSyncPacket.class, ClientboundFluidSyncPacket::new, NetworkDirection.PLAY_TO_CLIENT);
+		registerMessage(ClientboundTradeSyncPacket.class, ClientboundTradeSyncPacket::new, PlayNetworkDirection.PLAY_TO_CLIENT);
+		registerMessage(ClientboundFluidSyncPacket.class, ClientboundFluidSyncPacket::new, PlayNetworkDirection.PLAY_TO_CLIENT);
 	}
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {
@@ -175,9 +166,9 @@ public class EmeraldCraft {
 		ServerPlayer player = event.getPlayer();
 		IECPacket packet = new ClientboundTradeSyncPacket(TradeShadowRecipe.getAllJobsites(), TradeShadowRecipe.getTradeRecipes(event.getPlayerList().getServer().overworld()));
 		if(player == null) {
-			packetHandler.send(packet, PacketDistributor.ALL.noArg());
+			packetHandler.send(PacketDistributor.ALL.noArg(), packet);
 		} else {
-			packetHandler.send(packet, PacketDistributor.PLAYER.with(player));
+			packetHandler.send(PacketDistributor.PLAYER.with(() -> player), packet);
 		}
 	}
 

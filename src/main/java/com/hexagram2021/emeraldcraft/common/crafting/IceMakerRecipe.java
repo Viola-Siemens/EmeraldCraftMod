@@ -12,7 +12,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public record IceMakerRecipe(String group, FluidStack inputFluid, ItemStack result, int freezingTime) implements Recipe<Container> {
 	public static final CachedRecipeList<IceMakerRecipe> recipeList = new CachedRecipeList<>(ECRecipes.ICE_MAKER_TYPE);

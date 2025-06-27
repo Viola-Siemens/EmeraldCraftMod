@@ -11,6 +11,7 @@ import net.minecraft.client.sounds.WeighedSoundEvents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
@@ -38,10 +39,9 @@ import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.Tags;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Arrays;
@@ -72,7 +72,7 @@ public interface RegistryChecker {
 	);
 
 	static void registryCheck(LootDataManager lootDataManager) {
-		ForgeRegistries.BLOCKS.forEach(block -> {
+		BuiltInRegistries.BLOCK.forEach(block -> {
 			ResourceLocation id = getRegistryName(block);
 			Item blockItem = block.asItem();
 			if(!WHITELIST_NO_ITEM_BLOCKS.contains(block) && (!id.getPath().startsWith("potted_") && !id.getPath().endsWith("_candle_cake")) && blockItem.equals(Items.AIR)) {
@@ -194,7 +194,7 @@ public interface RegistryChecker {
 				);
 			}
 		});
-		ForgeRegistries.ENTITY_TYPES.forEach(entityType -> {
+		BuiltInRegistries.ENTITY_TYPE.forEach(entityType -> {
 			if (!entityType.getDefaultLootTable().equals(BuiltInLootTables.EMPTY)) {
 				LootTable table = lootDataManager.getLootTable(entityType.getDefaultLootTable());
 				if (!table.equals(LootTable.EMPTY)) {
@@ -229,7 +229,7 @@ public interface RegistryChecker {
 		Objects.requireNonNull(registryAccess.registry(Registries.CREATIVE_MODE_TAB).get().get(CreativeModeTabs.SPAWN_EGGS))
 				.displayItemsGenerator.accept(null, (itemStack, ignored) -> addEntranceItem(itemStack.getItem()));
 
-		ForgeRegistries.ITEMS.forEach(item -> {
+		BuiltInRegistries.ITEM.forEach(item -> {
 			addEdgesForLoot(item, graph, lootDataManager);
 			if(item instanceof BlockItem blockItem) {
 				Block block = blockItem.getBlock();
@@ -251,7 +251,7 @@ public interface RegistryChecker {
 
 		ENTRANCES.forEach(graph::visit);
 
-		ForgeRegistries.ITEMS.forEach(item -> graph.degreeIfNotVisited(item).ifPresent(
+		BuiltInRegistries.ITEM.forEach(item -> graph.degreeIfNotVisited(item).ifPresent(
 				degree -> ECLogger.warn("[Recipe Check] Found a non-natural item %s without any recipes or loot tables (degree = %d).".formatted(getRegistryName(item), degree))
 		));
 	}
@@ -286,25 +286,25 @@ public interface RegistryChecker {
 
 	@OnlyIn(Dist.CLIENT)
 	static void i18nCheck() {
-		ForgeRegistries.BLOCKS.forEach(block -> {
+		BuiltInRegistries.BLOCK.forEach(block -> {
 			ResourceLocation id = getRegistryName(block);
 			if(!I18n.exists(block.getDescriptionId())) {
 				ECLogger.warn("[I18n Check] Missing I18n for block %s.".formatted(id));
 			}
 		});
-		ForgeRegistries.ITEMS.forEach(item -> {
+		BuiltInRegistries.ITEM.forEach(item -> {
 			ResourceLocation id = getRegistryName(item);
 			if(!I18n.exists(item.getDescriptionId())) {
 				ECLogger.warn("[I18n Check] Missing I18n for item %s.".formatted(id));
 			}
 		});
-		ForgeRegistries.ENTITY_TYPES.forEach(entityType -> {
+		BuiltInRegistries.ENTITY_TYPE.forEach(entityType -> {
 			ResourceLocation id = getRegistryName(entityType);
 			if(!I18n.exists(entityType.getDescriptionId())) {
 				ECLogger.warn("[I18n Check] Missing I18n for entity type %s.".formatted(id));
 			}
 		});
-		ForgeRegistries.SOUND_EVENTS.forEach(soundEvent -> {
+		BuiltInRegistries.SOUND_EVENT.forEach(soundEvent -> {
 			ResourceLocation id = soundEvent.getLocation();
 			WeighedSoundEvents weighedSoundEvents = Minecraft.getInstance().getSoundManager().getSoundEvent(id);
 			if(weighedSoundEvents != null &&

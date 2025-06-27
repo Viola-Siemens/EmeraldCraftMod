@@ -25,14 +25,14 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ToolActions;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.PlayerContainerEvent;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.ToolActions;
+import net.neoforged.neoforge.event.AttachCapabilitiesEvent;
+import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import org.apache.logging.log4j.util.TriConsumer;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
@@ -43,7 +43,7 @@ public class ForgeServerEventHandler {
 	public static void onContainerOpened(PlayerContainerEvent.Open event) {
 		if(event.getContainer() instanceof IFluidSyncMenu fluidSyncMenu && event.getEntity() instanceof ServerPlayer serverPlayer) {
 			fluidSyncMenu.addUsingPlayer(serverPlayer);
-			EmeraldCraft.sendMessageToPlayer(fluidSyncMenu.getSyncPacket(), serverPlayer.connection.getConnection());
+			EmeraldCraft.sendMessageToPlayer(fluidSyncMenu.getSyncPacket(), serverPlayer);
 		}
 	}
 	@SubscribeEvent

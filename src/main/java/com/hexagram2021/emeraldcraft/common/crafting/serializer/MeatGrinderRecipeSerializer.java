@@ -4,12 +4,12 @@ import com.hexagram2021.emeraldcraft.common.crafting.MeatGrinderRecipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class MeatGrinderRecipeSerializer<T extends MeatGrinderRecipe> implements RecipeSerializer<T> {
 	private final MeatGrinderRecipeSerializer.Creator<T> factory;
@@ -17,7 +17,7 @@ public class MeatGrinderRecipeSerializer<T extends MeatGrinderRecipe> implements
 
 	private static final MapCodec<ItemStack> ITEM_STACK_CODEC = RecordCodecBuilder.mapCodec(
 			instance -> instance.group(
-					ForgeRegistries.ITEMS.getCodec().fieldOf("item").forGetter(ItemStack::getItem),
+					BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(ItemStack::getItem),
 					Codec.INT.fieldOf("count").forGetter(ItemStack::getCount)
 			).apply(instance, ItemStack::new)
 	);

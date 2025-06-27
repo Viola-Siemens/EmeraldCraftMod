@@ -13,6 +13,7 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.event.EventHooks;
 
 public class MineralTableMenu extends AbstractContainerMenu {
 	public static final int INGREDIENT_SLOT = 0;
@@ -199,7 +200,6 @@ public class MineralTableMenu extends AbstractContainerMenu {
 			this.checkTakeAchievements(itemStack);
 		}
 
-		@SuppressWarnings("UnstableApiUsage")
 		@Override
 		protected void checkTakeAchievements(ItemStack itemStack) {
 			itemStack.onCraftedBy(this.player.level(), this.player, this.removeCount);
@@ -208,7 +208,7 @@ public class MineralTableMenu extends AbstractContainerMenu {
 			}
 
 			this.removeCount = 0;
-			net.minecraftforge.event.ForgeEventFactory.firePlayerSmeltedEvent(this.player, itemStack);
+			EventHooks.firePlayerSmeltedEvent(this.player, itemStack);
 		}
 
 		@Override

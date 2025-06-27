@@ -5,6 +5,7 @@ import com.hexagram2021.emeraldcraft.api.events.FarciFoodComputeNutritionEvent;
 import com.hexagram2021.emeraldcraft.common.items.foods.AbstractMincedMeatItem;
 import com.hexagram2021.emeraldcraft.common.items.foods.FarciFoodItem;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -14,10 +15,9 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -57,7 +57,7 @@ public class FarciFoodStorage implements IFoodStorage, INBTSerializable<ListTag>
 					}
 				}
 				FarciFoodComputeNutritionEvent event = new FarciFoodComputeNutritionEvent(item, cooked, nutritionAdder, newEffects);
-				MinecraftForge.EVENT_BUS.post(event);
+				NeoForge.EVENT_BUS.post(event);
 				nutrition += event.getNutritionAdder();
 			}
 		}
@@ -72,7 +72,7 @@ public class FarciFoodStorage implements IFoodStorage, INBTSerializable<ListTag>
 		List<Item> fillingFoods = Lists.newArrayList();
 		if(nbt != null && nbt.contains(TAG_FILLINGS, Tag.TAG_LIST)) {
 			for(Tag tag: nbt.getList(TAG_FILLINGS, Tag.TAG_STRING)) {
-				fillingFoods.add(getRegistryEntry(ForgeRegistries.ITEMS, new ResourceLocation(tag.getAsString())));
+				fillingFoods.add(getRegistryEntry(BuiltInRegistries.ITEM, new ResourceLocation(tag.getAsString())));
 			}
 		}
 		return fillingFoods;
@@ -103,7 +103,7 @@ public class FarciFoodStorage implements IFoodStorage, INBTSerializable<ListTag>
 	public void setFoodTag(ListTag listTag) {
 		List<Item> fillingFoods = Lists.newArrayList();
 		for(Tag tag: listTag) {
-			fillingFoods.add(getRegistryEntry(ForgeRegistries.ITEMS, new ResourceLocation(tag.getAsString())));
+			fillingFoods.add(getRegistryEntry(BuiltInRegistries.ITEM, new ResourceLocation(tag.getAsString())));
 		}
 		this.foodProperties = buildFoodProperties(
 				fillingFoods, this.item.isCooked(),

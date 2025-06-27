@@ -1,6 +1,7 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
 import com.hexagram2021.emeraldcraft.common.fluids.ECFluid;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -10,15 +11,15 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.common.SoundActions;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.common.SoundActions;
+import net.neoforged.neoforge.common.capabilities.ICapabilityProvider;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.capability.wrappers.FluidBucketWrapper;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
 
@@ -28,9 +29,10 @@ import java.util.function.Consumer;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
+@SuppressWarnings("unused")
 public final class ECFluids {
-	public static final DeferredRegister<Fluid> REGISTER = DeferredRegister.create(ForgeRegistries.FLUIDS, MODID);
-	public static final DeferredRegister<FluidType> TYPE_REGISTER = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, MODID);
+	public static final DeferredRegister<Fluid> REGISTER = DeferredRegister.create(Registries.FLUID, MODID);
+	public static final DeferredRegister<FluidType> TYPE_REGISTER = DeferredRegister.create(NeoForgeRegistries.Keys.FLUID_TYPES, MODID);
 
 	public static final FluidEntry<ECFluid> RESIN = FluidEntry.register(
 			"resin",
@@ -88,8 +90,8 @@ public final class ECFluids {
 			ECFluidTags.MELTED_URANIUM, ECFluid.Source::new, ECFluid.Flowing::new
 	);
 
-	public record FluidEntry<T extends Fluid>(RegistryObject<T> still, RegistryObject<T> flowing, ECItems.ItemEntry<BucketItem> bucket,
-											  RegistryObject<FluidType> type) {
+	public record FluidEntry<T extends Fluid>(DeferredHolder<Fluid, T> still, DeferredHolder<Fluid, T> flowing, ECItems.ItemEntry<BucketItem> bucket,
+											  DeferredHolder<FluidType, FluidType> type) {
 		public T getFlowing() {
 			return this.flowing.get();
 		}
@@ -112,12 +114,12 @@ public final class ECFluids {
 					.sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
 					.sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
 					.sound(SoundActions.FLUID_VAPORIZE, SoundEvents.FIRE_EXTINGUISH);
-			RegistryObject<FluidType> type = TYPE_REGISTER.register(name, () -> buildFluidTypeWithTextures(builder, stillTex, flowingTex));
+			DeferredHolder<FluidType, FluidType> type = TYPE_REGISTER.register(name, () -> buildFluidTypeWithTextures(builder, stillTex, flowingTex));
 			Mutable<FluidEntry<T>> thisMutable = new MutableObject<>();
-			RegistryObject<T> still = REGISTER.register(name, () -> makeFluid(
+			DeferredHolder<Fluid, T> still = REGISTER.register(name, () -> makeFluid(
 					stillMaker, thisMutable.getValue(), fluidTag
 			));
-			RegistryObject<T> flowing = REGISTER.register("flowing_" + name, () -> makeFluid(
+			DeferredHolder<Fluid, T> flowing = REGISTER.register("flowing_" + name, () -> makeFluid(
 					flowingMaker, thisMutable.getValue(), fluidTag
 			));
 			ECItems.ItemEntry<BucketItem> bucket = ECItems.ItemEntry.register(name+"_bucket", () -> makeBucket(still), ECItems.ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS);
@@ -148,7 +150,7 @@ public final class ECFluids {
 			return maker.apply(entry, fluidTag);
 		}
 
-		private static <T extends Fluid> BucketItem makeBucket(RegistryObject<T> still) {
+		private static <T extends Fluid> BucketItem makeBucket(DeferredHolder<Fluid, T> still) {
 			return new BucketItem(still, new Item.Properties().stacksTo(16).craftRemainder(Items.BUCKET)) {
 				@Override
 				public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {

@@ -15,7 +15,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -95,7 +95,6 @@ public class PhantomEntityMixin implements Convertible {
 		current.playSound(SoundEvents.ZOMBIE_VILLAGER_CURE);
 	}
 
-	@SuppressWarnings("UnstableApiUsage")
 	@Override
 	public void emeraldcraft$finishConversion(ServerLevel level) {
 		Phantom current = (Phantom)(Object)this;
@@ -113,7 +112,7 @@ public class PhantomEntityMixin implements Convertible {
 
 		manta.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
 		manta.playSound(SoundEvents.ZOMBIE_VILLAGER_CONVERTED);
-		ForgeEventFactory.onLivingConvert(current, manta);
+		EventHooks.onLivingConvert(current, manta);
 	}
 
 	@Override
@@ -121,7 +120,6 @@ public class PhantomEntityMixin implements Convertible {
 		return ((Phantom)(Object)this).getEntityData().get(Ids.DATA_PHANTOM_CONVERTING_ID);
 	}
 
-	@SuppressWarnings("UnstableApiUsage")
 	@Inject(method = "tick", at = @At(value = "HEAD"))
 	public void emeraldcraft$tickConverting(CallbackInfo ci) {
 		Phantom current = (Phantom)(Object)this;
@@ -129,7 +127,7 @@ public class PhantomEntityMixin implements Convertible {
 			int i = this.emeraldcraft$getConversionProgress();
 			this.emeraldcraft$decreaseConversionRemainTime(i);
 			if (this.emeraldcraft$getConversionRemainTime() <= 0 &&
-					ForgeEventFactory.canLivingConvert(current, ECEntities.MANTA, this::emeraldcraft$setConversionRemainTime)) {
+					EventHooks.canLivingConvert(current, ECEntities.MANTA, this::emeraldcraft$setConversionRemainTime)) {
 				this.emeraldcraft$finishConversion((ServerLevel) current.level());
 			}
 		}

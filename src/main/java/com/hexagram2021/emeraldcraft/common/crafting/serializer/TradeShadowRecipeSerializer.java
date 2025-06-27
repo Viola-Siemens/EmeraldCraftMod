@@ -4,14 +4,13 @@ import com.hexagram2021.emeraldcraft.common.crafting.TradeShadowRecipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.ForgeRegistries;
 
-import javax.annotation.Nullable;
 import java.util.Objects;
 
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryEntry;
@@ -20,7 +19,7 @@ import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegist
 public class TradeShadowRecipeSerializer<T extends TradeShadowRecipe> implements RecipeSerializer<T> {
 	private static final MapCodec<ItemStack> ITEM_STACK_CODEC = RecordCodecBuilder.mapCodec(
 			instance -> instance.group(
-					ForgeRegistries.ITEMS.getCodec().fieldOf("item").forGetter(ItemStack::getItem),
+					BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(ItemStack::getItem),
 					Codec.INT.fieldOf("count").forGetter(ItemStack::getCount)
 			).apply(instance, ItemStack::new)
 	);
@@ -35,8 +34,8 @@ public class TradeShadowRecipeSerializer<T extends TradeShadowRecipe> implements
 						ITEM_STACK_CODEC.fieldOf("costA").forGetter(TradeShadowRecipe::costA),
 						ITEM_STACK_CODEC.fieldOf("costB").forGetter(TradeShadowRecipe::costB),
 						ITEM_STACK_CODEC.fieldOf("result").forGetter(TradeShadowRecipe::result),
-						ForgeRegistries.ENTITY_TYPES.getCodec().fieldOf("entityType").forGetter(TradeShadowRecipe::entityType),
-						ForgeRegistries.VILLAGER_PROFESSIONS.getCodec().fieldOf("profession")
+						BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf("entityType").forGetter(TradeShadowRecipe::entityType),
+						BuiltInRegistries.VILLAGER_PROFESSION.byNameCodec().fieldOf("profession")
 								.orElse(VillagerProfession.NONE).forGetter(TradeShadowRecipe::profession),
 						Codec.INT.fieldOf("villagerLevel").forGetter(TradeShadowRecipe::villagerLevel),
 						Codec.INT.fieldOf("xp").forGetter(TradeShadowRecipe::xp)
@@ -49,13 +48,13 @@ public class TradeShadowRecipeSerializer<T extends TradeShadowRecipe> implements
 		return this.codec;
 	}
 
-	@Override @Nullable
+	@Override
 	public T fromNetwork(FriendlyByteBuf buf) {
 		ItemStack costA = buf.readItem();
 		ItemStack costB = buf.readItem();
 		ItemStack result = buf.readItem();
-		EntityType<?> entityType = getRegistryEntry(ForgeRegistries.ENTITY_TYPES, buf.readResourceLocation());
-		VillagerProfession profession = getRegistryEntry(ForgeRegistries.VILLAGER_PROFESSIONS, buf.readResourceLocation(), VillagerProfession.NONE);
+		EntityType<?> entityType = getRegistryEntry(BuiltInRegistries.ENTITY_TYPE, buf.readResourceLocation());
+		VillagerProfession profession = getRegistryEntry(BuiltInRegistries.VILLAGER_PROFESSION, buf.readResourceLocation(), VillagerProfession.NONE);
 		int villagerLevel = buf.readVarInt();
 		int xp = buf.readVarInt();
 

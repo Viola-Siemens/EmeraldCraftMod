@@ -20,7 +20,7 @@ import net.minecraft.world.entity.monster.ZombifiedPiglin;
 import net.minecraft.world.entity.monster.piglin.AbstractPiglin;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -95,7 +95,6 @@ public class ZombifiedPiglinEntityMixin implements Convertible {
 		current.playSound(SoundEvents.ZOMBIE_VILLAGER_CURE);
 	}
 
-	@SuppressWarnings("UnstableApiUsage")
 	@Override
 	public void emeraldcraft$finishConversion(ServerLevel level) {
 		ZombifiedPiglin current = (ZombifiedPiglin)(Object)this;
@@ -125,7 +124,7 @@ public class ZombifiedPiglinEntityMixin implements Convertible {
 
 		piglin.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
 		piglin.playSound(SoundEvents.ZOMBIE_VILLAGER_CONVERTED);
-		ForgeEventFactory.onLivingConvert(current, piglin);
+		EventHooks.onLivingConvert(current, piglin);
 	}
 
 	@Override

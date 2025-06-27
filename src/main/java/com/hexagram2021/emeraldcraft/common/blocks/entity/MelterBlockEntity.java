@@ -36,17 +36,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.capabilities.Capabilities;
+import net.neoforged.neoforge.common.capabilities.Capability;
+import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -54,7 +54,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-@SuppressWarnings("UnstableApiUsage")
 public class MelterBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeCraftingHolder, StackedContentsCompatible, Tank, ISynchronizableContainer {
 	public static final int MAX_FLUID_LEVEL = FluidType.BUCKET_VOLUME * 10;
 	public static final int TANK_OUTPUT = 0;
@@ -200,7 +199,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 					changed = true;
 				}
 			} else if(fluidStack.isEmpty()) {
-				IFluidHandlerItem c = resultInput.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
+				IFluidHandlerItem c = resultInput.getCapability(Capabilities.FLUID_HANDLER_ITEM).orElse(null);
 				if(c != null) {
 					if(resultOutput.isEmpty()) {
 						blockEntity.items.set(MelterMenu.RESULT_OUTPUT_SLOT, new ItemStack(Items.BUCKET));
@@ -356,20 +355,20 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	@Override
 	public boolean canPlaceItem(int index, ItemStack itemStack) {
 		if (index == MelterMenu.RESULT_INPUT_SLOT || index == MelterMenu.RESULT_OUTPUT_SLOT) {
-			return itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
+			return itemStack.getCapability(Capabilities.FLUID_HANDLER_ITEM).isPresent();
 		}
 		if (index != MelterMenu.FUEL_SLOT) {
 			return true;
 		}
 		ItemStack fuelItemStack = this.items.get(MelterMenu.FUEL_SLOT);
-		return ForgeHooks.getBurnTime(itemStack, null) > 0 || itemStack.is(Items.BUCKET) && !fuelItemStack.is(Items.BUCKET);
+		return CommonHooks.getBurnTime(itemStack, null) > 0 || itemStack.is(Items.BUCKET) && !fuelItemStack.is(Items.BUCKET);
 	}
 
 	protected int getBurnDuration(ItemStack itemStack) {
 		if (itemStack.isEmpty()) {
 			return 0;
 		}
-		return ForgeHooks.getBurnTime(itemStack, null);
+		return CommonHooks.getBurnTime(itemStack, null);
 	}
 
 	private static int getTotalMeltTime(Level level, MelterBlockEntity blockEntity) {
@@ -492,7 +491,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 	@Override @NotNull
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
 		if (!this.remove) {
-			if(facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
+			if(facing != null && capability == Capabilities.ITEM_HANDLER) {
 				if (facing == Direction.UP) {
 					return handlers[0].cast();
 				}
@@ -501,7 +500,7 @@ public class MelterBlockEntity extends BaseContainerBlockEntity implements World
 				}
 				return handlers[2].cast();
 			}
-			if (capability == ForgeCapabilities.FLUID_HANDLER) {
+			if (capability == Capabilities.FLUID_HANDLER) {
 				return this.fluidHandlerWrapper.cast();
 			}
 		}

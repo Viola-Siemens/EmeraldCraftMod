@@ -30,7 +30,7 @@ import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePieceAccessor;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -1175,7 +1175,6 @@ public class EntrenchmentPieces {
 			this.generateSmallDoor(level, bbox, this.entryDoor, OFF_X, OFF_Y, OFF_Z);
 		}
 
-		@SuppressWarnings("UnstableApiUsage")
 		private void spawnMobs(WorldGenLevel level, BoundingBox bbox) {
 			if(!this.spawnedZombifiedPiglin) {
 				BlockPos blockpos = this.getWorldPos(2, 1, 6);
@@ -1200,7 +1199,7 @@ public class EntrenchmentPieces {
 					}
 					mob.setPersistenceRequired();
 					mob.moveTo(blockpos.getX() + 0.5F, blockpos.getY(), blockpos.getZ() + 0.5F, 0.0F, 0.0F);
-					ForgeEventFactory.onFinalizeSpawn(mob, level, level.getCurrentDifficultyAt(blockpos), MobSpawnType.STRUCTURE, null, null);
+					EventHooks.onFinalizeSpawn(mob, level, level.getCurrentDifficultyAt(blockpos), MobSpawnType.STRUCTURE, null, null);
 					level.addFreshEntityWithPassengers(mob);
 				}
 			}

@@ -10,6 +10,7 @@ import com.hexagram2021.emeraldcraft.common.items.armors.LapisArmorItem;
 import com.hexagram2021.emeraldcraft.common.items.armors.WoodenArmorItem;
 import com.hexagram2021.emeraldcraft.common.util.ECFoods;
 import net.minecraft.Util;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffects;
@@ -20,11 +21,10 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.DeferredSpawnEggItem;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import javax.annotation.Nullable;
 import java.util.EnumMap;
@@ -39,7 +39,7 @@ import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegist
 
 @SuppressWarnings("unused")
 public class ECItems {
-	public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+	public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(Registries.ITEM, MODID);
 
 	public static final Map<ArmorItem.Type, ItemEntry<EmeraldArmorItem>> EMERALD_ARMOR = new EnumMap<>(ArmorItem.Type.class);
 	public static final Map<ArmorItem.Type, ItemEntry<LapisArmorItem>> LAPIS_ARMOR = new EnumMap<>(ArmorItem.Type.class);
@@ -77,52 +77,52 @@ public class ECItems {
 			"cabbage_seed", () -> new ItemNameBlockItem(ECBlocks.Plant.CABBAGE.get(), new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
 	);
 	public static final ItemEntry<SpawnEggItem> PIGLIN_CUTEY_SPAWN_EGG = ItemEntry.register(
-			"piglin_cutey_spawn_egg", () -> new ForgeSpawnEggItem(
+			"piglin_cutey_spawn_egg", () -> new DeferredSpawnEggItem(
 					() -> ECEntities.PIGLIN_CUTEY, 0xF1E2B1, 0xE6BE02, new Item.Properties()
 			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
 	);
 	public static final ItemEntry<SpawnEggItem> NETHER_PIGMAN_SPAWN_EGG = ItemEntry.register(
-			"nether_pigman_spawn_egg", () -> new ForgeSpawnEggItem(
+			"nether_pigman_spawn_egg", () -> new DeferredSpawnEggItem(
 					() -> ECEntities.NETHER_PIGMAN, 0xFF8EB3, 0x053636, new Item.Properties()
 			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
 	);
 	public static final ItemEntry<SpawnEggItem> NETHER_LAMBMAN_SPAWN_EGG = ItemEntry.register(
-			"nether_lambman_spawn_egg", () -> new ForgeSpawnEggItem(
+			"nether_lambman_spawn_egg", () -> new DeferredSpawnEggItem(
 					() -> ECEntities.NETHER_LAMBMAN, 0xFFFFFF, 0x0F9B9B, new Item.Properties()
 			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
 	);
 	public static final ItemEntry<SpawnEggItem> BIGEYE_SPAWN_EGG = ItemEntry.register(
-			"bigeye_spawn_egg", () -> new ForgeSpawnEggItem(
+			"bigeye_spawn_egg", () -> new DeferredSpawnEggItem(
 					() -> ECEntities.PURPLE_SPOTTED_BIGEYE, 0xEC1C24, 0xD8B8CC, new Item.Properties()
 			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
 	);
 	public static final ItemEntry<SpawnEggItem> HERRING_SPAWN_EGG = ItemEntry.register(
-			"herring_spawn_egg", () -> new ForgeSpawnEggItem(
+			"herring_spawn_egg", () -> new DeferredSpawnEggItem(
 					() -> ECEntities.HERRING, 0x12C6EC, 0xB44420, new Item.Properties()
 			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
 	);
 	public static final ItemEntry<SpawnEggItem> SNAKEHEAD_SPAWN_EGG = ItemEntry.register(
-			"snakehead_spawn_egg", () -> new ForgeSpawnEggItem(
+			"snakehead_spawn_egg", () -> new DeferredSpawnEggItem(
 					() -> ECEntities.SNAKEHEAD, 0x413830, 0x646464, new Item.Properties()
 			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
 	);
 	public static final ItemEntry<SpawnEggItem> WRAITH_SPAWN_EGG = ItemEntry.register(
-			"wraith_spawn_egg", () -> new ForgeSpawnEggItem(
+			"wraith_spawn_egg", () -> new DeferredSpawnEggItem(
 					() -> ECEntities.WRAITH, 0x400040, 0xC8C8C8, new Item.Properties()
 			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
 	);
 	public static final ItemEntry<SpawnEggItem> MANTA_SPAWN_EGG = ItemEntry.register(
-			"manta_spawn_egg", () -> new ForgeSpawnEggItem(
+			"manta_spawn_egg", () -> new DeferredSpawnEggItem(
 					() -> ECEntities.MANTA, 0xFFFFC8, 0xF8F8E0, new Item.Properties()
 			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
 	);
 	public static final ItemEntry<SpawnEggItem> LUMINE_SPAWN_EGG = ItemEntry.register(
-			"lumine_spawn_egg", () -> new ForgeSpawnEggItem(
+			"lumine_spawn_egg", () -> new DeferredSpawnEggItem(
 					() -> ECEntities.LUMINE, 0xF7FF55, 0xF9FFAA, new Item.Properties()
 			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
 	);
 	public static final ItemEntry<SpawnEggItem> WOMBAT_SPAWN_EGG = ItemEntry.register(
-			"wombat_spawn_egg", () -> new ForgeSpawnEggItem(
+			"wombat_spawn_egg", () -> new DeferredSpawnEggItem(
 					() -> ECEntities.WOMBAT, 0x7A6347, 0xC89681, new Item.Properties()
 			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
 	);
@@ -423,7 +423,8 @@ public class ECItems {
 		private static void init() {}
 	}
 
-	private ECItems() { }
+	private ECItems() {
+	}
 
 	public static void init(IEventBus bus) {
 		REGISTER.register(bus);
@@ -457,10 +458,10 @@ public class ECItems {
 		public static final List<ItemEntry<? extends Item>> TOOLS_AND_ARMORS = Lists.newArrayList();
 		public static final List<ItemEntry<? extends Item>> FOODS_AND_DRINKS = Lists.newArrayList();
 
-		private final RegistryObject<T> regObject;
+		private final DeferredHolder<Item, T> regObject;
 
 		private static ItemEntry<Item> simple(String name, ItemGroupType type) {
-			return simple(name, $ -> { }, $ -> { }, type);
+			return simple(name, $ -> {}, $ -> {}, type);
 		}
 
 		private static ItemEntry<Item> simple(String name, Consumer<Item.Properties> makeProps, Consumer<Item> processItem, ItemGroupType type) {
@@ -477,10 +478,10 @@ public class ECItems {
 		}
 
 		private static <T extends Item> ItemEntry<T> of(T existing, ItemGroupType type) {
-			return new ItemEntry<>(RegistryObject.create(getRegistryName(existing), ForgeRegistries.ITEMS), type);
+			return new ItemEntry<>(DeferredHolder.create(Registries.ITEM, getRegistryName(existing)), type);
 		}
 
-		private ItemEntry(RegistryObject<T> regObject, @Nullable ItemGroupType type) {
+		private ItemEntry(DeferredHolder<Item, T> regObject, @Nullable ItemGroupType type) {
 			this.regObject = regObject;
 			if(type != null) {
 				(switch (type) {

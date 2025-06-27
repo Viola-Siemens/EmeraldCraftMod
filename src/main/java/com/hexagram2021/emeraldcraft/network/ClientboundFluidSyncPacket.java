@@ -3,7 +3,7 @@ package com.hexagram2021.emeraldcraft.network;
 import com.google.common.collect.Lists;
 import com.hexagram2021.emeraldcraft.client.screens.ScreenUtils;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.List;
 

@@ -13,6 +13,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -24,9 +25,8 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -50,11 +50,11 @@ public record TradeShadowRecipe(ItemStack costA, ItemStack costB, ItemStack resu
 
 		Map<VillagerProfession, List<Block>> shadows = Maps.newIdentityHashMap();
 		if (ECCommonConfig.ENABLE_JEI_TRADING_SHADOW_RECIPE.get()) {
-			ForgeRegistries.VILLAGER_PROFESSIONS.forEach(villagerProfession -> {
+			BuiltInRegistries.VILLAGER_PROFESSION.forEach(villagerProfession -> {
 				Set<Block> blocks = Sets.newHashSet();
-				ForgeRegistries.POI_TYPES.forEach(poiType -> {
-					if(villagerProfession.heldJobSite().test(ForgeRegistries.POI_TYPES.getDelegateOrThrow(poiType))) {
-						poiType.matchingStates().forEach(blockState -> blocks.add(blockState.getBlock()));
+				BuiltInRegistries.POINT_OF_INTEREST_TYPE.holders().forEach(poiType -> {
+					if(villagerProfession.heldJobSite().test(poiType)) {
+						poiType.value().matchingStates().forEach(blockState -> blocks.add(blockState.getBlock()));
 					}
 				});
 				shadows.putIfAbsent(villagerProfession, blocks.stream().toList());

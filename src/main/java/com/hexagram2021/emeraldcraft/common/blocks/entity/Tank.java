@@ -1,6 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.blocks.entity;
 
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public interface Tank {
 	FluidStack getFluidStack(int tank);

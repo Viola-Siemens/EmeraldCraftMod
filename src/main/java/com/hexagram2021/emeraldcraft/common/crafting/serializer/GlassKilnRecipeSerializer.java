@@ -3,14 +3,12 @@ package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 import com.hexagram2021.emeraldcraft.common.crafting.GlassKilnRecipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import javax.annotation.Nullable;
 
 public class GlassKilnRecipeSerializer<T extends GlassKilnRecipe> implements RecipeSerializer<T> {
 	private final GlassKilnRecipeSerializer.Creator<T> factory;
@@ -23,7 +21,7 @@ public class GlassKilnRecipeSerializer<T extends GlassKilnRecipe> implements Rec
 						ExtraCodecs.strictOptionalField(Codec.STRING, "group", "").forGetter(GlassKilnRecipe::getGroup),
 						ExtraCodecs.strictOptionalField(Codec.STRING, "category", "").forGetter(GlassKilnRecipe::getCategory),
 						Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(GlassKilnRecipe::getIngredient),
-						ForgeRegistries.ITEMS.getCodec().xmap(ItemStack::new, ItemStack::getItem).fieldOf("result").forGetter(GlassKilnRecipe::getResult),
+						BuiltInRegistries.ITEM.byNameCodec().xmap(ItemStack::new, ItemStack::getItem).fieldOf("result").forGetter(GlassKilnRecipe::getResult),
 						Codec.FLOAT.fieldOf("experience").orElse(0.0F).forGetter(GlassKilnRecipe::getExperience),
 						Codec.INT.fieldOf("cookingtime").orElse(defaultCookingTime).forGetter(GlassKilnRecipe::getCookingTime)
 				).apply(instance, creator::create)
@@ -35,7 +33,7 @@ public class GlassKilnRecipeSerializer<T extends GlassKilnRecipe> implements Rec
 		return this.codec;
 	}
 
-	@Override @Nullable
+	@Override
 	public T fromNetwork(FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		String category = buf.readUtf();

@@ -4,8 +4,8 @@ import com.hexagram2021.emeraldcraft.common.blocks.entity.ISynchronizableContain
 import com.hexagram2021.emeraldcraft.common.blocks.entity.Tank;
 import com.hexagram2021.emeraldcraft.network.ClientboundFluidSyncPacket;
 import net.minecraft.world.SimpleContainer;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
 public class SimpleContainerWithTank extends SimpleContainer implements Tank, ISynchronizableContainer {
 	private final FluidTank[] fluidTanks;

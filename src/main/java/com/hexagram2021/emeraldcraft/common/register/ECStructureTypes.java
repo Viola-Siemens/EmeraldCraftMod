@@ -7,21 +7,21 @@ import com.hexagram2021.emeraldcraft.common.world.structures.shelter.ShelterFeat
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public class ECStructureTypes {
 	private static final DeferredRegister<StructureType<?>> REGISTER = DeferredRegister.create(Registries.STRUCTURE_TYPE, MODID);
 
-	public static final RegistryObject<StructureType<ShelterFeature>> SHELTER = register("shelter", () -> ShelterFeature.CODEC);
-	public static final RegistryObject<StructureType<EntrenchmentFeature>> ENTRENCHMENT = register("entrenchment", () -> EntrenchmentFeature.CODEC);
-	public static final RegistryObject<StructureType<CampFeature>> CAMP = register("camp", () -> CampFeature.CODEC);
-	public static final RegistryObject<StructureType<HollowTreeFeature>> HOLLOW_TREE = register("hollow_tree", () -> HollowTreeFeature.CODEC);
+	public static final DeferredHolder<StructureType<?>, StructureType<ShelterFeature>> SHELTER = register("shelter", () -> ShelterFeature.CODEC);
+	public static final DeferredHolder<StructureType<?>, StructureType<EntrenchmentFeature>> ENTRENCHMENT = register("entrenchment", () -> EntrenchmentFeature.CODEC);
+	public static final DeferredHolder<StructureType<?>, StructureType<CampFeature>> CAMP = register("camp", () -> CampFeature.CODEC);
+	public static final DeferredHolder<StructureType<?>, StructureType<HollowTreeFeature>> HOLLOW_TREE = register("hollow_tree", () -> HollowTreeFeature.CODEC);
 
-	private static <T extends Structure> RegistryObject<StructureType<T>> register(String name, StructureType<T> codec) {
+	private static <T extends Structure> DeferredHolder<StructureType<?>, StructureType<T>> register(String name, StructureType<T> codec) {
 		return REGISTER.register(name, () -> codec);
 	}
 

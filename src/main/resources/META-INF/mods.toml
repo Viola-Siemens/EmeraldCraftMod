@@ -1,42 +1,33 @@
 modLoader="javafml"
-loaderVersion="[48,)"
-license="MIT"
-issueTrackerURL="https://github.com/Viola-Siemens/EmeraldCraftMod/issues"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+issueTrackerURL="${mod_issue_tracker}"
 
 [[mods]]
-modId="emeraldcraft"
-version="${file.jarVersion}"
-displayName="Emerald Craft Mod"
-logoFile="logo.png"
-credits="Liu Dongyu"
-authors="Hexagram"
-description='''
-More crafts, biomes, piglin girls, and cute villagers!
+    modId="${mod_id}"
+    version="${mod_version}"
+    displayName="${mod_name}"
+    logoFile="logo.png"
+    credits="Hexagram"
+    authors="${mod_authors}"
+    description='''${mod_description}'''
 
-I love villagers in minecraft. I hope so do you. And I also love piglins -- just because they look like girls with head covers!
+[[accessTransformers]]
+    file="META-INF/accesstransformer.cfg"
 
-With this mod, you can trade many other things with villagers, and with piglin-cutey, a new mob in the nether.
+[[mixins]]
+    config="${mod_id}.mixins.json"
 
-You can also do the emerald craft, the gold craft, and even craft some "trash" into building material to decorate your house with this mod!
-'''
-
-[[dependencies.emeraldcraft]]
-    modId="forge"
+[[dependencies.${mod_id}]]
+    modId="neoforge"
     mandatory=true
-    versionRange="[47,)"
+    versionRange="${neo_version_range}"
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.emeraldcraft]]
+[[dependencies.${mod_id}]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.20.2,1.21)"
-    ordering="NONE"
-    side="BOTH"
-    
-[[dependencies.emeraldcraft]]
-    modId="terrablender"
-    mandatory=false
-    versionRange="[3.0.0.170,)"
+    versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"

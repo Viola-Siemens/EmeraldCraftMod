@@ -20,7 +20,7 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.common.capabilities.Capabilities;
 
 import java.util.Set;
 
@@ -61,7 +61,7 @@ public class MelterMenu extends AbstractContainerMenu implements IFluidSyncMenu 
 		this.resultInputSlot = this.addSlot(new Slot(container, RESULT_INPUT_SLOT, 132, 18) {
 			@Override
 			public boolean mayPlace(ItemStack itemStack) {
-				return itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
+				return itemStack.getCapability(Capabilities.FLUID_HANDLER_ITEM).isPresent();
 			}
 
 			@Override
@@ -72,7 +72,7 @@ public class MelterMenu extends AbstractContainerMenu implements IFluidSyncMenu 
 		this.addSlot(new Slot(container, RESULT_OUTPUT_SLOT, 132, 52) {
 			@Override
 			public boolean mayPlace(ItemStack itemStack) {
-				return itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
+				return itemStack.getCapability(Capabilities.FLUID_HANDLER_ITEM).isPresent();
 			}
 
 			@Override
@@ -166,7 +166,7 @@ public class MelterMenu extends AbstractContainerMenu implements IFluidSyncMenu 
 		if(this.melter instanceof ISynchronizableContainer synchronizableContainer && synchronizableContainer.isDirty()) {
 			synchronizableContainer.clearDirty();
 			for(ServerPlayer serverPlayer: this.usingPlayers) {
-				EmeraldCraft.sendMessageToPlayer(synchronizableContainer.getSyncPacket(), serverPlayer.connection.getConnection());
+				EmeraldCraft.sendMessageToPlayer(synchronizableContainer.getSyncPacket(), serverPlayer);
 			}
 		}
 	}

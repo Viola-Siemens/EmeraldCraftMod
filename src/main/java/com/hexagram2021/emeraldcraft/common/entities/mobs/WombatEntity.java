@@ -38,7 +38,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
@@ -175,7 +175,6 @@ public class WombatEntity extends TamableAnimal implements NeutralMob {
 		}
 	}
 
-	@SuppressWarnings("UnstableApiUsage")
 	@Override
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
@@ -196,7 +195,7 @@ public class WombatEntity extends TamableAnimal implements NeutralMob {
 				if (!player.getAbilities().instabuild) {
 					itemstack.shrink(1);
 				}
-				if (this.random.nextInt(4) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
+				if (this.random.nextInt(4) == 0 && !EventHooks.onAnimalTame(this, player)) {
 					this.tame(player);
 					this.navigation.stop();
 					this.setTarget(null);

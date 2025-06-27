@@ -6,21 +6,21 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.client.model.data.ModelData;
 
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryEntry;
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 public record CookstoveBlockDisplay(Block block) implements ICookstoveDisplay {
 	public static final Codec<CookstoveBlockDisplay> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-			ForgeRegistries.BLOCKS.getCodec().fieldOf("block").forGetter(CookstoveBlockDisplay::block)
+			BuiltInRegistries.BLOCK.byNameCodec().fieldOf("block").forGetter(CookstoveBlockDisplay::block)
 	).apply(instance, CookstoveBlockDisplay::new));
 
 	public static CookstoveBlockDisplay fromNetwork(FriendlyByteBuf buf) {
-		return new CookstoveBlockDisplay(getRegistryEntry(ForgeRegistries.BLOCKS, buf.readResourceLocation()));
+		return new CookstoveBlockDisplay(getRegistryEntry(BuiltInRegistries.BLOCK, buf.readResourceLocation()));
 	}
 
 	@Override

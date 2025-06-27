@@ -8,7 +8,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public class CookedDumplingCookstoveRecipeSerializer<T extends CookedDumplingCookstoveRecipe> implements RecipeSerializer<T> {
 	private final CookedDumplingCookstoveRecipeSerializer.Creator<T> factory;

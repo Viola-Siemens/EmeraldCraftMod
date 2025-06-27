@@ -145,7 +145,7 @@ public class ContinuousMinerMenu extends AbstractContainerMenu implements IFluid
 		if(this.continuousMiner instanceof ISynchronizableContainer synchronizableContainer && synchronizableContainer.isDirty()) {
 			synchronizableContainer.clearDirty();
 			for(ServerPlayer serverPlayer: this.usingPlayers) {
-				EmeraldCraft.sendMessageToPlayer(synchronizableContainer.getSyncPacket(), serverPlayer.connection.getConnection());
+				EmeraldCraft.sendMessageToPlayer(synchronizableContainer.getSyncPacket(), serverPlayer);
 			}
 		}
 	}

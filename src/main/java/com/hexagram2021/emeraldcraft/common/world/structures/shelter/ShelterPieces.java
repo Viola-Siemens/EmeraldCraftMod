@@ -50,6 +50,7 @@ public class ShelterPieces {
 		}
 
 		@Override
-		protected void handleDataMarker(String function, BlockPos pos, ServerLevelAccessor level, RandomSource random, BoundingBox sbb) { }
+		protected void handleDataMarker(String function, BlockPos pos, ServerLevelAccessor level, RandomSource random, BoundingBox sbb) {
+		}
 	}
 }

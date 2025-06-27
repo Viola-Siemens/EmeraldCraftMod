@@ -2,28 +2,25 @@ package com.hexagram2021.emeraldcraft.client;
 
 import com.hexagram2021.emeraldcraft.api.tradable.ITradableDataFactory;
 import com.hexagram2021.emeraldcraft.client.screens.*;
-import com.hexagram2021.emeraldcraft.common.CommonProxy;
 import com.hexagram2021.emeraldcraft.common.entities.mobs.PiglinCuteyData;
 import com.hexagram2021.emeraldcraft.common.register.*;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerData;
 import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.block.entity.BannerPattern;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.event.RegisterRecipeBookCategoriesEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterRecipeBookCategoriesEvent;
 
 import java.util.Objects;
 
@@ -31,17 +28,7 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ClientProxy extends CommonProxy {
-	@SuppressWarnings("ConstantValue")
-	public static void modConstruction() {
-		Minecraft minecraft = Minecraft.getInstance();
-		if(minecraft != null) {
-			ReloadableResourceManager reloadableManager = (ReloadableResourceManager) minecraft.getResourceManager();
-			ClientEventHandler handler = new ClientEventHandler();
-			reloadableManager.registerReloadListener(handler);
-		}
-	}
-
+public class ClientProxy {
 	@SubscribeEvent
 	public static void setup(final FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {

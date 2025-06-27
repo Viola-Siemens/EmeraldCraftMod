@@ -2,10 +2,10 @@ package com.hexagram2021.emeraldcraft.common.register;
 
 import com.google.common.collect.Maps;
 import com.hexagram2021.emeraldcraft.common.config.ECCommonConfig;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -85,7 +85,7 @@ public class ECBiomeKeys {
 	);
 
 	private static BiomeKey registerKey(boolean generate, double suppress, String biomeName) {
-		return new BiomeKey(ResourceKey.create(ForgeRegistries.Keys.BIOMES, new ResourceLocation(MODID, biomeName)), generate, (float)suppress);
+		return new BiomeKey(ResourceKey.create(Registries.BIOME, new ResourceLocation(MODID, biomeName)), generate, (float)suppress);
 	}
 
 	public record BiomeKey(ResourceKey<Biome> key, boolean generate, float suppress) {}

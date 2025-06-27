@@ -3,7 +3,7 @@ package com.hexagram2021.emeraldcraft.api.events;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
 
 import java.util.List;
 import java.util.function.Supplier;

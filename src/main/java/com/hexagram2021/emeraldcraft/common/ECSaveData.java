@@ -19,7 +19,6 @@ public class ECSaveData extends SavedData {
 		this();
 	}
 
-	@SuppressWarnings("DataFlowIssue")
 	public static Factory<ECSaveData> factory() {
 		return new SavedData.Factory<>(ECSaveData::new, ECSaveData::new, null);
 	}

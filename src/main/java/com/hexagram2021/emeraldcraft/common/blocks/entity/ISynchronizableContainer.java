@@ -1,7 +1,7 @@
 package com.hexagram2021.emeraldcraft.common.blocks.entity;
 
 import com.hexagram2021.emeraldcraft.network.ClientboundFluidSyncPacket;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public interface ISynchronizableContainer {
 	void markDirty();

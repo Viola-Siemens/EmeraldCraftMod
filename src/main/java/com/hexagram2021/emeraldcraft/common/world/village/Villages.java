@@ -25,13 +25,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
-import net.minecraftforge.event.village.VillagerTradesEvent;
-import net.minecraftforge.event.village.WandererTradesEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.village.VillagerTradesEvent;
+import net.neoforged.neoforge.event.village.WandererTradesEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -121,82 +120,81 @@ public class Villages {
 		}
 	}
 
-	@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class Registers {
-		public static final DeferredRegister<PoiType> POINTS_OF_INTEREST = DeferredRegister.create(ForgeRegistries.POI_TYPES, MODID);
-		public static final DeferredRegister<VillagerProfession> PROFESSIONS = DeferredRegister.create(ForgeRegistries.VILLAGER_PROFESSIONS, MODID);
+		public static final DeferredRegister<PoiType> POINTS_OF_INTEREST = DeferredRegister.create(Registries.POINT_OF_INTEREST_TYPE, MODID);
+		public static final DeferredRegister<VillagerProfession> PROFESSIONS = DeferredRegister.create(Registries.VILLAGER_PROFESSION, MODID);
 
-		public static final RegistryObject<PoiType> POI_CARPENTRY_TABLE = POINTS_OF_INTEREST.register(
+		public static final DeferredHolder<PoiType, PoiType> POI_CARPENTRY_TABLE = POINTS_OF_INTEREST.register(
 				"carpentry_table", () -> createPOI(assembleStates(ECBlocks.WorkStation.CARPENTRY_TABLE.get()))
 		);
-		public static final RegistryObject<PoiType> POI_GLASS_KILN = POINTS_OF_INTEREST.register(
+		public static final DeferredHolder<PoiType, PoiType> POI_GLASS_KILN = POINTS_OF_INTEREST.register(
 				"glass_kiln", () -> createPOI(assembleStates(ECBlocks.WorkStation.GLASS_KILN.get()))
 		);
-		public static final RegistryObject<PoiType> POI_MINERAL_TABLE = POINTS_OF_INTEREST.register(
+		public static final DeferredHolder<PoiType, PoiType> POI_MINERAL_TABLE = POINTS_OF_INTEREST.register(
 				"mineral_table", () -> createPOI(assembleStates(ECBlocks.WorkStation.MINERAL_TABLE.get()))
 		);
-		public static final RegistryObject<PoiType> POI_CRYSTALBALL_TABLE = POINTS_OF_INTEREST.register(
+		public static final DeferredHolder<PoiType, PoiType> POI_CRYSTALBALL_TABLE = POINTS_OF_INTEREST.register(
 				"crystalball_table", () -> createPOI(assembleStates(ECBlocks.WorkStation.CRYSTALBALL_TABLE.get()))
 		);
-		public static final RegistryObject<PoiType> POI_FLOWER_POT = POINTS_OF_INTEREST.register(
+		public static final DeferredHolder<PoiType, PoiType> POI_FLOWER_POT = POINTS_OF_INTEREST.register(
 				"flower_pot", () -> createPOI(assembleStates(Blocks.FLOWER_POT))
 		);
-		public static final RegistryObject<PoiType> POI_SQUEEZER = POINTS_OF_INTEREST.register(
+		public static final DeferredHolder<PoiType, PoiType> POI_SQUEEZER = POINTS_OF_INTEREST.register(
 				"squeezer", () -> createPOI(assembleStates(ECBlocks.WorkStation.SQUEEZER.get()))
 		);
-		public static final RegistryObject<PoiType> POI_CONTINUOUS_MINER = POINTS_OF_INTEREST.register(
+		public static final DeferredHolder<PoiType, PoiType> POI_CONTINUOUS_MINER = POINTS_OF_INTEREST.register(
 				"continuous_miner", () -> createPOI(assembleStates(ECBlocks.WorkStation.CONTINUOUS_MINER.get()))
 		);
-		public static final RegistryObject<PoiType> POI_ICE_MAKER = POINTS_OF_INTEREST.register(
+		public static final DeferredHolder<PoiType, PoiType> POI_ICE_MAKER = POINTS_OF_INTEREST.register(
 				"ice_maker", () -> createPOI(assembleStates(ECBlocks.WorkStation.ICE_MAKER.get()))
 		);
-		public static final RegistryObject<PoiType> POI_MELTER = POINTS_OF_INTEREST.register(
+		public static final DeferredHolder<PoiType, PoiType> POI_MELTER = POINTS_OF_INTEREST.register(
 				"melter", () -> createPOI(assembleStates(ECBlocks.WorkStation.MELTER.get()))
 		);
-		public static final RegistryObject<PoiType> POI_RABBLE_FURNACE = POINTS_OF_INTEREST.register(
+		public static final DeferredHolder<PoiType, PoiType> POI_RABBLE_FURNACE = POINTS_OF_INTEREST.register(
 				"rabble_furnace", () -> createPOI(assembleStates(ECBlocks.WorkStation.RABBLE_FURNACE.get()))
 		);
-		public static final RegistryObject<PoiType> POI_MEAT_GRINDER = POINTS_OF_INTEREST.register(
+		public static final DeferredHolder<PoiType, PoiType> POI_MEAT_GRINDER = POINTS_OF_INTEREST.register(
 				"meat_grinder", () -> createPOI(assembleStates(ECBlocks.WorkStation.MEAT_GRINDER.get()))
 		);
-		public static final RegistryObject<PoiType> POI_COOKSTOVE = POINTS_OF_INTEREST.register(
+		public static final DeferredHolder<PoiType, PoiType> POI_COOKSTOVE = POINTS_OF_INTEREST.register(
 				"cookstove", () -> createPOI(assembleStates(ECBlocks.WorkStation.COOKSTOVE.get()))
 		);
 
-		public static final RegistryObject<VillagerProfession> PROF_CARPENTER = PROFESSIONS.register(
+		public static final DeferredHolder<VillagerProfession, VillagerProfession> PROF_CARPENTER = PROFESSIONS.register(
 				CARPENTER.getPath(), () -> createProf(CARPENTER, POI_CARPENTRY_TABLE::getKey, ECSounds.VILLAGER_WORK_CARPENTER)
 		);
-		public static final RegistryObject<VillagerProfession> PROF_GLAZIER = PROFESSIONS.register(
+		public static final DeferredHolder<VillagerProfession, VillagerProfession> PROF_GLAZIER = PROFESSIONS.register(
 				GLAZIER.getPath(), () -> createProf(GLAZIER, POI_GLASS_KILN::getKey, ECSounds.VILLAGER_WORK_GLAZIER)
 		);
-		public static final RegistryObject<VillagerProfession> PROF_MINER = PROFESSIONS.register(
+		public static final DeferredHolder<VillagerProfession, VillagerProfession> PROF_MINER = PROFESSIONS.register(
 				MINER.getPath(), () -> createProf(MINER, POI_MINERAL_TABLE::getKey, ECSounds.VILLAGER_WORK_MINER)
 		);
-		public static final RegistryObject<VillagerProfession> PROF_ASTROLOGIST = PROFESSIONS.register(
+		public static final DeferredHolder<VillagerProfession, VillagerProfession> PROF_ASTROLOGIST = PROFESSIONS.register(
 				ASTROLOGIST.getPath(), () -> createProf(ASTROLOGIST, POI_CRYSTALBALL_TABLE::getKey, ECSounds.VILLAGER_WORK_ASTROLOGIST)
 		);
-		public static final RegistryObject<VillagerProfession> PROF_GROWER = PROFESSIONS.register(
+		public static final DeferredHolder<VillagerProfession, VillagerProfession> PROF_GROWER = PROFESSIONS.register(
 				GROWER.getPath(), () -> createProf(GROWER, POI_FLOWER_POT::getKey, ECSounds.VILLAGER_WORK_GROWER)
 		);
-		public static final RegistryObject<VillagerProfession> PROF_BEEKEEPER = PROFESSIONS.register(
+		public static final DeferredHolder<VillagerProfession, VillagerProfession> PROF_BEEKEEPER = PROFESSIONS.register(
 				BEEKEEPER.getPath(), () -> createProf(GROWER, POI_SQUEEZER::getKey, ECSounds.VILLAGER_WORK_BEEKEEPER)
 		);
-		public static final RegistryObject<VillagerProfession> PROF_GEOLOGIST = PROFESSIONS.register(
+		public static final DeferredHolder<VillagerProfession, VillagerProfession> PROF_GEOLOGIST = PROFESSIONS.register(
 				GEOLOGIST.getPath(), () -> createProf(GEOLOGIST, POI_CONTINUOUS_MINER::getKey, ECSounds.VILLAGER_WORK_GEOLOGIST)
 		);
-		public static final RegistryObject<VillagerProfession> PROF_ICER = PROFESSIONS.register(
+		public static final DeferredHolder<VillagerProfession, VillagerProfession> PROF_ICER = PROFESSIONS.register(
 				ICER.getPath(), () -> createProf(ICER, POI_ICE_MAKER::getKey, ECSounds.VILLAGER_WORK_ICER)
 		);
-		public static final RegistryObject<VillagerProfession> PROF_CHEMICAL_ENGINEER = PROFESSIONS.register(
+		public static final DeferredHolder<VillagerProfession, VillagerProfession> PROF_CHEMICAL_ENGINEER = PROFESSIONS.register(
 				CHEMICAL_ENGINEER.getPath(), () -> createProf(CHEMICAL_ENGINEER, POI_MELTER::getKey, ECSounds.VILLAGER_WORK_CHEMICAL_ENGINEER)
 		);
-		public static final RegistryObject<VillagerProfession> PROF_PAPERHANGER = PROFESSIONS.register(
+		public static final DeferredHolder<VillagerProfession, VillagerProfession> PROF_PAPERHANGER = PROFESSIONS.register(
 				PAPERHANGER.getPath(), () -> createProf(PAPERHANGER, POI_RABBLE_FURNACE::getKey, ECSounds.VILLAGER_WORK_PAPERHANGER)
 		);
-		public static final RegistryObject<VillagerProfession> PROF_HUNTER = PROFESSIONS.register(
+		public static final DeferredHolder<VillagerProfession, VillagerProfession> PROF_HUNTER = PROFESSIONS.register(
 				HUNTER.getPath(), () -> createProf(HUNTER, POI_MEAT_GRINDER::getKey, ECSounds.VILLAGER_WORK_HUNTER)
 		);
-		public static final RegistryObject<VillagerProfession> PROF_CHEF = PROFESSIONS.register(
+		public static final DeferredHolder<VillagerProfession, VillagerProfession> PROF_CHEF = PROFESSIONS.register(
 				CHEF.getPath(), () -> createProf(CHEF, POI_COOKSTOVE::getKey, ECSounds.VILLAGER_WORK_CHEF)
 		);
 
@@ -223,7 +221,6 @@ public class Villages {
 
 	@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 	public static class Events {
-
 		@SubscribeEvent
 		public static void registerTrades(VillagerTradesEvent event) {
 			Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();

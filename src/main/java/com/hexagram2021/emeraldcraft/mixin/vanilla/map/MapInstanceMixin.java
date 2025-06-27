@@ -15,19 +15,17 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.Objects;
 
-import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
-
 @Mixin(MapRenderer.MapInstance.class)
 public class MapInstanceMixin {
 	@WrapOperation(method = "draw", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/saveddata/maps/MapDecoration;getImage()B"))
-	private byte emeraldcraft$getImageAndUpdateBuffer(MapDecoration instance, Operation<Byte> original, @Share(value = "decorationRenderType", namespace = MODID) LocalRef<RenderType> decorationRenderType) {
+	private byte emeraldcraft$getImageAndUpdateBuffer(MapDecoration instance, Operation<Byte> original, @Share(value = "decorationRenderType") LocalRef<RenderType> decorationRenderType) {
 		MapDecoration.Type type = instance.type();
 		decorationRenderType.set(MapCustomIcons.RENDER_TYPES.get(type));
 		return MapCustomIcons.ORDINARIES.getOrDefault(type, original.call(instance));
 	}
 
 	@WrapOperation(method = "draw", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/MultiBufferSource;getBuffer(Lnet/minecraft/client/renderer/RenderType;)Lcom/mojang/blaze3d/vertex/VertexConsumer;", ordinal = 1))
-	private VertexConsumer emeraldcraft$getVertexConsumerForCustomIcons(MultiBufferSource instance, RenderType renderType, Operation<VertexConsumer> original, @Share(value = "decorationRenderType", namespace = MODID) LocalRef<RenderType> decorationRenderType) {
+	private VertexConsumer emeraldcraft$getVertexConsumerForCustomIcons(MultiBufferSource instance, RenderType renderType, Operation<VertexConsumer> original, @Share(value = "decorationRenderType") LocalRef<RenderType> decorationRenderType) {
 		return original.call(instance, Objects.requireNonNullElse(decorationRenderType.get(), renderType));
 	}
 }

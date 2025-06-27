@@ -5,7 +5,7 @@ import com.hexagram2021.emeraldcraft.common.crafting.RabbleFurnaceRecipe;
 import net.minecraft.client.RecipeBookCategories;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.client.event.RegisterRecipeBookCategoriesEvent;
+import net.neoforged.neoforge.client.event.RegisterRecipeBookCategoriesEvent;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class ECRecipeBookTypes {
 		event.registerBookCategories(ECRecipes.GLASS_KILN, List.of(GLASS_KILN_SEARCH, GLASS_KILN_SAND, GLASS_KILN_CLAY, GLASS_KILN_TERRACOTTA));
 		event.registerAggregateCategory(GLASS_KILN_SEARCH, List.of(GLASS_KILN_SAND, GLASS_KILN_CLAY, GLASS_KILN_TERRACOTTA));
 		event.registerRecipeCategoryFinder(ECRecipes.GLASS_KILN_TYPE.get(), recipe -> {
-			if(recipe instanceof GlassKilnRecipe glassKilnRecipe) {
+			if(recipe.value() instanceof GlassKilnRecipe glassKilnRecipe) {
 				if (glassKilnRecipe.getCategory().equals("sand")) {
 					return GLASS_KILN_SAND;
 				}
@@ -36,7 +36,7 @@ public class ECRecipeBookTypes {
 		event.registerBookCategories(ECRecipes.RABBLE_FURNACE, List.of(RABBLE_FURNACE_SEARCH, RABBLE_FURNACE_RESIN, RABBLE_FURNACE_PAPER));
 		event.registerAggregateCategory(RABBLE_FURNACE_SEARCH, List.of(RABBLE_FURNACE_RESIN, RABBLE_FURNACE_PAPER));
 		event.registerRecipeCategoryFinder(ECRecipes.RABBLE_FURNACE_TYPE.get(), recipe -> {
-			if(recipe instanceof RabbleFurnaceRecipe rabbleFurnaceRecipe) {
+			if(recipe.value() instanceof RabbleFurnaceRecipe rabbleFurnaceRecipe) {
 				if (rabbleFurnaceRecipe.category().equals("resin")) {
 					return RABBLE_FURNACE_RESIN;
 				}

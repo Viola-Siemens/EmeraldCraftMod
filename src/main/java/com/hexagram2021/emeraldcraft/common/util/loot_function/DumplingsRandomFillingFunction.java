@@ -21,7 +21,6 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +29,7 @@ import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegist
 
 @SuppressWarnings({"OptionalUsedAsFieldOrParameterType", "deprecation"})
 public class DumplingsRandomFillingFunction extends LootItemConditionalFunction {
-	private static final Codec<List<Item>> ITEMS_CODEC = ForgeRegistries.ITEMS.getCodec().listOf();
+	private static final Codec<List<Item>> ITEMS_CODEC = BuiltInRegistries.ITEM.byNameCodec().listOf();
 
 	public static final Codec<DumplingsRandomFillingFunction> CODEC = RecordCodecBuilder.create(
 			instance -> commonFields(instance).and(ExtraCodecs.strictOptionalField(ITEMS_CODEC, "fillings").forGetter(function -> function.fillings))

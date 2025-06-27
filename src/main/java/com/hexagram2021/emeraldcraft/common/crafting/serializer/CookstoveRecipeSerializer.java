@@ -11,7 +11,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public class CookstoveRecipeSerializer<T extends CookstoveRecipe> implements RecipeSerializer<T> {
 	private final CookstoveRecipeSerializer.Creator<T> factory;

@@ -46,7 +46,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -326,11 +326,10 @@ public class LumineEntity extends PathfinderMob implements InventoryCarrier {
 		return ITEM_PICKUP_REACH;
 	}
 
-	@SuppressWarnings("UnstableApiUsage")
 	@Override
 	public boolean wantsToPickUp(ItemStack itemStack) {
 		ItemStack handItemStack = this.getItemInHand(InteractionHand.MAIN_HAND);
-		return itemStack.is(ECItemTags.TORCHES) && ItemStack.isSameItem(handItemStack, itemStack) && this.inventory.canAddItem(itemStack) && ForgeEventFactory.getMobGriefingEvent(this.level(), this);
+		return itemStack.is(ECItemTags.TORCHES) && ItemStack.isSameItem(handItemStack, itemStack) && this.inventory.canAddItem(itemStack) && EventHooks.getMobGriefingEvent(this.level(), this);
 	}
 
 	@Override

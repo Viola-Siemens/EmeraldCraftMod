@@ -6,9 +6,9 @@ import net.minecraft.world.item.BannerPatternItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.entity.BannerPattern;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ public class ECBannerPatterns {
 	}
 
 	private static BannerEntry addBanner(String name, String hashName) {
-		RegistryObject<BannerPattern> pattern = REGISTER.register(name, () -> new BannerPattern("ec_"+hashName));
+		DeferredHolder<BannerPattern, BannerPattern> pattern = REGISTER.register(name, () -> new BannerPattern("ec_"+hashName));
 		TagKey<BannerPattern> tag = TagKey.create(Registries.BANNER_PATTERN, pattern.getId());
 		ECItems.ItemEntry<BannerPatternItem> item = ECItems.ItemEntry.register(name + "_banner_pattern", () -> new BannerPatternItem(
 				tag, new Item.Properties().stacksTo(1)
@@ -41,7 +41,7 @@ public class ECBannerPatterns {
 	}
 
 	public record BannerEntry(
-			RegistryObject<BannerPattern> pattern,
+			DeferredHolder<BannerPattern, BannerPattern> pattern,
 			TagKey<BannerPattern> tag,
 			ECItems.ItemEntry<BannerPatternItem> item
 	) implements ItemLike {

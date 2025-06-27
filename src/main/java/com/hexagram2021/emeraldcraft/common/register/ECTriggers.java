@@ -8,5 +8,6 @@ public class ECTriggers {
 	public static final CuredZombifiedPiglinTrigger CURED_ZOMBIFIED_PIGLIN = CriteriaTriggers.register(CuredZombifiedPiglinTrigger.ID.toString(), new CuredZombifiedPiglinTrigger());
 	public static final CuredPhantomTrigger CURED_PHANTOM = CriteriaTriggers.register(CuredPhantomTrigger.ID.toString(), new CuredPhantomTrigger());
 
-	public static void init() { }
+	public static void init() {
+	}
 }

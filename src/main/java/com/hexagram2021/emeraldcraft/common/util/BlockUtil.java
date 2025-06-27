@@ -10,12 +10,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.GameMasterBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nullable;
 
-@SuppressWarnings("UnstableApiUsage")
 public class BlockUtil {
 	@SuppressWarnings("UnusedReturnValue")
 	public static boolean breakBlock(ServerPlayer player, BlockState blockState, @Nullable BlockEntity blockEntity, BlockPos pos, int exp) {
@@ -38,7 +37,7 @@ public class BlockUtil {
 			boolean flag1 = blockState.canHarvestBlock(player.serverLevel(), pos, player);
 			itemstack.mineBlock(player.serverLevel(), blockState, pos, player);
 			if (itemstack.isEmpty() && !itemstack1.isEmpty()) {
-				ForgeEventFactory.onPlayerDestroyItem(player, itemstack1, InteractionHand.MAIN_HAND);
+				EventHooks.onPlayerDestroyItem(player, itemstack1, InteractionHand.MAIN_HAND);
 			}
 			boolean flag = removeBlock(player.serverLevel(), player, pos, flag1);
 
@@ -63,7 +62,7 @@ public class BlockUtil {
 	}
 
 	public static int getDestroyBlockExp(ServerPlayer player, BlockState blockState, BlockPos blockPos) {
-		if (!ForgeHooks.isCorrectToolForDrops(blockState, player)) {
+		if (!CommonHooks.isCorrectToolForDrops(blockState, player)) {
 			return 0;
 		}
 		int fortuneLevel = player.getMainHandItem().getEnchantmentLevel(Enchantments.BLOCK_FORTUNE);

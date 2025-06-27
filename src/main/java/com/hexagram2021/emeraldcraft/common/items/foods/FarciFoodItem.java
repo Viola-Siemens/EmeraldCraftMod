@@ -4,6 +4,7 @@ import com.hexagram2021.emeraldcraft.common.items.capabilities.DefaultFarciFoodS
 import com.hexagram2021.emeraldcraft.common.items.capabilities.FarciFoodStorage;
 import com.hexagram2021.emeraldcraft.common.register.ECCapabilities;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -16,7 +17,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -74,10 +74,10 @@ public class FarciFoodItem extends Item {
 		if(nbt != null && nbt.contains(FarciFoodStorage.TAG_FILLINGS, Tag.TAG_LIST)) {
 			ListTag listTag = nbt.getList(FarciFoodStorage.TAG_FILLINGS, Tag.TAG_STRING);
 			if(!listTag.isEmpty()) {
-				Item item = getRegistryEntry(ForgeRegistries.ITEMS, new ResourceLocation(listTag.getString(0)));
+				Item item = getRegistryEntry(BuiltInRegistries.ITEM, new ResourceLocation(listTag.getString(0)));
 				Component filling = Component.translatable(item.getDescriptionId());
 				for(int i = 1; i < listTag.size(); ++i) {
-					item = getRegistryEntry(ForgeRegistries.ITEMS, new ResourceLocation(listTag.getString(i)));
+					item = getRegistryEntry(BuiltInRegistries.ITEM, new ResourceLocation(listTag.getString(i)));
 					filling = Component.translatable("item.emeraldcraft.dumpling.filling_combination", filling, Component.translatable(item.getDescriptionId()));
 				}
 				components.add(Component.translatable("item.emeraldcraft.dumpling.filling", filling));

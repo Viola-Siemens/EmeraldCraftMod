@@ -65,7 +65,8 @@ public class ECEntities {
 					.clientTrackingRange(10)
 					.build(new ResourceLocation(MODID, "chest_boat").toString());
 
-	private ECEntities() { }
+	private ECEntities() {
+	}
 
 	public static void init(ECContent.RegisterConsumer<EntityType<?>> register) {
 		register.accept(new ResourceLocation(MODID, "piglin_cutey"), PIGLIN_CUTEY);

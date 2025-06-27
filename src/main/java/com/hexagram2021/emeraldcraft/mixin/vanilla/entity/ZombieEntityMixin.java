@@ -5,7 +5,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.monster.ZombifiedPiglin;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,7 +21,6 @@ public class ZombieEntityMixin {
 		}
 	}
 
-	@SuppressWarnings("UnstableApiUsage")
 	@Inject(method = "tick", at = @At(value = "HEAD"))
 	public void emeraldcraft$tickConverting(CallbackInfo ci) {
 		Zombie current = (Zombie)(Object)this;
@@ -32,7 +31,7 @@ public class ZombieEntityMixin {
 				int i = convertible.emeraldcraft$getConversionProgress();
 				convertible.emeraldcraft$decreaseConversionRemainTime(i);
 				if (convertible.emeraldcraft$getConversionRemainTime() <= 0 &&
-						ForgeEventFactory.canLivingConvert(zombifiedPiglin, EntityType.PIGLIN, convertible::emeraldcraft$setConversionRemainTime)) {
+						EventHooks.canLivingConvert(zombifiedPiglin, EntityType.PIGLIN, convertible::emeraldcraft$setConversionRemainTime)) {
 					convertible.emeraldcraft$finishConversion((ServerLevel) zombifiedPiglin.level());
 				}
 			}

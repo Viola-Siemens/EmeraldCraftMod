@@ -3,14 +3,12 @@ package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 import com.hexagram2021.emeraldcraft.common.crafting.MineralTableRecipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import javax.annotation.Nullable;
 
 public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implements RecipeSerializer<T> {
 	private final MineralTableRecipeSerializer.Creator<T> factory;
@@ -22,7 +20,7 @@ public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implemen
 				instance -> instance.group(
 						ExtraCodecs.strictOptionalField(Codec.STRING, "group", "").forGetter(MineralTableRecipe::getGroup),
 						Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(MineralTableRecipe::getIngredient),
-						ForgeRegistries.ITEMS.getCodec().xmap(ItemStack::new, ItemStack::getItem).fieldOf("result").forGetter(MineralTableRecipe::getResult),
+						BuiltInRegistries.ITEM.byNameCodec().xmap(ItemStack::new, ItemStack::getItem).fieldOf("result").forGetter(MineralTableRecipe::getResult),
 						Codec.FLOAT.fieldOf("experience").orElse(0.0F).forGetter(MineralTableRecipe::getExperience),
 						Codec.INT.fieldOf("cookingtime").orElse(defaultCookingTime).forGetter(MineralTableRecipe::getCookingTime)
 				).apply(instance, creator::create)
@@ -34,7 +32,7 @@ public class MineralTableRecipeSerializer<T extends MineralTableRecipe> implemen
 		return this.codec;
 	}
 
-	@Override @Nullable
+	@Override
 	public T fromNetwork(FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		Ingredient ingredient = Ingredient.fromNetwork(buf);

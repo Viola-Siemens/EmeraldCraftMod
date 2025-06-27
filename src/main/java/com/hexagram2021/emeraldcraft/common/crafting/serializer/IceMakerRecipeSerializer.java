@@ -3,16 +3,14 @@ package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 import com.hexagram2021.emeraldcraft.common.crafting.IceMakerRecipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import javax.annotation.Nullable;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public class IceMakerRecipeSerializer<T extends IceMakerRecipe> implements RecipeSerializer<T> {
 	private final IceMakerRecipeSerializer.Creator<T> factory;
@@ -24,7 +22,7 @@ public class IceMakerRecipeSerializer<T extends IceMakerRecipe> implements Recip
 				instance -> instance.group(
 						ExtraCodecs.strictOptionalField(Codec.STRING, "group", "").forGetter(IceMakerRecipe::group),
 						FluidStack.CODEC.fieldOf("ingredient").forGetter(IceMakerRecipe::inputFluid),
-						ForgeRegistries.ITEMS.getCodec().xmap(ItemStack::new, ItemStack::getItem).fieldOf("result").forGetter(IceMakerRecipe::result),
+						BuiltInRegistries.ITEM.byNameCodec().xmap(ItemStack::new, ItemStack::getItem).fieldOf("result").forGetter(IceMakerRecipe::result),
 						Codec.INT.fieldOf("freezingtime").orElse(defaultFreezingTime).forGetter(IceMakerRecipe::freezingTime)
 				).apply(instance, creator::create)
 		);
@@ -35,7 +33,7 @@ public class IceMakerRecipeSerializer<T extends IceMakerRecipe> implements Recip
 		return this.codec;
 	}
 
-	@Override @Nullable
+	@Override
 	public T fromNetwork(FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		FluidStack inputFluid = FluidStack.readFromPacket(buf);

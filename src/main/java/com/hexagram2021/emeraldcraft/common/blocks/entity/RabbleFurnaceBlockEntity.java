@@ -39,19 +39,18 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.capabilities.Capabilities;
+import net.neoforged.neoforge.common.capabilities.Capability;
+import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-@SuppressWarnings("UnstableApiUsage")
 public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeCraftingHolder, StackedContentsCompatible {
 	public static final int SLOT_INPUT = 0;
 	public static final int SLOT_MIX1 = 1;
@@ -265,7 +264,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 		if (itemStack.isEmpty()) {
 			return 0;
 		}
-		return ForgeHooks.getBurnTime(itemStack, null) / 2;
+		return CommonHooks.getBurnTime(itemStack, null) / 2;
 	}
 
 	private static int getTotalCookTime(Level level, RabbleFurnaceBlockEntity blockEntity) {
@@ -356,7 +355,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 			return true;
 		}
 		ItemStack fuelItemStack = this.items.get(SLOT_FUEL);
-		return ForgeHooks.getBurnTime(itemStack, null) > 0 || itemStack.is(Items.BUCKET) && !fuelItemStack.is(Items.BUCKET);
+		return CommonHooks.getBurnTime(itemStack, null) > 0 || itemStack.is(Items.BUCKET) && !fuelItemStack.is(Items.BUCKET);
 	}
 
 	@Override
@@ -424,7 +423,7 @@ public class RabbleFurnaceBlockEntity extends BaseContainerBlockEntity implement
 
 	@Override @NotNull
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (!this.remove && facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
+		if (!this.remove && facing != null && capability == Capabilities.ITEM_HANDLER) {
 			if (facing == Direction.UP)
 				return handlers[0].cast();
 			else if (facing == Direction.DOWN)

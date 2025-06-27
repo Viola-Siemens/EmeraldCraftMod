@@ -21,7 +21,7 @@
   "criteria": {
     "piglin_cutey": {
       "trigger": "emeraldcraft:saved_piglin_cutey",
-      "conditions": { }
+      "conditions": {}
     }
   },
   "requirements": [

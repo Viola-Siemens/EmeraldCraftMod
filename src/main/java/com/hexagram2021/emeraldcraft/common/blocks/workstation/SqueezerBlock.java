@@ -26,7 +26,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.function.Supplier;
 
-import static net.minecraftforge.common.ToolActions.SHEARS_HARVEST;
+import static net.neoforged.neoforge.common.ToolActions.SHEARS_HARVEST;
 
 @SuppressWarnings("deprecation")
 public class SqueezerBlock extends Block {

@@ -6,8 +6,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public interface ICookstoveDisplay {
 	Codec<ICookstoveDisplay> CODEC = ICookstoveDisplayType.REGISTRY_CODEC.dispatch(ICookstoveDisplay::type, ICookstoveDisplayType::codec);

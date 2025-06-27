@@ -17,8 +17,8 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.common.capabilities.Capabilities;
+import net.neoforged.neoforge.event.EventHooks;
 
 import java.util.Set;
 
@@ -52,7 +52,7 @@ public class IceMakerMenu extends AbstractContainerMenu implements IFluidSyncMen
 		this.ingredientInputSlot = this.addSlot(new Slot(container, INGREDIENT_INPUT_SLOT, 50, 18) {
 			@Override
 			public boolean mayPlace(ItemStack itemStack) {
-				return itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
+				return itemStack.getCapability(Capabilities.FLUID_HANDLER_ITEM).isPresent();
 			}
 
 			@Override
@@ -63,7 +63,7 @@ public class IceMakerMenu extends AbstractContainerMenu implements IFluidSyncMen
 		this.addSlot(new Slot(container, INGREDIENT_OUTPUT_SLOT, 50, 52) {
 			@Override
 			public boolean mayPlace(ItemStack itemStack) {
-				return itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
+				return itemStack.getCapability(Capabilities.FLUID_HANDLER_ITEM).isPresent();
 			}
 
 			@Override
@@ -157,7 +157,7 @@ public class IceMakerMenu extends AbstractContainerMenu implements IFluidSyncMen
 		if(this.iceMaker instanceof ISynchronizableContainer synchronizableContainer && synchronizableContainer.isDirty()) {
 			synchronizableContainer.clearDirty();
 			for(ServerPlayer serverPlayer: this.usingPlayers) {
-				EmeraldCraft.sendMessageToPlayer(synchronizableContainer.getSyncPacket(), serverPlayer.connection.getConnection());
+				EmeraldCraft.sendMessageToPlayer(synchronizableContainer.getSyncPacket(), serverPlayer);
 			}
 		}
 	}
@@ -227,13 +227,12 @@ public class IceMakerMenu extends AbstractContainerMenu implements IFluidSyncMen
 			this.checkTakeAchievements(itemStack);
 		}
 
-		@SuppressWarnings("UnstableApiUsage")
 		@Override
 		protected void checkTakeAchievements(ItemStack itemStack) {
 			itemStack.onCraftedBy(this.player.level(), this.player, this.removeCount);
 
 			this.removeCount = 0;
-			ForgeEventFactory.firePlayerSmeltedEvent(this.player, itemStack);
+			EventHooks.firePlayerSmeltedEvent(this.player, itemStack);
 		}
 
 		@Override

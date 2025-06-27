@@ -13,14 +13,13 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.SuspiciousEffectHolder;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.List;
 import java.util.stream.Stream;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
-@SuppressWarnings("deprecation")
 public final class SuspiciousStewCookstoveRecipeMaker {
 	public static Stream<CookstoveRecipe> createRecipesStream() {
 		Item brownMushroomItem = Blocks.BROWN_MUSHROOM.asItem();

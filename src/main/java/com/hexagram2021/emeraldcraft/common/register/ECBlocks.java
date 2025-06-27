@@ -13,6 +13,7 @@ import com.hexagram2021.emeraldcraft.common.world.grower.PeachTreeGrower;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -31,10 +32,9 @@ import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -47,7 +47,7 @@ import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegist
 
 @SuppressWarnings("unused")
 public final class ECBlocks {
-	public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
+	public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(Registries.BLOCK, MODID);
 
 	private ECBlocks() {}
 
@@ -1033,10 +1033,10 @@ public final class ECBlocks {
 		);
 
 		public static final BlockEntry<FlowerBlock> CYAN_PETUNIA = new BlockEntry<>(
-				"cyan_petunia", FLOWER_PROPERTIES, (props) -> new FlowerBlock(MobEffects.WATER_BREATHING, 8, props)
+				"cyan_petunia", FLOWER_PROPERTIES, (props) -> new FlowerBlock(() -> MobEffects.WATER_BREATHING, 8, props)
 		);
 		public static final BlockEntry<FlowerBlock> MAGENTA_PETUNIA = new BlockEntry<>(
-				"magenta_petunia", FLOWER_PROPERTIES, (props) -> new FlowerBlock(MobEffects.WATER_BREATHING, 8, props)
+				"magenta_petunia", FLOWER_PROPERTIES, (props) -> new FlowerBlock(() -> MobEffects.WATER_BREATHING, 8, props)
 		);
 		public static final BlockEntry<HiganBanaFlowerBlock> HIGAN_BANA = new BlockEntry<>(
 				"higan_bana", HIGAN_BANA_PROPERTIES, (props) -> new HiganBanaFlowerBlock(MobEffects.LEVITATION, 12, props)
@@ -1255,7 +1255,7 @@ public final class ECBlocks {
 	public static final Map<ResourceLocation, List<BlockEntry<?>>> TO_COLORS = new HashMap<>();
 
 	public static final class BlockEntry<T extends Block> implements Supplier<T>, ItemLike {
-		private final RegistryObject<T> regObject;
+		private final DeferredHolder<Block, T> regObject;
 		private final Supplier<BlockBehaviour.Properties> properties;
 
 		public static BlockEntry<Block> simple(String name, Supplier<BlockBehaviour.Properties> properties, Consumer<Block> extra) {

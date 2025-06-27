@@ -16,7 +16,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SuspiciousEffectHolder;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public record SuspiciousStewCookstoveRecipe(FluidStack fluidStack, Ingredient container, ItemStack result, ICookstoveDisplay display,
 											int cookTime) implements ICookstoveRecipe {

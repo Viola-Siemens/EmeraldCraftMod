@@ -15,7 +15,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -55,7 +55,7 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 		BehaviorUtils.setWalkAndLookTargetMemories(entity, Objects.requireNonNull(this.getClosestDarkLocation(level, entity)), this.speedModifier, 0);
 	}
 
-	@SuppressWarnings({"ConstantConditions", "UnstableApiUsage"})
+	@SuppressWarnings("ConstantConditions")
 	@Override
 	protected void tick(ServerLevel level, E entity, long tick) {
 		if(entity.getBrain().checkMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), MemoryStatus.VALUE_PRESENT)) {
@@ -70,7 +70,7 @@ public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> 
 			return;
 		}
 		if(pos.closerToCenterThan(entity.position(), 1.0D)) {
-			if(isBlockItemInHand && ForgeEventFactory.getMobGriefingEvent(level, entity)) {
+			if(isBlockItemInHand && EventHooks.getMobGriefingEvent(level, entity)) {
 				Block torch = ((BlockItem) (entity.getMainHandItem().getItem())).getBlock();
 				if (level.getBlockState(pos).isAir() && torch.canSurvive(torch.defaultBlockState(), level, pos) && !entity.getInventory().getItem(0).isEmpty()) {
 					level.setBlock(pos, torch.defaultBlockState(), Block.UPDATE_ALL);

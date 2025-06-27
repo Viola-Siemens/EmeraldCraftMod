@@ -3,9 +3,9 @@ package com.hexagram2021.emeraldcraft.common;
 import com.hexagram2021.emeraldcraft.common.entities.mobs.*;
 import com.hexagram2021.emeraldcraft.common.register.ECEntities;
 import net.minecraft.world.entity.animal.AbstractFish;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 

@@ -1,52 +1,52 @@
 package com.hexagram2021.emeraldcraft.common.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ECCommonConfig {
-	public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-	public static final ForgeConfigSpec SPEC;
+	public static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+	public static final ModConfigSpec SPEC;
 
-	public static final ForgeConfigSpec.IntValue EMERALD_CRAFT_OVERWORLD_BIOMES_WEIGHT;
-	public static final ForgeConfigSpec.IntValue EMERALD_CRAFT_NETHER_BIOMES_WEIGHT;
-	public static final ForgeConfigSpec.BooleanValue GENERATE_DEAD_CRIMSON_OCEAN;
-	public static final ForgeConfigSpec.BooleanValue GENERATE_DEAD_WARPED_OCEAN;
-	public static final ForgeConfigSpec.BooleanValue GENERATE_XANADU;
-	public static final ForgeConfigSpec.BooleanValue GENERATE_GINKGO_FOREST;
-	public static final ForgeConfigSpec.BooleanValue GENERATE_KARST_HILLS;
-	public static final ForgeConfigSpec.BooleanValue GENERATE_PETUNIA_PLAINS;
-	public static final ForgeConfigSpec.BooleanValue GENERATE_GOLDEN_BEACH;
-	public static final ForgeConfigSpec.BooleanValue GENERATE_PALM_BEACH;
-	public static final ForgeConfigSpec.BooleanValue GENERATE_AZURE_DESERT;
-	public static final ForgeConfigSpec.BooleanValue GENERATE_JADEITE_DESERT;
-	public static final ForgeConfigSpec.BooleanValue GENERATE_VOLCANIC_CAVES;
-	public static final ForgeConfigSpec.BooleanValue GENERATE_MOSSY_CAVES;
-	public static final ForgeConfigSpec.BooleanValue GENERATE_EMERY_DESERT;
-	public static final ForgeConfigSpec.BooleanValue GENERATE_QUARTZ_DESERT;
-	public static final ForgeConfigSpec.BooleanValue GENERATE_PURPURACEUS_SWAMP;
-	public static final ForgeConfigSpec.DoubleValue SUPPRESS_DEAD_CRIMSON_OCEAN;
-	public static final ForgeConfigSpec.DoubleValue SUPPRESS_DEAD_WARPED_OCEAN;
-	public static final ForgeConfigSpec.DoubleValue SUPPRESS_XANADU;
-	public static final ForgeConfigSpec.DoubleValue SUPPRESS_GINKGO_FOREST;
-	public static final ForgeConfigSpec.DoubleValue SUPPRESS_KARST_HILLS;
-	public static final ForgeConfigSpec.DoubleValue SUPPRESS_PETUNIA_PLAINS;
-	public static final ForgeConfigSpec.DoubleValue SUPPRESS_GOLDEN_BEACH;
-	public static final ForgeConfigSpec.DoubleValue SUPPRESS_PALM_BEACH;
-	public static final ForgeConfigSpec.DoubleValue SUPPRESS_AZURE_DESERT;
-	public static final ForgeConfigSpec.DoubleValue SUPPRESS_JADEITE_DESERT;
-	public static final ForgeConfigSpec.DoubleValue SUPPRESS_VOLCANIC_CAVES;
-	public static final ForgeConfigSpec.DoubleValue SUPPRESS_MOSSY_CAVES;
-	public static final ForgeConfigSpec.DoubleValue SUPPRESS_EMERY_DESERT;
-	public static final ForgeConfigSpec.DoubleValue SUPPRESS_QUARTZ_DESERT;
-	public static final ForgeConfigSpec.DoubleValue SUPPRESS_PURPURACEUS_SWAMP;
+	public static final ModConfigSpec.IntValue EMERALD_CRAFT_OVERWORLD_BIOMES_WEIGHT;
+	public static final ModConfigSpec.IntValue EMERALD_CRAFT_NETHER_BIOMES_WEIGHT;
+	public static final ModConfigSpec.BooleanValue GENERATE_DEAD_CRIMSON_OCEAN;
+	public static final ModConfigSpec.BooleanValue GENERATE_DEAD_WARPED_OCEAN;
+	public static final ModConfigSpec.BooleanValue GENERATE_XANADU;
+	public static final ModConfigSpec.BooleanValue GENERATE_GINKGO_FOREST;
+	public static final ModConfigSpec.BooleanValue GENERATE_KARST_HILLS;
+	public static final ModConfigSpec.BooleanValue GENERATE_PETUNIA_PLAINS;
+	public static final ModConfigSpec.BooleanValue GENERATE_GOLDEN_BEACH;
+	public static final ModConfigSpec.BooleanValue GENERATE_PALM_BEACH;
+	public static final ModConfigSpec.BooleanValue GENERATE_AZURE_DESERT;
+	public static final ModConfigSpec.BooleanValue GENERATE_JADEITE_DESERT;
+	public static final ModConfigSpec.BooleanValue GENERATE_VOLCANIC_CAVES;
+	public static final ModConfigSpec.BooleanValue GENERATE_MOSSY_CAVES;
+	public static final ModConfigSpec.BooleanValue GENERATE_EMERY_DESERT;
+	public static final ModConfigSpec.BooleanValue GENERATE_QUARTZ_DESERT;
+	public static final ModConfigSpec.BooleanValue GENERATE_PURPURACEUS_SWAMP;
+	public static final ModConfigSpec.DoubleValue SUPPRESS_DEAD_CRIMSON_OCEAN;
+	public static final ModConfigSpec.DoubleValue SUPPRESS_DEAD_WARPED_OCEAN;
+	public static final ModConfigSpec.DoubleValue SUPPRESS_XANADU;
+	public static final ModConfigSpec.DoubleValue SUPPRESS_GINKGO_FOREST;
+	public static final ModConfigSpec.DoubleValue SUPPRESS_KARST_HILLS;
+	public static final ModConfigSpec.DoubleValue SUPPRESS_PETUNIA_PLAINS;
+	public static final ModConfigSpec.DoubleValue SUPPRESS_GOLDEN_BEACH;
+	public static final ModConfigSpec.DoubleValue SUPPRESS_PALM_BEACH;
+	public static final ModConfigSpec.DoubleValue SUPPRESS_AZURE_DESERT;
+	public static final ModConfigSpec.DoubleValue SUPPRESS_JADEITE_DESERT;
+	public static final ModConfigSpec.DoubleValue SUPPRESS_VOLCANIC_CAVES;
+	public static final ModConfigSpec.DoubleValue SUPPRESS_MOSSY_CAVES;
+	public static final ModConfigSpec.DoubleValue SUPPRESS_EMERY_DESERT;
+	public static final ModConfigSpec.DoubleValue SUPPRESS_QUARTZ_DESERT;
+	public static final ModConfigSpec.DoubleValue SUPPRESS_PURPURACEUS_SWAMP;
 
-	public static final ForgeConfigSpec.IntValue PIGLIN_CUTEY_GIFT;
-	public static final ForgeConfigSpec.DoubleValue POSSIBILITY_CONTINUOUS_MINER_DROP;
+	public static final ModConfigSpec.IntValue PIGLIN_CUTEY_GIFT;
+	public static final ModConfigSpec.DoubleValue POSSIBILITY_CONTINUOUS_MINER_DROP;
 
-	public static final ForgeConfigSpec.BooleanValue ENABLE_CURE_ZOMBIFIED_PIGLIN;
-	public static final ForgeConfigSpec.IntValue ZOMBIFIED_PIGLIN_CONVERT_TO_PIGLIN_BRUTE_POSSIBILITY_INV;
-	public static final ForgeConfigSpec.BooleanValue ENABLE_CURE_PHANTOM;
+	public static final ModConfigSpec.BooleanValue ENABLE_CURE_ZOMBIFIED_PIGLIN;
+	public static final ModConfigSpec.IntValue ZOMBIFIED_PIGLIN_CONVERT_TO_PIGLIN_BRUTE_POSSIBILITY_INV;
+	public static final ModConfigSpec.BooleanValue ENABLE_CURE_PHANTOM;
 
-	public static final ForgeConfigSpec.BooleanValue ENABLE_JEI_TRADING_SHADOW_RECIPE;
+	public static final ModConfigSpec.BooleanValue ENABLE_JEI_TRADING_SHADOW_RECIPE;
 
 	static {
 		BUILDER.push("emeraldcraft-common-config");

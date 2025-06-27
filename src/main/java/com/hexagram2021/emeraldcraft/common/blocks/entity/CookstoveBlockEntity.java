@@ -29,19 +29,19 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.wrapper.InvWrapper;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.capabilities.Capabilities;
+import net.neoforged.neoforge.common.capabilities.Capability;
+import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.Contract;
 
 import javax.annotation.Nullable;
@@ -189,13 +189,13 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 	public static final int ADD_FUEL_INDEX = -2;
 	public static final int DONT_ADD_INGREDIENT_INDEX = -1;
 
-	@SuppressWarnings("UnstableApiUsage")
 	public boolean interact(Player player, ItemStack item, int index) {
 		//add fuel
 		if(index == ADD_FUEL_INDEX) {
-			int itemBurnTime = ForgeHooks.getBurnTime(item, ECRecipes.COOKSTOVE_TYPE.get());
+			int itemBurnTime = CommonHooks.getBurnTime(item, ECRecipes.COOKSTOVE_TYPE.get());
 			if (itemBurnTime > 0 && this.fuel < MAX_FUEL) {
 				this.fuel += itemBurnTime;
+				item.shrink(1);
 				this.setChanged();
 				return true;
 			}
@@ -442,10 +442,10 @@ public class CookstoveBlockEntity extends BlockEntity implements Container, Stac
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
 		if (!this.remove) {
-			if (capability == ForgeCapabilities.FLUID_HANDLER) {
+			if (capability == Capabilities.FLUID_HANDLER) {
 				return this.fluidHandlerWrapper.cast();
 			}
-			if(capability == ForgeCapabilities.ITEM_HANDLER) {
+			if(capability == Capabilities.ITEM_HANDLER) {
 				return this.itemHandlerWrapper.cast();
 			}
 		}

@@ -2,7 +2,7 @@ package com.hexagram2021.emeraldcraft.common.crafting.compat;
 
 import com.hexagram2021.emeraldcraft.common.crafting.compat.example.EmeraldCraftContinuousMinerBlocks;
 import com.hexagram2021.emeraldcraft.common.world.compat.TerraBlenderUtils;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 
 public class ModsLoadedEventSubscriber {
 	public static boolean CREATE = false;

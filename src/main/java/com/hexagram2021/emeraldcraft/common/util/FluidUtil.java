@@ -9,14 +9,14 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
+import net.neoforged.neoforge.common.capabilities.Capabilities;
+import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.fluids.capability.wrappers.FluidBucketWrapper;
 
-import static net.minecraftforge.fluids.FluidType.BUCKET_VOLUME;
+import static net.neoforged.neoforge.fluids.FluidType.BUCKET_VOLUME;
 
 public final class FluidUtil {
 	public static final int BOTTLE_VOLUME = 250;
@@ -46,7 +46,7 @@ public final class FluidUtil {
 			return false;
 		}
 
-		LazyOptional<IFluidHandlerItem> capability = itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
+		LazyOptional<IFluidHandlerItem> capability = itemStack.getCapability(Capabilities.FLUID_HANDLER_ITEM);
 		IFluidHandlerItem tank = capability.orElse(null);
 		if(tank == null) {
 			return false;
@@ -73,7 +73,7 @@ public final class FluidUtil {
 
 	@SuppressWarnings({"ConstantValue", "DataFlowIssue"})
 	private static boolean canDrain(ItemStack itemStack) {
-		LazyOptional<IFluidHandlerItem> capability = itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
+		LazyOptional<IFluidHandlerItem> capability = itemStack.getCapability(Capabilities.FLUID_HANDLER_ITEM);
 		IFluidHandlerItem tank = capability.orElse(null);
 		if (tank == null) {
 			return false;
@@ -88,7 +88,7 @@ public final class FluidUtil {
 
 	@SuppressWarnings({"ConstantValue", "DataFlowIssue"})
 	private static boolean canFill(ItemStack itemStack) {
-		LazyOptional<IFluidHandlerItem> capability = itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
+		LazyOptional<IFluidHandlerItem> capability = itemStack.getCapability(Capabilities.FLUID_HANDLER_ITEM);
 		IFluidHandlerItem tank = capability.orElse(null);
 		if (tank == null) {
 			return false;
@@ -108,7 +108,7 @@ public final class FluidUtil {
 
 		ItemStack split = itemStack.copy();
 		split.setCount(1);
-		LazyOptional<IFluidHandlerItem> capability = split.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
+		LazyOptional<IFluidHandlerItem> capability = split.getCapability(Capabilities.FLUID_HANDLER_ITEM);
 		IFluidHandlerItem tank = capability.orElse(null);
 		if (tank == null) {
 			return Pair.of(retFluid, retItem);
@@ -165,7 +165,7 @@ public final class FluidUtil {
 
 		ItemStack split = itemStack.copy();
 		split.setCount(1);
-		LazyOptional<IFluidHandlerItem> capability = split.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
+		LazyOptional<IFluidHandlerItem> capability = split.getCapability(Capabilities.FLUID_HANDLER_ITEM);
 		IFluidHandlerItem tank = capability.orElse(null);
 		if (tank == null) {
 			return ItemStack.EMPTY;

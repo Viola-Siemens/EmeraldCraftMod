@@ -28,7 +28,7 @@ public class ECStructures {
 	@SuppressWarnings({"unchecked", "DataFlowIssue"})
 	public static void init(RegistryAccess registryAccess) {
 		((ListAppendable<StructureSet.StructureSelectionEntry>)(Object)
-				registryAccess.lookupOrThrow(Registries.STRUCTURE_SET).get(BuiltinStructureSets.VILLAGES).orElseThrow().get())
+				registryAccess.lookupOrThrow(Registries.STRUCTURE_SET).get(BuiltinStructureSets.VILLAGES).orElseThrow().value())
 				.emeraldcraft$appendAll(
 						ALL_VILLAGES.stream().map(rk ->
 								StructureSet.entry(
@@ -37,7 +37,7 @@ public class ECStructures {
 						).collect(Collectors.toList())
 				);
 		((ListAppendable<StructureSet.StructureSelectionEntry>)(Object)
-				registryAccess.lookupOrThrow(Registries.STRUCTURE_SET).get(ECStructureSetKeys.CAMP).orElseThrow().get())
+				registryAccess.lookupOrThrow(Registries.STRUCTURE_SET).get(ECStructureSetKeys.CAMP).orElseThrow().value())
 				.emeraldcraft$appendAll(
 						ALL_CAMPS.stream().map(rk ->
 								StructureSet.entry(

@@ -16,11 +16,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.event.EventHooks;
 
 import static com.hexagram2021.emeraldcraft.common.blocks.entity.RabbleFurnaceBlockEntity.*;
 
-@SuppressWarnings("UnstableApiUsage")
 public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 	public static final int INV_SLOT_START = 5;
 	private static final int INV_SLOT_END = 32;
@@ -138,7 +138,7 @@ public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 	}
 
 	public boolean isFuel(ItemStack itemStack) {
-		return ForgeHooks.getBurnTime(itemStack, ECRecipes.RABBLE_FURNACE_TYPE.get()) > 0;
+		return CommonHooks.getBurnTime(itemStack, ECRecipes.RABBLE_FURNACE_TYPE.get()) > 0;
 	}
 
 	@Override
@@ -272,7 +272,7 @@ public class RabbleFurnaceMenu extends RecipeBookMenu<Container> {
 			}
 
 			this.removeCount = 0;
-			net.minecraftforge.event.ForgeEventFactory.firePlayerSmeltedEvent(this.player, itemStack);
+			EventHooks.firePlayerSmeltedEvent(this.player, itemStack);
 		}
 	}
 }

@@ -3,15 +3,13 @@ package com.hexagram2021.emeraldcraft.common.crafting.serializer;
 import com.hexagram2021.emeraldcraft.common.crafting.RabbleFurnaceRecipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import javax.annotation.Nullable;
 
 public class RabbleFurnaceRecipeSerializer<T extends RabbleFurnaceRecipe> implements RecipeSerializer<T> {
 	private final RabbleFurnaceRecipeSerializer.Creator<T> factory;
@@ -26,7 +24,7 @@ public class RabbleFurnaceRecipeSerializer<T extends RabbleFurnaceRecipe> implem
 						Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(RabbleFurnaceRecipe::ingredient),
 						ExtraCodecs.strictOptionalField(Ingredient.CODEC, "mix1", Ingredient.EMPTY).forGetter(RabbleFurnaceRecipe::mix1),
 						ExtraCodecs.strictOptionalField(Ingredient.CODEC, "mix2", Ingredient.EMPTY).forGetter(RabbleFurnaceRecipe::mix2),
-						ForgeRegistries.ITEMS.getCodec().xmap(ItemStack::new, ItemStack::getItem).fieldOf("result").forGetter(RabbleFurnaceRecipe::result),
+						BuiltInRegistries.ITEM.byNameCodec().xmap(ItemStack::new, ItemStack::getItem).fieldOf("result").forGetter(RabbleFurnaceRecipe::result),
 						Codec.FLOAT.fieldOf("experience").orElse(0.0F).forGetter(RabbleFurnaceRecipe::experience),
 						Codec.INT.fieldOf("cookingtime").orElse(defaultCookingTime).forGetter(RabbleFurnaceRecipe::rabblingTime)
 				).apply(instance, creator::create)
@@ -38,7 +36,7 @@ public class RabbleFurnaceRecipeSerializer<T extends RabbleFurnaceRecipe> implem
 		return this.codec;
 	}
 
-	@Override @Nullable
+	@Override
 	public T fromNetwork(FriendlyByteBuf buf) {
 		String group = buf.readUtf();
 		String category = buf.readUtf();
