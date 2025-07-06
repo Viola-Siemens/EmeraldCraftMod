@@ -452,7 +452,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
 		if (!this.remove) {
 			if(facing == null) {
-				if(capability == ForgeCapabilities.FLUID_HANDLER_ITEM) {
+				if(capability == ForgeCapabilities.FLUID_HANDLER) {
 					return this.fluidHandlerWrapper.cast();
 				}
 			} else {
@@ -465,7 +465,7 @@ public class IceMakerBlockEntity extends BaseContainerBlockEntity implements Wor
 					}
 					return this.handlers[2].cast();
 				}
-				if(capability == ForgeCapabilities.FLUID_HANDLER_ITEM) {
+				if(capability == ForgeCapabilities.FLUID_HANDLER) {
 					if (facing == Direction.UP || facing == Direction.DOWN) {
 						return this.fluidHandlerWrapper.cast();
 					}
