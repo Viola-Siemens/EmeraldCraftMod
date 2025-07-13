@@ -15,33 +15,34 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LocalPlayer.class)
 public class LocalPlayerMixin {
-	@Shadow
-	private int jumpRidingTicks;
+    @Shadow
+    private int jumpRidingTicks;
 
-	@Shadow
-	public Input input;
+    @Shadow
+    public Input input;
 
-	@Shadow @Final
-	public ClientPacketListener connection;
+    @Shadow
+    @Final
+    public ClientPacketListener connection;
 
-	@Inject(method = "aiStep", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/client/player/AbstractClientPlayer;aiStep()V"))
-	public void emeraldcraft$handlePlayerFlyable(CallbackInfo ci) {
-		LocalPlayer current = (LocalPlayer)(Object)this;
-		if(current.isPassenger() && current.getVehicle() instanceof PlayerRideableFlying flyable && flyable.canFly()) {
-			if(this.input.jumping) {
-				if(this.jumpRidingTicks < 40) {
-					++this.jumpRidingTicks;
-				}
-			} else {
-				if(current.getVehicle().onGround()) {
-					if(this.jumpRidingTicks < 12) {
-						this.jumpRidingTicks = 12;
-					}
-				} else if(this.jumpRidingTicks > 0) {
-					--this.jumpRidingTicks;
-				}
-			}
-			this.connection.send(new ServerboundPlayerCommandPacket(current, ECEntityActionPacketActions.RIDING_FLY, this.jumpRidingTicks));
-		}
-	}
+    @Inject(method = "aiStep", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/client/player/AbstractClientPlayer;aiStep()V"))
+    public void emeraldcraft$handlePlayerFlyable(CallbackInfo ci) {
+        LocalPlayer current = (LocalPlayer) (Object) this;
+        if (current.isPassenger() && current.getVehicle() instanceof PlayerRideableFlying flyable && flyable.canFly()) {
+            if (this.input.jumping) {
+                if (this.jumpRidingTicks < 40) {
+                    ++this.jumpRidingTicks;
+                }
+            } else {
+                if (current.getVehicle().onGround()) {
+                    if (this.jumpRidingTicks < 12) {
+                        this.jumpRidingTicks = 12;
+                    }
+                } else if (this.jumpRidingTicks > 0) {
+                    --this.jumpRidingTicks;
+                }
+            }
+            this.connection.send(new ServerboundPlayerCommandPacket(current, ECEntityActionPacketActions.RIDING_FLY, this.jumpRidingTicks));
+        }
+    }
 }

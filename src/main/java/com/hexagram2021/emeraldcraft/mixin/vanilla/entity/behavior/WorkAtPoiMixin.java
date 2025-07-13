@@ -25,34 +25,34 @@ import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegist
 
 @Mixin(WorkAtPoi.class)
 public class WorkAtPoiMixin {
-	@Inject(method = "useWorkstation", at = @At(value = "HEAD"), cancellable = true)
-	protected void emeraldcraft$specialProfessionUseWorkstation(ServerLevel level, Villager villagerWithProfession, CallbackInfo ci) {
-		ResourceLocation professionID = getRegistryName(villagerWithProfession.getVillagerData().getProfession());
-		if(Villages.ASTROLOGIST.equals(professionID)) {
-			if(villagerWithProfession.getRandom().nextInt(4) == 0) {
-				List<ServerPlayer> players = level.getPlayers(player -> villagerWithProfession.distanceToSqr(player) < 1024.0D && player.hasEffect(MobEffects.HERO_OF_THE_VILLAGE));
-				List<? extends Villager> villagers = level.getEntities(EntityType.VILLAGER, entity -> villagerWithProfession.distanceToSqr(entity) < 1024.0D);
-				for (ServerPlayer player : players) {
-					player.heal(1.0F);
-				}
-				for (Villager villager : villagers) {
-					villager.heal(1.0F);
-				}
-			}
-			ci.cancel();
-		} else if(Villages.GEOLOGIST.equals(professionID)) {
-			if(villagerWithProfession.getRandom().nextInt(4) == 0) {
-				villagerWithProfession.getBrain().getMemory(MemoryModuleType.JOB_SITE).ifPresent(globalPos -> {
-					BlockPos blockPos = globalPos.pos();
-					BlockState blockState = level.getBlockState(blockPos);
-					BlockEntity blockEntity = level.getBlockEntity(blockPos);
-					if (blockState.is(ECBlocks.WorkStation.CONTINUOUS_MINER.get()) &&
-							blockEntity instanceof ContinuousMinerBlockEntity continuousMinerBlockEntity) {
-						continuousMinerBlockEntity.dispenseFrom(blockState, level, blockPos, level.getRandom(), false);
-					}
-				});
-			}
-			ci.cancel();
-		}
-	}
+    @Inject(method = "useWorkstation", at = @At(value = "HEAD"), cancellable = true)
+    protected void emeraldcraft$specialProfessionUseWorkstation(ServerLevel level, Villager villagerWithProfession, CallbackInfo ci) {
+        ResourceLocation professionID = getRegistryName(villagerWithProfession.getVillagerData().getProfession());
+        if (Villages.ASTROLOGIST.equals(professionID)) {
+            if (villagerWithProfession.getRandom().nextInt(4) == 0) {
+                List<ServerPlayer> players = level.getPlayers(player -> villagerWithProfession.distanceToSqr(player) < 1024.0D && player.hasEffect(MobEffects.HERO_OF_THE_VILLAGE));
+                List<? extends Villager> villagers = level.getEntities(EntityType.VILLAGER, entity -> villagerWithProfession.distanceToSqr(entity) < 1024.0D);
+                for (ServerPlayer player : players) {
+                    player.heal(1.0F);
+                }
+                for (Villager villager : villagers) {
+                    villager.heal(1.0F);
+                }
+            }
+            ci.cancel();
+        } else if (Villages.GEOLOGIST.equals(professionID)) {
+            if (villagerWithProfession.getRandom().nextInt(4) == 0) {
+                villagerWithProfession.getBrain().getMemory(MemoryModuleType.JOB_SITE).ifPresent(globalPos -> {
+                    BlockPos blockPos = globalPos.pos();
+                    BlockState blockState = level.getBlockState(blockPos);
+                    BlockEntity blockEntity = level.getBlockEntity(blockPos);
+                    if (blockState.is(ECBlocks.WorkStation.CONTINUOUS_MINER.get()) &&
+                            blockEntity instanceof ContinuousMinerBlockEntity continuousMinerBlockEntity) {
+                        continuousMinerBlockEntity.dispenseFrom(blockState, level, blockPos, level.getRandom(), false);
+                    }
+                });
+            }
+            ci.cancel();
+        }
+    }
 }

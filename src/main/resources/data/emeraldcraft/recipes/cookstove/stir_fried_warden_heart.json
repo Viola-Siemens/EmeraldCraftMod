@@ -2,10 +2,10 @@
   "type": "emeraldcraft:cookstove",
   "ingredients": [
     {
-      "tag": "forge:crops/chili"
+      "tag": "c:crops/chili"
     },
     {
-      "tag": "forge:crops/chili"
+      "tag": "c:crops/chili"
     },
     {
       "item": "emeraldcraft:warden_heart"

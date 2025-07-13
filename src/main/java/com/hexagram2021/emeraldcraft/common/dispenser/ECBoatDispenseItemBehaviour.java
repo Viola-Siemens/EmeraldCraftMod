@@ -16,50 +16,50 @@ import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.phys.Vec3;
 
 public class ECBoatDispenseItemBehaviour extends DefaultDispenseItemBehavior {
-	private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
-	private final ECBoat.ECBoatType type;
-	private final boolean isChestBoat;
+    private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
+    private final ECBoat.ECBoatType type;
+    private final boolean isChestBoat;
 
-	@SuppressWarnings("unused")
-	public ECBoatDispenseItemBehaviour(ECBoat.ECBoatType type) {
-		this(type, false);
-	}
+    @SuppressWarnings("unused")
+    public ECBoatDispenseItemBehaviour(ECBoat.ECBoatType type) {
+        this(type, false);
+    }
 
-	public ECBoatDispenseItemBehaviour(ECBoat.ECBoatType type, boolean withChest) {
-		this.type = type;
-		this.isChestBoat = withChest;
-	}
+    public ECBoatDispenseItemBehaviour(ECBoat.ECBoatType type, boolean withChest) {
+        this.type = type;
+        this.isChestBoat = withChest;
+    }
 
-	@Override
-	public ItemStack execute(BlockSource block, ItemStack itemStack) {
-		Direction direction = block.getBlockState().getValue(DispenserBlock.FACING);
-		Level level = block.getLevel();
-		Vec3 center = block.getPos().getCenter();
-		double multiplier = 0.5625D + (double) ECEntities.BOAT.getWidth() / 2.0D;
-		double x = center.x() + direction.getStepX() * multiplier;
-		double y = center.y() + direction.getStepY() * 1.125D;
-		double z = center.z() + direction.getStepZ() * multiplier;
-		BlockPos blockpos = block.getPos().relative(direction);
+    @Override
+    public ItemStack execute(BlockSource block, ItemStack itemStack) {
+        Direction direction = block.getBlockState().getValue(DispenserBlock.FACING);
+        Level level = block.getLevel();
+        Vec3 center = block.getPos().getCenter();
+        double multiplier = 0.5625D + (double) ECEntities.BOAT.getWidth() / 2.0D;
+        double x = center.x() + direction.getStepX() * multiplier;
+        double y = center.y() + direction.getStepY() * 1.125D;
+        double z = center.z() + direction.getStepZ() * multiplier;
+        BlockPos blockpos = block.getPos().relative(direction);
 
-		IECBoat boat = isChestBoat ? new ECChestBoat(level, x, y, z) : new ECBoat(level, x, y, z);
-		boat.setECBoatType(this.type);
-		Entity boatEntity = (Entity)boat;
-		boatEntity.setYRot(direction.toYRot());
+        IECBoat boat = isChestBoat ? new ECChestBoat(level, x, y, z) : new ECBoat(level, x, y, z);
+        boat.setECBoatType(this.type);
+        Entity boatEntity = (Entity) boat;
+        boatEntity.setYRot(direction.toYRot());
 
-		double deltaY;
-		if (level.getFluidState(blockpos).is(FluidTags.WATER)) {
-			deltaY = 1.0D;
-		} else {
-			if (!level.getBlockState(blockpos).isAir() || !level.getFluidState(blockpos.below()).is(FluidTags.WATER)) {
-				return this.defaultDispenseItemBehavior.dispense(block, itemStack);
-			}
+        double deltaY;
+        if (level.getFluidState(blockpos).is(FluidTags.WATER)) {
+            deltaY = 1.0D;
+        } else {
+            if (!level.getBlockState(blockpos).isAir() || !level.getFluidState(blockpos.below()).is(FluidTags.WATER)) {
+                return this.defaultDispenseItemBehavior.dispense(block, itemStack);
+            }
 
-			deltaY = 0.0D;
-		}
+            deltaY = 0.0D;
+        }
 
-		boatEntity.setPos(x, y + deltaY, z);
-		level.addFreshEntity(boatEntity);
-		itemStack.shrink(1);
-		return itemStack;
-	}
+        boatEntity.setPos(x, y + deltaY, z);
+        level.addFreshEntity(boatEntity);
+        itemStack.shrink(1);
+        return itemStack;
+    }
 }

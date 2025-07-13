@@ -13,32 +13,32 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 
 public class MineralTableRecipe extends AbstractCookingRecipe {
 
-	public static final CachedRecipeList<MineralTableRecipe> recipeList = new CachedRecipeList<>(
-			ECRecipes.MINERAL_TABLE_TYPE,
-			MineralTableRecipe.class
-	);
+    public static final CachedRecipeList<MineralTableRecipe> recipeList = new CachedRecipeList<>(
+            ECRecipes.MINERAL_TABLE_TYPE,
+            MineralTableRecipe.class
+    );
 
-	public static final int BURN_TIME = 500;
+    public static final int BURN_TIME = 500;
 
-	public MineralTableRecipe(ResourceLocation id, String group, Ingredient ingredient, ItemStack result, float experience, int cookingTime) {
-		super(ECRecipes.MINERAL_TABLE_TYPE.get(), id, group, CookingBookCategory.MISC, ingredient, result, experience, cookingTime);
-	}
+    public MineralTableRecipe(ResourceLocation id, String group, Ingredient ingredient, ItemStack result, float experience, int cookingTime) {
+        super(ECRecipes.MINERAL_TABLE_TYPE, id, group, CookingBookCategory.MISC, ingredient, result, experience, cookingTime);
+    }
 
-	@Override
-	public RecipeSerializer<?> getSerializer() {
-		return ECRecipeSerializer.MINERAL_TABLE_SERIALIZER.get();
-	}
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return ECRecipeSerializer.MINERAL_TABLE_SERIALIZER;
+    }
 
-	@Override
-	public ItemStack getToastSymbol() {
-		return new ItemStack(ECBlocks.WorkStation.MINERAL_TABLE);
-	}
+    @Override
+    public ItemStack getToastSymbol() {
+        return new ItemStack(ECBlocks.WorkStation.MINERAL_TABLE);
+    }
 
-	public Ingredient getIngredient() {
-		return this.ingredient;
-	}
+    public Ingredient getIngredient() {
+        return this.ingredient;
+    }
 
-	public ItemStack getResult() {
-		return this.result;
-	}
+    public ItemStack getResult() {
+        return this.result;
+    }
 }

@@ -15,35 +15,35 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static com.hexagram2021.emeraldcraft.common.register.ECEntityActionPacketActions.*;
+import static com.hexagram2021.emeraldcraft.common.register.ECEntityActionPacketActions.RIDING_FLY;
 
 @Mixin(ServerGamePacketListenerImpl.class)
 public class ServerPlayNetHandlerMixin {
-	@Shadow
-	public ServerPlayer player;
+    @Shadow
+    public ServerPlayer player;
 
-	@Inject(method = "handlePlayerCommand", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/server/level/ServerPlayer;resetLastActionTime()V"), cancellable = true)
-	public void emeraldcraft$handleMantaCommand(ServerboundPlayerCommandPacket packet, CallbackInfo ci) {
-		if(packet.getAction() == RIDING_FLY) {
-			if (this.player.getVehicle() instanceof PlayerRideableFlying flyable) {
-				flyable.fly(Mth.clamp(packet.getData(), 0, 40));
-			}
-			ci.cancel();
-		}
-	}
+    @Inject(method = "handlePlayerCommand", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/server/level/ServerPlayer;resetLastActionTime()V"), cancellable = true)
+    public void emeraldcraft$handleMantaCommand(ServerboundPlayerCommandPacket packet, CallbackInfo ci) {
+        if (packet.getAction() == RIDING_FLY) {
+            if (this.player.getVehicle() instanceof PlayerRideableFlying flyable) {
+                flyable.fly(Mth.clamp(packet.getData(), 0, 40));
+            }
+            ci.cancel();
+        }
+    }
 
-	@Inject(method = "handleSelectTrade", at = @At(value = "TAIL"))
-	public void emeraldcraft$handleSelectPiglinCuteyTrade(ServerboundSelectTradePacket packet, CallbackInfo ci) {
-		int item = packet.getItem();
-		AbstractContainerMenu menu = this.player.containerMenu;
-		if (menu instanceof PiglinCuteyMerchantMenu merchantMenu) {
-			if (!merchantMenu.stillValid(this.player)) {
-				ECLogger.debug("Player {} interacted with invalid menu {}", this.player, merchantMenu);
-				return;
-			}
+    @Inject(method = "handleSelectTrade", at = @At(value = "TAIL"))
+    public void emeraldcraft$handleSelectPiglinCuteyTrade(ServerboundSelectTradePacket packet, CallbackInfo ci) {
+        int item = packet.getItem();
+        AbstractContainerMenu menu = this.player.containerMenu;
+        if (menu instanceof PiglinCuteyMerchantMenu merchantMenu) {
+            if (!merchantMenu.stillValid(this.player)) {
+                ECLogger.debug("Player {} interacted with invalid menu {}", this.player, merchantMenu);
+                return;
+            }
 
-			merchantMenu.setSelectionHint(item);
-			merchantMenu.tryMoveItems(item);
-		}
-	}
+            merchantMenu.setSelectionHint(item);
+            merchantMenu.tryMoveItems(item);
+        }
+    }
 }

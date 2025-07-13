@@ -4,10 +4,10 @@ import com.hexagram2021.emeraldcraft.common.util.ECLogger;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
 
 public class ECEntityActionPacketActions {
-	@SuppressWarnings("NotNullFieldNotInitialized")
-	public static ServerboundPlayerCommandPacket.Action RIDING_FLY;
+    @SuppressWarnings("NotNullFieldNotInitialized")
+    public static ServerboundPlayerCommandPacket.Action RIDING_FLY;
 
-	static {
-		ECLogger.debug("Add riding_fly action to actions. Total %d actions.".formatted(ServerboundPlayerCommandPacket.Action.values().length));
-	}
+    static {
+        ECLogger.debug("Add riding_fly action to actions. Total %d actions.".formatted(ServerboundPlayerCommandPacket.Action.values().length));
+    }
 }

@@ -1,8 +1,10 @@
 {
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "type": "forge:mod_loaded",
-      "modid": "immersiveengineering"
+      "condition": "fabric:any_mod_loaded",
+      "values": [
+        "immersiveengineering"
+      ]
     }
   ],
   "type": "minecraft:crafting_shaped",

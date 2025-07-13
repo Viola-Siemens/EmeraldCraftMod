@@ -2,10 +2,10 @@
   "type": "emeraldcraft:cookstove",
   "ingredients": [
     {
-      "tag": "forge:crops/potato"
+      "tag": "c:crops/potato"
     },
     {
-      "tag": "forge:crops/chili"
+      "tag": "c:crops/chili"
     },
     {
       "item": "minecraft:chicken"

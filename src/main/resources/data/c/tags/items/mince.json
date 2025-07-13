@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "#c:mince/beef",
+    "#c:mince/chicken",
+    "#c:mince/mutton",
+    "#c:mince/pork",
+    "#c:mince/rabbit"
+  ]
+}

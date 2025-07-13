@@ -7,7 +7,6 @@
   "itemGroup.emeraldcraft.tools_and_armors": "绿宝石工艺：工具与盔甲",
   "itemGroup.emeraldcraft.foods_and_drinks": "绿宝石工艺：食物和饮品",
   "emeraldcraft.config.title": "",
-
   "block.emeraldcraft.emerald_slab": "绿宝石台阶",
   "block.emeraldcraft.emerald_stairs": "绿宝石楼梯",
   "block.emeraldcraft.emerald_wall": "绿宝石墙",
@@ -205,7 +204,6 @@
   "block.emeraldcraft.purpuraceus_button": "紫陀螺按钮",
   "block.emeraldcraft.purpuraceus_sign": "紫陀螺告示牌",
   "block.emeraldcraft.purpuraceus_wall_sign": "墙上的紫陀螺告示牌",
-
   "block.emeraldcraft.zinc_slab": "锌台阶",
   "block.emeraldcraft.zinc_stairs": "锌楼梯",
   "block.emeraldcraft.zinc_wall": "锌墙",
@@ -225,7 +223,6 @@
   "block.emeraldcraft.electrum_wall": "琥珀金墙",
   "block.emeraldcraft.steel_stairs": "钢楼梯",
   "block.emeraldcraft.steel_wall": "钢墙",
-
   "block.minecraft.banner.emeraldcraft.bee.black": "黑色蜜蜂",
   "block.minecraft.banner.emeraldcraft.bee.blue": "蓝色蜜蜂",
   "block.minecraft.banner.emeraldcraft.bee.brown": "棕色蜜蜂",
@@ -290,7 +287,6 @@
   "block.minecraft.banner.emeraldcraft.potion.silver": "浅灰色药水",
   "block.minecraft.banner.emeraldcraft.potion.white": "白色药水",
   "block.minecraft.banner.emeraldcraft.potion.yellow": "黄色药水",
-
   "item.emeraldcraft.emerald_helmet": "绿宝石头盔",
   "item.emeraldcraft.emerald_chestplate": "绿宝石胸甲",
   "item.emeraldcraft.emerald_leggings": "绿宝石护腿",
@@ -384,7 +380,6 @@
   "item.emeraldcraft.herring_bucket": "鲱鱼桶",
   "item.emeraldcraft.bigeye_bucket": "大眼鲷桶",
   "item.emeraldcraft.snakehead_bucket": "黑鱼桶",
-
   "item.emeraldcraft.melted_zinc_bucket": "熔融锌水桶",
   "item.emeraldcraft.zinc_concentrate": "锌精矿",
   "item.emeraldcraft.melted_aluminum_bucket": "熔融铝水桶",
@@ -397,7 +392,6 @@
   "item.emeraldcraft.nickel_concentrate": "镍精矿",
   "item.emeraldcraft.melted_uranium_bucket": "熔融铀水桶",
   "item.emeraldcraft.uranium_concentrate": "铀精矿",
-
   "item.emeraldcraft.minced_beef": "牛肉碎",
   "item.emeraldcraft.minced_chicken": "鸡肉碎",
   "item.emeraldcraft.minced_mutton": "羊肉碎",
@@ -405,12 +399,10 @@
   "item.emeraldcraft.minced_rabbit": "兔肉碎",
   "item.emeraldcraft.wheat_dough": "小麦面团",
   "item.emeraldcraft.wheat_flour": "小麦粉",
-
   "item.emeraldcraft.raw_dumpling": "生饺子",
   "item.emeraldcraft.cooked_dumpling": "熟饺子",
   "item.emeraldcraft.dumpling.filling": "馅料：%s",
   "item.emeraldcraft.dumpling.filling_combination": "%s、%s",
-
   "item.minecraft.potion.effect.absorption": "伤害吸收药水",
   "item.minecraft.splash_potion.effect.absorption": "喷溅型伤害吸收药水",
   "item.minecraft.lingering_potion.effect.absorption": "滞留型伤害吸收药水",
@@ -429,14 +421,12 @@
   "item.minecraft.potion.effect.glowing": "发光药水",
   "item.minecraft.splash_potion.effect.glowing": "喷溅型发光药水",
   "item.minecraft.lingering_potion.effect.glowing": "滞留型发光药水",
-
   "item.minecraft.tipped_arrow.effect.absorption": "伤害吸收之箭",
   "item.minecraft.tipped_arrow.effect.blindness": "失明之箭",
   "item.minecraft.tipped_arrow.effect.hunger": "饥饿之箭",
   "item.minecraft.tipped_arrow.effect.saturation": "饱和之箭",
   "item.minecraft.tipped_arrow.effect.wither": "凋零之箭",
   "item.minecraft.tipped_arrow.effect.glowing": "发光之箭",
-
   "entity.emeraldcraft.piglin_cutey": "猪灵妹妹",
   "entity.emeraldcraft.nether_pigman": "下界猪猪人",
   "entity.emeraldcraft.nether_lambman": "下界小羊人",
@@ -449,6 +439,18 @@
   "entity.emeraldcraft.wombat": "袋熊",
   "entity.emeraldcraft.boat": "船",
   "entity.emeraldcraft.chest_boat": "运输船",
+  "entity.minecraft.villager.carpenter": "木匠",
+  "entity.minecraft.villager.glazier": "玻璃匠",
+  "entity.minecraft.villager.miner": "矿工",
+  "entity.minecraft.villager.astrologist": "占星师",
+  "entity.minecraft.villager.grower": "花农",
+  "entity.minecraft.villager.beekeeper": "养蜂人",
+  "entity.minecraft.villager.geologist": "地质勘测员",
+  "entity.minecraft.villager.icer": "制冰师",
+  "entity.minecraft.villager.chemical_engineer": "化学工程师",
+  "entity.minecraft.villager.paperhanger": "裱糊匠",
+  "entity.minecraft.villager.hunter": "猎人",
+  "entity.minecraft.villager.chef": "厨师",
   "entity.minecraft.villager.emeraldcraft.carpenter": "木匠",
   "entity.minecraft.villager.emeraldcraft.glazier": "玻璃匠",
   "entity.minecraft.villager.emeraldcraft.miner": "矿工",
@@ -461,10 +463,8 @@
   "entity.minecraft.villager.emeraldcraft.paperhanger": "裱糊匠",
   "entity.minecraft.villager.emeraldcraft.hunter": "猎人",
   "entity.minecraft.villager.emeraldcraft.chef": "厨师",
-
   "enchantment.emeraldcraft.vein_mining": "矿脉挖掘",
   "enchantment.emeraldcraft.bane_of_mammals": "哺乳杀手",
-
   "subtitles.entity.piglin_cutey.ambient": "猪灵妹妹：喃喃自语",
   "subtitles.entity.piglin_cutey.celebrate": "猪灵妹妹：欢呼",
   "subtitles.entity.piglin_cutey.death": "猪灵妹妹：死亡",
@@ -520,9 +520,7 @@
   "subtitles.entity.wombat.ambient": "袋熊：尖叫",
   "subtitles.entity.wombat.hurt": "袋熊：受伤",
   "subtitles.entity.wombat.death": "袋熊：死亡",
-
   "subtitles.block.flower.drop_leaves": "彼岸花：落叶",
-
   "container.carpentry": "木工桌",
   "container.glass_kiln": "玻璃窑",
   "container.mineral_table": "冶矿台",
@@ -530,7 +528,6 @@
   "container.ice_maker": "制冰机",
   "container.melter": "熔化炉",
   "container.rabble_furnace": "搅拌炉",
-
   "desc.emeraldcraft.carpentry_table": "更少而精确的数量制作与木材相关的方块和物品，甚至对于某些配方来说比直接合成更省原材料",
   "desc.emeraldcraft.glass_kiln": "只消耗普通熔炉一半时间即可烧制玻璃和陶瓦制品",
   "desc.emeraldcraft.mineral_table": "消耗岩浆膏，利用常见方块产出矿物颗粒",
@@ -539,7 +536,6 @@
   "desc.emeraldcraft.continuous_miner": "消耗熔融绿宝石，在红石的激活下可以自动挖矿的采矿机器",
   "desc.emeraldcraft.ice_maker": "消耗水，将液体凝固",
   "desc.emeraldcraft.melter": "消耗燃料将固体融化",
-
   "biome.emeraldcraft.dead_crimson_ocean": "死寂的绯红海洋",
   "biome.emeraldcraft.dead_warped_ocean": "死寂的诡异海洋",
   "biome.emeraldcraft.deep_dead_crimson_ocean": "死寂的绯红深海",
@@ -557,10 +553,8 @@
   "biome.emeraldcraft.quartz_desert": "石英沙漠",
   "biome.emeraldcraft.emery_desert": "金刚沙漠",
   "biome.emeraldcraft.purpuraceus_swamp": "紫陀螺沼泽",
-
   "gui.recipebook.toggleRecipes.kilnable": "仅显示可烧制",
   "gui.recipebook.toggleRecipes.boilable": "仅显示可搅拌",
-
   "gui.emeraldcraft.glass_kiln.experience": "%s 点经验",
   "gui.emeraldcraft.glass_kiln.time.seconds": "%s 秒",
   "gui.emeraldcraft.melter.time.seconds": "%s 秒",
@@ -570,10 +564,8 @@
   "gui.emeraldcraft.rabble_furnace.time.seconds": "%s 秒",
   "gui.emeraldcraft.cookstove.time.seconds": "%s 秒",
   "gui.emeraldcraft.meat_grinder.bonus": "额外产出机会：%s",
-
   "book.emeraldcraft.piglin_cutey.title": "最后一个请求",
   "book.emeraldcraft.piglin_cutey.content": "数天来，我一直被困在地狱。一只恶魂摧毁了我的传送门，所以我别无选择，只能装扮成猪灵并与他们交易——但迄今为止我仍然没有找到足够的黑曜石。你可以帮我返回主世界吗？",
-
   "advancements.emeraldcraft.root.title": "绿色工艺的开始",
   "advancements.emeraldcraft.root.description": "获得一颗绿宝石",
   "advancements.emeraldcraft.hard_currency.title": "“硬”通货",
@@ -598,10 +590,8 @@
   "advancements.emeraldcraft.more_effective_craft.description": "将粗矿合成为精矿",
   "advancements.emeraldcraft.ice_cream_please.title": "请为我做一个冰淇淋",
   "advancements.emeraldcraft.ice_cream_please.description": "获得一台制冰机",
-
   "filled_map.shelter": "救援探险家地图",
   "filled_map.entrenchment": "地心探险家地图",
-
   "fluids.save.bucket": "可装满 %s %s",
   "fluid.minecraft.water": "水",
   "fluid.minecraft.lava": "熔岩",
@@ -616,10 +606,8 @@
   "fluid.emeraldcraft.melted_silver": "熔融银水",
   "fluid.emeraldcraft.melted_nickel": "熔融镍水",
   "fluid.emeraldcraft.melted_uranium": "熔融铀水",
-
   "jei.emeraldcraft.villager_trade": "与村民交易",
   "jei.emeraldcraft.villager_trade.jobsites": "工作站点方块：%s",
-
   "jade.emeraldcraft.cookstove.result": "炉灶产物",
   "jade.emeraldcraft.continuous_miner.time": "采矿冷却：%s",
   "config.jade.plugin_emeraldcraft.jade/continuous_miner": "连续采矿机",

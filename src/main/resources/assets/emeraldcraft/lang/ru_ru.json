@@ -5,7 +5,6 @@
   "language.region": "Rus",
   "itemGroup.emeraldcraft": "Изумрудное ремесло",
   "emeraldcraft.config.title": "",
-
   "block.emeraldcraft.emerald_slab": "Изумрудная плита",
   "block.emeraldcraft.emerald_stairs": "Изумрудная лестница",
   "block.emeraldcraft.emerald_wall": "Изумрудная стена",
@@ -188,7 +187,6 @@
   "block.emeraldcraft.purpuraceus_button": "Пурпурная кнопка",
   "block.emeraldcraft.purpuraceus_sign": "Знак Пурпурацеуса",
   "block.emeraldcraft.purpuraceus_wall_sign": "Настенный знак Пурпурацеус",
-
   "block.emeraldcraft.zinc_slab": "Цинковая плита",
   "block.emeraldcraft.zinc_stairs": "Цинковые лестницы",
   "block.emeraldcraft.zinc_wall": "Цинковая стена",
@@ -208,7 +206,6 @@
   "block.emeraldcraft.electrum_wall": "Электрумовая стена",
   "block.emeraldcraft.steel_stairs": "Стальная лестница",
   "block.emeraldcraft.steel_wall": "Стальная стена",
-
   "block.minecraft.banner.emeraldcraft.bee.black": "Черная пчела",
   "block.minecraft.banner.emeraldcraft.bee.blue": "Синяя пчела",
   "block.minecraft.banner.emeraldcraft.bee.brown": "Коричневая пчела",
@@ -273,7 +270,6 @@
   "block.minecraft.banner.emeraldcraft.potion.silver": "Светло-серое зелье",
   "block.minecraft.banner.emeraldcraft.potion.white": "Белое зелье",
   "block.minecraft.banner.emeraldcraft.potion.yellow": "Желтое зелье",
-
   "item.emeraldcraft.emerald_helmet": "Изумрудный шлем",
   "item.emeraldcraft.emerald_chestplate": "Изумрудный нагрудник",
   "item.emeraldcraft.emerald_leggings": "Изумрудные поножи",
@@ -344,7 +340,6 @@
   "item.emeraldcraft.pumpkin_juice": "Тыквенный сок",
   "item.emeraldcraft.herring_bucket": "Ведро селедки",
   "item.emeraldcraft.bigeye_bucket": "Пурпурное пятнистое большеглазое ведро",
-
   "item.emeraldcraft.melted_zinc_bucket": "Ведро из расплавленного цинка",
   "item.emeraldcraft.zinc_concentrate": "Цинковый концентрат",
   "item.emeraldcraft.melted_aluminum_bucket": "Ведро из расплавленного алюминия",
@@ -357,7 +352,6 @@
   "item.emeraldcraft.nickel_concentrate": "Никелевый концентрат",
   "item.emeraldcraft.melted_uranium_bucket": "Ведро с расплавленным ураном",
   "item.emeraldcraft.uranium_concentrate": "Концентрат урана",
-
   "item.minecraft.potion.effect.absorption": "Зелье поглощения",
   "item.minecraft.splash_potion.effect.absorption": "Зелье поглощения брызг",
   "item.minecraft.lingering_potion.effect.absorption": "Зелье затяжного поглощения",
@@ -373,7 +367,6 @@
   "item.minecraft.potion.effect.wither": "Зелье увядания",
   "item.minecraft.splash_potion.effect.wither": "Всплеск зелья увядания",
   "item.minecraft.lingering_potion.effect.wither": "Зелье длительного увядания",
-
   "entity.emeraldcraft.piglin_cutey": "Милый поросенок",
   "entity.emeraldcraft.nether_pigman": "Свиночеловек Пустоты",
   "entity.emeraldcraft.nether_lambman": "Ягненок Пустоты",
@@ -382,6 +375,15 @@
   "entity.emeraldcraft.wraith": "Призрак",
   "entity.emeraldcraft.boat": "Лодка",
   "entity.emeraldcraft.chest_boat": "Лодка-сундук",
+  "entity.minecraft.villager.carpenter": "Плотник",
+  "entity.minecraft.villager.glazier": "Стекольщик",
+  "entity.minecraft.villager.miner": "Шахтер",
+  "entity.minecraft.villager.astrologist": "Астролог",
+  "entity.minecraft.villager.grower": "Растущий",
+  "entity.minecraft.villager.beekeeper": "Пчеловод",
+  "entity.minecraft.villager.geologist": "Геолог",
+  "entity.minecraft.villager.icer": "Айсер",
+  "entity.minecraft.villager.chemical_engineer": "Инженер-химик",
   "entity.minecraft.villager.emeraldcraft.carpenter": "Плотник",
   "entity.minecraft.villager.emeraldcraft.glazier": "Стекольщик",
   "entity.minecraft.villager.emeraldcraft.miner": "Шахтер",
@@ -391,7 +393,6 @@
   "entity.minecraft.villager.emeraldcraft.geologist": "Геолог",
   "entity.minecraft.villager.emeraldcraft.icer": "Айсер",
   "entity.minecraft.villager.emeraldcraft.chemical_engineer": "Инженер-химик",
-
   "subtitles.entity.piglin_cutey.ambient": "Пиглин Милашка бормочет",
   "subtitles.entity.piglin_cutey.celebrate": "Пиглин Милашка празднует",
   "subtitles.entity.piglin_cutey.death": "Пиглин Милашка умирает",
@@ -429,16 +430,13 @@
   "subtitles.entity.wraith.ambient": "Призрак стонет",
   "subtitles.entity.wraith.hurt": "Призрак болит",
   "subtitles.entity.wraith.death": "Призрак умирает",
-
   "subtitles.block.flower.drop_leaves": "Хиган Бана сбрасывает листья",
-
   "container.carpentry": "Столярный стол",
   "container.glass_kiln": "Печь для обжига стекла",
   "container.mineral_table": "Таблица минералов",
   "container.continuous_miner": "Непрерывный майнер",
   "container.ice_maker": "Льдогенератор",
   "container.melter": "Плавитель",
-
   "desc.emeraldcraft.carpentry_table": "Создавайте блоки и предметы, связанные с деревом, в меньших и более точных количествах, и даже более эффективно, чем создание по определенным рецептам",
   "desc.emeraldcraft.glass_kiln": "Приготовление изделий из стекла и терракоты занимает вдвое меньше времени, чем в стандартной печи",
   "desc.emeraldcraft.mineral_table": "Выплавить самородки минералов из обычных блоков, что стоит лавовый крем",
@@ -447,7 +445,6 @@
   "desc.emeraldcraft.continuous_miner": "Автоматический майнер, который стоит расплавленного изумруда и должен быть активирован сигналом красного камня",
   "desc.emeraldcraft.ice_maker": "Затвердеть жидкость, которая стоит воды",
   "desc.emeraldcraft.melter": "Расплавить твердое вещество, которое требует топлива",
-
   "biome.emeraldcraft.dead_crimson_ocean": "Мертвый багровый океан",
   "biome.emeraldcraft.dead_warped_ocean": "Мертвый искривленный океан",
   "biome.emeraldcraft.deep_dead_crimson_ocean": "Глубокий мертвый багровый океан",
@@ -464,17 +461,13 @@
   "biome.emeraldcraft.quartz_desert": "Кварцевая пустыня",
   "biome.emeraldcraft.emery_desert": "Эмери-пустыня",
   "biome.emeraldcraft.purpuraceus_swamp": "Болото Пурпурацеус",
-
   "gui.recipebook.toggleRecipes.kilnable": "Отображается Kilnable",
-
   "gui.emeraldcraft.glass_kiln.experience": "%s опыта",
   "gui.emeraldcraft.glass_kiln.time.seconds": "%ss",
   "gui.emeraldcraft.melter.time.seconds": "%ss",
   "gui.emeraldcraft.ice_maker.time.seconds": "%ss",
-
   "book.emeraldcraft.piglin_cutey.title": "И последнее, что мне нужно",
   "book.emeraldcraft.piglin_cutey.content": "Я провел несколько дней в ловушке Нижнего мира. Призраки сломали мой портал, поэтому у меня нет другого выбора, кроме как вести себя как свинья и торговать с ними. Тем не менее, мне не хватает обсидиан, чтобы активировать портал. Не могли бы вы помочь мне вернуться в верхний мир?",
-
   "advancements.emeraldcraft.root.title": "Начало `Зеленого` крафта",
   "advancements.emeraldcraft.root.description": "Получите изумруд.",
   "advancements.emeraldcraft.hard_currency.title": "Твердая валюта",
@@ -497,7 +490,6 @@
   "advancements.emeraldcraft.more_effective_craft.description": "Создайте концентрат из сырой руды.",
   "advancements.emeraldcraft.ice_cream_please.title": "Мороженое, пожалуйста",
   "advancements.emeraldcraft.ice_cream_please.description": "Получите льдогенератор.",
-
   "fluids.save.bucket": "Может заполнить %s %s",
   "fluid.minecraft.water": "Вода",
   "fluid.minecraft.lava": "Лава",

@@ -11,22 +11,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Arrays;
 
-import static com.hexagram2021.emeraldcraft.common.register.ECEntityActionPacketActions.*;
+import static com.hexagram2021.emeraldcraft.common.register.ECEntityActionPacketActions.RIDING_FLY;
 
 @Mixin(ServerboundPlayerCommandPacket.Action.class)
 public class ServerboundPlayerCommandPacketActionMixin {
-	@SuppressWarnings("unused")
-	ServerboundPlayerCommandPacketActionMixin(String name, int ord) {
-		throw new UnsupportedOperationException("Replaced by Mixin");
-	}
+    @SuppressWarnings("unused")
+    ServerboundPlayerCommandPacketActionMixin(String name, int ord) {
+        throw new UnsupportedOperationException("Replaced by Mixin");
+    }
 
-	@Shadow @Final @Mutable
-	private static ServerboundPlayerCommandPacket.Action[] $VALUES;
-	
-	@Inject(method = "<clinit>()V", at = @At(value = "FIELD", shift = At.Shift.AFTER, target = "Lnet/minecraft/network/protocol/game/ServerboundPlayerCommandPacket$Action;$VALUES:[Lnet/minecraft/network/protocol/game/ServerboundPlayerCommandPacket$Action;"))
-	private static void emeraldcraft$injectEnum(CallbackInfo ci) {
-		int ordinal = $VALUES.length;
-		$VALUES = Arrays.copyOf($VALUES, ordinal + 1);
-		RIDING_FLY = $VALUES[ordinal] = (ServerboundPlayerCommandPacket.Action)(Object)new ServerboundPlayerCommandPacketActionMixin("EMERALDCRAFT$RIDING_FLY", ordinal);
-	}
+    @Shadow
+    @Final
+    @Mutable
+    private static ServerboundPlayerCommandPacket.Action[] $VALUES;
+
+    @Inject(method = "<clinit>()V", at = @At(value = "FIELD", shift = At.Shift.AFTER, target = "Lnet/minecraft/network/protocol/game/ServerboundPlayerCommandPacket$Action;$VALUES:[Lnet/minecraft/network/protocol/game/ServerboundPlayerCommandPacket$Action;"))
+    private static void emeraldcraft$injectEnum(CallbackInfo ci) {
+        int ordinal = $VALUES.length;
+        $VALUES = Arrays.copyOf($VALUES, ordinal + 1);
+        RIDING_FLY = $VALUES[ordinal] = (ServerboundPlayerCommandPacket.Action) (Object) new ServerboundPlayerCommandPacketActionMixin("EMERALDCRAFT$RIDING_FLY", ordinal);
+    }
 }

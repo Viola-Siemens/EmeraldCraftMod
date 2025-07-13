@@ -9,10 +9,10 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 @SuppressWarnings("unused")
 public class ECEntityTypeTags {
-	public static final TagKey<EntityType<?>> VILLAGERS = create("villagers");
-	public static final TagKey<EntityType<?>> MAMMALS = create("mammals");
+    public static final TagKey<EntityType<?>> VILLAGERS = create("villagers");
+    public static final TagKey<EntityType<?>> MAMMALS = create("mammals");
 
-	private static TagKey<EntityType<?>> create(String name) {
-		return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(MODID, name));
-	}
+    private static TagKey<EntityType<?>> create(String name) {
+        return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(MODID, name));
+    }
 }

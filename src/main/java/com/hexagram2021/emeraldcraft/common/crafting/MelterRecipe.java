@@ -1,5 +1,6 @@
 package com.hexagram2021.emeraldcraft.common.crafting;
 
+import cn.sh1rocu.emeraldcraft.util.fluid.FluidStack;
 import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.MelterMenu;
 import com.hexagram2021.emeraldcraft.common.register.ECBlocks;
@@ -15,67 +16,67 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fluids.FluidStack;
 
-public record MelterRecipe(ResourceLocation id, String group, Ingredient ingredient, FluidStack resultFluid, int meltingTime) implements Recipe<Container> {
-	public static final CachedRecipeList<MelterRecipe> recipeList = new CachedRecipeList<>(
-			ECRecipes.MELTER_TYPE,
-			MelterRecipe.class
-	);
+public record MelterRecipe(ResourceLocation id, String group, Ingredient ingredient, FluidStack resultFluid,
+                           int meltingTime) implements Recipe<Container> {
+    public static final CachedRecipeList<MelterRecipe> recipeList = new CachedRecipeList<>(
+            ECRecipes.MELTER_TYPE,
+            MelterRecipe.class
+    );
 
-	public static final int MELTING_TIME = 200;
+    public static final int MELTING_TIME = 200;
 
-	@Override
-	public boolean canCraftInDimensions(int wid, int hgt) {
-		return true;
-	}
+    @Override
+    public boolean canCraftInDimensions(int wid, int hgt) {
+        return true;
+    }
 
-	@Override
-	public RecipeSerializer<?> getSerializer() {
-		return ECRecipeSerializer.MELTER_SERIALIZER.get();
-	}
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return ECRecipeSerializer.MELTER_SERIALIZER;
+    }
 
-	@Override
-	public ItemStack getToastSymbol() {
-		return new ItemStack(ECBlocks.WorkStation.MELTER);
-	}
+    @Override
+    public ItemStack getToastSymbol() {
+        return new ItemStack(ECBlocks.WorkStation.MELTER);
+    }
 
-	public Ingredient getIngredient() {
-		return this.ingredient;
-	}
+    public Ingredient getIngredient() {
+        return this.ingredient;
+    }
 
-	@Override
-	public NonNullList<Ingredient> getIngredients() {
-		return NonNullList.of(this.ingredient);
-	}
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        return NonNullList.of(this.ingredient);
+    }
 
-	@Override
-	public String getGroup() {
-		return this.group;
-	}
+    @Override
+    public String getGroup() {
+        return this.group;
+    }
 
-	@Override
-	public ItemStack assemble(Container container, RegistryAccess registryAccess) {
-		return ItemStack.EMPTY;
-	}
+    @Override
+    public ItemStack assemble(Container container, RegistryAccess registryAccess) {
+        return ItemStack.EMPTY;
+    }
 
-	@Override
-	public ItemStack getResultItem(RegistryAccess registryAccess) {
-		return ItemStack.EMPTY;
-	}
+    @Override
+    public ItemStack getResultItem(RegistryAccess registryAccess) {
+        return ItemStack.EMPTY;
+    }
 
-	@Override
-	public boolean matches(Container container, Level level) {
-		return this.ingredient.test(container.getItem(MelterMenu.INGREDIENT_SLOT));
-	}
+    @Override
+    public boolean matches(Container container, Level level) {
+        return this.ingredient.test(container.getItem(MelterMenu.INGREDIENT_SLOT));
+    }
 
-	@Override
-	public ResourceLocation getId() {
-		return this.id;
-	}
+    @Override
+    public ResourceLocation getId() {
+        return this.id;
+    }
 
-	@Override
-	public RecipeType<?> getType() {
-		return ECRecipes.MELTER_TYPE.get();
-	}
+    @Override
+    public RecipeType<?> getType() {
+        return ECRecipes.MELTER_TYPE;
+    }
 }

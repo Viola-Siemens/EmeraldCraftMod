@@ -11,29 +11,32 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Arrays;
 
-import static com.hexagram2021.emeraldcraft.common.register.ECMapDecorationTypes.*;
+import static com.hexagram2021.emeraldcraft.common.register.ECMapDecorationTypes.ENTRENCHMENT;
+import static com.hexagram2021.emeraldcraft.common.register.ECMapDecorationTypes.SHELTER;
 
 @Mixin(MapDecoration.Type.class)
 public class MapDecorationTypeMixin {
-	@SuppressWarnings("unused")
-	MapDecorationTypeMixin(String name, int ord, boolean renderedOnFrame, boolean trackCount) {
-		throw new UnsupportedOperationException("Replaced by Mixin");
-	}
+    @SuppressWarnings("unused")
+    MapDecorationTypeMixin(String name, int ord, boolean renderedOnFrame, boolean trackCount) {
+        throw new UnsupportedOperationException("Replaced by Mixin");
+    }
 
-	@SuppressWarnings("unused")
-	MapDecorationTypeMixin(String name, int ord, boolean renderedOnFrame, int MapColor, boolean trackCount) {
-		throw new UnsupportedOperationException("Replaced by Mixin");
-	}
+    @SuppressWarnings("unused")
+    MapDecorationTypeMixin(String name, int ord, boolean renderedOnFrame, int MapColor, boolean trackCount) {
+        throw new UnsupportedOperationException("Replaced by Mixin");
+    }
 
-	@Shadow @Final @Mutable
-	private static MapDecoration.Type[] $VALUES;
+    @Shadow
+    @Final
+    @Mutable
+    private static MapDecoration.Type[] $VALUES;
 
-	@Inject(method = "<clinit>()V", at = @At(value = "FIELD", shift = At.Shift.AFTER, target = "Lnet/minecraft/world/level/saveddata/maps/MapDecoration$Type;$VALUES:[Lnet/minecraft/world/level/saveddata/maps/MapDecoration$Type;"))
-	private static void emeraldcraft$injectEnum(CallbackInfo ci) {
-		int ordinal = $VALUES.length;
-		$VALUES = Arrays.copyOf($VALUES, ordinal + 2);
+    @Inject(method = "<clinit>()V", at = @At(value = "FIELD", shift = At.Shift.AFTER, target = "Lnet/minecraft/world/level/saveddata/maps/MapDecoration$Type;$VALUES:[Lnet/minecraft/world/level/saveddata/maps/MapDecoration$Type;"))
+    private static void emeraldcraft$injectEnum(CallbackInfo ci) {
+        int ordinal = $VALUES.length;
+        $VALUES = Arrays.copyOf($VALUES, ordinal + 2);
 
-		SHELTER = $VALUES[ordinal] = (MapDecoration.Type)(Object)new MapDecorationTypeMixin("EMERALDCRAFT$SHELTER", ordinal, true, 0xa81228, false);
-		ENTRENCHMENT = $VALUES[ordinal + 1] = (MapDecoration.Type)(Object)new MapDecorationTypeMixin("EMERALDCRAFT$ENTRENCHMENT", ordinal + 1, true, 0xd606d6, false);
-	}
+        SHELTER = $VALUES[ordinal] = (MapDecoration.Type) (Object) new MapDecorationTypeMixin("EMERALDCRAFT$SHELTER", ordinal, true, 0xa81228, false);
+        ENTRENCHMENT = $VALUES[ordinal + 1] = (MapDecoration.Type) (Object) new MapDecorationTypeMixin("EMERALDCRAFT$ENTRENCHMENT", ordinal + 1, true, 0xd606d6, false);
+    }
 }

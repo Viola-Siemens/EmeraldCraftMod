@@ -9,9 +9,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import java.util.Map;
 
 @Mixin(GiveGiftToHero.class)
-public interface HeroGiftsTaskAccess  {
-	@Accessor("GIFTS")
-	static Map<VillagerProfession, ResourceLocation> emeraldcraft$getGifts() {
-		throw new UnsupportedOperationException("Replaced by Mixin");
-	}
+public interface HeroGiftsTaskAccess {
+    @Accessor("GIFTS")
+    static Map<VillagerProfession, ResourceLocation> emeraldcraft$getGifts() {
+        throw new UnsupportedOperationException("Replaced by Mixin");
+    }
 }

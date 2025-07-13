@@ -13,22 +13,22 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class GlassKilnBlockEntity extends AbstractFurnaceBlockEntity {
 
-	public GlassKilnBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntity.GLASS_KILN.get(), pos, state, ECRecipes.GLASS_KILN_TYPE.get());
-	}
+    public GlassKilnBlockEntity(BlockPos pos, BlockState state) {
+        super(ECBlockEntity.GLASS_KILN, pos, state, ECRecipes.GLASS_KILN_TYPE);
+    }
 
-	@Override
-	protected Component getDefaultName() {
-		return Component.translatable("container.glass_kiln");
-	}
+    @Override
+    protected Component getDefaultName() {
+        return Component.translatable("container.glass_kiln");
+    }
 
-	@Override
-	protected int getBurnDuration(ItemStack itemStack) {
-		return super.getBurnDuration(itemStack) / 2;
-	}
+    @Override
+    protected int getBurnDuration(ItemStack itemStack) {
+        return super.getBurnDuration(itemStack) / 2;
+    }
 
-	@Override
-	protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
-		return new GlassKilnMenu(id, inventory, this, this.dataAccess);
-	}
+    @Override
+    protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
+        return new GlassKilnMenu(id, inventory, this, this.dataAccess);
+    }
 }

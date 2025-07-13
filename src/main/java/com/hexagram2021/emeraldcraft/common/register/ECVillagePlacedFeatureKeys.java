@@ -10,13 +10,14 @@ import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 @SuppressWarnings("unused")
 public class ECVillagePlacedFeatureKeys {
 
-	public static final ResourceKey<PlacedFeature> DARK_OAK_VILLAGE = createKey("dark_oak");
+    public static final ResourceKey<PlacedFeature> DARK_OAK_VILLAGE = createKey("dark_oak");
 
-	public static final ResourceKey<PlacedFeature> FLOWER_SWAMP_VILLAGE = createKey("flower_swamp");
+    public static final ResourceKey<PlacedFeature> FLOWER_SWAMP_VILLAGE = createKey("flower_swamp");
 
-	public static void init() {}
+    public static void init() {
+    }
 
-	public static ResourceKey<PlacedFeature> createKey(String name) {
-		return ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(MODID, name));
-	}
+    public static ResourceKey<PlacedFeature> createKey(String name) {
+        return ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(MODID, name));
+    }
 }

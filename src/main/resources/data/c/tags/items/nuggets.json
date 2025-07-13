@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#c:nuggets/diamond",
+    "#c:nuggets/lapis",
+    "#c:nuggets/emerald"
+  ]
+}

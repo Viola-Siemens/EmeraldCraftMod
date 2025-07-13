@@ -15,16 +15,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Cat.class)
 public class CatEntityMixin {
-	@Shadow @Final @Mutable
-	private static Ingredient TEMPT_INGREDIENT;
+    @Shadow
+    @Final
+    @Mutable
+    private static Ingredient TEMPT_INGREDIENT;
 
-	@Inject(method = "<clinit>", at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/animal/Cat;TEMPT_INGREDIENT:Lnet/minecraft/world/item/crafting/Ingredient;", shift = At.Shift.AFTER))
-	private static void emeraldcraft$addECFishes(CallbackInfo ci) {
-		TEMPT_INGREDIENT = Ingredient.of(ArrayUtils.addAll(
-				TEMPT_INGREDIENT.getItems(),
-				new ItemStack(ECItems.HERRING),
-				new ItemStack(ECItems.PURPLE_SPOTTED_BIGEYE),
-				new ItemStack(ECItems.SNAKEHEAD)
-		));
-	}
+    @Inject(method = "<clinit>", at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/animal/Cat;TEMPT_INGREDIENT:Lnet/minecraft/world/item/crafting/Ingredient;", shift = At.Shift.AFTER))
+    private static void emeraldcraft$addECFishes(CallbackInfo ci) {
+        TEMPT_INGREDIENT = Ingredient.of(ArrayUtils.addAll(
+                TEMPT_INGREDIENT.getItems(),
+                new ItemStack(ECItems.HERRING),
+                new ItemStack(ECItems.PURPLE_SPOTTED_BIGEYE),
+                new ItemStack(ECItems.SNAKEHEAD)
+        ));
+    }
 }

@@ -1,6 +1,7 @@
 package com.hexagram2021.emeraldcraft.mixin.vanilla.entity;
 
-import com.hexagram2021.emeraldcraft.common.entities.mobs.*;
+import com.hexagram2021.emeraldcraft.common.entities.mobs.NetherLambmanEntity;
+import com.hexagram2021.emeraldcraft.common.entities.mobs.NetherPigmanEntity;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,10 +11,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractSkeleton.class)
 public class AbstractSkeletonMixin {
-	@SuppressWarnings("DataFlowIssue")
-	@Inject(method = "registerGoals", at = @At(value = "TAIL"))
-	protected void emeraldcraft$registerNetherVillagerGoals(CallbackInfo info) {
-		((AbstractSkeleton)(Object)this).targetSelector.addGoal(4, new NearestAttackableTargetGoal<>((AbstractSkeleton)(Object)this, NetherPigmanEntity.class, true));
-		((AbstractSkeleton)(Object)this).targetSelector.addGoal(4, new NearestAttackableTargetGoal<>((AbstractSkeleton)(Object)this, NetherLambmanEntity.class, true));
-	}
+    @SuppressWarnings("DataFlowIssue")
+    @Inject(method = "registerGoals", at = @At(value = "TAIL"))
+    protected void emeraldcraft$registerNetherVillagerGoals(CallbackInfo info) {
+        ((AbstractSkeleton) (Object) this).targetSelector.addGoal(4, new NearestAttackableTargetGoal<>((AbstractSkeleton) (Object) this, NetherPigmanEntity.class, true));
+        ((AbstractSkeleton) (Object) this).targetSelector.addGoal(4, new NearestAttackableTargetGoal<>((AbstractSkeleton) (Object) this, NetherLambmanEntity.class, true));
+    }
 }

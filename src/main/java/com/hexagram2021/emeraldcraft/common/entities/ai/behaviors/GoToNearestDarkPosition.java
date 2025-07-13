@@ -13,141 +13,141 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
 @SuppressWarnings("deprecation")
 public class GoToNearestDarkPosition<E extends LivingEntity & InventoryCarrier> extends Behavior<E> {
-	private final int maxDist;
-	private final float speedModifier;
+    private final int maxDist;
+    private final float speedModifier;
 
-	public GoToNearestDarkPosition(float speedModifier, boolean registered, int maxDist) {
-		super(ImmutableMap.of(
-				MemoryModuleType.LOOK_TARGET, MemoryStatus.REGISTERED,
-				MemoryModuleType.WALK_TARGET, registered ? MemoryStatus.REGISTERED : MemoryStatus.VALUE_ABSENT,
-				ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get(), MemoryStatus.REGISTERED,
-				ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), MemoryStatus.VALUE_ABSENT
-		), 120);
-		this.maxDist = maxDist;
-		this.speedModifier = speedModifier;
-	}
+    public GoToNearestDarkPosition(float speedModifier, boolean registered, int maxDist) {
+        super(ImmutableMap.of(
+                MemoryModuleType.LOOK_TARGET, MemoryStatus.REGISTERED,
+                MemoryModuleType.WALK_TARGET, registered ? MemoryStatus.REGISTERED : MemoryStatus.VALUE_ABSENT,
+                ECMemoryModuleTypes.NEAREST_DARK_LOCATION, MemoryStatus.REGISTERED,
+                ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS, MemoryStatus.VALUE_ABSENT
+        ), 120);
+        this.maxDist = maxDist;
+        this.speedModifier = speedModifier;
+    }
 
-	@Override
-	protected boolean checkExtraStartConditions(ServerLevel level, E entity) {
-		if(entity.getMainHandItem().isEmpty() || !(entity.getMainHandItem().getItem() instanceof BlockItem)) {
-			return false;
-		}
-		BlockPos blockPos = this.getClosestDarkLocation(level, entity);
-		return blockPos != null && blockPos.closerThan(entity.blockPosition(), this.maxDist);
-	}
+    @Override
+    protected boolean checkExtraStartConditions(ServerLevel level, E entity) {
+        if (entity.getMainHandItem().isEmpty() || !(entity.getMainHandItem().getItem() instanceof BlockItem)) {
+            return false;
+        }
+        BlockPos blockPos = this.getClosestDarkLocation(level, entity);
+        return blockPos != null && blockPos.closerThan(entity.blockPosition(), this.maxDist);
+    }
 
-	@Override
-	protected boolean canStillUse(ServerLevel level, E entity, long tick) {
-		return this.checkExtraStartConditions(level, entity);
-	}
+    @Override
+    protected boolean canStillUse(ServerLevel level, E entity, long tick) {
+        return this.checkExtraStartConditions(level, entity);
+    }
 
-	@Override
-	protected void start(ServerLevel level, E entity, long tick) {
-		BehaviorUtils.setWalkAndLookTargetMemories(entity, Objects.requireNonNull(this.getClosestDarkLocation(level, entity)), this.speedModifier, 0);
-	}
+    @Override
+    protected void start(ServerLevel level, E entity, long tick) {
+        BehaviorUtils.setWalkAndLookTargetMemories(entity, Objects.requireNonNull(this.getClosestDarkLocation(level, entity)), this.speedModifier, 0);
+    }
 
-	@SuppressWarnings("ConstantConditions")
-	@Override
-	protected void tick(ServerLevel level, E entity, long tick) {
-		if(entity.getBrain().checkMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), MemoryStatus.VALUE_PRESENT)) {
-			return;
-		}
-		BlockPos pos = this.getClosestDarkLocation(level, entity);
-		boolean isBlockItemInHand = entity.getMainHandItem().getItem() instanceof BlockItem;
-		//boolean isFlint = entity.getMainHandItem().is(Items.FLINT_AND_STEEL) || entity.getMainHandItem().is(Items.FLINT);
-		if(pos == null || entity.getMainHandItem().isEmpty() || !isBlockItemInHand) {
-			entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), 200);
-			entity.getBrain().eraseMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get());
-			return;
-		}
-		if(pos.closerToCenterThan(entity.position(), 1.0D)) {
-			if(isBlockItemInHand && ForgeEventFactory.getMobGriefingEvent(level, entity)) {
-				Block torch = ((BlockItem) (entity.getMainHandItem().getItem())).getBlock();
-				if (level.getBlockState(pos).isAir() && torch.canSurvive(torch.defaultBlockState(), level, pos) && !entity.getInventory().getItem(0).isEmpty()) {
-					level.setBlock(pos, torch.defaultBlockState(), Block.UPDATE_ALL);
-					if (ItemStack.isSameItem(entity.getInventory().getItem(0), entity.getMainHandItem())) {
-						entity.getInventory().getItem(0).shrink(1);
-					} else {
-						entity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(entity.getInventory().getItem(0).getItem()));
-						entity.getInventory().getItem(0).shrink(1);
-					}
-					entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), 200);
-					entity.getBrain().eraseMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get());
-				}
-			}
-		}
-	}
+    @SuppressWarnings("ConstantConditions")
+    @Override
+    protected void tick(ServerLevel level, E entity, long tick) {
+        if (entity.getBrain().checkMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS, MemoryStatus.VALUE_PRESENT)) {
+            return;
+        }
+        BlockPos pos = this.getClosestDarkLocation(level, entity);
+        boolean isBlockItemInHand = entity.getMainHandItem().getItem() instanceof BlockItem;
+        //boolean isFlint = entity.getMainHandItem().is(Items.FLINT_AND_STEEL) || entity.getMainHandItem().is(Items.FLINT);
+        if (pos == null || entity.getMainHandItem().isEmpty() || !isBlockItemInHand) {
+            entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS, 200);
+            entity.getBrain().eraseMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION);
+            return;
+        }
+        if (pos.closerToCenterThan(entity.position(), 1.0D)) {
+            if (isBlockItemInHand && level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) /*ForgeEventFactory.getMobGriefingEvent(level, entity)*/) {
+                Block torch = ((BlockItem) (entity.getMainHandItem().getItem())).getBlock();
+                if (level.getBlockState(pos).isAir() && torch.canSurvive(torch.defaultBlockState(), level, pos) && !entity.getInventory().getItem(0).isEmpty()) {
+                    level.setBlock(pos, torch.defaultBlockState(), Block.UPDATE_ALL);
+                    if (ItemStack.isSameItem(entity.getInventory().getItem(0), entity.getMainHandItem())) {
+                        entity.getInventory().getItem(0).shrink(1);
+                    } else {
+                        entity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(entity.getInventory().getItem(0).getItem()));
+                        entity.getInventory().getItem(0).shrink(1);
+                    }
+                    entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS, 200);
+                    entity.getBrain().eraseMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION);
+                }
+            }
+        }
+    }
 
-	@Override
-	protected void stop(ServerLevel level, E entity, long tick) {
-		if(entity.getBrain().checkMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), MemoryStatus.VALUE_ABSENT)) {
-			entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), 400);
-		}
-		entity.getBrain().eraseMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get());
-		entity.getBrain().eraseMemory(MemoryModuleType.LOOK_TARGET);
-		entity.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
-	}
+    @Override
+    protected void stop(ServerLevel level, E entity, long tick) {
+        if (entity.getBrain().checkMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS, MemoryStatus.VALUE_ABSENT)) {
+            entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS, 400);
+        }
+        entity.getBrain().eraseMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION);
+        entity.getBrain().eraseMemory(MemoryModuleType.LOOK_TARGET);
+        entity.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
+    }
 
-	@Nullable
-	private BlockPos getClosestDarkLocation(ServerLevel level, E entity) {
-		return entity.getBrain().getMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get()).orElseGet(() -> {
-			BlockPos current = entity.blockPosition();
-			Block torch = ((BlockItem)(entity.getMainHandItem().getItem())).getBlock();
-			BlockPos pos = VerticalSearch(current, torch, level);
-			if(pos != null) {
-				entity.getBrain().setMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get(), pos);
-				return pos;
-			}
-			for(int d = 1; d <= 20; ++d) {
-				for(int x = -d; x <= d; ++x) {
-					pos = VerticalSearch(current.mutable().move(x, 0, -d), torch, level);
-					if(pos == null) {
-						pos = VerticalSearch(current.mutable().move(x, 0, d), torch, level);
-					}
-					if(pos != null) {
-						entity.getBrain().setMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get(), pos);
-						return pos;
-					}
-				}
-				for(int z = -d + 1; z < d; ++z) {
-					pos = VerticalSearch(current.mutable().move(-d, 0, z), torch, level);
-					if(pos == null) {
-						pos = VerticalSearch(current.mutable().move(d, 0, z), torch, level);
-					}
-					if(pos != null) {
-						entity.getBrain().setMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get(), pos);
-						return pos;
-					}
-				}
-			}
-			entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(), 400);
-			return null;
-		});
-	}
+    @Nullable
+    private BlockPos getClosestDarkLocation(ServerLevel level, E entity) {
+        return entity.getBrain().getMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION).orElseGet(() -> {
+            BlockPos current = entity.blockPosition();
+            Block torch = ((BlockItem) (entity.getMainHandItem().getItem())).getBlock();
+            BlockPos pos = VerticalSearch(current, torch, level);
+            if (pos != null) {
+                entity.getBrain().setMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION, pos);
+                return pos;
+            }
+            for (int d = 1; d <= 20; ++d) {
+                for (int x = -d; x <= d; ++x) {
+                    pos = VerticalSearch(current.mutable().move(x, 0, -d), torch, level);
+                    if (pos == null) {
+                        pos = VerticalSearch(current.mutable().move(x, 0, d), torch, level);
+                    }
+                    if (pos != null) {
+                        entity.getBrain().setMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION, pos);
+                        return pos;
+                    }
+                }
+                for (int z = -d + 1; z < d; ++z) {
+                    pos = VerticalSearch(current.mutable().move(-d, 0, z), torch, level);
+                    if (pos == null) {
+                        pos = VerticalSearch(current.mutable().move(d, 0, z), torch, level);
+                    }
+                    if (pos != null) {
+                        entity.getBrain().setMemory(ECMemoryModuleTypes.NEAREST_DARK_LOCATION, pos);
+                        return pos;
+                    }
+                }
+            }
+            entity.getBrain().setMemory(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS, 400);
+            return null;
+        });
+    }
 
-	@Nullable
-	private BlockPos VerticalSearch(BlockPos current, Block torch, ServerLevel level) {
-		for(int h = 0; h <= 3; ++h) {
-			BlockPos pos = current.below(h);
-			if(level.getBlockState(pos).isAir()) {
-				if(level.getBrightness(LightLayer.BLOCK, pos) < 3) {
-					if(torch.canSurvive(torch.defaultBlockState(), level, pos)) {
-						return pos;
-					}
-				}
-			} else {
-				break;
-			}
-		}
-		return null;
-	}
+    @Nullable
+    private BlockPos VerticalSearch(BlockPos current, Block torch, ServerLevel level) {
+        for (int h = 0; h <= 3; ++h) {
+            BlockPos pos = current.below(h);
+            if (level.getBlockState(pos).isAir()) {
+                if (level.getBrightness(LightLayer.BLOCK, pos) < 3) {
+                    if (torch.canSurvive(torch.defaultBlockState(), level, pos)) {
+                        return pos;
+                    }
+                }
+            } else {
+                break;
+            }
+        }
+        return null;
+    }
 }

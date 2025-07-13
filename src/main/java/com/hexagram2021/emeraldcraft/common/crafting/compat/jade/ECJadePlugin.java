@@ -14,16 +14,16 @@ import snownee.jade.api.WailaPlugin;
 
 @WailaPlugin
 public class ECJadePlugin implements IWailaPlugin {
-	@Override
-	public void register(IWailaCommonRegistration registration) {
-		registration.registerBlockDataProvider(ContinuousMinerProvider.INSTANCE, ContinuousMinerBlockEntity.class);
-		registration.registerEntityDataProvider(LumineDuplicationProvider.INSTANCE, LumineEntity.class);
-	}
+    @Override
+    public void register(IWailaCommonRegistration registration) {
+        registration.registerBlockDataProvider(ContinuousMinerProvider.INSTANCE, ContinuousMinerBlockEntity.class);
+        registration.registerEntityDataProvider(LumineDuplicationProvider.INSTANCE, LumineEntity.class);
+    }
 
-	@Override
-	public void registerClient(IWailaClientRegistration registration) {
-		registration.registerBlockComponent(ContinuousMinerProvider.INSTANCE, ContinuousMinerBlock.class);
-		registration.registerBlockComponent(CookstoveProvider.INSTANCE, CookstoveBlock.class);
-		registration.registerEntityComponent(LumineDuplicationProvider.INSTANCE, LumineEntity.class);
-	}
+    @Override
+    public void registerClient(IWailaClientRegistration registration) {
+        registration.registerBlockComponent(ContinuousMinerProvider.INSTANCE, ContinuousMinerBlock.class);
+        registration.registerBlockComponent(CookstoveProvider.INSTANCE, CookstoveBlock.class);
+        registration.registerEntityComponent(LumineDuplicationProvider.INSTANCE, LumineEntity.class);
+    }
 }

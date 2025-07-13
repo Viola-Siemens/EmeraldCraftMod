@@ -1,22 +1,23 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
+import com.hexagram2021.emeraldcraft.EmeraldCraft;
 import com.hexagram2021.emeraldcraft.common.util.placement_modifiers.AboveHeightmapFilter;
-import net.minecraft.core.registries.Registries;
+import com.mojang.serialization.Codec;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
-
-import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public class ECPlacementModifierType {
-	public static final DeferredRegister<PlacementModifierType<?>> REGISTER = DeferredRegister.create(Registries.PLACEMENT_MODIFIER_TYPE, MODID);
+    public static final PlacementModifierType<AboveHeightmapFilter> ABOVE_HEIGHTMAP_FILTER = register(
+            "above_heightmap_filter", AboveHeightmapFilter.CODEC
+    );
 
-	public static final RegistryObject<PlacementModifierType<AboveHeightmapFilter>> ABOVE_HEIGHTMAP_FILTER = REGISTER.register(
-			"above_heightmap_filter", () -> () -> AboveHeightmapFilter.CODEC
-	);
+    @SuppressWarnings("SameParameterValue")
+    private static <T extends PlacementModifier> PlacementModifierType<T> register(String name, Codec<T> codec) {
+        return Registry.register(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, EmeraldCraft.id(name), () -> codec);
+    }
 
-	public static void init(IEventBus bus) {
-		REGISTER.register(bus);
-	}
+    public static void init() {
+    }
 }

@@ -7,40 +7,40 @@ import net.minecraft.resources.ResourceLocation;
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public final class CookstoveDisplayTypes {
-	public static final ICookstoveDisplayType ITEMS = register("items",
-			new ICookstoveDisplayType() {
-				@Override
-				public Codec<? extends ICookstoveDisplay> codec() {
-					return CookstoveItemsDisplay.CODEC;
-				}
+    public static final ICookstoveDisplayType ITEMS = register("items",
+            new ICookstoveDisplayType() {
+                @Override
+                public Codec<? extends ICookstoveDisplay> codec() {
+                    return CookstoveItemsDisplay.CODEC;
+                }
 
-				@Override
-				public ICookstoveDisplay fromNetwork(FriendlyByteBuf buf) {
-					return CookstoveItemsDisplay.fromNetwork(buf);
-				}
-			});
-	public static final ICookstoveDisplayType BLOCK = register("block",
-			new ICookstoveDisplayType() {
-				@Override
-				public Codec<? extends ICookstoveDisplay> codec() {
-					return CookstoveBlockDisplay.CODEC;
-				}
+                @Override
+                public ICookstoveDisplay fromNetwork(FriendlyByteBuf buf) {
+                    return CookstoveItemsDisplay.fromNetwork(buf);
+                }
+            });
+    public static final ICookstoveDisplayType BLOCK = register("block",
+            new ICookstoveDisplayType() {
+                @Override
+                public Codec<? extends ICookstoveDisplay> codec() {
+                    return CookstoveBlockDisplay.CODEC;
+                }
 
-				@Override
-				public ICookstoveDisplay fromNetwork(FriendlyByteBuf buf) {
-					return CookstoveBlockDisplay.fromNetwork(buf);
-				}
-			});
+                @Override
+                public ICookstoveDisplay fromNetwork(FriendlyByteBuf buf) {
+                    return CookstoveBlockDisplay.fromNetwork(buf);
+                }
+            });
 
-	private CookstoveDisplayTypes() {
-	}
+    private CookstoveDisplayTypes() {
+    }
 
-	public static void init() {
-	}
+    public static void init() {
+    }
 
-	private static ICookstoveDisplayType register(String name, ICookstoveDisplayType type) {
-		ResourceLocation id = new ResourceLocation(MODID, name);
-		ICookstoveDisplayType.registerCookstoveDisplayType(id, type);
-		return type;
-	}
+    private static ICookstoveDisplayType register(String name, ICookstoveDisplayType type) {
+        ResourceLocation id = new ResourceLocation(MODID, name);
+        ICookstoveDisplayType.registerCookstoveDisplayType(id, type);
+        return type;
+    }
 }

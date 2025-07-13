@@ -12,25 +12,25 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilde
 import java.util.Optional;
 
 public class ShelterFeature extends Structure {
-	public static final Codec<ShelterFeature> CODEC = simpleCodec(ShelterFeature::new);
+    public static final Codec<ShelterFeature> CODEC = simpleCodec(ShelterFeature::new);
 
-	public ShelterFeature(Structure.StructureSettings settings) {
-		super(settings);
-	}
+    public ShelterFeature(Structure.StructureSettings settings) {
+        super(settings);
+    }
 
-	@Override
-	public Optional<GenerationStub> findGenerationPoint(Structure.GenerationContext context) {
-		return onTopOfChunkCenter(context, Heightmap.Types.OCEAN_FLOOR_WG, (builder) -> generatePieces(builder, context));
-	}
+    @Override
+    public Optional<GenerationStub> findGenerationPoint(Structure.GenerationContext context) {
+        return onTopOfChunkCenter(context, Heightmap.Types.OCEAN_FLOOR_WG, (builder) -> generatePieces(builder, context));
+    }
 
-	private static void generatePieces(StructurePiecesBuilder builder, Structure.GenerationContext context) {
-		BlockPos blockpos = new BlockPos(context.chunkPos().getMinBlockX(), 90, context.chunkPos().getMinBlockZ());
-		Rotation rotation = Rotation.getRandom(context.random());
-		ShelterPieces.addPieces(context.structureTemplateManager(), blockpos, rotation, builder);
-	}
+    private static void generatePieces(StructurePiecesBuilder builder, Structure.GenerationContext context) {
+        BlockPos blockpos = new BlockPos(context.chunkPos().getMinBlockX(), 90, context.chunkPos().getMinBlockZ());
+        Rotation rotation = Rotation.getRandom(context.random());
+        ShelterPieces.addPieces(context.structureTemplateManager(), blockpos, rotation, builder);
+    }
 
-	@Override
-	public StructureType<?> type() {
-		return ECStructureTypes.SHELTER.get();
-	}
+    @Override
+    public StructureType<?> type() {
+        return ECStructureTypes.SHELTER;
+    }
 }

@@ -1,17 +1,23 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
-import com.hexagram2021.emeraldcraft.common.items.capabilities.IFoodStorage;
+import com.hexagram2021.emeraldcraft.common.items.capabilities.ItemStackFoodHandler;
+import com.hexagram2021.emeraldcraft.common.items.foods.FarciFoodItem;
+import dev.onyxstudios.cca.api.v3.component.ComponentKey;
+import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
+import dev.onyxstudios.cca.api.v3.item.ItemComponentFactoryRegistry;
+import dev.onyxstudios.cca.api.v3.item.ItemComponentInitializer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
-public final class ECCapabilities {
-	public static final ResourceLocation FOOD_CAPABILITY_ID = new ResourceLocation(MODID, "food_storage");
-	public static final Capability<IFoodStorage> FOOD_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
+@SuppressWarnings("UnstableApiUsage")
+public final class ECCapabilities implements ItemComponentInitializer {
+    public static final ResourceLocation FOOD_CAPABILITY_ID = new ResourceLocation(MODID, "food_storage");
 
-	private ECCapabilities() {
-	}
+    public static final ComponentKey<ItemStackFoodHandler> FOOD_CAPABILITY = ComponentRegistry.getOrCreate(FOOD_CAPABILITY_ID, ItemStackFoodHandler.class);
+
+    @Override
+    public void registerItemComponentFactories(ItemComponentFactoryRegistry registry) {
+        registry.register(item -> item instanceof FarciFoodItem, FOOD_CAPABILITY, ItemStackFoodHandler::new);
+    }
 }

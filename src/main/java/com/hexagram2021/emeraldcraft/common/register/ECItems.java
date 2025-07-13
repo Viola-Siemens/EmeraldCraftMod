@@ -1,30 +1,29 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
 import com.google.common.collect.Lists;
+import com.hexagram2021.emeraldcraft.EmeraldCraft;
 import com.hexagram2021.emeraldcraft.common.crafting.compat.ModsLoadedEventSubscriber;
 import com.hexagram2021.emeraldcraft.common.entities.ECBoat;
-import com.hexagram2021.emeraldcraft.common.items.foods.*;
 import com.hexagram2021.emeraldcraft.common.items.ECBoatItem;
 import com.hexagram2021.emeraldcraft.common.items.armors.EmeraldArmorItem;
 import com.hexagram2021.emeraldcraft.common.items.armors.LapisArmorItem;
 import com.hexagram2021.emeraldcraft.common.items.armors.WoodenArmorItem;
+import com.hexagram2021.emeraldcraft.common.items.foods.*;
 import com.hexagram2021.emeraldcraft.common.util.ECFoods;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.Util;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nullable;
 import java.util.EnumMap;
@@ -34,476 +33,486 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 @SuppressWarnings("unused")
 public class ECItems {
-	public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+    public static final Map<ArmorItem.Type, ItemEntry<EmeraldArmorItem>> EMERALD_ARMOR = new EnumMap<>(ArmorItem.Type.class);
+    public static final Map<ArmorItem.Type, ItemEntry<LapisArmorItem>> LAPIS_ARMOR = new EnumMap<>(ArmorItem.Type.class);
+    public static final Map<ArmorItem.Type, ItemEntry<WoodenArmorItem>> WOODEN_ARMOR = new EnumMap<>(ArmorItem.Type.class);
 
-	public static final Map<ArmorItem.Type, ItemEntry<EmeraldArmorItem>> EMERALD_ARMOR = new EnumMap<>(ArmorItem.Type.class);
-	public static final Map<ArmorItem.Type, ItemEntry<LapisArmorItem>> LAPIS_ARMOR = new EnumMap<>(ArmorItem.Type.class);
-	public static final Map<ArmorItem.Type, ItemEntry<WoodenArmorItem>> WOODEN_ARMOR = new EnumMap<>(ArmorItem.Type.class);
+    public static final ItemEntry<ItemNameBlockItem> WARPED_WART = ItemEntry.register(
+            "warped_wart", new ItemNameBlockItem(ECBlocks.Plant.WARPED_WART.get(), new FabricItemSettings()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+    );
+    public static final ItemEntry<Item> BARK = ItemEntry.register(
+            "bark", new Item(new FabricItemSettings()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, 50
+    );
+    public static final ItemEntry<Item> CHILI = ItemEntry.register(
+            "chili", new Item(new FabricItemSettings().food(ECFoods.CHILI)) {
+                @Override
+                public ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity entity) {
+                    if (entity instanceof Player player) {
+                        player.getCooldowns().addCooldown(this, 120);
+                    }
+                    return super.finishUsingItem(itemStack, level, entity);
+                }
+            }, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<ItemNameBlockItem> CHILI_SEED = ItemEntry.register(
+            "chili_seed", new ItemNameBlockItem(ECBlocks.Plant.CHILI.get(), new FabricItemSettings()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> CABBAGE = ItemEntry.register(
+            "cabbage", new Item(new FabricItemSettings().food(ECFoods.CABBAGE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<ItemNameBlockItem> CABBAGE_SEED = ItemEntry.register(
+            "cabbage_seed", new ItemNameBlockItem(ECBlocks.Plant.CABBAGE.get(), new FabricItemSettings()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<SpawnEggItem> PIGLIN_CUTEY_SPAWN_EGG = ItemEntry.register(
+            "piglin_cutey_spawn_egg", new SpawnEggItem(
+                    ECEntities.PIGLIN_CUTEY, 0xF1E2B1, 0xE6BE02, new FabricItemSettings()
+            ), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
+    public static final ItemEntry<SpawnEggItem> NETHER_PIGMAN_SPAWN_EGG = ItemEntry.register(
+            "nether_pigman_spawn_egg", new SpawnEggItem(
+                    ECEntities.NETHER_PIGMAN, 0xFF8EB3, 0x053636, new FabricItemSettings()
+            ), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
+    public static final ItemEntry<SpawnEggItem> NETHER_LAMBMAN_SPAWN_EGG = ItemEntry.register(
+            "nether_lambman_spawn_egg", new SpawnEggItem(
+                    ECEntities.NETHER_LAMBMAN, 0xFFFFFF, 0x0F9B9B, new FabricItemSettings()
+            ), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
+    public static final ItemEntry<SpawnEggItem> BIGEYE_SPAWN_EGG = ItemEntry.register(
+            "bigeye_spawn_egg", new SpawnEggItem(
+                    ECEntities.PURPLE_SPOTTED_BIGEYE, 0xEC1C24, 0xD8B8CC, new FabricItemSettings()
+            ), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
+    public static final ItemEntry<SpawnEggItem> HERRING_SPAWN_EGG = ItemEntry.register(
+            "herring_spawn_egg", new SpawnEggItem(
+                    ECEntities.HERRING, 0x12C6EC, 0xB44420, new FabricItemSettings()
+            ), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
+    public static final ItemEntry<SpawnEggItem> SNAKEHEAD_SPAWN_EGG = ItemEntry.register(
+            "snakehead_spawn_egg", new SpawnEggItem(
+                    ECEntities.SNAKEHEAD, 0x413830, 0x646464, new FabricItemSettings()
+            ), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
+    public static final ItemEntry<SpawnEggItem> WRAITH_SPAWN_EGG = ItemEntry.register(
+            "wraith_spawn_egg", new SpawnEggItem(
+                    ECEntities.WRAITH, 0x400040, 0xC8C8C8, new FabricItemSettings()
+            ), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
+    public static final ItemEntry<SpawnEggItem> MANTA_SPAWN_EGG = ItemEntry.register(
+            "manta_spawn_egg", new SpawnEggItem(
+                    ECEntities.MANTA, 0xFFFFC8, 0xF8F8E0, new FabricItemSettings()
+            ), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
+    public static final ItemEntry<SpawnEggItem> LUMINE_SPAWN_EGG = ItemEntry.register(
+            "lumine_spawn_egg", new SpawnEggItem(
+                    ECEntities.LUMINE, 0xF7FF55, 0xF9FFAA, new FabricItemSettings()
+            ), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
+    public static final ItemEntry<SpawnEggItem> WOMBAT_SPAWN_EGG = ItemEntry.register(
+            "wombat_spawn_egg", new SpawnEggItem(
+                    ECEntities.WOMBAT, 0x7A6347, 0xC89681, new FabricItemSettings()
+            ), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
 
-	public static final ItemEntry<ItemNameBlockItem> WARPED_WART = ItemEntry.register(
-			"warped_wart", () -> new ItemNameBlockItem(ECBlocks.Plant.WARPED_WART.get(), new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-	public static final ItemEntry<Item> BARK = ItemEntry.register(
-			"bark", () -> new Item(new Item.Properties()) {
-				@Override
-				public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
-					return 50;
-				}
-			}, ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-	public static final ItemEntry<Item> CHILI = ItemEntry.register(
-			"chili", () -> new Item(new Item.Properties().food(ECFoods.CHILI)) {
-				@Override
-				public ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity entity) {
-					if(entity instanceof Player player) {
-						player.getCooldowns().addCooldown(this, 120);
-					}
-					return super.finishUsingItem(itemStack, level, entity);
-				}
-			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<ItemNameBlockItem> CHILI_SEED = ItemEntry.register(
-			"chili_seed", () -> new ItemNameBlockItem(ECBlocks.Plant.CHILI.get(), new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> CABBAGE = ItemEntry.register(
-			"cabbage", () -> new Item(new Item.Properties().food(ECFoods.CABBAGE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<ItemNameBlockItem> CABBAGE_SEED = ItemEntry.register(
-			"cabbage_seed", () -> new ItemNameBlockItem(ECBlocks.Plant.CABBAGE.get(), new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<SpawnEggItem> PIGLIN_CUTEY_SPAWN_EGG = ItemEntry.register(
-			"piglin_cutey_spawn_egg", () -> new ForgeSpawnEggItem(
-					() -> ECEntities.PIGLIN_CUTEY, 0xF1E2B1, 0xE6BE02, new Item.Properties()
-			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
-	public static final ItemEntry<SpawnEggItem> NETHER_PIGMAN_SPAWN_EGG = ItemEntry.register(
-			"nether_pigman_spawn_egg", () -> new ForgeSpawnEggItem(
-					() -> ECEntities.NETHER_PIGMAN, 0xFF8EB3, 0x053636, new Item.Properties()
-			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
-	public static final ItemEntry<SpawnEggItem> NETHER_LAMBMAN_SPAWN_EGG = ItemEntry.register(
-			"nether_lambman_spawn_egg", () -> new ForgeSpawnEggItem(
-					() -> ECEntities.NETHER_LAMBMAN, 0xFFFFFF, 0x0F9B9B, new Item.Properties()
-			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
-	public static final ItemEntry<SpawnEggItem> BIGEYE_SPAWN_EGG = ItemEntry.register(
-			"bigeye_spawn_egg", () -> new ForgeSpawnEggItem(
-					() -> ECEntities.PURPLE_SPOTTED_BIGEYE, 0xEC1C24, 0xD8B8CC, new Item.Properties()
-			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
-	public static final ItemEntry<SpawnEggItem> HERRING_SPAWN_EGG = ItemEntry.register(
-			"herring_spawn_egg", () -> new ForgeSpawnEggItem(
-					() -> ECEntities.HERRING, 0x12C6EC, 0xB44420, new Item.Properties()
-			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
-	public static final ItemEntry<SpawnEggItem> SNAKEHEAD_SPAWN_EGG = ItemEntry.register(
-			"snakehead_spawn_egg", () -> new ForgeSpawnEggItem(
-					() -> ECEntities.SNAKEHEAD, 0x413830, 0x646464, new Item.Properties()
-			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
-	public static final ItemEntry<SpawnEggItem> WRAITH_SPAWN_EGG = ItemEntry.register(
-			"wraith_spawn_egg", () -> new ForgeSpawnEggItem(
-					() -> ECEntities.WRAITH, 0x400040, 0xC8C8C8, new Item.Properties()
-			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
-	public static final ItemEntry<SpawnEggItem> MANTA_SPAWN_EGG = ItemEntry.register(
-			"manta_spawn_egg", () -> new ForgeSpawnEggItem(
-					() -> ECEntities.MANTA, 0xFFFFC8, 0xF8F8E0, new Item.Properties()
-			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
-	public static final ItemEntry<SpawnEggItem> LUMINE_SPAWN_EGG = ItemEntry.register(
-			"lumine_spawn_egg", () -> new ForgeSpawnEggItem(
-					() -> ECEntities.LUMINE, 0xF7FF55, 0xF9FFAA, new Item.Properties()
-			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
-	public static final ItemEntry<SpawnEggItem> WOMBAT_SPAWN_EGG = ItemEntry.register(
-			"wombat_spawn_egg", () -> new ForgeSpawnEggItem(
-					() -> ECEntities.WOMBAT, 0x7A6347, 0xC89681, new Item.Properties()
-			), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
+    public static final ItemEntry<Item> AGATE_APPLE = ItemEntry.register(
+            "agate_apple", new Item(new FabricItemSettings().rarity(Rarity.RARE).food(ECFoods.AGATE_APPLE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> JADE_APPLE = ItemEntry.register(
+            "jade_apple", new Item(new FabricItemSettings().rarity(Rarity.RARE).food(ECFoods.JADE_APPLE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> GINKGO_NUT = ItemEntry.register(
+            "ginkgo_nut", new Item(new FabricItemSettings().food(ECFoods.GINKGO_NUT)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> PEACH = ItemEntry.register(
+            "peach", new Item(new FabricItemSettings().food(ECFoods.PEACH)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> GOLDEN_PEACH = ItemEntry.register(
+            "golden_peach", new Item(new FabricItemSettings().food(ECFoods.GOLDEN_PEACH)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
 
-	public static final ItemEntry<Item> AGATE_APPLE = ItemEntry.register(
-			"agate_apple", () -> new Item(new Item.Properties().rarity(Rarity.RARE).food(ECFoods.AGATE_APPLE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> JADE_APPLE = ItemEntry.register(
-			"jade_apple", () -> new Item(new Item.Properties().rarity(Rarity.RARE).food(ECFoods.JADE_APPLE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> GINKGO_NUT = ItemEntry.register(
-			"ginkgo_nut", () -> new Item(new Item.Properties().food(ECFoods.GINKGO_NUT)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> PEACH = ItemEntry.register(
-			"peach", () -> new Item(new Item.Properties().food(ECFoods.PEACH)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> GOLDEN_PEACH = ItemEntry.register(
-			"golden_peach", () -> new Item(new Item.Properties().food(ECFoods.GOLDEN_PEACH)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
+    public static final ItemEntry<Item> POTION_COOKIE = ItemEntry.register(
+            "potion_cookie", new Item(new FabricItemSettings().food(ECFoods.POTION_COOKIE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> COOKED_TROPICAL_FISH = ItemEntry.register(
+            "cooked_tropical_fish", new Item(new FabricItemSettings().food(ECFoods.COOKED_TROPICAL_FISH)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> COOKED_PURPURACEUS_FUNGUS = ItemEntry.register(
+            "cooked_purpuraceus_fungus", new Item(new FabricItemSettings().food(ECFoods.COOKED_PURPURACEUS_FUNGUS)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> BOILED_EGG = ItemEntry.register(
+            "boiled_egg", new Item(new FabricItemSettings().food(ECFoods.BOILED_EGG)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<BowlFoodItem> CHORUS_FLOWER_EGGDROP_SOUP = ItemEntry.register(
+            "chorus_flower_eggdrop_soup", new ChorusFlowerEggdropSoupItem(new FabricItemSettings().stacksTo(16).food(ECFoods.CHORUS_FLOWER_EGGDROP_SOUP)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> CARAMELIZED_POTATO = ItemEntry.register(
+            "caramelized_potato", new Item(new FabricItemSettings().food(ECFoods.CARAMELIZED_POTATO)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> ROUGAMO = ItemEntry.register(
+            "rougamo", new Item(new FabricItemSettings().food(ECFoods.ROUGAMO)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<BowlFoodItem> BEEF_AND_POTATO_STEW = ItemEntry.register(
+            "beef_and_potato_stew", new BowlFoodItem(new FabricItemSettings().stacksTo(16).food(ECFoods.BEEF_AND_POTATO_STEW)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<BowlFoodItem> BRAISED_CHICKEN = ItemEntry.register(
+            "braised_chicken", new BowlFoodItem(new FabricItemSettings().stacksTo(16).food(ECFoods.BRAISED_CHICKEN)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<BowlFoodItem> SAUERKRAUT_FISH = ItemEntry.register(
+            "sauerkraut_fish", new BowlFoodItem(new FabricItemSettings().stacksTo(16).food(ECFoods.SAUERKRAUT_FISH)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<StickFoodItem> SAUSAGE = ItemEntry.register(
+            "sausage", new StickFoodItem(new FabricItemSettings().stacksTo(16).food(ECFoods.SAUSAGE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<StickFoodItem> COOKED_SAUSAGE = ItemEntry.register(
+            "cooked_sausage", new StickFoodItem(new FabricItemSettings().stacksTo(16).food(ECFoods.COOKED_SAUSAGE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<StickFoodItem> GLUTEN = ItemEntry.register(
+            "gluten", new StickFoodItem(new FabricItemSettings().stacksTo(16).food(ECFoods.GLUTEN)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> WARDEN_HEART = ItemEntry.register(
+            "warden_heart", new Item(new FabricItemSettings().rarity(Rarity.EPIC).food(ECFoods.WARDEN_HEART)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<BowlFoodItem> STIR_FRIED_WARDEN_HEART = ItemEntry.register(
+            "stir_fried_warden_heart", new BowlFoodItem(new FabricItemSettings().stacksTo(16).rarity(Rarity.EPIC).food(ECFoods.STIR_FRIED_WARDEN_HEART)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> HERRING = ItemEntry.register(
+            "herring", new Item(new FabricItemSettings().food(ECFoods.HERRING)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> COOKED_HERRING = ItemEntry.register(
+            "cooked_herring", new Item(new FabricItemSettings().food(ECFoods.COOKED_HERRING)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> PURPLE_SPOTTED_BIGEYE = ItemEntry.register(
+            "purple_spotted_bigeye", new Item(new FabricItemSettings().food(ECFoods.PURPLE_SPOTTED_BIGEYE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> COOKED_PURPLE_SPOTTED_BIGEYE = ItemEntry.register(
+            "cooked_purple_spotted_bigeye", new Item(new FabricItemSettings().food(ECFoods.COOKED_PURPLE_SPOTTED_BIGEYE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> SNAKEHEAD = ItemEntry.register(
+            "snakehead", new Item(new FabricItemSettings().food(ECFoods.SNAKEHEAD)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> COOKED_SNAKEHEAD = ItemEntry.register(
+            "cooked_snakehead", new Item(new FabricItemSettings().food(ECFoods.COOKED_SNAKEHEAD)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<BottleFoodItem> APPLE_JUICE = ItemEntry.register(
+            "apple_juice", new BottleFoodItem(20, new FabricItemSettings().food(ECFoods.APPLE_JUICE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<BottleFoodItem> BEETROOT_JUICE = ItemEntry.register(
+            "beetroot_juice", new BottleFoodItem(20, new FabricItemSettings().food(ECFoods.BEETROOT_JUICE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<BottleFoodItem> CARROT_JUICE = ItemEntry.register(
+            "carrot_juice", new BottleFoodItem(20, new FabricItemSettings().food(ECFoods.CARROT_JUICE)) {
+                @Override
+                protected void additionalEffects(Level level, LivingEntity entity) {
+                    if (!level.isClientSide) {
+                        entity.removeEffect(MobEffects.BLINDNESS);
+                        entity.removeEffect(MobEffects.DARKNESS);
+                    }
+                }
+            }, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<BottleFoodItem> MELON_JUICE = ItemEntry.register(
+            "melon_juice", new BottleFoodItem(20, new FabricItemSettings().food(ECFoods.MELON_JUICE)) {
+                @Override
+                protected void additionalEffects(Level level, LivingEntity entity) {
+                    if (!level.isClientSide) {
+                        if (entity.isOnFire()) {
+                            entity.clearFire();
+                        }
+                    }
+                }
+            }, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<BottleFoodItem> PEACH_JUICE = ItemEntry.register(
+            "peach_juice", new BottleFoodItem(20, new FabricItemSettings().food(ECFoods.PEACH_JUICE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<BottleFoodItem> PUMPKIN_JUICE = ItemEntry.register(
+            "pumpkin_juice", new BottleFoodItem(20, new FabricItemSettings().food(ECFoods.PUMPKIN_JUICE)) {
+                @Override
+                protected void additionalEffects(Level level, LivingEntity entity) {
+                    if (!level.isClientSide) {
+                        entity.removeEffect(MobEffects.WITHER);
+                    }
+                }
+            }, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
 
-	public static final ItemEntry<Item> POTION_COOKIE = ItemEntry.register(
-			"potion_cookie", () -> new Item(new Item.Properties().food(ECFoods.POTION_COOKIE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> COOKED_TROPICAL_FISH = ItemEntry.register(
-			"cooked_tropical_fish", () -> new Item(new Item.Properties().food(ECFoods.COOKED_TROPICAL_FISH)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> COOKED_PURPURACEUS_FUNGUS = ItemEntry.register(
-			"cooked_purpuraceus_fungus", () -> new Item(new Item.Properties().food(ECFoods.COOKED_PURPURACEUS_FUNGUS)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> BOILED_EGG = ItemEntry.register(
-			"boiled_egg", () -> new Item(new Item.Properties().food(ECFoods.BOILED_EGG)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<BowlFoodItem> CHORUS_FLOWER_EGGDROP_SOUP = ItemEntry.register(
-			"chorus_flower_eggdrop_soup", () -> new ChorusFlowerEggdropSoupItem(new Item.Properties().stacksTo(16).food(ECFoods.CHORUS_FLOWER_EGGDROP_SOUP)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> CARAMELIZED_POTATO = ItemEntry.register(
-			"caramelized_potato", () -> new Item(new Item.Properties().food(ECFoods.CARAMELIZED_POTATO)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> ROUGAMO = ItemEntry.register(
-			"rougamo", () -> new Item(new Item.Properties().food(ECFoods.ROUGAMO)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<BowlFoodItem> BEEF_AND_POTATO_STEW = ItemEntry.register(
-			"beef_and_potato_stew", () -> new BowlFoodItem(new Item.Properties().stacksTo(16).food(ECFoods.BEEF_AND_POTATO_STEW)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<BowlFoodItem> BRAISED_CHICKEN = ItemEntry.register(
-			"braised_chicken", () -> new BowlFoodItem(new Item.Properties().stacksTo(16).food(ECFoods.BRAISED_CHICKEN)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<BowlFoodItem> SAUERKRAUT_FISH = ItemEntry.register(
-			"sauerkraut_fish", () -> new BowlFoodItem(new Item.Properties().stacksTo(16).food(ECFoods.SAUERKRAUT_FISH)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<StickFoodItem> SAUSAGE = ItemEntry.register(
-			"sausage", () -> new StickFoodItem(new Item.Properties().stacksTo(16).food(ECFoods.SAUSAGE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<StickFoodItem> COOKED_SAUSAGE = ItemEntry.register(
-			"cooked_sausage", () -> new StickFoodItem(new Item.Properties().stacksTo(16).food(ECFoods.COOKED_SAUSAGE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<StickFoodItem> GLUTEN = ItemEntry.register(
-			"gluten", () -> new StickFoodItem(new Item.Properties().stacksTo(16).food(ECFoods.GLUTEN)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> WARDEN_HEART = ItemEntry.register(
-			"warden_heart", () -> new Item(new Item.Properties().rarity(Rarity.EPIC).food(ECFoods.WARDEN_HEART)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<BowlFoodItem> STIR_FRIED_WARDEN_HEART = ItemEntry.register(
-			"stir_fried_warden_heart", () -> new BowlFoodItem(new Item.Properties().stacksTo(16).rarity(Rarity.EPIC).food(ECFoods.STIR_FRIED_WARDEN_HEART)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> HERRING = ItemEntry.register(
-			"herring", () -> new Item(new Item.Properties().food(ECFoods.HERRING)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> COOKED_HERRING = ItemEntry.register(
-			"cooked_herring", () -> new Item(new Item.Properties().food(ECFoods.COOKED_HERRING)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> PURPLE_SPOTTED_BIGEYE = ItemEntry.register(
-			"purple_spotted_bigeye", () -> new Item(new Item.Properties().food(ECFoods.PURPLE_SPOTTED_BIGEYE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> COOKED_PURPLE_SPOTTED_BIGEYE = ItemEntry.register(
-			"cooked_purple_spotted_bigeye", () -> new Item(new Item.Properties().food(ECFoods.COOKED_PURPLE_SPOTTED_BIGEYE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> SNAKEHEAD = ItemEntry.register(
-			"snakehead", () -> new Item(new Item.Properties().food(ECFoods.SNAKEHEAD)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> COOKED_SNAKEHEAD = ItemEntry.register(
-			"cooked_snakehead", () -> new Item(new Item.Properties().food(ECFoods.COOKED_SNAKEHEAD)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<BottleFoodItem> APPLE_JUICE = ItemEntry.register(
-			"apple_juice", () -> new BottleFoodItem(20, new Item.Properties().food(ECFoods.APPLE_JUICE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<BottleFoodItem> BEETROOT_JUICE = ItemEntry.register(
-			"beetroot_juice", () -> new BottleFoodItem(20, new Item.Properties().food(ECFoods.BEETROOT_JUICE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<BottleFoodItem> CARROT_JUICE = ItemEntry.register(
-			"carrot_juice", () -> new BottleFoodItem(20, new Item.Properties().food(ECFoods.CARROT_JUICE)) {
-				@Override
-				protected void additionalEffects(Level level, LivingEntity entity) {
-					if(!level.isClientSide) {
-						entity.removeEffect(MobEffects.BLINDNESS);
-						entity.removeEffect(MobEffects.DARKNESS);
-					}
-				}
-			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<BottleFoodItem> MELON_JUICE = ItemEntry.register(
-			"melon_juice", () -> new BottleFoodItem(20, new Item.Properties().food(ECFoods.MELON_JUICE)) {
-				@Override
-				protected void additionalEffects(Level level, LivingEntity entity) {
-					if(!level.isClientSide) {
-						if(entity.isOnFire()) {
-							entity.clearFire();
-						}
-					}
-				}
-			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<BottleFoodItem> PEACH_JUICE = ItemEntry.register(
-			"peach_juice", () -> new BottleFoodItem(20, new Item.Properties().food(ECFoods.PEACH_JUICE)), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<BottleFoodItem> PUMPKIN_JUICE = ItemEntry.register(
-			"pumpkin_juice", () -> new BottleFoodItem(20, new Item.Properties().food(ECFoods.PUMPKIN_JUICE)) {
-				@Override
-				protected void additionalEffects(Level level, LivingEntity entity) {
-					if(!level.isClientSide) {
-						entity.removeEffect(MobEffects.WITHER);
-					}
-				}
-			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
+    public static final ItemEntry<Item> RESIN_SHARD = ItemEntry.register(
+            "resin_shard", new Item(new FabricItemSettings()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+    );
+    public static final ItemEntry<Item> RESIN_BOTTLE = ItemEntry.register(
+            "resin_bottle", new Item(new FabricItemSettings().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16)), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+    );
+    public static final ItemEntry<Item> WINDOW_FILM = ItemEntry.register(
+            "window_film", new Item(new FabricItemSettings()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+    );
+    public static final ItemEntry<Item> THICK_WINDOW_FILM = ItemEntry.register(
+            "thick_window_film", new Item(new FabricItemSettings()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+    );
 
-	public static final ItemEntry<Item> RESIN_SHARD = ItemEntry.register(
-			"resin_shard", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-	public static final ItemEntry<Item> RESIN_BOTTLE = ItemEntry.register(
-			"resin_bottle", () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16)), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-	public static final ItemEntry<Item> WINDOW_FILM = ItemEntry.register(
-			"window_film", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-	public static final ItemEntry<Item> THICK_WINDOW_FILM = ItemEntry.register(
-			"thick_window_film", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
+    public static final ItemEntry<Item> DIAMOND_NUGGET = ItemEntry.register(
+            "diamond_nugget", new Item(new FabricItemSettings()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+    );
+    public static final ItemEntry<Item> EMERALD_NUGGET = ItemEntry.register(
+            "emerald_nugget", new Item(new FabricItemSettings()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+    );
+    public static final ItemEntry<Item> LAPIS_NUGGET = ItemEntry.register(
+            "lapis_nugget", new Item(new FabricItemSettings()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+    );
 
-	public static final ItemEntry<Item> DIAMOND_NUGGET = ItemEntry.register(
-			"diamond_nugget", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-	public static final ItemEntry<Item> EMERALD_NUGGET = ItemEntry.register(
-			"emerald_nugget", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-	public static final ItemEntry<Item> LAPIS_NUGGET = ItemEntry.register(
-			"lapis_nugget", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
+    public static final ItemEntry<Item> IRON_CONCENTRATE = ItemEntry.register(
+            "iron_concentrate", new Item(new FabricItemSettings()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+    );
+    public static final ItemEntry<Item> GOLD_CONCENTRATE = ItemEntry.register(
+            "gold_concentrate", new Item(new FabricItemSettings()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+    );
+    public static final ItemEntry<Item> COPPER_CONCENTRATE = ItemEntry.register(
+            "copper_concentrate", new Item(new FabricItemSettings()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+    );
 
-	public static final ItemEntry<Item> IRON_CONCENTRATE = ItemEntry.register(
-			"iron_concentrate", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-	public static final ItemEntry<Item> GOLD_CONCENTRATE = ItemEntry.register(
-			"gold_concentrate", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
-	public static final ItemEntry<Item> COPPER_CONCENTRATE = ItemEntry.register(
-			"copper_concentrate", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
+    public static final ItemEntry<Item> ROCK_BREAKER = ItemEntry.register(
+            "rock_breaker", new Item(new FabricItemSettings()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
+    );
 
-	public static final ItemEntry<Item> ROCK_BREAKER = ItemEntry.register(
-			"rock_breaker", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS
-	);
+    public static final ItemEntry<ECBoatItem> GINKGO_BOAT = ItemEntry.register(
+            "ginkgo_boat", new ECBoatItem(false, ECBoat.ECBoatType.GINKGO, new FabricItemSettings().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
+    public static final ItemEntry<ECBoatItem> PALM_BOAT = ItemEntry.register(
+            "palm_boat", new ECBoatItem(false, ECBoat.ECBoatType.PALM, new FabricItemSettings().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
+    public static final ItemEntry<ECBoatItem> PEACH_BOAT = ItemEntry.register(
+            "peach_boat", new ECBoatItem(false, ECBoat.ECBoatType.PEACH, new FabricItemSettings().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
 
-	public static final ItemEntry<ECBoatItem> GINKGO_BOAT = ItemEntry.register(
-			"ginkgo_boat", () -> new ECBoatItem(false, ECBoat.ECBoatType.GINKGO, new Item.Properties().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
-	public static final ItemEntry<ECBoatItem> PALM_BOAT = ItemEntry.register(
-			"palm_boat", () -> new ECBoatItem(false, ECBoat.ECBoatType.PALM, new Item.Properties().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
-	public static final ItemEntry<ECBoatItem> PEACH_BOAT = ItemEntry.register(
-			"peach_boat", () -> new ECBoatItem(false, ECBoat.ECBoatType.PEACH, new Item.Properties().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
+    public static final ItemEntry<ECBoatItem> GINKGO_CHEST_BOAT = ItemEntry.register(
+            "ginkgo_chest_boat", new ECBoatItem(true, ECBoat.ECBoatType.GINKGO, new FabricItemSettings().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
+    public static final ItemEntry<ECBoatItem> PALM_CHEST_BOAT = ItemEntry.register(
+            "palm_chest_boat", new ECBoatItem(true, ECBoat.ECBoatType.PALM, new FabricItemSettings().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
+    public static final ItemEntry<ECBoatItem> PEACH_CHEST_BOAT = ItemEntry.register(
+            "peach_chest_boat", new ECBoatItem(true, ECBoat.ECBoatType.PEACH, new FabricItemSettings().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
 
-	public static final ItemEntry<ECBoatItem> GINKGO_CHEST_BOAT = ItemEntry.register(
-			"ginkgo_chest_boat", () -> new ECBoatItem(true, ECBoat.ECBoatType.GINKGO, new Item.Properties().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
-	public static final ItemEntry<ECBoatItem> PALM_CHEST_BOAT = ItemEntry.register(
-			"palm_chest_boat", () -> new ECBoatItem(true, ECBoat.ECBoatType.PALM, new Item.Properties().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
-	public static final ItemEntry<ECBoatItem> PEACH_CHEST_BOAT = ItemEntry.register(
-			"peach_chest_boat", () -> new ECBoatItem(true, ECBoat.ECBoatType.PEACH, new Item.Properties().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
+    public static final ItemEntry<MobBucketItem> HERRING_BUCKET = ItemEntry.register(
+            "herring_bucket", new MobBucketItem(ECEntities.HERRING, Fluids.WATER, SoundEvents.BUCKET_EMPTY_FISH, new FabricItemSettings().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
+    public static final ItemEntry<MobBucketItem> BIGEYE_BUCKET = ItemEntry.register(
+            "bigeye_bucket", new MobBucketItem(ECEntities.PURPLE_SPOTTED_BIGEYE, Fluids.WATER, SoundEvents.BUCKET_EMPTY_FISH, new FabricItemSettings().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
+    public static final ItemEntry<MobBucketItem> SNAKEHEAD_BUCKET = ItemEntry.register(
+            "snakehead_bucket", new MobBucketItem(ECEntities.SNAKEHEAD, Fluids.WATER, SoundEvents.BUCKET_EMPTY_FISH, new FabricItemSettings().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+    );
 
-	public static final ItemEntry<MobBucketItem> HERRING_BUCKET = ItemEntry.register(
-			"herring_bucket", () -> new MobBucketItem(() -> ECEntities.HERRING, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
-	public static final ItemEntry<MobBucketItem> BIGEYE_BUCKET = ItemEntry.register(
-			"bigeye_bucket", () -> new MobBucketItem(() -> ECEntities.PURPLE_SPOTTED_BIGEYE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
-	public static final ItemEntry<MobBucketItem> SNAKEHEAD_BUCKET = ItemEntry.register(
-			"snakehead_bucket", () -> new MobBucketItem(() -> ECEntities.SNAKEHEAD, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-	);
+    public static final ItemEntry<Item> MINCED_BEEF = ItemEntry.register(
+            "minced_beef", new AbstractMincedMeatItem(new FabricItemSettings()) {
+                @Override
+                public Item rawMeatItem() {
+                    return Items.BEEF;
+                }
 
-	public static final ItemEntry<Item> MINCED_BEEF = ItemEntry.register(
-			"minced_beef", () -> new AbstractMincedMeatItem(new Item.Properties()) {
-				@Override
-				public Item rawMeatItem() {
-					return Items.BEEF;
-				}
-				@Override
-				public Item cookedMeatItem() {
-					return Items.COOKED_BEEF;
-				}
-			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> MINCED_CHICKEN = ItemEntry.register(
-			"minced_chicken", () -> new AbstractMincedMeatItem(new Item.Properties()) {
-				@Override
-				public Item rawMeatItem() {
-					return Items.CHICKEN;
-				}
-				@Override
-				public Item cookedMeatItem() {
-					return Items.COOKED_CHICKEN;
-				}
-			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> MINCED_MUTTON = ItemEntry.register(
-			"minced_mutton", () -> new AbstractMincedMeatItem(new Item.Properties()) {
-				@Override
-				public Item rawMeatItem() {
-					return Items.MUTTON;
-				}
-				@Override
-				public Item cookedMeatItem() {
-					return Items.COOKED_MUTTON;
-				}
-			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> MINCED_PORK = ItemEntry.register(
-			"minced_pork", () -> new AbstractMincedMeatItem(new Item.Properties()) {
-				@Override
-				public Item rawMeatItem() {
-					return Items.PORKCHOP;
-				}
-				@Override
-				public Item cookedMeatItem() {
-					return Items.COOKED_PORKCHOP;
-				}
-			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> MINCED_RABBIT = ItemEntry.register(
-			"minced_rabbit", () -> new AbstractMincedMeatItem(new Item.Properties()) {
-				@Override
-				public Item rawMeatItem() {
-					return Items.RABBIT;
-				}
-				@Override
-				public Item cookedMeatItem() {
-					return Items.COOKED_RABBIT;
-				}
-			}, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> WHEAT_DOUGH = ItemEntry.register(
-			"wheat_dough", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<Item> WHEAT_FLOUR = ItemEntry.register(
-			"wheat_flour", () -> new Item(new Item.Properties()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
-	);
-	public static final ItemEntry<FarciFoodItem> RAW_DUMPLING = ItemEntry.register(
-			"raw_dumpling", () -> new FarciFoodItem(new Item.Properties(), 1, 0.3F, false, Lists.newArrayList()), null
-	);
-	public static final ItemEntry<FarciFoodItem> COOKED_DUMPLING = ItemEntry.register(
-			"cooked_dumpling", () -> new FarciFoodItem(new Item.Properties(), 2, 1.0F, true, Lists.newArrayList()), null
-	);
+                @Override
+                public Item cookedMeatItem() {
+                    return Items.COOKED_BEEF;
+                }
+            }, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> MINCED_CHICKEN = ItemEntry.register(
+            "minced_chicken", new AbstractMincedMeatItem(new FabricItemSettings()) {
+                @Override
+                public Item rawMeatItem() {
+                    return Items.CHICKEN;
+                }
 
-	public static class CreateCompatItems {
-		public static final ItemEntry<Item> ZINC_CONCENTRATE = ItemEntry.register(
-				"zinc_concentrate", () -> new Item(new Item.Properties()),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.CREATE
-		);
+                @Override
+                public Item cookedMeatItem() {
+                    return Items.COOKED_CHICKEN;
+                }
+            }, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> MINCED_MUTTON = ItemEntry.register(
+            "minced_mutton", new AbstractMincedMeatItem(new FabricItemSettings()) {
+                @Override
+                public Item rawMeatItem() {
+                    return Items.MUTTON;
+                }
 
-		private static void init() {}
-	}
+                @Override
+                public Item cookedMeatItem() {
+                    return Items.COOKED_MUTTON;
+                }
+            }, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> MINCED_PORK = ItemEntry.register(
+            "minced_pork", new AbstractMincedMeatItem(new FabricItemSettings()) {
+                @Override
+                public Item rawMeatItem() {
+                    return Items.PORKCHOP;
+                }
 
-	public static class IECompatItems {
-		public static final ItemEntry<Item> ALUMINUM_CONCENTRATE = ItemEntry.register(
-				"aluminum_concentrate", () -> new Item(new Item.Properties()),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
-		);
-		public static final ItemEntry<Item> LEAD_CONCENTRATE = ItemEntry.register(
-				"lead_concentrate", () -> new Item(new Item.Properties()),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
-		);
-		public static final ItemEntry<Item> SILVER_CONCENTRATE = ItemEntry.register(
-				"silver_concentrate", () -> new Item(new Item.Properties()),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
-		);
-		public static final ItemEntry<Item> NICKEL_CONCENTRATE = ItemEntry.register(
-				"nickel_concentrate", () -> new Item(new Item.Properties()),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
-		);
-		public static final ItemEntry<Item> URANIUM_CONCENTRATE = ItemEntry.register(
-				"uranium_concentrate", () -> new Item(new Item.Properties()),
-				ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
-		);
+                @Override
+                public Item cookedMeatItem() {
+                    return Items.COOKED_PORKCHOP;
+                }
+            }, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> MINCED_RABBIT = ItemEntry.register(
+            "minced_rabbit", new AbstractMincedMeatItem(new FabricItemSettings()) {
+                @Override
+                public Item rawMeatItem() {
+                    return Items.RABBIT;
+                }
 
-		private static void init() {}
-	}
+                @Override
+                public Item cookedMeatItem() {
+                    return Items.COOKED_RABBIT;
+                }
+            }, ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> WHEAT_DOUGH = ItemEntry.register(
+            "wheat_dough", new Item(new FabricItemSettings()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<Item> WHEAT_FLOUR = ItemEntry.register(
+            "wheat_flour", new Item(new FabricItemSettings()), ItemEntry.ItemGroupType.FOODS_AND_DRINKS
+    );
+    public static final ItemEntry<FarciFoodItem> RAW_DUMPLING = ItemEntry.register(
+            "raw_dumpling", new FarciFoodItem(new FabricItemSettings(), 1, 0.3F, false, Lists.newArrayList()), null
+    );
+    public static final ItemEntry<FarciFoodItem> COOKED_DUMPLING = ItemEntry.register(
+            "cooked_dumpling", new FarciFoodItem(new FabricItemSettings(), 2, 1.0F, true, Lists.newArrayList()), null
+    );
 
-	private ECItems() { }
+    public static class CreateCompatItems {
+        public static final ItemEntry<Item> ZINC_CONCENTRATE = ItemEntry.register(
+                "zinc_concentrate", new Item(new FabricItemSettings()),
+                ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.CREATE
+        );
 
-	public static void init(IEventBus bus) {
-		REGISTER.register(bus);
+        private static void init() {
+        }
+    }
 
-		for(ArmorItem.Type type : ArmorItem.Type.values()) {
-			EMERALD_ARMOR.put(type, ItemEntry.register(
-					"emerald_" + type.getName().toLowerCase(Locale.ENGLISH), () -> new EmeraldArmorItem(type), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-			));
-			LAPIS_ARMOR.put(type, ItemEntry.register(
-					"lapis_" + type.getName().toLowerCase(Locale.ENGLISH), () -> new LapisArmorItem(type), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-			));
-			WOODEN_ARMOR.put(type, ItemEntry.register(
-					"wooden_" + type.getName().toLowerCase(Locale.ENGLISH), () -> new WoodenArmorItem(type), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
-			));
-		}
+    public static class IECompatItems {
+        public static final ItemEntry<Item> ALUMINUM_CONCENTRATE = ItemEntry.register(
+                "aluminum_concentrate", new Item(new FabricItemSettings()),
+                ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
+        );
+        public static final ItemEntry<Item> LEAD_CONCENTRATE = ItemEntry.register(
+                "lead_concentrate", new Item(new FabricItemSettings()),
+                ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
+        );
+        public static final ItemEntry<Item> SILVER_CONCENTRATE = ItemEntry.register(
+                "silver_concentrate", new Item(new FabricItemSettings()),
+                ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
+        );
+        public static final ItemEntry<Item> NICKEL_CONCENTRATE = ItemEntry.register(
+                "nickel_concentrate", new Item(new FabricItemSettings()),
+                ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
+        );
+        public static final ItemEntry<Item> URANIUM_CONCENTRATE = ItemEntry.register(
+                "uranium_concentrate", new Item(new FabricItemSettings()),
+                ItemEntry.ItemGroupType.FUNCTIONAL_BLOCKS_AND_MATERIALS, ModsLoadedEventSubscriber.IE
+        );
 
-		CreateCompatItems.init();
-		IECompatItems.init();
-	}
+        private static void init() {
+        }
+    }
 
-	public static class ItemEntry<T extends Item> implements Supplier<T>, ItemLike {
-		public enum ItemGroupType {
-			BUILDING_BLOCKS,
-			FUNCTIONAL_BLOCKS_AND_MATERIALS,
-			TOOLS_AND_ARMORS,
-			FOODS_AND_DRINKS
-		}
+    private ECItems() {
+    }
 
-		public static final List<ItemEntry<? extends Item>> BUILDING_BLOCKS = Lists.newArrayList();
-		public static final List<ItemEntry<? extends Item>> FUNCTIONAL_BLOCKS_AND_MATERIALS = Lists.newArrayList();
-		public static final List<ItemEntry<? extends Item>> TOOLS_AND_ARMORS = Lists.newArrayList();
-		public static final List<ItemEntry<? extends Item>> FOODS_AND_DRINKS = Lists.newArrayList();
+    public static <T extends Item> T register(String name, T item) {
+        return Registry.register(BuiltInRegistries.ITEM, EmeraldCraft.id(name), item);
+    }
 
-		private final RegistryObject<T> regObject;
+    public static void init() {
+        for (ArmorItem.Type type : ArmorItem.Type.values()) {
+            EMERALD_ARMOR.put(type, ItemEntry.register(
+                    "emerald_" + type.getName().toLowerCase(Locale.ENGLISH), new EmeraldArmorItem(type), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+            ));
+            LAPIS_ARMOR.put(type, ItemEntry.register(
+                    "lapis_" + type.getName().toLowerCase(Locale.ENGLISH), new LapisArmorItem(type), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+            ));
+            WOODEN_ARMOR.put(type, ItemEntry.register(
+                    "wooden_" + type.getName().toLowerCase(Locale.ENGLISH), new WoodenArmorItem(type), ItemEntry.ItemGroupType.TOOLS_AND_ARMORS
+            ));
+        }
 
-		private static ItemEntry<Item> simple(String name, ItemGroupType type) {
-			return simple(name, $ -> { }, $ -> { }, type);
-		}
+        CreateCompatItems.init();
+        IECompatItems.init();
+    }
 
-		private static ItemEntry<Item> simple(String name, Consumer<Item.Properties> makeProps, Consumer<Item> processItem, ItemGroupType type) {
-			return register(name, () -> Util.make(new Item(Util.make(new Item.Properties(), makeProps)), processItem), type);
-		}
+    public static class ItemEntry<T extends Item> implements Supplier<T>, ItemLike {
+        public enum ItemGroupType {
+            BUILDING_BLOCKS,
+            FUNCTIONAL_BLOCKS_AND_MATERIALS,
+            TOOLS_AND_ARMORS,
+            FOODS_AND_DRINKS
+        }
 
-		static <T extends Item> ItemEntry<T> register(String name, Supplier<? extends T> make, @Nullable ItemGroupType type) {
-			return new ItemEntry<>(REGISTER.register(name, make), type);
-		}
+        public static final List<ItemEntry<? extends Item>> BUILDING_BLOCKS = Lists.newArrayList();
+        public static final List<ItemEntry<? extends Item>> FUNCTIONAL_BLOCKS_AND_MATERIALS = Lists.newArrayList();
+        public static final List<ItemEntry<? extends Item>> TOOLS_AND_ARMORS = Lists.newArrayList();
+        public static final List<ItemEntry<? extends Item>> FOODS_AND_DRINKS = Lists.newArrayList();
 
-		@SuppressWarnings("SameParameterValue")
-		static <T extends Item> ItemEntry<T> register(String name, Supplier<? extends T> make, ItemGroupType type, boolean compat) {
-			return new ItemEntry<>(REGISTER.register(name, make), compat ? type : null);
-		}
+        private final T item;
 
-		private static <T extends Item> ItemEntry<T> of(T existing, ItemGroupType type) {
-			return new ItemEntry<>(RegistryObject.create(getRegistryName(existing), ForgeRegistries.ITEMS), type);
-		}
+        private static ItemEntry<Item> simple(String name, ItemGroupType type) {
+            return simple(name, $ -> {
+            }, $ -> {
+            }, type);
+        }
 
-		private ItemEntry(RegistryObject<T> regObject, @Nullable ItemGroupType type) {
-			this.regObject = regObject;
-			if(type != null) {
-				(switch (type) {
-					case BUILDING_BLOCKS -> BUILDING_BLOCKS;
-					case FUNCTIONAL_BLOCKS_AND_MATERIALS -> FUNCTIONAL_BLOCKS_AND_MATERIALS;
-					case TOOLS_AND_ARMORS -> TOOLS_AND_ARMORS;
-					case FOODS_AND_DRINKS -> FOODS_AND_DRINKS;
-				}).add(this);
-			}
-		}
+        private static ItemEntry<Item> simple(String name, Consumer<Item.Properties> makeProps, Consumer<Item> processItem, ItemGroupType type) {
+            return register(name, Util.make(new Item(Util.make(new FabricItemSettings(), makeProps)), processItem), type);
+        }
 
-		@Override
-		public T get() {
-			return regObject.get();
-		}
+        static <T extends Item> ItemEntry<T> register(String name, T make, @Nullable ItemGroupType type) {
+            return new ItemEntry<>(Registry.register(BuiltInRegistries.ITEM, EmeraldCraft.id(name), make), type);
+        }
 
-		@Override
-		public Item asItem() {
-			return regObject.get();
-		}
+        @SuppressWarnings("SameParameterValue")
+        static <T extends Item> ItemEntry<T> register(String name, T make, ItemGroupType type, boolean compat) {
+            return new ItemEntry<>(Registry.register(BuiltInRegistries.ITEM, EmeraldCraft.id(name), make), compat ? type : null);
+        }
 
-		public ResourceLocation getId() {
-			return regObject.getId();
-		}
-	}
+        @SuppressWarnings("SameParameterValue")
+        static <T extends Item> ItemEntry<T> register(String name, T make, ItemGroupType type, int burnTime) {
+            FuelRegistry.INSTANCE.add(make, burnTime);
+            return new ItemEntry<>(Registry.register(BuiltInRegistries.ITEM, EmeraldCraft.id(name), make), type);
+        }
+
+        private static <T extends Item> ItemEntry<T> of(T existing, ItemGroupType type) {
+            return new ItemEntry<>(Registry.register(BuiltInRegistries.ITEM, getRegistryName(existing), existing), type);
+        }
+
+        private ItemEntry(T item, @Nullable ItemGroupType type) {
+            this.item = item;
+            if (type != null) {
+                (switch (type) {
+                    case BUILDING_BLOCKS -> BUILDING_BLOCKS;
+                    case FUNCTIONAL_BLOCKS_AND_MATERIALS -> FUNCTIONAL_BLOCKS_AND_MATERIALS;
+                    case TOOLS_AND_ARMORS -> TOOLS_AND_ARMORS;
+                    case FOODS_AND_DRINKS -> FOODS_AND_DRINKS;
+                }).add(this);
+            }
+        }
+
+        @Override
+        public T get() {
+            return item;
+        }
+
+        @Override
+        public Item asItem() {
+            return item;
+        }
+
+        public ResourceLocation getId() {
+            return BuiltInRegistries.ITEM.getKey(item);
+        }
+    }
 }

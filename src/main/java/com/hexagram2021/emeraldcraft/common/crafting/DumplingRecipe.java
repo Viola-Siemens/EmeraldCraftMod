@@ -19,59 +19,59 @@ import net.minecraft.world.level.Level;
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 public class DumplingRecipe extends CustomRecipe {
-	private static final int MAX_VEGETABLE_FILLINGS = 3;
+    private static final int MAX_VEGETABLE_FILLINGS = 3;
 
-	public DumplingRecipe(ResourceLocation id, CraftingBookCategory category) {
-		super(id, category);
-	}
+    public DumplingRecipe(ResourceLocation id, CraftingBookCategory category) {
+        super(id, category);
+    }
 
-	@Override
-	public boolean matches(CraftingContainer craftingContainer, Level level) {
-		boolean dough = false;
-		boolean mince = false;
-		int count = 0;
-		for(int i = 0; i < craftingContainer.getContainerSize(); ++i) {
-			ItemStack itemstack = craftingContainer.getItem(i);
-			if(itemstack.isEmpty()) {
-				continue;
-			}
-			if(itemstack.is(ECItemTags.WHEAT_DOUGH) && !dough) {
-				dough = true;
-			} else if(itemstack.is(ECItemTags.MINCE) && !mince) {
-				mince = true;
-			} else if(count < MAX_VEGETABLE_FILLINGS && itemstack.is(ECItemTags.VEGETABLE_FILLINGS)) {
-				count += 1;
-			} else {
-				return false;
-			}
-		}
-		return dough && count > 0;
-	}
+    @Override
+    public boolean matches(CraftingContainer craftingContainer, Level level) {
+        boolean dough = false;
+        boolean mince = false;
+        int count = 0;
+        for (int i = 0; i < craftingContainer.getContainerSize(); ++i) {
+            ItemStack itemstack = craftingContainer.getItem(i);
+            if (itemstack.isEmpty()) {
+                continue;
+            }
+            if (itemstack.is(ECItemTags.WHEAT_DOUGH) && !dough) {
+                dough = true;
+            } else if (itemstack.is(ECItemTags.MINCE) && !mince) {
+                mince = true;
+            } else if (count < MAX_VEGETABLE_FILLINGS && itemstack.is(ECItemTags.VEGETABLE_FILLINGS)) {
+                count += 1;
+            } else {
+                return false;
+            }
+        }
+        return dough && count > 0;
+    }
 
-	@Override
-	public ItemStack assemble(CraftingContainer craftingContainer, RegistryAccess registryAccess) {
-		ItemStack ret = new ItemStack(ECItems.RAW_DUMPLING.get(), 4);
+    @Override
+    public ItemStack assemble(CraftingContainer craftingContainer, RegistryAccess registryAccess) {
+        ItemStack ret = new ItemStack(ECItems.RAW_DUMPLING.get(), 4);
 
-		ListTag listTag = new ListTag();
-		for(int i = 0; i < craftingContainer.getContainerSize(); ++i) {
-			ItemStack itemstack = craftingContainer.getItem(i);
-			if(itemstack.is(ECItemTags.MINCE) || itemstack.is(ECItemTags.VEGETABLE_FILLINGS)) {
-				listTag.add(StringTag.valueOf(getRegistryName(itemstack.getItem()).toString()));
-			}
-		}
-		CompoundTag tag = ret.getOrCreateTag();
-		tag.put(FarciFoodStorage.TAG_FILLINGS, listTag);
-		ret.setTag(tag);
-		return ret;
-	}
+        ListTag listTag = new ListTag();
+        for (int i = 0; i < craftingContainer.getContainerSize(); ++i) {
+            ItemStack itemstack = craftingContainer.getItem(i);
+            if (itemstack.is(ECItemTags.MINCE) || itemstack.is(ECItemTags.VEGETABLE_FILLINGS)) {
+                listTag.add(StringTag.valueOf(getRegistryName(itemstack.getItem()).toString()));
+            }
+        }
+        CompoundTag tag = ret.getOrCreateTag();
+        tag.put(FarciFoodStorage.TAG_FILLINGS, listTag);
+        ret.setTag(tag);
+        return ret;
+    }
 
-	@Override
-	public boolean canCraftInDimensions(int wid, int hgt) {
-		return wid >= 2 && hgt >= 2;
-	}
+    @Override
+    public boolean canCraftInDimensions(int wid, int hgt) {
+        return wid >= 2 && hgt >= 2;
+    }
 
-	@Override
-	public RecipeSerializer<?> getSerializer() {
-		return ECRecipeSerializer.CRAFTING_DUMPLING_SERIALIZER.get();
-	}
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return ECRecipeSerializer.CRAFTING_DUMPLING_SERIALIZER;
+    }
 }

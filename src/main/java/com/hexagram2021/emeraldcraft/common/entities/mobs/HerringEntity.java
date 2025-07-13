@@ -10,32 +10,32 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class HerringEntity extends AbstractSchoolingFish {
-	public HerringEntity(EntityType<? extends HerringEntity> type, Level level) {
-		super(type, level);
-	}
+    public HerringEntity(EntityType<? extends HerringEntity> type, Level level) {
+        super(type, level);
+    }
 
-	@Override
-	public ItemStack getBucketItemStack() {
-		return new ItemStack(ECItems.HERRING_BUCKET);
-	}
+    @Override
+    public ItemStack getBucketItemStack() {
+        return new ItemStack(ECItems.HERRING_BUCKET);
+    }
 
-	@Override
-	protected SoundEvent getAmbientSound() {
-		return ECSounds.HERRING_AMBIENT;
-	}
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return ECSounds.HERRING_AMBIENT;
+    }
 
-	@Override
-	protected SoundEvent getDeathSound() {
-		return ECSounds.HERRING_DEATH;
-	}
+    @Override
+    protected SoundEvent getDeathSound() {
+        return ECSounds.HERRING_DEATH;
+    }
 
-	@Override
-	protected SoundEvent getHurtSound(DamageSource damageSource) {
-		return ECSounds.HERRING_HURT;
-	}
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ECSounds.HERRING_HURT;
+    }
 
-	@Override
-	protected SoundEvent getFlopSound() {
-		return ECSounds.HERRING_FLOP;
-	}
+    @Override
+    protected SoundEvent getFlopSound() {
+        return ECSounds.HERRING_FLOP;
+    }
 }

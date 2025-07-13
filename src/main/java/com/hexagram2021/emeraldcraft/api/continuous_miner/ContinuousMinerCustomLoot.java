@@ -11,14 +11,14 @@ import java.util.Map;
 import static com.hexagram2021.emeraldcraft.common.util.RegistryHelper.getRegistryName;
 
 public class ContinuousMinerCustomLoot {
-	private static final Map<ResourceLocation, ResourceLocation> BLOCK_TO_LOOT_TABLE = new HashMap<>();
+    private static final Map<ResourceLocation, ResourceLocation> BLOCK_TO_LOOT_TABLE = new HashMap<>();
 
-	public static void addBlockLoot(List<ResourceLocation> blockRegistryNames, ResourceLocation lootTable) {
-		blockRegistryNames.forEach((blockRegistryName) -> BLOCK_TO_LOOT_TABLE.put(blockRegistryName, lootTable));
-	}
+    public static void addBlockLoot(List<ResourceLocation> blockRegistryNames, ResourceLocation lootTable) {
+        blockRegistryNames.forEach((blockRegistryName) -> BLOCK_TO_LOOT_TABLE.put(blockRegistryName, lootTable));
+    }
 
-	@Nullable
-	public static ResourceLocation getBlockLoot(BlockState blockState) {
-		return BLOCK_TO_LOOT_TABLE.get(getRegistryName(blockState.getBlock()));
-	}
+    @Nullable
+    public static ResourceLocation getBlockLoot(BlockState blockState) {
+        return BLOCK_TO_LOOT_TABLE.get(getRegistryName(blockState.getBlock()));
+    }
 }

@@ -7,7 +7,6 @@
   "itemGroup.emeraldcraft.tools_and_armors": "エメラルドの工芸：道具と防具",
   "itemGroup.emeraldcraft.foods_and_drinks": "エメラルドの工芸：食べ物と飲み物",
   "emeraldcraft.config.title": "",
-
   "block.emeraldcraft.emerald_slab": "エメラルドのハーフブロック",
   "block.emeraldcraft.emerald_stairs": "エメラルドの階段",
   "block.emeraldcraft.emerald_wall": "エメラルドの塀",
@@ -205,7 +204,6 @@
   "block.emeraldcraft.purpuraceus_button": "紫斑のボタン",
   "block.emeraldcraft.purpuraceus_sign": "紫斑の看板",
   "block.emeraldcraft.purpuraceus_wall_sign": "壁に付けられた紫斑の看板",
-
   "block.emeraldcraft.zinc_slab": "亜鉛のハーフブロック",
   "block.emeraldcraft.zinc_stairs": "亜鉛の階段",
   "block.emeraldcraft.zinc_wall": "亜鉛の塀",
@@ -225,7 +223,6 @@
   "block.emeraldcraft.electrum_wall": "エレクトラムの塀",
   "block.emeraldcraft.steel_stairs": "鋼の階段",
   "block.emeraldcraft.steel_wall": "鋼の塀",
-
   "block.minecraft.banner.emeraldcraft.bee.black": "黒色のミツバチ",
   "block.minecraft.banner.emeraldcraft.bee.blue": "青色のミツバチ",
   "block.minecraft.banner.emeraldcraft.bee.brown": "茶色のミツバチ",
@@ -290,7 +287,6 @@
   "block.minecraft.banner.emeraldcraft.potion.silver": "薄灰色のポーション",
   "block.minecraft.banner.emeraldcraft.potion.white": "白色のポーション",
   "block.minecraft.banner.emeraldcraft.potion.yellow": "黄色のポーション",
-
   "item.emeraldcraft.emerald_helmet": "エメラルドのヘルメット",
   "item.emeraldcraft.emerald_chestplate": "エメラルドのチェストプレート",
   "item.emeraldcraft.emerald_leggings": "エメラルドのレギンス",
@@ -384,7 +380,6 @@
   "item.emeraldcraft.herring_bucket": "ハーリング入りバケツ",
   "item.emeraldcraft.bigeye_bucket": "キントキダイ入りバケツ",
   "item.emeraldcraft.snakehead_bucket": "ライギョ入りバケツ",
-
   "item.emeraldcraft.melted_zinc_bucket": "溶けた亜鉛入りバケツ",
   "item.emeraldcraft.zinc_concentrate": "亜鉛精鉱",
   "item.emeraldcraft.melted_aluminum_bucket": "溶けたアルミニウム入りバケツ",
@@ -397,7 +392,6 @@
   "item.emeraldcraft.nickel_concentrate": "ニッケル精鉱",
   "item.emeraldcraft.melted_uranium_bucket": "溶けたウラン入りバケツ",
   "item.emeraldcraft.uranium_concentrate": "ウラン精鉱",
-
   "item.emeraldcraft.minced_beef": "牛ひき肉",
   "item.emeraldcraft.minced_chicken": "鶏ひき肉",
   "item.emeraldcraft.minced_mutton": "羊肉ミンチ",
@@ -405,12 +399,10 @@
   "item.emeraldcraft.minced_rabbit": "兎肉ミンチ",
   "item.emeraldcraft.wheat_dough": "小麦粉生地",
   "item.emeraldcraft.wheat_flour": "小麦粉",
-
   "item.emeraldcraft.raw_dumpling": "生餃子",
   "item.emeraldcraft.cooked_dumpling": "水餃子",
   "item.emeraldcraft.dumpling.filling": "詰め物：%s",
   "item.emeraldcraft.dumpling.filling_combination": "%s・%s",
-
   "item.minecraft.potion.effect.absorption": "衝撃吸収のポーション",
   "item.minecraft.splash_potion.effect.absorption": "スプラッシュ 衝撃吸収のポーション",
   "item.minecraft.lingering_potion.effect.absorption": "衝撃吸収の残留ポーション",
@@ -429,14 +421,12 @@
   "item.minecraft.potion.effect.glowing": "発光のポーション",
   "item.minecraft.splash_potion.effect.glowing": "スプラッシュ 発光のポーション",
   "item.minecraft.lingering_potion.effect.glowing": "発光の残留ポーション",
-
   "item.minecraft.tipped_arrow.effect.absorption": "衝撃吸収の矢",
   "item.minecraft.tipped_arrow.effect.blindness": "盲目の矢",
   "item.minecraft.tipped_arrow.effect.hunger": "空腹の矢",
   "item.minecraft.tipped_arrow.effect.saturation": "満腹度回復の矢",
   "item.minecraft.tipped_arrow.effect.wither": "衰弱の矢",
   "item.minecraft.tipped_arrow.effect.glowing": "発光の矢",
-
   "entity.emeraldcraft.piglin_cutey": "ピグリンガール",
   "entity.emeraldcraft.nether_pigman": "ネザーピッグマン",
   "entity.emeraldcraft.nether_lambman": "ネザーラムマン",
@@ -449,6 +439,18 @@
   "entity.emeraldcraft.wombat": "ウォンバット",
   "entity.emeraldcraft.boat": "ボート",
   "entity.emeraldcraft.chest_boat": "チェスト付きのボート",
+  "entity.minecraft.villager.carpenter": "大工",
+  "entity.minecraft.villager.glazier": "ガラス屋",
+  "entity.minecraft.villager.miner": "鉱夫",
+  "entity.minecraft.villager.astrologist": "占星術師",
+  "entity.minecraft.villager.grower": "園芸家",
+  "entity.minecraft.villager.beekeeper": "養蜂家",
+  "entity.minecraft.villager.geologist": "地質学者",
+  "entity.minecraft.villager.icer": "氷屋",
+  "entity.minecraft.villager.chemical_engineer": "化学エンジニア",
+  "entity.minecraft.villager.paperhanger": "経師屋",
+  "entity.minecraft.villager.hunter": "猟師",
+  "entity.minecraft.villager.chef": "シェフ",
   "entity.minecraft.villager.emeraldcraft.carpenter": "大工",
   "entity.minecraft.villager.emeraldcraft.glazier": "ガラス屋",
   "entity.minecraft.villager.emeraldcraft.miner": "鉱夫",
@@ -461,10 +463,8 @@
   "entity.minecraft.villager.emeraldcraft.paperhanger": "経師屋",
   "entity.minecraft.villager.emeraldcraft.hunter": "猟師",
   "entity.minecraft.villager.emeraldcraft.chef": "シェフ",
-
   "enchantment.emeraldcraft.vein_mining": "鉱脈掘り",
   "enchantment.emeraldcraft.bane_of_mammals": "哺乳特効",
-
   "subtitles.entity.piglin_cutey.ambient": "ピグリンガールがつぶやく",
   "subtitles.entity.piglin_cutey.celebrate": "ピグリンガールが歓声を上げる",
   "subtitles.entity.piglin_cutey.death": "ピグリンガールが死ぬ",
@@ -520,9 +520,7 @@
   "subtitles.entity.wombat.ambient": "ウォンバットが叫ぶ",
   "subtitles.entity.wombat.hurt": "ウォンバットがダメージを受ける",
   "subtitles.entity.wombat.death": "ウォンバットが死ぬ",
-
   "subtitles.block.flower.drop_leaves": "彼岸花が葉を落とす",
-
   "container.carpentry": "木工用テーブル",
   "container.glass_kiln": "ガラス窯",
   "container.mineral_table": "冶金の机",
@@ -530,7 +528,6 @@
   "container.ice_maker": "製氷機",
   "container.melter": "溶解炉",
   "container.rabble_furnace": "攪拌炉",
-
   "desc.emeraldcraft.carpentry_table": "木材に関連するブロックをクラフトよりも少量かつ正確な量で作成できるブロックである",
   "desc.emeraldcraft.glass_kiln": "通常のかまどの2倍の早さでガラスやテラコッタを焼成できる",
   "desc.emeraldcraft.mineral_table": "マグマクリームを消費し、一般的なブロックから鉱物の塊を精錬するブロックである",
@@ -539,7 +536,6 @@
   "desc.emeraldcraft.continuous_miner": "溶けたエメラルドを消費し、レッドストーンパルスを受け取ると鉱物を産出する機械である",
   "desc.emeraldcraft.ice_maker": "水を消費し、液体を固める機械である",
   "desc.emeraldcraft.melter": "精鉱と鉱物のブロックを溶かすかまどである",
-
   "biome.emeraldcraft.dead_crimson_ocean": "枯れた真紅の海洋",
   "biome.emeraldcraft.dead_warped_ocean": "枯れた歪んだ海洋",
   "biome.emeraldcraft.deep_dead_crimson_ocean": "枯れた真紅の深海",
@@ -557,10 +553,8 @@
   "biome.emeraldcraft.quartz_desert": "石英の砂漠",
   "biome.emeraldcraft.emery_desert": "エメリーの砂漠",
   "biome.emeraldcraft.purpuraceus_swamp": "紫斑の沼地",
-
   "gui.recipebook.toggleRecipes.kilnable": "窯で焼く可能なアイテムを表示中",
   "gui.recipebook.toggleRecipes.boilable": "攪拌する可能なアイテムを表示中",
-
   "gui.emeraldcraft.glass_kiln.experience": "%s EXP",
   "gui.emeraldcraft.glass_kiln.time.seconds": "%s s",
   "gui.emeraldcraft.melter.time.seconds": "%s s",
@@ -570,10 +564,8 @@
   "gui.emeraldcraft.rabble_furnace.time.seconds": "%s s",
   "gui.emeraldcraft.cookstove.time.seconds": "%s s",
   "gui.emeraldcraft.meat_grinder.bonus": "ボーナス機会：%s",
-
   "book.emeraldcraft.piglin_cutey.title": "最後の望み",
   "book.emeraldcraft.piglin_cutey.content": "何日も私はネザーに閉じ込められていました。ポータルがガストに壊されましたから、ピグリンのように振る舞い、彼らと取引するしかありません。まだ、ポータルを起動するのに十分な黒曜石が手に入れません。私がオーバーワールドに戻ることを手伝ってくれませんか？",
-
   "advancements.emeraldcraft.root.title": "グリーン工芸の始まり",
   "advancements.emeraldcraft.root.description": "エメラルド一つを得る",
   "advancements.emeraldcraft.hard_currency.title": "「ハード」通貨",
@@ -598,10 +590,8 @@
   "advancements.emeraldcraft.more_effective_craft.description": "鉱の原石から精鉱を作る",
   "advancements.emeraldcraft.ice_cream_please.title": "アイスクリームください",
   "advancements.emeraldcraft.ice_cream_please.description": "製氷機を手に入れる",
-
   "filled_map.shelter": "救助探検家の地図",
   "filled_map.entrenchment": "地心探検家の地図",
-
   "fluids.save.bucket": "%s %s入られる",
   "fluid.minecraft.water": "水",
   "fluid.minecraft.lava": "溶岩",
@@ -616,10 +606,8 @@
   "fluid.emeraldcraft.melted_silver": "溶けた銀",
   "fluid.emeraldcraft.melted_nickel": "溶けたニッケル",
   "fluid.emeraldcraft.melted_uranium": "溶けたウラン",
-
   "jei.emeraldcraft.villager_trade": "村人と取引する",
   "jei.emeraldcraft.villager_trade.jobsites": "職業ブロック：%s",
-
   "jade.emeraldcraft.cookstove.result": "料理レンジの産物",
   "jade.emeraldcraft.continuous_miner.time": "採掘まで：%s",
   "config.jade.plugin_emeraldcraft.jade/continuous_miner": "連続採掘機",

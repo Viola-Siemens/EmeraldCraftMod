@@ -19,37 +19,38 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public class ShelterPieces {
-	private static final ResourceLocation SHELTER = new ResourceLocation(MODID, "shelter/piglin_cutey_shelter");
+    private static final ResourceLocation SHELTER = new ResourceLocation(MODID, "shelter/piglin_cutey_shelter");
 
-	public static void addPieces(StructureTemplateManager structureManager, BlockPos pos, Rotation rotation, StructurePieceAccessor pieces) {
-		pieces.addPiece(new ShelterPieces.ShelterPiece(structureManager, SHELTER, pos, rotation));
-	}
+    public static void addPieces(StructureTemplateManager structureManager, BlockPos pos, Rotation rotation, StructurePieceAccessor pieces) {
+        pieces.addPiece(new ShelterPieces.ShelterPiece(structureManager, SHELTER, pos, rotation));
+    }
 
-	public static class ShelterPiece extends TemplateStructurePiece {
-		public ShelterPiece(StructureTemplateManager structureManager, ResourceLocation location, BlockPos pos, Rotation rotation) {
-			super(ECStructurePieceTypes.SHELTER_TYPE, 0, structureManager, location, location.toString(), makeSettings(rotation), pos.offset(-5, -1, -5));
-		}
+    public static class ShelterPiece extends TemplateStructurePiece {
+        public ShelterPiece(StructureTemplateManager structureManager, ResourceLocation location, BlockPos pos, Rotation rotation) {
+            super(ECStructurePieceTypes.SHELTER_TYPE, 0, structureManager, location, location.toString(), makeSettings(rotation), pos.offset(-5, -1, -5));
+        }
 
-		public ShelterPiece(StructurePieceSerializationContext context, CompoundTag tag) {
-			super(ECStructurePieceTypes.SHELTER_TYPE, tag, context.structureTemplateManager(), (location) -> makeSettings(Rotation.valueOf(tag.getString("Rot"))));
-		}
+        public ShelterPiece(StructurePieceSerializationContext context, CompoundTag tag) {
+            super(ECStructurePieceTypes.SHELTER_TYPE, tag, context.structureTemplateManager(), (location) -> makeSettings(Rotation.valueOf(tag.getString("Rot"))));
+        }
 
-		private static StructurePlaceSettings makeSettings(Rotation rotation) {
-			return (new StructurePlaceSettings())
-					.setRotation(rotation)
-					.setMirror(Mirror.LEFT_RIGHT)
-					.setRotationPivot(new BlockPos(5, 1, 5))
-					.addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
-		}
+        private static StructurePlaceSettings makeSettings(Rotation rotation) {
+            return (new StructurePlaceSettings())
+                    .setRotation(rotation)
+                    .setMirror(Mirror.LEFT_RIGHT)
+                    .setRotationPivot(new BlockPos(5, 1, 5))
+                    .addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
+        }
 
 
-		@Override
-		protected void addAdditionalSaveData(StructurePieceSerializationContext context, CompoundTag tag) {
-			super.addAdditionalSaveData(context, tag);
-			tag.putString("Rot", this.placeSettings.getRotation().name());
-		}
+        @Override
+        protected void addAdditionalSaveData(StructurePieceSerializationContext context, CompoundTag tag) {
+            super.addAdditionalSaveData(context, tag);
+            tag.putString("Rot", this.placeSettings.getRotation().name());
+        }
 
-		@Override
-		protected void handleDataMarker(String function, BlockPos pos, ServerLevelAccessor level, RandomSource random, BoundingBox sbb) { }
-	}
+        @Override
+        protected void handleDataMarker(String function, BlockPos pos, ServerLevelAccessor level, RandomSource random, BoundingBox sbb) {
+        }
+    }
 }

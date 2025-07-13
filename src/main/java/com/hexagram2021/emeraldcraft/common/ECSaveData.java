@@ -6,30 +6,30 @@ import net.minecraft.world.level.saveddata.SavedData;
 import javax.annotation.Nullable;
 
 public class ECSaveData extends SavedData {
-	@Nullable
-	private static ECSaveData INSTANCE;
-	public static final String dataName = "EmeraldCraft-SaveData";
+    @Nullable
+    private static ECSaveData INSTANCE;
+    public static final String dataName = "EmeraldCraft-SaveData";
 
-	public ECSaveData() {
-		super();
-	}
+    public ECSaveData() {
+        super();
+    }
 
-	public ECSaveData(CompoundTag nbt) {
-		this();
-	}
+    public ECSaveData(CompoundTag nbt) {
+        this();
+    }
 
-	@Override
-	public CompoundTag save(CompoundTag nbt) {
-		return nbt;
-	}
+    @Override
+    public CompoundTag save(CompoundTag nbt) {
+        return nbt;
+    }
 
-	public static void markInstanceDirty() {
-		if(INSTANCE != null) {
-			INSTANCE.setDirty();
-		}
-	}
+    public static void markInstanceDirty() {
+        if (INSTANCE != null) {
+            INSTANCE.setDirty();
+        }
+    }
 
-	public static void setInstance(ECSaveData in) {
-		INSTANCE = in;
-	}
+    public static void setInstance(ECSaveData in) {
+        INSTANCE = in;
+    }
 }

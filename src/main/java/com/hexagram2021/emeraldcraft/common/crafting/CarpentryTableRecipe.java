@@ -12,30 +12,30 @@ import net.minecraft.world.item.crafting.SingleItemRecipe;
 import net.minecraft.world.level.Level;
 
 public class CarpentryTableRecipe extends SingleItemRecipe {
-	public static final CachedRecipeList<CarpentryTableRecipe> recipeList = new CachedRecipeList<>(
-			ECRecipes.CARPENTRY_TABLE_TYPE,
-			CarpentryTableRecipe.class
-	);
+    public static final CachedRecipeList<CarpentryTableRecipe> recipeList = new CachedRecipeList<>(
+            ECRecipes.CARPENTRY_TABLE_TYPE,
+            CarpentryTableRecipe.class
+    );
 
-	public CarpentryTableRecipe(ResourceLocation id, String group, Ingredient ingredient, ItemStack result) {
-		super(ECRecipes.CARPENTRY_TABLE_TYPE.get(), ECRecipeSerializer.CARPENTRY_SERIALIZER.get(), id, group, ingredient, result);
-	}
+    public CarpentryTableRecipe(ResourceLocation id, String group, Ingredient ingredient, ItemStack result) {
+        super(ECRecipes.CARPENTRY_TABLE_TYPE, ECRecipeSerializer.CARPENTRY_SERIALIZER, id, group, ingredient, result);
+    }
 
-	@Override
-	public boolean matches(Container inv, Level level) {
-		return this.ingredient.test(inv.getItem(0));
-	}
+    @Override
+    public boolean matches(Container inv, Level level) {
+        return this.ingredient.test(inv.getItem(0));
+    }
 
-	@Override
-	public ItemStack getToastSymbol() {
-		return new ItemStack(ECBlocks.WorkStation.CARPENTRY_TABLE);
-	}
+    @Override
+    public ItemStack getToastSymbol() {
+        return new ItemStack(ECBlocks.WorkStation.CARPENTRY_TABLE);
+    }
 
-	public Ingredient getIngredient() {
-		return this.ingredient;
-	}
+    public Ingredient getIngredient() {
+        return this.ingredient;
+    }
 
-	public ItemStack getResult() {
-		return this.result;
-	}
+    public ItemStack getResult() {
+        return this.result;
+    }
 }

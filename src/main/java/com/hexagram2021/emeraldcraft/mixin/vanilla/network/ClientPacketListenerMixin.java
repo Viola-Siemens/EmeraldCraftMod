@@ -1,9 +1,11 @@
 package com.hexagram2021.emeraldcraft.mixin.vanilla.network;
 
+import com.hexagram2021.emeraldcraft.common.crafting.cache.CachedRecipeList;
 import com.hexagram2021.emeraldcraft.common.crafting.menu.PiglinCuteyMerchantMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.protocol.game.ClientboundMerchantOffersPacket;
+import net.minecraft.network.protocol.game.ClientboundUpdateRecipesPacket;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.trading.MerchantOffers;
 import org.spongepowered.asm.mixin.Final;
@@ -15,19 +17,25 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPacketListener.class)
 public class ClientPacketListenerMixin {
-	@Shadow @Final
-	private Minecraft minecraft;
+    @Shadow
+    @Final
+    private Minecraft minecraft;
 
-	@SuppressWarnings("DataFlowIssue")
-	@Inject(method = "handleMerchantOffers", at = @At(value = "TAIL"))
-	public void emeraldcraft$handlePiglinCuteyMerchantOffers(ClientboundMerchantOffersPacket packet, CallbackInfo ci) {
-		AbstractContainerMenu menu = this.minecraft.player.containerMenu;
-		if (packet.getContainerId() == menu.containerId && menu instanceof PiglinCuteyMerchantMenu merchantMenu) {
-			merchantMenu.setOffers(new MerchantOffers(packet.getOffers().createTag()));
-			merchantMenu.setXp(packet.getVillagerXp());
-			merchantMenu.setMerchantLevel(packet.getVillagerLevel());
-			merchantMenu.setShowProgressBar(packet.showProgress());
-			merchantMenu.setCanRestock(packet.canRestock());
-		}
-	}
+    @Inject(method = "handleUpdateRecipes(Lnet/minecraft/network/protocol/game/ClientboundUpdateRecipesPacket;)V", at = @At("RETURN"))
+    void handleUpdateRecipes(ClientboundUpdateRecipesPacket packet, CallbackInfo callbackInfo) {
+        CachedRecipeList.onRecipeUpdatedClient();
+    }
+
+    @SuppressWarnings("DataFlowIssue")
+    @Inject(method = "handleMerchantOffers", at = @At(value = "TAIL"))
+    public void emeraldcraft$handlePiglinCuteyMerchantOffers(ClientboundMerchantOffersPacket packet, CallbackInfo ci) {
+        AbstractContainerMenu menu = this.minecraft.player.containerMenu;
+        if (packet.getContainerId() == menu.containerId && menu instanceof PiglinCuteyMerchantMenu merchantMenu) {
+            merchantMenu.setOffers(new MerchantOffers(packet.getOffers().createTag()));
+            merchantMenu.setXp(packet.getVillagerXp());
+            merchantMenu.setMerchantLevel(packet.getVillagerLevel());
+            merchantMenu.setShowProgressBar(packet.showProgress());
+            merchantMenu.setCanRestock(packet.canRestock());
+        }
+    }
 }

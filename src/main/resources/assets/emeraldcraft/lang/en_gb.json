@@ -7,7 +7,6 @@
   "itemGroup.emeraldcraft.tools_and_armors": "Emerald Craft: Tools and Armors",
   "itemGroup.emeraldcraft.foods_and_drinks": "Emerald Craft: Foods and Drinks",
   "emeraldcraft.config.title": "",
-
   "block.emeraldcraft.emerald_slab": "Emerald Slab",
   "block.emeraldcraft.emerald_stairs": "Emerald Stairs",
   "block.emeraldcraft.emerald_wall": "Emerald Wall",
@@ -205,7 +204,6 @@
   "block.emeraldcraft.purpuraceus_button": "Purpuraceus Button",
   "block.emeraldcraft.purpuraceus_sign": "Purpuraceus Sign",
   "block.emeraldcraft.purpuraceus_wall_sign": "Purpuraceus Wall Sign",
-
   "block.emeraldcraft.zinc_slab": "Zinc Slab",
   "block.emeraldcraft.zinc_stairs": "Zinc Stairs",
   "block.emeraldcraft.zinc_wall": "Zinc Wall",
@@ -225,7 +223,6 @@
   "block.emeraldcraft.electrum_wall": "Electrum Wall",
   "block.emeraldcraft.steel_stairs": "Steel Stairs",
   "block.emeraldcraft.steel_wall": "Steel Wall",
-
   "block.minecraft.banner.emeraldcraft.bee.black": "Black Bee",
   "block.minecraft.banner.emeraldcraft.bee.blue": "Blue Bee",
   "block.minecraft.banner.emeraldcraft.bee.brown": "Brown Bee",
@@ -290,7 +287,6 @@
   "block.minecraft.banner.emeraldcraft.potion.silver": "Light Grey Potion",
   "block.minecraft.banner.emeraldcraft.potion.white": "White Potion",
   "block.minecraft.banner.emeraldcraft.potion.yellow": "Yellow Potion",
-
   "item.emeraldcraft.emerald_helmet": "Emerald Helmet",
   "item.emeraldcraft.emerald_chestplate": "Emerald Chestplate",
   "item.emeraldcraft.emerald_leggings": "Emerald Leggings",
@@ -384,7 +380,6 @@
   "item.emeraldcraft.herring_bucket": "Herring Bucket",
   "item.emeraldcraft.bigeye_bucket": "Purple Spotted Bigeye Bucket",
   "item.emeraldcraft.snakehead_bucket": "Snakehead Bucket",
-
   "item.emeraldcraft.melted_zinc_bucket": "Melted Zinc Bucket",
   "item.emeraldcraft.zinc_concentrate": "Zinc Concentrate",
   "item.emeraldcraft.melted_aluminum_bucket": "Melted Aluminum Bucket",
@@ -397,7 +392,6 @@
   "item.emeraldcraft.nickel_concentrate": "Nickel Concentrate",
   "item.emeraldcraft.melted_uranium_bucket": "Melted Uranium Bucket",
   "item.emeraldcraft.uranium_concentrate": "Uranium Concentrate",
-
   "item.emeraldcraft.minced_beef": "Minced Beef",
   "item.emeraldcraft.minced_chicken": "Minced Chicken",
   "item.emeraldcraft.minced_mutton": "Minced Mutton",
@@ -405,12 +399,10 @@
   "item.emeraldcraft.minced_rabbit": "Minced Rabbit",
   "item.emeraldcraft.wheat_dough": "Wheat Dough",
   "item.emeraldcraft.wheat_flour": "Wheat Flour",
-
   "item.emeraldcraft.raw_dumpling": "Raw Dumpling",
   "item.emeraldcraft.cooked_dumpling": "Cooked Dumpling",
   "item.emeraldcraft.dumpling.filling": "Filling: %s",
   "item.emeraldcraft.dumpling.filling_combination": "%s, %s",
-
   "item.minecraft.potion.effect.absorption": "Absorption Potion",
   "item.minecraft.splash_potion.effect.absorption": "Splash Absorption Potion",
   "item.minecraft.lingering_potion.effect.absorption": "Lingering Absorption Potion",
@@ -429,14 +421,12 @@
   "item.minecraft.potion.effect.glowing": "Glowing Potion",
   "item.minecraft.splash_potion.effect.glowing": "Splash Glowing Potion",
   "item.minecraft.lingering_potion.effect.glowing": "Lingering Glowing Potion",
-
   "item.minecraft.tipped_arrow.effect.absorption": "Arrow of Absorption",
   "item.minecraft.tipped_arrow.effect.blindness": "Arrow of Blindness",
   "item.minecraft.tipped_arrow.effect.hunger": "Arrow of Hunger",
   "item.minecraft.tipped_arrow.effect.saturation": "Arrow of Saturation",
   "item.minecraft.tipped_arrow.effect.wither": "Arrow of Wither",
   "item.minecraft.tipped_arrow.effect.glowing": "Arrow of Glowing",
-
   "entity.emeraldcraft.piglin_cutey": "Piglin Cutey",
   "entity.emeraldcraft.nether_pigman": "Nether Pigman",
   "entity.emeraldcraft.nether_lambman": "Nether Lambman",
@@ -449,6 +439,18 @@
   "entity.emeraldcraft.wombat": "Wombat",
   "entity.emeraldcraft.boat": "Boat",
   "entity.emeraldcraft.chest_boat": "Chest Boat",
+  "entity.minecraft.villager.carpenter": "Carpenter",
+  "entity.minecraft.villager.glazier": "Glazier",
+  "entity.minecraft.villager.miner": "Miner",
+  "entity.minecraft.villager.astrologist": "Astrologist",
+  "entity.minecraft.villager.grower": "Grower",
+  "entity.minecraft.villager.beekeeper": "Beekeeper",
+  "entity.minecraft.villager.geologist": "Geologist",
+  "entity.minecraft.villager.icer": "Icer",
+  "entity.minecraft.villager.chemical_engineer": "Chemical Engineer",
+  "entity.minecraft.villager.paperhanger": "Paperhanger",
+  "entity.minecraft.villager.hunter": "Hunter",
+  "entity.minecraft.villager.chef": "Chef",
   "entity.minecraft.villager.emeraldcraft.carpenter": "Carpenter",
   "entity.minecraft.villager.emeraldcraft.glazier": "Glazier",
   "entity.minecraft.villager.emeraldcraft.miner": "Miner",
@@ -461,10 +463,8 @@
   "entity.minecraft.villager.emeraldcraft.paperhanger": "Paperhanger",
   "entity.minecraft.villager.emeraldcraft.hunter": "Hunter",
   "entity.minecraft.villager.emeraldcraft.chef": "Chef",
-
   "enchantment.emeraldcraft.vein_mining": "Vein Mining",
   "enchantment.emeraldcraft.bane_of_mammals": "Bane of Mammals",
-
   "subtitles.entity.piglin_cutey.ambient": "Piglin Cutey mumbles",
   "subtitles.entity.piglin_cutey.celebrate": "Piglin Cutey celebrates",
   "subtitles.entity.piglin_cutey.death": "Piglin Cutey dies",
@@ -520,9 +520,7 @@
   "subtitles.entity.wombat.ambient": "Wombat yells",
   "subtitles.entity.wombat.hurt": "Wombat hurts",
   "subtitles.entity.wombat.death": "Wombat dies",
-
   "subtitles.block.flower.drop_leaves": "Higan Bana Drops Leaves",
-
   "container.carpentry": "Carpentry Table",
   "container.glass_kiln": "Glass Kiln",
   "container.mineral_table": "Mineral Table",
@@ -530,7 +528,6 @@
   "container.ice_maker": "Ice Maker",
   "container.melter": "Melter",
   "container.rabble_furnace": "Rabble Furnace",
-
   "desc.emeraldcraft.carpentry_table": "Craft wood related blocks and items in smaller and more precise quantities, and even more efficient than crafting for certain recipes",
   "desc.emeraldcraft.glass_kiln": "Cook glass and terracotta items and takes only half the time as a standard furnace takes",
   "desc.emeraldcraft.mineral_table": "Smelt mineral nuggets from common blocks, which costs magma cream",
@@ -539,7 +536,6 @@
   "desc.emeraldcraft.continuous_miner": "An automated miner that cost melted emerald and need to be activated by redstone signal",
   "desc.emeraldcraft.ice_maker": "Solidify liquid, which costs water",
   "desc.emeraldcraft.melter": "Melt solid, which costs fuel",
-
   "biome.emeraldcraft.dead_crimson_ocean": "Dead Crimson Ocean",
   "biome.emeraldcraft.dead_warped_ocean": "Dead Warped Ocean",
   "biome.emeraldcraft.deep_dead_crimson_ocean": "Deep Dead Crimson Ocean",
@@ -557,10 +553,8 @@
   "biome.emeraldcraft.quartz_desert": "Quartz Desert",
   "biome.emeraldcraft.emery_desert": "Emery Desert",
   "biome.emeraldcraft.purpuraceus_swamp": "Purpuraceus Swamp",
-
   "gui.recipebook.toggleRecipes.kilnable": "Showing Kilnable",
   "gui.recipebook.toggleRecipes.boilable": "Showing Boilable",
-
   "gui.emeraldcraft.glass_kiln.experience": "%s XP",
   "gui.emeraldcraft.glass_kiln.time.seconds": "%ss",
   "gui.emeraldcraft.melter.time.seconds": "%ss",
@@ -570,10 +564,8 @@
   "gui.emeraldcraft.rabble_furnace.time.seconds": "%ss",
   "gui.emeraldcraft.cookstove.time.seconds": "%ss",
   "gui.emeraldcraft.meat_grinder.bonus": "Bonus Chance: %s",
-
   "book.emeraldcraft.piglin_cutey.title": "One Last Thing I Need",
   "book.emeraldcraft.piglin_cutey.content": "I was trapped in the nether for days. A ghast broke my portal, so I have no choice but to act like a piglin and to trade with them. Still I don't have enough obsidian to activate a portal. Would you mind help me back to the overworld?",
-
   "advancements.emeraldcraft.root.title": "Beginning of the `Green` Craft",
   "advancements.emeraldcraft.root.description": "Obtain an emerald.",
   "advancements.emeraldcraft.hard_currency.title": "`Hard` Currency",
@@ -598,10 +590,8 @@
   "advancements.emeraldcraft.more_effective_craft.description": "Craft a concentrate from raw ores.",
   "advancements.emeraldcraft.ice_cream_please.title": "Ice Cream Please",
   "advancements.emeraldcraft.ice_cream_please.description": "Obtain a ice maker.",
-
   "filled_map.shelter": "Search & Rescue Explorer Map",
   "filled_map.entrenchment": "Geocenter Explorer Map",
-
   "fluids.save.bucket": "Able to fill %s %s",
   "fluid.minecraft.water": "Water",
   "fluid.minecraft.lava": "Lava",
@@ -616,10 +606,8 @@
   "fluid.emeraldcraft.melted_silver": "Melted Silver",
   "fluid.emeraldcraft.melted_nickel": "Melted Nickel",
   "fluid.emeraldcraft.melted_uranium": "Melted Uranium",
-
   "jei.emeraldcraft.villager_trade": "Trade with Villagers",
   "jei.emeraldcraft.villager_trade.jobsites": "Jobsites: %s",
-
   "jade.emeraldcraft.cookstove.result": "Cookstove Result",
   "jade.emeraldcraft.continuous_miner.time": "Mining CD: %s",
   "config.jade.plugin_emeraldcraft.jade/continuous_miner": "Continuous Miner",

@@ -11,10 +11,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(WalkNodeEvaluator.class)
 public class WalkNodeEvaluatorMixin {
-	@Inject(method = "isBurningBlock", at = @At(value = "HEAD"), cancellable = true)
-	private static void emeraldcraft$isMyBurningBlock(BlockState state, CallbackInfoReturnable<Boolean> cir) {
-		if(state.is(ECBlocks.WorkStation.COOKSTOVE.get()) && state.getValue(CookstoveBlock.LIT)) {
-			cir.setReturnValue(true);
-		}
-	}
+    @Inject(method = "isBurningBlock", at = @At(value = "HEAD"), cancellable = true)
+    private static void emeraldcraft$isMyBurningBlock(BlockState state, CallbackInfoReturnable<Boolean> cir) {
+        if (state.is(ECBlocks.WorkStation.COOKSTOVE.get()) && state.getValue(CookstoveBlock.LIT)) {
+            cir.setReturnValue(true);
+        }
+    }
 }

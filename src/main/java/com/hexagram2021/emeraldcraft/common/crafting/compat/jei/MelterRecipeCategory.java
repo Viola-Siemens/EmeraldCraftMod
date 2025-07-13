@@ -17,118 +17,119 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidType;
 
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public class MelterRecipeCategory implements IRecipeCategory<MelterRecipe> {
-	public static final ResourceLocation UID = new ResourceLocation(MODID, "melter");
-	public static final ResourceLocation TEXTURE = new ResourceLocation(MODID, "textures/gui/gui_melter.png");
+    public static final ResourceLocation UID = new ResourceLocation(MODID, "melter");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(MODID, "textures/gui/gui_melter.png");
 
-	public static final int DEFAULT_MELT_TIME = 200;
+    public static final int DEFAULT_MELT_TIME = 200;
 
-	private final IDrawable background;
-	private final IDrawable icon;
-	private final LoadingCache<Integer, IDrawableAnimated> cachedArrows;
-	private final IDrawableAnimated animatedFlame;
+    private final IDrawable background;
+    private final IDrawable icon;
+    private final LoadingCache<Integer, IDrawableAnimated> cachedArrows;
+    private final IDrawableAnimated animatedFlame;
 
-	public MelterRecipeCategory(IGuiHelper guiHelper) {
-		this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 109, 54);
-		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ECBlocks.WorkStation.MELTER));
+    public MelterRecipeCategory(IGuiHelper guiHelper) {
+        this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 109, 54);
+        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ECBlocks.WorkStation.MELTER));
 
-		this.cachedArrows = CacheBuilder.newBuilder()
-				.maximumSize(25)
-				.build(new CacheLoader<>() {
-					@Override
-					public IDrawableAnimated load(Integer cookTime) {
-						return guiHelper.drawableBuilder(TEXTURE, 109, 14, 24, 17)
-								.buildAnimated(cookTime, IDrawableAnimated.StartDirection.LEFT, false);
-					}
-				});
+        this.cachedArrows = CacheBuilder.newBuilder()
+                .maximumSize(25)
+                .build(new CacheLoader<>() {
+                    @Override
+                    public IDrawableAnimated load(Integer cookTime) {
+                        return guiHelper.drawableBuilder(TEXTURE, 109, 14, 24, 17)
+                                .buildAnimated(cookTime, IDrawableAnimated.StartDirection.LEFT, false);
+                    }
+                });
 
-		IDrawableStatic staticFlame = guiHelper.createDrawable(TEXTURE, 109, 0, 14, 14);
-		this.animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true);
-	}
+        IDrawableStatic staticFlame = guiHelper.createDrawable(TEXTURE, 109, 0, 14, 14);
+        this.animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true);
+    }
 
-	@Override
-	public RecipeType<MelterRecipe> getRecipeType() {
-		return JEIHelper.ECJEIRecipeTypes.MELTER;
-	}
+    @Override
+    public RecipeType<MelterRecipe> getRecipeType() {
+        return JEIHelper.ECJEIRecipeTypes.MELTER;
+    }
 
-	@Override
-	public Component getTitle() {
-		return Component.translatable("block.emeraldcraft.melter");
-	}
+    @Override
+    public Component getTitle() {
+        return Component.translatable("block.emeraldcraft.melter");
+    }
 
-	@Override
-	public IDrawable getBackground() {
-		return this.background;
-	}
+    @SuppressWarnings("removal")
+    @Override
+    public IDrawable getBackground() {
+        return this.background;
+    }
 
-	@Override
-	public IDrawable getIcon() {
-		return this.icon;
-	}
+    @Override
+    public IDrawable getIcon() {
+        return this.icon;
+    }
 
-	@Override
-	public void draw(MelterRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics transform, double mouseX, double mouseY) {
-		this.animatedFlame.draw(transform, 1, 20);
+    @Override
+    public void draw(MelterRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics transform, double mouseX, double mouseY) {
+        this.animatedFlame.draw(transform, 1, 20);
 
-		IDrawableAnimated arrow = this.getArrow(recipe);
-		arrow.draw(transform, 24, 18);
-		this.drawCookTime(recipe, transform, 22);
-		this.drawFluidAmount(recipe, transform, 48);
-	}
+        IDrawableAnimated arrow = this.getArrow(recipe);
+        arrow.draw(transform, 24, 18);
+        this.drawCookTime(recipe, transform, 22);
+        this.drawFluidAmount(recipe, transform, 48);
+    }
 
-	@SuppressWarnings("SameParameterValue")
-	protected void drawCookTime(MelterRecipe recipe, GuiGraphics transform, int y) {
-		int meltTime = recipe.meltingTime();
-		if (meltTime > 0) {
-			int cookTimeSeconds = meltTime / 20;
-			Component timeString = Component.translatable("gui.emeraldcraft.melter.time.seconds", cookTimeSeconds);
-			Minecraft minecraft = Minecraft.getInstance();
-			Font fontRenderer = minecraft.font;
-			int stringWidth = fontRenderer.width(timeString);
-			transform.drawString(fontRenderer, timeString, this.background.getWidth() - stringWidth, y, 0xFF808080);
-		}
-	}
+    @SuppressWarnings("SameParameterValue")
+    protected void drawCookTime(MelterRecipe recipe, GuiGraphics transform, int y) {
+        int meltTime = recipe.meltingTime();
+        if (meltTime > 0) {
+            int cookTimeSeconds = meltTime / 20;
+            Component timeString = Component.translatable("gui.emeraldcraft.melter.time.seconds", cookTimeSeconds);
+            Minecraft minecraft = Minecraft.getInstance();
+            Font fontRenderer = minecraft.font;
+            int stringWidth = fontRenderer.width(timeString);
+            transform.drawString(fontRenderer, timeString, this.background.getWidth() - stringWidth, y, 0xFF808080);
+        }
+    }
 
-	@SuppressWarnings("SameParameterValue")
-	protected void drawFluidAmount(MelterRecipe recipe, GuiGraphics transform, int y) {
-		int fluidAmount = recipe.resultFluid().getAmount();
-		if (fluidAmount > 0) {
-			Component amountString = Component.translatable("gui.emeraldcraft.melter.fluid.amount", String.format("%.2f", fluidAmount / (float)FluidType.BUCKET_VOLUME));
-			Font fontRenderer = Minecraft.getInstance().font;
-			int stringWidth = fontRenderer.width(amountString);
-			transform.drawString(fontRenderer, amountString, this.background.getWidth() - stringWidth, y, 0xFF808080);
-		}
-	}
+    @SuppressWarnings({"SameParameterValue", "UnstableApiUsage"})
+    protected void drawFluidAmount(MelterRecipe recipe, GuiGraphics transform, int y) {
+        long fluidAmount = recipe.resultFluid().getAmount();
+        if (fluidAmount > 0) {
+            Component amountString = Component.translatable("gui.emeraldcraft.melter.fluid.amount", String.format("%.2f", fluidAmount / (float) FluidConstants.BUCKET));
+            Font fontRenderer = Minecraft.getInstance().font;
+            int stringWidth = fontRenderer.width(amountString);
+            transform.drawString(fontRenderer, amountString, this.background.getWidth() - stringWidth, y, 0xFF808080);
+        }
+    }
 
-	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, MelterRecipe recipe, IFocusGroup focuses) {
-		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1).addIngredients(recipe.getIngredient());
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 92, 36).addItemStack(new ItemStack(recipe.resultFluid().getFluid().getBucket()));
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 65, 2)
-				.setFluidRenderer(MelterBlockEntity.MAX_FLUID_LEVEL, false, 12, 50)
-				.addFluidStack(recipe.resultFluid().getFluid(), recipe.resultFluid().getAmount());
-	}
+    @Override
+    public void setRecipe(IRecipeLayoutBuilder builder, MelterRecipe recipe, IFocusGroup focuses) {
+        builder.addSlot(RecipeIngredientRole.INPUT, 1, 1).addIngredients(recipe.getIngredient());
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 92, 36).addItemStack(new ItemStack(recipe.resultFluid().getFluid().getBucket()));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 65, 2)
+                .setFluidRenderer(MelterBlockEntity.MAX_FLUID_LEVEL, false, 12, 50)
+                .addFluidStack(recipe.resultFluid().getFluid(), recipe.resultFluid().getAmount());
+    }
 
-	protected IDrawableAnimated getArrow(MelterRecipe recipe) {
-		int meltTime = recipe.meltingTime();
-		if (meltTime <= 0) {
-			meltTime = DEFAULT_MELT_TIME;
-		}
-		return this.cachedArrows.getUnchecked(meltTime);
-	}
+    protected IDrawableAnimated getArrow(MelterRecipe recipe) {
+        int meltTime = recipe.meltingTime();
+        if (meltTime <= 0) {
+            meltTime = DEFAULT_MELT_TIME;
+        }
+        return this.cachedArrows.getUnchecked(meltTime);
+    }
 
-	@Override
-	public boolean isHandled(MelterRecipe recipe) {
-		return !recipe.isSpecial();
-	}
+    @Override
+    public boolean isHandled(MelterRecipe recipe) {
+        return !recipe.isSpecial();
+    }
 }

@@ -14,17 +14,18 @@ import java.util.Map;
 
 @Mixin(MapItemSavedData.class)
 public class MapItemSavedDataMixin {
-	@Shadow @Final
-	Map<String, MapDecoration> decorations;
+    @Shadow
+    @Final
+    Map<String, MapDecoration> decorations;
 
-	@Inject(method = "isExplorationMap", at = @At(value = "HEAD"), cancellable = true)
-	public void checkIsECMapDecoration(CallbackInfoReturnable<Boolean> cir) {
-		for(MapDecoration decoration : this.decorations.values()) {
-			if(ECMapDecorationTypes.SHELTER == decoration.getType() || ECMapDecorationTypes.ENTRENCHMENT == decoration.getType()) {
-				cir.setReturnValue(Boolean.TRUE);
-				cir.cancel();
-				return;
-			}
-		}
-	}
+    @Inject(method = "isExplorationMap", at = @At(value = "HEAD"), cancellable = true)
+    public void checkIsECMapDecoration(CallbackInfoReturnable<Boolean> cir) {
+        for (MapDecoration decoration : this.decorations.values()) {
+            if (ECMapDecorationTypes.SHELTER == decoration.getType() || ECMapDecorationTypes.ENTRENCHMENT == decoration.getType()) {
+                cir.setReturnValue(Boolean.TRUE);
+                cir.cancel();
+                return;
+            }
+        }
+    }
 }

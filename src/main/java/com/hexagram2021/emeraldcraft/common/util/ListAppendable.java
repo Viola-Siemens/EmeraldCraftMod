@@ -5,7 +5,9 @@ import java.util.List;
 
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public interface ListAppendable<E> {
-	List<E> emeraldcraft$append(E entry);
-	List<E> emeraldcraft$appendAll(Iterator<E> entries);
-	List<E> emeraldcraft$appendAll(Iterable<E> entries);
+    List<E> emeraldcraft$append(E entry);
+
+    List<E> emeraldcraft$appendAll(Iterator<E> entries);
+
+    List<E> emeraldcraft$appendAll(Iterable<E> entries);
 }

@@ -10,7 +10,7 @@
           "name": "emeraldcraft:crystalball_table"
         }
       ],
-       "conditions": [
+      "conditions": [
         {
           "condition": "minecraft:match_tool",
           "predicate": {

@@ -13,24 +13,24 @@ import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import java.util.stream.Stream;
 
 public class AboveHeightmapFilter extends PlacementModifier {
-	public static final Codec<AboveHeightmapFilter> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-			Heightmap.Types.CODEC.fieldOf("above_type").forGetter(nearWaterPlacementFilter -> nearWaterPlacementFilter.heightmap)
-	).apply(builder, AboveHeightmapFilter::new));
+    public static final Codec<AboveHeightmapFilter> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+            Heightmap.Types.CODEC.fieldOf("above_type").forGetter(nearWaterPlacementFilter -> nearWaterPlacementFilter.heightmap)
+    ).apply(builder, AboveHeightmapFilter::new));
 
-	private final Heightmap.Types heightmap;
+    private final Heightmap.Types heightmap;
 
-	public AboveHeightmapFilter(Heightmap.Types heightmap) {
-		this.heightmap = heightmap;
-	}
+    public AboveHeightmapFilter(Heightmap.Types heightmap) {
+        this.heightmap = heightmap;
+    }
 
 
-	@Override
-	public Stream<BlockPos> getPositions(PlacementContext placementContext, RandomSource random, BlockPos blockPos) {
-		return blockPos.getY() >= placementContext.getHeight(this.heightmap, blockPos.getX(), blockPos.getZ()) ? Stream.of(blockPos) : Stream.empty();
-	}
+    @Override
+    public Stream<BlockPos> getPositions(PlacementContext placementContext, RandomSource random, BlockPos blockPos) {
+        return blockPos.getY() >= placementContext.getHeight(this.heightmap, blockPos.getX(), blockPos.getZ()) ? Stream.of(blockPos) : Stream.empty();
+    }
 
-	@Override
-	public PlacementModifierType<?> type() {
-		return ECPlacementModifierType.ABOVE_HEIGHTMAP_FILTER.get();
-	}
+    @Override
+    public PlacementModifierType<?> type() {
+        return ECPlacementModifierType.ABOVE_HEIGHTMAP_FILTER;
+    }
 }

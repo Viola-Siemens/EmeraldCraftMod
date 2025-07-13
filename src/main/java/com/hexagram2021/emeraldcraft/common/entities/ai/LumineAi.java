@@ -22,70 +22,70 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 public class LumineAi {
-	public static Brain<?> makeBrain(Brain<LumineEntity> brain) {
-		initCoreActivity(brain);
-		initIdleActivity(brain);
-		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
-		brain.setDefaultActivity(Activity.IDLE);
-		brain.useDefaultActivity();
-		return brain;
-	}
+    public static Brain<?> makeBrain(Brain<LumineEntity> brain) {
+        initCoreActivity(brain);
+        initIdleActivity(brain);
+        brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
+        brain.setDefaultActivity(Activity.IDLE);
+        brain.useDefaultActivity();
+        return brain;
+    }
 
-	private static void initCoreActivity(Brain<LumineEntity> brain) {
-		brain.addActivity(Activity.CORE, 0, ImmutableList.of(
-				new Swim(0.8F),
-				new AnimalPanic(2.5F),
-				new LookAtTargetSink(45, 90),
-				new MoveToTargetSink(),
-				new CountDownCooldownTicks(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS),
-				new CountDownCooldownTicks(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get())
-		));
-	}
+    private static void initCoreActivity(Brain<LumineEntity> brain) {
+        brain.addActivity(Activity.CORE, 0, ImmutableList.of(
+                new Swim(0.8F),
+                new AnimalPanic(2.5F),
+                new LookAtTargetSink(45, 90),
+                new MoveToTargetSink(),
+                new CountDownCooldownTicks(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS),
+                new CountDownCooldownTicks(ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS)
+        ));
+    }
 
-	@SuppressWarnings("deprecation")
-	private static void initIdleActivity(Brain<LumineEntity> brain) {
-		brain.addActivityWithConditions(Activity.IDLE, ImmutableList.of(
-				Pair.of(0, new GoToNearestDarkPosition<>(1.25F, true, 32)),
-				Pair.of(1, GoToWantedItem.create(lumine -> true, 1.75F, true, 32)),
-				Pair.of(2, StayCloseToTarget.create(LumineAi::getLikedPlayerPositionTracker, Predicate.not(LumineAi::hasPlaceToGo), 4, 16, 2.25F)),
-				Pair.of(3, SetEntityLookTargetSometimes.create(6.0F, UniformInt.of(30, 60))),
-				Pair.of(4, new RunOne<>(ImmutableList.of(
-						Pair.of(RandomStroll.fly(1.0F), 2),
-						Pair.of(SetWalkTargetFromLookTarget.create(1.0F, 3), 2),
-						Pair.of(new DoNothing(30, 60), 1)
-				)))
-		), ImmutableSet.of());
-	}
+    @SuppressWarnings("deprecation")
+    private static void initIdleActivity(Brain<LumineEntity> brain) {
+        brain.addActivityWithConditions(Activity.IDLE, ImmutableList.of(
+                Pair.of(0, new GoToNearestDarkPosition<>(1.25F, true, 32)),
+                Pair.of(1, GoToWantedItem.create(lumine -> true, 1.75F, true, 32)),
+                Pair.of(2, StayCloseToTarget.create(LumineAi::getLikedPlayerPositionTracker, Predicate.not(LumineAi::hasPlaceToGo), 4, 16, 2.25F)),
+                Pair.of(3, SetEntityLookTargetSometimes.create(6.0F, UniformInt.of(30, 60))),
+                Pair.of(4, new RunOne<>(ImmutableList.of(
+                        Pair.of(RandomStroll.fly(1.0F), 2),
+                        Pair.of(SetWalkTargetFromLookTarget.create(1.0F, 3), 2),
+                        Pair.of(new DoNothing(30, 60), 1)
+                )))
+        ), ImmutableSet.of());
+    }
 
-	public static void updateActivity(LumineEntity entity) {
-		entity.getBrain().setActiveActivityToFirstValid(ImmutableList.of(Activity.IDLE));
-	}
+    public static void updateActivity(LumineEntity entity) {
+        entity.getBrain().setActiveActivityToFirstValid(ImmutableList.of(Activity.IDLE));
+    }
 
-	private static Optional<PositionTracker> getLikedPlayerPositionTracker(LivingEntity livingEntity) {
-		return getLikedPlayer(livingEntity).map(player -> new EntityTracker(player, true));
-	}
+    private static Optional<PositionTracker> getLikedPlayerPositionTracker(LivingEntity livingEntity) {
+        return getLikedPlayer(livingEntity).map(player -> new EntityTracker(player, true));
+    }
 
-	private static boolean hasPlaceToGo(LivingEntity lumine) {
-		Brain<?> brain = lumine.getBrain();
-		return brain.hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM);
-	}
+    private static boolean hasPlaceToGo(LivingEntity lumine) {
+        Brain<?> brain = lumine.getBrain();
+        return brain.hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM);
+    }
 
-	public static Optional<ServerPlayer> getLikedPlayer(LivingEntity livingEntity) {
-		Level level = livingEntity.level();
-		if (!level.isClientSide() && level instanceof ServerLevel serverlevel) {
-			Optional<UUID> optional = livingEntity.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
-			if (optional.isPresent()) {
-				Entity entity = serverlevel.getEntity(optional.get());
-				if (entity instanceof ServerPlayer serverplayer) {
-					if ((serverplayer.gameMode.isSurvival() || serverplayer.gameMode.isCreative()) && serverplayer.closerThan(livingEntity, 64.0D)) {
-						return Optional.of(serverplayer);
-					}
-				}
+    public static Optional<ServerPlayer> getLikedPlayer(LivingEntity livingEntity) {
+        Level level = livingEntity.level();
+        if (!level.isClientSide() && level instanceof ServerLevel serverlevel) {
+            Optional<UUID> optional = livingEntity.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
+            if (optional.isPresent()) {
+                Entity entity = serverlevel.getEntity(optional.get());
+                if (entity instanceof ServerPlayer serverplayer) {
+                    if ((serverplayer.gameMode.isSurvival() || serverplayer.gameMode.isCreative()) && serverplayer.closerThan(livingEntity, 64.0D)) {
+                        return Optional.of(serverplayer);
+                    }
+                }
 
-				return Optional.empty();
-			}
-		}
+                return Optional.empty();
+            }
+        }
 
-		return Optional.empty();
-	}
+        return Optional.empty();
+    }
 }

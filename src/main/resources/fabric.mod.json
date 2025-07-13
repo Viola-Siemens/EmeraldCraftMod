@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "id": "emeraldcraft",
+  "version": "${version}",
+  "name": "Emerald Craft Mod",
+  "description": "More crafts, biomes, piglin girls, and cute villagers!\n\nI love villagers in minecraft. I hope so do you. And I also love piglins -- just because they look like girls with head covers!\n\nWith this mod, you can trade many other things with villagers, and with piglin-cutey, a new mob in the nether.\n\nYou can also do the emerald craft, the gold craft, and even craft some \"trash\" into building material to decorate your house with this mod!",
+  "authors": [
+    "Hexagram",
+    "Sh1roCu"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "logo.png",
+  "environment": "*",
+  "accessWidener": "emeraldcraft.accesswidener",
+  "entrypoints": {
+    "client": [
+      "com.hexagram2021.emeraldcraft.EmeraldCraftClient"
+    ],
+    "main": [
+      "com.hexagram2021.emeraldcraft.EmeraldCraft"
+    ],
+    "jade": [
+      "com.hexagram2021.emeraldcraft.common.crafting.compat.jade.ECJadePlugin"
+    ],
+    "jei_mod_plugin": [
+      "com.hexagram2021.emeraldcraft.common.crafting.compat.jei.JEIHelper"
+    ],
+    "cardinal-components-item": [
+      "com.hexagram2021.emeraldcraft.common.register.ECCapabilities"
+    ]
+  },
+  "mixins": [
+    "emeraldcraft.mixins.json"
+  ],
+  "custom": {
+    "cardinal-components": [
+      "emeraldcraft:food_storage"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "fabric-api": "*",
+    "minecraft": ">=1.20",
+    "forgeconfigapiport": ">=8.0.0"
+  }
+}

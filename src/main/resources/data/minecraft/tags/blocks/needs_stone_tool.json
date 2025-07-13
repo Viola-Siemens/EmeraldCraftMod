@@ -10,18 +10,18 @@
     "emeraldcraft:continuous_miner",
     "emeraldcraft:ice_maker",
     "emeraldcraft:lead_stairs",
-	"emeraldcraft:lead_wall",
+    "emeraldcraft:lead_wall",
     "emeraldcraft:silver_stairs",
-	"emeraldcraft:silver_wall",
+    "emeraldcraft:silver_wall",
     "emeraldcraft:nickel_stairs",
-	"emeraldcraft:nickel_wall",
+    "emeraldcraft:nickel_wall",
     "emeraldcraft:uranium_stairs",
-	"emeraldcraft:uranium_wall",
+    "emeraldcraft:uranium_wall",
     "emeraldcraft:constantan_stairs",
-	"emeraldcraft:constantan_wall",
+    "emeraldcraft:constantan_wall",
     "emeraldcraft:electrum_stairs",
-	"emeraldcraft:electrum_wall",
+    "emeraldcraft:electrum_wall",
     "emeraldcraft:steel_stairs",
-	"emeraldcraft:steel_wall"
+    "emeraldcraft:steel_wall"
   ]
 }

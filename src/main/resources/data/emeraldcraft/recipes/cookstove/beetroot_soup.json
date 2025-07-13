@@ -2,22 +2,22 @@
   "type": "emeraldcraft:cookstove",
   "ingredients": [
     {
-      "tag": "forge:crops/beetroot"
+      "tag": "c:crops/beetroot"
     },
     {
-      "tag": "forge:crops/beetroot"
+      "tag": "c:crops/beetroot"
     },
     {
-      "tag": "forge:crops/beetroot"
+      "tag": "c:crops/beetroot"
     },
     {
-      "tag": "forge:crops/beetroot"
+      "tag": "c:crops/beetroot"
     },
     {
-      "tag": "forge:crops/beetroot"
+      "tag": "c:crops/beetroot"
     },
     {
-      "tag": "forge:crops/beetroot"
+      "tag": "c:crops/beetroot"
     }
   ],
   "container": {

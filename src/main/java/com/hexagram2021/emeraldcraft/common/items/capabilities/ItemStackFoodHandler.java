@@ -2,36 +2,31 @@ package com.hexagram2021.emeraldcraft.common.items.capabilities;
 
 import com.hexagram2021.emeraldcraft.common.items.foods.FarciFoodItem;
 import com.hexagram2021.emeraldcraft.common.register.ECCapabilities;
-import net.minecraft.core.Direction;
+import dev.onyxstudios.cca.api.v3.item.ItemComponent;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import org.jetbrains.annotations.Nullable;
 
-public class ItemStackFoodHandler implements ICapabilityProvider, INBTSerializable<ListTag> {
-	private final FarciFoodStorage foodStorage;
-	private final LazyOptional<IFoodStorage> holder;
+public class ItemStackFoodHandler extends ItemComponent {
+    public final FarciFoodStorage foodStorage;
 
-	public ItemStackFoodHandler(ItemStack itemStack, FarciFoodItem farciFoodItem) {
-		this.foodStorage = new FarciFoodStorage(itemStack, farciFoodItem);
-		this.holder = LazyOptional.of(() -> this.foodStorage);
-	}
+    public ItemStackFoodHandler(ItemStack itemStack) {
+        super(itemStack, ECCapabilities.FOOD_CAPABILITY);
+        this.foodStorage = new FarciFoodStorage(itemStack, (FarciFoodItem) itemStack.getItem());
+    }
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-		return ECCapabilities.FOOD_CAPABILITY.orEmpty(cap, this.holder);
-	}
+    @Override
+    protected ListTag getList(String key, int type) {
+        if (key.equals(FarciFoodStorage.TAG_FILLINGS)) {
+            return this.foodStorage.serializeNBT();
+        }
+        return super.getList(key, type);
+    }
 
-	@Override
-	public ListTag serializeNBT() {
-		return this.foodStorage.serializeNBT();
-	}
-
-	@Override
-	public void deserializeNBT(ListTag nbt) {
-		this.foodStorage.deserializeNBT(nbt);
-	}
+    @Override
+    protected void putList(String key, ListTag value) {
+        super.putList(key, value);
+        if (key.equals(FarciFoodStorage.TAG_FILLINGS)) {
+            this.foodStorage.deserializeNBT(value);
+        }
+    }
 }

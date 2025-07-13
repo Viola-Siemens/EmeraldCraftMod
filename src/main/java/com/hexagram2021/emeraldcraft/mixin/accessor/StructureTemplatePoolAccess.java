@@ -13,11 +13,14 @@ import java.util.List;
 
 @Mixin(StructureTemplatePool.class)
 public interface StructureTemplatePoolAccess {
-	@Accessor("rawTemplates")
-	List<Pair<StructurePoolElement, Integer>> emeraldcraft$getRawTemplates();
-	@Accessor("rawTemplates") @Final @Mutable
-	void emeraldcraft$setRawTemplates(List<Pair<StructurePoolElement, Integer>> value);
+    @Accessor("rawTemplates")
+    List<Pair<StructurePoolElement, Integer>> emeraldcraft$getRawTemplates();
 
-	@Accessor("templates")
-	ObjectArrayList<StructurePoolElement> emeraldcraft$getTemplates();
+    @Accessor("rawTemplates")
+    @Final
+    @Mutable
+    void emeraldcraft$setRawTemplates(List<Pair<StructurePoolElement, Integer>> value);
+
+    @Accessor("templates")
+    ObjectArrayList<StructurePoolElement> emeraldcraft$getTemplates();
 }

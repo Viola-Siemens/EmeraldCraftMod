@@ -2,7 +2,7 @@
   "type": "emeraldcraft:cookstove",
   "ingredients": [
     {
-      "tag": "forge:crops/potato"
+      "tag": "c:crops/potato"
     },
     {
       "item": "minecraft:beef"

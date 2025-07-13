@@ -42,443 +42,444 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.ForgeEventFactory;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public class LumineEntity extends PathfinderMob implements InventoryCarrier {
-	private static final Vec3i ITEM_PICKUP_REACH = new Vec3i(1, 1, 1);
-	private static final Ingredient DUPLICATION_ITEM = Ingredient.of(Items.GLOWSTONE_DUST);
-	private final SimpleContainer inventory = new SimpleContainer(1);
-
-	private int duplicationCooldown;
-	private float holdingItemAnimationTicks;
-	private float holdingItemAnimationTicks0;
-	private float dancingAnimationTicks;
-	private float spinningAnimationTicks;
-	private float spinningAnimationTicks0;
-
-	private static final EntityDataAccessor<Boolean> DATA_DANCING = SynchedEntityData.defineId(LumineEntity.class, EntityDataSerializers.BOOLEAN);
-	private static final EntityDataAccessor<Boolean> DATA_CAN_DUPLICATE = SynchedEntityData.defineId(LumineEntity.class, EntityDataSerializers.BOOLEAN);
-
-	protected static final ImmutableList<SensorType<? extends Sensor<? super LumineEntity>>> SENSOR_TYPES = ImmutableList.of(
-			SensorType.NEAREST_LIVING_ENTITIES,
-			SensorType.NEAREST_PLAYERS,
-			SensorType.HURT_BY,
-			SensorType.NEAREST_ITEMS
-	);
-	protected static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(
-			MemoryModuleType.PATH,
-			MemoryModuleType.LOOK_TARGET,
-			MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
-			MemoryModuleType.WALK_TARGET,
-			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
-			MemoryModuleType.HURT_BY,
-			ECMemoryModuleTypes.NEAREST_DARK_LOCATION.get(),
-			MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM,
-			MemoryModuleType.LIKED_PLAYER,
-			MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS,
-			ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS.get(),
-			MemoryModuleType.IS_PANICKING
-	);
-
-	public LumineEntity(EntityType<? extends LumineEntity> type, Level level) {
-		super(type, level);
-		this.moveControl = new FlyingMoveControl(this, 20, true);
-	}
-
-	@Override
-	protected Brain.Provider<LumineEntity> brainProvider() {
-		return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
-	}
-
-	@Override
-	protected Brain<?> makeBrain(Dynamic<?> dynamic) {
-		return LumineAi.makeBrain(this.brainProvider().makeBrain(dynamic));
-	}
-
-	@Override @SuppressWarnings("unchecked")
-	public Brain<LumineEntity> getBrain() {
-		return (Brain<LumineEntity>)super.getBrain();
-	}
-
-	public static AttributeSupplier.Builder createAttributes() {
-		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20.0D).add(Attributes.FLYING_SPEED, 0.1D).add(Attributes.MOVEMENT_SPEED, 0.1D).add(Attributes.ATTACK_DAMAGE, 0.5D).add(Attributes.FOLLOW_RANGE, 48.0D);
-	}
-
-	@Override
-	protected PathNavigation createNavigation(Level level) {
-		FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, level);
-		flyingpathnavigation.setCanOpenDoors(false);
-		flyingpathnavigation.setCanFloat(true);
-		flyingpathnavigation.setCanPassDoors(true);
-		return flyingpathnavigation;
-	}
-
-	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(DATA_DANCING, false);
-		this.entityData.define(DATA_CAN_DUPLICATE, true);
-	}
-
-	@Override
-	public void travel(Vec3 vec) {
-		if (this.isControlledByLocalInstance()) {
-			if (this.isInWater()) {
-				this.moveRelative(0.02F, vec);
-				this.move(MoverType.SELF, this.getDeltaMovement());
-				this.setDeltaMovement(this.getDeltaMovement().scale(0.8D));
-			} else if (this.isInLava()) {
-				this.moveRelative(0.02F, vec);
-				this.move(MoverType.SELF, this.getDeltaMovement());
-				this.setDeltaMovement(this.getDeltaMovement().scale(0.5D));
-			} else {
-				this.moveRelative(this.getSpeed(), vec);
-				this.move(MoverType.SELF, this.getDeltaMovement());
-				this.setDeltaMovement(this.getDeltaMovement().scale(0.91D));
-			}
-		}
-
-		this.calculateEntityAnimation(false);
-	}
-
-	@Override
-	protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
-		return dimensions.height * 0.6F;
-	}
-
-	@Override
-	public boolean causeFallDamage(float fallDistance, float modifier, DamageSource damageSource) {
-		return false;
-	}
-
-	@Override
-	public boolean hurt(DamageSource damageSource, float value) {
-		Entity entity = damageSource.getEntity();
-		if (entity instanceof Player player) {
-			Optional<UUID> optional = this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
-			if (optional.isPresent() && player.getUUID().equals(optional.get())) {
-				return false;
-			}
-		}
-
-		return super.hurt(damageSource, value);
-	}
-
-	@Override
-	protected void playStepSound(BlockPos blockPos, BlockState blockState) {
-	}
-
-	@Override
-	protected void checkFallDamage(double fallDistance, boolean onGround, BlockState blockState, BlockPos blockPos) {
-	}
-
-	@Override
-	protected SoundEvent getAmbientSound() {
-		return this.hasItemInSlot(EquipmentSlot.MAINHAND) ? ECSounds.LUMINE_AMBIENT_WITH_ITEM : ECSounds.LUMINE_AMBIENT_WITHOUT_ITEM;
-	}
-
-	@Override
-	protected SoundEvent getHurtSound(DamageSource damageSource) {
-		return ECSounds.LUMINE_HURT;
-	}
-
-	@Override
-	protected SoundEvent getDeathSound() {
-		return ECSounds.LUMINE_DEATH;
-	}
-
-	@Override
-	protected float getSoundVolume() {
-		return 0.4F;
-	}
-
-	@Override
-	protected void customServerAiStep() {
-		this.level().getProfiler().push("lumineBrain");
-		this.getBrain().tick((ServerLevel)this.level(), this);
-		this.level().getProfiler().pop();
-		this.level().getProfiler().push("lumineActivityUpdate");
-		LumineAi.updateActivity(this);
-		this.level().getProfiler().pop();
-		super.customServerAiStep();
-	}
-
-	@Override
-	public void aiStep() {
-		super.aiStep();
-		if (!this.level().isClientSide && this.isAlive() && this.tickCount % 20 == 0) {
-			this.heal(1.0F);
-		}
-
-		if (this.isDancing()) {
-			if(this.tickCount % 100 == 0 && !this.shouldDance()) {
-				this.setDancing(false);
-			}
-		} else {
-			if(this.tickCount % 100 == 0 && this.shouldDance()) {
-				this.setDancing(true);
-			}
-		}
-
-		this.updateDuplicationCooldown();
-	}
-
-	@Override
-	public void tick() {
-		super.tick();
-		if (this.level().isClientSide) {
-			this.holdingItemAnimationTicks0 = this.holdingItemAnimationTicks;
-			if (this.hasTorchInHand()) {
-				this.holdingItemAnimationTicks = Mth.clamp(this.holdingItemAnimationTicks + 1.0F, 0.0F, 5.0F);
-			} else {
-				this.holdingItemAnimationTicks = Mth.clamp(this.holdingItemAnimationTicks - 1.0F, 0.0F, 5.0F);
-			}
-
-			if (this.isDancing()) {
-				++this.dancingAnimationTicks;
-				this.spinningAnimationTicks0 = this.spinningAnimationTicks;
-				if (this.isSpinning()) {
-					++this.spinningAnimationTicks;
-				} else {
-					--this.spinningAnimationTicks;
-				}
-
-				this.spinningAnimationTicks = Mth.clamp(this.spinningAnimationTicks, 0.0F, 15.0F);
-			} else {
-				this.dancingAnimationTicks = 0.0F;
-				this.spinningAnimationTicks = 0.0F;
-				this.spinningAnimationTicks0 = 0.0F;
-			}
-		} else if(this.isPanicking()) {
-			this.setDancing(false);
-		}
-	}
-
-	@Override
-	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-		ItemStack playerItem = player.getItemInHand(hand);
-		ItemStack lumineItem = this.getItemInHand(InteractionHand.MAIN_HAND);
-		if (this.isDancing() && this.isDuplicationItem(playerItem) && this.canDuplicate()) {
-			this.duplicateLumine();
-			this.level().broadcastEntityEvent(this, EntityEvent.IN_LOVE_HEARTS);
-			this.level().playSound(player, this, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.NEUTRAL, 2.0F, 1.0F);
-			this.removeInteractionItem(player, playerItem);
-			return InteractionResult.SUCCESS;
-		}
-		if (lumineItem.isEmpty() && playerItem.is(ECItemTags.TORCHES)) {
-			ItemStack itemstack3 = playerItem.copy();
-			itemstack3.setCount(1);
-			this.setItemInHand(InteractionHand.MAIN_HAND, itemstack3);
-			this.removeInteractionItem(player, playerItem);
-			this.level().playSound(player, this, ECSounds.LUMINE_ITEM_GIVEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
-			this.getBrain().setMemory(MemoryModuleType.LIKED_PLAYER, player.getUUID());
-			return InteractionResult.SUCCESS;
-		}
-		if (!lumineItem.isEmpty() && hand == InteractionHand.MAIN_HAND && playerItem.isEmpty() &&
-				this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER).orElse(player.getUUID()).equals(player.getUUID())) {
-			this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-			this.level().playSound(player, this, ECSounds.LUMINE_ITEM_TAKEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
-			this.swing(InteractionHand.MAIN_HAND);
-
-			for(ItemStack itemstack2 : this.getInventory().removeAllItems()) {
-				BehaviorUtils.throwItem(this, itemstack2, player.position());
-			}
-
-			this.getBrain().eraseMemory(MemoryModuleType.LIKED_PLAYER);
-			player.addItem(lumineItem);
-			return InteractionResult.SUCCESS;
-		}
-		return super.mobInteract(player, hand);
-	}
-
-	@Override
-	public boolean canTakeItem(ItemStack itemStack) {
-		return false;
-	}
-
-	private boolean isOnPickupCooldown() {
-		return this.getBrain().checkMemory(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS, MemoryStatus.VALUE_PRESENT);
-	}
-
-	@Override
-	public boolean canPickUpLoot() {
-		return !this.isOnPickupCooldown() && this.hasTorchInHand();
-	}
-
-	public boolean hasTorchInHand() {
-		return this.getItemInHand(InteractionHand.MAIN_HAND).is(ECItemTags.TORCHES);
-	}
-
-	@Override
-	public SimpleContainer getInventory() {
-		return this.inventory;
-	}
-
-	@Override
-	protected Vec3i getPickupReach() {
-		return ITEM_PICKUP_REACH;
-	}
-
-	@Override
-	public boolean wantsToPickUp(ItemStack itemStack) {
-		ItemStack handItemStack = this.getItemInHand(InteractionHand.MAIN_HAND);
-		return itemStack.is(ECItemTags.TORCHES) && ItemStack.isSameItem(handItemStack, itemStack) && this.inventory.canAddItem(itemStack) && ForgeEventFactory.getMobGriefingEvent(this.level(), this);
-	}
-
-	@Override
-	protected void pickUpItem(ItemEntity itemStack) {
-		InventoryCarrier.pickUpItem(this, this, itemStack);
-	}
-
-	@Override
-	public boolean isFlapping() {
-		return !this.onGround();
-	}
-
-	public boolean isDancing() {
-		return this.entityData.get(DATA_DANCING);
-	}
-
-	public boolean isPanicking() {
-		return this.brain.getMemory(MemoryModuleType.IS_PANICKING).isPresent();
-	}
-
-	public void setDancing(boolean dancing) {
-		if (!this.level().isClientSide && this.isEffectiveAi() && (!dancing || !this.isPanicking())) {
-			this.entityData.set(DATA_DANCING, dancing);
-		}
-	}
-
-	private boolean shouldDance() {
-		return this.level().isNight() && this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= Mth.floor(14.25F - 4.0F * this.level().getMoonBrightness());
-	}
-
-	public float getHoldingItemAnimationProgress(float progress) {
-		return Mth.lerp(progress, this.holdingItemAnimationTicks0, this.holdingItemAnimationTicks) / 5.0F;
-	}
-
-	public boolean isSpinning() {
-		float f = this.dancingAnimationTicks % 55.0F;
-		return f < 15.0F;
-	}
-
-	public float getSpinningProgress(float progress) {
-		return Mth.lerp(progress, this.spinningAnimationTicks0, this.spinningAnimationTicks) / 15.0F;
-	}
-
-	@Override
-	protected void dropEquipment() {
-		super.dropEquipment();
-		this.inventory.removeAllItems().forEach(this::spawnAtLocation);
-		ItemStack handItem = this.getItemBySlot(EquipmentSlot.MAINHAND);
-		if (!handItem.isEmpty() && !EnchantmentHelper.hasVanishingCurse(handItem)) {
-			this.spawnAtLocation(handItem);
-			this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-		}
-	}
-
-	@Override
-	public boolean removeWhenFarAway(double distance) {
-		return false;
-	}
-
-	@Override
-	public void addAdditionalSaveData(CompoundTag nbt) {
-		super.addAdditionalSaveData(nbt);
-		this.writeInventoryToTag(nbt);
-		nbt.putInt("DuplicationCooldown", this.duplicationCooldown);
-		nbt.putBoolean("CanDuplicate", this.canDuplicate());
-	}
-
-	@Override
-	public void readAdditionalSaveData(CompoundTag nbt) {
-		super.readAdditionalSaveData(nbt);
-		this.readInventoryFromTag(nbt);
-		this.duplicationCooldown = nbt.getInt("DuplicationCooldown");
-		this.entityData.set(DATA_CAN_DUPLICATE, nbt.getBoolean("CanDuplicate"));
-	}
-
-	@Override
-	protected boolean shouldStayCloseToLeashHolder() {
-		return false;
-	}
-
-	private void updateDuplicationCooldown() {
-		if (this.duplicationCooldown > 0L) {
-			--this.duplicationCooldown;
-		}
-
-		if (!this.level().isClientSide() && this.duplicationCooldown == 0L && !this.canDuplicate()) {
-			this.entityData.set(DATA_CAN_DUPLICATE, true);
-		}
-	}
-
-	private boolean isDuplicationItem(ItemStack itemStack) {
-		return DUPLICATION_ITEM.test(itemStack);
-	}
-
-	public int getDuplicationCooldown() {
-		return this.duplicationCooldown;
-	}
-
-	private void duplicateLumine() {
-		LumineEntity lumine = ECEntities.LUMINE.create(this.level());
-		if (lumine != null) {
-			lumine.moveTo(this.position());
-			lumine.setPersistenceRequired();
-			lumine.resetDuplicationCooldown();
-			this.resetDuplicationCooldown();
-			this.level().addFreshEntity(lumine);
-		}
-	}
-
-	private void resetDuplicationCooldown() {
-		this.duplicationCooldown = 6000;
-		this.entityData.set(DATA_CAN_DUPLICATE, false);
-	}
-
-	private boolean canDuplicate() {
-		return this.entityData.get(DATA_CAN_DUPLICATE);
-	}
-
-	private void removeInteractionItem(Player player, ItemStack itemStack) {
-		if (!player.getAbilities().instabuild) {
-			itemStack.shrink(1);
-		}
-	}
-
-	@Override
-	public Vec3 getLeashOffset() {
-		return new Vec3(0.0D, (double)this.getEyeHeight() * 0.6D, (double)this.getBbWidth() * 0.1D);
-	}
-
-	@Override
-	public double getMyRidingOffset() {
-		return 0.4D;
-	}
-
-	@Override
-	public void handleEntityEvent(byte event) {
-		if (event == EntityEvent.IN_LOVE_HEARTS) {
-			for(int i = 0; i < 3; ++i) {
-				this.spawnHeartParticle();
-			}
-		} else {
-			super.handleEntityEvent(event);
-		}
-	}
-
-	private void spawnHeartParticle() {
-		double d0 = this.random.nextGaussian() * 0.02D;
-		double d1 = this.random.nextGaussian() * 0.02D;
-		double d2 = this.random.nextGaussian() * 0.02D;
-		this.level().addParticle(ParticleTypes.HEART, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), d0, d1, d2);
-	}
+    private static final Vec3i ITEM_PICKUP_REACH = new Vec3i(1, 1, 1);
+    private static final Ingredient DUPLICATION_ITEM = Ingredient.of(Items.GLOWSTONE_DUST);
+    private final SimpleContainer inventory = new SimpleContainer(1);
+
+    private int duplicationCooldown;
+    private float holdingItemAnimationTicks;
+    private float holdingItemAnimationTicks0;
+    private float dancingAnimationTicks;
+    private float spinningAnimationTicks;
+    private float spinningAnimationTicks0;
+
+    private static final EntityDataAccessor<Boolean> DATA_DANCING = SynchedEntityData.defineId(LumineEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DATA_CAN_DUPLICATE = SynchedEntityData.defineId(LumineEntity.class, EntityDataSerializers.BOOLEAN);
+
+    protected static final ImmutableList<SensorType<? extends Sensor<? super LumineEntity>>> SENSOR_TYPES = ImmutableList.of(
+            SensorType.NEAREST_LIVING_ENTITIES,
+            SensorType.NEAREST_PLAYERS,
+            SensorType.HURT_BY,
+            SensorType.NEAREST_ITEMS
+    );
+    protected static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(
+            MemoryModuleType.PATH,
+            MemoryModuleType.LOOK_TARGET,
+            MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
+            MemoryModuleType.WALK_TARGET,
+            MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
+            MemoryModuleType.HURT_BY,
+            ECMemoryModuleTypes.NEAREST_DARK_LOCATION,
+            MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM,
+            MemoryModuleType.LIKED_PLAYER,
+            MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS,
+            ECMemoryModuleTypes.DARK_LOCATION_COOLDOWN_TICKS,
+            MemoryModuleType.IS_PANICKING
+    );
+
+    public LumineEntity(EntityType<? extends LumineEntity> type, Level level) {
+        super(type, level);
+        this.moveControl = new FlyingMoveControl(this, 20, true);
+    }
+
+    @Override
+    protected Brain.Provider<LumineEntity> brainProvider() {
+        return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
+    }
+
+    @Override
+    protected Brain<?> makeBrain(Dynamic<?> dynamic) {
+        return LumineAi.makeBrain(this.brainProvider().makeBrain(dynamic));
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Brain<LumineEntity> getBrain() {
+        return (Brain<LumineEntity>) super.getBrain();
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20.0D).add(Attributes.FLYING_SPEED, 0.1D).add(Attributes.MOVEMENT_SPEED, 0.1D).add(Attributes.ATTACK_DAMAGE, 0.5D).add(Attributes.FOLLOW_RANGE, 48.0D);
+    }
+
+    @Override
+    protected PathNavigation createNavigation(Level level) {
+        FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, level);
+        flyingpathnavigation.setCanOpenDoors(false);
+        flyingpathnavigation.setCanFloat(true);
+        flyingpathnavigation.setCanPassDoors(true);
+        return flyingpathnavigation;
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_DANCING, false);
+        this.entityData.define(DATA_CAN_DUPLICATE, true);
+    }
+
+    @Override
+    public void travel(Vec3 vec) {
+        if (this.isControlledByLocalInstance()) {
+            if (this.isInWater()) {
+                this.moveRelative(0.02F, vec);
+                this.move(MoverType.SELF, this.getDeltaMovement());
+                this.setDeltaMovement(this.getDeltaMovement().scale(0.8D));
+            } else if (this.isInLava()) {
+                this.moveRelative(0.02F, vec);
+                this.move(MoverType.SELF, this.getDeltaMovement());
+                this.setDeltaMovement(this.getDeltaMovement().scale(0.5D));
+            } else {
+                this.moveRelative(this.getSpeed(), vec);
+                this.move(MoverType.SELF, this.getDeltaMovement());
+                this.setDeltaMovement(this.getDeltaMovement().scale(0.91D));
+            }
+        }
+
+        this.calculateEntityAnimation(false);
+    }
+
+    @Override
+    protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
+        return dimensions.height * 0.6F;
+    }
+
+    @Override
+    public boolean causeFallDamage(float fallDistance, float modifier, DamageSource damageSource) {
+        return false;
+    }
+
+    @Override
+    public boolean hurt(DamageSource damageSource, float value) {
+        Entity entity = damageSource.getEntity();
+        if (entity instanceof Player player) {
+            Optional<UUID> optional = this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
+            if (optional.isPresent() && player.getUUID().equals(optional.get())) {
+                return false;
+            }
+        }
+
+        return super.hurt(damageSource, value);
+    }
+
+    @Override
+    protected void playStepSound(BlockPos blockPos, BlockState blockState) {
+    }
+
+    @Override
+    protected void checkFallDamage(double fallDistance, boolean onGround, BlockState blockState, BlockPos blockPos) {
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return this.hasItemInSlot(EquipmentSlot.MAINHAND) ? ECSounds.LUMINE_AMBIENT_WITH_ITEM : ECSounds.LUMINE_AMBIENT_WITHOUT_ITEM;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ECSounds.LUMINE_HURT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return ECSounds.LUMINE_DEATH;
+    }
+
+    @Override
+    protected float getSoundVolume() {
+        return 0.4F;
+    }
+
+    @Override
+    protected void customServerAiStep() {
+        this.level().getProfiler().push("lumineBrain");
+        this.getBrain().tick((ServerLevel) this.level(), this);
+        this.level().getProfiler().pop();
+        this.level().getProfiler().push("lumineActivityUpdate");
+        LumineAi.updateActivity(this);
+        this.level().getProfiler().pop();
+        super.customServerAiStep();
+    }
+
+    @Override
+    public void aiStep() {
+        super.aiStep();
+        if (!this.level().isClientSide && this.isAlive() && this.tickCount % 20 == 0) {
+            this.heal(1.0F);
+        }
+
+        if (this.isDancing()) {
+            if (this.tickCount % 100 == 0 && !this.shouldDance()) {
+                this.setDancing(false);
+            }
+        } else {
+            if (this.tickCount % 100 == 0 && this.shouldDance()) {
+                this.setDancing(true);
+            }
+        }
+
+        this.updateDuplicationCooldown();
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (this.level().isClientSide) {
+            this.holdingItemAnimationTicks0 = this.holdingItemAnimationTicks;
+            if (this.hasTorchInHand()) {
+                this.holdingItemAnimationTicks = Mth.clamp(this.holdingItemAnimationTicks + 1.0F, 0.0F, 5.0F);
+            } else {
+                this.holdingItemAnimationTicks = Mth.clamp(this.holdingItemAnimationTicks - 1.0F, 0.0F, 5.0F);
+            }
+
+            if (this.isDancing()) {
+                ++this.dancingAnimationTicks;
+                this.spinningAnimationTicks0 = this.spinningAnimationTicks;
+                if (this.isSpinning()) {
+                    ++this.spinningAnimationTicks;
+                } else {
+                    --this.spinningAnimationTicks;
+                }
+
+                this.spinningAnimationTicks = Mth.clamp(this.spinningAnimationTicks, 0.0F, 15.0F);
+            } else {
+                this.dancingAnimationTicks = 0.0F;
+                this.spinningAnimationTicks = 0.0F;
+                this.spinningAnimationTicks0 = 0.0F;
+            }
+        } else if (this.isPanicking()) {
+            this.setDancing(false);
+        }
+    }
+
+    @Override
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+        ItemStack playerItem = player.getItemInHand(hand);
+        ItemStack lumineItem = this.getItemInHand(InteractionHand.MAIN_HAND);
+        if (this.isDancing() && this.isDuplicationItem(playerItem) && this.canDuplicate()) {
+            this.duplicateLumine();
+            this.level().broadcastEntityEvent(this, EntityEvent.IN_LOVE_HEARTS);
+            this.level().playSound(player, this, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.NEUTRAL, 2.0F, 1.0F);
+            this.removeInteractionItem(player, playerItem);
+            return InteractionResult.SUCCESS;
+        }
+        if (lumineItem.isEmpty() && playerItem.is(ECItemTags.TORCHES)) {
+            ItemStack itemstack3 = playerItem.copy();
+            itemstack3.setCount(1);
+            this.setItemInHand(InteractionHand.MAIN_HAND, itemstack3);
+            this.removeInteractionItem(player, playerItem);
+            this.level().playSound(player, this, ECSounds.LUMINE_ITEM_GIVEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
+            this.getBrain().setMemory(MemoryModuleType.LIKED_PLAYER, player.getUUID());
+            return InteractionResult.SUCCESS;
+        }
+        if (!lumineItem.isEmpty() && hand == InteractionHand.MAIN_HAND && playerItem.isEmpty() &&
+                this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER).orElse(player.getUUID()).equals(player.getUUID())) {
+            this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+            this.level().playSound(player, this, ECSounds.LUMINE_ITEM_TAKEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
+            this.swing(InteractionHand.MAIN_HAND);
+
+            for (ItemStack itemstack2 : this.getInventory().removeAllItems()) {
+                BehaviorUtils.throwItem(this, itemstack2, player.position());
+            }
+
+            this.getBrain().eraseMemory(MemoryModuleType.LIKED_PLAYER);
+            player.addItem(lumineItem);
+            return InteractionResult.SUCCESS;
+        }
+        return super.mobInteract(player, hand);
+    }
+
+    @Override
+    public boolean canTakeItem(ItemStack itemStack) {
+        return false;
+    }
+
+    private boolean isOnPickupCooldown() {
+        return this.getBrain().checkMemory(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS, MemoryStatus.VALUE_PRESENT);
+    }
+
+    @Override
+    public boolean canPickUpLoot() {
+        return !this.isOnPickupCooldown() && this.hasTorchInHand();
+    }
+
+    public boolean hasTorchInHand() {
+        return this.getItemInHand(InteractionHand.MAIN_HAND).is(ECItemTags.TORCHES);
+    }
+
+    @Override
+    public SimpleContainer getInventory() {
+        return this.inventory;
+    }
+
+    @Override
+    protected Vec3i getPickupReach() {
+        return ITEM_PICKUP_REACH;
+    }
+
+    @Override
+    public boolean wantsToPickUp(ItemStack itemStack) {
+        ItemStack handItemStack = this.getItemInHand(InteractionHand.MAIN_HAND);
+        return itemStack.is(ECItemTags.TORCHES) && ItemStack.isSameItem(handItemStack, itemStack) && this.inventory.canAddItem(itemStack) && this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) /*ForgeEventFactory.getMobGriefingEvent(this.level(), this)*/;
+    }
+
+    @Override
+    protected void pickUpItem(ItemEntity itemStack) {
+        InventoryCarrier.pickUpItem(this, this, itemStack);
+    }
+
+    @Override
+    public boolean isFlapping() {
+        return !this.onGround();
+    }
+
+    public boolean isDancing() {
+        return this.entityData.get(DATA_DANCING);
+    }
+
+    public boolean isPanicking() {
+        return this.brain.getMemory(MemoryModuleType.IS_PANICKING).isPresent();
+    }
+
+    public void setDancing(boolean dancing) {
+        if (!this.level().isClientSide && this.isEffectiveAi() && (!dancing || !this.isPanicking())) {
+            this.entityData.set(DATA_DANCING, dancing);
+        }
+    }
+
+    private boolean shouldDance() {
+        return this.level().isNight() && this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= Mth.floor(14.25F - 4.0F * this.level().getMoonBrightness());
+    }
+
+    public float getHoldingItemAnimationProgress(float progress) {
+        return Mth.lerp(progress, this.holdingItemAnimationTicks0, this.holdingItemAnimationTicks) / 5.0F;
+    }
+
+    public boolean isSpinning() {
+        float f = this.dancingAnimationTicks % 55.0F;
+        return f < 15.0F;
+    }
+
+    public float getSpinningProgress(float progress) {
+        return Mth.lerp(progress, this.spinningAnimationTicks0, this.spinningAnimationTicks) / 15.0F;
+    }
+
+    @Override
+    protected void dropEquipment() {
+        super.dropEquipment();
+        this.inventory.removeAllItems().forEach(this::spawnAtLocation);
+        ItemStack handItem = this.getItemBySlot(EquipmentSlot.MAINHAND);
+        if (!handItem.isEmpty() && !EnchantmentHelper.hasVanishingCurse(handItem)) {
+            this.spawnAtLocation(handItem);
+            this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+        }
+    }
+
+    @Override
+    public boolean removeWhenFarAway(double distance) {
+        return false;
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag nbt) {
+        super.addAdditionalSaveData(nbt);
+        this.writeInventoryToTag(nbt);
+        nbt.putInt("DuplicationCooldown", this.duplicationCooldown);
+        nbt.putBoolean("CanDuplicate", this.canDuplicate());
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag nbt) {
+        super.readAdditionalSaveData(nbt);
+        this.readInventoryFromTag(nbt);
+        this.duplicationCooldown = nbt.getInt("DuplicationCooldown");
+        this.entityData.set(DATA_CAN_DUPLICATE, nbt.getBoolean("CanDuplicate"));
+    }
+
+    @Override
+    protected boolean shouldStayCloseToLeashHolder() {
+        return false;
+    }
+
+    private void updateDuplicationCooldown() {
+        if (this.duplicationCooldown > 0L) {
+            --this.duplicationCooldown;
+        }
+
+        if (!this.level().isClientSide() && this.duplicationCooldown == 0L && !this.canDuplicate()) {
+            this.entityData.set(DATA_CAN_DUPLICATE, true);
+        }
+    }
+
+    private boolean isDuplicationItem(ItemStack itemStack) {
+        return DUPLICATION_ITEM.test(itemStack);
+    }
+
+    public int getDuplicationCooldown() {
+        return this.duplicationCooldown;
+    }
+
+    private void duplicateLumine() {
+        LumineEntity lumine = ECEntities.LUMINE.create(this.level());
+        if (lumine != null) {
+            lumine.moveTo(this.position());
+            lumine.setPersistenceRequired();
+            lumine.resetDuplicationCooldown();
+            this.resetDuplicationCooldown();
+            this.level().addFreshEntity(lumine);
+        }
+    }
+
+    private void resetDuplicationCooldown() {
+        this.duplicationCooldown = 6000;
+        this.entityData.set(DATA_CAN_DUPLICATE, false);
+    }
+
+    private boolean canDuplicate() {
+        return this.entityData.get(DATA_CAN_DUPLICATE);
+    }
+
+    private void removeInteractionItem(Player player, ItemStack itemStack) {
+        if (!player.getAbilities().instabuild) {
+            itemStack.shrink(1);
+        }
+    }
+
+    @Override
+    public Vec3 getLeashOffset() {
+        return new Vec3(0.0D, (double) this.getEyeHeight() * 0.6D, (double) this.getBbWidth() * 0.1D);
+    }
+
+    @Override
+    public double getMyRidingOffset() {
+        return 0.4D;
+    }
+
+    @Override
+    public void handleEntityEvent(byte event) {
+        if (event == EntityEvent.IN_LOVE_HEARTS) {
+            for (int i = 0; i < 3; ++i) {
+                this.spawnHeartParticle();
+            }
+        } else {
+            super.handleEntityEvent(event);
+        }
+    }
+
+    private void spawnHeartParticle() {
+        double d0 = this.random.nextGaussian() * 0.02D;
+        double d1 = this.random.nextGaussian() * 0.02D;
+        double d2 = this.random.nextGaussian() * 0.02D;
+        this.level().addParticle(ParticleTypes.HEART, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), d0, d1, d2);
+    }
 }

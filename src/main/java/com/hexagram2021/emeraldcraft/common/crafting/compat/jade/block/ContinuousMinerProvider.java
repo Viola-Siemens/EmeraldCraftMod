@@ -15,34 +15,34 @@ import snownee.jade.api.theme.IThemeHelper;
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public enum ContinuousMinerProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
-	INSTANCE;
-	public static final ResourceLocation UID = new ResourceLocation(MODID, "jade/continuous_miner");
+    INSTANCE;
+    public static final ResourceLocation UID = new ResourceLocation(MODID, "jade/continuous_miner");
 
-	ContinuousMinerProvider() {
-	}
+    ContinuousMinerProvider() {
+    }
 
-	@Override
-	public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
-		if (blockAccessor.getServerData().contains("NextResultTime", Tag.TAG_INT)) {
-			int time = blockAccessor.getServerData().getInt("NextResultTime");
-			if (time > 0) {
-				iTooltip.add(Component.translatable("jade.emeraldcraft.continuous_miner.time", IThemeHelper.get().seconds(time)));
-			}
-		}
-	}
+    @Override
+    public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
+        if (blockAccessor.getServerData().contains("NextResultTime", Tag.TAG_INT)) {
+            int time = blockAccessor.getServerData().getInt("NextResultTime");
+            if (time > 0) {
+                iTooltip.add(Component.translatable("jade.emeraldcraft.continuous_miner.time", IThemeHelper.get().seconds(time)));
+            }
+        }
+    }
 
-	@Override
-	public void appendServerData(CompoundTag compoundTag, BlockAccessor blockAccessor) {
-		if(blockAccessor.getBlockEntity() instanceof ContinuousMinerBlockEntity continuousMinerBlockEntity) {
-			int time = continuousMinerBlockEntity.getMineTime();
-			if(time > 0) {
-				compoundTag.putInt("NextResultTime", time);
-			}
-		}
-	}
+    @Override
+    public void appendServerData(CompoundTag compoundTag, BlockAccessor blockAccessor) {
+        if (blockAccessor.getBlockEntity() instanceof ContinuousMinerBlockEntity continuousMinerBlockEntity) {
+            int time = continuousMinerBlockEntity.getMineTime();
+            if (time > 0) {
+                compoundTag.putInt("NextResultTime", time);
+            }
+        }
+    }
 
-	@Override
-	public ResourceLocation getUid() {
-		return UID;
-	}
+    @Override
+    public ResourceLocation getUid() {
+        return UID;
+    }
 }

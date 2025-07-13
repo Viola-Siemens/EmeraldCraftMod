@@ -1,8 +1,10 @@
 {
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "type": "forge:mod_loaded",
-      "modid": "create"
+      "condition": "fabric:any_mod_loaded",
+      "values": [
+        "create"
+      ]
     }
   ],
   "type": "minecraft:crafting_shaped",

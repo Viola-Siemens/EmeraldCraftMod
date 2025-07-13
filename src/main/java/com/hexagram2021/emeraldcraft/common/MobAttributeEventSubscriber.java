@@ -2,26 +2,20 @@ package com.hexagram2021.emeraldcraft.common;
 
 import com.hexagram2021.emeraldcraft.common.entities.mobs.*;
 import com.hexagram2021.emeraldcraft.common.register.ECEntities;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.world.entity.animal.AbstractFish;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
-import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
-
-@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class MobAttributeEventSubscriber {
-	@SubscribeEvent
-	public static void onAttributeCreate(EntityAttributeCreationEvent event) {
-		event.put(ECEntities.PIGLIN_CUTEY, PiglinCuteyEntity.createAttributes().build());
-		event.put(ECEntities.NETHER_PIGMAN, NetherPigmanEntity.createAttributes().build());
-		event.put(ECEntities.NETHER_LAMBMAN, NetherLambmanEntity.createAttributes().build());
-		event.put(ECEntities.HERRING, AbstractFish.createAttributes().build());
-		event.put(ECEntities.PURPLE_SPOTTED_BIGEYE, AbstractFish.createAttributes().build());
-		event.put(ECEntities.SNAKEHEAD, AbstractFish.createAttributes().build());
-		event.put(ECEntities.WRAITH, WraithEntity.createAttributes().build());
-		event.put(ECEntities.MANTA, MantaEntity.createAttributes().build());
-		event.put(ECEntities.LUMINE, LumineEntity.createAttributes().build());
-		event.put(ECEntities.WOMBAT, WombatEntity.createAttributes().build());
-	}
+    public static void onAttributeCreate() {
+        FabricDefaultAttributeRegistry.register(ECEntities.PIGLIN_CUTEY, PiglinCuteyEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(ECEntities.NETHER_PIGMAN, NetherPigmanEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(ECEntities.NETHER_LAMBMAN, NetherLambmanEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(ECEntities.HERRING, AbstractFish.createAttributes());
+        FabricDefaultAttributeRegistry.register(ECEntities.PURPLE_SPOTTED_BIGEYE, AbstractFish.createAttributes());
+        FabricDefaultAttributeRegistry.register(ECEntities.SNAKEHEAD, AbstractFish.createAttributes());
+        FabricDefaultAttributeRegistry.register(ECEntities.WRAITH, WraithEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(ECEntities.MANTA, MantaEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(ECEntities.LUMINE, LumineEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(ECEntities.WOMBAT, WombatEntity.createAttributes());
+    }
 }

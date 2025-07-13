@@ -1,8 +1,10 @@
 {
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "type": "forge:mod_loaded",
-      "modid": "immersiveengineering"
+      "condition": "fabric:any_mod_loaded",
+      "values": [
+        "immersiveengineering"
+      ]
     }
   ],
   "type": "immersiveengineering:cloche",
@@ -22,5 +24,5 @@
   "soil": {
     "item": "minecraft:soul_sand"
   },
-  "time":800
+  "time": 800
 }

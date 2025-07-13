@@ -2,10 +2,10 @@
   "type": "emeraldcraft:cookstove",
   "ingredients": [
     {
-      "tag": "forge:flour/wheat"
+      "tag": "c:flour/wheat"
     },
     {
-      "tag": "forge:flour/wheat"
+      "tag": "c:flour/wheat"
     },
     {
       "item": "minecraft:cocoa_beans"

@@ -19,37 +19,38 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public class HollowTreePieces {
-	private static final ResourceLocation HOLLOW_TREE = new ResourceLocation(MODID, "hollow_tree/hollow_tree");
+    private static final ResourceLocation HOLLOW_TREE = new ResourceLocation(MODID, "hollow_tree/hollow_tree");
 
-	public static void addPieces(StructureTemplateManager structureManager, BlockPos pos, Rotation rotation, StructurePieceAccessor pieces) {
-		pieces.addPiece(new HollowTreePieces.HollowTreePiece(structureManager, HOLLOW_TREE, pos, rotation));
-	}
+    public static void addPieces(StructureTemplateManager structureManager, BlockPos pos, Rotation rotation, StructurePieceAccessor pieces) {
+        pieces.addPiece(new HollowTreePieces.HollowTreePiece(structureManager, HOLLOW_TREE, pos, rotation));
+    }
 
-	public static class HollowTreePiece extends TemplateStructurePiece {
-		public HollowTreePiece(StructureTemplateManager structureManager, ResourceLocation location, BlockPos pos, Rotation rotation) {
-			super(ECStructurePieceTypes.HOLLOW_TREE_TYPE, 0, structureManager, location, location.toString(), makeSettings(rotation), pos.offset(-6, 0, -7));
-		}
+    public static class HollowTreePiece extends TemplateStructurePiece {
+        public HollowTreePiece(StructureTemplateManager structureManager, ResourceLocation location, BlockPos pos, Rotation rotation) {
+            super(ECStructurePieceTypes.HOLLOW_TREE_TYPE, 0, structureManager, location, location.toString(), makeSettings(rotation), pos.offset(-6, 0, -7));
+        }
 
-		public HollowTreePiece(StructurePieceSerializationContext context, CompoundTag tag) {
-			super(ECStructurePieceTypes.HOLLOW_TREE_TYPE, tag, context.structureTemplateManager(), (location) -> makeSettings(Rotation.valueOf(tag.getString("Rot"))));
-		}
+        public HollowTreePiece(StructurePieceSerializationContext context, CompoundTag tag) {
+            super(ECStructurePieceTypes.HOLLOW_TREE_TYPE, tag, context.structureTemplateManager(), (location) -> makeSettings(Rotation.valueOf(tag.getString("Rot"))));
+        }
 
-		private static StructurePlaceSettings makeSettings(Rotation rotation) {
-			return (new StructurePlaceSettings())
-					.setRotation(rotation)
-					.setMirror(Mirror.LEFT_RIGHT)
-					.setRotationPivot(new BlockPos(6, 1, 7))
-					.addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
-		}
+        private static StructurePlaceSettings makeSettings(Rotation rotation) {
+            return (new StructurePlaceSettings())
+                    .setRotation(rotation)
+                    .setMirror(Mirror.LEFT_RIGHT)
+                    .setRotationPivot(new BlockPos(6, 1, 7))
+                    .addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
+        }
 
 
-		@Override
-		protected void addAdditionalSaveData(StructurePieceSerializationContext context, CompoundTag tag) {
-			super.addAdditionalSaveData(context, tag);
-			tag.putString("Rot", this.placeSettings.getRotation().name());
-		}
+        @Override
+        protected void addAdditionalSaveData(StructurePieceSerializationContext context, CompoundTag tag) {
+            super.addAdditionalSaveData(context, tag);
+            tag.putString("Rot", this.placeSettings.getRotation().name());
+        }
 
-		@Override
-		protected void handleDataMarker(String function, BlockPos pos, ServerLevelAccessor level, RandomSource random, BoundingBox sbb) { }
-	}
+        @Override
+        protected void handleDataMarker(String function, BlockPos pos, ServerLevelAccessor level, RandomSource random, BoundingBox sbb) {
+        }
+    }
 }

@@ -12,11 +12,11 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(Player.class)
 public class PlayerEntityMixin {
-	@WrapOperation(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getMobType()Lnet/minecraft/world/entity/MobType;"))
-	private MobType emeraldcraft$checkIfMammals(LivingEntity instance, Operation<MobType> original) {
-		if(instance.getType().is(ECEntityTypeTags.MAMMALS)) {
-			return ECMobTypes.MAMMAL;
-		}
-		return original.call(instance);
-	}
+    @WrapOperation(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getMobType()Lnet/minecraft/world/entity/MobType;"))
+    private MobType emeraldcraft$checkIfMammals(LivingEntity instance, Operation<MobType> original) {
+        if (instance.getType().is(ECEntityTypeTags.MAMMALS)) {
+            return ECMobTypes.MAMMAL;
+        }
+        return original.call(instance);
+    }
 }

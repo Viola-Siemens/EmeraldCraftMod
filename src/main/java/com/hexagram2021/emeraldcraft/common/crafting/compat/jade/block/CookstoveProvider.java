@@ -13,26 +13,26 @@ import snownee.jade.api.ui.IElementHelper;
 import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
 
 public enum CookstoveProvider implements IBlockComponentProvider {
-	INSTANCE;
-	public static final ResourceLocation UID = new ResourceLocation(MODID, "jade/cookstove");
+    INSTANCE;
+    public static final ResourceLocation UID = new ResourceLocation(MODID, "jade/cookstove");
 
-	CookstoveProvider() {
-	}
+    CookstoveProvider() {
+    }
 
-	@Override
-	public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
-		IElementHelper helper = IElementHelper.get();
-		if(blockAccessor.getBlockEntity() instanceof CookstoveBlockEntity cookstoveBlockEntity) {
-			ItemStack result = cookstoveBlockEntity.getResult();
-			if(!result.isEmpty()) {
-				iTooltip.add(helper.text(Component.translatable("jade.emeraldcraft.cookstove.result")));
-				iTooltip.add(helper.item(result));
-			}
-		}
-	}
+    @Override
+    public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
+        IElementHelper helper = IElementHelper.get();
+        if (blockAccessor.getBlockEntity() instanceof CookstoveBlockEntity cookstoveBlockEntity) {
+            ItemStack result = cookstoveBlockEntity.getResult();
+            if (!result.isEmpty()) {
+                iTooltip.add(helper.text(Component.translatable("jade.emeraldcraft.cookstove.result")));
+                iTooltip.add(helper.item(result));
+            }
+        }
+    }
 
-	@Override
-	public ResourceLocation getUid() {
-		return UID;
-	}
+    @Override
+    public ResourceLocation getUid() {
+        return UID;
+    }
 }

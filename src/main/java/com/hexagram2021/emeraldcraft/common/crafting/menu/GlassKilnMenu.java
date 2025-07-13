@@ -9,11 +9,11 @@ import net.minecraft.world.inventory.ContainerData;
 
 public class GlassKilnMenu extends AbstractFurnaceMenu {
 
-	public GlassKilnMenu(int id, Inventory inventory) {
-		super(ECContainerTypes.GLASS_KILN_MENU.get(), ECRecipes.GLASS_KILN_TYPE.get(), ECRecipes.GLASS_KILN, id, inventory);
-	}
+    public GlassKilnMenu(int id, Inventory inventory) {
+        super(ECContainerTypes.GLASS_KILN_MENU, ECRecipes.GLASS_KILN_TYPE, ECRecipes.GLASS_KILN, id, inventory);
+    }
 
-	public GlassKilnMenu(int id, Inventory inventory, Container container, ContainerData data) {
-		super(ECContainerTypes.GLASS_KILN_MENU.get(), ECRecipes.GLASS_KILN_TYPE.get(), ECRecipes.GLASS_KILN, id, inventory, container, data);
-	}
+    public GlassKilnMenu(int id, Inventory inventory, Container container, ContainerData data) {
+        super(ECContainerTypes.GLASS_KILN_MENU, ECRecipes.GLASS_KILN_TYPE, ECRecipes.GLASS_KILN, id, inventory, container, data);
+    }
 }

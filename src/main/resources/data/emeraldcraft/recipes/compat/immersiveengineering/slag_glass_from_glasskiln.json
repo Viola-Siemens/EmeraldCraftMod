@@ -1,13 +1,15 @@
 {
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "type": "forge:mod_loaded",
-      "modid": "immersiveengineering"
+      "condition": "fabric:any_mod_loaded",
+      "values": [
+        "immersiveengineering"
+      ]
     }
   ],
   "type": "emeraldcraft:glass_kiln",
   "ingredient": {
-    "item":"immersiveengineering:slag"
+    "item": "immersiveengineering:slag"
   },
   "result": "immersiveengineering:slag_glass",
   "experience": 0.1,

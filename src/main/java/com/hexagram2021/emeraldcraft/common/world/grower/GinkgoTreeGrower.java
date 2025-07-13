@@ -7,12 +7,12 @@ import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
 public class GinkgoTreeGrower extends AbstractTreeGrower {
-	@Override
-	protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource random, boolean bee) {
-		return switch (random.nextInt(3)) {
-			case 0, 2 -> ECConfiguredFeatureKeys.TreeConfiguredFeatures.GINKGO;
-			case 1 -> ECConfiguredFeatureKeys.TreeConfiguredFeatures.GINKGO_TALL;
-			default -> throw new AssertionError();
-		};
-	}
+    @Override
+    protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource random, boolean bee) {
+        return switch (random.nextInt(3)) {
+            case 0, 2 -> ECConfiguredFeatureKeys.TreeConfiguredFeatures.GINKGO;
+            case 1 -> ECConfiguredFeatureKeys.TreeConfiguredFeatures.GINKGO_TALL;
+            default -> throw new AssertionError();
+        };
+    }
 }

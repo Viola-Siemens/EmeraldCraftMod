@@ -1,27 +1,27 @@
 package com.hexagram2021.emeraldcraft.common.register;
 
-import com.hexagram2021.emeraldcraft.common.ECContent;
+import com.hexagram2021.emeraldcraft.EmeraldCraft;
 import com.hexagram2021.emeraldcraft.common.world.features.RawBerylFeature;
 import com.hexagram2021.emeraldcraft.common.world.features.VineGrowthFeature;
 import com.hexagram2021.emeraldcraft.common.world.features.VolcanicCavesLavaPoolFeature;
 import com.hexagram2021.emeraldcraft.common.world.features.ZombieVillagerRoomFeature;
 import com.hexagram2021.emeraldcraft.common.world.features.configuration.VineGrowthConfiguration;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-import static com.hexagram2021.emeraldcraft.EmeraldCraft.MODID;
-
 public class ECFeatures {
-	public static final Feature<NoneFeatureConfiguration> ZOMBIE_VILLAGER_ROOM = new ZombieVillagerRoomFeature(NoneFeatureConfiguration.CODEC);
-	public static final Feature<NoneFeatureConfiguration> VOLCANIC_CAVES_LAVA_POOL = new VolcanicCavesLavaPoolFeature(NoneFeatureConfiguration.CODEC);
-	public static final Feature<VineGrowthConfiguration> VINE_GROWTH = new VineGrowthFeature(VineGrowthConfiguration.CODEC);
-	public static final Feature<NoneFeatureConfiguration> RAW_BERYL = new RawBerylFeature(NoneFeatureConfiguration.CODEC);
+    public static final Feature<NoneFeatureConfiguration> ZOMBIE_VILLAGER_ROOM = register("zombie_villager_room", new ZombieVillagerRoomFeature(NoneFeatureConfiguration.CODEC));
+    public static final Feature<NoneFeatureConfiguration> VOLCANIC_CAVES_LAVA_POOL = register("volcanic_caves_lava_pool", new VolcanicCavesLavaPoolFeature(NoneFeatureConfiguration.CODEC));
+    public static final Feature<VineGrowthConfiguration> VINE_GROWTH = register("vine_growth", new VineGrowthFeature(VineGrowthConfiguration.CODEC));
+    public static final Feature<NoneFeatureConfiguration> RAW_BERYL = register("raw_beryl", new RawBerylFeature(NoneFeatureConfiguration.CODEC));
 
-	public static void init(ECContent.RegisterConsumer<Feature<?>> register) {
-		register.accept(new ResourceLocation(MODID, "zombie_villager_room"), ZOMBIE_VILLAGER_ROOM);
-		register.accept(new ResourceLocation(MODID, "volcanic_caves_lava_pool"), VOLCANIC_CAVES_LAVA_POOL);
-		register.accept(new ResourceLocation(MODID, "vine_growth"), VINE_GROWTH);
-		register.accept(new ResourceLocation(MODID, "raw_beryl"), RAW_BERYL);
-	}
+    private static <T extends FeatureConfiguration> Feature<T> register(String name, Feature<T> feature) {
+        return Registry.register(BuiltInRegistries.FEATURE, EmeraldCraft.id(name), feature);
+    }
+
+    public static void init() {
+    }
 }

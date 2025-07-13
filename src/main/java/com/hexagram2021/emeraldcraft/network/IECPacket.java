@@ -1,8 +1,7 @@
 package com.hexagram2021.emeraldcraft.network;
 
-import net.minecraft.network.FriendlyByteBuf;
+import net.fabricmc.fabric.api.networking.v1.FabricPacket;
 
-public interface IECPacket {
-	void write(FriendlyByteBuf buf);
-	void handle();
+public interface IECPacket extends FabricPacket {
+    void handle();
 }

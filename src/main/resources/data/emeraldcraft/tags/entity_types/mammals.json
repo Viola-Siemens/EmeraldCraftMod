@@ -25,7 +25,6 @@
     "minecraft:sheep",
     "minecraft:wolf",
     "minecraft:player",
-
     {
       "id": "quark:foxhound",
       "required": false
@@ -34,7 +33,6 @@
       "id": "quark:shiba",
       "required": false
     },
-
     {
       "id": "twilightforest:armored_giant",
       "required": false
@@ -99,7 +97,6 @@
       "id": "twilightforest:winter_wolf",
       "required": false
     },
-
     {
       "id": "alexsmobs:anteater",
       "required": false
@@ -208,7 +205,6 @@
       "id": "alexsmobs:tusklin",
       "required": false
     },
-
     {
       "id": "ecologics:camel",
       "required": false
@@ -221,7 +217,6 @@
       "id": "ecologics:squirrel",
       "required": false
     },
-
     {
       "id": "naturalist:bear",
       "required": false

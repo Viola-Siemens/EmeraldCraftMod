@@ -17,20 +17,20 @@ import java.util.List;
 
 @Mixin(ServerPlayer.class)
 public class ServerPlayerMixin {
-	@Inject(method = "hurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z", shift = At.Shift.BEFORE))
-	public void emeraldcraft$makeHealedPiglinAngryAt(DamageSource damageSource, float value, CallbackInfoReturnable<Boolean> cir) {
-		Entity entity = damageSource.getEntity();
-		if(entity instanceof LivingEntity livingEntity && !(entity instanceof AbstractPiglin)) {
-			ServerPlayer current = (ServerPlayer)(Object)this;
-			List<AbstractPiglin> piglins = current.level().getNearbyEntities(
-					AbstractPiglin.class, TargetingConditions.forNonCombat().range(64.0D), current, current.getBoundingBox().inflate(64.0D, 16.0D, 64.0D)
-			);
-			for(AbstractPiglin piglin: piglins) {
-				PlayerHealable playerHealable = (PlayerHealable)piglin;
-				if(playerHealable.emeraldcraft$isPlayerHealed() && current.getUUID().equals(playerHealable.emeraldcraft$getHealedPlayer()) && !livingEntity.getUUID().equals(playerHealable.emeraldcraft$getHealedPlayer())) {
-					PiglinAi.maybeRetaliate(piglin, livingEntity);
-				}
-			}
-		}
-	}
+    @Inject(method = "hurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z", shift = At.Shift.BEFORE))
+    public void emeraldcraft$makeHealedPiglinAngryAt(DamageSource damageSource, float value, CallbackInfoReturnable<Boolean> cir) {
+        Entity entity = damageSource.getEntity();
+        if (entity instanceof LivingEntity livingEntity && !(entity instanceof AbstractPiglin)) {
+            ServerPlayer current = (ServerPlayer) (Object) this;
+            List<AbstractPiglin> piglins = current.level().getNearbyEntities(
+                    AbstractPiglin.class, TargetingConditions.forNonCombat().range(64.0D), current, current.getBoundingBox().inflate(64.0D, 16.0D, 64.0D)
+            );
+            for (AbstractPiglin piglin : piglins) {
+                PlayerHealable playerHealable = (PlayerHealable) piglin;
+                if (playerHealable.emeraldcraft$isPlayerHealed() && current.getUUID().equals(playerHealable.emeraldcraft$getHealedPlayer()) && !livingEntity.getUUID().equals(playerHealable.emeraldcraft$getHealedPlayer())) {
+                    PiglinAi.maybeRetaliate(piglin, livingEntity);
+                }
+            }
+        }
+    }
 }

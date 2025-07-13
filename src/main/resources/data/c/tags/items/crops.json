@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#c:crops/cabbage",
+    "#c:crops/chili",
+    "#c:crops/warped_wart"
+  ]
+}

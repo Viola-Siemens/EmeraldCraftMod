@@ -10,7 +10,7 @@
     },
     {
       "type": "emeraldcraft:above_heightmap_filter",
-	  "above_type": "OCEAN_FLOOR"
+      "above_type": "OCEAN_FLOOR"
     }
   ]
 }

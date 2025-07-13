@@ -1,6 +1,6 @@
 {
   "type": "forge:add_features",
-  "biomes": "#forge:is_plains",
+  "biomes": "#c:plains",
   "features": [
     "emeraldcraft:wild_cabbage",
     "emeraldcraft:wild_chili"

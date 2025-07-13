@@ -2,7 +2,7 @@
   "type": "emeraldcraft:cookstove",
   "ingredients": [
     {
-      "tag": "forge:crops/chili"
+      "tag": "c:crops/chili"
     },
     {
       "item": "minecraft:bread"

@@ -19,61 +19,61 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class MantaAi {
-	public static Brain<?> makeBrain(Brain<MantaEntity> brain) {
-		initCoreActivity(brain);
-		initIdleActivity(brain);
-		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
-		brain.setDefaultActivity(Activity.IDLE);
-		brain.useDefaultActivity();
-		return brain;
-	}
+    public static Brain<?> makeBrain(Brain<MantaEntity> brain) {
+        initCoreActivity(brain);
+        initIdleActivity(brain);
+        brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
+        brain.setDefaultActivity(Activity.IDLE);
+        brain.useDefaultActivity();
+        return brain;
+    }
 
-	private static void initCoreActivity(Brain<MantaEntity> brain) {
-		brain.addActivity(Activity.CORE, 0, ImmutableList.of(
-				new Swim(0.8F),
-				new AnimalPanic(2.5F),
-				new LookAtTargetSink(45, 90),
-				new MoveToTargetSink()
-		));
-	}
+    private static void initCoreActivity(Brain<MantaEntity> brain) {
+        brain.addActivity(Activity.CORE, 0, ImmutableList.of(
+                new Swim(0.8F),
+                new AnimalPanic(2.5F),
+                new LookAtTargetSink(45, 90),
+                new MoveToTargetSink()
+        ));
+    }
 
-	@SuppressWarnings("deprecation")
-	private static void initIdleActivity(Brain<MantaEntity> brain) {
-		brain.addActivityWithConditions(Activity.IDLE, ImmutableList.of(
-				Pair.of(0, SetEntityLookTargetSometimes.create(6.0F, UniformInt.of(30, 60))),
-				Pair.of(1, StayCloseToTarget.create(MantaAi::getLikedPlayerPositionTracker, entity -> true, 7, 32, 1.0F)),
-				Pair.of(2, new RunOne<>(ImmutableList.of(
-						Pair.of(RandomStroll.fly(1.0F), 2),
-						Pair.of(SetWalkTargetFromLookTarget.create(1.0F, 3), 2),
-						Pair.of(new DoNothing(30, 60), 1)
-				)))
-		), ImmutableSet.of());
-	}
+    @SuppressWarnings("deprecation")
+    private static void initIdleActivity(Brain<MantaEntity> brain) {
+        brain.addActivityWithConditions(Activity.IDLE, ImmutableList.of(
+                Pair.of(0, SetEntityLookTargetSometimes.create(6.0F, UniformInt.of(30, 60))),
+                Pair.of(1, StayCloseToTarget.create(MantaAi::getLikedPlayerPositionTracker, entity -> true, 7, 32, 1.0F)),
+                Pair.of(2, new RunOne<>(ImmutableList.of(
+                        Pair.of(RandomStroll.fly(1.0F), 2),
+                        Pair.of(SetWalkTargetFromLookTarget.create(1.0F, 3), 2),
+                        Pair.of(new DoNothing(30, 60), 1)
+                )))
+        ), ImmutableSet.of());
+    }
 
-	public static void updateActivity(MantaEntity manta) {
-		manta.getBrain().setActiveActivityToFirstValid(ImmutableList.of(Activity.IDLE));
-	}
+    public static void updateActivity(MantaEntity manta) {
+        manta.getBrain().setActiveActivityToFirstValid(ImmutableList.of(Activity.IDLE));
+    }
 
-	private static Optional<PositionTracker> getLikedPlayerPositionTracker(LivingEntity manta) {
-		return getLikedPlayer(manta).map(entity -> new EntityTracker(entity, true));
-	}
+    private static Optional<PositionTracker> getLikedPlayerPositionTracker(LivingEntity manta) {
+        return getLikedPlayer(manta).map(entity -> new EntityTracker(entity, true));
+    }
 
-	private static Optional<ServerPlayer> getLikedPlayer(LivingEntity manta) {
-		Level level = manta.level();
-		if (!level.isClientSide() && level instanceof ServerLevel serverlevel) {
-			Optional<UUID> optional = manta.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
-			if (optional.isPresent()) {
-				Entity entity = serverlevel.getEntity(optional.get());
-				if (entity instanceof ServerPlayer serverplayer) {
-					if ((serverplayer.gameMode.isSurvival() || serverplayer.gameMode.isCreative()) && serverplayer.closerThan(manta, 64.0D)) {
-						return Optional.of(serverplayer);
-					}
-				}
+    private static Optional<ServerPlayer> getLikedPlayer(LivingEntity manta) {
+        Level level = manta.level();
+        if (!level.isClientSide() && level instanceof ServerLevel serverlevel) {
+            Optional<UUID> optional = manta.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
+            if (optional.isPresent()) {
+                Entity entity = serverlevel.getEntity(optional.get());
+                if (entity instanceof ServerPlayer serverplayer) {
+                    if ((serverplayer.gameMode.isSurvival() || serverplayer.gameMode.isCreative()) && serverplayer.closerThan(manta, 64.0D)) {
+                        return Optional.of(serverplayer);
+                    }
+                }
 
-				return Optional.empty();
-			}
-		}
+                return Optional.empty();
+            }
+        }
 
-		return Optional.empty();
-	}
+        return Optional.empty();
+    }
 }

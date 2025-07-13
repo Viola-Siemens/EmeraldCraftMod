@@ -13,21 +13,23 @@ import java.util.List;
 
 @Mixin(StructureSet.class)
 public class StructureSetMixin implements ListAppendable<StructureSet.StructureSelectionEntry> {
-	@Shadow @Final @Mutable
-	private List<StructureSet.StructureSelectionEntry> structures;
+    @Shadow
+    @Final
+    @Mutable
+    private List<StructureSet.StructureSelectionEntry> structures;
 
-	@Override
-	public List<StructureSet.StructureSelectionEntry> emeraldcraft$append(StructureSet.StructureSelectionEntry entry) {
-		return this.structures = ImmutableList.<StructureSet.StructureSelectionEntry>builder().addAll(this.structures).add(entry).build();
-	}
+    @Override
+    public List<StructureSet.StructureSelectionEntry> emeraldcraft$append(StructureSet.StructureSelectionEntry entry) {
+        return this.structures = ImmutableList.<StructureSet.StructureSelectionEntry>builder().addAll(this.structures).add(entry).build();
+    }
 
-	@Override
-	public List<StructureSet.StructureSelectionEntry> emeraldcraft$appendAll(Iterator<StructureSet.StructureSelectionEntry> entries) {
-		return this.structures = ImmutableList.<StructureSet.StructureSelectionEntry>builder().addAll(this.structures).addAll(entries).build();
-	}
+    @Override
+    public List<StructureSet.StructureSelectionEntry> emeraldcraft$appendAll(Iterator<StructureSet.StructureSelectionEntry> entries) {
+        return this.structures = ImmutableList.<StructureSet.StructureSelectionEntry>builder().addAll(this.structures).addAll(entries).build();
+    }
 
-	@Override
-	public List<StructureSet.StructureSelectionEntry> emeraldcraft$appendAll(Iterable<StructureSet.StructureSelectionEntry> entries) {
-		return this.structures = ImmutableList.<StructureSet.StructureSelectionEntry>builder().addAll(this.structures).addAll(entries).build();
-	}
+    @Override
+    public List<StructureSet.StructureSelectionEntry> emeraldcraft$appendAll(Iterable<StructureSet.StructureSelectionEntry> entries) {
+        return this.structures = ImmutableList.<StructureSet.StructureSelectionEntry>builder().addAll(this.structures).addAll(entries).build();
+    }
 }

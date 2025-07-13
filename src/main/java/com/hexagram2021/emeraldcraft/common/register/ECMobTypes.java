@@ -4,5 +4,5 @@ import net.minecraft.world.entity.MobType;
 
 @SuppressWarnings("InstantiationOfUtilityClass")
 public class ECMobTypes {
-	public static final MobType MAMMAL = new MobType();
+    public static final MobType MAMMAL = new MobType();
 }

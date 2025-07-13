@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "tag": "forge:fruits/peach"
+      "tag": "c:fruits/peach"
     },
     {
       "item": "minecraft:glass_bottle"

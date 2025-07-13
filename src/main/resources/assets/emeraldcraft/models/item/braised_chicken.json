@@ -1,6 +1,6 @@
 {
-  "parent":"item/generated",
+  "parent": "item/generated",
   "textures": {
-    "layer0":"emeraldcraft:item/braised_chicken"
+    "layer0": "emeraldcraft:item/braised_chicken"
   }
 }

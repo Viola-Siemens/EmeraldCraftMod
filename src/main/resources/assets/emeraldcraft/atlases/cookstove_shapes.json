@@ -1,9 +1,9 @@
 {
-    "sources": [
-        {
-            "type": "directory",
-            "source": "cookstove_shapes",
-            "prefix": ""
-        }
-    ]
+  "sources": [
+    {
+      "type": "directory",
+      "source": "cookstove_shapes",
+      "prefix": ""
+    }
+  ]
 }

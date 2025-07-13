@@ -5,5 +5,5 @@ import net.minecraft.world.item.crafting.Recipe;
 import java.util.List;
 
 public interface IListRecipe {
-	List<? extends Recipe<?>> getSubRecipes();
+    List<? extends Recipe<?>> getSubRecipes();
 }

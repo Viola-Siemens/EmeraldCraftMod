@@ -10,32 +10,32 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class PurpleSpottedBigeyeEntity extends AbstractSchoolingFish {
-	public PurpleSpottedBigeyeEntity(EntityType<? extends PurpleSpottedBigeyeEntity> type, Level level) {
-		super(type, level);
-	}
+    public PurpleSpottedBigeyeEntity(EntityType<? extends PurpleSpottedBigeyeEntity> type, Level level) {
+        super(type, level);
+    }
 
-	@Override
-	public ItemStack getBucketItemStack() {
-		return new ItemStack(ECItems.BIGEYE_BUCKET);
-	}
+    @Override
+    public ItemStack getBucketItemStack() {
+        return new ItemStack(ECItems.BIGEYE_BUCKET);
+    }
 
-	@Override
-	protected SoundEvent getAmbientSound() {
-		return ECSounds.BIGEYE_AMBIENT;
-	}
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return ECSounds.BIGEYE_AMBIENT;
+    }
 
-	@Override
-	protected SoundEvent getDeathSound() {
-		return ECSounds.BIGEYE_DEATH;
-	}
+    @Override
+    protected SoundEvent getDeathSound() {
+        return ECSounds.BIGEYE_DEATH;
+    }
 
-	@Override
-	protected SoundEvent getHurtSound(DamageSource damageSource) {
-		return ECSounds.BIGEYE_HURT;
-	}
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ECSounds.BIGEYE_HURT;
+    }
 
-	@Override
-	protected SoundEvent getFlopSound() {
-		return ECSounds.BIGEYE_FLOP;
-	}
+    @Override
+    protected SoundEvent getFlopSound() {
+        return ECSounds.BIGEYE_FLOP;
+    }
 }
